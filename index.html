@@ -1,0 +1,1067 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI Value Migration — US Economy Map · NAICS first-principles</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Segoe UI", Arial, sans-serif;
+    background: #0a0a0a; color: #e8eaed; min-height: 100vh;
+    font-size: 14px; line-height: 1.5;
+  }
+  a { color: #4ea0ff; text-decoration: none; }
+  a:hover { text-decoration: underline; }
+
+  header.app-header {
+    padding: 14px 28px; border-bottom: 1px solid #1f1f1f;
+    display: flex; align-items: center; justify-content: space-between;
+    background: #0a0a0a; position: sticky; top: 0; z-index: 50;
+  }
+  .title-block { display: flex; align-items: baseline; gap: 14px; flex-wrap: wrap; }
+  .title-block .title { font-size: 17px; font-weight: 700; color: #fff; letter-spacing: -0.2px; }
+  .title-block .subtitle { font-weight: 400; color: #777; font-size: 12px; }
+  .nav { display: flex; gap: 4px; background: #161616; padding: 4px; border-radius: 8px; }
+  .nav-tab {
+    padding: 7px 16px; cursor: pointer; color: #888; font-size: 13px;
+    border-radius: 5px; user-select: none; font-weight: 500;
+  }
+  .nav-tab.active { background: #1a73e8; color: #fff; }
+  .nav-tab:hover:not(.active) { color: #ccc; }
+
+  .view { display: none; }
+  .view.active { display: block; }
+
+  .layer-bar {
+    padding: 14px 28px; display: flex; align-items: center; gap: 16px;
+    background: #0c0c0c; border-bottom: 1px solid #1f1f1f; flex-wrap: wrap;
+  }
+  .layer-label {
+    font-size: 10px; text-transform: uppercase; letter-spacing: 1.2px;
+    color: #777; font-weight: 700;
+  }
+  .layer-toggle { display: flex; gap: 2px; background: #161616; padding: 3px; border-radius: 7px; }
+  .layer-btn {
+    padding: 7px 14px; cursor: pointer; color: #888; font-size: 12px;
+    border-radius: 5px; user-select: none; border: none; background: transparent;
+    font-family: inherit; font-weight: 600;
+  }
+  .layer-btn:hover:not(.active) { color: #ccc; }
+  .layer-btn.active { background: #fff; color: #0a0a0a; }
+  .legend {
+    display: flex; gap: 8px; align-items: center; margin-left: auto;
+    font-size: 11px; color: #888; flex-wrap: wrap;
+  }
+  .legend-pill {
+    display: inline-flex; align-items: center; gap: 5px;
+    padding: 4px 10px; background: #161616; border-radius: 12px;
+  }
+  .legend-color { width: 10px; height: 10px; border-radius: 2px; }
+
+  .stats {
+    display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+    background: #0c0c0c; border-bottom: 1px solid #1f1f1f;
+  }
+  .stat-item { padding: 12px 22px; border-right: 1px solid #1f1f1f; }
+  .stat-item:last-child { border-right: none; }
+  .stat-item .stat-label {
+    font-size: 10px; text-transform: uppercase; letter-spacing: 1px;
+    color: #777; font-weight: 600;
+  }
+  .stat-item .stat-value { font-size: 22px; font-weight: 700; color: #fff; margin-top: 3px; line-height: 1.1; }
+  .stat-item .stat-delta { font-size: 11px; color: #777; margin-top: 2px; }
+  .stat-item .stat-value.green { color: #34d058; }
+  .stat-item .stat-value.red { color: #f85149; }
+  .stat-item .stat-value.yellow { color: #f9c84a; }
+  .stat-item .stat-value.small { font-size: 14px; }
+
+  .playground-wrap {
+    padding: 28px 24px; display: grid;
+    grid-template-columns: 56px 1fr 88px;
+    gap: 16px; align-items: stretch;
+  }
+  .ai-force-bar {
+    background: linear-gradient(180deg, #f85149 0%, #f9c84a 100%);
+    border-radius: 10px; padding: 12px 6px;
+    display: flex; flex-direction: column; align-items: center;
+    justify-content: center; gap: 8px;
+    color: white; font-weight: 700; font-size: 11px;
+    letter-spacing: 1px; text-align: center;
+    min-height: 100%;
+  }
+  .ai-force-bar .label { writing-mode: vertical-rl; transform: rotate(180deg); font-size: 12px; letter-spacing: 2px; }
+  .ai-force-bar .arrow { font-size: 22px; }
+  .dollar-max-bar {
+    background: linear-gradient(180deg, #34d058 0%, #0d652d 100%);
+    border-radius: 10px; padding: 16px 8px;
+    display: flex; flex-direction: column; align-items: center;
+    justify-content: center; gap: 8px;
+    color: white; min-height: 100%;
+  }
+  .dollar-max-bar .icon { font-size: 28px; }
+  .dollar-max-bar .label { font-weight: 700; font-size: 13px; letter-spacing: 1px; }
+  .dollar-max-bar .desc { font-size: 10px; opacity: 0.9; text-align: center; line-height: 1.4; }
+
+  .playground-inner {
+    background: #0f0f0f; border-radius: 12px;
+    border: 1px solid #1f1f1f; padding: 22px;
+    display: flex; flex-direction: column; gap: 24px;
+  }
+  .playground-title {
+    font-size: 11px; text-transform: uppercase; letter-spacing: 1.5px;
+    color: #555; font-weight: 700;
+  }
+  .layer-section .section-header {
+    display: flex; align-items: baseline; gap: 12px; margin-bottom: 12px; flex-wrap: wrap;
+  }
+  .layer-section .layer-num {
+    display: inline-block; padding: 2px 8px; background: #1a73e8; color: white;
+    border-radius: 10px; font-size: 10px; font-weight: 700;
+    text-transform: uppercase; letter-spacing: 1px;
+  }
+  .layer-section .layer-title { font-size: 14px; font-weight: 700; color: #fff; }
+  .layer-section .layer-sub { font-size: 12px; color: #777; }
+
+  /* Sector groups in Layer 1 */
+  .sector-group { margin-bottom: 24px; }
+  .sector-group:last-child { margin-bottom: 0; }
+  .sector-group-header {
+    display: flex; align-items: baseline; gap: 10px; margin-bottom: 10px;
+    padding-bottom: 6px; border-bottom: 1px solid #1f1f1f;
+  }
+  .sector-group-header .sector-code {
+    font-size: 11px; color: #555; font-family: "SF Mono", Consolas, monospace;
+    background: #1a1a1a; padding: 2px 8px; border-radius: 4px;
+  }
+  .sector-group-header .sector-name { font-size: 13px; font-weight: 600; color: #aaa; }
+  .sector-group-header .sector-meta { font-size: 11px; color: #555; margin-left: auto; font-family: "SF Mono", Consolas, monospace; }
+
+  /* Sub-sector cards */
+  .cards-grid {
+    display: grid; grid-template-columns: repeat(auto-fill, minmax(190px, 1fr));
+    gap: 10px;
+  }
+  .sub-card {
+    background: #161616; border-radius: 8px; padding: 12px 14px;
+    border: 2px solid transparent; cursor: default;
+    transition: transform 0.15s, box-shadow 0.15s;
+    position: relative; overflow: hidden;
+  }
+  .sub-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 24px rgba(0,0,0,0.4);
+  }
+  .sub-card .card-verdict {
+    display: inline-block; padding: 2px 8px; border-radius: 10px;
+    font-size: 9px; font-weight: 700; text-transform: uppercase;
+    letter-spacing: 0.5px; margin-bottom: 8px;
+  }
+  .sub-card .card-name {
+    font-size: 13px; font-weight: 700; color: #fff; margin-bottom: 2px;
+    line-height: 1.25;
+  }
+  .sub-card .card-naics { font-size: 10px; color: #777; margin-bottom: 8px; font-family: "SF Mono", Consolas, monospace; }
+  .sub-card .card-stats {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 6px;
+    margin-bottom: 6px;
+  }
+  .sub-card .stat-mini { display: flex; flex-direction: column; }
+  .sub-card .stat-mini .k {
+    font-size: 8px; text-transform: uppercase; letter-spacing: 0.4px; color: #666;
+    font-weight: 600;
+  }
+  .sub-card .stat-mini .v {
+    font-size: 14px; font-weight: 700; color: #fff;
+    font-family: "SF Mono", Consolas, monospace; margin-top: 1px;
+  }
+  .sub-card .card-cell-dots {
+    display: flex; gap: 3px; flex-wrap: wrap; margin-top: 8px;
+    padding-top: 8px; border-top: 1px solid #2a2a2a;
+  }
+  .card-cell-dots .dot { width: 11px; height: 11px; border-radius: 2px; cursor: help; }
+
+  .matrix-wrap {
+    background: #131313; border-radius: 8px; padding: 4px;
+    overflow-x: auto; max-height: 75vh; overflow-y: auto;
+  }
+  .matrix-table {
+    width: 100%; border-collapse: separate; border-spacing: 3px;
+    min-width: 900px;
+  }
+  .matrix-table th, .matrix-table td {
+    padding: 8px 5px; text-align: center;
+    font-size: 11px; font-weight: 600;
+    border-radius: 4px;
+  }
+  .matrix-table thead th { position: sticky; top: 0; z-index: 5; }
+  .matrix-table th.col-header {
+    background: #1a1a1a; color: #fff; font-size: 10.5px;
+    font-weight: 700; line-height: 1.3;
+  }
+  .matrix-table th.col-header small {
+    display: block; font-weight: 400; opacity: 0.55; margin-top: 2px; font-size: 9px;
+  }
+  .matrix-table th.row-label {
+    background: #1a1a1a; color: #fff; font-weight: 600;
+    text-align: left; padding-left: 10px; font-size: 11px;
+    position: sticky; left: 0; z-index: 4;
+  }
+  .matrix-cell {
+    cursor: help; transition: transform 0.1s; position: relative;
+    font-family: "SF Mono", Consolas, monospace;
+  }
+  .matrix-cell:hover {
+    transform: scale(1.1); z-index: 3;
+    box-shadow: 0 0 0 2px #fff;
+  }
+  .matrix-cell-empty {
+    background: #161616; color: #3a3a3a;
+  }
+  .matrix-cell .warn {
+    position: absolute; top: 1px; right: 3px;
+    font-size: 9px; opacity: 0.85;
+  }
+
+  .tooltip {
+    position: absolute; background: rgba(15, 15, 15, 0.98);
+    border: 1px solid #2a2a2a; padding: 14px 18px; border-radius: 10px;
+    pointer-events: none; opacity: 0; transition: opacity 0.12s;
+    font-size: 13px; color: #e8eaed; min-width: 260px; max-width: 340px;
+    box-shadow: 0 12px 40px rgba(0,0,0,0.6); z-index: 1000;
+  }
+  .tooltip .t-title { font-size: 15px; font-weight: 700; color: #fff; margin-bottom: 2px; }
+  .tooltip .t-subtitle { font-size: 11px; color: #888; margin-bottom: 12px; }
+  .tooltip .t-rows { border-top: 1px solid #2a2a2a; padding-top: 10px; }
+  .tooltip .t-row {
+    display: grid; grid-template-columns: 90px 1fr;
+    gap: 12px; padding: 3px 0; align-items: center;
+  }
+  .tooltip .t-row .k { color: #888; font-size: 11px; }
+  .tooltip .t-row .v {
+    color: #fff; font-weight: 600; font-size: 13px;
+    font-family: "SF Mono", Consolas, monospace;
+  }
+  .tooltip .t-bar {
+    display: inline-block; vertical-align: middle; margin-left: 8px;
+    height: 4px; border-radius: 2px;
+  }
+  .tooltip .t-score {
+    margin-top: 12px; padding: 10px 14px; background: rgba(255,255,255,0.05);
+    border-radius: 6px;
+  }
+  .tooltip .t-score-label { font-size: 10px; color: #888; text-transform: uppercase; letter-spacing: 0.5px; }
+  .tooltip .t-score-value {
+    font-size: 24px; font-weight: 700; font-family: "SF Mono", Consolas, monospace; margin-top: 3px;
+  }
+  .verdict {
+    display: inline-block; padding: 3px 10px; border-radius: 12px;
+    font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px;
+    margin-top: 8px;
+  }
+  .tooltip .t-note {
+    margin-top: 10px; padding: 8px 10px; background: rgba(249, 200, 74, 0.12);
+    border-left: 2px solid #f9c84a; border-radius: 3px;
+    font-size: 11px; color: #f9c84a;
+  }
+
+  /* Methodology */
+  #methodology-view { max-width: 1000px; margin: 0 auto; padding: 32px 28px 80px; }
+  #methodology-view h1 { font-size: 28px; color: #fff; margin-bottom: 8px; font-weight: 700; }
+  #methodology-view .intro-sub { color: #888; font-size: 13px; margin-bottom: 24px; }
+  #methodology-view h2 { font-size: 20px; color: #fff; margin: 32px 0 12px; font-weight: 700; }
+  #methodology-view h3 { font-size: 15px; color: #4ea0ff; margin: 18px 0 6px; }
+  #methodology-view p { margin: 10px 0; color: #c9ccd1; }
+  #methodology-view strong { color: #fff; }
+  #methodology-view em { color: #b8bcc4; font-style: italic; }
+  .intro-card {
+    background: #161616; border-left: 4px solid #4ea0ff;
+    padding: 18px 22px; border-radius: 4px; margin: 20px 0; color: #c9ccd1;
+  }
+  .formula-box {
+    background: linear-gradient(135deg, #1a73e8 0%, #4ea0ff 100%);
+    padding: 22px; border-radius: 10px; text-align: center;
+    font-family: "SF Mono", Consolas, monospace; font-size: 26px;
+    margin: 20px 0; color: white; font-weight: 600; letter-spacing: 1px;
+    box-shadow: 0 8px 30px rgba(26, 115, 232, 0.3);
+  }
+  .formula-box .small { font-size: 13px; opacity: 0.9; display: block; margin-top: 8px; font-family: inherit; font-weight: 400; }
+  .block-card {
+    background: #131313; border-left: 4px solid #1a73e8;
+    padding: 20px 24px; border-radius: 6px; margin: 14px 0;
+  }
+  .block-card.v { border-left-color: #34d058; }
+  .block-card.c { border-left-color: #4ea0ff; }
+  .block-card.a { border-left-color: #f9c84a; }
+  .block-card.b { border-left-color: #b768f0; }
+  .block-card h3 { margin: 0 0 10px; display: flex; align-items: center; gap: 10px; font-size: 16px; }
+  .block-card h3 .letter {
+    display: inline-block; width: 30px; height: 30px;
+    color: #0a0a0a; border-radius: 50%;
+    text-align: center; line-height: 30px; font-weight: 700;
+    font-family: "SF Mono", Consolas, monospace; font-size: 14px;
+  }
+  .block-card.v h3 { color: #34d058; }
+  .block-card.v h3 .letter { background: #34d058; }
+  .block-card.c h3 { color: #4ea0ff; }
+  .block-card.c h3 .letter { background: #4ea0ff; }
+  .block-card.a h3 { color: #f9c84a; }
+  .block-card.a h3 .letter { background: #f9c84a; }
+  .block-card.b h3 { color: #b768f0; }
+  .block-card.b h3 .letter { background: #b768f0; }
+  .block-row { display: grid; grid-template-columns: 110px 1fr; gap: 14px; padding: 6px 0; align-items: start; }
+  .block-row .label { font-weight: 600; color: #888; font-size: 11px; text-transform: uppercase; letter-spacing: 0.5px; padding-top: 3px; }
+  .block-row .value { color: #c9ccd1; font-size: 13px; }
+  .block-formula {
+    background: #0a0a0a; padding: 6px 12px; border-radius: 4px;
+    font-family: "SF Mono", Consolas, monospace; font-size: 13px;
+    display: inline-block; color: #4ea0ff; border: 1px solid #2a2a2a;
+  }
+  .why-note {
+    background: rgba(249, 200, 74, 0.08); border-left: 3px solid #f9c84a;
+    padding: 10px 14px; border-radius: 4px; margin-top: 12px;
+    font-size: 12.5px; color: #d4b97e;
+  }
+  .why-note strong { color: #f9c84a; }
+  .scale-table { width: 100%; border-collapse: collapse; margin: 14px 0; background: #131313; border-radius: 6px; overflow: hidden; }
+  .scale-table th, .scale-table td { padding: 10px 14px; text-align: left; border-bottom: 1px solid #1f1f1f; font-size: 13px; }
+  .scale-table th { background: #1a1a1a; color: #fff; font-weight: 600; font-size: 11px; text-transform: uppercase; letter-spacing: 0.5px; }
+  .scale-table td:first-child { font-weight: 700; width: 140px; color: white; }
+  .context-free-banner {
+    background: rgba(78, 160, 255, 0.10); border: 1px solid #1a73e8;
+    border-radius: 8px; padding: 14px 18px; margin: 0 24px 0 24px;
+    color: #a8c3e6; font-size: 12.5px; display: flex; gap: 14px; align-items: center;
+    margin-top: 14px;
+  }
+  .context-free-banner .icon { font-size: 18px; }
+
+  .footer-block { margin-top: 60px; padding: 24px; text-align: center; color: #555; font-size: 11px; border-top: 1px solid #1f1f1f; }
+
+  @media (max-width: 900px) {
+    .playground-wrap { grid-template-columns: 36px 1fr 60px; padding: 20px 12px; gap: 8px; }
+    .stats { grid-template-columns: repeat(2, 1fr); }
+    .stat-item { border-right: none; border-bottom: 1px solid #1f1f1f; }
+  }
+</style>
+</head>
+<body>
+
+<header class="app-header">
+  <div class="title-block">
+    <div class="title">AI Value Migration — US Economy Map</div>
+    <div class="subtitle">NAICS 4-digit first-principles · context-free · v3.0</div>
+  </div>
+  <nav class="nav">
+    <div class="nav-tab active" data-tab="map">🗺️ Map</div>
+    <div class="nav-tab" data-tab="methodology">📐 Methodology</div>
+  </nav>
+</header>
+
+<div class="context-free-banner">
+  <span class="icon">ℹ️</span>
+  <span><strong>Context-free analysis.</strong> This map applies the AI Value Migration formula (S = V × C × A × B) to all NAICS 4-digit service-economy sub-sectors using public industry profiles (labor share, customer concentration patterns, AI adoption proxies, fragmentation data). No internal Bobroff Cap context — no operator interviews, no P&L benchmarks, no founder networks. Treat as first-principles screen for verticals to investigate. Companion to the <a href="https://lisaivanchikova.github.io/rollup-methodology/">curated 16-vertical map</a>.</span>
+</div>
+
+<div id="map-view" class="view active">
+
+  <div class="layer-bar">
+    <span class="layer-label">Color by</span>
+    <div class="layer-toggle">
+      <button class="layer-btn active" data-layer="S">S — Score</button>
+      <button class="layer-btn" data-layer="V">V — Value</button>
+      <button class="layer-btn" data-layer="C">C — Capture</button>
+      <button class="layer-btn" data-layer="A">A — Speed</button>
+      <button class="layer-btn" data-layer="B">B — Buyability</button>
+    </div>
+    <div class="legend">
+      <span class="legend-pill"><span class="legend-color" style="background:#0d652d"></span>Hell-Yes</span>
+      <span class="legend-pill"><span class="legend-color" style="background:#34d058"></span>Strong</span>
+      <span class="legend-pill"><span class="legend-color" style="background:#f9c84a"></span>Conditional</span>
+      <span class="legend-pill"><span class="legend-color" style="background:#f85149"></span>Pass</span>
+      <span class="legend-pill"><span class="legend-color" style="background:#3a3a3a"></span>KILL</span>
+    </div>
+  </div>
+
+  <div class="stats" id="stats-bar"></div>
+
+  <div class="playground-wrap">
+    <div class="ai-force-bar">
+      <div class="arrow">⤳</div>
+      <div class="label">AI FORCE →</div>
+      <div class="arrow">⤳</div>
+    </div>
+
+    <div class="playground-inner">
+      <div class="playground-title">USA Economy Playground · NAICS 4-digit</div>
+
+      <div class="layer-section">
+        <div class="section-header">
+          <span class="layer-num">Layer 1</span>
+          <span class="layer-title">Sub-sectors grouped by NAICS 2-digit sector</span>
+          <span class="layer-sub">aggregated verdict per NAICS · ~75 verticals</span>
+        </div>
+        <div id="cards-container"></div>
+      </div>
+
+      <div class="layer-section">
+        <div class="section-header">
+          <span class="layer-num">Layer 2</span>
+          <span class="layer-title">Workflows — where to deploy AI playbook</span>
+          <span class="layer-sub">matrix sortable by Σ S · hover for V/C/A/B</span>
+        </div>
+        <div class="matrix-wrap">
+          <table class="matrix-table" id="matrix-table"></table>
+        </div>
+      </div>
+    </div>
+
+    <div class="dollar-max-bar">
+      <div class="icon">💰</div>
+      <div class="label">$ MAX</div>
+      <div class="desc">Σ green<br>cells →<br>total<br>opportunity</div>
+    </div>
+  </div>
+</div>
+
+<div id="methodology-view" class="view">
+  <h1>Methodology — AI Value Migration v3.0</h1>
+  <div class="intro-sub">First-principles analysis of US service economy · NAICS 4-digit · 2026-05-23</div>
+
+  <div class="intro-card">
+    <strong>What this is.</strong> This site applies the AI Value Migration formula to <em>every</em> service-economy sub-sector in the NAICS 4-digit classification (~75 entries) without using any of Bobroff Cap's internal vertical context (no operator interviews, no founder networks, no P&L benchmarks). Profiles come from public industry data: BLS labor share by NAICS, typical customer concentration patterns, Anthropic Economic Index AI adoption proxies by occupation, and PitchBook-style fragmentation indicators. The point: to find verticals we haven't yet researched but the formula says we should.
+  </div>
+
+  <h2>The formula</h2>
+  <div class="formula-box">
+    S<sub>cell</sub> = V × C × A × B
+    <span class="small">Cell score = Value Created × Capture Share × Adoption Speed × Buyability</span>
+  </div>
+
+  <h2>Two layers</h2>
+  <p><strong>Layer 1</strong> answers: <em>"Should we invest in this vertical?"</em> Cards aggregate cell scores per sub-sector. Cards grouped by NAICS 2-digit sector (Construction, Finance, Healthcare, etc.) — so the playground respects industry structure.</p>
+  <p><strong>Layer 2</strong> answers: <em>"After acquiring an operator, where do we deploy AI?"</em> Matrix shows S per (sub-sector × workflow). Sorted by Σ S — best opportunities float to top.</p>
+
+  <h2>How profiles were scored</h2>
+  <p>Each NAICS 4-digit sub-sector got four base scores (V_base, C, A_base, B) on a 0–10 scale, inferred from:</p>
+  <ul style="margin-left: 24px; color: #c9ccd1;">
+    <li><strong>V_base</strong> — labor cost share × AI replaceability (BLS QCEW + Karpathy.ai/jobs proxies)</li>
+    <li><strong>C</strong> — distribution control + license/data moat (industry structure analysis)</li>
+    <li><strong>A_base</strong> — current AI adoption % (Anthropic Economic Index by occupation)</li>
+    <li><strong>B</strong> — fragmentation × silver tsunami exposure × PE saturation (PitchBook proxies)</li>
+  </ul>
+  <p>Then each cell V is V_base × workflow modifier; A is A_base × workflow modifier; C and B inherit from sub-sector. Anti-pattern overrides applied where known (BPO clients own customer; mortgage processors banks own borrower; aggregator-dependent trades like handyman; etc.)</p>
+
+  <h2>Why multiplication, not summation</h2>
+  <p>Summation lets a strong V compensate for a weak C. The mortgage processors trap: V is huge (AI saves banks hundreds of millions), but C ≈ 0 — five banks own the borrower relationship. Multiplication punishes any weak component. 9 × 9 × 9 × 0.5 = 364 (Pass), not 27 (a sum).</p>
+
+  <h2>The four multipliers (summary)</h2>
+
+  <div class="block-card v">
+    <h3><span class="letter">V</span>Value Created — what AI dislodged</h3>
+    <div class="block-row"><div class="label">What</div><div class="value">$/year that AI displaces from incumbent in this cell. Normalized 0–10.</div></div>
+    <div class="block-row"><div class="label">Formula</div><div class="value"><span class="block-formula">V = V_base × workflow_modifier</span></div></div>
+    <div class="block-row"><div class="label">Sources</div><div class="value" style="font-size: 12px; color: #888;">BLS QCEW · Karpathy.ai/jobs · Anthropic Economic Index</div></div>
+  </div>
+
+  <div class="block-card c">
+    <h3><span class="letter">C</span>Capture Share — what we pocket</h3>
+    <div class="block-row"><div class="label">What</div><div class="value">% of V we keep (not upstream gatekeeper). 0–10.</div></div>
+    <div class="block-row"><div class="label">Formula</div><div class="value"><span class="block-formula">C = 10 × π_dist × π_moat</span></div></div>
+    <div class="block-row"><div class="label">Sources</div><div class="value" style="font-size: 12px; color: #888;">Industry structure · NAIC licensing · vendor failure modes</div></div>
+    <div class="why-note"><strong>The mortgage processors trap.</strong> Why C must be multiplicative inside itself: distribution + moat both necessary. BPO has C ≈ 1 (clients own end customer); mortgage processors C ≈ 1 (banks own borrower). Both AI-destroyed despite high V.</div>
+  </div>
+
+  <div class="block-card a">
+    <h3><span class="letter">A</span>Adoption Speed</h3>
+    <div class="block-row"><div class="label">What</div><div class="value">Years to 50% adoption. Higher A = faster. 0–10.</div></div>
+    <div class="block-row"><div class="label">Formula</div><div class="value"><span class="block-formula">A = 10 / t_50</span></div></div>
+    <div class="block-row"><div class="label">Sources</div><div class="value" style="font-size: 12px; color: #888;">Anthropic Economic Index Mar-26 · historical analogues</div></div>
+  </div>
+
+  <div class="block-card b">
+    <h3><span class="letter">B</span>Buyability — can we enter</h3>
+    <div class="block-row"><div class="label">What</div><div class="value">Whether operators can be acquired. Replaces "fragmentation as gate".</div></div>
+    <div class="block-row"><div class="label">Formula</div><div class="value"><span class="block-formula">B = 10 × (TD × OW × PD) / (1 + CFD)</span></div></div>
+    <div class="block-row"><div class="label">Components</div><div class="value">TD = target density · OW = owner willingness (silver tsunami) · PD = price discipline · CFD = competition for deals (PE platforms)</div></div>
+  </div>
+
+  <h2>Score interpretation (cell level)</h2>
+  <table class="scale-table">
+    <thead><tr><th>Verdict</th><th>S range</th><th>Meaning</th></tr></thead>
+    <tbody>
+      <tr><td style="background:#0d652d">Hell-Yes</td><td>≥ 3,000</td><td>All four blocks strong. Build AI playbook here.</td></tr>
+      <tr><td style="background:#34d058;color:#0a0a0a">Strong</td><td>1,000 – 3,000</td><td>One block weakened. Specific condition named at IC.</td></tr>
+      <tr><td style="background:#f9c84a;color:#0a0a0a">Conditional</td><td>300 – 1,000</td><td>Works only with right sub-segment.</td></tr>
+      <tr><td style="background:#f85149">Pass</td><td>50 – 300</td><td>Multiple weak blocks.</td></tr>
+      <tr><td style="background:#3a3a3a">KILL</td><td>&lt; 50</td><td>V ≈ 0 (AI doesn't apply) or C ≈ 0 (value flows elsewhere).</td></tr>
+    </tbody>
+  </table>
+
+  <h2>Caveats — this is a screen, not a final verdict</h2>
+  <p style="font-size: 13px; color: #c9ccd1;">
+    <strong>1. Profile scoring is approximate.</strong> Each (V_base, C, A_base, B) is a single number per sub-sector. Real heterogeneity exists within NAICS codes (tier-1 vs tier-2, regional, sub-segment specialty). For any vertical that screens green here, build a focused P&L sheet (like the 16-vertical companion site) before underwriting.<br><br>
+    <strong>2. Workflow modifiers are universal.</strong> "Doc parsing" gets the same V-modifier in Accounting as in Construction — which isn't strictly true (Construction doc parsing is invoices+specs, Accounting is invoices+ledgers — different κ). Future version may refine.<br><br>
+    <strong>3. No founder access scoring.</strong> A vertical can be Hell-Yes here but unactionable for Bobroff (no insider, no operator network). Hell-Yes here = "deep-dive candidate", not "deal".<br><br>
+    <strong>4. Workflows = same 8 as curated site.</strong> Doc parsing, Scheduling, Customer support, Billing, Sales/leads, Creative production, Field work, Relationship. Sub-sector applicability inferred from industry type.
+  </p>
+
+  <h2>What this is for</h2>
+  <p>Two uses:</p>
+  <ol style="margin-left: 24px; font-size: 13px; color: #c9ccd1;">
+    <li><strong>Discover blind spots.</strong> Sub-sectors that screen Hell-Yes/Strong here but we haven't researched. Add them to the deep-dive queue.</li>
+    <li><strong>Validate intuition.</strong> Sub-sectors we've already deep-dived should match scores here. Big divergence = either formula or our context is off, both worth checking.</li>
+  </ol>
+
+  <div class="footer-block">
+    Bobroff Capital · AI Value Migration · Context-Free Economy Screen · 2026-05-23
+  </div>
+</div>
+
+<div class="tooltip" id="tooltip"></div>
+
+<script>
+// ====================== NAICS SUB-SECTOR PROFILES ======================
+// [name, naics, sector_2digit, V_base, C, A_base, B]
+const subProfiles = [
+  // ====== 23 Construction ======
+  ["Residential Building Construction", "2361", "23", 4, 5, 3, 5],
+  ["Nonresidential Building Construction", "2362", "23", 4, 5, 3, 4],
+  ["Utility System Construction", "2371", "23", 4, 3, 3, 4],
+  ["Highway/Street/Bridge Construction", "2373", "23", 3, 3, 2, 3],
+  ["Foundation/Structure/Exterior (incl Roofing)", "2381", "23", 4, 4, 4, 5],
+  ["Building Equipment (HVAC/Electrical/Plumbing)", "2382", "23", 5, 5, 4, 6],
+  ["Building Finishing Contractors", "2383", "23", 4, 5, 4, 5],
+  ["Other Specialty Trade Contractors", "2389", "23", 4, 5, 4, 5],
+
+  // ====== 48-49 Transportation ======
+  ["Scheduled Air Transportation", "4811", "48", 3, 3, 4, 1],
+  ["General Freight Trucking", "4841", "48", 3, 4, 4, 3],
+  ["Specialized Freight Trucking", "4842", "48", 4, 4, 4, 4],
+  ["Taxi and Limousine Service", "4853", "48", 3, 2, 6, 2],
+  ["School and Employee Bus", "4854", "48", 3, 5, 2, 3],
+  ["Other Transit (incl NEMT)", "4859", "48", 5, 5, 5, 4],
+  ["Air Transportation Support", "4881", "48", 4, 4, 5, 3],
+  ["Other Support for Transport (Towing, Inspection)", "4884", "48", 4, 5, 5, 4],
+  ["Freight Transportation Arrangement", "4885", "48", 5, 3, 6, 3],
+  ["Couriers and Local Messengers", "4922", "49", 3, 2, 7, 3],
+
+  // ====== 51 Information ======
+  ["Newspaper/Periodical Publishers", "5111", "51", 6, 5, 7, 3],
+  ["Software Publishers", "5112", "51", 7, 6, 8, 2],
+  ["Motion Picture and Video Production", "5121", "51", 6, 4, 6, 3],
+  ["Radio and TV Broadcasting", "5151", "51", 5, 5, 5, 2],
+  ["Wireless Telecommunications", "5172", "51", 5, 4, 6, 1],
+  ["Data Processing and Hosting", "5182", "51", 6, 5, 7, 2],
+  ["Other Information Services", "5191", "51", 5, 5, 6, 4],
+
+  // ====== 52 Finance and Insurance ======
+  ["Depository Credit (Banks)", "5221", "52", 6, 3, 6, 1],
+  ["Nondepository Credit (Mortgage Processing)", "5222", "52", 7, 1, 7, 3],
+  ["Activities Related to Credit (Loan Brokers)", "5223", "52", 6, 3, 7, 4],
+  ["Securities and Commodity Contracts", "5231", "52", 6, 4, 6, 2],
+  ["Other Financial Investment (RIAs)", "5239", "52", 6, 6, 5, 5],
+  ["Insurance Carriers", "5241", "52", 6, 4, 6, 1],
+  ["Insurance Agencies and Brokerages", "5242", "52", 7, 7, 6, 7],
+  ["Other Investment Activities", "5259", "52", 5, 5, 5, 3],
+
+  // ====== 53 Real Estate ======
+  ["Lessors of Real Estate (Property Mgmt)", "5311", "53", 7, 7, 6, 8],
+  ["Real Estate Agents and Brokers", "5312", "53", 6, 5, 5, 6],
+  ["Activities Related to RE (Title, Appraisal)", "5313", "53", 6, 5, 6, 6],
+  ["Automotive Equipment Rental", "5321", "53", 4, 5, 4, 4],
+  ["Consumer Goods Rental", "5322", "53", 4, 5, 5, 4],
+  ["Machinery and Equipment Rental", "5324", "53", 4, 5, 4, 4],
+
+  // ====== 54 Professional Services ======
+  ["Legal Services", "5411", "54", 7, 6, 5, 5],
+  ["Accounting/Tax Preparation", "5412", "54", 8, 7, 7, 8],
+  ["Architectural and Engineering Services", "5413", "54", 6, 6, 5, 5],
+  ["Specialized Design Services", "5414", "54", 6, 5, 6, 5],
+  ["Computer Systems Design (MSP)", "5415", "54", 7, 6, 7, 7],
+  ["Management and Scientific Consulting", "5416", "54", 6, 6, 4, 4],
+  ["Scientific R&D Services", "5417", "54", 5, 7, 3, 3],
+  ["Advertising and PR", "5418", "54", 7, 4, 8, 6],
+  ["Other Professional Services (incl Vet)", "5419", "54", 5, 5, 5, 5],
+
+  // ====== 56 Administrative Support ======
+  ["Office Administrative (BPO)", "5611", "56", 9, 1, 9, 4],
+  ["Facilities Support Services", "5612", "56", 5, 5, 4, 4],
+  ["Employment Services (Staffing/Recruiting)", "5613", "56", 7, 4, 8, 6],
+  ["Business Support (Telemarketing, Doc Prep)", "5614", "56", 8, 2, 9, 5],
+  ["Travel Arrangement Services", "5615", "56", 6, 3, 9, 4],
+  ["Investigation and Security Services", "5616", "56", 4, 5, 4, 5],
+  ["Services to Buildings (Janitorial/Landscaping/Pest)", "5617", "56", 5, 6, 4, 7],
+  ["Waste Collection", "5621", "56", 3, 5, 3, 3],
+  ["Remediation and Other Waste", "5629", "56", 4, 5, 3, 3],
+
+  // ====== 61 Educational Services ======
+  ["Elementary and Secondary Schools", "6111", "61", 5, 6, 3, 2],
+  ["Colleges and Universities", "6113", "61", 5, 6, 4, 2],
+  ["Business/Computer/Trade Schools", "6114", "61", 6, 5, 5, 4],
+  ["Technical and Trade Schools", "6115", "61", 5, 5, 4, 4],
+  ["Other Schools and Instruction (Tutoring)", "6116", "61", 5, 5, 5, 5],
+  ["Educational Support Services", "6117", "61", 6, 5, 6, 5],
+
+  // ====== 62 Health Care ======
+  ["Offices of Physicians", "6211", "62", 6, 5, 4, 4],
+  ["Offices of Dentists", "6212", "62", 5, 6, 4, 4],
+  ["Other Health Practitioners (PT/Optom/Chiro)", "6213", "62", 5, 6, 5, 6],
+  ["Outpatient Care Centers", "6214", "62", 6, 5, 5, 5],
+  ["Medical and Diagnostic Labs", "6215", "62", 6, 4, 5, 3],
+  ["Home Health Care Services", "6216", "62", 7, 7, 5, 8],
+  ["Other Ambulatory (Blood/Organ Banks)", "6219", "62", 5, 5, 4, 3],
+  ["General Medical and Surgical Hospitals", "6221", "62", 5, 4, 3, 1],
+  ["Psychiatric/Substance Abuse Hospitals", "6222", "62", 4, 5, 3, 3],
+  ["Nursing Care Facilities", "6231", "62", 5, 6, 4, 5],
+  ["Residential Care for Disabilities", "6232", "62", 4, 6, 3, 5],
+  ["Continuing Care Retirement (Senior Living)", "6233", "62", 5, 6, 4, 5],
+  ["Individual and Family Services", "6241", "62", 5, 6, 4, 6],
+  ["Vocational Rehabilitation Services", "6243", "62", 5, 6, 4, 5],
+  ["Child Day Care Services", "6244", "62", 4, 7, 3, 6],
+
+  // ====== 71 Arts, Entertainment, Recreation ======
+  ["Performing Arts Companies", "7111", "71", 4, 5, 3, 4],
+  ["Promoters of Performing Arts/Sports", "7113", "71", 5, 4, 5, 4],
+  ["Independent Artists/Performers", "7115", "71", 4, 4, 5, 4],
+  ["Museums and Historical Sites", "7121", "71", 3, 6, 3, 2],
+  ["Amusement Parks and Arcades", "7131", "71", 4, 5, 4, 2],
+  ["Gambling Industries", "7132", "71", 5, 4, 5, 2],
+  ["Other Amusement (Marinas/Golf/Fitness)", "7139", "71", 4, 6, 5, 4],
+
+  // ====== 72 Accommodation and Food Services ======
+  ["Traveler Accommodation (Hotels)", "7211", "72", 5, 5, 5, 3],
+  ["RV Parks and Recreational Camps", "7212", "72", 4, 6, 4, 4],
+  ["Special Food Services (Catering)", "7223", "72", 4, 5, 4, 4],
+  ["Drinking Places (Bars)", "7224", "72", 4, 5, 4, 3],
+  ["Restaurants and Other Eating Places", "7225", "72", 4, 5, 4, 3],
+
+  // ====== 81 Other Services ======
+  ["Automotive Repair and Maintenance", "8111", "81", 5, 5, 5, 4],
+  ["Electronic and Precision Equipment Repair", "8112", "81", 5, 5, 5, 4],
+  ["Commercial Machinery Repair", "8113", "81", 5, 5, 4, 4],
+  ["Household Goods Repair (Handyman/Appliance)", "8114", "81", 4, 2, 5, 4],
+  ["Personal Care Services (Beauty/Hair/Nails)", "8121", "81", 4, 5, 4, 4],
+  ["Death Care Services (Funeral Homes)", "8122", "81", 4, 6, 3, 5],
+  ["Drycleaning and Laundry", "8123", "81", 4, 6, 4, 5],
+  ["Other Personal Services (Pet Care/Dating/Photo)", "8129", "81", 4, 5, 5, 5]
+];
+
+const sectorNames = {
+  "23": "Construction",
+  "48": "Transportation",
+  "49": "Transportation (Couriers)",
+  "51": "Information",
+  "52": "Finance and Insurance",
+  "53": "Real Estate",
+  "54": "Professional Services",
+  "56": "Administrative Support",
+  "61": "Educational Services",
+  "62": "Health Care",
+  "71": "Arts, Entertainment, Recreation",
+  "72": "Accommodation and Food",
+  "81": "Other Services"
+};
+
+// Workflow modifiers (universal)
+const workflowOrder = [
+  "Doc parsing",
+  "Scheduling",
+  "Customer support",
+  "Billing",
+  "Sales / leads",
+  "Creative production",
+  "Field work",
+  "Relationship"
+];
+
+const workflowModifiers = {
+  "Doc parsing":         { vMod: 1.0,  aMod: 1.0 },
+  "Scheduling":          { vMod: 0.95, aMod: 0.85 },
+  "Customer support":    { vMod: 0.85, aMod: 1.0 },
+  "Billing":             { vMod: 0.8,  aMod: 1.0 },
+  "Sales / leads":       { vMod: 0.9,  aMod: 0.7 },
+  "Creative production": { vMod: 1.1,  aMod: 1.1 },
+  "Field work":          { vMod: 0.15, aMod: 0.15 },
+  "Relationship":        { vMod: 0.25, aMod: 0.15 }
+};
+
+// Sub-sectors that have a "Field work" workflow (physical labor presence)
+const fieldWorkSubs = new Set([
+  "2361","2362","2371","2373","2381","2382","2383","2389",
+  "4811","4841","4842","4853","4854","4859","4881","4884","4922",
+  "5172","5321","5322","5324",
+  "5616","5617","5621","5629",
+  "6211","6212","6213","6214","6215","6216","6221","6222","6231","6232","6233","6244",
+  "7131","7132","7139",
+  "7211","7212","7223","7224","7225",
+  "8111","8112","8113","8114","8121","8122","8123","8129"
+]);
+
+// Sub-sectors that have "Creative production"
+const creativeSubs = new Set(["5111","5112","5121","5151","5191","5414","5418","7111","7115"]);
+
+// Sub-sectors that have "Scheduling" (logistics, services, healthcare)
+const schedulingSubs = new Set([
+  "2381","2382","2383","2389",
+  "4841","4842","4853","4854","4859","4881","4884","4885","4922",
+  "5172","5182",
+  "5311","5312","5321","5322","5324",
+  "5413","5415","5419",
+  "5612","5613","5615","5616","5617","5621","5629",
+  "6211","6212","6213","6214","6215","6216","6219","6221","6231","6233","6241","6243","6244",
+  "7111","7113","7131","7132","7139",
+  "7211","7212","7223","7224","7225",
+  "8111","8112","8113","8114","8121","8122","8123","8129"
+]);
+
+// Sub-sectors that have "Relationship" workflow (revenue-gen relationships preserved)
+const relationshipSubs = new Set([
+  "5221","5222","5223","5231","5239","5241","5242","5251","5259",
+  "5311","5312","5313",
+  "5411","5412","5413","5414","5415","5416","5417","5418","5419",
+  "5611","5613",
+  "6216",
+  "8129"
+]);
+
+// Anti-pattern overrides — public-knowledge facts (no internal context)
+const overrides = {
+  "5222|Sales / leads": { note: "banks own borrower relationship" },
+  "5222|Doc parsing":   { note: "value flows to bank, not processor" },
+  "5611|Doc parsing":   { note: "AI destroys — direct-to-enterprise vendors" },
+  "5611|Customer support": { v: 10, note: "AI destroys — Klarna pattern" },
+  "5611|Sales / leads": { note: "BPO clients own end customer" },
+  "5614|Doc parsing":   { note: "AI destroys — same as BPO" },
+  "5614|Customer support": { v: 9, note: "AI destroys — direct-to-enterprise" },
+  "5615|Doc parsing":   { v: 5, note: "AI already replaced travel agents" },
+  "5615|Customer support": { v: 4, note: "Booking.com / Expedia / AI absorbed" },
+  "5615|Sales / leads": { v: 4, note: "Direct-to-consumer LLMs absorbed" },
+  "5418|Creative production": { note: "AI commoditizes pricing" },
+  "5613|Sales / leads": { note: "recruiters walk with book" },
+  "8114|Sales / leads": { note: "ANGI/Thumbtack aggregator tax" },
+  "8114|Doc parsing":   { note: "value flows upstream to aggregator" },
+  "2381|Sales / leads": { note: "lead aggregator tax (roofing)" },
+  "5419|Field work":    { note: "incl Vet — catchment-bound 4-Wall" },
+  "5121|Creative production": { note: "AI commoditizes pricing" },
+  "5111|Doc parsing":   { v: 4, note: "declining industry" },
+  "6221|Field work":    { note: "hospital labor — license-bound" },
+  "6231|Field work":    { note: "nursing — license + physical" },
+  "6244|Field work":    { note: "child care — license + physical" },
+  "8122|Field work":    { note: "funeral — license + physical" },
+  "5417|Doc parsing":   { note: "R&D — judgment-heavy, AI augments not replaces" }
+};
+
+// Build cells
+function buildCells() {
+  const out = [];
+  subProfiles.forEach(profile => {
+    const [name, naics, sector, vBase, c, aBase, b] = profile;
+    workflowOrder.forEach(wf => {
+      // Workflow applicability per sub-sector
+      if (wf === "Field work" && !fieldWorkSubs.has(naics)) return;
+      if (wf === "Creative production" && !creativeSubs.has(naics)) return;
+      if (wf === "Scheduling" && !schedulingSubs.has(naics)) return;
+      if (wf === "Relationship" && !relationshipSubs.has(naics)) return;
+
+      const mod = workflowModifiers[wf];
+      let v = Math.max(1, Math.round(vBase * mod.vMod));
+      let a = Math.max(1, Math.round(aBase * mod.aMod));
+
+      // Apply overrides
+      const ovKey = naics + "|" + wf;
+      let note = "";
+      if (overrides[ovKey]) {
+        if (overrides[ovKey].v !== undefined) v = overrides[ovKey].v;
+        if (overrides[ovKey].a !== undefined) a = overrides[ovKey].a;
+        note = overrides[ovKey].note || "";
+      }
+
+      out.push({ subsector: name, naics, sector, workflow: wf, V: v, C: c, A: a, B: b, S: Math.round(v * c * a * b), note });
+    });
+  });
+  return out;
+}
+
+// Aggregate by sub-sector
+function buildVerticals(cells) {
+  const groups = {};
+  cells.forEach(c => {
+    if (!groups[c.subsector]) {
+      groups[c.subsector] = { name: c.subsector, naics: c.naics, sector: c.sector, cells: [] };
+    }
+    groups[c.subsector].cells.push(c);
+  });
+  Object.values(groups).forEach(g => {
+    const cs = g.cells;
+    g.sumS = cs.reduce((a, c) => a + c.S, 0);
+    g.maxS = Math.max(...cs.map(c => c.S));
+    g.avgS = Math.round(g.sumS / cs.length);
+    g.numHellYes = cs.filter(c => c.S >= 3000).length;
+    g.numStrong = cs.filter(c => c.S >= 1000 && c.S < 3000).length;
+    g.numCond = cs.filter(c => c.S >= 300 && c.S < 1000).length;
+    g.numKill = cs.filter(c => c.S < 50).length;
+    g.avgV = cs.reduce((a, c) => a + c.V, 0) / cs.length;
+    g.avgC = cs.reduce((a, c) => a + c.C, 0) / cs.length;
+    g.avgA = cs.reduce((a, c) => a + c.A, 0) / cs.length;
+    g.avgB = cs.reduce((a, c) => a + c.B, 0) / cs.length;
+  });
+  return groups;
+}
+
+function verticalVerdict(g) {
+  if (g.numHellYes >= 2 || (g.numHellYes >= 1 && g.sumS >= 11000)) return { label: 'Hell-Yes', color: '#0d652d', emoji: '💚' };
+  if (g.maxS >= 3000 || g.sumS >= 8000) return { label: 'Strong', color: '#34d058', emoji: '🟢' };
+  if (g.sumS >= 3000) return { label: 'Conditional', color: '#f9c84a', emoji: '🟡' };
+  if (g.sumS >= 800) return { label: 'Pass', color: '#f85149', emoji: '🔴' };
+  return { label: 'KILL', color: '#3a3a3a', emoji: '⚫' };
+}
+
+function subLayerVerdict(avg) {
+  if (avg >= 7) return { label: 'Strong', color: '#0d652d', emoji: '💚' };
+  if (avg >= 5.5) return { label: 'OK', color: '#34d058', emoji: '🟢' };
+  if (avg >= 4) return { label: 'Weak', color: '#f9c84a', emoji: '🟡' };
+  if (avg >= 2.5) return { label: 'Poor', color: '#f85149', emoji: '🔴' };
+  return { label: 'Bad', color: '#3a3a3a', emoji: '⚫' };
+}
+
+function colorForCell(cell, layer) {
+  if (layer === 'S') {
+    const s = cell.S;
+    if (s >= 3000) return '#0d652d';
+    if (s >= 1000) return '#34d058';
+    if (s >= 300) return '#f9c84a';
+    if (s >= 50) return '#f85149';
+    return '#3a3a3a';
+  } else {
+    const v = cell[layer];
+    if (v >= 8) return '#0d652d';
+    if (v >= 6) return '#34d058';
+    if (v >= 4) return '#f9c84a';
+    if (v >= 2) return '#f85149';
+    return '#3a3a3a';
+  }
+}
+
+function textColorFor(bg) {
+  if (bg === '#f9c84a' || bg === '#34d058') return '#0a0a0a';
+  return '#fff';
+}
+
+function cellDisplay(cell, layer) {
+  if (layer === 'S') return cell.S.toLocaleString();
+  return cell[layer];
+}
+
+let currentLayer = 'S';
+const cells = buildCells();
+const verticals = buildVerticals(cells);
+
+function renderStats() {
+  const totalSubs = Object.keys(verticals).length;
+  const hellyesV = Object.values(verticals).filter(g => verticalVerdict(g).label === 'Hell-Yes').length;
+  const strongV = Object.values(verticals).filter(g => verticalVerdict(g).label === 'Strong').length;
+  const condV = Object.values(verticals).filter(g => verticalVerdict(g).label === 'Conditional').length;
+  const killV = Object.values(verticals).filter(g => ['KILL', 'Pass'].includes(verticalVerdict(g).label)).length;
+  const sorted = Object.values(verticals).sort((a, b) => b.sumS - a.sumS);
+  const top = sorted[0];
+
+  document.getElementById('stats-bar').innerHTML = `
+    <div class="stat-item"><div class="stat-label">Sub-sectors analyzed</div><div class="stat-value">${totalSubs}</div><div class="stat-delta">NAICS 4-digit</div></div>
+    <div class="stat-item"><div class="stat-label">Cells total</div><div class="stat-value">${cells.length}</div><div class="stat-delta">sub × workflow</div></div>
+    <div class="stat-item"><div class="stat-label">Hell-Yes verticals</div><div class="stat-value green">${hellyesV}</div><div class="stat-delta">≥2 Hell-Yes cells</div></div>
+    <div class="stat-item"><div class="stat-label">Strong verticals</div><div class="stat-value green">${strongV}</div><div class="stat-delta">max ≥3k or Σ≥8k</div></div>
+    <div class="stat-item"><div class="stat-label">Conditional</div><div class="stat-value yellow">${condV}</div><div class="stat-delta">need sub-segment</div></div>
+    <div class="stat-item"><div class="stat-label">Pass / KILL</div><div class="stat-value red">${killV}</div><div class="stat-delta">deprioritize</div></div>
+    <div class="stat-item"><div class="stat-label">Top sub-sector</div><div class="stat-value small">${top.name.slice(0, 22)}</div><div class="stat-delta">Σ S = ${top.sumS.toLocaleString()}</div></div>
+  `;
+}
+
+function renderCards(layer) {
+  const container = document.getElementById('cards-container');
+  // Group by NAICS 2-digit sector
+  const groupedBySector = {};
+  Object.values(verticals).forEach(g => {
+    if (!groupedBySector[g.sector]) groupedBySector[g.sector] = [];
+    groupedBySector[g.sector].push(g);
+  });
+  // Sort sectors by sum of Σ S across their verticals
+  const sectorOrder = Object.keys(groupedBySector).sort((a, b) => {
+    const sa = groupedBySector[a].reduce((x, v) => x + v.sumS, 0);
+    const sb = groupedBySector[b].reduce((x, v) => x + v.sumS, 0);
+    return sb - sa;
+  });
+
+  let html = '';
+  sectorOrder.forEach(sectorCode => {
+    const subs = groupedBySector[sectorCode].sort((a, b) => b.sumS - a.sumS);
+    const sectorTotal = subs.reduce((x, v) => x + v.sumS, 0);
+    html += `<div class="sector-group">
+      <div class="sector-group-header">
+        <span class="sector-code">${sectorCode}</span>
+        <span class="sector-name">${sectorNames[sectorCode] || sectorCode}</span>
+        <span class="sector-meta">${subs.length} sub-sectors · Σ S = ${sectorTotal.toLocaleString()}</span>
+      </div>
+      <div class="cards-grid">`;
+
+    subs.forEach(g => {
+      let verdict;
+      if (layer === 'S') verdict = verticalVerdict(g);
+      else verdict = subLayerVerdict(g['avg' + layer]);
+      const bg = `linear-gradient(135deg, ${verdict.color} 0%, ${verdict.color}bb 100%)`;
+      const dots = g.cells.map(c => `<div class="dot" style="background:${colorForCell(c, layer)}" title="${c.workflow}: ${cellDisplay(c, layer)}"></div>`).join('');
+
+      let topStat, midStat;
+      if (layer === 'S') {
+        topStat = { k: 'Σ S', v: g.sumS.toLocaleString() };
+        midStat = { k: 'max', v: g.maxS.toLocaleString() };
+      } else {
+        topStat = { k: 'avg ' + layer, v: g['avg' + layer].toFixed(1) };
+        midStat = { k: 'cells', v: g.cells.length };
+      }
+
+      html += `<div class="sub-card" style="background: ${bg}; border-color: ${verdict.color}">
+        <div class="card-verdict" style="background: rgba(0,0,0,0.4); color: white;">${verdict.emoji} ${verdict.label}</div>
+        <div class="card-name">${g.name}</div>
+        <div class="card-naics">NAICS ${g.naics}</div>
+        <div class="card-stats">
+          <div class="stat-mini"><span class="k">${topStat.k}</span><span class="v">${topStat.v}</span></div>
+          <div class="stat-mini"><span class="k">${midStat.k}</span><span class="v">${midStat.v}</span></div>
+          <div class="stat-mini"><span class="k">HY</span><span class="v">${g.numHellYes}</span></div>
+          <div class="stat-mini"><span class="k">Strong</span><span class="v">${g.numStrong}</span></div>
+        </div>
+        <div class="card-cell-dots">${dots}</div>
+      </div>`;
+    });
+
+    html += `</div></div>`;
+  });
+
+  container.innerHTML = html;
+}
+
+function renderMatrix(layer) {
+  const tbl = document.getElementById('matrix-table');
+  const map = {};
+  cells.forEach(c => {
+    if (!map[c.subsector]) map[c.subsector] = {};
+    map[c.subsector][c.workflow] = c;
+  });
+
+  const sortedSubs = Object.values(verticals).sort((a, b) => b.sumS - a.sumS);
+
+  let html = '<thead><tr><th class="col-header" style="text-align: left; padding-left: 14px; min-width: 220px;">Sub-sector ↓ · Workflow →</th>';
+  workflowOrder.forEach(wf => {
+    html += `<th class="col-header">${wf}</th>`;
+  });
+  html += '<th class="col-header" style="min-width: 70px;">Σ S</th></tr></thead><tbody>';
+
+  sortedSubs.forEach(v => {
+    const vv = verticalVerdict(v);
+    html += `<tr><th class="row-label" style="border-left: 4px solid ${vv.color}">
+      <div style="font-size:12px;font-weight:700">${v.name}</div>
+      <div style="font-size:9.5px;color:#777;font-weight:400">NAICS ${v.naics} · ${vv.emoji} ${vv.label}</div>
+    </th>`;
+    workflowOrder.forEach(wf => {
+      const c = map[v.name] && map[v.name][wf];
+      if (!c) {
+        html += `<td class="matrix-cell-empty">—</td>`;
+      } else {
+        const bg = colorForCell(c, layer);
+        const fg = textColorFor(bg);
+        const val = cellDisplay(c, layer);
+        const warn = c.note ? '<span class="warn">⚠</span>' : '';
+        html += `<td class="matrix-cell" style="background:${bg};color:${fg}"
+          data-sub="${c.subsector}" data-naics="${c.naics}" data-wf="${c.workflow}"
+          data-v="${c.V}" data-c="${c.C}" data-a="${c.A}" data-b="${c.B}" data-s="${c.S}"
+          data-note="${c.note || ''}">${val}${warn}</td>`;
+      }
+    });
+    html += `<td class="matrix-cell" style="background:${vv.color};color:#fff;font-weight:700">${v.sumS.toLocaleString()}</td>`;
+    html += `</tr>`;
+  });
+  html += '</tbody>';
+  tbl.innerHTML = html;
+
+  tbl.querySelectorAll('.matrix-cell').forEach(td => {
+    td.addEventListener('mouseenter', e => showTooltip(e, td.dataset));
+    td.addEventListener('mousemove', moveTooltip);
+    td.addEventListener('mouseleave', hideTooltip);
+  });
+}
+
+const tooltipEl = document.getElementById('tooltip');
+
+function showTooltip(event, d) {
+  if (!d.sub) return;
+  const V = +d.v, C = +d.c, A = +d.a, B = +d.b, S = +d.s;
+  let verdict;
+  if (S >= 3000) verdict = { label: 'Hell-Yes', color: '#0d652d' };
+  else if (S >= 1000) verdict = { label: 'Strong', color: '#34d058' };
+  else if (S >= 300) verdict = { label: 'Conditional', color: '#f9c84a' };
+  else if (S >= 50) verdict = { label: 'Pass', color: '#f85149' };
+  else verdict = { label: 'KILL', color: '#3a3a3a' };
+
+  const barW = val => Math.round(val * 14);
+  tooltipEl.innerHTML = `
+    <div class="t-title">${d.sub}</div>
+    <div class="t-subtitle">NAICS ${d.naics} · ${d.wf}</div>
+    <div class="t-rows">
+      <div class="t-row"><span class="k">V (Value)</span><span class="v">${V} <span class="t-bar" style="width:${barW(V)}px;background:#34d058"></span></span></div>
+      <div class="t-row"><span class="k">C (Capture)</span><span class="v">${C} <span class="t-bar" style="width:${barW(C)}px;background:#4ea0ff"></span></span></div>
+      <div class="t-row"><span class="k">A (Speed)</span><span class="v">${A} <span class="t-bar" style="width:${barW(A)}px;background:#f9c84a"></span></span></div>
+      <div class="t-row"><span class="k">B (Buyability)</span><span class="v">${B} <span class="t-bar" style="width:${barW(B)}px;background:#b768f0"></span></span></div>
+    </div>
+    <div class="t-score">
+      <div class="t-score-label">S = V × C × A × B</div>
+      <div class="t-score-value" style="color: ${verdict.color}">${S.toLocaleString()}</div>
+      <div class="verdict" style="background: ${verdict.color}; color: #fff">${verdict.label}</div>
+    </div>
+    ${d.note ? `<div class="t-note">⚠ ${d.note}</div>` : ''}
+  `;
+  tooltipEl.style.opacity = 1;
+  moveTooltip(event);
+}
+
+function moveTooltip(event) {
+  const rect = tooltipEl.getBoundingClientRect();
+  const w = rect.width || 280;
+  const h = rect.height || 260;
+  let x = event.pageX + 14;
+  let y = event.pageY + 14;
+  if (x + w > window.innerWidth - 20) x = event.pageX - w - 14;
+  if (y + h > window.scrollY + window.innerHeight - 20) y = event.pageY - h - 14;
+  tooltipEl.style.left = x + 'px';
+  tooltipEl.style.top = y + 'px';
+}
+
+function hideTooltip() { tooltipEl.style.opacity = 0; }
+
+function render(layer) {
+  currentLayer = layer;
+  renderStats();
+  renderCards(layer);
+  renderMatrix(layer);
+}
+
+document.querySelectorAll('.layer-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    document.querySelectorAll('.layer-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    render(btn.dataset.layer);
+  });
+});
+
+document.querySelectorAll('.nav-tab').forEach(tab => {
+  tab.addEventListener('click', () => {
+    document.querySelectorAll('.nav-tab').forEach(t => t.classList.remove('active'));
+    document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
+    tab.classList.add('active');
+    document.getElementById(tab.dataset.tab + '-view').classList.add('active');
+  });
+});
+
+render('S');
+</script>
+
+</body>
+</html>
