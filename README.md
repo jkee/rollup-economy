@@ -48,3 +48,5 @@ This is a **screen**, not a final verdict.
 4. For any green vertical here, build a focused P&L sheet (like the companion 16-vertical site) before underwriting
 
 Built 2026-05-23 by Lisa Ivanchikova.
+
+<!-- v4.0 deployment marker -->
