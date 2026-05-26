@@ -64,7 +64,7 @@
   .sector-group.collapsed .collapse-icon { transform: rotate(-90deg); }
   .sector-group.collapsed .cards-grid { display: none; }
   .cards-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 8px; }
-  .sub-card { background: #1a1a1a; border-radius: 7px; padding: 10px 12px; border: 1px solid #2a2a2a; border-top-width: 4px; transition: transform 0.15s, box-shadow 0.15s; position: relative; overflow: hidden; }
+  .sub-card { background: #161616; border-radius: 7px; padding: 10px 12px; border: 2px solid transparent; transition: transform 0.15s, box-shadow 0.15s; position: relative; overflow: hidden; }
   .sub-card:hover { transform: translateY(-2px); box-shadow: 0 8px 24px rgba(0,0,0,0.4); }
   .sub-card .card-verdict { display: inline-block; padding: 2px 7px; border-radius: 9px; font-size: 8.5px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 6px; }
   .sub-card .card-name { font-size: 12px; font-weight: 700; color: #fff; margin-bottom: 2px; line-height: 1.25; }
@@ -962,21 +962,22 @@ sectorOrder.forEach(sectorCode=>{
   subs.forEach(g=>{
     let verdict;
     if(layer==='S')verdict=verticalVerdict(g);else verdict=subLayerVerdict(g['avg'+layer]);
+    const bg=`linear-gradient(135deg, ${verdict.color} 0%, ${verdict.color}cc 100%)`;
     const dots=g.cells.map(c=>`<div class="dot" style="background:${colorForCell(c,layer)}" title="${c.workflow}: ${cellDisplay(c,layer)}"></div>`).join('');
     const pnl=naicsPnL[g.naics];
     const fmtMoney=(x)=>{if(!x)return'—';if(x>=1e9)return'$'+(x/1e9).toFixed(1)+'B';if(x>=1e6)return'$'+(x/1e6).toFixed(1)+'M';if(x>=1e3)return'$'+(x/1e3).toFixed(0)+'K';return'$'+x;};
     const fmtFirms=(x)=>{if(!x)return'—';if(x>=1e6)return(x/1e6).toFixed(1)+'M';if(x>=1e3)return(x/1e3).toFixed(0)+'K';return x.toLocaleString();};
-    // Bright contrast colors that always read on dark bg
-    const dppColor=pnl?(pnl.d>=4?'#86efac':pnl.d>=2?'#fde047':pnl.d>=0?'#fca5a5':'#6b7280'):'rgba(255,255,255,0.5)';
-    html+=`<div class="sub-card" style="border-top-color:${verdict.color}">
-      <div class="card-verdict" style="background:${verdict.color};color:#fff;">${verdict.emoji} ${verdict.label}</div>
+    // Δ pp text color (used INSIDE white pill for contrast)
+    const dppColor=pnl?(pnl.d>=4?'#0d652d':pnl.d>=2?'#a16207':pnl.d>=0?'#b91c1c':'#3a3a3a'):'#777';
+    html+=`<div class="sub-card" style="background:${bg};border-color:${verdict.color}">
+      <div class="card-verdict" style="background:rgba(0,0,0,0.45);color:white;">${verdict.emoji} ${verdict.label}</div>
       <div class="card-name">${g.name}</div>
       <div class="card-naics">NAICS ${g.naics} <span style="opacity:0.6;font-size:10px">· ΣS ${g.sumS.toLocaleString()}</span></div>
       <div class="card-stats">
         <div class="stat-mini"><span class="k">🏢 Firms</span><span class="v">${pnl?fmtFirms(pnl.f):'—'}</span></div>
         <div class="stat-mini"><span class="k">💰 Avg rev</span><span class="v">${pnl?fmtMoney(pnl.r):'—'}</span></div>
         <div class="stat-mini"><span class="k">📊 EBITDA</span><span class="v">${pnl?pnl.e+'%':'—'}</span></div>
-        <div class="stat-mini"><span class="k">⚡ AI Δ pp</span><span class="v" style="color:${dppColor};font-weight:800">${pnl?(pnl.d>=0?'+':'')+pnl.d.toFixed(1):'—'}</span></div>
+        <div class="stat-mini"><span class="k">⚡ AI Δ pp</span><span class="v" style="display:inline-block;background:rgba(255,255,255,0.95);color:${dppColor};font-weight:800;padding:2px 8px;border-radius:6px;width:fit-content;margin-top:2px">${pnl?(pnl.d>=0?'+':'')+pnl.d.toFixed(1):'—'}</span></div>
       </div>
       <div class="card-cell-dots">${dots}</div>
     </div>`;
