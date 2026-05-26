@@ -259,6 +259,43 @@
   .palette-footer { padding: 10px 18px; border-top: 1px solid var(--border); display: flex; gap: 16px; font-size: 11px; color: var(--text-3); }
   .palette-footer kbd { background: var(--bg-3); border: 1px solid var(--border); padding: 1px 6px; border-radius: 4px; font-family: "JetBrains Mono", monospace; font-size: 10px; margin: 0 3px; }
 
+
+  /* === P&L Modal === */
+  .pnl-modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.7); opacity: 0; pointer-events: none; transition: opacity var(--dur) var(--ease); z-index: 300; backdrop-filter: blur(8px); display: flex; align-items: flex-start; justify-content: center; padding: 40px 24px; overflow-y: auto; }
+  .pnl-modal-overlay.open { opacity: 1; pointer-events: all; }
+  .pnl-modal { background: var(--bg-1); border: 1px solid var(--border-strong); border-radius: 16px; width: 100%; max-width: 1100px; box-shadow: 0 30px 90px rgba(0,0,0,0.6); transform: scale(0.96) translateY(20px); transition: transform var(--dur-slow) var(--ease-out); position: relative; overflow: hidden; }
+  .pnl-modal-overlay.open .pnl-modal { transform: scale(1) translateY(0); }
+  .pnl-modal-close { position: absolute; top: 20px; right: 20px; background: var(--bg-2); border: 1px solid var(--border); color: var(--text-2); width: 36px; height: 36px; border-radius: 10px; cursor: pointer; font-size: 18px; display: flex; align-items: center; justify-content: center; transition: all var(--dur) var(--ease); z-index: 10; }
+  .pnl-modal-close:hover { background: var(--bg-3); color: var(--text-1); transform: rotate(90deg); }
+  .pnl-modal-body { padding: 32px 36px 40px; min-height: 200px; }
+  .pnl-modal-body.loading { display: flex; align-items: center; justify-content: center; color: var(--text-3); font-size: 13px; }
+  .pnl-modal .view-header { margin-bottom: 22px; padding-right: 50px; }
+  .pnl-modal .view-title { font-size: 26px; font-weight: 700; color: #fff; display: flex; align-items: center; gap: 14px; flex-wrap: wrap; letter-spacing: -0.5px; }
+  .pnl-modal .view-naics, .pnl-modal .view-verdict { padding: 6px 14px; border-radius: 18px; font-size: 13px; font-weight: 700; font-family: "JetBrains Mono", monospace; }
+  .pnl-modal .view-meta { background: var(--bg-2); border: 1px solid var(--border); border-radius: 12px; padding: 20px; margin-bottom: 20px; }
+  .pnl-modal .meta-row { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 12px; margin-bottom: 16px; }
+  .pnl-modal .meta-item { background: var(--bg-0); padding: 12px 14px; border-radius: 8px; border: 1px solid var(--border); }
+  .pnl-modal .meta-label { font-size: 10px; text-transform: uppercase; letter-spacing: 1px; color: var(--text-3); font-weight: 600; }
+  .pnl-modal .meta-value { font-size: 16px; color: var(--text-1); font-weight: 700; margin-top: 4px; font-family: "JetBrains Mono", monospace; letter-spacing: -0.3px; }
+  .pnl-modal .meta-derivation { padding: 14px 16px; background: var(--bg-0); border-radius: 8px; font-size: 13px; color: var(--text-2); line-height: 1.75; border: 1px solid var(--border); }
+  .pnl-modal .meta-derivation strong { color: var(--text-1); }
+  .pnl-modal .pnl-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  .pnl-modal .pnl-card { background: var(--bg-2); border: 1px solid var(--border); border-radius: 12px; overflow: hidden; }
+  .pnl-modal .pnl-card-header { padding: 12px 18px; background: var(--bg-3); color: #fff; font-weight: 700; font-size: 13.5px; border-bottom: 1px solid var(--border); letter-spacing: -0.1px; }
+  .pnl-modal .pnl-table { width: 100%; border-collapse: collapse; }
+  .pnl-modal .pnl-table td { padding: 10px 16px; border-bottom: 1px solid var(--border); font-size: 13px; }
+  .pnl-modal .pnl-label { color: var(--text-2); }
+  .pnl-modal .pnl-num { text-align: right; color: var(--text-1); font-variant-numeric: tabular-nums; font-weight: 500; font-family: "JetBrains Mono", monospace; }
+  .pnl-modal .pnl-revenue td { background: rgba(59,130,246,0.12); color: #fff; font-weight: 600; }
+  .pnl-modal .pnl-ebitda td { background: rgba(245,158,11,0.10); color: #fff; font-weight: 700; }
+  .pnl-modal .pnl-ebitda.pnl-improved td { background: rgba(16,185,129,0.18); color: #a8f0a8; }
+  .pnl-modal .pnl-modified td { background: rgba(255,255,255,0.04); }
+  @media (max-width: 768px) {
+    .pnl-modal .pnl-grid { grid-template-columns: 1fr; }
+    .pnl-modal-body { padding: 24px 20px 32px; }
+    .pnl-modal .view-title { font-size: 22px; }
+  }
+
   /* === Pulse highlight === */
   @keyframes pulseHighlight { 0%, 100% { box-shadow: 0 0 0 0 rgba(96,165,250,0); } 30% { box-shadow: 0 0 0 4px rgba(96,165,250,0.45), 0 0 24px rgba(96,165,250,0.3); } }
   .pulse-target { animation: pulseHighlight 1.8s var(--ease); }
@@ -498,6 +535,14 @@
 </div>
 
 <div class="tooltip" id="tooltip"></div>
+<!-- P&L Modal -->
+<div class="pnl-modal-overlay" id="pnl-modal-overlay" onclick="if(event.target===this)closePnL()">
+  <div class="pnl-modal">
+    <button class="pnl-modal-close" onclick="closePnL()" title="Close (Esc)">✕</button>
+    <div class="pnl-modal-body" id="pnl-modal-body"></div>
+  </div>
+</div>
+
 <!-- Drawer for cell drill-down -->
 <div class="drawer-overlay" id="drawer-overlay"></div>
 <div class="drawer" id="drawer">
@@ -1065,7 +1110,7 @@ sectorOrder.forEach(sectorCode=>{
     // Vivid RGB tuples for glass tint (bright enough to read on dark bg)
     const verdictRGB = { 'Hell-Yes': '16,185,129', 'Strong': '52,208,88', 'Conditional': '249,200,74', 'Pass': '248,81,73', 'KILL': '90,90,100' };
     const vcRgb = verdictRGB[verdict.label] || '107,114,128';
-    html+=`<div class="sub-card" style="--vc-rgb:${vcRgb}" onclick="scrollToMatrixRow('${g.name.replace(/'/g,"\\'")}')">
+    html+=`<div class="sub-card" style="--vc-rgb:${vcRgb}" onclick="openPnL('${g.naics}')">
       <div class="card-verdict" style="background:${verdictBg}">${verdict.emoji} ${verdict.label}</div>
       <div class="card-name">${g.name}</div>
       <div class="card-naics">NAICS ${g.naics} <span style="opacity:0.6;font-size:10px">· ΣS ${g.sumS.toLocaleString()}</span></div>
@@ -1174,6 +1219,39 @@ document.querySelectorAll('.nav-tab').forEach(tab=>tab.addEventListener('click',
   document.querySelectorAll('.view').forEach(v=>v.classList.remove('active'));
   tab.classList.add('active');document.getElementById(tab.dataset.tab+'-view').classList.add('active');
 }));
+
+
+// === P&L modal (lazy-loaded from external JSON) ===
+let PNL_CACHE = null;
+async function ensurePnLLoaded() {
+  if (PNL_CACHE) return PNL_CACHE;
+  const body = document.getElementById('pnl-modal-body');
+  body.classList.add('loading');
+  body.innerHTML = 'Loading P&L data…';
+  try {
+    const res = await fetch('pnl_data.json');
+    PNL_CACHE = await res.json();
+    body.classList.remove('loading');
+    return PNL_CACHE;
+  } catch(e) {
+    body.classList.remove('loading');
+    body.innerHTML = '<div style="padding:40px;text-align:center;color:var(--text-3)">Failed to load P&L data.</div>';
+    throw e;
+  }
+}
+async function openPnL(naics) {
+  document.getElementById('pnl-modal-overlay').classList.add('open');
+  document.body.style.overflow = 'hidden';
+  const data = await ensurePnLLoaded();
+  const html = data[naics] || data[naics.slice(0,3)] || data[naics.slice(0,2)];
+  const body = document.getElementById('pnl-modal-body');
+  body.innerHTML = html || '<div style="padding:40px;text-align:center;color:var(--text-3)">No P&L data available for NAICS ' + naics + '</div>';
+}
+function closePnL() {
+  document.getElementById('pnl-modal-overlay').classList.remove('open');
+  document.body.style.overflow = '';
+}
+document.addEventListener('keydown', e => { if (e.key === 'Escape') closePnL(); });
 
 // === Drawer functions ===
 function openDrawerForCell(cellData) {
