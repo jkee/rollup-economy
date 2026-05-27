@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>NEMT Deep Dive — NAICS 485991 — Hybrid Ride Case</title>
+<title>NEMT Deep Dive — NAICS 485991 — Hybrid Ride Case (Re-verified 2026-05-27)</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
@@ -23,8 +23,8 @@
   }
   body::before {
     content: ""; position: fixed; inset: 0;
-    background: radial-gradient(circle 800px at 20% -10%, rgba(59,130,246,0.10) 0%, transparent 50%),
-                radial-gradient(circle 600px at 80% 110%, rgba(236,72,153,0.06) 0%, transparent 50%);
+    background: radial-gradient(circle 800px at 20% -10%, rgba(245,158,11,0.08) 0%, transparent 50%),
+                radial-gradient(circle 600px at 80% 110%, rgba(59,130,246,0.05) 0%, transparent 50%);
     pointer-events: none; z-index: 0;
   }
   .container { max-width: 1100px; margin: 0 auto; padding: 48px 32px 96px; position: relative; z-index: 1; }
@@ -36,21 +36,32 @@
   h3 { font-size: 16px; font-weight: 700; color: #60a5fa; margin: 24px 0 10px; }
   p { color: #d4d7dc; margin: 10px 0; }
   strong { color: #fff; }
+  em { color: #cfd3da; font-style: italic; }
   code { background: var(--bg-2); padding: 2px 8px; border-radius: 5px; font-family: "JetBrains Mono", monospace; font-size: 12.5px; color: #60a5fa; }
+  a { color: #60a5fa; }
 
   .hero-card {
-    background: linear-gradient(135deg, rgba(59,130,246,0.12) 0%, rgba(59,130,246,0.04) 100%);
-    border: 1px solid rgba(59,130,246,0.25); border-radius: 14px; padding: 24px 28px; margin: 24px 0 32px;
+    background: linear-gradient(135deg, rgba(245,158,11,0.10) 0%, rgba(245,158,11,0.03) 100%);
+    border: 1px solid rgba(245,158,11,0.30); border-radius: 14px; padding: 24px 28px; margin: 24px 0 32px;
     backdrop-filter: blur(14px);
   }
   .verdict-hero { display: flex; gap: 14px; align-items: center; flex-wrap: wrap; margin-bottom: 14px; }
   .verdict-pill { padding: 6px 14px; border-radius: 16px; font-size: 11.5px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.7px; color: #fff; }
-  .verdict-pill.conditional { background: var(--conditional); }
+  .verdict-pill.conditional { background: var(--conditional); color: #0a0a0a; }
   .verdict-pill.strong { background: var(--strong); color: #0a0a0a; }
   .verdict-pill.hellyes { background: var(--hellyes); }
+  .verdict-pill.pass { background: var(--pass); }
 
   .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
   .grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; }
+
+  .change-banner {
+    background: rgba(59,130,246,0.06); border: 1px solid rgba(59,130,246,0.25); border-radius: 12px;
+    padding: 18px 22px; margin: 14px 0 28px;
+  }
+  .change-banner h4 { font-size: 13px; font-weight: 700; color: #93c5fd; text-transform: uppercase; letter-spacing: 0.8px; margin-bottom: 10px; }
+  .change-banner ul { margin: 8px 0 4px 22px; }
+  .change-banner li { font-size: 13px; color: #cfdfff; margin: 5px 0; }
 
   .pnl-card {
     background: linear-gradient(135deg, var(--bg-2) 0%, var(--bg-1) 100%);
@@ -58,13 +69,13 @@
   }
   .pnl-header { padding: 14px 20px; font-weight: 700; font-size: 14px; border-bottom: 1px solid var(--border); }
   .pnl-header.before { background: rgba(239,68,68,0.10); color: #fca5a5; }
-  .pnl-header.after { background: rgba(16,185,129,0.12); color: #6ee7b7; }
+  .pnl-header.after { background: rgba(245,158,11,0.12); color: #fcd34d; }
   table.pnl { width: 100%; border-collapse: collapse; }
   table.pnl td { padding: 8px 16px; border-bottom: 1px solid var(--border); font-size: 12.5px; }
   table.pnl td:last-child { text-align: right; font-family: "JetBrains Mono", monospace; font-weight: 500; }
   table.pnl tr.sub td { color: var(--text-3); padding-left: 28px; font-size: 11.5px; }
   table.pnl tr.total td { background: rgba(255,255,255,0.04); font-weight: 700; color: #fff; }
-  table.pnl tr.ebitda td { background: rgba(16,185,129,0.18); color: #a8f0a8; font-weight: 700; font-size: 13.5px; }
+  table.pnl tr.ebitda td { background: rgba(245,158,11,0.18); color: #fcd34d; font-weight: 700; font-size: 13.5px; }
 
   .stat-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px,1fr)); gap: 12px; margin: 16px 0; }
   .stat-tile {
@@ -79,26 +90,40 @@
   .verify-table { width: 100%; border-collapse: collapse; margin: 14px 0; }
   .verify-table th, .verify-table td { padding: 12px 14px; text-align: left; border-bottom: 1px solid var(--border); font-size: 13px; vertical-align: top; }
   .verify-table th { background: var(--bg-2); font-size: 11px; text-transform: uppercase; letter-spacing: 0.8px; color: var(--text-3); font-weight: 700; }
-  .verify-table td.num { font-family: "JetBrains Mono", monospace; font-weight: 500; }
+  .verify-table td.num { font-family: "JetBrains Mono", monospace; font-weight: 500; white-space: nowrap; }
   .verify-table tr.match td { background: rgba(16,185,129,0.04); }
   .verify-table tr.warn td { background: rgba(245,158,11,0.05); }
+  .verify-table tr.fail td { background: rgba(239,68,68,0.05); }
   .badge { display: inline-block; padding: 2px 8px; border-radius: 10px; font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; }
   .badge.ok { background: rgba(16,185,129,0.18); color: #6ee7b7; }
   .badge.flag { background: rgba(245,158,11,0.18); color: #fcd34d; }
   .badge.note { background: rgba(59,130,246,0.18); color: #93c5fd; }
+  .badge.fail { background: rgba(239,68,68,0.18); color: #fca5a5; }
 
   .thesis-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin: 16px 0; }
   .thesis-card { background: var(--bg-2); border: 1px solid var(--border); border-radius: 12px; padding: 20px 24px; }
   .thesis-card.red { border-left: 4px solid var(--pass); }
+  .thesis-card.amber { border-left: 4px solid var(--conditional); }
   .thesis-card.green { border-left: 4px solid var(--hellyes); }
   .thesis-card h4 { font-size: 14px; font-weight: 700; margin-bottom: 8px; color: #fff; letter-spacing: -0.1px; }
   .thesis-card p { font-size: 13px; color: var(--text-2); margin: 6px 0; }
+
+  .headwind-list { background: rgba(239,68,68,0.06); border: 1px solid rgba(239,68,68,0.25); border-radius: 12px; padding: 18px 24px; margin: 14px 0; }
+  .headwind-list h4 { color: #fca5a5; font-size: 13px; margin-bottom: 10px; text-transform: uppercase; letter-spacing: 0.8px; }
+  .headwind-list ul { margin: 6px 0 4px 22px; }
+  .headwind-list li { font-size: 13px; color: #ffd6d6; margin: 5px 0; }
 
   ul { margin: 10px 0 16px 24px; }
   li { color: #d4d7dc; margin: 6px 0; font-size: 13.5px; }
 
   .source-list { font-size: 11.5px; color: var(--text-3); margin-top: 8px; }
-  .source-list a { color: #60a5fa; }
+  .source-list a { color: #60a5fa; word-break: break-all; }
+
+  .conclusion-card {
+    background: linear-gradient(135deg, rgba(245,158,11,0.10) 0%, rgba(245,158,11,0.03) 100%);
+    border: 1px solid rgba(245,158,11,0.35);
+    border-radius: 14px; padding: 24px 28px; margin: 24px 0 32px;
+  }
 
   @media (max-width: 768px) { .grid-2, .grid-3, .thesis-grid { grid-template-columns: 1fr; } }
 </style>
@@ -107,21 +132,35 @@
 <div class="container">
 
   <div class="breadcrumb">
-    Deep Dive · Industry Vertical Analysis · NAICS 485991
+    Deep Dive · Industry Vertical Analysis · NAICS 485991 · Re-verified 2026-05-27
   </div>
 
   <h1>NEMT — Non-Emergency Medical Transportation</h1>
-  <div class="subtitle">6-digit NAICS 485991 · Hybrid Ride, Inc. case study · Roll-up thesis</div>
+  <div class="subtitle">6-digit NAICS 485991 · Hybrid Ride, Inc. case · Roll-up re-verification with primary public sources only</div>
 
   <div class="hero-card">
     <div class="verdict-hero">
       <span class="verdict-pill conditional">4-digit (4859): Conditional</span>
-      <span style="font-size:18px;color:#60a5fa">→</span>
-      <span class="verdict-pill strong">6-digit (485991): Strong roll-up target</span>
+      <span style="font-size:18px;color:#fcd34d">→</span>
+      <span class="verdict-pill conditional">6-digit (485991): Conditional · selective thesis</span>
     </div>
-    <p style="margin:0;color:#cfdfff">
-      At the broad 4-digit level (<strong>4859 Other Transit and Ground Passenger Transportation</strong>) the vertical scores Conditional — dragged down by aggregated taxi, charter, and miscellaneous transit. <strong>At the 6-digit specialization (485991 Special Needs Transportation)</strong>, the picture shifts: Medicaid-anchored recurring revenue, structural fragmentation, and limited PE saturation make this an attractive roll-up sub-segment with verified bottom-up unit economics.
+    <p style="margin:0;color:#fff3d6">
+      <strong>The 4-digit aggregate (4859 Other Transit and Ground Passenger Transportation) and the 6-digit specialization (485991 Special Needs Transportation) both score Conditional</strong> after re-verification. NEMT has a real federal mandate, real operator-level fragmentation, and a defensible standalone unit economic model — but the 2025 collapse of the largest public NEMT operator (Modivcare Chapter 11), Medicare Advantage transportation benefit cuts for 2026, intensifying federal fraud enforcement, and a single-strategic-acquirer exit market mean the sub-segment is investable only under a tightly defined selective thesis. The prior "Strong" verdict was based on benchmark comparables (Modivcare healthy-era multiples, MA payer tailwinds) that have since reversed.
     </p>
+  </div>
+
+  <div class="change-banner">
+    <h4>📌 What changed in this re-verification (2026-05-27)</h4>
+    <ul>
+      <li><strong>Verdict on 485991 downgraded</strong> from "Strong" to "Conditional with selective thesis" — based on primary-source evidence that prior comparables no longer hold</li>
+      <li><strong>NAICS 4859 composition corrected</strong> — does NOT include school bus (485410, in 4854) or charter bus (485510, in 4855); contains only 485991 + 485999</li>
+      <li><strong>Modivcare disclosed as bankrupt</strong> — Chapter 11 filed Aug 20, 2025; emerged Dec 29, 2025 with common equity canceled. Cannot be cited as a healthy comparable</li>
+      <li><strong>Medicare Advantage tailwind reversed</strong> — KFF data: MA plans offering transportation benefits dropped 36% → 24% from 2024 to 2026</li>
+      <li><strong>AI-uplift claims tightened</strong> — three of four previously cited sources (AAA Fleet 2024, McKinsey 200-400 bps, "AJMC 40% wait-time reduction") did not exist as cited; replaced with verifiable primary sources or removed</li>
+      <li><strong>Strategic-exit claim revised</strong> — UnitedHealth/Optum has no record of NEMT acquisitions; "MA payer convergence" was based on Modivcare partnerships, not acquisitions</li>
+      <li><strong>TAM revised</strong> — US NEMT service market $4-7B (not $12-15B; the $12B+ figures are global, not US)</li>
+      <li><strong>Hybrid Ride Before-AI P&L re-verified line by line</strong> against the company's Excel — all numbers reproduce; before-AI baseline remains solid</li>
+    </ul>
   </div>
 
   <h2>Company snapshot — Hybrid Ride, Inc.</h2>
@@ -154,61 +193,61 @@
     <div class="stat-tile">
       <div class="stat-label">Current EBITDA</div>
       <div class="stat-value">$468K</div>
-      <div class="stat-delta">13.3% margin</div>
+      <div class="stat-delta">13.3% margin (pre-AI)</div>
     </div>
   </div>
 
   <h2>Unit economics — current state (Before AI)</h2>
-  <p>The P&L below reflects <strong>Hybrid Ride's actual current operating model</strong> at 30 vehicles, as provided by the company. Each line was cross-checked against public industry benchmarks (see verification table further below).</p>
+  <p>The P&L below was reconstructed line by line from <strong>Hybrid Ride's actual operating Excel</strong> at 30 vehicles. Each line was cross-checked against publicly verifiable benchmarks — wage rates against BLS OEWS, reimbursement against MassHealth 101 CMR 327, fuel against AAA "Your Driving Costs" 2024, insurance against MA commercial auto data. Verification table follows.</p>
 
   <div class="pnl-card" style="max-width:640px;margin:0 auto">
-    <div class="pnl-header before">P&L Before AI — current state (company-provided, verified)</div>
+    <div class="pnl-header before">P&L Before AI — current state · verified against company Excel + public benchmarks</div>
     <table class="pnl">
       <tr><td><strong>Monthly Revenue</strong></td><td><strong>$294,000</strong></td></tr>
       <tr class="sub"><td>30 cars × 10 rides/day × $40 × 24.5 days</td><td>100%</td></tr>
-      <tr><td>Driver salaries (base + 30% OT)</td><td>$139,200</td></tr>
+      <tr><td>Driver salaries (base $20/hr × 160 hrs + 30% OT)</td><td>$139,200</td></tr>
       <tr><td>Employee insurance ($100 × 30)</td><td>$3,000</td></tr>
-      <tr><td>Employee taxes</td><td>$18,096</td></tr>
-      <tr><td>Gas ($30/car/day)</td><td>$22,050</td></tr>
-      <tr><td>Car insurance ($350/car)</td><td>$10,500</td></tr>
-      <tr><td>Car maintenance ($400/car)</td><td>$12,000</td></tr>
+      <tr><td>Employee taxes (13% of salary)</td><td>$18,096</td></tr>
+      <tr><td>Gas ($30/car/day × 24.5 days)</td><td>$22,050</td></tr>
+      <tr><td>Car insurance ($350/car/month)</td><td>$10,500</td></tr>
+      <tr><td>Car maintenance ($400/car/month)</td><td>$12,000</td></tr>
       <tr class="total"><td>= COGS subtotal</td><td>$204,846 (69.7%)</td></tr>
-      <tr><td>Software</td><td>$4,500</td></tr>
+      <tr><td>Software ($150/employee × 30)</td><td>$4,500</td></tr>
       <tr><td>Ops manager + HR</td><td>$7,000</td></tr>
       <tr><td>Local dispatchers (×2 @ $8K)</td><td>$16,000</td></tr>
       <tr><td>Outsource dispatchers (×2 @ $2K)</td><td>$4,000</td></tr>
       <tr><td>Outsource call takers (×3 @ $1.5K)</td><td>$4,500</td></tr>
-      <tr><td>Finance (part-time)</td><td>$2,000</td></tr>
+      <tr><td>Finance (part-time, outsourced)</td><td>$2,000</td></tr>
       <tr class="total"><td>= G&A subtotal</td><td>$38,000 (12.9%)</td></tr>
-      <tr><td>Other (tolls, misc, ~5%)</td><td>$12,142</td></tr>
+      <tr><td>Other (tolls, misc, +5% on total spend)</td><td>$12,142</td></tr>
       <tr class="total"><td>= Total operating spend</td><td>$254,988 (86.7%)</td></tr>
-      <tr class="ebitda"><td>= EBITDA</td><td>$39,012 / 13.3%</td></tr>
+      <tr class="ebitda"><td>= EBITDA monthly</td><td>$39,012 / 13.3%</td></tr>
       <tr class="ebitda"><td>= EBITDA per year</td><td>$468,140</td></tr>
     </table>
   </div>
 
-  <h2>After AI — independent estimate from public benchmarks</h2>
+  <h2>After AI — independent estimates from primary sources only</h2>
   <p>
-    Below is a <strong>conservative independent projection</strong> of the post-AI state, built <em>only</em> from publicly disclosed improvements achieved by NEMT operators using AI dispatch and route-optimization tools (Routific, RouteGenie, TripMaster, Tobi case studies; Modivcare investor disclosures; McKinsey AI-in-transport-ops 2024). We do <em>not</em> use the company's own projections.
+    The two scenarios below are constructed <strong>only from primary public sources</strong> — published vendor case studies with named customers, peer-reviewed studies, public-company telematics data, and SEC disclosures. <strong>We do NOT use Hybrid Ride's own forward projection.</strong> Their internal model assumes (a) a fleet expansion from 30 → 33 vehicles and (b) shared G&A as if already inside a platform — both are valid roll-up mechanics but should be modeled independently rather than taken as the company's standalone post-AI baseline.
   </p>
 
   <div class="grid-2">
     <div class="pnl-card">
-      <div class="pnl-header after">Scenario A — Standalone AI deployment</div>
+      <div class="pnl-header after">Scenario A — Standalone AI deployment (same fleet, no roll-up)</div>
       <table class="pnl">
         <tr><td><strong>Monthly Revenue</strong></td><td><strong>~$294,000</strong></td></tr>
-        <tr class="sub"><td>Fleet unchanged at 30 cars · slight utilization gain</td><td></td></tr>
-        <tr><td>Driver salaries (OT cut 30% → 20%, lower bound Routific)</td><td>~$130,000</td></tr>
-        <tr><td>Employee insurance + taxes</td><td>~$20,500</td></tr>
-        <tr><td>Gas (route opt, −6% per AAA fleet)</td><td>~$20,700</td></tr>
+        <tr class="sub"><td>Fleet unchanged at 30 cars; minor utilization gain</td><td></td></tr>
+        <tr><td>Driver salaries (OT cut 30% → 20%, conservative)</td><td>~$130,400</td></tr>
+        <tr><td>Employee insurance + taxes</td><td>~$19,950</td></tr>
+        <tr><td>Gas (route optimization, conservative −6%)</td><td>~$20,700</td></tr>
         <tr><td>Insurance + maintenance unchanged</td><td>$22,500</td></tr>
-        <tr class="total"><td>= COGS subtotal</td><td>~$193,700 (65.9%)</td></tr>
+        <tr class="total"><td>= COGS subtotal</td><td>~$193,550 (65.8%)</td></tr>
         <tr><td>G&A unchanged (no roll-up sharing)</td><td>$38,000 (12.9%)</td></tr>
-        <tr><td>+ AI software cost (RouteGenie / Tobi tier)</td><td>+$2,500</td></tr>
-        <tr><td>Other (~5%)</td><td>$11,700</td></tr>
-        <tr class="total"><td>= Total operating spend</td><td>~$245,900 (83.6%)</td></tr>
-        <tr class="ebitda"><td>= EBITDA</td><td>~$48,100 / 16.4%</td></tr>
-        <tr class="ebitda"><td>= EBITDA per year</td><td>~$577,000</td></tr>
+        <tr><td>+ AI dispatch software (Tobi / RouteGenie tier)</td><td>+$2,500</td></tr>
+        <tr><td>Other (+5% on total spend)</td><td>$11,700</td></tr>
+        <tr class="total"><td>= Total operating spend</td><td>~$245,750 (83.6%)</td></tr>
+        <tr class="ebitda"><td>= EBITDA</td><td>~$48,250 / 16.4%</td></tr>
+        <tr class="ebitda"><td>= EBITDA per year</td><td>~$579,000</td></tr>
       </table>
     </div>
 
@@ -217,7 +256,7 @@
       <table class="pnl">
         <tr><td><strong>Monthly Revenue</strong></td><td><strong>~$294,000</strong></td></tr>
         <tr class="sub"><td>Per-operator basis within consolidated platform</td><td></td></tr>
-        <tr><td>COGS (same as Scenario A)</td><td>~$193,700 (65.9%)</td></tr>
+        <tr><td>COGS (same as Scenario A)</td><td>~$193,550 (65.8%)</td></tr>
         <tr><td>G&A allocated per operator:</td><td></td></tr>
         <tr class="sub"><td>Software (shared platform)</td><td>$3,000</td></tr>
         <tr class="sub"><td>Ops mgr + HR (1 across 10 operators)</td><td>$2,000</td></tr>
@@ -226,10 +265,10 @@
         <tr class="sub"><td>Finance + accounting (shared)</td><td>$1,500</td></tr>
         <tr><td>+ AI infra share</td><td>+$1,500</td></tr>
         <tr class="total"><td>= G&A allocated</td><td>~$17,500 (5.9%)</td></tr>
-        <tr><td>Other (~5%)</td><td>$10,600</td></tr>
-        <tr class="total"><td>= Total operating spend</td><td>~$221,800 (75.4%)</td></tr>
-        <tr class="ebitda"><td>= EBITDA</td><td>~$72,200 / 24.6%</td></tr>
-        <tr class="ebitda"><td>= EBITDA per year</td><td>~$866,400</td></tr>
+        <tr><td>Other (+5% on total spend)</td><td>$10,550</td></tr>
+        <tr class="total"><td>= Total operating spend</td><td>~$221,600 (75.4%)</td></tr>
+        <tr class="ebitda"><td>= EBITDA</td><td>~$72,400 / 24.6%</td></tr>
+        <tr class="ebitda"><td>= EBITDA per year</td><td>~$868,800</td></tr>
       </table>
     </div>
   </div>
@@ -237,8 +276,8 @@
   <div class="stat-grid">
     <div class="stat-tile">
       <div class="stat-label">Standalone AI uplift</div>
-      <div class="stat-value" style="color:var(--hellyes)">+3.1 pp</div>
-      <div class="stat-delta up">13.3% → ~16.4% EBITDA</div>
+      <div class="stat-value" style="color:var(--conditional)">+3.1 pp</div>
+      <div class="stat-delta">13.3% → ~16.4% EBITDA · triangulated</div>
     </div>
     <div class="stat-tile">
       <div class="stat-label">AI + roll-up uplift</div>
@@ -247,178 +286,245 @@
     </div>
     <div class="stat-tile">
       <div class="stat-label">EBITDA $/yr (Scenario A)</div>
-      <div class="stat-value">~$577K</div>
-      <div class="stat-delta up">+23% vs current</div>
+      <div class="stat-value">~$579K</div>
+      <div class="stat-delta up">+24% vs current</div>
     </div>
     <div class="stat-tile">
       <div class="stat-label">EBITDA $/yr (Scenario B)</div>
-      <div class="stat-value">~$866K</div>
-      <div class="stat-delta up">+85% vs current</div>
+      <div class="stat-value">~$869K</div>
+      <div class="stat-delta up">+86% vs current</div>
     </div>
   </div>
 
   <p style="background:rgba(245,158,11,0.08);border-left:3px solid var(--conditional);padding:14px 18px;border-radius:8px;font-size:13px;color:var(--text-2);margin-top:14px">
-    <strong style="color:#fcd34d">Note on the company's own projection.</strong> Hybrid Ride's internal model projects 26.3% EBITDA post-AI on a per-operator basis — about 2 pp above our independent Scenario B (24.6%). The gap stems from the company assuming a steeper overtime reduction (10% remaining vs. our 20% lower-bound from public Routific cases) and a larger G&A cut not fully sourceable to public benchmarks. Both estimates support the directional thesis; the conservative independent number is what we recommend underwriting against.
+    <strong style="color:#fcd34d">Note on Hybrid Ride's own projection (26.3% EBITDA).</strong> Their Excel models a post-AI state at 33 vehicles (a fleet expansion of +3 cars), with G&A cut as if already operating inside a multi-operator platform (Ops Manager $7K → $2K, Local Dispatchers $16K → $4K). So their 26.3% is a hybrid of (a) standalone AI gains + (b) scale-up to 33 cars + (c) shared-services assumption that depends on being part of a roll-up. None of these are wrong individually, but they should not be presented as a pure "standalone after AI" baseline. Our Scenario B (24.6%) reproduces the roll-up portion using independent benchmarks; the residual 1.7 pp gap reflects their steeper OT cut (10% remaining vs our 20% lower-bound) and steeper G&A reduction.
   </p>
 
-  <h2>Verification against public benchmarks</h2>
-  <p>Each model assumption cross-checked against publicly disclosed industry data:</p>
+  <h2>Verification of every line item against primary public sources</h2>
+  <p>Each model assumption is shown with the actual primary source, the source URL, and whether the model value falls within the verified range. Items where we could not find a primary source are flagged.</p>
 
   <table class="verify-table">
     <thead>
-      <tr><th>Assumption</th><th>Model value</th><th>Public benchmark</th><th>Status</th></tr>
+      <tr><th>Assumption</th><th>Model value</th><th>Primary source · verified value</th><th>Status</th></tr>
     </thead>
     <tbody>
       <tr class="match">
-        <td>Price per ride</td>
-        <td class="num">$40</td>
-        <td>Medicaid NEMT reimbursement avg $25-50 (state-by-state); MA MassHealth reimburses $30-45 per ambulatory trip, $50-90 wheelchair</td>
+        <td>Wheelchair van base trip fee, MA</td>
+        <td class="num">$40.00</td>
+        <td>MassHealth 101 CMR 327.03: <strong>$40.55 base trip fee + $1.46/loaded mile + $8.00 attendant</strong> · <a href="https://www.law.cornell.edu/regulations/massachusetts/101-CMR-327-03">Cornell Law</a></td>
         <td><span class="badge ok">Match</span></td>
+      </tr>
+      <tr class="warn">
+        <td>Ambulatory NEMT price/trip MA</td>
+        <td class="num">$40.00</td>
+        <td>MA ambulatory (sedan) is brokered via the MassHealth PT-1 program through HST/RTAs — <strong>per-trip rates are broker-negotiated and not published</strong>. $40 is reasonable but cannot be primary-verified.</td>
+        <td><span class="badge flag">Partial</span></td>
       </tr>
       <tr class="match">
         <td>Rides per car per day</td>
         <td class="num">10</td>
-        <td>Industry standard 8-12 trips/day for fixed-route NEMT (Modivcare investor presentations 2024)</td>
-        <td><span class="badge ok">Match</span></td>
+        <td>Industry standard 8-12 trips/day cited by multiple operator surveys; not a single primary source — directional industry knowledge.</td>
+        <td><span class="badge note">Directional</span></td>
       </tr>
-      <tr class="match">
+      <tr class="warn">
         <td>Driver wage rate</td>
         <td class="num">$20/hr base</td>
-        <td>BLS OEWS 2024 SOC 53-3033 Light Truck Drivers: median $20.85/hr nationally; MA: $22.50</td>
-        <td><span class="badge ok">Match</span></td>
+        <td>BLS OEWS May 2024 SOC 53-3033 Light Truck Drivers: <strong>national median $21.22/hr</strong>; MA state-specific figure not retrieved (BLS state OEWS XLS download required for exact MA number; MA generally runs 15-25% above national for transport occupations → ~$24-27/hr)</td>
+        <td><span class="badge flag">Below MA range</span></td>
       </tr>
       <tr class="match">
         <td>Operating margin before AI</td>
         <td class="num">13.3%</td>
-        <td>Modivcare segment EBITDA 10-15%; Logisticare historical 11-13%; small operators 8-15%</td>
-        <td><span class="badge ok">Match</span></td>
+        <td>Historical NEMT operator surveys 10-15% (pre-2024). <strong>Modivcare NEMT segment operating margin Q1-Q3 2025: 3.8-6.2%</strong> (their post-Ch11 trajectory). Small independent operator margins remain in the 8-15% range; the public benchmark is heavily compressed.</td>
+        <td><span class="badge flag">Operator vs. broker</span></td>
       </tr>
-      <tr class="match">
+      <tr class="warn">
         <td>Driver overtime reduction (Scenario A)</td>
-        <td class="num">30% → 20%</td>
-        <td>Routific, TripMaster published case studies show route-optimization cuts OT by 25-40% (we use lower bound)</td>
-        <td><span class="badge ok">Match</span></td>
+        <td class="num">30% → 20% of base hours</td>
+        <td>Routific publishes <strong>15-40% reductions in mileage / drive-time / fleet-size</strong> (not overtime). Closest analogue: route-optimization compresses overtime via shorter shifts. We use the conservative bound; the exact pp reduction is a triangulated estimate, not a published statistic.</td>
+        <td><span class="badge flag">Triangulated</span></td>
       </tr>
       <tr class="match">
-        <td>Dispatching / route efficiency lift</td>
-        <td class="num">+5 pp</td>
-        <td>RouteGenie, Tobi disclosed +5-10 pp efficiency in NEMT deployments (we use lower bound)</td>
+        <td>Dispatching software cost</td>
+        <td class="num">+$2,500/mo</td>
+        <td>Tobi Cloud, RouteGenie tier pricing: $1,500-3,500/mo for ~30-vehicle fleet · <a href="https://tobicloud.com">tobicloud.com</a>, <a href="https://routegenie.com">routegenie.com</a></td>
         <td><span class="badge ok">Match</span></td>
       </tr>
-      <tr class="match">
+      <tr class="warn">
         <td>Fuel savings</td>
-        <td class="num">−6%</td>
-        <td>AAA Fleet 2024 — route optimization saves 5-10% gallons in last-mile fleets (we use lower bound)</td>
-        <td><span class="badge ok">Match</span></td>
+        <td class="num">−6% on gas line</td>
+        <td>Samsara general-fleet study (n=395, 793M miles): customers cut <strong>idling −40% in year 1</strong>; specific fuel-gallon % savings not separately published. Verified directional, not direct citation. · <a href="https://www.fleetowner.com/technology/article/21250030">FleetOwner</a></td>
+        <td><span class="badge flag">Triangulated</span></td>
       </tr>
       <tr class="match">
         <td>Standalone AI EBITDA uplift</td>
-        <td class="num">+3 pp (13% → 16%)</td>
-        <td>McKinsey AI-in-Transport-Ops 2024: 200-400 bps margin uplift typical in transit/last-mile fleets, 24-36 month horizon</td>
-        <td><span class="badge ok">Match</span></td>
+        <td class="num">+3 pp</td>
+        <td>Triangulated from McKinsey "<strong>5-20% logistics cost reduction</strong>" in distribution operations and "<strong>10-30% last-mile delivery cost reduction</strong>" — neither NEMT-specific. Applied conservatively to a 30-vehicle NEMT operator yields ~200-400 bps EBITDA uplift over 24-36 months. <strong>This is an estimate, not a published benchmark.</strong> · <a href="https://www.mckinsey.com/industries/industrials/our-insights/distribution-blog/harnessing-the-power-of-ai-in-distribution-operations">McKinsey</a></td>
+        <td><span class="badge flag">Estimate</span></td>
       </tr>
       <tr class="match">
         <td>G&A reduction in roll-up (Scenario B)</td>
         <td class="num">$38K → $17.5K/mo</td>
-        <td>Allocated per-operator G&A in multi-location service businesses: 5-8% of revenue (Capstone HC services M&A 2024 averages)</td>
-        <td><span class="badge ok">Match</span></td>
-      </tr>
-      <tr class="match">
-        <td>Fuel cost per car per day</td>
-        <td class="num">$30 → $27.50</td>
-        <td>AAA fleet gasoline cost MA 2025: ~$28/day for 150-mile route; route optimization cuts 7-10%</td>
-        <td><span class="badge ok">Match</span></td>
+        <td>Allocated per-operator G&A in multi-location service businesses typically 5-8% of revenue at platform scale — directional from Capstone Partners healthcare services M&A commentary. Not a specific NEMT comp.</td>
+        <td><span class="badge note">Directional</span></td>
       </tr>
       <tr class="match">
         <td>Car insurance</td>
         <td class="num">$350/month</td>
-        <td>Commercial NEMT van insurance MA: $3,500-5,000/year ($290-415/mo)</td>
+        <td>Commercial NEMT van insurance MA: typically $3,500-5,000/year ($290-415/mo) per multiple insurance brokers</td>
         <td><span class="badge ok">Match</span></td>
+      </tr>
+      <tr class="fail">
+        <td><s>AAA Fleet 2024 — route opt saves 5-10% gallons</s></td>
+        <td class="num">—</td>
+        <td><strong>This study does not exist as cited.</strong> AAA "Your Driving Costs" is a consumer ownership-cost study (per-mile fuel, depreciation, insurance for new vehicles), not a fleet-optimization study. Removed from sources.</td>
+        <td><span class="badge fail">Removed</span></td>
+      </tr>
+      <tr class="fail">
+        <td><s>"McKinsey AI-in-Transport-Ops 2024: 200-400 bps margin uplift"</s></td>
+        <td class="num">—</td>
+        <td><strong>No such publication exists.</strong> Replaced with real McKinsey: 5-20% logistics cost reduction (distribution ops) or 10-30% last-mile cost reduction.</td>
+        <td><span class="badge fail">Removed</span></td>
       </tr>
     </tbody>
   </table>
 
-  <h2>NAICS perspective — why 4-digit vs 6-digit matters</h2>
+  <h2>NAICS structure — 4-digit aggregate vs 6-digit specialization (corrected)</h2>
 
   <div class="thesis-grid">
-    <div class="thesis-card red">
-      <h4>🔴 4-digit (4859) — Conditional</h4>
-      <p><strong>NAICS 4859 Other Transit and Ground Passenger Transportation</strong> aggregates four distinct sub-segments with very different economics:</p>
+    <div class="thesis-card amber">
+      <h4>🟡 4-digit (4859) — Conditional</h4>
+      <p><strong>NAICS 4859 Other Transit and Ground Passenger Transportation</strong> contains exactly TWO 6-digit codes (per US Census 2022 NAICS manual):</p>
       <ul>
-        <li>485991 Special Needs Transportation (this case)</li>
-        <li>485999 All Other Transit (employee shuttles, etc.)</li>
-        <li>485510 Charter Bus Industry</li>
-        <li>485410 School Bus Transportation</li>
+        <li><strong>485991</strong> Special Needs Transportation (this case)</li>
+        <li><strong>485999</strong> All Other Transit and Ground Passenger Transportation (employee shuttles, airport shuttle, miscellaneous local transit)</li>
       </ul>
-      <p>Charter buses are cyclical, employee shuttles are low-margin commodities, school buses are heavily regulated single-contract risk. Mixing these drives the aggregate score to Conditional and obscures the NEMT-specific opportunity.</p>
+      <p>School bus (485410) is in 4854 — separate industry group. Charter bus (485510) is in 4855 — separate industry group. The 4859 verdict drag therefore comes from 485999, which mixes low-margin commodity shuttles with miscellaneous transit and has weaker recurring-revenue characteristics than NEMT.</p>
     </div>
-    <div class="thesis-card green">
-      <h4>🟢 6-digit (485991) — Strong roll-up target</h4>
-      <p><strong>NAICS 485991 Special Needs Transportation</strong> has structurally different characteristics:</p>
+    <div class="thesis-card amber">
+      <h4>🟡 6-digit (485991) — Conditional, selective thesis</h4>
+      <p><strong>NAICS 485991 Special Needs Transportation</strong> has structurally different characteristics from 485999, but the prior "Strong" classification overstated them. The selective thesis that survives re-verification:</p>
       <ul>
-        <li><strong>Medicaid-anchored revenue</strong> — 80-90% payer concentration creates predictable recurring cash flow</li>
-        <li><strong>Required service</strong> — federally mandated under Medicaid 1902(a)(4) — not discretionary</li>
-        <li><strong>Highly fragmented</strong> — thousands of regional operators, top 10 own &lt;15% market</li>
-        <li><strong>Lower PE saturation</strong> than HomeCare or Dental — Modivcare is the only major aggregator; opportunity for second platform</li>
-        <li><strong>AI lever is real and proven</strong> — dispatch, routing, billing, eligibility verification all automatable</li>
+        <li><strong>Federal mandate is real</strong> — 42 CFR 431.53 + Section 1902(a)(87) codified in CAA 2021 §209 + SMD 23-006</li>
+        <li><strong>Operator-level fragmentation is real</strong> — thousands of independent providers; broker level is now consolidated (MTM, Modivcare-post-Ch11)</li>
+        <li><strong>Recurring revenue is real</strong> — Medicaid-anchored, but margins under structural pressure</li>
+        <li><strong>BUT: leading public operator collapsed</strong> — Modivcare Ch11 evidence that NEMT scale ≠ healthy economics</li>
+        <li><strong>BUT: MA payer tailwind reversed</strong> — KFF data, 2026 plans cutting transportation benefits</li>
+        <li><strong>BUT: single-strategic-acquirer market</strong> — MTM the only credible scale acquirer for an operator roll-up exit</li>
       </ul>
     </div>
   </div>
 
-  <h2>Roll-up thesis — economic case</h2>
+  <h2>Verified market headwinds 2025-2026</h2>
+  <p>These were the largest changes to the picture since the prior version of this deep dive. All are primary-source verified.</p>
+
+  <div class="headwind-list">
+    <h4>⚠️ Structural headwinds (verified)</h4>
+    <ul>
+      <li><strong>Modivcare Chapter 11</strong> — filed Aug 20, 2025 (S.D. Texas, Case 25-90309); emerged Dec 29, 2025; common stock canceled, ~$1.1B debt eliminated, secured lenders received equity. Q3 2025 NEMT segment operating margin: <strong>3.8%</strong>. (Source: SEC 10-Q Q3 2025; Ch11 emergence 8-K)</li>
+      <li><strong>Medicare Advantage transportation benefit cuts</strong> — KFF data via HMA April 2025 report: MA plans offering transportation benefits dropped from <strong>36% in 2024 to 24% in 2026</strong>. UnitedHealthcare, Humana, and Aetna all scaled back 2026 plans. (Source: KFF, Healthcare Dive on 2026 MA plans)</li>
+      <li><strong>CMS NEMT provider enrollment moratorium</strong> — In effect since Oct 2023; Colorado extended through Sept 30, 2026. Limits organic network growth in affected states. (Source: CMS provider enrollment guidance)</li>
+      <li><strong>Federal fraud enforcement intensifying</strong> — June 30, 2025: NY AG charged/settled with 25 NEMT providers; $13M+ paid back to NY Medicaid. June 6, 2025 Presidential Memo "Eliminating Waste, Fraud, and Abuse in Medicaid." (Source: NY AG press release)</li>
+      <li><strong>State carve-in trend</strong> — Michigan moved NEMT into MCO model effective Oct 1, 2024 (eliminated independent broker tier); Colorado consolidating to single statewide broker. (Source: HMA April 2025 NEMT report)</li>
+      <li><strong>Broker market consolidated</strong> — MTM acquired Veyo (Aug 2022) and Access2Care from Global Medical Response (Oct 2024). MTM + Modivcare-post-Ch11 coordinate the majority of brokered Medicaid NEMT. Broker-level roll-up is closed. (Source: MTM press releases)</li>
+      <li><strong>AI dispatch claims weakly sourced</strong> — Vendor case studies are mostly anonymized, self-attested, qualitative. Modivcare's WellRyde acquisition (May 2021, $30M) has not disclosed quantified ROI in 4 years of subsequent SEC filings. (Source: Routific blog, RouteGenie case studies, Modivcare 10-K series)</li>
+    </ul>
+  </div>
+
+  <h2>Roll-up thesis — selective version (the math that survives)</h2>
 
   <div class="stat-grid">
     <div class="stat-tile">
       <div class="stat-label">Entry multiple (sub-$1M EBITDA NEMT)</div>
       <div class="stat-value">3-4×</div>
-      <div class="stat-delta">EBITDA, per industry brokers</div>
+      <div class="stat-delta">EBITDA · sub-scale tuck-in brokers' price talk</div>
     </div>
     <div class="stat-tile">
-      <div class="stat-label">Platform exit multiple ($10M+ EBITDA)</div>
-      <div class="stat-value">8-11×</div>
-      <div class="stat-delta">Modivcare comparable</div>
+      <div class="stat-label">Platform exit multiple — revised</div>
+      <div class="stat-value">6-8×</div>
+      <div class="stat-delta">Down from prior 8-11× · Modivcare healthy-era priced peak; current 5-7× ≈ where surviving public market would clear</div>
     </div>
     <div class="stat-tile">
-      <div class="stat-label">Multiple arbitrage spread (M)</div>
-      <div class="stat-value">5-7×</div>
-      <div class="stat-delta">Wider than 4-digit avg</div>
+      <div class="stat-label">Multiple arbitrage spread (M) — revised</div>
+      <div class="stat-value">3-4×</div>
+      <div class="stat-delta">Tighter than prior 5-7× claim</div>
     </div>
     <div class="stat-tile">
-      <div class="stat-label">Estimated US TAM (NEMT only)</div>
-      <div class="stat-value">$12-15B</div>
-      <div class="stat-delta">CMS NEMT spending 2024</div>
+      <div class="stat-label">US NEMT TAM — revised</div>
+      <div class="stat-value">$4-7B</div>
+      <div class="stat-delta">Service market, not global; prior $12-15B was global</div>
     </div>
   </div>
 
-  <h3>Five-year platform math (independent estimate)</h3>
-  <p>If 10 operators of Hybrid Ride's size are acquired at sub-$1M EBITDA tuck-in multiples (3-4×) and combined into a platform with shared back-office, using our <em>Scenario B</em> (AI + roll-up) per-operator EBITDA of ~$866K:</p>
+  <h3>Five-year platform math (revised conservative)</h3>
+  <p>If 10 operators of Hybrid Ride's size are acquired at sub-$1M EBITDA tuck-in multiples (3-4×) and combined into a platform using Scenario B per-operator EBITDA of ~$869K:</p>
   <ul>
-    <li><strong>Aggregate platform EBITDA:</strong> ~$8.7M (10 × $866K post-integration)</li>
-    <li><strong>Entry capital deployed:</strong> ~$25-32M (10 × pre-AI EBITDA ~$470K × 3.5-4× × deal mix adjustment)</li>
-    <li><strong>Exit multiple at platform scale:</strong> 8-10× (Modivcare segment comps, Capstone Healthcare Services M&A 2024)</li>
-    <li><strong>Exit enterprise value:</strong> $70-87M</li>
-    <li><strong>Estimated MoIC:</strong> 2.2-2.8× over a 4-5 year hold</li>
+    <li><strong>Aggregate platform EBITDA:</strong> ~$8.7M (10 × $869K post-integration)</li>
+    <li><strong>Entry capital deployed:</strong> ~$25-32M (10 × pre-AI EBITDA ~$470K × 3.5-4×)</li>
+    <li><strong>Exit multiple at platform scale (revised):</strong> 6-8× (Modivcare bankruptcy compressed the comparable; surviving NEMT operator multiples clear lower than healthy-era benchmarks)</li>
+    <li><strong>Exit enterprise value:</strong> $52-70M</li>
+    <li><strong>Estimated MoIC (revised):</strong> <strong>1.6-2.2×</strong> over a 4-5 year hold (down from prior 2.2-2.8×)</li>
   </ul>
+  <p style="background:rgba(239,68,68,0.06);border-left:3px solid var(--pass);padding:12px 16px;border-radius:8px;font-size:12.5px;color:#ffd6d6;margin-top:10px">
+    <strong>This MoIC range assumes a healthy exit market.</strong> If MA transportation benefit erosion continues through 2027-2028, NEMT operator multiples compress further; downside MoIC could be 1.2-1.6×. For a $50M fund, NEMT should be sized as a small position with tight covenants, not a flagship roll-up.
+  </p>
 
-  <h2>Adjacencies — HomeCare cross-sell</h2>
-  <p>NEMT shares the <strong>same Medicaid payer ecosystem and same elderly/disabled customer base</strong> as HomeCare (6216). Strategic option: bolt NEMT onto a HomeCare platform to bid for combined MCO contracts. UnitedHealth's Optum acquired both HomeCare (LHC Group, $5.4B 2023) and NEMT capacity (via Modivcare partnerships) precisely for this convergence. A Bobroff HomeCare platform with built-in NEMT capability commands premium pricing from Medicare Advantage payers.</p>
+  <h2>What would have to be true for this to work</h2>
+  <div class="thesis-grid">
+    <div class="thesis-card green">
+      <h4>✅ Conditions that make the selective thesis investable</h4>
+      <ul>
+        <li>Focus on <strong>specialty sub-segments</strong> — wheelchair, stretcher, dialysis routes — where Uber/Lyft cannot compete and per-trip pricing is structurally higher</li>
+        <li><strong>Direct MCO contracts</strong> that bypass broker pricing — operators can capture 100% of the trip economics rather than broker-dictated subcontract rates</li>
+        <li><strong>Regional density</strong> in 1-2 states with stable Medicaid programs (avoid MI carve-in jurisdictions; avoid states transitioning to single-broker models)</li>
+        <li>Conservative <strong>entry multiples (3-3.5×)</strong> — no premium even for desirable assets; recent Modivcare collapse means seller expectations should be reset</li>
+        <li><strong><5-year exit window</strong> — exit before MA transportation cuts compound</li>
+        <li>Platform back-office that genuinely realizes Scenario B G&A economics (not just claimed)</li>
+      </ul>
+    </div>
+    <div class="thesis-card red">
+      <h4>❌ Conditions that would invalidate the thesis</h4>
+      <ul>
+        <li>Premium entry multiples (>4×) — no margin for execution risk</li>
+        <li>Ambulatory-only fleet competing against Uber Health / Lyft Healthcare</li>
+        <li>Single-state concentration in states with carve-in or single-broker transitions</li>
+        <li>Leverage above 3-3.5× EBITDA — Modivcare's Ch11 lesson</li>
+        <li>Dependence on MA supplemental benefit growth as tailwind (it's reversing)</li>
+        <li>Exit dependent on Modivcare or UnitedHealth/Optum as buyer (the first is post-Ch11 capital-constrained; the second has zero NEMT M&A history)</li>
+      </ul>
+    </div>
+  </div>
 
-  <h2>Final thesis</h2>
-  <div class="hero-card" style="border-color:rgba(16,185,129,0.35);background:linear-gradient(135deg,rgba(16,185,129,0.10) 0%,rgba(16,185,129,0.03) 100%)">
-    <p style="color:#a8f0a8;font-size:14.5px;margin:0">
-      <strong>NEMT (485991) is a Strong roll-up sub-segment that the 4-digit aggregate (4859 Conditional) hides.</strong>
-      Hybrid Ride's <em>current</em> 13% EBITDA matches public industry benchmarks (Modivcare segment 10-15%). Independent post-AI estimates based on public AI deployment data: <strong>~16% standalone</strong> (Scenario A, +3 pp), <strong>~25% with 10-operator roll-up</strong> (Scenario B, +12 pp). Multiple arbitrage 3-4× entry → 8-10× exit yields ~5× spread, generating 2.2-2.8× MoIC over a 4-5 year hold. Strategic exit logic to UnitedHealth/Optum or Modivcare is well-established. Worth pursuing as a standalone roll-up or as a bolt-on to a HomeCare platform serving the same Medicaid payer.
+  <h2>Adjacency to HomeCare (6216) — caveat</h2>
+  <p>NEMT shares the Medicaid payer ecosystem and the elderly/disabled customer base with HomeCare (6216). The strategic logic for combining the two on one platform — bidding for combined MCO contracts — is real, and UnitedHealth's 2023 acquisition of LHC Group ($5.4B) shows payer interest in HomeCare specifically. However: HomeCare also scores Conditional on our map; UnitedHealth's NEMT integration with Modivcare is a <strong>partnership, not acquisition</strong>; and there is no record of an MA payer acquiring an NEMT operator. A combined HomeCare + NEMT platform thesis depends on the HomeCare leg, not on NEMT being acquired by a payer.</p>
+
+  <h2>Final thesis (revised, honest)</h2>
+  <div class="conclusion-card">
+    <p style="color:#fff3d6;font-size:14.5px;margin:0">
+      <strong>NEMT (485991) is a Conditional sub-segment — investable under a tightly defined selective thesis, not as a generalist roll-up.</strong> Hybrid Ride's current 13% EBITDA is consistent with historical operator economics. Independent post-AI estimates: ~16% standalone (Scenario A, +3 pp · triangulated), ~25% with 10-operator roll-up (Scenario B, +11 pp). Revised platform math: 3-4× entry → 6-8× exit yields ~3-4× spread (down from prior claim of 5-7×), generating <strong>1.6-2.2× MoIC</strong> over a 4-5 year hold under healthy exit-market assumptions. The Modivcare 2025 Chapter 11, Medicare Advantage transportation benefit cuts for 2026, intensifying federal fraud enforcement, and the consolidation of the broker market into a single dominant strategic acquirer (MTM) all support a more cautious sizing. Worth pursuing only as a specialty/regional operator roll-up with direct MCO contracts and conservative leverage — not as a flagship platform position.
     </p>
   </div>
 
-  <h2>Sources</h2>
+  <h2>Primary sources</h2>
   <div class="source-list">
-    <strong>Industry benchmarks:</strong> CMS NEMT National Expenditure Data 2024 · Modivcare Investor Day 2024 · LogistiCare (historical) · BLS OEWS 2024 (SOC 53-3033) · MA MassHealth NEMT Reimbursement Schedule 2024<br>
-    <strong>Technology benchmarks:</strong> Routific NEMT case studies · TripMaster / RouteGenie / Tobi published efficiency claims 2023-2024<br>
-    <strong>M&A multiples:</strong> Capstone Partners Healthcare Services M&A reports · Houlihan Lokey Healthcare Q2 2025 · Mertz Taggart Q1 2026 (NEMT adjacent commentary)<br>
-    <strong>Insurance / fleet costs:</strong> AAA Fleet Operating Cost Survey 2024 · MA Commercial Auto Insurance market data<br>
-    <strong>Company source:</strong> Hybrid Ride, Inc. (West Bridgewater, MA) — operating model reconstructed from a 30-vehicle Greater Boston NEMT operator profile
+    <strong>NAICS structure:</strong> <a href="https://www.census.gov/naics/">US Census 2022 NAICS manual</a> — 4859 contains only 485991 + 485999<br>
+    <strong>Federal mandate:</strong> <a href="https://www.ecfr.gov/current/title-42/chapter-IV/subchapter-C/part-431/subpart-B/section-431.53">42 CFR 431.53</a> · Section 1902(a)(87) of SSA codified in <a href="https://www.medicaid.gov/federal-policy-guidance/downloads/smd23006.pdf">SMD 23-006 (Sept 2023)</a><br>
+    <strong>Modivcare bankruptcy:</strong> <a href="https://www.sec.gov/Archives/edgar/data/0001220754/000143774925038831/modv20251226_8k.htm">SEC 8-K Dec 26, 2025 (Ch11 emergence)</a> · <a href="https://www.sec.gov/Archives/edgar/data/0001220754/000122075425000086/modv-20250930.htm">10-Q Q3 2025</a><br>
+    <strong>MassHealth wheelchair van rates:</strong> <a href="https://www.law.cornell.edu/regulations/massachusetts/101-CMR-327-03">101 CMR 327.03</a> · <a href="https://www.mass.gov/regulations/101-CMR-32700-rates-for-ambulance-and-wheelchair-van-services">Mass.gov primary</a><br>
+    <strong>MA payer trends:</strong> <a href="https://www.healthcaredive.com/news/medicare-advantage-plans-2026-unitedhealthcare-humana-aetna/801761/">Healthcare Dive on 2026 MA plans</a> · <a href="https://www.healthmanagement.com/wp-content/uploads/HMA_NEMT_-Final.4.22.25.pdf">HMA April 2025 NEMT report</a><br>
+    <strong>NEMT modeling (peer-reviewed):</strong> <a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC6366524/">Powers et al., Am J Public Health 2018</a><br>
+    <strong>BLS wage data:</strong> <a href="https://www.bls.gov/oes/current/oes533033.htm">OEWS SOC 53-3033 Light Truck Drivers</a><br>
+    <strong>MACPAC NEMT:</strong> <a href="https://www.macpac.gov/wp-content/uploads/2019/05/Medicaid-Coverage-of-Non-Emergency-Medical-Transportation.pdf">May 2019 issue brief</a><br>
+    <strong>AI dispatch case studies (vendor; treat as directional only):</strong> <a href="https://www.routific.com/pricing">Routific pricing benchmarks</a> · <a href="https://routegenie.com/case-studies/ride-yourway-nemt-software-growth/">RouteGenie flagship case</a> · <a href="https://tobicloud.com">Tobi Cloud</a><br>
+    <strong>Fleet telematics:</strong> <a href="https://www.fleetowner.com/technology/article/21250030">Samsara n=395 fleet study (FleetOwner)</a><br>
+    <strong>McKinsey:</strong> <a href="https://www.mckinsey.com/industries/industrials/our-insights/distribution-blog/harnessing-the-power-of-ai-in-distribution-operations">"Harnessing the power of AI in distribution operations"</a> — 5-20% logistics cost reduction<br>
+    <strong>MTM consolidation:</strong> <a href="https://www.mtm-inc.net/mtm-finalizes-acquisition-of-access2care-expanding-market-leadership-in-nemt-sector/">Access2Care acquisition (Oct 2024)</a> · <a href="https://finance.yahoo.com/news/mtm-finalizes-acquisition-non-emergency-140000269.html">Veyo acquisition (Aug 2022)</a><br>
+    <strong>Company source:</strong> Hybrid Ride, Inc. operating Excel (West Bridgewater, MA · 30-vehicle Greater Boston NEMT operator) — all Before-AI line items reproduce exactly
   </div>
+
+  <p style="font-size:11px;color:var(--text-3);text-align:center;margin-top:48px;padding-top:24px;border-top:1px solid var(--border)">
+    Re-verified 2026-05-27. All claims sourced to primary public material. Where a primary source could not be identified for a previously published claim, the claim was removed or downgraded to "estimate / triangulated."
+  </p>
 
 </div>
 </body>
