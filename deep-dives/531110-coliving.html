@@ -1,0 +1,475 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Master-Lease Co-Living Deep Dive — NAICS 531110 — Outpost / OJH Case</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg-0: #0c0e13; --bg-1: #131620; --bg-2: #1a1e28; --bg-3: #232735; --bg-4: #2a2f3e;
+    --border: rgba(255,255,255,0.07); --border-strong: rgba(255,255,255,0.13);
+    --text-1: #f4f5f7; --text-2: #a8adb8; --text-3: #6c7180;
+    --hellyes: #10b981; --strong: #34d058; --conditional: #f59e0b; --pass: #ef4444; --kill: #6b7280;
+    --ease: cubic-bezier(0.4,0,0.2,1);
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: "Manrope", -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, sans-serif;
+    background: var(--bg-0); color: var(--text-1); min-height: 100vh; font-size: 14px; line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+  }
+  body::before {
+    content: ""; position: fixed; inset: 0;
+    background: radial-gradient(circle 800px at 20% -10%, rgba(52,208,88,0.08) 0%, transparent 50%),
+                radial-gradient(circle 600px at 80% 110%, rgba(239,68,68,0.06) 0%, transparent 50%);
+    pointer-events: none; z-index: 0;
+  }
+  .container { max-width: 1100px; margin: 0 auto; padding: 48px 32px 96px; position: relative; z-index: 1; }
+  .breadcrumb { font-size: 12px; color: var(--text-3); text-transform: uppercase; letter-spacing: 1.5px; margin-bottom: 16px; }
+  .breadcrumb a { color: #60a5fa; text-decoration: none; }
+  h1 { font-size: 38px; font-weight: 800; letter-spacing: -1px; margin-bottom: 8px; }
+  .subtitle { font-size: 15px; color: var(--text-2); margin-bottom: 32px; }
+  h2 { font-size: 22px; font-weight: 700; margin: 44px 0 16px; letter-spacing: -0.4px; }
+  h3 { font-size: 16px; font-weight: 700; color: #60a5fa; margin: 24px 0 10px; }
+  p { color: #d4d7dc; margin: 10px 0; }
+  strong { color: #fff; }
+  em { color: #cfd3da; font-style: italic; }
+  code { background: var(--bg-2); padding: 2px 8px; border-radius: 5px; font-family: "JetBrains Mono", monospace; font-size: 12.5px; color: #60a5fa; }
+  a { color: #60a5fa; }
+
+  .hero-card {
+    background: linear-gradient(135deg, rgba(52,208,88,0.10) 0%, rgba(239,68,68,0.08) 100%);
+    border: 1px solid rgba(239,68,68,0.30); border-radius: 14px; padding: 24px 28px; margin: 24px 0 32px;
+    backdrop-filter: blur(14px);
+  }
+  .verdict-hero { display: flex; gap: 14px; align-items: center; flex-wrap: wrap; margin-bottom: 14px; }
+  .verdict-pill { padding: 6px 14px; border-radius: 16px; font-size: 11.5px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.7px; color: #fff; }
+  .verdict-pill.conditional { background: var(--conditional); color: #0a0a0a; }
+  .verdict-pill.strong { background: var(--strong); color: #0a0a0a; }
+  .verdict-pill.hellyes { background: var(--hellyes); }
+  .verdict-pill.pass { background: var(--pass); }
+
+  .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  .grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; }
+
+  .pnl-card {
+    background: linear-gradient(135deg, var(--bg-2) 0%, var(--bg-1) 100%);
+    border: 1px solid var(--border); border-radius: 12px; overflow: hidden;
+  }
+  .pnl-header { padding: 14px 20px; font-weight: 700; font-size: 14px; border-bottom: 1px solid var(--border); }
+  .pnl-header.actual { background: rgba(239,68,68,0.10); color: #fca5a5; }
+  .pnl-header.forecast { background: rgba(245,158,11,0.12); color: #fcd34d; }
+  table.pnl { width: 100%; border-collapse: collapse; }
+  table.pnl td { padding: 8px 16px; border-bottom: 1px solid var(--border); font-size: 12.5px; }
+  table.pnl td:last-child { text-align: right; font-family: "JetBrains Mono", monospace; font-weight: 500; }
+  table.pnl tr.sub td { color: var(--text-3); padding-left: 28px; font-size: 11.5px; }
+  table.pnl tr.total td { background: rgba(255,255,255,0.04); font-weight: 700; color: #fff; }
+  table.pnl tr.ebitda td { background: rgba(239,68,68,0.18); color: #fca5a5; font-weight: 700; font-size: 13.5px; }
+  table.pnl tr.ebitda.pos td { background: rgba(16,185,129,0.18); color: #6ee7b7; }
+
+  .stat-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px,1fr)); gap: 12px; margin: 16px 0; }
+  .stat-tile {
+    background: var(--bg-2); border: 1px solid var(--border); border-radius: 10px; padding: 14px 16px;
+  }
+  .stat-label { font-size: 10.5px; text-transform: uppercase; letter-spacing: 1px; color: var(--text-3); font-weight: 600; }
+  .stat-value { font-size: 22px; font-weight: 700; color: #fff; margin-top: 4px; font-family: "Manrope", sans-serif; letter-spacing: -0.5px; font-feature-settings: "tnum"; }
+  .stat-delta { font-size: 11.5px; margin-top: 3px; color: var(--text-2); }
+  .stat-delta.up { color: var(--hellyes); }
+  .stat-delta.down { color: var(--pass); }
+
+  .verify-table { width: 100%; border-collapse: collapse; margin: 14px 0; }
+  .verify-table th, .verify-table td { padding: 12px 14px; text-align: left; border-bottom: 1px solid var(--border); font-size: 13px; vertical-align: top; }
+  .verify-table th { background: var(--bg-2); font-size: 11px; text-transform: uppercase; letter-spacing: 0.8px; color: var(--text-3); font-weight: 700; }
+  .verify-table td.num { font-family: "JetBrains Mono", monospace; font-weight: 500; white-space: nowrap; }
+  .verify-table tr.match td { background: rgba(16,185,129,0.04); }
+  .verify-table tr.warn td { background: rgba(245,158,11,0.05); }
+  .verify-table tr.fail td { background: rgba(239,68,68,0.06); }
+  .badge { display: inline-block; padding: 2px 8px; border-radius: 10px; font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; }
+  .badge.ok { background: rgba(16,185,129,0.18); color: #6ee7b7; }
+  .badge.flag { background: rgba(245,158,11,0.18); color: #fcd34d; }
+  .badge.note { background: rgba(59,130,246,0.18); color: #93c5fd; }
+  .badge.dead { background: rgba(239,68,68,0.18); color: #fca5a5; }
+
+  .thesis-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin: 16px 0; }
+  .thesis-card { background: var(--bg-2); border: 1px solid var(--border); border-radius: 12px; padding: 20px 24px; }
+  .thesis-card.red { border-left: 4px solid var(--pass); }
+  .thesis-card.amber { border-left: 4px solid var(--conditional); }
+  .thesis-card.green { border-left: 4px solid var(--strong); }
+  .thesis-card h4 { font-size: 14px; font-weight: 700; margin-bottom: 8px; color: #fff; letter-spacing: -0.1px; }
+  .thesis-card p { font-size: 13px; color: var(--text-2); margin: 6px 0; }
+
+  .graveyard {
+    background: rgba(239,68,68,0.06); border: 1px solid rgba(239,68,68,0.25); border-radius: 12px;
+    padding: 18px 24px; margin: 14px 0;
+  }
+  .graveyard h4 { color: #fca5a5; font-size: 13px; margin-bottom: 12px; text-transform: uppercase; letter-spacing: 0.8px; }
+  table.gtable { width: 100%; border-collapse: collapse; }
+  table.gtable td, table.gtable th { padding: 8px 12px; font-size: 12.5px; border-bottom: 1px solid rgba(255,255,255,0.06); text-align: left; }
+  table.gtable th { color: #fcd34d; font-weight: 700; font-size: 11px; text-transform: uppercase; letter-spacing: 0.5px; }
+  table.gtable tr.survivor td { background: rgba(16,185,129,0.06); }
+  table.gtable tr.pivot td { background: rgba(245,158,11,0.05); }
+
+  ul { margin: 10px 0 16px 24px; }
+  li { color: #d4d7dc; margin: 6px 0; font-size: 13.5px; }
+
+  .source-list { font-size: 11.5px; color: var(--text-3); margin-top: 8px; }
+  .source-list a { color: #60a5fa; word-break: break-all; }
+
+  .conclusion-card {
+    background: linear-gradient(135deg, rgba(239,68,68,0.10) 0%, rgba(245,158,11,0.05) 100%);
+    border: 1px solid rgba(239,68,68,0.35);
+    border-radius: 14px; padding: 24px 28px; margin: 24px 0 32px;
+  }
+
+  @media (max-width: 768px) { .grid-2, .grid-3, .thesis-grid { grid-template-columns: 1fr; } }
+</style>
+</head>
+<body>
+<div class="container">
+
+  <div class="breadcrumb">
+    Deep Dive · Industry Vertical Analysis · NAICS 531110 · Master-Lease Co-Living Sub-Segment
+  </div>
+
+  <h1>Master-Lease Co-Living</h1>
+  <div class="subtitle">From 4-digit aggregate (5311 Lessors of Real Estate) into the master-lease sub-segment within 6-digit 531110 · Outpost Group / OJH Holdings operator case</div>
+
+  <div class="hero-card">
+    <div class="verdict-hero">
+      <span class="verdict-pill strong">4-digit (5311): Strong</span>
+      <span style="font-size:18px;color:#fcd34d">→</span>
+      <span class="verdict-pill pass">Master-lease co-living sub-segment: Pass</span>
+    </div>
+    <p style="margin:0;color:#ffe8d6">
+      The 4-digit aggregate (<strong>5311 Lessors of Real Estate</strong>) scores Strong on the main map — driven by traditional asset-owning landlords with predictable long-lease revenue, cap-rate-anchored valuations, and decades-long compounding returns through the residential REIT category. The master-lease co-living sub-segment within 6-digit <strong>531110 (Lessors of Residential Buildings and Dwellings)</strong> looks superficially similar but is structurally different: operators sign the lease but do not own the asset. They take 100% of the downside on rent obligations with 0% of the real-estate upside. The sub-segment has had near-100% mortality among VC-backed operators since 2018 — Common, Sonder, Selina, Quarters, Bedly, HubHaus, WeLive, The Collective all dead or in Chapter 7 wind-down. Outpost / OJH Holdings is consolidating distressed remnants of this category at a fraction of cumulative invested capital, but no operator in the category has yet returned capital at &gt;1× MoIC.
+    </p>
+  </div>
+
+  <h2>Why the colors differ</h2>
+  <p><strong>The "extra" in the 4-digit aggregate that the sub-segment loses: asset ownership.</strong> Traditional residential lessors in 5311 (Camden, AvalonBay, Equity Residential and the long tail of private landlords) own the underlying real estate. They earn rent <em>and</em> capture appreciation; their cash flows are backed by hard collateral; their multiples are anchored to cap rates that have a floor. Master-lease co-living operators sign a long-term lease with a third-party owner, then sublease by-the-room. They earn the spread between aggregate room rent and master rent — but they carry every dollar of lease obligation contractually regardless of occupancy, and they never own the asset. When occupancy drops below ~85% the model flips negative; when it drops below ~75% the operator is technically insolvent on a cash basis within months. None of this is present in the parent-aggregate economics.</p>
+
+  <h2>NAICS structure</h2>
+  <p>Per US Census 2022 NAICS, the 4-digit industry group <strong>5311 Lessors of Real Estate</strong> contains four 6-digit codes:</p>
+  <ul>
+    <li><strong>531110</strong> Lessors of Residential Buildings and Dwellings — apartment landlords, single-family rental owners, master-lease operators</li>
+    <li><strong>531120</strong> Lessors of Nonresidential Buildings (except Miniwarehouses) — office, retail, industrial landlords</li>
+    <li><strong>531130</strong> Lessors of Miniwarehouses and Self-Storage Units</li>
+    <li><strong>531190</strong> Lessors of Other Real Estate Property — land, mobile-home pads, etc.</li>
+  </ul>
+  <p>Outpost / OJH sits inside 531110 but operates a sub-specialization — master-lease residential aggregation with by-room subletting (commonly marketed as "co-living"). NAICS does not separately code this; the same code houses traditional apartment landlords (~95% of 531110 firm count) and the much smaller master-lease operator pool (~&lt;1% of firms). The verdict difference is between those two operating models within the same NAICS code.</p>
+
+  <h2>Company snapshot — OJH Holdings (Outpost + June Homes, merged Nov 24, 2025)</h2>
+  <div class="grid-3">
+    <div class="stat-tile">
+      <div class="stat-label">Headquarters</div>
+      <div class="stat-value" style="font-size:16px">New York, NY</div>
+      <div class="stat-delta">Operations: NYC, Boston, DC, Chicago, LA, SF, Austin</div>
+    </div>
+    <div class="stat-tile">
+      <div class="stat-label">Model</div>
+      <div class="stat-value" style="font-size:16px">Master-lease + sublease</div>
+      <div class="stat-delta">Plus 13% property mgmt for third-party owners</div>
+    </div>
+    <div class="stat-tile">
+      <div class="stat-label">Total beds (Mar 2026)</div>
+      <div class="stat-value">3,778</div>
+      <div class="stat-delta">Down from 4,235 in Q1 2025 (-10.8% rationalization)</div>
+    </div>
+    <div class="stat-tile">
+      <div class="stat-label">Avg price/bed/month</div>
+      <div class="stat-value">$1,569</div>
+      <div class="stat-delta">+14.9% YoY · 83.7% occupancy</div>
+    </div>
+    <div class="stat-tile">
+      <div class="stat-label">T12 Revenue (Apr 25 – Mar 26)</div>
+      <div class="stat-value">$13.0M</div>
+      <div class="stat-delta">Q1 2026 $2.34M · essentially flat YoY</div>
+    </div>
+    <div class="stat-tile">
+      <div class="stat-label">T12 EBITDA</div>
+      <div class="stat-value" style="color:var(--pass)">($925K)</div>
+      <div class="stat-delta down">Net loss T12: ($3.3M) · Q1 EBITDA ($454K)</div>
+    </div>
+    <div class="stat-tile">
+      <div class="stat-label">CEO</div>
+      <div class="stat-value" style="font-size:16px">Sergii Starostin</div>
+      <div class="stat-delta">Ex-Outpost CEO; Mauricio Zuniga (ex-June Homes) President</div>
+    </div>
+    <div class="stat-tile">
+      <div class="stat-label">Post-merger valuation</div>
+      <div class="stat-value">~$100M</div>
+      <div class="stat-delta">All-stock combination; ~1.5× revenue</div>
+    </div>
+    <div class="stat-tile">
+      <div class="stat-label">Combined capital raised</div>
+      <div class="stat-value">~$78M</div>
+      <div class="stat-delta">June Homes $65.5M + Outpost $12.5M Series A (Apr 2024, GreenPoint + Speedwagon)</div>
+    </div>
+  </div>
+
+  <h2>Unit economics — actuals only (no forecasts)</h2>
+  <p>OJH's T12 P&L and Q1 2026 actual P&L are reproduced below. The forecast columns in their investor deck (FY2026 EBITDA $2.57M projected positive) are <strong>budget</strong>, not actuals, and are excluded here.</p>
+
+  <div class="grid-2">
+    <div class="pnl-card">
+      <div class="pnl-header actual">OJH Holdings — Q1 2026 Actual (Jan–Mar 2026)</div>
+      <table class="pnl">
+        <tr><td><strong>Total Revenue</strong></td><td><strong>$2.34M</strong></td></tr>
+        <tr class="sub"><td>3,778 beds × $1,569/bed × 83.7% occupancy</td><td>100%</td></tr>
+        <tr><td>Direct Operating Expenses</td><td>($573K)</td></tr>
+        <tr class="total"><td>= Gross Operating Profit</td><td>$1.77M / 75.5% GOP</td></tr>
+        <tr><td>Sales Commissions</td><td>($490K)</td></tr>
+        <tr><td>Staff Cost</td><td>($1,229K)</td></tr>
+        <tr><td>Other G&A</td><td>($430K)</td></tr>
+        <tr><td>Miscellaneous</td><td>($74K)</td></tr>
+        <tr class="total"><td>= Total Overhead</td><td>($2.22M / 95% of revenue)</td></tr>
+        <tr class="ebitda"><td>= EBITDA</td><td>($454K) / −19.4%</td></tr>
+        <tr><td>Interest Paid</td><td>($195K)</td></tr>
+        <tr><td>Depreciation</td><td>($271K)</td></tr>
+        <tr><td>Severance + Non-Recurring</td><td>($71K)</td></tr>
+        <tr class="ebitda"><td>= Net Profit / Loss</td><td>($995K)</td></tr>
+      </table>
+    </div>
+
+    <div class="pnl-card">
+      <div class="pnl-header actual">OJH Holdings — Trailing 12 Months (Apr 25 – Mar 26)</div>
+      <table class="pnl">
+        <tr><td><strong>Total Revenue (Net basis)</strong></td><td><strong>$12.98M</strong></td></tr>
+        <tr class="sub"><td>Net Rental Revenue: $5.4M (42%)</td><td></td></tr>
+        <tr class="sub"><td>Tenant & Ancillary fees: $4.4M (34%)</td><td></td></tr>
+        <tr class="sub"><td>Property Mgmt Revenue: $1.7M (13%)</td><td></td></tr>
+        <tr class="sub"><td>Brokerage Revenue: $0.7M (6%)</td><td></td></tr>
+        <tr class="sub"><td>Other Revenue: $0.7M (6%)</td><td></td></tr>
+        <tr><td>Sales & Marketing</td><td>($2.29M)</td></tr>
+        <tr><td>Property Operations</td><td>($2.03M)</td></tr>
+        <tr class="total"><td>= Gross Operating Profit</td><td>$8.65M / 66.7% GOP</td></tr>
+        <tr><td>Sales Commissions</td><td>($2.02M)</td></tr>
+        <tr><td>Staff Cost</td><td>($5.40M)</td></tr>
+        <tr><td>Other G&A</td><td>($1.86M)</td></tr>
+        <tr><td>Miscellaneous</td><td>($0.30M)</td></tr>
+        <tr class="ebitda"><td>= EBITDA</td><td>($925K) / −7.1%</td></tr>
+        <tr><td>Interest + Depreciation + Severance</td><td>($2.40M)</td></tr>
+        <tr class="ebitda"><td>= Net Profit / Loss</td><td>($3.33M)</td></tr>
+      </table>
+    </div>
+  </div>
+
+  <p style="background:rgba(239,68,68,0.06);border-left:3px solid var(--pass);padding:14px 18px;border-radius:8px;font-size:13px;color:#ffd6d6;margin-top:14px">
+    <strong>Pre-merger June Homes 2023 standalone P&L</strong> (per their internal monthly P&L file) shows the same structural pattern at larger scale: Gross Revenue $49M (master-lease basis), Net Revenue after Payments to Owners $12.5M, Corporate Expenses $11.4M, <strong>EBITDA ($3.9M), Net Loss ($8.0M) on $49M gross.</strong> The merged OJH entity has consolidated the same loss pattern at smaller scale. The 19.1% EBITDA forecast for FY2026 ($2.57M on $13.4M revenue) is an internal budget that assumes staff cost reduction of ~$900K annually and breakeven in May 2026; T12 trajectory does not yet support it.
+  </p>
+
+  <h2>The category graveyard — verified primary sources</h2>
+  <p>Of the 12 VC-backed master-lease co-living operators tracked 2015–2025, <strong>10 are dead or in wind-down, 1 pivoted out of the model (Bungalow), and 1 (PadSplit) survives operating a materially different model</strong> (marketplace where landlords retain the lease — not master-lease). The sub-segment has not produced a single confirmed exit at &gt;1× MoIC since 2018.</p>
+
+  <div class="graveyard">
+    <h4>⚰️ Master-lease co-living operators — outcomes 2015-2025</h4>
+    <table class="gtable">
+      <thead>
+        <tr><th>Operator</th><th>Status</th><th>Capital raised / outcome</th><th>Year</th></tr>
+      </thead>
+      <tbody>
+        <tr><td><strong>Sonder Holdings (SOND)</strong></td><td><span class="badge dead">Chapter 7</span></td><td>SPAC $1.9B EV → wind-down Nov 10, 2025 after Marriott terminated licensing; equity ~$0</td><td>2025</td></tr>
+        <tr><td><strong>Selina Hospitality (SLNA)</strong></td><td><span class="badge dead">UK Insolvency</span></td><td>SPAC $1.2B EV → $50M IDB Invest default → FTI Joint Administrators Jul 2024; Collective Hospitality bought operations out of insolvency</td><td>2024</td></tr>
+        <tr><td><strong>Common Living</strong></td><td><span class="badge dead">Chapter 7</span></td><td>$113M+ raised → merged to Habyt Jan 2023 (no backstop) → Ch.7 May 31, 2024 (Delaware)</td><td>2024</td></tr>
+        <tr><td><strong>The Collective</strong></td><td><span class="badge dead">UK Administration</span></td><td>Hundreds of millions raised → administration Sept 15, 2021; formally ended Sept 23, 2023</td><td>2021</td></tr>
+        <tr><td><strong>Quarters Co-Living (US)</strong></td><td><span class="badge dead">Chapter 7</span></td><td>$300M US expansion capital → Ch.7 Jan 2021; 8 properties + 2 LLCs; Outpost took NYC sublease book</td><td>2021</td></tr>
+        <tr><td><strong>Starcity</strong></td><td><span class="badge dead">Sold distressed</span></td><td>$70M+ raised → all-stock sale of management contracts to Common Jun 2021</td><td>2021</td></tr>
+        <tr><td><strong>Ollie</strong></td><td><span class="badge dead">Sold distressed</span></td><td>All-stock acquisition by Starcity Dec 2020 (distressed)</td><td>2020</td></tr>
+        <tr><td><strong>HubHaus</strong></td><td><span class="badge dead">Wind-down</span></td><td>0% recovery for unsecured; 30% vacancy, 75% unprofitable, SF SRO violations; Sept 23, 2020</td><td>2020</td></tr>
+        <tr><td><strong>WeLive (WeWork)</strong></td><td><span class="badge dead">Closed</span></td><td>Crystal City VA and Wall Street NYC handed back to landlords Apr/Jun 2020</td><td>2020</td></tr>
+        <tr><td><strong>Bedly</strong></td><td><span class="badge dead">Closed</span></td><td>NYC operator shut down 2019</td><td>2019</td></tr>
+        <tr><td><strong>Roam Co-Living</strong></td><td><span class="badge dead">Wound down</span></td><td>Founder publicly stated "leasing buildings in expensive cities and running them at a loss backed by speculative capital was not a sustainable long-term business model"</td><td>—</td></tr>
+        <tr class="pivot"><td><strong>Bungalow</strong></td><td><span class="badge flag">Pivoted away</span></td><td>$167M raised → pivoted to commission/PM platform ~2022; tenant scam complaints Sept 2022; HQ moved SF→Miami</td><td>2022-23</td></tr>
+        <tr class="survivor"><td><strong>PadSplit</strong></td><td><span class="badge ok">Operating</span></td><td><strong>Not master-lease — marketplace.</strong> Landlords retain lease; PadSplit matches by-the-room. $35.9M cumulative raised; 16,500+ rooms; $4.4M 2024 revenue</td><td>survivor</td></tr>
+        <tr><td><strong>Outpost / OJH</strong></td><td><span class="badge flag">Active consolidator</span></td><td>$100M post-merger Nov 2025; T12 EBITDA ($925K); takes failing competitors' books without paying</td><td>2025-26</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <p><strong>Cumulative capital destroyed in the dead pool: $1.5B+</strong> (Sonder ~$600M raised + IPO destruction; Selina $1.2B SPAC value → $0; Common $113M+; Quarters US $300M; Collective hundreds of millions; the rest tens to hundreds of millions more). The single survivor (PadSplit) succeeds precisely because it does not master-lease — landlords retain the lease obligation, PadSplit takes marketplace fees.</p>
+
+  <h2>Why master-lease residential fails structurally</h2>
+  <p>Five mechanics, each verified by primary-source post-mortems:</p>
+
+  <div class="thesis-grid">
+    <div class="thesis-card red">
+      <h4>1. Asymmetric leverage on the lease</h4>
+      <p>The operator signs a long-term master lease (typically 5-15 years) at a fixed monthly rent. The landlord keeps 100% of the real-estate upside (appreciation, refinancing, sale). The operator carries 100% of the rent obligation regardless of occupancy. Every dollar of asset value created by rising rents flows to the landlord; every dollar of occupancy shortfall hits the operator.</p>
+    </div>
+    <div class="thesis-card red">
+      <h4>2. Fixed-cost rigidity</h4>
+      <p>Community staffing, cleaning, events programming, on-site management — none of this scales down with occupancy. Below ~85% occupancy the unit economics flip negative; below ~75% the operator is technically insolvent on a cash basis within months. Pandemic-era operators (Quarters, Collective, HubHaus) all failed at this threshold.</p>
+    </div>
+    <div class="thesis-card red">
+      <h4>3. Customer-acquisition mismatch</h4>
+      <p>Average tenancy 3-6 months (by design — flexible terms are the product). Paid acquisition channels (Google, Facebook, broker fees) cost $300-800 per tenant. LTV/CAC structurally weak — by the time CAC is amortized the tenant churns. Acquisition costs disguised in marketing line; true contribution margin per tenant much lower than reported.</p>
+    </div>
+    <div class="thesis-card red">
+      <h4>4. Regulatory exposure</h4>
+      <p>By-room subletting violates SRO and zoning law in most primary markets including SF and NYC. HubHaus was forced to evict 7 tenants from a single property over SRO violations. Bungalow faced "housing scam" complaints. Compliance is rarely fully achieved at scale; operators run with implicit regulatory risk.</p>
+    </div>
+    <div class="thesis-card red">
+      <h4>5. Capex disguised as opex</h4>
+      <p>Furniture, conversion costs, community-build all expensed rather than capitalized. Suppresses near-term reported EBITDA, attracts growth-capital narrative, then collapses when growth pauses and the back book has to support itself. Common, Sonder, Quarters all showed this pattern in retrospective audits.</p>
+    </div>
+    <div class="thesis-card red">
+      <h4>6. Pandemic stress-test verdict + post-pandemic confirmation</h4>
+      <p>Every operator that hit 2020 with debt failed (HubHaus 2020, Quarters 2021, Collective 2021). The recovery cohort that survived through 2022-2023 then ALSO failed (Common 2024, Sonder 2025, Selina 2024) — proving the model is not viable even in "normal" demand environments.</p>
+    </div>
+  </div>
+
+  <h2>OJH-specific verification of structural risks</h2>
+
+  <table class="verify-table">
+    <thead>
+      <tr><th>Assumption / metric</th><th>OJH value</th><th>Primary source · benchmark</th><th>Status</th></tr>
+    </thead>
+    <tbody>
+      <tr class="match">
+        <td>Bed count Mar 2026</td>
+        <td class="num">3,778</td>
+        <td>OJH Q1 2026 investor update (page 2); down from 4,235 in Q1 2025 (−10.8% rationalization)</td>
+        <td><span class="badge ok">Match</span></td>
+      </tr>
+      <tr class="match">
+        <td>Avg price/bed/month</td>
+        <td class="num">$1,569</td>
+        <td>OJH Q1 2026 update; +14.9% YoY; consistent with NYC co-living comp range $1,400-$2,000/bed</td>
+        <td><span class="badge ok">Match</span></td>
+      </tr>
+      <tr class="warn">
+        <td>Occupancy</td>
+        <td class="num">83.7%</td>
+        <td>OJH actual; below 85% threshold where master-lease economics flip negative; budget was 87.0% (missed by 3.3 pp)</td>
+        <td><span class="badge flag">Below break-even</span></td>
+      </tr>
+      <tr class="fail">
+        <td>EBITDA T12</td>
+        <td class="num">($925K)</td>
+        <td>OJH T12 P&L. Net loss T12 ($3.33M). FY2026 budget projects +$2.57M EBITDA but is internal forecast, not actuals</td>
+        <td><span class="badge dead">Negative</span></td>
+      </tr>
+      <tr class="fail">
+        <td>Pre-merger June Homes 2023 EBITDA</td>
+        <td class="num">($3.94M)</td>
+        <td>June Homes US, Inc. P&L by month 2023 — Gross Revenue $49M, Net Revenue $12.5M, Corporate Expenses $11.4M, EBITDA ($3.94M), Net Loss ($8.03M)</td>
+        <td><span class="badge dead">Negative at scale</span></td>
+      </tr>
+      <tr class="warn">
+        <td>Staff cost as % of revenue</td>
+        <td class="num">42% T12</td>
+        <td>$5.40M staff cost on $12.98M revenue. Property-management benchmarks: 15-25%. Sustained 40%+ is structural overhead burden</td>
+        <td><span class="badge flag">High</span></td>
+      </tr>
+      <tr class="warn">
+        <td>Acquisition multiple paid by Outpost for failing competitors</td>
+        <td class="num">$0</td>
+        <td>Bedly (2019), Quarters NY (2021), Common NYC sites (2024): all absorbed via direct landlord re-contracting rather than asset purchase. Outpost competitive edge is operational landlord-relationship arbitrage, not premium acquisitions</td>
+        <td><span class="badge note">Structural edge</span></td>
+      </tr>
+      <tr class="warn">
+        <td>OJH post-merger valuation multiple</td>
+        <td class="num">~1.5× revenue</td>
+        <td>$100M post-money / $65M combined revenue at announce (Nov 2025). Below VC-era proptech (5-15× revenue) and below stable PM services (3-5× EBITDA on positive EBITDA — not applicable here)</td>
+        <td><span class="badge flag">Discount entry</span></td>
+      </tr>
+      <tr class="fail">
+        <td>Category exits at &gt;1× MoIC since 2018</td>
+        <td class="num">0</td>
+        <td>Zero verified VC exits at &gt;1× in master-lease format. June Homes investors took ~1.0× paper at best in the OJH merger (illiquid, in unproven combined entity)</td>
+        <td><span class="badge dead">No precedent</span></td>
+      </tr>
+      <tr class="warn">
+        <td>Federal mandate / recurring tailwind</td>
+        <td class="num">None</td>
+        <td>No federal demand support; competing with traditional apartments, hotels, Airbnb, dorms. Macro factors (housing affordability) cited but every failed operator cited the same factors</td>
+        <td><span class="badge flag">No structural demand floor</span></td>
+      </tr>
+    </tbody>
+  </table>
+
+  <h2>What would have to be true for this to work</h2>
+  <div class="thesis-grid">
+    <div class="thesis-card amber">
+      <h4>🟡 Conditions that could make a selective play investable</h4>
+      <ul>
+        <li>Pure <strong>fee-based property management</strong> growth (the 13% PM revenue line), not the 75% master-lease portfolio</li>
+        <li><strong>Asset-light pivot</strong> like Bungalow attempted — operator becomes marketplace/management layer, landlords retain lease</li>
+        <li>Workforce / corporate housing contracts with creditworthy tenant counterparties (large employer master agreements) replacing transient room-by-room demand</li>
+        <li>Geographic concentration in markets with structural housing shortage AND no SRO/zoning enforcement risk</li>
+        <li>Conservative valuation at &lt;1× revenue acknowledging category history</li>
+        <li>Capital structure that survives a 15-pp occupancy drop without insolvency</li>
+      </ul>
+    </div>
+    <div class="thesis-card red">
+      <h4>❌ Conditions that confirm Pass verdict</h4>
+      <ul>
+        <li>Lease tail on existing master-lease portfolio creates years of fixed obligation regardless of operational performance</li>
+        <li>FY2026 EBITDA-positive forecast is budget; T12 actuals trend negative; pre-merger June Homes also negative at 4× larger scale</li>
+        <li>No exit comparable above 1× MoIC in 7 years of category history</li>
+        <li>Strategic acquirer pool effectively zero — residential REITs do not buy operating businesses, hotel chains have exited the category (Marriott terminating Sonder)</li>
+        <li>Roll-up math does not work: tuck-in candidates are all dead or distressed; surviving operators in the category number in the single digits and are not for sale at reasonable multiples</li>
+      </ul>
+    </div>
+  </div>
+
+  <h2>Roll-up math comparison</h2>
+  <p>Standard roll-up math relies on entry multiples lower than exit multiples (M arbitrage). For master-lease co-living, this fails on both ends:</p>
+
+  <div class="stat-grid">
+    <div class="stat-tile">
+      <div class="stat-label">Entry multiple</div>
+      <div class="stat-value">~0×</div>
+      <div class="stat-delta">Failed competitors absorbed for free via landlord re-contracting; no premium paid</div>
+    </div>
+    <div class="stat-tile">
+      <div class="stat-label">Exit multiple</div>
+      <div class="stat-value">1-1.5×</div>
+      <div class="stat-delta">Revenue basis only. June Homes/Outpost merger at 1.5× revenue is the most recent data point</div>
+    </div>
+    <div class="stat-tile">
+      <div class="stat-label">Strategic acquirer pool</div>
+      <div class="stat-value">~0</div>
+      <div class="stat-delta">REITs don't buy operators; hotels exiting category; Marriott terminated Sonder Nov 2025</div>
+    </div>
+    <div class="stat-tile">
+      <div class="stat-label">Cumulative VC capital destroyed</div>
+      <div class="stat-value">$1.5B+</div>
+      <div class="stat-delta">Across 10 dead operators since 2018</div>
+    </div>
+  </div>
+
+  <h2>Final thesis</h2>
+  <div class="conclusion-card">
+    <p style="color:#ffe8d6;font-size:14.5px;margin:0">
+      <strong>The 4-digit aggregate (5311 Lessors of Real Estate) is Strong because of asset ownership — traditional landlords own the real estate, earn rent, capture appreciation, and trade on cap rates with a hard-asset floor.</strong> Master-lease co-living operators within 531110 lose that structural floor: they sign the lease but never own the asset. The 10-year experiment with this model has resulted in near-100% mortality among VC-backed operators — Sonder, Selina, Common, The Collective, Quarters, Starcity, HubHaus, WeLive, Bedly, Roam all dead or in Ch.7 wind-down. Cumulative capital destroyed exceeds $1.5B. Only PadSplit has survived, and only because it operates a different model (marketplace where landlords retain the lease). OJH Holdings — the post-merger Outpost + June Homes entity — is the most rational consolidator left in the category, taking failing competitors' books at zero acquisition cost via direct landlord re-contracting. But the combined entity is still EBITDA-negative ($925K T12), the FY2026 break-even forecast is internal budget not actuals, and pre-merger June Homes was EBITDA-negative at 4× larger scale. The sub-segment scores Pass not because Outpost's execution is poor, but because the operating model itself has been disproven over 10 years and the strategic exit market has been hollowed out by the category's own bankruptcies.
+    </p>
+  </div>
+
+  <h2>Primary sources</h2>
+  <div class="source-list">
+    <strong>NAICS structure:</strong> <a href="https://www.census.gov/naics/">US Census 2022 NAICS manual</a> — 5311 contains 531110, 531120, 531130, 531190<br>
+    <strong>OJH company data:</strong> Q1 2026 Investor Update (OJH Holding, Sergii Starostin); June Homes US Inc. P&L by Month 2023-2024<br>
+    <strong>Outpost / June Homes merger:</strong> <a href="https://www.businesswire.com/news/home/20251124028242/en/Outpost-Merges-with-June-Homes-Becoming-Largest-Coliving-Operator-in-U.S.">Business Wire Nov 24, 2025</a><br>
+    <strong>Outpost Series A:</strong> <a href="https://www.prnewswire.com/news-releases/real-estate-management-company-outpost-club-grows-30-as-demand-for-shared-flexible-housing-increases-302066869.html">PR Newswire Feb 2024</a> · GreenPoint Partners + Speedwagon Capital, $12.5M<br>
+    <strong>June Homes SoftBank rounds:</strong> <a href="https://techcrunch.com/2021/09/22/softbank-and-demi-lovato-back-june-homes-a-proptech-startup-emerging-from-stealth-with-50m-in-funding/">TechCrunch Sept 2021</a><br>
+    <strong>Sonder Chapter 7:</strong> <a href="https://investors.sonder.com/news-releases/news-release-details/sonder-holdings-inc-complete-immediate-wind-down-operations">SOND IR wind-down release Nov 2025</a> · <a href="https://www.bisnow.com/national/news/hotel/sonder-immediately-ending-operations-131811">Bisnow Nov 2025</a><br>
+    <strong>Selina insolvency:</strong> <a href="https://www.calcalistech.com/ctechnews/article/hktud2qg0">Ctech "$1.2B to $12M"</a> · <a href="https://www.ithic.it/collective-hospitality-acquires-selina/">Collective Hospitality acquires Selina</a><br>
+    <strong>Common Chapter 7:</strong> <a href="https://commercialobserver.com/2024/06/common-living-files-bankruptcy/">Commercial Observer Jun 3, 2024</a> · <a href="https://fortune.com/2024/06/10/common-living-coliving-apartments-housing-shortage/">Fortune Jun 10, 2024</a><br>
+    <strong>The Collective administration:</strong> <a href="https://www.bloomberg.com/news/articles/2021-09-16/the-collective-collapses-as-co-living-firm-fails-to-find-a-buyer">Bloomberg Sept 2021</a> · <a href="https://find-and-update.company-information.service.gov.uk/company/12441000/insolvency">UK Companies House #12441000</a><br>
+    <strong>Quarters US Ch.7:</strong> <a href="https://therealdeal.com/2021/01/18/quarters-the-wework-of-co-living-files-for-bankruptcy/">The Real Deal Jan 2021</a><br>
+    <strong>HubHaus shutdown:</strong> <a href="https://missionlocal.org/2020/09/hubhaus-out-of-business/">Mission Local Sept 2020</a><br>
+    <strong>WeLive closure:</strong> <a href="https://www.bisnow.com/national/news/multifamily/wework-has-officially-pulled-the-plug-on-welive-109630">Bisnow</a><br>
+    <strong>PadSplit (survivor with different model):</strong> <a href="https://techcrunch.com/2024/01/30/padsplit-a-marketplace-for-affordable-shared-housing-surpasses-10k-units/">TechCrunch Jan 2024</a> · <a href="https://www.crunchbase.com/organization/padsplit">Crunchbase</a><br>
+    <strong>Bungalow pivot + tenant complaints:</strong> <a href="https://therealdeal.com/new-york/2022/09/14/residents-accuse-co-living-startup-bungalow-of-housing-scam/">The Real Deal Sept 2022</a><br>
+    <strong>Roam founder candid quote:</strong> <a href="https://www.roam.co/">Roam.co</a> — "leasing buildings in expensive cities and running them at a loss backed by speculative capital was not a sustainable long-term business model"<br>
+    <strong>Why master-lease economics don't work:</strong> <a href="https://levels.io/coliving-economics/">Pieter Levels — Coliving economics</a> · <a href="https://www.withersworldwide.com/en-gb/insight/read/business-model-of-co-using-spaces-and-risks">Withers Worldwide legal analysis</a> · <a href="https://www.diva-portal.org/smash/get/diva2:1882137/FULLTEXT01.pdf">Diva-Portal academic study</a><br>
+    <strong>Residential REIT context (not comparable):</strong> AvalonBay (AVB) + Equity Residential (EQR) <a href="https://www.bloomberg.com/news/articles/2026-05-21/avalonbay-equity-residential-agree-to-combine-in-all-stock-deal">$69B merger May 2026</a> — these own the underlying real estate; not analogous to master-lease operators
+  </div>
+
+</div>
+</body>
+</html>
