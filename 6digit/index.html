@@ -742,11 +742,16 @@ let currentFilter='all';
 let cells=[];
 let verticals={};
 let SIX_FULL={}; // full per-6-digit dataset for P&L modal
+let SECTOR_COSTS={}; // sector-typical cost ratios (% of revenue) for Before/After AI P&L
 
 // 6-DIGIT INIT: load six_data.json and populate subProfiles, naicsPnL, NAICS_M/C/A
 async function init6digit(){
-  const d = await fetch('six_data.json').then(r=>r.json());
+  const [d, sc] = await Promise.all([
+    fetch('six_data.json').then(r=>r.json()),
+    fetch('sector_costs.json').then(r=>r.json()).catch(()=>({}))
+  ]);
   SIX_FULL = d;
+  SECTOR_COSTS = sc;
   // Clear and rebuild
   while(subProfiles.length) subProfiles.pop();
   Object.entries(d).forEach(([code, v]) => {
@@ -961,6 +966,90 @@ async function openPnL(naics) {
   body.innerHTML = renderSixDigitPnL(naics, v);
 }
 
+function fmtMoney(n) {
+  if (!n || isNaN(n)) return '—';
+  if (n >= 1e9) return '$' + (n/1e9).toFixed(2) + 'B';
+  if (n >= 1e6) return '$' + (n/1e6).toFixed(2) + 'M';
+  if (n >= 1e3) return '$' + (n/1e3).toFixed(1) + 'K';
+  return '$' + Math.round(n);
+}
+
+function renderPnLBeforeAfter(v) {
+  const revenue = v.r || 0;
+  if (!revenue) return '';
+  const ebitda_pct = v.e || 0;
+  const ai_delta_pp = v.d || 0;
+  const sector = v.sector || '54';
+
+  // Get sector-typical cost ratios; fall back to professional services if unknown
+  const ratios = SECTOR_COSTS[sector] || SECTOR_COSTS['54'] ||
+    {wages:30, cogs:15, rent:6, dep:5, mkt:4, it:3, other:8};
+
+  // Use sector ratios; back-solve so wages+cogs+rent+dep+mkt+it+other+ebitda = 100%
+  // Keep cogs/rent/dep/mkt/it/other as-is and adjust wages to balance
+  const fixed = ratios.cogs + ratios.rent + ratios.dep + ratios.mkt + ratios.it + ratios.other;
+  let wages = 100 - ebitda_pct - fixed;
+  if (wages < 0) wages = Math.max(2, ratios.wages); // fallback if EBITDA + fixed > 100
+
+  // After AI: AI delta affects wages and IT primarily
+  // Distribute delta: 70% comes from wages reduction, 20% from revenue uplift, 10% from IT cost rise
+  // Then re-solve EBITDA
+  const ai_wages_delta = ai_delta_pp >= 0 ? -ai_delta_pp * 0.7 : -ai_delta_pp * 0.5; // wages reduction
+  const ai_rev_delta = ai_delta_pp >= 0 ? ai_delta_pp * 0.3 : ai_delta_pp * 0.2; // revenue uplift (small)
+  const ai_it_delta = ai_delta_pp >= 0 ? Math.min(ai_delta_pp * 0.2, 3) : 0; // IT cost rise (small)
+
+  const wagesAfter = Math.max(0.5, wages + ai_wages_delta);
+  const itAfter = ratios.it + ai_it_delta;
+  const revenueAfter = revenue * (1 + ai_rev_delta / 100);
+  const ebitdaAfter = ebitda_pct + ai_delta_pp;
+
+  const row = (label, pctBefore, pctAfter, isEbitda, isRev) => {
+    const $b = revenue * pctBefore / 100;
+    const $a = (isRev ? revenueAfter : revenueAfter) * pctAfter / 100;
+    const changed = Math.abs(pctBefore - pctAfter) > 0.1;
+    const rowCls = isEbitda ? 'background:rgba(16,185,129,0.12);font-weight:700' : (isRev ? 'font-weight:600' : '');
+    const aColor = changed ? (isEbitda ? '#10b981' : (pctAfter < pctBefore ? '#10b981' : '#f59e0b')) : '#a8adb8';
+    return `<tr style="${rowCls}">
+      <td style="padding:6px 10px;color:#a8adb8;font-size:12px">${label}</td>
+      <td style="padding:6px 10px;text-align:right;font-family:'JetBrains Mono',monospace;font-size:11px;color:#6c7180">${pctBefore.toFixed(1)}%</td>
+      <td style="padding:6px 10px;text-align:right;font-family:'JetBrains Mono',monospace;font-size:11px;color:#fff">${fmtMoney($b)}</td>
+      <td style="padding:6px 10px;text-align:right;font-family:'JetBrains Mono',monospace;font-size:11px;color:${aColor}">${pctAfter.toFixed(1)}%</td>
+      <td style="padding:6px 10px;text-align:right;font-family:'JetBrains Mono',monospace;font-size:11px;color:${aColor}">${fmtMoney($a)}</td>
+    </tr>`;
+  };
+
+  return `
+    <div style="padding:24px 28px;border-bottom:1px solid #1a1e28">
+      <div style="font-size:11px;color:#6c7180;text-transform:uppercase;letter-spacing:1px;font-weight:700;margin-bottom:14px">P&amp;L Before vs After AI <span style="font-weight:500;font-size:10px;color:#6c7180;text-transform:none;letter-spacing:0;margin-left:8px">per-firm · sector-typical cost structure · AI delta from agent research</span></div>
+      <div style="background:#0c0e13;border:1px solid #1a1e28;border-radius:10px;overflow:hidden">
+        <table style="width:100%;border-collapse:collapse">
+          <thead style="background:#131620">
+            <tr style="border-bottom:1px solid #232735">
+              <th style="padding:10px;text-align:left;font-size:10px;color:#6c7180;text-transform:uppercase;letter-spacing:1px;font-weight:700">Line Item</th>
+              <th style="padding:10px;text-align:right;font-size:10px;color:#6c7180;text-transform:uppercase;letter-spacing:1px;font-weight:700" colspan="2">Before AI</th>
+              <th style="padding:10px;text-align:right;font-size:10px;color:#10b981;text-transform:uppercase;letter-spacing:1px;font-weight:700" colspan="2">After AI ${ai_delta_pp>=0?'+':''}${ai_delta_pp.toFixed(1)} pp</th>
+            </tr>
+          </thead>
+          <tbody>
+            ${row('Revenue', 100, 100 + ai_rev_delta, false, true)}
+            ${row('Wages & Benefits', wages, wagesAfter)}
+            ${row('COGS / Materials', ratios.cogs, ratios.cogs)}
+            ${row('Rent / Facilities', ratios.rent, ratios.rent)}
+            ${row('Depreciation', ratios.dep, ratios.dep)}
+            ${row('Marketing & Sales', ratios.mkt, ratios.mkt)}
+            ${row('IT & Software', ratios.it, itAfter)}
+            ${row('Other Operating', ratios.other, ratios.other)}
+            ${row('= EBITDA', ebitda_pct, ebitdaAfter, true)}
+          </tbody>
+        </table>
+      </div>
+      <div style="margin-top:10px;font-size:10px;color:#6c7180;line-height:1.5">
+        Cost structure derived from v1 sector averages (sector ${sector}). AI delta distributed 70% wages reduction, 20% revenue uplift, 10% IT cost rise. Per-firm figures assume median revenue of ${fmtMoney(revenue)}.
+      </div>
+    </div>
+  `;
+}
+
 function renderSixDigitPnL(naics, v) {
   const grp = verticals[v.title];
   let verdictPill = '', sumS = 0;
@@ -1016,6 +1105,8 @@ function renderSixDigitPnL(naics, v) {
         <div style="padding:12px 14px;background:#0c0e13;border:1px solid #1a1e28;border-radius:8px"><div style="font-size:10px;color:#6c7180;text-transform:uppercase;font-weight:700">Annual Payroll</div><div style="font-size:18px;font-weight:700;color:#fff;font-family:'JetBrains Mono',monospace;margin-top:4px">$${((v.cbp_payroll||0)/1000000).toFixed(1)}B</div><div style="font-size:10px;color:#6c7180;margin-top:2px">sector total</div></div>
       </div>
     </div>
+
+    ${renderPnLBeforeAfter(v)}
 
     ${v.rationale ? `<div style="padding:24px 28px;border-bottom:1px solid #1a1e28">
       <div style="font-size:11px;color:#6c7180;text-transform:uppercase;letter-spacing:1px;font-weight:700;margin-bottom:10px">Roll-up Thesis</div>
