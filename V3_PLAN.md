@@ -46,8 +46,8 @@ Sequencing has two deliberate inversions: the build/check script (Phase 2) is bu
 
 ## Phase 3 — Prompt generation (Stage 2) · ~½ day for sector 54
 
-- [ ] 3.1 Meta-prompt for the best model producing per-code blocks: role structure for V, suggested primary sources, capture questions for C, terminal-value question, known traps. **Null-handling rule (from the phase 1–2 review):** when a dataset input is `null` (84 labor_share, 181 n_band data gaps), the generated prompt must instruct the run to research that input itself, show the chain, and mark it ESTIMATE — a documented exception to "dataset inputs are never researched"
-- [ ] 3.2 Regenerate sector-54 prompts under template v3, dataset inputs embedded → `pipeline/prompts/`
+- [x] 3.1 Meta-prompt for the best model producing per-code blocks — `pipeline/template/blocks_meta_prompt_v3.md` + deterministic `pipeline/build/assemble_prompts.py` (validates shape, placeholders, byte-determinism) + `pipeline/blocks/targets_phase3.json` (63 codes: 49× sector 54 + 14 non-54 golden). **Null-handling rule (from the phase 1–2 review):** when a dataset input is `null` (84 labor_share, 181 n_band data gaps), the generated prompt must instruct the run to research that input itself, show the chain, and mark it ESTIMATE — a documented exception to "dataset inputs are never researched"
+- [x] 3.2 63 blocks written by 5 parallel best-model agents (golden codes with extra rigor; dataset oddities encoded in special_notes; unverified sources flagged `uncertain_exists`) → assembled + validated: 63/63 prompts in `pipeline/prompts/`, `--check` green, runtime placeholders intact
 
 **Deliverable:** v3 prompts for sector 54. **Done when:** each prompt validates against the template (all placeholders filled, dataset inputs present).
 
