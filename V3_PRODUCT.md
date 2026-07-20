@@ -191,9 +191,9 @@ Resolved 2026-07-20:
 3. **P&L card** — decided: dropped for the v3 launch (broken v2 math, inputs not in the v3 schema; EBITDA-uplift economics survive as cross-check 1). May return later derived from datasets.
 4. **v1 (4-digit) page** — decided: archived live with a "superseded by v3" banner.
 
-Still open:
+5. **Golden set membership** — decided: the 20-code list (12 winners, 5 melters, 3 controls) in `pipeline/golden/golden_set.json`, approved as v1.0.
 
-5. **Golden set membership** — draft of 20 codes (12 winners, 5 melters, 3 controls) in `pipeline/golden/golden_set.json`, awaiting sign-off.
+All §9 decisions are resolved; the Stage-0 freeze is tagged (`v3.0-freeze`).
 
 ---
 

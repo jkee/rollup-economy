@@ -13,16 +13,16 @@ Sequencing has two deliberate inversions: the build/check script (Phase 2) is bu
 
 - [x] 0.1 Create `pipeline/` skeleton (`template/ datasets/ blocks/ prompts/ runs/ golden/ review/ build/`)
 - [x] 0.2 Move prototypes into the repo so they're git-tracked: `../prompt_template_v2.md`, `../prompts_54/` (12 prompts + `blocks_batch1.json`), `../results_54/541330.json` (copied in; originals in `../` can be deleted after commit)
-- [~] 0.3 Decide §9 items (owner: Victor):
+- [x] 0.3 Decide §9 items (owner: Victor):
   - [x] cut values & factor floors — decided 2026-07-20: **Hell-Yes S ≥ 7.0, every factor ≥ 6.0** (stricter option); Strong ≥ 5.5; Conditional ≥ 4.0; Pass ≥ 3.0; KILL below or any factor < 1.0
   - [x] C composition — decided: **folded** (C = 10 × π_dist × π_moat, pricing deflation reflected in π_dist with mechanism stated)
-  - [~] golden-set membership — draft of 20 codes in `pipeline/golden/golden_set.json`, awaiting sign-off
+  - [x] golden-set membership — approved 2026-07-20: 20 codes (12 winners, 5 melters, 3 controls) in `pipeline/golden/golden_set.json` v1.0
   - [x] P&L card — decided: **drop for launch**; may return later derived from datasets
   - [x] v1 (4-digit) page — decided: **archive live with a "superseded by v3" banner**
 - [x] 0.4 Write `pipeline/template/prompt_template_v3.md` from v2. Changes: floats end-to-end (no `round()` in factor formulas); PD removed from B; output additions — overall confidence, per-source access dates, `heterogeneous` flag, run-metadata block; dataset inputs marked "provided — do not research"; judgment inputs explicitly labeled as declared opinions
 - [x] 0.5 JSON Schemas: run record + review record (`pipeline/build/schemas/`)
 - [x] 0.6 `pipeline/build/thresholds.json` — single source for cuts, floors, gates, borderline ε; consumed by build and generated docs (P8). Decided values applied
-- [ ] 0.7 Freeze: version-tag template + schemas + thresholds (P4) — **blocked only on golden-set sign-off**. After this point rubric changes = new version + full re-run
+- [x] 0.7 Freeze: tagged `v3.0-freeze` 2026-07-20 — template 3.0, schemas, thresholds (frozen: true), golden set v1.0. After this point rubric changes = new version + full re-run
 
 **Deliverable:** frozen v3 rubric in-repo. **Done when:** tag exists and §9 has no open items.
 

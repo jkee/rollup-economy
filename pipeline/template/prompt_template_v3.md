@@ -1,6 +1,6 @@
 # Score one industry for an AI roll-up screen — NAICS {{NAICS}}, {{TITLE}} (US)
 
-**Template version: 3.0-draft** (becomes 3.0 at the Stage-0 freeze; see `V3_PRODUCT.md`)
+**Template version: 3.0** — frozen 2026-07-20. Changes require a version bump and a full re-run (`V3_PRODUCT.md` P4).
 
 You are scoring a single industry. Work context-free: do NOT look up any existing roll-up scoring of this industry (including anything on lisaivanchikova.github.io or similar maps). If you cannot access the web, stop and say so — do not proceed from memory alone, and never fabricate sources or URLs.
 
