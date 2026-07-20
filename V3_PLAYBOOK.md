@@ -74,7 +74,7 @@ Final provenance and reliability are separate:
 
 `NONE` means no referenced evidence facts; an ESTIMATE may still cite background facts, in which case their reliability is stated separately and only the atomic quoted facts are attributed to them.
 
-### v3.1.1 mechanical guarantees (prompt layer cold-reviewed; prompt freeze pending)
+### v3.1.1 mechanical guarantees (prompt layer cold-reviewed; 63 prompts assembled; freeze checkpoint pending)
 
 Frozen v3.1 records remain valid and are not migrated in place. The v3.1.1 mechanical contract is versioned separately:
 

@@ -1,6 +1,6 @@
 # AI Value Migration Map — v3: Product Goal & Principles (proposal)
 
-**Status:** active constitution; v3.1 five-record canary completed and failed fleet-readiness; v3.1.1 prompt/mechanical contract implemented and cold-reviewed 2026-07-21, with deterministic prompt freeze and a new canary still pending
+**Status:** active constitution; v3.1 five-record canary completed and failed fleet-readiness; v3.1.1 prompt/mechanical contract implemented, cold-reviewed and assembled 63/63 on 2026-07-21, with the prompt-freeze checkpoint and new canary still pending
 **Replaces:** the project description in `README.md` and the Methodology tab in `6digit/index.html`. Diff against the current (v2) description is in §8. File:line references are as of commit `1bd26e0`.
 
 ---
