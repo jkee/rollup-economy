@@ -1,0 +1,97 @@
+{
+  "naics": "541921",
+  "run_id": "fleet-s2-541921",
+  "review_meta": {
+    "model_id": "Sol",
+    "review_date": "2026-07-20",
+    "prompt_version": "validator-3.0"
+  },
+  "verdict": "wrong",
+  "checks": {
+    "sources_exist": {
+      "pass": true,
+      "note": "All 7 canonical URL occurrences resolve to accessible pages: the PitchBook homepage, BizBuySell Insight Report, PPA homepage, and McKinsey article. Resolution does not imply claim support; six occurrences point only to generic pages."
+    },
+    "figures_match_sources": {
+      "pass": false,
+      "note": "Only the McKinsey quote (more than half over 55 and one in four 65+) matches. PPA's homepage contains none of the claimed adoption, historical-transition, or billing-mix figures; PitchBook's homepage contains no portrait-studio consolidator result; and the current BizBuySell page contains neither the cited 2.57x 2024 figure nor photography-specific EBITDA evidence, while it provides no basis at all for the 5.5x exit estimate."
+    },
+    "judgment_inputs_plausible": {
+      "pass": false,
+      "note": "Most role fractions are bounded and directionally sensible, though the 50% automation assumption for the unobserved 17.62% residual is weak. More importantly, t50_years=2.5 is internally inconsistent: its own derivation says a 5-6 year timeline from 2020-2021 implies t50 in 2023-2024 and already past, while also projecting late 2028. pi_dist and pi_moat depend on unsupported segment shares and pricing claims."
+    },
+    "rubric_consistent": {
+      "pass": false,
+      "note": "The ESTIMATE_HEAVY and LOW_CONFIDENCE flags remain unresolved, and the BORDERLINE flag is material because S is only 0.1012 below the pass cut. The terminal discussion concludes the dominant revenue-weighted scenario is PRESSURED, then assigns MELTING because the prompt calls the code a melter anchor and because targets are scarce; neither scarcity nor an anchor instruction is a valid substitute for the terminal-demand classification. Within-tolerance arithmetic deltas do not resolve these input defects."
+    },
+    "cross_checks_honest": {
+      "pass": false,
+      "note": "The no-proxy statement is structurally responsive, but uplift says photographer post-production automation is well documented without an auditable supporting URL. The terminal cross-check contradicts its own segment aggregation, and pricing deflation presents an unsupported 50%/35%/15% mix and district RFP pass-through mechanism as facts."
+    }
+  },
+  "source_audits": [
+    {
+      "input_path": "inputs.active_consolidators.url",
+      "url": "https://pitchbook.com",
+      "resolves": true,
+      "claim_supported": false,
+      "note": "This is PitchBook's general homepage. It describes private-market datasets but contains no search result, transaction list, or portrait-studio evidence establishing zero PE-backed 541921 platforms active in 2024-2025."
+    },
+    {
+      "input_path": "inputs.buy_mult.url",
+      "url": "https://www.bizbuysell.com/insight-report/",
+      "resolves": true,
+      "claim_supported": false,
+      "note": "The live Insight Report is a general small-business page and currently reports a 2.7x average cash-flow multiple for Q2 2026. It does not show the quoted 2.57x 2024 figure on the cited page, photography-specific transactions, a 3.5x EV/EBITDA estimate, or the asserted $75-100K owner replacement-cost normalization."
+    },
+    {
+      "input_path": "inputs.current_adoption_pct.url",
+      "url": "https://www.ppa.com",
+      "resolves": true,
+      "claim_supported": false,
+      "note": "PPA's homepage identifies the association and its resources but provides no survey or statistic supporting 35% material AI culling/editing adoption among active portrait photographers, nor the cited Imagen or Aftershoot usage basis."
+    },
+    {
+      "input_path": "inputs.exit_mult.url",
+      "url": "https://www.bizbuysell.com/insight-report/",
+      "resolves": true,
+      "claim_supported": false,
+      "note": "The general main-street transaction report contains no evidence for a 5.5x EV/EBITDA multiple for a $10M+ EBITDA volume-photography platform, school/sports contract comparability, or a platform exit transaction. The record expressly says no specific 541921 transaction data were found."
+    },
+    {
+      "input_path": "inputs.historical_analogs.url",
+      "url": "https://www.ppa.com",
+      "resolves": true,
+      "claim_supported": false,
+      "note": "The PPA homepage contains no evidence that professional photography moved from film to digital in 7-8 years, that Lightroom/cloud-gallery tools reached 50% in 4-6 years, or that Imagen and Aftershoot launched in 2020-2021."
+    },
+    {
+      "input_path": "inputs.owners_60plus_pct.url",
+      "url": "https://www.mckinsey.com/institute-for-economic-mobility/our-insights/the-great-ownership-transfer-a-new-era-of-business-stewardship",
+      "resolves": true,
+      "claim_supported": true,
+      "note": "The article states that more than half of US small-business owners are over 55 and one in four is 65 or older, matching the quoted general benchmark. The run appropriately labels its photography-specific 38% age-60+ extrapolation ESTIMATE."
+    },
+    {
+      "input_path": "inputs.pricing_structure.url",
+      "url": "https://www.ppa.com",
+      "resolves": true,
+      "claim_supported": false,
+      "note": "PPA's homepage provides no evidence for the recorded 50% retail portrait, 35% school, and 15% sports/graduation revenue mix, per-child district RFP pricing, pass-through of AI savings, or retained IPS print margins."
+    }
+  ],
+  "reasons": [
+    "At inputs.current_adoption_pct.url (https://www.ppa.com), replace the generic homepage with an accessible PPA or other industry survey measuring material AI workflow adoption among US portrait studios; then reconcile inputs.t50_years, whose derivation simultaneously says the 50% point was in 2023-2024 and will be in late 2028.",
+    "At inputs.historical_analogs.url (https://www.ppa.com), cite accessible evidence for the film-to-digital and software-tool time-to-50% analogs and launch dates rather than attaching unsupported industry-memory estimates to a homepage.",
+    "At inputs.active_consolidators.url (https://pitchbook.com), provide an auditable search result or named-platform/deal set covering the last 24 months; a database homepage cannot substantiate a zero count.",
+    "At inputs.buy_mult.url and inputs.exit_mult.url (https://www.bizbuysell.com/insight-report/), provide photography-specific transaction evidence and explicit EBITDA-after-market-owner-comp normalization for both size tiers; general SDE data cannot establish 3.5x buy or 5.5x exit EV/EBITDA.",
+    "At inputs.pricing_structure.url (https://www.ppa.com), provide a source for the 50%/35%/15% segment mix and the stated session, package, and district-RFP economics, then reassess inputs.pi_dist, inputs.pi_moat, and the pricing-deflation cross-check.",
+    "At cross_checks.terminal_value.class, apply the frozen terminal-demand definition to the record's own segment evidence: the justification says the dominant revenue-weighted outcome is PRESSURED but selects MELTING based on the prompt's anchor wording and target scarcity. Correct the contradiction using supported segment shares without treating n_band as terminal-value evidence."
+  ],
+  "flags_reviewed": [
+    "LOW_CONFIDENCE",
+    "BORDERLINE: |S - pass cut 3.00| = 0.1012",
+    "ESTIMATE_HEAVY: 5 inputs with quality ESTIMATE (buy_mult, current_adoption_pct, exit_mult, owners_60plus_pct, t50_years)",
+    "ARITH_DELTA_WITHIN_TOL: nonzero stored-vs-recomputed deltas on B, M, S, V"
+  ]
+}

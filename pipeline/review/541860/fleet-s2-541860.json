@@ -1,0 +1,96 @@
+{
+  "naics": "541860",
+  "run_id": "fleet-s2-541860",
+  "review_meta": {
+    "model_id": "Sol",
+    "review_date": "2026-07-20",
+    "prompt_version": "validator-3.0"
+  },
+  "verdict": "wrong",
+  "checks": {
+    "sources_exist": {
+      "pass": true,
+      "note": "All seven canonical URL occurrences resolved, including the repeated Target Report URL at two distinct input paths."
+    },
+    "figures_match_sources": {
+      "pass": false,
+      "note": "Only the Peak generic printing EBITDA range is directly supported. The adoption source contains no AI-adoption share, the analog source contains no measured 10-15-year transition, the consolidator article does not support the stated count and is stale, the exit page omits asserted benchmarks and supports only 5.5-6.5x for strong direct-mail operations, the succession evidence is from 2020 and does not support the owner percentage, and USPS does not support the claimed pricing mix or 7.38% rate figure. ESTIMATE_HEAVY is therefore unresolved for current_adoption_pct, exit_mult, owners_60plus_pct, and t50_years."
+    },
+    "judgment_inputs_plausible": {
+      "pass": false,
+      "note": "pi_dist=0.30 and pi_moat=0.25 are directionally plausible for a competitively bid, low-moat physical mail product, but t50_years=8 rests on unsupported adoption inputs. The V construction also fails to re-weight the 5418 proxy: it retains the full 8.29% PR share and other agency-heavy creative/marketing shares while admitting those roles barely exist, inflating ai_replaceable_share relative to the production-heavy industry structure required by the prompt."
+    },
+    "rubric_consistent": {
+      "pass": false,
+      "note": "The deterministic dataset copy matches, and the assigned ARITH_DELTA_WITHIN_TOL flag on B and S is a minor stored-versus-recomputed difference rather than a standalone rejection. However, A uses M&A/operator-profile evidence for adoption despite the no-deal-proxy rule, B counts three consolidators without dated evidence of three PE-backed direct-mail platforms doing add-ons, and the multiple chains do not meet size and EBITDA-normalization requirements."
+    },
+    "cross_checks_honest": {
+      "pass": false,
+      "note": "The MELTING terminal discussion is candid and the uplift condition is correctly described, but no_proxy_confirmed is contradicted by current_adoption_pct: its cited basis is a print M&A report and named acquirer profiles. Pricing-model deflation asserts competitive sealed bids, postage exceeding 50% of campaign cost, and pass-through behavior not established by the USPS financial-results citation."
+    }
+  },
+  "source_audits": [
+    {
+      "input_path": "inputs.active_consolidators.url",
+      "url": "https://www.thetargetreport.com/2024/12/on-demand-print-merch-is-big-business.html",
+      "resolves": true,
+      "claim_supported": false,
+      "note": "The December 2024 article lists November 2024 printing transactions, including one direct-mail asset acquisition and PE activity mainly in print-on-demand, packaging, and labels. It does not report 25 transactions, 24 Mittera acquisitions, or establish three PE-backed direct-mail platforms active in the last 24 months; it is also older than the 12-month threshold."
+    },
+    {
+      "input_path": "inputs.buy_mult.url",
+      "url": "https://peakbusinessvaluation.com/printing-business-valuation-multiples/",
+      "resolves": true,
+      "claim_supported": true,
+      "note": "The page reports generic printing-business EBITDA multiples of 2.99x-3.93x and distinguishes SDE multiples. This directly supports the stated general benchmark and a roughly 4.0x estimate, though it is not specific to direct-mail firms or a disclosed median of closed band-sized transactions."
+    },
+    {
+      "input_path": "inputs.current_adoption_pct.url",
+      "url": "https://www.thetargetreport.com/2024/12/on-demand-print-merch-is-big-business.html",
+      "resolves": true,
+      "claim_supported": false,
+      "note": "The article is about November 2024 M&A in print-on-demand and related printing segments. It contains no survey or denominator for direct-mail firms materially using AI, no 15% adoption figure, and no evidence that roughly 250 of 1,652 firms are AI-enabled."
+    },
+    {
+      "input_path": "inputs.exit_mult.url",
+      "url": "https://ctacquisitions.com/printing-business-valuation/",
+      "resolves": true,
+      "claim_supported": false,
+      "note": "The updated June 2026 page reports 5.5x-6.5x for direct mail/variable-data with strong recurring marketing-services pull-through and 5.5x-7x generally for marketing-services pull-through. It does not contain the claimed GF Data 7.2x-7.5x benchmark or Mittera 6x-8x estimate, and it does not establish 7.0x for a $10M-plus EBITDA direct-mail platform."
+    },
+    {
+      "input_path": "inputs.historical_analogs.url",
+      "url": "https://www.piworld.com/article/state-of-ma-market-commercial-printing-industry/",
+      "resolves": true,
+      "claim_supported": false,
+      "note": "This July 2022 article addresses commercial-printing M&A, distress, costs, and buyer preferences. It says traditional forms face conversion to digital and mentions investments in digital printing, but gives no offset-to-digital adoption series, no 2000-2015 interval, and no 10-15-year time to majority adoption."
+    },
+    {
+      "input_path": "inputs.owners_60plus_pct.url",
+      "url": "https://www.piworld.com/article/succession-planning-where-do-printers-stand/",
+      "resolves": true,
+      "claim_supported": false,
+      "note": "The February 2020 article supports that succession-planning deficiencies were described as almost ubiquitous among closely held small/midsize commercial printers and mentions owners in their late 70s and 80s. It is stale, does not measure age-60-plus ownership, does not support 60%, and does not specifically isolate NAICS 541860."
+    },
+    {
+      "input_path": "inputs.pricing_structure.url",
+      "url": "https://about.usps.com/newsroom/national-releases/2025/1114-usps-reports-fiscal-year-2025-results.htm",
+      "resolves": true,
+      "claim_supported": false,
+      "note": "USPS supports FY2025 Marketing Mail revenue of $15.734B, volume of 56.756B pieces, a $350M revenue increase, and a 764M-piece decline. It does not state a 7.38% July rate increase, that postage exceeds 50% of campaign cost, per-piece sealed bidding, postage pass-through at cost, or zero operator capture leverage."
+    }
+  ],
+  "reasons": [
+    "At inputs.current_adoption_pct.url (https://www.thetargetreport.com/2024/12/on-demand-print-merch-is-big-business.html), replace M&A activity with a current survey or auditable firm-level research chain measuring material AI use in direct-mail automatable functions; the cited article cannot support value 0.15.",
+    "At inputs.historical_analogs.url (https://www.piworld.com/article/state-of-ma-market-commercial-printing-industry/), provide dated adoption observations with a consistent denominator showing the transition from initial offset/digital adoption to approximately 50%; the M&A article contains no 10-15-year technology-adoption benchmark and cannot support t50_years=8.",
+    "At inputs.active_consolidators.url (https://www.thetargetreport.com/2024/12/on-demand-print-merch-is-big-business.html), identify each counted PE-backed direct-mail platform and qualifying add-ons within the last 24 months. The stale broad-print transaction list does not establish value 3.",
+    "At inputs.exit_mult.url (https://ctacquisitions.com/printing-business-valuation/), provide $10M-plus EBITDA direct-mail platform transactions or normalized credible comps. The page's direct-mail range tops at 6.5x and does not support the additional benchmarks or exit_mult=7.0 as quoted.",
+    "At inputs.owners_60plus_pct.url (https://www.piworld.com/article/succession-planning-where-do-printers-stand/), replace the 2020 qualitative commercial-printing article with current evidence for the age-60-plus share and a 541860-relevant documented shortage before using 0.60 and the succession bonus.",
+    "At inputs.pricing_structure.url (https://about.usps.com/newsroom/national-releases/2025/1114-usps-reports-fiscal-year-2025-results.htm), source the actual billing mix, postage share, pass-through treatment, agency-intermediated share, and competitive bidding mechanism used to set pi_dist; USPS aggregate revenue and volume do not establish those claims.",
+    "At inputs.ai_replaceable_share.breakdown_by_role, re-weight the contaminated 4-digit 5418 occupation mix to the direct-mail structure specified in the prompt instead of retaining full PR, creative, and agency-management wage shares while also adding a production-heavy unlisted bucket; document the reconstructed shares before rerunning V."
+  ],
+  "flags_reviewed": [
+    "ESTIMATE_HEAVY: 4 inputs with quality ESTIMATE (current_adoption_pct, exit_mult, owners_60plus_pct, t50_years)",
+    "ARITH_DELTA_WITHIN_TOL: nonzero stored-vs-recomputed deltas on B, S"
+  ]
+}
