@@ -1,0 +1,303 @@
+{
+  "naics": "811192",
+  "title": "Car Washes",
+  "run_meta": {
+    "model_id": "claude-fable-5",
+    "run_date": "2026-07-20",
+    "run_id": "golden-f1-811192",
+    "template_version": "3.0",
+    "prompt_version": "p3-aff6579"
+  },
+  "dataset_inputs": {
+    "labor_share": {
+      "value": 0.4348,
+      "method": "QCEW 2024 private total annual wages at 811192 ($6,105,051,106) x benefits multiplier 1.4294 [ECEC private-industry total comp $46.60/hr / wages $32.60/hr = 1.4294 (March 2026 reference period)] / SUSB 2022 receipts at 811192 ($14,968,891,000). Vintage mismatch: 2024 wages over 2022 receipts, stated. Level: 6-digit. Harmonized to IPS basis ÷1.3407 (median of 65 dual-method codes).",
+      "sources": [
+        "BLS QCEW 2024 annual averages (US000, private)",
+        "BLS ECEC news release (raw/ecec.nr0.htm)",
+        "Census SUSB 2022 (receipts by NAICS)"
+      ],
+      "year": "2024 wages / 2022 receipts",
+      "quality": "MED"
+    },
+    "role_mix": {
+      "oews_level": "5-digit 81119",
+      "occupations": [
+        {
+          "soc": "53-7061",
+          "title": "Cleaners of Vehicles and Equipment",
+          "emp_share": 0.4654,
+          "wage_share": 0.3903
+        },
+        {
+          "soc": "53-6031",
+          "title": "Automotive and Watercraft Service Attendants",
+          "emp_share": 0.1198,
+          "wage_share": 0.1073
+        },
+        {
+          "soc": "49-3023",
+          "title": "Automotive Service Technicians and Mechanics",
+          "emp_share": 0.0874,
+          "wage_share": 0.0899
+        },
+        {
+          "soc": "53-1047",
+          "title": "First-Line Supervisors of Transportation and Material Moving Workers, Except Aircraft Cargo Handling Supervisors",
+          "emp_share": 0.0764,
+          "wage_share": 0.0947
+        },
+        {
+          "soc": "11-1021",
+          "title": "General and Operations Managers",
+          "emp_share": 0.0528,
+          "wage_share": 0.101
+        },
+        {
+          "soc": "41-2011",
+          "title": "Cashiers",
+          "emp_share": 0.0346,
+          "wage_share": 0.0298
+        },
+        {
+          "soc": "49-1011",
+          "title": "First-Line Supervisors of Mechanics, Installers, and Repairers",
+          "emp_share": 0.016,
+          "wage_share": 0.0233
+        },
+        {
+          "soc": "49-3093",
+          "title": "Tire Repairers and Changers",
+          "emp_share": 0.0146,
+          "wage_share": 0.0147
+        },
+        {
+          "soc": "43-4051",
+          "title": "Customer Service Representatives",
+          "emp_share": 0.0127,
+          "wage_share": 0.012
+        },
+        {
+          "soc": "43-9061",
+          "title": "Office Clerks, General",
+          "emp_share": 0.012,
+          "wage_share": 0.0127
+        }
+      ],
+      "quality": "MED"
+    },
+    "n_total": {
+      "value": 15675,
+      "source": "SUSB 2022 (firms, all enterprise sizes)",
+      "year": "2022",
+      "quality": "HIGH"
+    },
+    "n_band": {
+      "value": 186,
+      "derivation": "margin 0.1565 (margins.json[81]: Damodaran Jan 2026: Business & Consumer Services EBITDA/Sales 15.65%); revenue/employee $89,975 (SUSB 2022 receipts/employment at 811192); class <5: 9,362 firms, avg revenue/firm $236,758 (class receipts/firms), implied EBITDA $37,053 -> out of $1-10M band; class 5-9: 2,475 firms, avg revenue/firm $711,100 (class receipts/firms), implied EBITDA $111,287 -> out of $1-10M band; class 10-19: 2,110 firms, avg revenue/firm $1,148,854 (class receipts/firms), implied EBITDA $179,796 -> out of $1-10M band; class 20-99: 1,542 firms, avg revenue/firm $2,320,900 (class receipts/firms), implied EBITDA $363,221 -> out of $1-10M band; class 100-499: 124 firms, avg revenue/firm $10,254,500 (class receipts/firms), implied EBITDA $1,604,829 -> IN $1-10M band; class 500+: 62 firms, avg revenue/firm $59,966,484 (class receipts/firms), implied EBITDA $9,384,755 -> IN $1-10M band; n_band = 186",
+      "margin_used": 0.1565,
+      "margin_source": "Damodaran Jan 2026: Business & Consumer Services EBITDA/Sales 15.65%",
+      "quality": "ESTIMATE"
+    }
+  },
+  "inputs": {
+    "ai_replaceable_share": {
+      "value": 0.145295,
+      "breakdown_by_role": [
+        {
+          "role": "Vehicle cleaners (hand wash, prep, detailing) [53-7061]",
+          "labor_share_of_total": 0.3903,
+          "within_role_automatable_fraction": 0.0,
+          "contribution": 0.0,
+          "rationale": "Physical hand labor; AI does not wash cars. Express-tunnel mechanization that historically removed wash crews is decades-old capital equipment, not AI, so no AI credit is taken here.",
+          "plausible_range": "0.00-0.05"
+        },
+        {
+          "role": "Attendants and guest-facing site staff [53-6031 + 41-2011]",
+          "labor_share_of_total": 0.1373,
+          "within_role_automatable_fraction": 0.35,
+          "contribution": 0.048055,
+          "rationale": "AI-enhanced LPR, kiosk/app payment and automated gates already shrink loading/guiding and pay-station labor at express sites (>40% of new LPR installations are AI-enhanced per industry estimates); residual physical prep/guiding and on-lot service persists.",
+          "plausible_range": "0.20-0.50"
+        },
+        {
+          "role": "Equipment maintenance and mechanical staff [49-3023 + 49-1011 + 49-3093]",
+          "labor_share_of_total": 0.1279,
+          "within_role_automatable_fraction": 0.0,
+          "contribution": 0.0,
+          "rationale": "Physical equipment upkeep is not AI-automatable, and these occupations are largely 811191 oil-change/lube sibling contamination in the 5-digit role_mix (per prompt trap), so no AI credit.",
+          "plausible_range": "0.00-0.10"
+        },
+        {
+          "role": "Site supervision and management [53-1047 + 11-1021]",
+          "labor_share_of_total": 0.1957,
+          "within_role_automatable_fraction": 0.25,
+          "contribution": 0.048925,
+          "rationale": "Multi-site chains centralize scheduling, dynamic pricing, membership analytics and labor planning with AI tooling, compressing the above-site layer; on-site supervision of a physical plant persists.",
+          "plausible_range": "0.15-0.40"
+        },
+        {
+          "role": "Office and customer service [43-4051 + 43-9061]",
+          "labor_share_of_total": 0.0247,
+          "within_role_automatable_fraction": 0.7,
+          "contribution": 0.01729,
+          "rationale": "Membership billing support, chargeback handling and bookkeeping are small-base, cleanly automatable back-office tasks for current AI.",
+          "plausible_range": "0.50-0.85"
+        },
+        {
+          "role": "Remainder / long tail (marketing, HR, drivers, admin tail)",
+          "labor_share_of_total": 0.1241,
+          "within_role_automatable_fraction": 0.25,
+          "contribution": 0.031025,
+          "rationale": "Mixed overhead: marketing content, CRM and HR administration are partially automatable; drivers and miscellaneous site labor are not.",
+          "plausible_range": "0.10-0.40"
+        }
+      ],
+      "quality": "MED"
+    },
+    "pi_dist": {
+      "value": 0.8,
+      "rationale": "Direct-to-consumer retail: the operator owns the customer with no payer, fee schedule, auditor or upstream gatekeeper, so cost savings default to retained margin. Deducted 0.2 for tunnel oversupply after the 2019-2023 build-out: trade-area membership price wars and discounting ($10-and-under entry memberships) compete away part of any site-level gain in contested markets. Pricing-model deflation mechanism: none structural (no cost-plus/hourly pass-through), only local competitive discounting.",
+      "plausible_range": "0.70-0.90",
+      "sources": [
+        "https://www.carwashadvisory.com/learning/private-equity-funds-invest-in-car-washes-2025",
+        "https://mistercarwash.com/unlimited-wash-club/"
+      ],
+      "quality": "MED"
+    },
+    "pi_moat": {
+      "value": 0.65,
+      "rationale": "Physical presence is an absolute barrier to AI bypass — a consumer cannot use generic AI to wash a car, so the bypass threat is zero. Location/real-estate scarcity and membership stickiness (Mister Car Wash reports ~74% of wash sales from Unlimited Wash Club subscriptions with member gross retention reported around 78-84%) support pricing. Deducted for low switching costs when a competitor tunnel opens across the street and for commodity service with no licensure or proprietary data.",
+      "plausible_range": "0.50-0.80",
+      "sources": [
+        "https://ir.mistercarwash.com/news-releases/news-release-details/mister-car-wash-announces-fourth-quarter-and-full-year-2025",
+        "https://www.mmcginvest.com/post/u-s-car-wash-chains-performance-differentiation-and-investment-landscape"
+      ],
+      "quality": "MED"
+    },
+    "t50_years": {
+      "value": 8.0,
+      "derivation": "current_adoption_pct ~8% of the 15,675 firms (AI use concentrated in large express chains; the firm base is dominated by 9,362 <5-employee self-serve/detailing operators). Historical analog: the express-format POS/LPR membership stack took ~15-20 years from ~2001 introduction to majority share of the conveyor segment (Professional Carwashing & Detailing; Sonny's equipment-sales commentary). AI-era tools (AI-LPR retrofits, SaaS membership analytics, AI camera systems) are vendor-delivered software/retrofit rather than site capex, so diffusion should run roughly twice as fast as the express conversion: ~15-20 yrs x ~0.5 ≈ 8 years to 50% of firms materially adopting in automatable functions.",
+      "plausible_range": "5-12 years",
+      "quality": "ESTIMATE"
+    },
+    "current_adoption_pct": {
+      "value": 0.08,
+      "source": "ESTIMATE based on: 5W PR Car Wash AI Visibility Index 2026 (adoption concentrated in top chains; ~91% of independent/regional operators show zero AI footprint) and AI-LPR vendor data (ICS/Placa.ai: >40% of new LPR installations AI-enhanced) vs. SUSB firm-size mix (9,362 of 15,675 firms have <5 employees)",
+      "url": "https://www.5wpr.com/ai-visibility-index/car-wash-ai-visibility-index-2026/",
+      "figure_quoted": "\"Approximately 91% of independent and regional car wash operators have effectively zero AI citation share in their own metro and category\"; \"more than 40% of new LPR installations incorporate AI-enhanced processing\" — material use (AI-LPR membership matching, AI camera/damage systems, AI membership/pricing analytics) is confined to large chains and a thin tech-forward tail, ~5-15% of firms; midpoint 8% used",
+      "access_date": "2026-07-20",
+      "quality": "ESTIMATE"
+    },
+    "historical_analogs": {
+      "value": "Express-format computerized POS + LPR membership stack: introduced ~2001 (first express model with automation), reached majority of the conveyor segment only in the late 2010s/2020s (~15-20 years); conveyor/express is now ~50% of industry revenue and express exterior the dominant service format. Cashless/LPR payment at legacy self-serve/full-serve sites has diffused even more slowly.",
+      "source": "Professional Carwashing & Detailing, 'The evolution of express exterior carwashing'; Maher Commercial Realty / mmcginvest industry overviews",
+      "url": "https://www.carwash.com/evolution-express-exterior-carwashing/",
+      "figure_quoted": "\"The first express model using automation didn't come online until as recently as 2001\"; \"The growth the conveyorized niche of the industry has seen since 2010 is unlike anything seen in 36 years\"; conveyor washes ~48-50% of industry revenue",
+      "access_date": "2026-07-20",
+      "quality": "MED"
+    },
+    "owners_60plus_pct": {
+      "value": 0.37,
+      "source": "ESTIMATE from Census Bureau 2022 Annual Business Survey owner-age distribution (no car-wash-specific owner-age survey found): 52.3% of US employer-business owners are 55+, 29.5% are 55-64, 22.8% are 65+; interpolating the 55-64 band gives 60+ ≈ 22.8% + ~0.48 x 29.5% ≈ 37%. Car wash ownership skews to long-tenured legacy site owners (71% of operators independent), consistent with at-or-above-average age.",
+      "url": "https://www.census.gov/newsroom/press-releases/2025/business-owner-characteristics.html",
+      "figure_quoted": "\"52.3% of business owners are 55 or older — 29.5% are 55 to 64 and 22.8% are 65 and older\" (all-industry ABS); car-wash-specific: \"Approximately 71% of U.S. car wash operators are independent\" (Gitnux industry statistics)",
+      "access_date": "2026-07-20",
+      "quality": "ESTIMATE",
+      "succession_shortage_documented": {
+        "value": false,
+        "evidence": "No industry-specific documentation of a successor shortage found for car washes; generic small-business succession-plan gaps (Gallup 2025: most small-business owners lack a succession plan) are not industry evidence, so the flag is left false."
+      }
+    },
+    "active_consolidators": {
+      "value": 10,
+      "source": "Car Wash Advisory 'Private Equity Funds Invest In Car Washes 2025'; Professional Carwashing & Detailing M&A coverage; Mammoth Holdings acquisitions page",
+      "url": "https://www.carwashadvisory.com/learning/private-equity-funds-invest-in-car-washes-2025",
+      "figure_quoted": "PE-backed platforms doing add-ons in the last 24 months: Whistle Express (43% of H1-2024 deals as acquirer; bought Take 5 Car Wash for $385M in Feb 2025), Mammoth Holdings (multiple 2024 add-ons incl. Gloss Car Wash), Tidal Wave Auto Spa, GO Car Wash, Club Car Wash, WhiteWater Express, Splash Car Wash (new PE majority Apr 2025), Express Wash Concepts, Jax Car Wash (TRP Capital), Raceway Express (ClearSky) — 10 documented; overall transaction count fell ~46% YoY in H1 2024",
+      "access_date": "2026-07-20",
+      "quality": "MED"
+    },
+    "buy_mult": {
+      "value": 5.5,
+      "source": "First Page Sage Car Wash EBITDA & Valuation Multiples Report (Q1 2025); Auxo Capital Advisors Car Wash Valuation Multiples 2026",
+      "url": "https://firstpagesage.com/business/car-wash-ebitda-valuation-multiples/",
+      "figure_quoted": "Express exterior: 4.3x ($500K-1M revenue), 5.6x ($1-5M), 7.0x ($5-10M); full service 3.8-5.9x; self-serve 3.0-5.7x (Q1 2025). Auxo: \"express-tunnel band is 5x-8x adjusted EBITDA\" with UWC penetration <20% capping at 5-6x. Median single-site express taken at 5.5x; these broker multiples are on adjusted (owner-comp-normalized) EBITDA per rule 3.",
+      "access_date": "2026-07-20",
+      "quality": "MED"
+    },
+    "exit_mult": {
+      "value": 8.975,
+      "source": "Mister Car Wash take-private by Leonard Green & Partners (announced 2026-02-18): $3.1B enterprise value / FY2025 adjusted EBITDA $345.4M = 8.975x",
+      "url": "https://ir.mistercarwash.com/news-releases/news-release-details/mister-car-wash-be-taken-private-leonard-green-partners-700",
+      "figure_quoted": "\"$7.00 per share in cash... implies a total enterprise value of $3.1 billion\"; FY2025 \"adjusted EBITDA increased 8% to $345.4 million\" → 3,100/345.4 = 8.975x. Specialist advisors (Auxo) quote 10-15x for private multi-site platforms with deep membership, but the verified public-market anchor is used.",
+      "access_date": "2026-07-20",
+      "quality": "HIGH"
+    },
+    "pricing_structure": {
+      "value": "Direct-to-consumer retail: per-unit single washes plus monthly unlimited-wash subscriptions (memberships). At mature express operators, subscriptions dominate: Mister Car Wash reports ~74% of wash sales from Unlimited Wash Club members (62% of total revenue recurring). Legacy full-serve/flex and self-serve remain per-unit cash/card retail. No payer, fee schedule, cost-plus contract or auditor anywhere in the industry.",
+      "source": "Mister Car Wash FY2025 results and investor disclosures; mmcginvest chain landscape overview",
+      "url": "https://ir.mistercarwash.com/news-releases/news-release-details/mister-car-wash-announces-fourth-quarter-and-full-year-2025",
+      "figure_quoted": "\"Unlimited Wash Club subscription program accounted for nearly 74% of total wash sales (up from ~71% a year prior)\"; \"62% of total revenue is now unlimited-membership recurring (vs. 32% in 2019)\"",
+      "access_date": "2026-07-20",
+      "quality": "HIGH"
+    }
+  },
+  "scores": {
+    "V": {
+      "arithmetic": "ai_replaceable_share = 0.3903*0.0 + 0.1373*0.35 + 0.1279*0.0 + 0.1957*0.25 + 0.0247*0.7 + 0.1241*0.25 = 0.048055 + 0 + 0.048925 + 0.01729 + 0.031025 = 0.145295; V_raw = 0.4348 * 0.145295 = 0.063174266; V = 10 * min(1, 0.063174266/0.25) = 10 * 0.252697064 = 2.52697064",
+      "score": 2.52697064
+    },
+    "C": {
+      "arithmetic": "C = 10 * pi_dist * pi_moat = 10 * 0.8 * 0.65 = 5.2",
+      "score": 5.2
+    },
+    "A": {
+      "arithmetic": "A = min(10, 10/t50) = min(10, 10/8.0) = 1.25",
+      "score": 1.25
+    },
+    "B": {
+      "arithmetic": "TD = clamp(log10(186)/4, 0, 1) = 2.269512944/4 = 0.567378236; OW = clamp((0.37-0.10)/0.35, 0.1, 0.9) = 0.771428571 (no succession bonus, flag false); CFD = min(0.9, log10(11)/2) = 1.041392685/2 = 0.520696343; B = 10*sqrt(0.567378236*0.771428571)/(1+0.3*0.520696343) = 10*sqrt(0.437691782)/1.156208903 = 10*0.661583038/1.156208903 = 5.722000444",
+      "score": 5.722000444166802
+    },
+    "M": {
+      "arithmetic": "M = clamp(4*(8.975-5.5)/5.5, 0, 10) = 4*0.631818182 = 2.527272727",
+      "score": 2.527272727272727
+    }
+  },
+  "S": 2.9863637834178345,
+  "cross_checks": {
+    "uplift_pp": 6.317426600000001,
+    "uplift_vs_A_consistent": "V_raw of 0.0632 implies ~6.32pp of revenue as maximum EBITDA uplift if fully captured. A = 1.25 (< 5), so the low-uplift/high-A inconsistency test does not trigger; slow adoption and modest uplift are mutually consistent for a physical-labor industry where AI touches only the admin/membership/above-site layer.",
+    "terminal_value": {
+      "class": "DURABLE",
+      "justification": "Demand survives trivially — cars get dirty and AI cannot wash them; there is no product-replacement channel at all. The honest AI-labor channel is confined to attendants/pay-station, above-site management and back office (~34% of wage bill at partial fractions -> ai_replaceable_share 0.145), on an already modest harmonized labor share of 0.4348 — AI-attributable EBITDA uplift ~6pp of revenue at full capture, materially less after competitive leakage. This is a consumer-subscription/real-estate consolidation whose roll-up math must stand largely without AI cost extraction; the record's V = 2.53 says exactly that rather than back-filling an AI thesis."
+    },
+    "no_proxy_confirmed": "Confirmed: V is built solely from the provided labor_share and role_mix plus per-role automatable fractions grounded in operational task content (LPR/kiosk automation, membership analytics, back-office). A is derived from current adoption evidence and the express-format diffusion analog. No deal activity, consolidator behavior or multiple data was used for V or A; PE/M&A evidence was used only in active_consolidators (B) and buy/exit multiples (M).",
+    "pricing_model_deflation": "Billing is D2C per-unit retail plus unlimited monthly subscriptions (~74% of wash sales at mature express chains); there is no cost-plus, hourly or audited-payer structure, so no structural mechanism hands AI savings to customers. The leakage risk is competitive, not contractual: tunnel oversupply drives membership price wars in contested trade areas. Reflected as pi_dist = 0.8 (0.2 haircut for competitive discounting) with pi_moat = 0.65 capturing low switching costs; no further deflation adjustment warranted."
+  },
+  "confidence_overall": "MED",
+  "heterogeneous": false,
+  "top_uncertain_inputs": [
+    {
+      "input": "t50_years",
+      "plausible_range": "5-12 years",
+      "score_impact": "A = 10/t50 spans 0.833 (t50=12) to 2.0 (t50=5), moving A by -0.42/+0.75 around 1.25; S moves roughly -0.24/+0.29 around 2.99 (S ~ A^0.2)."
+    },
+    {
+      "input": "current_adoption_pct",
+      "plausible_range": "0.05-0.15",
+      "score_impact": "Feeds t50 only; at the high end t50 could tighten toward 6 years (A=1.67), at the low end stretch toward 10-12 (A~0.9)."
+    },
+    {
+      "input": "owners_60plus_pct",
+      "plausible_range": "0.30-0.45",
+      "score_impact": "OW spans 0.571-0.9; B spans ~5.15-6.18; S moves roughly -0.06/+0.05."
+    },
+    {
+      "input": "buy_mult",
+      "plausible_range": "4.5-7.0",
+      "score_impact": "M = 4*(8.975-buy)/buy spans 1.129 (buy=7.0) to 3.978 (buy=4.5); S spans roughly 2.55-3.28 — the single largest score lever."
+    }
+  ],
+  "reviewer_note": "Format heterogeneity (not a catch-all code, so heterogeneous=false): express exterior (membership-led, low labor), full-serve/flex (labor-heavy, declining), self-serve (near-zero labor) and detailing differ sharply in labor share, automation exposure and multiples; the $1-10M EBITDA band (n_band=186: the 100-499 class plus 62 sizable 500+ chains at the generic 15.65% margin) is populated mostly by express/hybrid regional chains, and express site-level EBITDA margins (25-35%) well above the generic margin make band membership margin-sensitive both directions. Sibling contamination handled: auto techs/tire repairers (~12.8% of wage bill, largely 811191 lube shops) were given 0.0 automatable fraction. Real-estate caveat on M: single-site 'multiples' often embed land value and sale-leaseback rent effects; buy_mult uses broker adjusted-EBITDA figures and exit_mult the MCW take-private (8.975x on FY2025 adj. EBITDA), a conservative anchor vs. the 10-15x specialist advisors quote for private platforms — M could be understated. Core disagreement to flag: none — the low V/A correctly reflect that this consolidation wave is membership-economics- and real-estate-driven, not AI-driven. Adoption and owner-age inputs are ESTIMATE quality (no industry survey found); confidence MED overall."
+}

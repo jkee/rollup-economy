@@ -1,0 +1,335 @@
+{
+  "naics": "238220",
+  "title": "Plumbing, Heating, and Air-Conditioning Contractors",
+  "run_meta": {
+    "model_id": "claude-fable-5",
+    "run_date": "2026-07-20",
+    "run_id": "golden-f1-238220",
+    "template_version": "3.0",
+    "prompt_version": "p3-aff6579"
+  },
+  "dataset_inputs": {
+    "labor_share": {
+      "value": 0.3508,
+      "method": "QCEW 2024 private total annual wages at 23822 ($100,763,014,046) x benefits multiplier 1.4294 [ECEC private-industry total comp $46.60/hr / wages $32.60/hr = 1.4294 (March 2026 reference period)] / SUSB 2022 receipts at 23822 ($306,277,104,000). Vintage mismatch: 2024 wages over 2022 receipts, stated. Level: ancestor 23822. Harmonized to IPS basis ÷1.3407 (median of 65 dual-method codes).",
+      "sources": [
+        "BLS QCEW 2024 annual averages (US000, private)",
+        "BLS ECEC news release (raw/ecec.nr0.htm)",
+        "Census SUSB 2022 (receipts by NAICS)"
+      ],
+      "year": "2024 wages / 2022 receipts",
+      "quality": "LOW"
+    },
+    "role_mix": {
+      "oews_level": "5-digit 23822",
+      "occupations": [
+        {
+          "soc": "47-2152",
+          "title": "Plumbers, Pipefitters, and Steamfitters",
+          "emp_share": 0.2564,
+          "wage_share": 0.2638
+        },
+        {
+          "soc": "49-9021",
+          "title": "Heating, Air Conditioning, and Refrigeration Mechanics and Installers",
+          "emp_share": 0.2283,
+          "wage_share": 0.2043
+        },
+        {
+          "soc": "47-1011",
+          "title": "First-Line Supervisors of Construction Trades and Extraction Workers",
+          "emp_share": 0.0425,
+          "wage_share": 0.0584
+        },
+        {
+          "soc": "43-9061",
+          "title": "Office Clerks, General",
+          "emp_share": 0.0422,
+          "wage_share": 0.0291
+        },
+        {
+          "soc": "47-2211",
+          "title": "Sheet Metal Workers",
+          "emp_share": 0.038,
+          "wage_share": 0.0408
+        },
+        {
+          "soc": "11-1021",
+          "title": "General and Operations Managers",
+          "emp_share": 0.0339,
+          "wage_share": 0.0597
+        },
+        {
+          "soc": "47-3015",
+          "title": "Helpers--Pipelayers, Plumbers, Pipefitters, and Steamfitters",
+          "emp_share": 0.0293,
+          "wage_share": 0.0178
+        },
+        {
+          "soc": "49-1011",
+          "title": "First-Line Supervisors of Mechanics, Installers, and Repairers",
+          "emp_share": 0.0217,
+          "wage_share": 0.027
+        },
+        {
+          "soc": "49-9098",
+          "title": "Helpers--Installation, Maintenance, and Repair Workers",
+          "emp_share": 0.0189,
+          "wage_share": 0.011
+        },
+        {
+          "soc": "41-3091",
+          "title": "Sales Representatives of Services, Except Advertising, Insurance, Financial Services, and Travel",
+          "emp_share": 0.0185,
+          "wage_share": 0.0232
+        }
+      ],
+      "quality": "MED"
+    },
+    "n_total": {
+      "value": 107004,
+      "source": "SUSB 2022 (firms, all enterprise sizes)",
+      "year": "2022",
+      "quality": "HIGH"
+    },
+    "n_band": {
+      "value": 1152,
+      "derivation": "margin 0.0796 (margins.json[23]: Damodaran Jan 2026: Engineering/Construction EBITDA/Sales 7.96%); revenue/employee $260,272 (SUSB 2022 receipts/employment at 238220); class <5: 63,588 firms, avg revenue/firm $386,166 (class receipts/firms), implied EBITDA $30,739 -> out of $1-10M band; class 5-9: 20,175 firms, avg revenue/firm $1,348,756 (class receipts/firms), implied EBITDA $107,361 -> out of $1-10M band; class 10-19: 12,459 firms, avg revenue/firm $2,960,335 (class receipts/firms), implied EBITDA $235,643 -> out of $1-10M band; class 20-99: 9,415 firms, avg revenue/firm $9,892,743 (class receipts/firms), implied EBITDA $787,462 -> out of $1-10M band; class 100-499: 1,152 firms, avg revenue/firm $49,865,618 (class receipts/firms), implied EBITDA $3,969,303 -> IN $1-10M band; class 500+: 215 firms, avg revenue/firm $311,824,335 (class receipts/firms), implied EBITDA $24,821,217 -> out of $1-10M band; n_band = 1,152",
+      "margin_used": 0.0796,
+      "margin_source": "Damodaran Jan 2026: Engineering/Construction EBITDA/Sales 7.96%",
+      "quality": "ESTIMATE"
+    }
+  },
+  "inputs": {
+    "ai_replaceable_share": {
+      "value": 0.185953,
+      "breakdown_by_role": [
+        {
+          "role": "Plumbers, pipefitters, steamfitters (47-2152)",
+          "labor_share_of_total": 0.2638,
+          "within_role_automatable_fraction": 0.03,
+          "contribution": 0.007914,
+          "rationale": "Licensed physical trade work; AI does not turn wrenches. Only job documentation, permit paperwork and diagnostic assistance are exposed.",
+          "plausible_range": "0.02-0.05"
+        },
+        {
+          "role": "HVAC mechanics/installers + sheet metal (49-9021 + 47-2211)",
+          "labor_share_of_total": 0.2451,
+          "within_role_automatable_fraction": 0.03,
+          "contribution": 0.007353,
+          "rationale": "Physical install/service work with EPA 608 certification requirement. AI diagnostics and manuals-on-demand raise productivity modestly; substitution near zero.",
+          "plausible_range": "0.02-0.05"
+        },
+        {
+          "role": "Helpers + apprentices (47-3015 + 49-9098 + apprentice tail est. 0.025)",
+          "labor_share_of_total": 0.0538,
+          "within_role_automatable_fraction": 0.02,
+          "contribution": 0.001076,
+          "rationale": "Physical labor pipeline for the trades; unaffected by current AI except training delivery.",
+          "plausible_range": "0.01-0.05"
+        },
+        {
+          "role": "Field supervision (47-1011 + 49-1011)",
+          "labor_share_of_total": 0.0854,
+          "within_role_automatable_fraction": 0.25,
+          "contribution": 0.02135,
+          "rationale": "Crew coordination and QC are on-site; scheduling, job costing and progress reporting automate substantially but are a minority of the role's time.",
+          "plausible_range": "0.15-0.35"
+        },
+        {
+          "role": "General and operations managers (11-1021)",
+          "labor_share_of_total": 0.0597,
+          "within_role_automatable_fraction": 0.2,
+          "contribution": 0.01194,
+          "rationale": "Reporting, forecasting and admin automate; leadership, hiring and GC/key-account relationships persist.",
+          "plausible_range": "0.1-0.3"
+        },
+        {
+          "role": "Estimators / project managers (unlisted OEWS tail, est. 4% of wage bill)",
+          "labor_share_of_total": 0.04,
+          "within_role_automatable_fraction": 0.45,
+          "contribution": 0.018,
+          "rationale": "Takeoffs, bid assembly and commercial estimating are heavily AI-tractable (ServiceTitan reports cost estimation as the top commercial AI use case at 24%); negotiation with GCs persists.",
+          "plausible_range": "0.3-0.6"
+        },
+        {
+          "role": "Sales / comfort advisors (41-3091 + tail est. 0.025)",
+          "labor_share_of_total": 0.0482,
+          "within_role_automatable_fraction": 0.3,
+          "contribution": 0.01446,
+          "rationale": "Lead qualification, quote generation and financing paperwork automate; in-home close of $10-20K replacement jobs stays human under current practice.",
+          "plausible_range": "0.2-0.4"
+        },
+        {
+          "role": "Office clerks, general (43-9061)",
+          "labor_share_of_total": 0.0291,
+          "within_role_automatable_fraction": 0.7,
+          "contribution": 0.02037,
+          "rationale": "Invoicing, filing, data entry near-fully automatable with current AI embedded in FSM platforms.",
+          "plausible_range": "0.5-0.85"
+        },
+        {
+          "role": "Dispatch, CSR, bookkeeping, permit clerks (unlisted OEWS tail, est. 12% of wage bill)",
+          "labor_share_of_total": 0.12,
+          "within_role_automatable_fraction": 0.65,
+          "contribution": 0.078,
+          "rationale": "The AI target zone: AI voice agents for call answering/booking are live in the industry now (documented end-to-end bookings without human involvement), dispatch optimization, invoicing, permit filing, renewals and review management automate near-fully; a residual human layer stays for escalation and complex scheduling.",
+          "plausible_range": "0.45-0.8"
+        },
+        {
+          "role": "Misc residual occupations",
+          "labor_share_of_total": 0.0549,
+          "within_role_automatable_fraction": 0.1,
+          "contribution": 0.00549,
+          "rationale": "Mixed drivers/laborers/misc trades in the unlisted tail; mostly physical, small admin sliver.",
+          "plausible_range": "0.05-0.2"
+        }
+      ],
+      "quality": "MED"
+    },
+    "pi_dist": {
+      "value": 0.55,
+      "rationale": "Residential service runs on flat-rate menu pricing (price-book per task), so AI-removed CSR/dispatch/admin cost is retained as margin in the short run rather than passed through hourly bills. But three leaks cap it: (1) lead-gen platforms (Google LSA/Angi) and OEM dealer programs own a growing share of demand and can raise per-lead pricing as contractor costs fall; (2) PE-scaled competitors deploying the same AI can re-anchor local price books downward over time; (3) the commercial/new-construction slice of the code is competitively bid against GCs and passes estimating savings through. Maintenance-agreement membership bases give partial client ownership but cover a minority of revenue for typical shops.",
+      "plausible_range": "0.45-0.65",
+      "sources": [
+        "https://profitrhino.com/flat-rate-the-pricing-method-contractors-and-homeowners-prefer/",
+        "https://www.servicetitan.com/blog/hvac-pricing-guide-for-contractors"
+      ],
+      "quality": "MED"
+    },
+    "pi_moat": {
+      "value": 0.75,
+      "rationale": "Strong structural barriers: state contractor licensing, permit requirements, EPA Section 608 refrigerant certification (and the A2L refrigerant transition), and equipment-warranty terms make homeowner DIY bypass via generic AI structurally marginal — AI can help self-diagnose but cannot legally or practically install/repair. Physical presence and truck-roll density are required. Deduction for smart-equipment self-diagnostics and OEM remote monitoring gradually thinning diagnostic service calls, and low switching costs between local contractors.",
+      "plausible_range": "0.65-0.85",
+      "sources": [
+        "https://www.epa.gov/section608",
+        "https://ctacquisitions.com/guides/hvac-business-valuation/"
+      ],
+      "quality": "MED"
+    },
+    "t50_years": {
+      "value": 4.0,
+      "derivation": "current_adoption_pct ~25% of residential contractors 'currently using AI' but only ~12% with AI embedded in operations (ServiceTitan 2026) — call material adoption ~12-25% today. Momentum is unusually fast for a trade: ServiceTitan reports commercial contractors seeing measurable AI impact doubled from 17% (2025) to 38% (2026), and AI ships pre-embedded in the dominant FSM platforms, so adoption does not require a new software purchase. Against that, the historical analog (FSM software: ~15-20 years to ~50% mid-market; small firms still ~29%) and the 63,588 sub-5-employee firms argue for a long tail. Weighing the embedded-distribution channel against the small-firm tail: from ~15-25% to 50% material adoption in ~4 years.",
+      "plausible_range": "2.5-6",
+      "quality": "LOW"
+    },
+    "current_adoption_pct": {
+      "value": 0.25,
+      "source": "ServiceTitan press release / State of Home Services (residential), survey of 1,000 residential contractors conducted by Thrive Analytics, published 2026-04-07",
+      "url": "https://www.servicetitan.com/press/servicetitan-report-finds-74-of-residential-contractors-see-ai-as-key",
+      "figure_quoted": "74% view AI as 'an efficiency engine'; ~25% are 'currently using AI'; companion 2026 State of AI in the Trades: only 12% have embedded AI into their operations, 34% actively experimenting. Material = actively using AI in booking/dispatch/estimating/back-office functions; 0.25 is the 'currently using' upper reading, with embedded-material closer to 0.12.",
+      "access_date": "2026-07-20",
+      "quality": "MED"
+    },
+    "historical_analogs": {
+      "value": "Field service management software: ~15-20 years from commercial availability to ~50% adoption in mid-market contractors (100-999 employees, ~51% today); small firms (<100 employees) still ~29% after two decades. Analog suggests slow trades diffusion, partially offset for AI because it ships inside the FSM platforms already installed.",
+      "source": "FieldServiceSoftware.io statistics compilation (secondary republication of industry survey data)",
+      "url": "https://fieldservicesoftware.io/blog/field-service-management-software-statistics/",
+      "figure_quoted": "Mid-market companies (100-999 employees) show adoption around 51%... small businesses (under 100 employees) have historically shown lower adoption at 29%, but this segment is growing fastest.",
+      "access_date": "2026-07-20",
+      "quality": "LOW"
+    },
+    "owners_60plus_pct": {
+      "value": 0.3,
+      "source": "US Census Bureau (ABS-based visualization) via LeaguePark plumbing M&A commentary; no code-specific 60+ share published — ESTIMATE",
+      "url": "https://leaguepark.com/generational-shift-driving-owners-to-sell-their-plumbing-businesses/",
+      "figure_quoted": "Cites Census data: 'the average small business owner in America is nearly 60 years old, and more than half are over 55'; 'Plumbing ownership skews even older, as many companies were founded by technicians who built strong regional brands in the 1980s and 1990s.' Basis for 0.30 owners 60+: if >50% are 55+ economy-wide and plumbing/HVAC skews older, ~30% aged 60+ is the central reading.",
+      "access_date": "2026-07-20",
+      "quality": "ESTIMATE",
+      "succession_shortage_documented": {
+        "value": true,
+        "evidence": "LeaguePark (2026): 'Some hope to pass the business to family, but succession options are limited' — founders without internal successors are the documented driver of the current sale wave; the generational-shift-to-sale narrative is the industry's own M&A explanation."
+      }
+    },
+    "active_consolidators": {
+      "value": 18,
+      "source": "CT Acquisitions, 'Which Private Equity Firms Are Buying HVAC Companies in 2026?'",
+      "url": "https://ctacquisitions.com/guides/private-equity-hvac-2026/",
+      "figure_quoted": "'18 verified active U.S. HVAC PE roll-up platforms' with publicly disclosed acquisitions Jan 2024-Apr 2026, incl. Apex Service Partners (~60 add-ons in 2025 alone), Sila Services, Service Logic, Wrench Group, Champions Group, Comfort Systems USA, Crete United, FirstCall Mechanical, Astra Service Partners, Redwood Services.",
+      "access_date": "2026-07-20",
+      "quality": "MED"
+    },
+    "buy_mult": {
+      "value": 6.0,
+      "source": "CT Acquisitions HVAC/plumbing M&A guides; corroborated by ClearlyAcquired (Q1 2025: residential HVAC $500K-$1M EBITDA averaged 6.3x)",
+      "url": "https://ctacquisitions.com/guides/private-equity-hvac-2026/",
+      "figure_quoted": "Add-on/tuck-in transactions: '4-8x EBITDA depending on quality, recurring/membership-plan revenue mix, and geographic density' — midpoint 6.0x taken as median for single-location/small firms with normalized (post-owner-comp) EBITDA near or above $1M; true main-street sub-$1M-EBITDA shops trade lower (BizBuySell ~2.4-3.4x SDE).",
+      "access_date": "2026-07-20",
+      "quality": "MED"
+    },
+    "exit_mult": {
+      "value": 12.0,
+      "source": "CT Acquisitions PE guide; platform prints: Redwood Services ~$1.1B on $65M TTM EBITDA (~17x, Altas), Champions Group ~$2.5B (~18.5x, Blackstone)",
+      "url": "https://ctacquisitions.com/guides/private-equity-hvac-2026/",
+      "figure_quoted": "'7-12x EBITDA' for well-run growth-oriented platform-quality residential businesses with $2M+ EBITDA; recapitalization prints of ~17x (Redwood) and ~18.5x (Champions) at mega-platform scale. 12.0x taken as the credible exit for a $10M+ EBITDA platform, below the mega-platform prints.",
+      "access_date": "2026-07-20",
+      "quality": "MED"
+    },
+    "pricing_structure": {
+      "value": "Residential service: flat-rate menu pricing (price-book per task) used by ~44% of companies and the fastest-growing model; remainder time-and-materials or hybrid. Residential replacement: fixed competitive per-install quotes ($10-20K tickets). Commercial/new-construction sub work: competitive cost-plus-ish bidding against GCs. Recurring membership/maintenance agreements cover a minority of revenue at typical shops.",
+      "source": "Profit Rhino (flat-rate survey); ServiceTitan HVAC pricing guide",
+      "url": "https://profitrhino.com/flat-rate-the-pricing-method-contractors-and-homeowners-prefer/",
+      "figure_quoted": "'92% of 11,000 independently surveyed homeowners wanted a fixed price upfront (flat rate), but only 44% of companies charged using a flat rate.'",
+      "access_date": "2026-07-20",
+      "quality": "MED"
+    }
+  },
+  "scores": {
+    "V": {
+      "arithmetic": "ai_replaceable_share = Σ(role_share × fraction) = 0.007914 + 0.007353 + 0.001076 + 0.02135 + 0.01194 + 0.018 + 0.01446 + 0.02037 + 0.078 + 0.00549 = 0.185953; V_raw = labor_share × ai_replaceable_share = 0.3508 × 0.185953 = 0.0652323124; V = 10 × min(1, 0.0652323124 / 0.25) = 10 × 0.2609292496 = 2.609292496",
+      "score": 2.609292496
+    },
+    "C": {
+      "arithmetic": "C = 10 × pi_dist × pi_moat = 10 × 0.55 × 0.75 = 4.125",
+      "score": 4.125
+    },
+    "A": {
+      "arithmetic": "A = min(10, 10 / t50) = min(10, 10 / 4.0) = 2.5",
+      "score": 2.5
+    },
+    "B": {
+      "arithmetic": "TD = clamp(log10(1152)/4, 0, 1) = clamp(3.0614524790871987/4) = 0.7653631197717983; OW = clamp((0.30-0.10)/0.35, 0.1, 0.9) + 0.1 = 0.5714285714285714 + 0.1 = 0.6714285714285714 (succession shortage documented; cap 1.0 not hit); CFD = min(0.9, log10(1+18)/2) = min(0.9, 1.2787536009528289/2) = 0.6393768004764144; B = 10 × sqrt(0.7653631197717983 × 0.6714285714285714) / (1 + 0.3 × 0.6393768004764144) = 10 × sqrt(0.5138866518469245) / 1.1918130401429243 = 10 × 0.7168588228281612 / 1.1918130401429243 = 6.014860254352314",
+      "score": 6.014860254352314
+    },
+    "M": {
+      "arithmetic": "M = clamp(4 × (exit_mult - buy_mult) / buy_mult, 0, 10) = clamp(4 × (12.0 - 6.0) / 6.0, 0, 10) = clamp(4.0, 0, 10) = 4.0",
+      "score": 4.0
+    }
+  },
+  "S": 3.6495091090089034,
+  "cross_checks": {
+    "uplift_pp": 6.52323124,
+    "uplift_vs_A_consistent": "V_raw = 0.0652 implies ~6.52pp of revenue freed at full adoption of the automatable slice — comfortably above the 3pp floor. A = 2.5 (< 5), so the uplift-vs-A tension test does not bind; a meaningful uplift with moderate adoption speed is internally consistent.",
+    "terminal_value": {
+      "class": "DURABLE",
+      "justification": "The product is a licensed human physically installing/repairing equipment; mature AI cannot perform the act and state licensing, permits and EPA 608/A2L refrigerant law legally reserve it. AI is a cost-cutter on the ~15-20% office/sales/estimating layer, not a product-replacer. Demand-shape risks exist but net roughly neutral-to-positive: heat-pump electrification is a tailwind; smart-equipment self-diagnostics and OEM remote monitoring may thin diagnostic service calls and AI-armed national platforms may compress local margins — but paid demand for licensed on-site work does not shrink structurally. The ~57-60% trade-labor wage share simply caps how much AI can ever save this operator, which is a V ceiling, not a terminal-demand risk."
+    },
+    "no_proxy_confirmed": "Confirmed. V was computed solely from the provided labor_share and role_mix plus declared within-role fractions grounded in task descriptions (licensing, physical work, office automation). A was derived from the ServiceTitan/Thrive adoption survey and the FSM-software historical analog. No deal activity, consolidation counts, or multiples informed V or A; PE evidence was used only in B (active_consolidators) and M (multiples).",
+    "pricing_model_deflation": "Billing mix: ~44% of residential service companies on flat-rate menu pricing (growing), remainder T&M/hybrid; replacements quoted fixed per install; commercial work competitively bid against GCs. Flat-rate and fixed-quote pricing means AI savings are retained as margin short-run (no hourly pass-through), but competitive re-anchoring by AI-equipped PE platforms, lead-gen platform rent extraction (Google LSA/Angi), and the pass-through commercial bid segment erode this over time. Reflected in pi_dist = 0.55 (not higher despite flat-rate structure) and pi_moat = 0.75."
+  },
+  "confidence_overall": "MED",
+  "heterogeneous": true,
+  "top_uncertain_inputs": [
+    {
+      "input": "t50_years",
+      "plausible_range": "2.5-6 years",
+      "score_impact": "A ranges 1.667-4.0; S ranges ~3.37-4.01 (S scales as (A/2.5)^0.2). Fast vendor-embedded AI push vs the 63,588-firm sub-5-employee tail is the single biggest swing on S."
+    },
+    {
+      "input": "buy_mult / exit_mult spread",
+      "plausible_range": "buy 5-7x, exit 10-13x",
+      "score_impact": "M ranges ~1.71 (buy 7, exit 10) to ~6.4 (buy 5, exit 13); S ranges ~3.08-4.01. The multiple-arbitrage spread is poorly pinned because add-on and exit tiers overlap."
+    },
+    {
+      "input": "owners_60plus_pct",
+      "plausible_range": "0.25-0.40",
+      "score_impact": "OW 0.529-0.957; B ranges ~5.34-7.18; S ranges ~3.56-3.78. No code-specific owner-age data exists; value is an estimate from economy-wide Census ABS plus 'skews older' commentary."
+    },
+    {
+      "input": "ai_replaceable_share (office-tail fractions)",
+      "plausible_range": "0.15-0.22",
+      "score_impact": "V ranges ~2.10-3.09; S ranges ~3.49-3.78. The unlisted OEWS tail (~26% of wage bill) forces estimated role sizes for dispatch/CSR and estimators."
+    }
+  ],
+  "reviewer_note": "Heterogeneous code: 238220 blends residential service/replacement (scored — the dominant roll-up-relevant sub-segment), commercial mechanical, and cyclical new-construction subcontracting; electrical (238210), roofing (238160) and appliance repair (811412) are excluded neighbors, and association data (ACCA/PHCC) each cover only part of the code. Dataset conflicts used as given per rule 6: (1) labor_share 0.3508 is LOW quality, computed at ancestor 23822 with a 2024-wages/2022-receipts vintage mismatch; (2) n_band = 1,152 uses Damodaran's 7.96% Engineering/Construction margin, while residential service/replacement shops credibly run 10-20% EBITDA margins — at those margins many of the 9,415 firms in the 20-99 class ($9.9M avg revenue) are true $1-3M-EBITDA targets, so n_band and hence TD/B are likely understated; my research (ClearlyAcquired/CT Acquisitions margin commentary) supports the higher-margin view but the provided value was used. Adoption evidence is vendor-published (ServiceTitan) though third-party-fielded; owners_60plus_pct is an ESTIMATE for lack of code-specific data. Consolidation evidence (18 platforms, 17-18.5x mega prints) was used only for B and M. Formula outputs accepted without override; no intuition conflicts material enough to note beyond n_band understatement."
+}

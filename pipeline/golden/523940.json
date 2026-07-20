@@ -1,0 +1,210 @@
+{
+  "naics": "523940",
+  "title": "Portfolio Management and Investment Advice",
+  "run_meta": {
+    "model_id": "claude-fable-5",
+    "run_date": "2026-07-20",
+    "run_id": "golden-f1-523940",
+    "template_version": "3.0",
+    "prompt_version": "p3-aff6579"
+  },
+  "dataset_inputs": {
+    "labor_share": {
+      "value": 0.3907,
+      "method": "QCEW 2024 private total annual wages at 5239 ($166,457,424,125) x benefits multiplier 1.4294 [ECEC private-industry total comp $46.60/hr / wages $32.60/hr = 1.4294 (March 2026 reference period)] / SUSB 2022 receipts at 5239 ($454,212,096,000). Vintage mismatch: 2024 wages over 2022 receipts, stated. Level: ancestor 5239. Harmonized to IPS basis ÷1.3407 (median of 65 dual-method codes).",
+      "sources": [
+        "BLS QCEW 2024 annual averages (US000, private)",
+        "BLS ECEC news release (raw/ecec.nr0.htm)",
+        "Census SUSB 2022 (receipts by NAICS)"
+      ],
+      "year": "2024 wages / 2022 receipts",
+      "quality": "LOW"
+    },
+    "role_mix": {
+      "oews_level": "3-digit 523",
+      "occupations": [
+        {"soc": "13-2052", "title": "Personal Financial Advisors", "emp_share": 0.1798, "wage_share": 0.2127},
+        {"soc": "41-3031", "title": "Securities, Commodities, and Financial Services Sales Agents", "emp_share": 0.1522, "wage_share": 0.1545},
+        {"soc": "13-2051", "title": "Financial and Investment Analysts", "emp_share": 0.0793, "wage_share": 0.0773},
+        {"soc": "11-3031", "title": "Financial Managers", "emp_share": 0.0573, "wage_share": 0.1009},
+        {"soc": "11-1021", "title": "General and Operations Managers", "emp_share": 0.044, "wage_share": 0.0704},
+        {"soc": "43-9061", "title": "Office Clerks, General", "emp_share": 0.0342, "wage_share": 0.0118},
+        {"soc": "43-4051", "title": "Customer Service Representatives", "emp_share": 0.0336, "wage_share": 0.0132},
+        {"soc": "13-2011", "title": "Accountants and Auditors", "emp_share": 0.0295, "wage_share": 0.0247},
+        {"soc": "15-1252", "title": "Software Developers", "emp_share": 0.0285, "wage_share": 0.0316},
+        {"soc": "43-6011", "title": "Executive Secretaries and Executive Administrative Assistants", "emp_share": 0.0281, "wage_share": 0.0163}
+      ],
+      "quality": "LOW"
+    },
+    "n_total": {
+      "value": 88068,
+      "source": "QCEW 2024 private annual avg establishments (SUSB out of scope for this code; establishments are a proxy for firms — overcounts multi-unit firms)",
+      "year": "2024",
+      "quality": "LOW"
+    },
+    "n_band": {
+      "value": 3800,
+      "derivation": "margin 0.1165 (margins.json[523]: Damodaran Jan 2026: Investments & Asset Management EBITDA/Sales 11.65%); revenue/employee $732,061 (SUSB 2022 receipts/employment at 5239); DATA GAP: no SUSB size-class data for this code; n_band could not be computed — the research run must supply it with a shown chain, quality ESTIMATE. RESEARCHED (this run, documented exception to rule 6): Form ADV basis per IAA/COMPLY 2026 Investment Adviser Industry Snapshot (https://www.comply.com/resource/2026-investment-adviser-industry-snapshot-shows-continued-growth-in-demand-for-adviser-services/): 16,544 SEC-registered advisers in 2025; '67.4% of advisers managed less than $1 billion in assets' and '87.3% managed less than $5 billion' -> $1B-$5B band = (0.873-0.674) x 16,544 = 3,292.256 firms; $500M-$1B estimated at ~15% of firms from historical IAA band distributions = 2,481.6 firms. Conversion: realized advisory fee 0.75% of AUM (midpoint of the 0.7-1.0% wealth-RIA realized fee range per Schwab RIA Benchmarking/Cerulli, as directed by the prompt) and operating margin 27.5% (midpoint of Schwab RIA Benchmarking standardized ~25-30% margins - used instead of the record's Damodaran 11.65%, which blends institutional asset managers and understates wealth-RIA margins; stated per instruction). Chain: $1M EBITDA / 0.275 = $3,636,364 revenue / 0.0075 = $484.8M AUM; $10M EBITDA -> $36,363,636 revenue -> $4.85B AUM; so the $1-10M EBITDA band maps to ~$500M-$5B AUM. Raw count $500M-$5B = 2,481.6 + 3,292.256 = 5,773.856 firms; scaled x 0.66 for the dominant wealth-advice sub-segment (IAA: advisers focused on individual clients are the majority of firms, averaging 8 employees and $424M AUM; institutional/fund managers in these AUM bands have different revenue economics and are excluded) = 3,810.7 -> n_band = 3,800. State-registered advisers (<$100M AUM) fall far below the band and are excluded. Plausible range 2,500-6,000.",
+      "margin_used": 0.1165,
+      "margin_source": "Damodaran Jan 2026: Investments & Asset Management EBITDA/Sales 11.65%",
+      "quality": "ESTIMATE"
+    }
+  },
+  "inputs": {
+    "ai_replaceable_share": {
+      "value": 0.33592,
+      "breakdown_by_role": [
+        {"role": "Personal Financial Advisors (13-2052)", "labor_share_of_total": 0.2127, "within_role_automatable_fraction": 0.25, "contribution": 0.053175, "rationale": "Financial-plan drafting, meeting prep/notes, proposal generation and client reporting automate heavily (AI meeting-scribes and planning copilots are live in the RIA stack); trust relationship, behavioral coaching and rainmaking do not. Mid-low of the 0.2-0.35 task-mix range given fiduciary accountability stays human.", "plausible_range": "0.20-0.35"},
+        {"role": "Securities, Commodities, and Financial Services Sales Agents (41-3031)", "labor_share_of_total": 0.1545, "within_role_automatable_fraction": 0.25, "contribution": 0.038625, "rationale": "Largely brokerage-side contamination from the 3-digit proxy plus hybrid RIA/BD reps; same split as advisors - relationship persists, paperwork/prospecting support and suitability documentation automate.", "plausible_range": "0.15-0.35"},
+        {"role": "Financial and Investment Analysts (13-2051)", "labor_share_of_total": 0.0773, "within_role_automatable_fraction": 0.40, "contribution": 0.03092, "rationale": "Research notes, screening, rebalancing and performance attribution are heavily automatable (much already rules-based); final allocation judgment and investment-committee accountability persist.", "plausible_range": "0.30-0.55"},
+        {"role": "Financial Managers (11-3031)", "labor_share_of_total": 0.1009, "within_role_automatable_fraction": 0.30, "contribution": 0.03027, "rationale": "Compliance-adjacent reporting, AUM fee-billing calculation and operations reporting automate substantially; supervisory principal duties (SEC/state registration) require named humans.", "plausible_range": "0.20-0.40"},
+        {"role": "General and Operations Managers (11-1021)", "labor_share_of_total": 0.0704, "within_role_automatable_fraction": 0.25, "contribution": 0.0176, "rationale": "Reporting, workflow oversight and vendor management partially automate; leadership, hiring and firm strategy persist.", "plausible_range": "0.15-0.35"},
+        {"role": "Office Clerks, General (43-9061)", "labor_share_of_total": 0.0118, "within_role_automatable_fraction": 0.70, "contribution": 0.00826, "rationale": "Account paperwork, filing, data entry - near-fully automatable with custodian API + AI workflows.", "plausible_range": "0.55-0.85"},
+        {"role": "Customer Service Representatives (43-4051)", "labor_share_of_total": 0.0132, "within_role_automatable_fraction": 0.70, "contribution": 0.00924, "rationale": "Scheduling, service requests, money-movement intake, CRM hygiene - the classic RIA client-service desk automates near-fully.", "plausible_range": "0.55-0.85"},
+        {"role": "Accountants and Auditors (13-2011)", "labor_share_of_total": 0.0247, "within_role_automatable_fraction": 0.50, "contribution": 0.01235, "rationale": "Reconciliation, reporting and close processes automate substantially; sign-off and exception judgment persist.", "plausible_range": "0.35-0.65"},
+        {"role": "Software Developers (15-1252)", "labor_share_of_total": 0.0316, "within_role_automatable_fraction": 0.35, "contribution": 0.01106, "rationale": "Concentrated in larger asset managers within the 3-digit proxy; AI coding assistants raise output materially but do not remove the function; small RIAs buy rather than build.", "plausible_range": "0.25-0.50"},
+        {"role": "Executive Secretaries and Executive Administrative Assistants (43-6011)", "labor_share_of_total": 0.0163, "within_role_automatable_fraction": 0.60, "contribution": 0.00978, "rationale": "Calendaring, correspondence, meeting logistics automate heavily; some in-person/relationship duties persist.", "plausible_range": "0.45-0.75"},
+        {"role": "Unlisted remainder (ops/client-service/compliance tail, ~28.7% of wage bill)", "labor_share_of_total": 0.2866, "within_role_automatable_fraction": 0.40, "contribution": 0.11464, "rationale": "Per prompt guidance the RIA back office (account opening/ACAT transfers, RMD processing, money movement, CRM hygiene) automates near-fully with custodian API + AI, but this tail also contains compliance officers, traders, HR, marketing and misc professional roles that are only partially automatable; 0.40 blends near-full clerical automation with partial professional automation. Largest single uncertainty in V.", "plausible_range": "0.25-0.55"}
+      ],
+      "quality": "LOW"
+    },
+    "pi_dist": {
+      "value": 0.70,
+      "rationale": "Fees are ~1% of AUM, priced on assets rather than hours or cost - AI savings do not mechanically flow to clients (no cost-plus, audit or fee-schedule clawback), and realized fee rates have held remarkably stable in benchmarking data despite two decades of cheap alternatives. The firm holds advisory contracts, but the Advisers Act requires client consent to assignment on sale, and books are famously portable (protocol departures, breakaways) - the founder personally owns much of the relationship at small firms, which weakens firm-level capture for an acquirer. Deflation channel is fee-rate compression/unbundling (robo precedent re-anchored simple allocation to 25-30bps; AI-native advice could re-anchor what '1%' buys), which is slow but real - deducted from a would-be 0.8.",
+      "plausible_range": "0.60-0.80",
+      "sources": ["https://www.aboutschwab.com/ria-benchmarking-study-2025", "https://ctacquisitions.com/guides/wealth-ria-business-valuation/"],
+      "quality": "MED"
+    },
+    "pi_moat": {
+      "value": 0.55,
+      "rationale": "Moat is behavioral and regulatory, not informational: SEC/state RIA registration with a named human fiduciary, fiduciary liability, estate/tax complexity, and very high client stickiness (RIA client retention typically 95%+; assets rarely move absent a life event). Information itself is commoditized, and mature conversational AI is the first substitute that can hold the conversation - a realistic bypass threat for mass-affluent clients that robos (Betterment/Wealthfront plateau) never posed because they could not converse or coach. HNW trust/accountability demand persists. Set slightly above midpoint of the bypass-risk range: real barriers, genuine long-run threat.",
+      "plausible_range": "0.45-0.65",
+      "sources": ["https://www.cerulli.com/press-releases/40-of-advisory-assets-will-transition-in-10-years-according-to-cerulli"],
+      "quality": "MED"
+    },
+    "t50_years": {
+      "value": 2.5,
+      "derivation": "Schwab 2026 RIA & AI study: 63% of RIAs now use AI in some capacity, 'more than doubles' since 2023 - but 'most firms remain in the early stages of adoption, with use cases concentrated on administrative tasks like notetaking and email drafting'. Material adoption (AI actually doing the automatable functions: meeting documentation, plan drafting, ops workflows - not experimentation) estimated at ~30% today, given 63% any-use and early-stage concentration. Historical analog: e-signature and cloud planning software (eMoney/MoneyGuidePro) reached majority RIA adoption in ~5-10 years, and AI meeting-scribe tools (Jump, Zocks, Zeplyn) are diffusing faster than either because they ship inside the existing custodian/CRM stack with immediate hour-savings. Chain: 30% material + adoption doubling roughly every 2 years at current trajectory -> ~50% material in ~2-3 years; midpoint 2.5.",
+      "plausible_range": "1.5-4 years",
+      "quality": "MED"
+    },
+    "current_adoption_pct": {
+      "value": 0.30,
+      "source": "Charles Schwab 2026 RIA & AI research study (press release 2026-01-22); Schwab 2025 RIA Benchmarking Study (1,288 firms, $2.4T AUM)",
+      "url": "https://www.businesswire.com/news/home/20260122602006/en/Schwab-Study-Reveals-RIA-AI-Adoption-More-Than-Doubles---But-Most-Firms-Still-in-Early-Stages",
+      "figure_quoted": "'AI adoption [among RIAs] more than doubles [since 2023]... 63% now using AI tools in some capacity'; 'most firms remain in the early stages of adoption, with use cases concentrated on administrative tasks like notetaking and email drafting'. Material = AI substantially performing automatable functions (meeting documentation, plan/report drafting, ops workflows) in production, not pilots or occasional chatbot use; taken as roughly half of the 63% any-use figure given the stated early-stage concentration.",
+      "access_date": "2026-07-20",
+      "quality": "MED"
+    },
+    "historical_analogs": {
+      "value": "Cloud financial-planning software (eMoney/MoneyGuidePro) and e-signature reached majority RIA adoption in roughly 5-10 years from viability; CRM took longer (~10-15 years). AI note-taking/planning copilots are diffusing faster than all three because they embed in the existing custodian/CRM stack with immediate, measurable hour-savings per meeting.",
+      "source": "Schwab RIA Benchmarking Study technology-adoption commentary (adoption trajectory); Schwab 2026 RIA & AI study for the 2023->2026 doubling",
+      "url": "https://advisorservices.schwab.com/insights-hub/perspectives/ria-benchmarking-study-2025",
+      "figure_quoted": "Direct time-series of prior-tech penetration is not published as a single figure; the 5-10 year majority-adoption range for planning software/e-signature is inferred from Schwab/industry benchmarking commentary, while the AI trajectory ('more than doubles' 2023->2026, to 63% any-use) is directly quoted. Basis stated; hence ESTIMATE.",
+      "access_date": "2026-07-20",
+      "quality": "ESTIMATE"
+    },
+    "owners_60plus_pct": {
+      "value": 0.35,
+      "source": "Cerulli Associates US Advisor Metrics (press releases); advisor-age distribution as proxy for owner age",
+      "url": "https://www.cerulli.com/press-releases/40-of-advisory-assets-will-transition-in-10-years-according-to-cerulli",
+      "figure_quoted": "Cerulli: advisors aged 55+ are '42% of the head count but 57% of assets'; '37.4% of industry headcount' (105,887 advisors, 41.4% of assets) plan to retire within 10 years. Owners/founding principals skew older than the average advisor; 60+ is a higher bar than 55+. Estimate: ~35% of firm owners aged 60+, interpolating 42% at 55+ down to the 60+ cohort and up for the founder skew. ESTIMATE basis: no direct owner-age-60+ statistic published.",
+      "access_date": "2026-07-20",
+      "quality": "ESTIMATE",
+      "succession_shortage_documented": {
+        "value": true,
+        "evidence": "Cerulli: 'one in four advisors who are expected to transition their business within the next 10 years are unsure of their succession plan' and advisor retirements will place '$2.5 trillion in assets in need of succession solutions over the next 10 years' (cerulli.com press releases); DeVoe/FP Transitions succession-readiness work consistently documents internal-succession capacity falling short of the retirement wave."
+      }
+    },
+    "active_consolidators": {
+      "value": 32,
+      "source": "CT Acquisitions RIA buyer-landscape guide 2026, citing DeVoe Deal Book and Fidelity/ECHELON buyer data",
+      "url": "https://ctacquisitions.com/guides/who-buys-rias-wealth-management-2026/",
+      "figure_quoted": "32 named active consolidator platforms across four tiers: mega (>$100B AUM: Hightower, Creative Planning, Mariner, Mercer, Wealth Enhancement, CAPTRUST, Edelman, Cerity), active LMM ($25-65B: Beacon Pointe, EP Wealth, Carson, Savant, Merit, Allworth, Sequoia, Mather, Choreo), brand-preservation (Pathstone, Aspiriant, Brighton Jones, Modera, Concurrent, Procyon, Steward, Mission Wealth), strategic (Focus Partners Wealth, Stratos, OneDigital, Corient, NewEdge, AlTi Tiedemann, Madison Dearborn-backed). Context: DeVoe reports '95 active buyers in 2025 vs 117 in 2024'; PE-backed share of deals 75.8% (ECHELON) to 88% (Fidelity). The 32 named platforms are the conservatively countable PE-backed serial acquirers with add-ons in the last 24 months.",
+      "access_date": "2026-07-20",
+      "quality": "MED"
+    },
+    "buy_mult": {
+      "value": 9.0,
+      "source": "DeVoe & Company / ECHELON Partners deal books as summarized with size tiers by CT Acquisitions RIA multiples report 2026; Advisor Growth Strategies Deal Room for the all-deal median",
+      "url": "https://ctacquisitions.com/guides/ria-wealth-management-ma-multiples-2026/",
+      "figure_quoted": "'$250M to $500M firms observed 7.5x to 10.0x adjusted EBITDA during 2024 to Q2 2026, per DeVoe and ECHELON deal books'; 'Sub-$500M AUM firms (typical tuck-in targets) valued at 7x-10x EBITDA'. Median single-location/small-firm entry taken at 9.0x. Basis: adjusted EBITDA after normalized owner comp (the trackers' stated adjusted-EBITDA convention; no EBOC or revenue multiples used, per rule 3 and this code's control warning). Cross-check: AGS Deal Room 2025 all-deal median 11.6x on 60 deals with average seller ~$500M AUM (wealthmanagement.com) - consistent with small tuck-ins clearing below that median.",
+      "access_date": "2026-07-20",
+      "quality": "MED"
+    },
+    "exit_mult": {
+      "value": 17.0,
+      "source": "DeVoe/ECHELON size-tier data as summarized by CT Acquisitions RIA multiples report 2026; AGS Deal Room median as floor reference",
+      "url": "https://ctacquisitions.com/guides/ria-wealth-management-ma-multiples-2026/",
+      "figure_quoted": "'$3B-$20B AUM: 15x to 19x EBITDA' (midpoint 17x taken); 'Premium/UHNW: Up to 21x'. A $10M+ EBITDA platform maps to ~$5B+ AUM at wealth-RIA economics (see n_band chain), squarely in the 15-19x tier. Floor reference: AGS Deal Room 2025 median 11.6x across all deals (record high, avg seller ~$500M AUM), so 17x for $10M+-EBITDA platforms is a mid-tier, not headline-mega-deal, figure.",
+      "access_date": "2026-07-20",
+      "quality": "MED"
+    },
+    "pricing_structure": {
+      "value": "Dominant model: percentage of AUM (~1% headline, ~0.7-1.0% realized), covering the large majority of wealth-RIA revenue; minority models: flat/subscription planning fees and hourly planning (leading edge of unbundling), performance fees on the asset-management side of the code. No cost-plus, audited or per-unit billing; price is decoupled from cost.",
+      "source": "Schwab RIA Benchmarking Study; IAA/COMPLY Industry Snapshot (fee-structure prevalence); CT Acquisitions valuation guide",
+      "url": "https://advisorservices.schwab.com/insights-hub/perspectives/ria-benchmarking-study-2025",
+      "figure_quoted": "AUM-based fees are the dominant billing model among wealth RIAs with realized rates ~0.7-1.0% of AUM (Schwab RIA Benchmarking / Cerulli convention, as referenced in the prompt's own n_band instruction); asset-based pricing means revenue scales with markets, not hours.",
+      "access_date": "2026-07-20",
+      "quality": "MED"
+    }
+  },
+  "scores": {
+    "V": {
+      "arithmetic": "V_raw = labor_share x ai_replaceable_share = 0.3907 x 0.33592 = 0.131243944; V = 10 x min(1, 0.131243944/0.25) = 10 x 0.524975776 = 5.24975776",
+      "score": 5.24975776
+    },
+    "C": {
+      "arithmetic": "C = 10 x pi_dist x pi_moat = 10 x 0.70 x 0.55 = 3.85",
+      "score": 3.85
+    },
+    "A": {
+      "arithmetic": "A = min(10, 10/t50) = min(10, 10/2.5) = 4.0",
+      "score": 4.0
+    },
+    "B": {
+      "arithmetic": "TD = clamp(log10(3800)/4, 0, 1) = clamp(3.57978359661681/4) = 0.8949458991542025; OW = clamp((0.35-0.10)/0.35, 0.1, 0.9) = clamp(0.7142857142857143) = 0.7142857142857143, +0.1 succession bonus = 0.8142857142857143 (cap 1.0 not binding); CFD = min(0.9, log10(1+32)/2) = min(0.9, 1.5185139398778875/2) = 0.7592569699389438; B = 10 x sqrt(0.8949458991542025 x 0.8142857142857143) / (1 + 0.3 x 0.7592569699389438) = 10 x sqrt(0.7287416607398506) / 1.2277770909816832 = 8.536637868099268 / 1.2277770909816832 = 6.952920655044787",
+      "score": 6.952920655044787
+    },
+    "M": {
+      "arithmetic": "M = clamp(4 x (17.0 - 9.0) / 9.0, 0, 10) = clamp(4 x 0.8888888888888888) = 3.5555555555555554",
+      "score": 3.5555555555555554
+    }
+  },
+  "S": 4.57242873584985,
+  "cross_checks": {
+    "uplift_pp": 13.1243944,
+    "uplift_vs_A_consistent": "V_raw of 0.131243944 implies up to ~13.12pp of revenue freed as EBITDA uplift at full capture - far above the 3pp floor. A = 4.0 (t50 = 2.5y) sits below 5, so the check's trigger (uplift < 3pp while A >= 5) does not fire; large uplift with fast adoption is internally consistent.",
+    "terminal_value": {
+      "class": "PRESSURED",
+      "justification": "Separating the two channels: (a) AI cutting the advisor's costs - ops, planning prep, meeting documentation, reporting - is real and large (V_raw 0.131) and accrues to the operator because AUM fees decouple price from cost; (b) AI replacing the advisor's product - paid human judgment and accountability over life savings - is bounded today by fiduciary trust and regulatory structure (SEC/state registration with a named human fiduciary), and two decades of cheap automated alternatives (index funds, robos at 25-30bps) grew AUM-based human advice rather than killing it. But mature AI is the first substitute that can hold the conversation, which the robo plateau never tested - the realistic path is bifurcation: HNW/complex clients keep paying for human accountability while the mass-affluent base progressively anchors to AI-native platforms and questions what '1%' buys, compressing realized fees at the margin. Demand shrinks at the low end but persists at scale: PRESSURED, not MELTING - and not DURABLE, because the fee re-anchoring mechanism is live even where the relationship survives."
+    },
+    "no_proxy_confirmed": "Confirmed. V was built from the provided labor_share (QCEW/ECEC/SUSB at 5239) and role-level task analysis of the 3-digit 523 role_mix; A was derived from Schwab AI-adoption survey data (63% any-use, doubling since 2023) and prior-technology diffusion analogs (planning software, e-signature). Neither cites deal counts, buyer activity, or multiples. Deal-tracker evidence (DeVoe 95 active buyers, ECHELON PE share, size-tier multiples) informed only B (CFD via the 32 named platforms) and M, per rule 2.",
+    "pricing_model_deflation": "Billing mix: dominant %-of-AUM (~0.7-1.0% realized), minority flat/subscription planning fees, performance fees on the asset-management fringe. AUM pricing is decoupled from cost, so AI efficiency does NOT mechanically flow to clients as lower fees - it lands as operator margin, which supports pi_dist = 0.70 (above midpoint). The deflation channel that does exist is competitive re-anchoring: robo precedent priced simple allocation at 25-30bps, and AI-native advice could unbundle what '1%' buys - this fee-compression mechanism, plus book portability and the Advisers Act consent-to-assignment friction on acquired revenue, is why pi_dist is 0.70 rather than 0.85, and the client-side AI-bypass threat is why pi_moat is 0.55. Mechanisms stated per Step 1b."
+  },
+  "confidence_overall": "MED",
+  "heterogeneous": true,
+  "top_uncertain_inputs": [
+    {
+      "input": "t50_years",
+      "plausible_range": "1.5-4 years",
+      "score_impact": "A = min(10, 10/t50): t50 = 1.5 gives A = 6.667, t50 = 4 gives A = 2.5; S scales as (A/4.0)^0.2, i.e. from ~4.16 (t50=4) to ~5.06 (t50=1.5) - about +0.5/-0.4 on S. Fastest-moving input: material adoption could cross 50% by 2028 if scribe/copilot tools keep doubling."
+    },
+    {
+      "input": "n_band",
+      "plausible_range": "2,500-6,000",
+      "score_impact": "Researched ESTIMATE (per the documented rule-6 exception): TD = log10(n_band)/4 moves from 0.849 (2,500) to 0.945 (6,000); B from 6.77 to 7.14; S roughly 4.55 to 4.60 - modest score impact, but the chain (fee 0.75%, margin 27.5%, wealth-share 0.66, $500M-$1B band share ~15%) stacks four estimates; the $500M-$1B share and wealth-firm fraction are the weakest links."
+    },
+    {
+      "input": "buy_mult / exit_mult spread",
+      "plausible_range": "buy 7.5-11.6x, exit 15-19x",
+      "score_impact": "M = 4x(exit-buy)/buy: worst case (buy 11.6, exit 15) M = 1.172, S ~ 3.68; best case (buy 7.5, exit 19) M = 6.133, S ~ 5.10. The single most score-sensitive uncertainty: buyer competition (95 active buyers, AGS median at a record 11.6x) is actively arbitraging away the small-firm discount this M depends on."
+    },
+    {
+      "input": "ai_replaceable_share (remainder tail fraction)",
+      "plausible_range": "0.25-0.55 on the 28.66% unlisted tail (ars 0.293-0.379)",
+      "score_impact": "V moves from 4.58 to 5.92 across the tail range (V = 10 x 0.3907 x ars / 0.25); S roughly 4.45 to 4.68. The 3-digit role_mix (LOW quality) makes the tail composition genuinely unknown."
+    }
+  ],
+  "reviewer_note": "Formula outputs reported as computed; no overrides. Heterogeneity (rule 5 analog per prompt trap): 523940 merges portfolio management (old 523920: asset managers, hedge fund advisers) with investment advice (old 523930: wealth managers, planners); scored the DOMINANT sub-segment by firm count - wealth-advice RIAs (IAA: individual-client firms average 8 employees/$424M AUM and are the majority of the 16,544 SEC RIAs, plus ~17k state-registered micro-RIAs below the band) - heterogeneous: true; institutional asset-manager economics (higher revenue/employee, performance fees) were excluded from n_band via the 0.66 wealth-share scalar. Dataset caveats carried: labor_share 0.3907 is ancestor-5239 LOW (blends brokerage-adjacent payrolls); role_mix is 3-digit 523 (brokerage occupations bleed in - 41-3031 at 15.45% wage share largely reflects sibling codes); n_total 88,068 is QCEW establishments, wildly above the Form ADV firm count (~16.5k SEC + ~17k state) - used only as provided context, not in any formula; n_band was researched per the documented exception with the full chain in its derivation field. Control-warning compliance on M: buy 9.0x and exit 17.0x are both tracker-sourced size-tier numbers (DeVoe/ECHELON 7.5-10x for $250-500M sellers; 15-19x for $3B-$20B platforms) on adjusted-EBITDA basis; no mega-deal multiples were averaged into entry, and no EBOC/revenue multiples were used. Honest tension: the AGS 2025 all-deal median of 11.6x (record high, average seller ~$500M AUM) suggests entry pricing for quality small sellers may already exceed 9x - if a live roll-up must pay ~11.6x, M falls to ~1.86 and S to ~4.02; the spread is the record's most fragile assumption. Formula-vs-intuition: none material - V is the strongest factor and matches the visible reality of AI eating the RIA back office and meeting workflow while C stays middling on fee-compression and bypass risk."
+}

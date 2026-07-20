@@ -1,0 +1,306 @@
+{
+  "naics": "541512",
+  "title": "Computer Systems Design Services",
+  "run_meta": {
+    "model_id": "claude-fable-5",
+    "run_date": "2026-07-20",
+    "run_id": "golden-f1-541512",
+    "template_version": "3.0",
+    "prompt_version": "p3-aff6579"
+  },
+  "dataset_inputs": {
+    "labor_share": {
+      "value": 0.6444,
+      "method": "QCEW 2024 private total annual wages at 541512 ($168,217,056,007) x benefits multiplier 1.4294 [ECEC private-industry total comp $46.60/hr / wages $32.60/hr = 1.4294 (March 2026 reference period)] / SUSB 2022 receipts at 541512 ($278,318,454,000). Vintage mismatch: 2024 wages over 2022 receipts, stated. Level: 6-digit. Harmonized to IPS basis ÷1.3407 (median of 65 dual-method codes).",
+      "sources": [
+        "BLS QCEW 2024 annual averages (US000, private)",
+        "BLS ECEC news release (raw/ecec.nr0.htm)",
+        "Census SUSB 2022 (receipts by NAICS)"
+      ],
+      "year": "2024 wages / 2022 receipts",
+      "quality": "MED"
+    },
+    "role_mix": {
+      "oews_level": "4-digit 5415",
+      "occupations": [
+        {
+          "soc": "15-1252",
+          "title": "Software Developers",
+          "emp_share": 0.2091,
+          "wage_share": 0.2386
+        },
+        {
+          "soc": "15-1232",
+          "title": "Computer User Support Specialists",
+          "emp_share": 0.0633,
+          "wage_share": 0.033
+        },
+        {
+          "soc": "11-3021",
+          "title": "Computer and Information Systems Managers",
+          "emp_share": 0.0533,
+          "wage_share": 0.0827
+        },
+        {
+          "soc": "15-1211",
+          "title": "Computer Systems Analysts",
+          "emp_share": 0.0481,
+          "wage_share": 0.0455
+        },
+        {
+          "soc": "41-3091",
+          "title": "Sales Representatives of Services, Except Advertising, Insurance, Financial Services, and Travel",
+          "emp_share": 0.0475,
+          "wage_share": 0.043
+        },
+        {
+          "soc": "11-1021",
+          "title": "General and Operations Managers",
+          "emp_share": 0.0351,
+          "wage_share": 0.0518
+        },
+        {
+          "soc": "15-1299",
+          "title": "Computer Occupations, All Other",
+          "emp_share": 0.0315,
+          "wage_share": 0.0314
+        },
+        {
+          "soc": "13-1082",
+          "title": "Project Management Specialists",
+          "emp_share": 0.029,
+          "wage_share": 0.0304
+        },
+        {
+          "soc": "13-1111",
+          "title": "Management Analysts",
+          "emp_share": 0.0268,
+          "wage_share": 0.0273
+        },
+        {
+          "soc": "15-1253",
+          "title": "Software Quality Assurance Analysts and Testers",
+          "emp_share": 0.0251,
+          "wage_share": 0.0222
+        }
+      ],
+      "quality": "MED"
+    },
+    "n_total": {
+      "value": 49252,
+      "source": "SUSB 2022 (firms, all enterprise sizes)",
+      "year": "2022",
+      "quality": "HIGH"
+    },
+    "n_band": {
+      "value": 3524,
+      "derivation": "margin 0.1565 (margins.json[54]: Damodaran Jan 2026: Business & Consumer Services EBITDA/Sales 15.65%); revenue/employee $341,141 (SUSB 2022 receipts/employment at 541512); class <5: 37,887 firms, avg revenue/firm $394,508 (class receipts/firms), implied EBITDA $61,740 -> out of $1-10M band; class 5-9: 4,632 firms, avg revenue/firm $1,847,390 (class receipts/firms), implied EBITDA $289,117 -> out of $1-10M band; class 10-19: 2,780 firms, avg revenue/firm $3,880,864 (class receipts/firms), implied EBITDA $607,355 -> out of $1-10M band; class 20-99: 2,795 firms, avg revenue/firm $11,906,109 (class receipts/firms), implied EBITDA $1,863,306 -> IN $1-10M band; class 100-499: 729 firms, avg revenue/firm $51,131,923 (class receipts/firms), implied EBITDA $8,002,146 -> IN $1-10M band; class 500+: 429 firms, avg revenue/firm $404,366,175 (class receipts/firms), implied EBITDA $63,283,306 -> out of $1-10M band; n_band = 3,524",
+      "margin_used": 0.1565,
+      "margin_source": "Damodaran Jan 2026: Business & Consumer Services EBITDA/Sales 15.65%",
+      "quality": "ESTIMATE"
+    }
+  },
+  "inputs": {
+    "ai_replaceable_share": {
+      "value": 0.35163,
+      "breakdown_by_role": [
+        {
+          "role": "Engineers and technical delivery staff (15-1252 + 15-1299 + 15-1253)",
+          "labor_share_of_total": 0.2922,
+          "within_role_automatable_fraction": 0.4,
+          "contribution": 0.11688000000000001,
+          "rationale": "Scripting, integration glue code, configuration, patching automation, runbook drafting, documentation and QA are heavily AI-exposed with current coding/agentic models. For MSP-model firms this tier is centralized services engineering where automated remediation is already commercial. Solution architecture judgment, client-specific environment knowledge and on-site/hardware work persist.",
+          "plausible_range": "0.30-0.55"
+        },
+        {
+          "role": "Helpdesk and support desk (15-1232)",
+          "labor_share_of_total": 0.033,
+          "within_role_automatable_fraction": 0.6,
+          "contribution": 0.0198,
+          "rationale": "Tier-1 ticket resolution, password resets, onboarding/offboarding are the most directly AI-automatable cost lines; AI service-desk products already target them. Physical desk-side/field visits are the residue. Note: the 4-digit wage share (3.3%) materially understates support-desk weight at MSP-heavy 541512; extra support labor sits in the unallocated tail below.",
+          "plausible_range": "0.45-0.75"
+        },
+        {
+          "role": "Systems analysts and consultants (15-1211 + 13-1111)",
+          "labor_share_of_total": 0.0728,
+          "within_role_automatable_fraction": 0.35,
+          "contribution": 0.02548,
+          "rationale": "Assessments, migration planning documents and compliance gap analyses automate substantially; stakeholder facilitation and vendor-selection judgment persist.",
+          "plausible_range": "0.25-0.45"
+        },
+        {
+          "role": "Technical and delivery management (11-3021 + 13-1082)",
+          "labor_share_of_total": 0.1131,
+          "within_role_automatable_fraction": 0.25,
+          "contribution": 0.028274999999999998,
+          "rationale": "vCIO/technology-alignment reviews, project coordination, status reporting automate in part; the trusted-advisor QBR relationship is the retention mechanism and persists.",
+          "plausible_range": "0.15-0.35"
+        },
+        {
+          "role": "Company management (11-1021)",
+          "labor_share_of_total": 0.0518,
+          "within_role_automatable_fraction": 0.2,
+          "contribution": 0.010360000000000001,
+          "rationale": "Owner-operators hold client relationships in sub-$10M firms; internal ops, reporting and planning automate partially.",
+          "plausible_range": "0.10-0.30"
+        },
+        {
+          "role": "Sales and account management (41-3091)",
+          "labor_share_of_total": 0.043,
+          "within_role_automatable_fraction": 0.3,
+          "contribution": 0.012899999999999998,
+          "rationale": "Proposal/quote production and renewal paperwork automate; local relationship selling to SMB owners persists.",
+          "plausible_range": "0.20-0.40"
+        },
+        {
+          "role": "Admin, dispatch, finance and unallocated tail (remainder beyond listed top-10)",
+          "labor_share_of_total": 0.3941,
+          "within_role_automatable_fraction": 0.35,
+          "contribution": 0.137935,
+          "rationale": "Ticketing admin, dispatch, procurement/quoting, invoicing are heavily automatable (~0.6); but a substantial part of this tail is additional field/bench technicians and desk-side support with physical components (~0.05-0.1). Blended at 0.35 assuming roughly half admin/finance-like and half field/physical-mixed.",
+          "plausible_range": "0.25-0.45"
+        }
+      ],
+      "quality": "MED"
+    },
+    "pi_dist": {
+      "value": 0.55,
+      "rationale": "The firm, not a gatekeeper, owns the client: 1-3 year per-seat/per-device MRR agreements, environment documentation, security tooling and QBR cadence. Recurring revenue is now ~74% of MSP revenue, and MRR pricing decouples fees from hours — AI delivery-cost savings accrue to the operator until competitive repricing, a capture-POSITIVE structure unusual in sector 54. Two deflation channels are netted in: (1) the seat-count channel — if AI shrinks client headcount, billed seats shrink even when rates hold; (2) upstream RMM/PSA/security vendors (Kaseya, ConnectWise, Microsoft) embedding autonomous remediation and capturing part of the automation value through license pricing. Project and hardware-resale revenue (~26%) is competitively bid and passes savings through.",
+      "plausible_range": "0.45-0.65",
+      "sources": [
+        "https://medhacloud.com/blog/managed-services-market-statistics-2026",
+        "https://www.connectwise.com/company/press/releases/service-leadership-index-q4-data"
+      ],
+      "quality": "MED"
+    },
+    "pi_moat": {
+      "value": 0.5,
+      "rationale": "Real switching costs: multi-year agreements, environment documentation, deployed security stack, and — increasingly the durable anchor — security/compliance accountability (cyber-insurance requirements, CMMC/HIPAA attestations, incident-response liability) that an SMB cannot satisfy with generic AI plus SaaS defaults. Offsets: no licensure; low formal entry barriers; and a realistic medium-term bypass threat that platform vendors ship autonomous IT management directly to SMBs (Kaseya is already marketing agentic AI in-platform), which would disintermediate the MSP layer.",
+      "plausible_range": "0.40-0.60",
+      "sources": [
+        "https://www.channeldive.com/news/kaseya-agentic-ai-it-services-security-platform/818753/",
+        "https://www.kaseya.com/press-release/ai-emerges-as-the-key-to-scaling-msp-operations-as-growth-gets-harder/"
+      ],
+      "quality": "MED"
+    },
+    "t50_years": {
+      "value": 2.0,
+      "derivation": "Kaseya's 2026 State of the MSP Report (1,000+ MSPs, April 2026) reports 53% already using AI to automate ticketing, patching and monitoring, and 80% list AI adoption for efficiency as a strategic goal. Discounting for vendor-survey selection bias and for the NAICS frame (541512 includes non-MSP systems integrators slower to adopt), declared current material adoption is ~45% (band 0.35-0.50). The gap to 50% is small and diffusion is passive — agentic AI ships inside the RMM/PSA platforms nearly all firms already run — versus the ~8-10 year historical analog for RMM/PSA and the managed-services model shift. From ~45% to 50%: approximately 2 years.",
+      "plausible_range": "1-4",
+      "quality": "MED"
+    },
+    "current_adoption_pct": {
+      "value": 0.45,
+      "source": "Kaseya 2026 State of the MSP Report (1,000+ MSP respondents, April 2026), discounted for selection bias and NAICS frame",
+      "url": "https://www.kaseya.com/resource/2026-kaseya-state-of-the-msp-report-insights/",
+      "figure_quoted": "\"53% of MSPs are already using AI to automate ticketing, patching and monitoring\"; \"more than half have automated only about a quarter of their workload\"; \"80% of MSPs list AI adoption for efficiency as a strategic goal\"; \"just 13% are currently generating meaningful revenue from these [AI] services.\" Material = AI actively performing automatable functions in production (automated ticket resolution/triage, patching, monitoring remediation), not pilots or occasional generative-chat use. Kaseya samples tool-forward MSPs globally and by business model, not NAICS; 541512 also contains systems integrators — declared US-industry material adoption 45%.",
+      "access_date": "2026-07-20",
+      "quality": "MED"
+    },
+    "historical_analogs": {
+      "value": "RMM/PSA tooling took roughly 8-10 years from early-2010s availability to majority MSP penetration; the managed-services (MRR) business-model shift itself ran ~10+ years, with recurring revenue rising from 62% of MSP revenue in 2020 to 74% by 2025. AI arrives pre-embedded in the same RMM/PSA platforms, so diffusion is faster than either analog.",
+      "source": "Service Leadership Index / ConnectWise data reports; managed services market statistics compilation (secondary republication)",
+      "url": "https://medhacloud.com/blog/managed-services-market-statistics-2026",
+      "figure_quoted": "\"Recurring revenue now represents 74% of total MSP revenue, up from 62% in 2020 — the industry has largely completed its shift away from project-based billing.\"",
+      "access_date": "2026-07-20",
+      "quality": "ESTIMATE"
+    },
+    "owners_60plus_pct": {
+      "value": 0.3,
+      "source": "No MSP-specific owner-age distribution found (Service Leadership owner-demographic data paywalled/unverified); estimated from national small-business owner demographics adjusted for the sector's founder cohort",
+      "url": "https://www.mckinsey.com/institute-for-economic-mobility/our-insights/the-great-ownership-transfer-a-new-era-of-business-stewardship",
+      "figure_quoted": "National frame: \"more than half of U.S. small-business owners are over age 55... and one in four are 65 or older\" (McKinsey/succession-wave reporting, 2026). Many small MSPs are founder-owned dating to the 1990s-2000s break-fix era — founders who started at ~30 in 1995-2005 are now ~50-60 — placing a large cohort in late 50s but somewhat below the all-industry 60+ share. Estimated 30% of owners aged 60+.",
+      "access_date": "2026-07-20",
+      "quality": "ESTIMATE",
+      "succession_shortage_documented": {
+        "value": false,
+        "evidence": "Generic evidence is strong (Gallup: most small-business owners lack a succession plan; Fed 2025 SBCS: 62% of owners report accelerated retirement timelines), but no MSP/IT-services-specific documentation of a successor shortage was found, and the exceptionally deep PE bid (466 MSP deals in 2025) argues buyers are plentiful. Not documented for this industry."
+      }
+    },
+    "active_consolidators": {
+      "value": 20,
+      "source": "Named-platform count from trade/deal coverage plus deal-tracker PE share: Evergreen Services Group incl. Lyra/Pine/Cedar (Alpine Investors, 47 acquisitions in 2025), New Charter Technologies (Oval Partners), Ntiva (PSP Capital), Thrive (Court Square/Berkshire), Integris (OMERS), Coretelligent (Norwest), Magna5 (AEA); Drake Star counts PE in 69% of 169 tracked 2025 MSP deals, implying materially more distinct sponsor-backed platforms than the named seven-plus; conservative count declared: 20",
+      "url": "https://ctacquisitions.com/guides/private-equity-msp-2026/",
+      "figure_quoted": "\"169 MSP M&A transactions in 2025\" with \"private equity appeared in 69% of disclosed deals\"; Evergreen \"47 acquisitions in 2025\" and \"100+ cumulative MSP acquisitions\"; Lyra \"33 MSP acquisitions across five countries in 2025\". Solganick: \"2025 full-year MSP deals surged 20% to 466, totaling $4.3B in disclosed value.\"",
+      "access_date": "2026-07-20",
+      "quality": "MED"
+    },
+    "buy_mult": {
+      "value": 5.0,
+      "source": "Aventis Advisors MSP Valuation Multiples report (small-MSP tier)",
+      "url": "https://aventis-advisors.com/msp-valuation-multiples/",
+      "figure_quoted": "Small MSPs (under $5M revenue): \"valuations average around 5.0x EV/EBITDA, reflecting a 55% discount\" to the 11.2x platform benchmark. Corroborating: CT Acquisitions MSP guide tiers sub-$5M EBITDA at \"3.5x-5x EV/EBITDA\" (secondary republication). Multiples are on adjusted EV/EBITDA after owner-comp normalization for sub-$2M-EBITDA sellers; SDE-basis quotes excluded.",
+      "access_date": "2026-07-20",
+      "quality": "MED"
+    },
+    "exit_mult": {
+      "value": 11.2,
+      "source": "Aventis Advisors (platform/public benchmark) and CT Acquisitions MSP M&A guide (platform-tier median; secondary republication)",
+      "url": "https://aventis-advisors.com/msp-valuation-multiples/",
+      "figure_quoted": "\"MSPs achieve 11.2x EV/EBITDA\" at platform scale (Aventis benchmark from 10 listed MSPs, median 11.4x H2 2024); CT Acquisitions: \"$15M+ EBITDA: 11x, 15x+ EV/EBITDA\" with \"11.2x median for platform-tier deals\". Aventis's 120 private MSP transactions show median 8.9x at $38.5M median size (mid-tier), bracketing 11.2x as the $10M+-EBITDA platform figure.",
+      "access_date": "2026-07-20",
+      "quality": "MED"
+    },
+    "pricing_structure": {
+      "value": "Dominant model: per-seat/per-device monthly recurring fees under 1-3 year managed-services agreements — recurring revenue is ~74% of MSP revenue (up from 62% in 2020). Remainder: project work (migrations, installs; competitively bid, margins fell to ~13% in Q4 2024 from ~23% a year earlier) and hardware/license resale (low-margin pass-through). Recurring managed-services gross margins run ~45-55%; median MSP operating margin ~8% vs top-quartile ~22% (Service Leadership) — wide dispersion. MRR decouples fees from delivered hours, so near-term AI savings stay with the operator; project/resale revenue passes savings through at bid.",
+      "source": "Service Leadership Index via ConnectWise data reports; managed services statistics compilation (secondary republication)",
+      "url": "https://www.connectwise.com/company/press/releases/service-leadership-index-q4-data",
+      "figure_quoted": "\"Recurring revenue now represents 74% of total MSP revenue, up from 62% in 2020\"; \"Top-quartile operating margin among managed IT service organizations is approximately 22% versus the full-population median of approximately 8%, with top-quartile MRR share running above 85% versus population median around 62%\"; \"MSP project margins fell to roughly 13% in Q4 2024, down from 23% a year earlier.\"",
+      "access_date": "2026-07-20",
+      "quality": "MED"
+    }
+  },
+  "scores": {
+    "V": {
+      "arithmetic": "ai_replaceable_share = 0.2922*0.40 + 0.033*0.60 + 0.0728*0.35 + 0.1131*0.25 + 0.0518*0.20 + 0.043*0.30 + 0.3941*0.35 = 0.11688 + 0.0198 + 0.02548 + 0.028275 + 0.01036 + 0.0129 + 0.137935 = 0.35163. V_raw = 0.6444 * 0.35163 = 0.226590372. V = 10 * min(1, 0.226590372/0.25) = 10 * 0.906361488 = 9.06361488",
+      "score": 9.06361488
+    },
+    "C": {
+      "arithmetic": "C = 10 * pi_dist * pi_moat = 10 * 0.55 * 0.50 = 2.75",
+      "score": 2.75
+    },
+    "A": {
+      "arithmetic": "A = min(10, 10 / t50) = min(10, 10 / 2.0) = 5.0",
+      "score": 5.0
+    },
+    "B": {
+      "arithmetic": "TD = clamp(log10(3524)/4, 0, 1) = 3.5470358997400106/4 = 0.8867589749350026. OW = clamp((0.30-0.10)/0.35, 0.1, 0.9) = 0.5714285714285714; succession bonus not applied (not documented). CFD = min(0.9, log10(1+20)/2) = min(0.9, 1.3222192947339193/2) = 0.6611096473669597. B = 10 * sqrt(0.8867589749350026 * 0.5714285714285714) / (1 + 0.3*0.6611096473669597) = 10 * sqrt(0.5067194142485729) / 1.1983328942100878 = 10 * 0.7118422397679772 / 1.1983328942100878 = 5.940271449233896",
+      "score": 5.940271449233896
+    },
+    "M": {
+      "arithmetic": "M = clamp(4 * (11.2 - 5.0) / 5.0, 0, 10) = clamp(4 * 1.2399999999999998, 0, 10) = 4.959999999999999",
+      "score": 4.959999999999999
+    }
+  },
+  "S": 5.163907115593229,
+  "cross_checks": {
+    "uplift_pp": 22.6590372,
+    "uplift_vs_A_consistent": "V_raw of 0.226590372 implies a maximum EBITDA uplift of ~22.66pp of revenue if all automatable labor cost were captured — far above the 3pp threshold — and A = 5.0 (t50 = 2 years) is consistent with that large prize plus adoption already near the 50% line. No inconsistency.",
+    "terminal_value": {
+      "class": "PRESSURED",
+      "justification": "SMBs will still need their IT run, and current evidence favors the MSP as the accountable operator of autonomous IT/security agents: cyber-insurance and compliance attestations (CMMC/HIPAA, incident-response liability) require a named accountable provider, and Kaseya/ConnectWise ship agentic AI through the MSP channel rather than direct to SMBs — their license economics still depend on the channel. So AI is today mostly cutting the operator's delivery cost, not replacing the product, and per-seat MRR held while margins expanded (median MSP EBITDA improving). But two structural pressures are real: the per-seat billing base shrinks as AI shrinks SMB client headcount, and the platform vendors retain the option to disintermediate (Kaseya marketing agentic AI aggressively). Demand persists but the billed-seat base and the routine-labor share of the offering shrink over 5-10 years: PRESSURED, not DURABLE and not MELTING. Per-seat billing survives contact with AI-shrunk headcounts only where contracts migrate toward per-environment/per-compliance-scope pricing; evidence of that migration is early."
+    },
+    "no_proxy_confirmed": "Confirmed. V was built from the OEWS role mix and per-role task-automatability judgments about current AI capability; A from the Kaseya 2026 survey adoption figure and RMM/PSA diffusion analogs. The MSP deal wave (466 deals 2025, Evergreen's 47, PE in 69%) was used exclusively for active_consolidators (CFD within B) and buy/exit multiples (M), never as evidence of AI value or adoption speed.",
+    "pricing_model_deflation": "Billing mix: ~74% per-seat/per-device MRR under 1-3 year agreements; ~26% project work and hardware/license resale. MRR is capture-positive near-term — fees are decoupled from hours, so AI delivery savings accrue to the operator until competitive renewal repricing; project/resale work is competitively bid and passes AI savings through immediately. Two deflation channels are explicitly modeled in pi_dist = 0.55: seat-count shrinkage (AI reduces client headcount, shrinking the billing base at constant rates) and upstream vendor capture via AI-feature license pricing. The vendor-disintermediation bypass threat is carried in pi_moat = 0.50."
+  },
+  "confidence_overall": "MED",
+  "heterogeneous": false,
+  "top_uncertain_inputs": [
+    {
+      "input": "t50_years",
+      "plausible_range": "1-4",
+      "score_impact": "A = 10/t50: t50=1 gives A=10, t50=4 gives A=2.5 — S ranges roughly 4.5 to 5.9, the single largest lever; driven by how much the Kaseya 53% figure overstates NAICS-wide material adoption."
+    },
+    {
+      "input": "ai_replaceable_share (unallocated 39.41% tail fraction)",
+      "plausible_range": "tail fraction 0.25-0.45 -> ai_replaceable_share 0.312-0.391",
+      "score_impact": "V ranges 8.05-10.0 (capped); S moves roughly -0.12/+0.10. The tail's split between admin (highly automatable) and field techs (not) is unobserved at 6-digit."
+    },
+    {
+      "input": "buy_mult",
+      "plausible_range": "3.5-6.0",
+      "score_impact": "M = 4*(11.2-buy)/buy: buy=3.5 gives M=8.8, buy=6.0 gives M=3.47 — S ranges roughly 4.8 to 5.8."
+    }
+  ],
+  "reviewer_note": "S~5.16, a strong screen: the rare combination of high V (64% labor share, ~35% automatable), capture-positive MRR pricing, 3,524 in-band targets and a wide 5.0x->11.2x multiple arc. Formula result matches intuition; no override. Conflicts/limitations: (1) Frame mismatch is the biggest data caveat — Kaseya/Service Leadership/deal trackers sample by MSP business model, not NAICS; 541512 also holds systems integrators and VARs-with-services, so adoption (45%) and pricing mix (74% MRR) are MSP-weighted and likely overstate the NAICS-wide averages; V/C/A are scored on the MSP-dominant profile of band-size firms. 541512 is not a catch-all code, so heterogeneous=false, but this MSP-vs-SI mix is real. (2) labor_share 0.6444 is inflated as a margin base by low-margin hardware/license pass-through revenue in receipts (the record itself flags this); V may be modestly overstated for resale-heavy firms. (3) exit_mult 11.2x mixes a platform-deal median (secondary source) with a public-comps benchmark; Aventis's 8.9x private median (at $38.5M size) suggests 11.2x sits at the favorable end — using 8.9x instead would cut M to 3.12 and S to ~4.7. (4) owners_60plus_pct is a national-frame estimate; Service Leadership owner-demographic data could not be verified (paywalled), succession flag left false, no OW bonus. (5) The 2022 receipts vintage predates AI service desks and the 2024-25 deal-tempo peak; current (2025-26) deal pace and multiples were researched independently per the prompt. (6) n_band uses a generic 15.65% Damodaran margin vs Service Leadership median ~8%/top-quartile ~22% — dispersion means the in-band count is sensitive but stays in the thousands; used as given per rule 6."
+}

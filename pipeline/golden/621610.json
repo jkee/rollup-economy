@@ -1,0 +1,343 @@
+{
+  "naics": "621610",
+  "title": "Home Health Care Services",
+  "run_meta": {
+    "model_id": "claude-fable-5",
+    "run_date": "2026-07-20",
+    "run_id": "golden-f1-621610",
+    "template_version": "3.0",
+    "prompt_version": "p3-aff6579"
+  },
+  "dataset_inputs": {
+    "labor_share": {
+      "value": 0.6718,
+      "method": "QCEW 2024 private total annual wages at 621610 ($71,424,773,339) x benefits multiplier 1.4294 [ECEC private-industry total comp $46.60/hr / wages $32.60/hr = 1.4294 (March 2026 reference period)] / SUSB 2022 receipts at 621610 ($113,350,417,000). Vintage mismatch: 2024 wages over 2022 receipts, stated. Level: 6-digit. Harmonized to IPS basis ÷1.3407 (median of 65 dual-method codes).",
+      "sources": [
+        "BLS QCEW 2024 annual averages (US000, private)",
+        "BLS ECEC news release (raw/ecec.nr0.htm)",
+        "Census SUSB 2022 (receipts by NAICS)"
+      ],
+      "year": "2024 wages / 2022 receipts",
+      "quality": "MED"
+    },
+    "role_mix": {
+      "oews_level": "4-digit 6216",
+      "occupations": [
+        {
+          "soc": "31-1120",
+          "title": "Home Health and Personal Care Aides",
+          "emp_share": 0.6009,
+          "wage_share": 0.4021
+        },
+        {
+          "soc": "29-1141",
+          "title": "Registered Nurses",
+          "emp_share": 0.1095,
+          "wage_share": 0.1958
+        },
+        {
+          "soc": "29-2061",
+          "title": "Licensed Practical and Licensed Vocational Nurses",
+          "emp_share": 0.0449,
+          "wage_share": 0.0573
+        },
+        {
+          "soc": "31-1131",
+          "title": "Nursing Assistants",
+          "emp_share": 0.0448,
+          "wage_share": 0.0337
+        },
+        {
+          "soc": "29-1123",
+          "title": "Physical Therapists",
+          "emp_share": 0.0171,
+          "wage_share": 0.0393
+        },
+        {
+          "soc": "11-9111",
+          "title": "Medical and Health Services Managers",
+          "emp_share": 0.0161,
+          "wage_share": 0.036
+        },
+        {
+          "soc": "21-1022",
+          "title": "Healthcare Social Workers",
+          "emp_share": 0.0145,
+          "wage_share": 0.0222
+        },
+        {
+          "soc": "43-9061",
+          "title": "Office Clerks, General",
+          "emp_share": 0.0127,
+          "wage_share": 0.0108
+        },
+        {
+          "soc": "43-6013",
+          "title": "Medical Secretaries and Administrative Assistants",
+          "emp_share": 0.0105,
+          "wage_share": 0.0097
+        },
+        {
+          "soc": "29-1122",
+          "title": "Occupational Therapists",
+          "emp_share": 0.0076,
+          "wage_share": 0.0165
+        }
+      ],
+      "quality": "MED"
+    },
+    "n_total": {
+      "value": 28198,
+      "source": "SUSB 2022 (firms, all enterprise sizes)",
+      "year": "2022",
+      "quality": "HIGH"
+    },
+    "n_band": {
+      "value": 1983,
+      "derivation": "margin 0.1580 (margins.json[62]: Damodaran Jan 2026: Hospitals/Healthcare Facilities EBITDA/Sales 15.80% (closest named bucket for provider economics; public support-services bucket at 3.87% reflects a different business model)); revenue/employee $72,294 (SUSB 2022 receipts/employment at 621610); class <5: 11,187 firms, avg revenue/firm $242,470 (class receipts/firms), implied EBITDA $38,310 -> out of $1-10M band; class 5-9: 3,386 firms, avg revenue/firm $660,235 (class receipts/firms), implied EBITDA $104,317 -> out of $1-10M band; class 10-19: 3,828 firms, avg revenue/firm $1,118,957 (class receipts/firms), implied EBITDA $176,795 -> out of $1-10M band; class 20-99: 7,049 firms, avg revenue/firm $2,771,668 (class receipts/firms), implied EBITDA $437,923 -> out of $1-10M band; class 100-499: 1,983 firms, avg revenue/firm $10,545,427 (class receipts/firms), implied EBITDA $1,666,177 -> IN $1-10M band; class 500+: 765 firms, avg revenue/firm $83,228,652 (class receipts/firms), implied EBITDA $13,150,127 -> out of $1-10M band; n_band = 1,983",
+      "margin_used": 0.158,
+      "margin_source": "Damodaran Jan 2026: Hospitals/Healthcare Facilities EBITDA/Sales 15.80% (closest named bucket for provider economics; public support-services bucket at 3.87% reflects a different business model)",
+      "quality": "ESTIMATE"
+    }
+  },
+  "inputs": {
+    "ai_replaceable_share": {
+      "value": 0.165941,
+      "breakdown_by_role": [
+        {
+          "role": "Home Health and Personal Care Aides (31-1120)",
+          "labor_share_of_total": 0.4021,
+          "within_role_automatable_fraction": 0.02,
+          "contribution": 0.008042,
+          "rationale": "In-home physical care (bathing, transfers, meal prep, companionship) is the product; mature AI does not replace the visit. Tiny sliver for EVV/app-based visit documentation and check-in overhead only.",
+          "plausible_range": "0.00-0.05"
+        },
+        {
+          "role": "Registered Nurses (29-1141)",
+          "labor_share_of_total": 0.1958,
+          "within_role_automatable_fraction": 0.3,
+          "contribution": 0.05874,
+          "rationale": "Skilled visits are physical and persist, but a large slice of RN time is OASIS assessments, care-plan paperwork, and coding-adjacent documentation. Vendor deployments report 40-55% documentation time savings (AutomationEdge/industry deployments); documentation is roughly a third of RN episode time, so AI reclaims ~30% of the role's labor cost.",
+          "plausible_range": "0.20-0.40"
+        },
+        {
+          "role": "LPNs (29-2061)",
+          "labor_share_of_total": 0.0573,
+          "within_role_automatable_fraction": 0.05,
+          "contribution": 0.002865,
+          "rationale": "Hands-on clinical support in the home; lighter documentation burden than RNs (no OASIS ownership). Small documentation sliver only.",
+          "plausible_range": "0.02-0.10"
+        },
+        {
+          "role": "Nursing Assistants (31-1131)",
+          "labor_share_of_total": 0.0337,
+          "within_role_automatable_fraction": 0.02,
+          "contribution": 0.000674,
+          "rationale": "Physical hands-on care like aides; visit-note sliver only.",
+          "plausible_range": "0.00-0.05"
+        },
+        {
+          "role": "Physical Therapists (29-1123)",
+          "labor_share_of_total": 0.0393,
+          "within_role_automatable_fraction": 0.1,
+          "contribution": 0.00393,
+          "rationale": "Physical home visits persist; documentation/plan-of-care paperwork sliver is real but smaller than RN OASIS burden. PDGM already removed therapy-volume incentives in 2020 - the visit decline is a payment artifact, not AI substitution, and is not counted here.",
+          "plausible_range": "0.05-0.20"
+        },
+        {
+          "role": "Medical and Health Services Managers (11-9111)",
+          "labor_share_of_total": 0.036,
+          "within_role_automatable_fraction": 0.35,
+          "contribution": 0.0126,
+          "rationale": "QA record review, scheduling oversight, utilization reporting automate substantially; clinical escalation, survey readiness, and family communication persist.",
+          "plausible_range": "0.25-0.50"
+        },
+        {
+          "role": "Healthcare Social Workers (21-1022)",
+          "labor_share_of_total": 0.0222,
+          "within_role_automatable_fraction": 0.15,
+          "contribution": 0.00333,
+          "rationale": "Relationship and assessment work persists; resource-lookup and documentation slivers automate.",
+          "plausible_range": "0.05-0.25"
+        },
+        {
+          "role": "Office Clerks, General (43-9061)",
+          "labor_share_of_total": 0.0108,
+          "within_role_automatable_fraction": 0.6,
+          "contribution": 0.00648,
+          "rationale": "Intake/referral processing, eligibility checks, filing, claims-status work - the clean AI surface; some phone/exception handling persists.",
+          "plausible_range": "0.40-0.75"
+        },
+        {
+          "role": "Medical Secretaries and Administrative Assistants (43-6013)",
+          "labor_share_of_total": 0.0097,
+          "within_role_automatable_fraction": 0.6,
+          "contribution": 0.00582,
+          "rationale": "Scheduling, records requests, referral paperwork - same clean surface as clerks.",
+          "plausible_range": "0.40-0.75"
+        },
+        {
+          "role": "Occupational Therapists (29-1122)",
+          "labor_share_of_total": 0.0165,
+          "within_role_automatable_fraction": 0.1,
+          "contribution": 0.00165,
+          "rationale": "Same logic as PT: physical visit persists, documentation sliver automates.",
+          "plausible_range": "0.05-0.20"
+        },
+        {
+          "role": "Remainder / unlisted tail (schedulers, coders, billers, intake, recruiters, HR, liaisons)",
+          "labor_share_of_total": 0.1766,
+          "within_role_automatable_fraction": 0.35,
+          "contribution": 0.06181,
+          "rationale": "Per prompt guidance the tail contains ~5-8pp of pure office/scheduling/billing/coding (automatable at clerk-like ~0.6) plus recruiting (partial: screening/outreach automate, interviews persist) and hospital-liaison marketing (relationship work, persists). Blended 0.35.",
+          "plausible_range": "0.25-0.45"
+        }
+      ],
+      "quality": "MED"
+    },
+    "pi_dist": {
+      "value": 0.35,
+      "rationale": "Payers, not clients, control pricing, and the clawback mechanism is documented and recurring. Medicare FFS PDGM episodic payment lets an efficient agency keep gains only between rate cycles: CMS finalized permanent and temporary behavioral-adjustment cuts in the CY2026 HH PPS final rule, and MedPAC (March 2026) projects a 19% FFS margin for 2026 and recommends a 7% base-rate cut for CY2027 - measured efficiency is transferred back to the payer on a multi-year lag. Medicaid HCBS hourly rates are state-set, with wage pass-through laws (e.g., NY wage parity) converting labor-cost savings into mandated wages. MA plans negotiate per-visit rates downward and reprice networks. Private-pay hourly is client-paid but competitively bid in a low-entry-barrier market. Referral flow is owned by hospital discharge planners and MA/ACO networks, not the agency. Some retention (0.35 not 0.15) because rebasing lags run 2-4 years and private-pay/MA-mix agencies keep more.",
+      "plausible_range": "0.25-0.45",
+      "sources": [
+        "https://www.medpac.gov/wp-content/uploads/2026/03/Mar26_Ch8_MedPAC_Report_To_Congress_SEC.pdf",
+        "https://www.federalregister.gov/documents/2025/12/02/2025-21767/medicare-and-medicaid-programs-calendar-year-2026-home-health-prospective-payment-system-hh-pps-rate"
+      ],
+      "quality": "MED"
+    },
+    "pi_moat": {
+      "value": 0.55,
+      "rationale": "The product is physically delivered in the home, so clients cannot bypass the agency with generic AI at all - that bypass threat is essentially zero. Medicare-certified home health carries certification plus CON/licensure moratoria in some states (real moat). But the dominant band-size sub-segment is weighted toward Medicaid HCBS/personal care and private-duty, where entry barriers are licensure-only in many states, caregiver turnover runs 60-80%, and census durability hinges on individual liaison relationships and payer network contracts that can reprice or churn post-acquisition. Blend: high bypass protection, moderate-to-low entry/switching protection.",
+      "plausible_range": "0.45-0.70",
+      "sources": [
+        "https://www.medpac.gov/wp-content/uploads/2026/03/Mar26_Ch8_MedPAC_Report_To_Congress_SEC.pdf",
+        "https://www.mertztaggart.com/post/q4-2025-home-based-care-m-a-report"
+      ],
+      "quality": "MED"
+    },
+    "t50_years": {
+      "value": 3.5,
+      "derivation": "current_adoption_pct ~24% materially invested in AI (Axxess/AxisCare 2026 survey data: 'fewer than one in four organizations have made any AI-specific investment'). Historical analog: EHR adoption in home health agencies went from ~41% (2007 NCHS) to over 75% (2017 ONC), crossing 50% around 2010 - roughly 12+ years from wide availability to majority adoption. AI tools ride the now-installed EHR/agency-management platforms (Axxess, WellSky, AxisCare embed AI directly), stated intent is very high (91% using-or-planning per 2026 industry survey of 400+ leaders), and the tools attack the #1 operator pains (documentation time, scheduling churn) - so diffusion should run roughly 3x the EHR pace. From 24% to 50% at that pace: ~3.5 years.",
+      "plausible_range": "2.5-6",
+      "quality": "MED"
+    },
+    "current_adoption_pct": {
+      "value": 0.24,
+      "source": "myEZCare 2026 Home Care Industry Report (aggregating Axxess 2026 Industry Growth Insights Report and AxisCare 2026 Home Care Industry Survey)",
+      "url": "https://www.myezcare.com/2026-home-care-industry-report-workforce-ai-adoption-growth-trends/",
+      "figure_quoted": "'fewer than one in four organizations have made any AI-specific investment' (~24%); 64% of leaders cite scheduling/shift matching as AI's most impactful application; corroborating: HHCN 2025 research found only 19% of home care providers consider themselves AI early adopters, 46% 'selective'. Material = paid deployment of AI in documentation, scheduling, coding, or intake (not pilots or intent).",
+      "access_date": "2026-07-20",
+      "quality": "MED"
+    },
+    "historical_analogs": {
+      "value": "EHR adoption in home health agencies: ~41% (2007, NCHS National Home and Hospice Care Survey) to over 75% (2017, ONC data brief) - crossed ~50% circa 2010, i.e. roughly 12-15 years from wide availability of point-of-care systems to majority adoption; telehealth in HHAs stayed low for over a decade despite availability.",
+      "source": "ONC Data Brief: Electronic Health Record Adoption and Interoperability among U.S. Skilled Nursing Facilities and Home Health Agencies in 2017",
+      "url": "https://www.healthit.gov/sites/default/files/page/2018-11/Electronic-Health-Record-Adoption-and-Interoperability-among-U.S.-Skilled-Nursing-Facilities-and-Home-Health-Agencies-in-2017.pdf",
+      "figure_quoted": "In 2017, over three-quarters of HHAs reported they had adopted EHRs; a decade earlier surveys showed minimal uptake of EHR and telehealth use (PMC10752454 multi-methods study).",
+      "access_date": "2026-07-20",
+      "quality": "MED"
+    },
+    "owners_60plus_pct": {
+      "value": 0.375,
+      "source": "InCorp / national small-business owner age statistics (no home-care-specific owner-age dataset located; NAHC/Alliance and Activated Insights benchmarks not accessible for owner age)",
+      "url": "https://www.incorp.com/resources/knowledge-base/boomer-business-owners-selling",
+      "figure_quoted": "'52.3 percent of US business owners are 55 or older, with 29.5 percent in the 55 to 64 cohort and 22.8 percent age 65 plus' - interpolating, 60+ is approximately 22.8% + ~half of the 55-64 cohort = ~37.5%. Home care skews slightly younger (franchise entry wave post-2010) but band-size (100-499 employee) firms skew toward older established founders; used the national figure.",
+      "access_date": "2026-07-20",
+      "quality": "ESTIMATE",
+      "succession_shortage_documented": {
+        "value": false,
+        "evidence": "A generic boomer succession wave is documented economy-wide (e.g., '58% of these owners have no documented transition plan'), but no home-health-specific succession-shortage documentation was found from NAHC/the Alliance or Activated Insights; heavy PE buyer presence suggests exit demand is met. Flag left false."
+      }
+    },
+    "active_consolidators": {
+      "value": 32,
+      "source": "CT Acquisitions Home Health PE Roll-Up Tracker 2026",
+      "url": "https://ctacquisitions.com/guides/home-health-pe-rollup-tracker-2026/",
+      "figure_quoted": "'Home Health PE Roll-Up Tracker 2026: 32 Active Platforms' - tracker lists PE-backed platforms with add-ons in 2024-2026 including Choice Health at Home/Trive ('twenty-plus deals since the 2020 Trive entry', latest Feb 2026), BrightSpring (107 Amedisys branches, Dec 2025), Bristol Hospice/Webster, Care Advantage/Searchlight. Corroborated by Mertz Taggart: 105 home care deals closed in 2025, 21 more than 2024.",
+      "access_date": "2026-07-20",
+      "quality": "MED"
+    },
+    "buy_mult": {
+      "value": 5.0,
+      "source": "CT Acquisitions Home Health PE Roll-Up Tracker 2026 (corroborated by Mertz Taggart commentary and FOCUS)",
+      "url": "https://ctacquisitions.com/guides/home-health-pe-rollup-tracker-2026/",
+      "figure_quoted": "'Small HHA ($200K-$1M EBITDA): 4x-6x' - midpoint 5.0x adjusted EBITDA for single-location/small agencies; non-medical/private-duty personal care clears 3-5x, Medicare-certified regional agencies 6-9x. Multiples quoted on adjusted (owner-comp-normalized) EBITDA per broker convention.",
+      "access_date": "2026-07-20",
+      "quality": "MED"
+    },
+    "exit_mult": {
+      "value": 10.2,
+      "source": "CT Acquisitions tracker / Enhabit take-private (corroborated by FOCUS home health & hospice multiples dashboard)",
+      "url": "https://ctacquisitions.com/guides/home-health-pe-rollup-tracker-2026/",
+      "figure_quoted": "'Enhabit's Kinderhook take-private closed at ~10.2x EBITDA on ~$108 million EBITDA'; platform-tier HHA ($20M+ EBITDA) range quoted at 10x-14x. Used the actual closed transaction at the conservative end of the platform range.",
+      "access_date": "2026-07-20",
+      "quality": "MED"
+    },
+    "pricing_structure": {
+      "value": "Per-unit administered/negotiated pricing, no client-set fees: Medicare FFS pays PDGM 30-day episodic prospective payments (largest single payer, ~$52B in 2023); Medicaid HCBS pays state-set hourly rates (some with statutory wage pass-through); Medicare Advantage pays negotiated per-visit rates (share growing with MA penetration); private-pay/LTC insurance pays hourly fees. Band-size agencies are typically Medicaid/MA/private-duty-weighted mixes; virtually no revenue is billed on cost-plus or open-book terms, but rates are payer-administered rather than operator-set.",
+      "source": "MedPAC March 2026 Report to the Congress, Ch. 8 (home health) and CMS CY2026 HH PPS final rule",
+      "url": "https://www.medpac.gov/wp-content/uploads/2026/03/Mar26_Ch8_MedPAC_Report_To_Congress_SEC.pdf",
+      "figure_quoted": "MedPAC projects a 19% FFS Medicare margin for freestanding HHAs in 2026 (21.2% in 2024) and recommends Congress reduce the home health base payment rate by 7% for CY2027; CMS finalized permanent and temporary PDGM behavioral adjustments to the CY2026 base rate.",
+      "access_date": "2026-07-20",
+      "quality": "HIGH"
+    }
+  },
+  "scores": {
+    "V": {
+      "arithmetic": "ai_replaceable_share = 0.4021*0.02 + 0.1958*0.30 + 0.0573*0.05 + 0.0337*0.02 + 0.0393*0.10 + 0.0360*0.35 + 0.0222*0.15 + 0.0108*0.60 + 0.0097*0.60 + 0.0165*0.10 + 0.1766*0.35 = 0.008042 + 0.05874 + 0.002865 + 0.000674 + 0.00393 + 0.0126 + 0.00333 + 0.00648 + 0.00582 + 0.00165 + 0.06181 = 0.165941. V_raw = 0.6718 * 0.165941 = 0.1114791638. V = 10 * min(1, 0.1114791638/0.25) = 10 * 0.4459166552 = 4.459166552",
+      "score": 4.459166552
+    },
+    "C": {
+      "arithmetic": "C = 10 * pi_dist * pi_moat = 10 * 0.35 * 0.55 = 1.925",
+      "score": 1.925
+    },
+    "A": {
+      "arithmetic": "A = min(10, 10/t50) = min(10, 10/3.5) = 2.857142857",
+      "score": 2.857142857
+    },
+    "B": {
+      "arithmetic": "TD = clamp(log10(1983)/4, 0, 1) = 3.297323/4 = 0.824330747. OW = clamp((0.375-0.10)/0.35, 0.1, 0.9) = clamp(0.785714286, 0.1, 0.9) = 0.785714286; succession bonus not applied (succession_shortage_documented = false). CFD = min(0.9, log10(1+32)/2) = min(0.9, 1.518514/2) = 0.759256987. B = 10 * sqrt(0.824330747 * 0.785714286) / (1 + 0.3*0.759256987) = 10 * sqrt(0.647688444) / 1.227777096 = 10 * 0.8047909 / 1.227777096 = 8.047909 / 1.227777096 = 6.554862",
+      "score": 6.554862
+    },
+    "M": {
+      "arithmetic": "M = clamp(4 * (10.2 - 5.0) / 5.0, 0, 10) = clamp(4 * 1.04, 0, 10) = 4.16",
+      "score": 4.16
+    }
+  },
+  "S": 3.673285,
+  "cross_checks": {
+    "uplift_pp": 11.14791638,
+    "uplift_vs_A_consistent": "V_raw = 0.1115 implies a gross EBITDA uplift of ~11.1pp of revenue at full realization (realistically 3-4.5pp near-term after partial realization and before payer clawback). A = 2.857 < 5, so the inconsistency trigger (uplift < 3pp with A >= 5) does not apply; the pair is consistent - meaningful but wrapper-limited value, moderate adoption speed.",
+    "terminal_value": {
+      "class": "DURABLE",
+      "justification": "The product is a human caregiver in the home - aides, nurses and therapists are ~75% of the wage bill and mature AI does not replace the visit; paid demand is demographically expanding. AI cuts the operator's admin/documentation costs, it does not replace the operator's product. But durability of the OPERATOR'S AI cost advantage differs by payer: Medicare-certified skilled care - the advantage is temporary; CMS PDGM behavioral adjustments (CY2026 final rule) and MedPAC's recommended 7% cut on 19% projected margins are a documented recurring mechanism transferring measured efficiency to the payer within 1-2 rate cycles. Medicaid personal care - state-set hourly rates with wage pass-through strings convert labor-cost savings into mandated wages; the operator keeps little. Private-pay - the operator keeps gains longest, but licensure-only entry means competition erodes the spread. Demand is DURABLE; the AI margin spread is a wasting asset, which is priced in C (1.925), not in the terminal-value class."
+    },
+    "no_proxy_confirmed": "Confirmed: V was built solely from the OEWS role mix and within-role task analysis (documentation time, scheduling/intake/billing surfaces); A was derived from the Axxess/AxisCare adoption surveys and the EHR diffusion analog. Neither references deal counts, consolidation waves, nor PE activity. Optum/Amedisys, BrightSpring, Choice, Addus and the Mertz Taggart deal data were used only for B (active_consolidators) and M (multiples).",
+    "pricing_model_deflation": "Billing mix is entirely per-unit administered/negotiated rates (Medicare PDGM episodes, Medicaid hourly, MA per-visit, private-pay hourly) - no cost-plus or open-book contracts, so there is no automatic contractual pass-through. Instead the deflation mechanism is periodic payer rate-setting: PDGM rebasing/behavioral adjustments and MedPAC-recommended cuts claw back measured efficiency on a lag, Medicaid wage pass-through laws convert savings to wages, and MA networks reprice. This is reflected in pi_dist = 0.35 (operator keeps gains only between rate cycles and on the private-pay slice); pi_moat = 0.55 reflects zero client-bypass risk (physical product) offset by low entry barriers in the dominant personal-care sub-segment."
+  },
+  "confidence_overall": "MED",
+  "heterogeneous": true,
+  "top_uncertain_inputs": [
+    {
+      "input": "t50_years",
+      "plausible_range": "2.5-6 years",
+      "score_impact": "A ranges 1.667-4.0; S ranges ~3.30-3.93 (S scales as (A/2.857)^0.2 around 3.673)"
+    },
+    {
+      "input": "owners_60plus_pct",
+      "plausible_range": "0.30-0.45 (no industry-specific owner-age data; national interpolation)",
+      "score_impact": "OW 0.571-0.9 (clamped); B 5.590-7.015; S ~3.56-3.72"
+    },
+    {
+      "input": "pi_dist",
+      "plausible_range": "0.25-0.45",
+      "score_impact": "C 1.375-2.475; S ~3.43-3.86"
+    },
+    {
+      "input": "buy_mult",
+      "plausible_range": "4.0-6.5 (3-5x private-duty vs 6-9x Medicare-certified; band mix uncertain)",
+      "score_impact": "M ranges 2.28-6.2 (at exit 10.2): buy 6.5 -> M=2.277, buy 4.0 -> M=6.2; S ~3.27-4.00"
+    }
+  ],
+  "reviewer_note": "HETEROGENEITY (first-order, per prompt trap list): 621610 blends Medicare-certified skilled home health, Medicaid HCBS/personal care, and private-duty non-medical home care. The 1,983 band firms (all in the 100-499 employee class, ~$10.5M avg revenue, $72K revenue/employee) are consistent with aide-heavy staffing; I judged the dominant band sub-segment to be Medicaid-HCBS/personal-care-weighted agencies (often with mixed skilled lines) and scored on that basis - hence pi_moat 0.55 (licensure-only entry in many states) rather than the higher moat a pure Medicare-certified/CON-state segment would earn, and buy_mult 5.0x blending the 3-5x private-duty and 6-9x certified ranges. heterogeneous = true. DATASET CONFLICTS: none material; the 15.8% Damodaran hospital-bucket margin used in the n_band derivation is above MedPAC's all-payer reality for personal-care-heavy agencies (Medicare FFS margins ~19% but Medicaid/private-duty margins are single-digit-to-low-teens), which may overstate band EBITDA and thus overstate n_band slightly - used as given per rule 6. OWNERS INPUT is the weakest link: national owner-age interpolation, ESTIMATE quality; succession bonus withheld for lack of industry-specific documentation. FORMULA VS INTUITION: the formula S=3.67 feels right directionally, but note M=4.16 rides on a genuinely wide small-agency multiple spread and C=1.925 correctly encodes that payer clawback - not AI capability - is the binding constraint on operator value here. MA-penetration margin squeeze was kept out of the AI-effect estimates per the trap list. Labor share 0.6718 is mostly the product (care hours), not overhead - the automatable share of 0.166 reflects the admin/documentation wrapper only."
+}

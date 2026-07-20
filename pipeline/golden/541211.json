@@ -1,0 +1,342 @@
+{
+  "naics": "541211",
+  "title": "Offices of Certified Public Accountants",
+  "run_meta": {
+    "model_id": "claude-fable-5",
+    "run_date": "2026-07-20",
+    "run_id": "golden-f1-541211",
+    "template_version": "3.0",
+    "prompt_version": "p3-aff6579"
+  },
+  "dataset_inputs": {
+    "labor_share": {
+      "value": 0.5051,
+      "method": "BLS Industry Productivity (IPS) direct: labor compensation (L02) $68,045.5M / sectoral output (T30) $134,726.2M, year 2022",
+      "sources": [
+        "BLS Industry Productivity and Costs flat files (ip.data.1.AllData), measures L02 and T30"
+      ],
+      "year": "2022",
+      "quality": "HIGH"
+    },
+    "role_mix": {
+      "oews_level": "4-digit 5412",
+      "occupations": [
+        {
+          "soc": "13-2011",
+          "title": "Accountants and Auditors",
+          "emp_share": 0.3139,
+          "wage_share": 0.342
+        },
+        {
+          "soc": "43-3031",
+          "title": "Bookkeeping, Accounting, and Auditing Clerks",
+          "emp_share": 0.0942,
+          "wage_share": 0.0549
+        },
+        {
+          "soc": "13-2082",
+          "title": "Tax Preparers",
+          "emp_share": 0.0635,
+          "wage_share": 0.042
+        },
+        {
+          "soc": "11-3031",
+          "title": "Financial Managers",
+          "emp_share": 0.0474,
+          "wage_share": 0.1032
+        },
+        {
+          "soc": "43-6014",
+          "title": "Secretaries and Administrative Assistants, Except Legal, Medical, and Executive",
+          "emp_share": 0.0365,
+          "wage_share": 0.0202
+        },
+        {
+          "soc": "11-1021",
+          "title": "General and Operations Managers",
+          "emp_share": 0.0297,
+          "wage_share": 0.051
+        },
+        {
+          "soc": "43-9061",
+          "title": "Office Clerks, General",
+          "emp_share": 0.0284,
+          "wage_share": 0.0144
+        },
+        {
+          "soc": "13-1111",
+          "title": "Management Analysts",
+          "emp_share": 0.0278,
+          "wage_share": 0.0424
+        },
+        {
+          "soc": "43-3021",
+          "title": "Billing and Posting Clerks",
+          "emp_share": 0.0246,
+          "wage_share": 0.0129
+        },
+        {
+          "soc": "43-1011",
+          "title": "First-Line Supervisors of Office and Administrative Support Workers",
+          "emp_share": 0.0219,
+          "wage_share": 0.0188
+        }
+      ],
+      "quality": "MED"
+    },
+    "n_total": {
+      "value": 50885,
+      "source": "SUSB 2022 (firms, all enterprise sizes)",
+      "year": "2022",
+      "quality": "HIGH"
+    },
+    "n_band": {
+      "value": 2286,
+      "derivation": "margin 0.1565 (margins.json[54]: Damodaran Jan 2026: Business & Consumer Services EBITDA/Sales 15.65%); revenue/employee $263,807 (SUSB 2022 receipts/employment at 541211); class <5: 35,096 firms, avg revenue/firm $300,013 (class receipts/firms), implied EBITDA $46,952 -> out of $1-10M band; class 5-9: 9,158 firms, avg revenue/firm $944,405 (class receipts/firms), implied EBITDA $147,799 -> out of $1-10M band; class 10-19: 4,257 firms, avg revenue/firm $2,000,227 (class receipts/firms), implied EBITDA $313,036 -> out of $1-10M band; class 20-99: 2,015 firms, avg revenue/firm $6,602,856 (class receipts/firms), implied EBITDA $1,033,347 -> IN $1-10M band; class 100-499: 271 firms, avg revenue/firm $37,129,554 (class receipts/firms), implied EBITDA $5,810,775 -> IN $1-10M band; class 500+: 88 firms, avg revenue/firm $1,137,349,114 (class receipts/firms), implied EBITDA $177,995,136 -> out of $1-10M band; n_band = 2,286",
+      "margin_used": 0.1565,
+      "margin_source": "Damodaran Jan 2026: Business & Consumer Services EBITDA/Sales 15.65%",
+      "quality": "ESTIMATE"
+    }
+  },
+  "inputs": {
+    "ai_replaceable_share": {
+      "value": 0.378495,
+      "breakdown_by_role": [
+        {
+          "role": "Accountants and Auditors (staff through senior manager) [13-2011]",
+          "labor_share_of_total": 0.342,
+          "within_role_automatable_fraction": 0.4,
+          "contribution": 0.1368,
+          "rationale": "Audit fieldwork, workpaper preparation, tie-outs, sampling, tax return preparation and technical memo drafting are heavily exposed to current AI (extraction, drafting, reconciliation, research); professional-skepticism judgment, client walkthroughs, materiality calls and sign-off are not. Prompt-suggested band 0.3-0.5; midpoint 0.40 taken.",
+          "plausible_range": "0.30-0.50"
+        },
+        {
+          "role": "Bookkeeping, Accounting, and Auditing Clerks (CAS write-up) [43-3031]",
+          "labor_share_of_total": 0.0549,
+          "within_role_automatable_fraction": 0.75,
+          "contribution": 0.041174999999999996,
+          "rationale": "Write-up, bank-feed reconciliation and monthly close are near-fully automatable by platform-native AI (QBO/Xero plus AI close tools); residual exception-handling and client contact remains.",
+          "plausible_range": "0.60-0.90"
+        },
+        {
+          "role": "Tax Preparers (non-CPA) [13-2082]",
+          "labor_share_of_total": 0.042,
+          "within_role_automatable_fraction": 0.7,
+          "contribution": 0.0294,
+          "rationale": "Form-driven preparation from source documents automates (OCR + AI populate-and-check); review and signature migrate up to CPAs.",
+          "plausible_range": "0.50-0.85"
+        },
+        {
+          "role": "Financial Managers (partner/director layer) [11-3031]",
+          "labor_share_of_total": 0.1032,
+          "within_role_automatable_fraction": 0.2,
+          "contribution": 0.020640000000000002,
+          "rationale": "Licensure-gated opinions and return sign-off, client relationships and pricing judgment are the durable human layer; internal reporting, review-note workflow and engagement management automate — a bounded sliver.",
+          "plausible_range": "0.10-0.30"
+        },
+        {
+          "role": "General and Operations Managers [11-1021]",
+          "labor_share_of_total": 0.051,
+          "within_role_automatable_fraction": 0.2,
+          "contribution": 0.0102,
+          "rationale": "Firm operations and practice management: scheduling, WIP/realization reporting and internal analytics automate; leadership, staffing and client escalation do not.",
+          "plausible_range": "0.10-0.30"
+        },
+        {
+          "role": "Secretaries and Administrative Assistants [43-6014]",
+          "labor_share_of_total": 0.0202,
+          "within_role_automatable_fraction": 0.65,
+          "contribution": 0.01313,
+          "rationale": "Scheduling, engagement letters, return assembly and client correspondence are cleanly automatable; front-desk/relationship tasks persist.",
+          "plausible_range": "0.50-0.80"
+        },
+        {
+          "role": "Office Clerks, General [43-9061]",
+          "labor_share_of_total": 0.0144,
+          "within_role_automatable_fraction": 0.65,
+          "contribution": 0.00936,
+          "rationale": "Document management, e-file transmittal, data entry — highly automatable administrative work.",
+          "plausible_range": "0.50-0.80"
+        },
+        {
+          "role": "Management Analysts (advisory/consulting) [13-1111]",
+          "labor_share_of_total": 0.0424,
+          "within_role_automatable_fraction": 0.3,
+          "contribution": 0.01272,
+          "rationale": "Advisory/CAS-advisory work is AI-augmented (research, modeling, deliverable drafting) rather than replaced near-term; client-facing judgment dominates.",
+          "plausible_range": "0.15-0.40"
+        },
+        {
+          "role": "Billing and Posting Clerks [43-3021]",
+          "labor_share_of_total": 0.0129,
+          "within_role_automatable_fraction": 0.7,
+          "contribution": 0.00903,
+          "rationale": "Invoicing, WIP-to-bill and collections workflows are near-fully automatable.",
+          "plausible_range": "0.50-0.85"
+        },
+        {
+          "role": "First-Line Supervisors of Office/Admin Support [43-1011]",
+          "labor_share_of_total": 0.0188,
+          "within_role_automatable_fraction": 0.35,
+          "contribution": 0.00658,
+          "rationale": "Supervision shrinks proportionally as the supervised admin base automates; people management persists.",
+          "plausible_range": "0.20-0.50"
+        },
+        {
+          "role": "Long tail (IT, HR, other financial specialists, marketing; remainder of wage bill)",
+          "labor_share_of_total": 0.2982,
+          "within_role_automatable_fraction": 0.3,
+          "contribution": 0.08946,
+          "rationale": "Mixed exposure: other financial specialists and marketing content partially automatable; IT/HR partially; allocated at a blended 0.30 rather than ignored per prompt guidance, since this tail is large enough to move V.",
+          "plausible_range": "0.20-0.40"
+        }
+      ],
+      "quality": "MED"
+    },
+    "pi_dist": {
+      "value": 0.55,
+      "rationale": "The firm owns the client relationship directly — no upstream gatekeeper, platform or procurement layer for the SMB/individual client base. But pricing-model deflation is real and line-specific: hourly and hours-anchored fixed fees (still a large share of compliance billing) convert AI hour-collapse into lower bills where clients benchmark fees; tax prep fees are visibly benchmarked; CAS is moving to fixed monthly subscriptions (79% of firms off hourly for bookkeeping) which retain savings; attest fees are payer-mandated (lenders/regulators require the opinion) and hold better. Counterweight: the documented CPA pipeline shortage has let firms push rates since 2023. Blended across attest/tax/CAS: 0.55 — meaningfully below the D2C-retail ceiling because the hourly/benchmarked share hands part of the AI saving to clients.",
+      "plausible_range": "0.45-0.70",
+      "sources": [
+        "https://karbonhq.com/resources/accounting-services-pricing-guide/",
+        "https://cpatrendlines.com/2024/01/01/cornerstone-report-on-cpa-billing-rates-fees-and-pricing-at-cpa-firms/",
+        "https://www.thomsonreuters.com/en-us/posts/tax-and-accounting/rosenberg-survey-talent-technology-accounting-challenges/"
+      ],
+      "quality": "MED"
+    },
+    "pi_moat": {
+      "value": 0.7,
+      "rationale": "Licensure is a statutory moat for attest: audit opinions and many filings must be signed by a licensed CPA firm — clients cannot bypass with generic AI regardless of capability. Switching costs are high (institutional knowledge of the client's books, multi-year relationships), and the CPA supply shortage restricts entry. Deductions: simple-tax and bookkeeping revenue is genuinely bypassable (TurboTax full-service, QuickBooks Live, IRS Direct File expansion, generic AI for basic questions), and only the attest line carries the statutory floor; small-firm revenue is mostly tax/CAS, not attest.",
+      "plausible_range": "0.60-0.80",
+      "sources": [
+        "https://www.tellen.ai/post/how-private-equity-uses-aps-to-acquire-us-accounting-firms",
+        "https://www.cpajournal.com/2024/01/23/state-of-the-profession-3/"
+      ],
+      "quality": "MED"
+    },
+    "t50_years": {
+      "value": 3.0,
+      "derivation": "current_adoption_pct ~21% of tax/accounting firms already using GenAI (Thomson Reuters 2025), with Wolters Kluwer showing AI adoption 9% (2024) -> 41% (2025) and CPA.com/Blue J reporting tax-firm AI adoption nearly doubling in one year; 53% of firms planning use and only 25% with no plans. Historical analog: IRS e-file took ~15 years (1990 nationwide -> 50% of individual returns in 2005), but that required taxpayer behavior change and hardware; GenAI rides existing vendor platforms (CCH, Thomson Reuters, Intuit embed it) with the pipeline shortage forcing efficiency. At the observed doubling pace from ~21% material use, 50% material adoption in the automatable functions lands in ~2-4 years; 3.0 taken.",
+      "plausible_range": "2-5 years",
+      "quality": "MED"
+    },
+    "current_adoption_pct": {
+      "value": 0.21,
+      "source": "Thomson Reuters 2025 Generative AI in Professional Services Report (tax firms); corroborated by Wolters Kluwer 2025 Future Ready Accountant report and CPA.com/Blue J survey",
+      "url": "https://www.resultsense.com/news/2025-11-06-accounting-firms-ai-adoption-big-4-small-firms/",
+      "figure_quoted": "\"21% of tax firms identified as already using GenAI technology, with 53% either planning to use the tech... only 25% of firms still have no current plans\"; Wolters Kluwer: \"AI adoption has surged — rising from 9% in 2024 to 41% in 2025... 35% already using it daily\". Material = GenAI actively used in production workflows (research, prep, drafting, close), not experimentation; the TR 21% is the stricter firm-level measure and is used.",
+      "access_date": "2026-07-20",
+      "quality": "MED"
+    },
+    "historical_analogs": {
+      "value": "IRS e-file: nationwide launch 1990, crossed 50% of individual returns in 2005 — ~15 years to majority. Cloud accounting (QBO/Xero, mid-2000s launch) took roughly a decade to majority use among small firms. Both analogs required client/infrastructure change; GenAI embeds directly into incumbent vendor suites already deployed at firms, so diffusion is running several times faster (9%->41% in one year per Wolters Kluwer).",
+      "source": "IRS, 'IRS E-File: A History' (FS-11-10)",
+      "url": "https://www.irs.gov/pub/irs-news/fs-11-10.pdf",
+      "figure_quoted": "\"The e-file program expanded nationwide in 1990 and 4.2 million tax returns were filed\"; \"In 2005, e-filed returns crossed the 50 percent threshold, with 68.4 million returns filed\"",
+      "access_date": "2026-07-20",
+      "quality": "HIGH"
+    },
+    "owners_60plus_pct": {
+      "value": 0.33,
+      "source": "Rosenberg National Survey of CPA Firm Statistics (via CPA Journal State of the Profession and CPA Practice Advisor succession coverage)",
+      "url": "https://www.cpajournal.com/2024/01/23/state-of-the-profession-3/",
+      "figure_quoted": "\"The percentage of partners older than 60 is holding at approximately 25%... For smaller firms, that number is above 40%\"; \"65 percent of partners are over the age of 50\". The 541211 firm base (50,885 firms, 35,096 with <5 employees) skews heavily to the small-firm tier where the 60+ share exceeds 40%; blended owner-weighted estimate 33%.",
+      "access_date": "2026-07-20",
+      "quality": "MED",
+      "succession_shortage_documented": {
+        "value": true,
+        "evidence": "Rosenberg Survey: \"A shortage of experienced, partner-ready staff is a perennial problem that firms seem unable to solve\"; AICPA Trends documents the CPA pipeline shortage (declining accounting graduates and CPA exam candidates), and CPA Journal/CPA Practice Advisor report most partners lack quality talent to replace them."
+      }
+    },
+    "active_consolidators": {
+      "value": 30,
+      "source": "CPA Trendlines / Cornerstone PE Deal Tracker (2020-2026); Capstone Partners Accounting Services Market Update",
+      "url": "https://cpatrendlines.com/2026/02/16/cornerstone-pe-deal-tracker-pe-update-alan-whitman-plants-a-flag-in-the-private-equity-landscape-2020-2026/",
+      "figure_quoted": "Tracker records \"over 50 distinct private equity sponsors active in accounting transactions since 2024\" and \"180 deals in 2025, and more than 70 so far in 2026\"; add-ons dominated 2023-2024 (Alpine/Ascend 14 transactions, DFW Capital and Thrive/Bessemer 16+ each, Charlesbank/Aprio, Blackstone/Citrin Cooperman 7). Conservative count of distinct PE-backed operating platforms actively doing add-ons in the last 24 months: 30.",
+      "access_date": "2026-07-20",
+      "quality": "MED"
+    },
+    "buy_mult": {
+      "value": 4.0,
+      "source": "Auxo Capital Advisors, Accounting Firm Valuation Multiples: 2026 Guide",
+      "url": "https://auxocapitaladvisors.com/accounting-firm-ma-valuation-multiples/",
+      "figure_quoted": "\"Traditional local CPA practices: often about 0.8x-1.3x revenue or 3.0x-5.0x normalized EBITDA\"; \"Multi-partner CPA firms: often about 4.0x-6.5x normalized EBITDA\". Median for single-location/small firms taken at 4.0x normalized EBITDA — explicitly on a normalized (market-rate owner comp) basis per rule 3; small-practice revenue/SDE quotes (0.6x-1.1x revenue, 1.8x-3.2x SDE) convert to a similar 3-5x range once market-rate owner comp is charged.",
+      "access_date": "2026-07-20",
+      "quality": "MED"
+    },
+    "exit_mult": {
+      "value": 11.0,
+      "source": "CT Acquisitions CPA and Accounting Firm M&A Multiples Report 2026; Capstone Partners; Auxo PE guide",
+      "url": "https://ctacquisitions.com/guides/cpa-accounting-firm-ma-multiples-2026/",
+      "figure_quoted": "\"The 2025 through Q2 2026 rebase pinned platform-tier multiples in a 10.0x to 15.0x adjusted EBITDA range\"; \"large APS platforms still trade... roughly ten to twelve times for high-quality firms\". 11.0x taken as the credible mid-low platform mark for $10M+ EBITDA firms.",
+      "access_date": "2026-07-20",
+      "quality": "MED"
+    },
+    "pricing_structure": {
+      "value": "Mixed: hourly and hours-anchored fixed fees dominate compliance (audit and tax engagements quoted off estimated hours with realization tracked); CAS/bookkeeping has shifted to fixed monthly subscription packages (79% of firms off hourly for bookkeeping); value pricing and advisory retainers growing but still minority. No cost-plus or third-party-audited fee schedules; fees are client-benchmarked, especially for commodity tax work.",
+      "source": "Karbon Accounting Services Pricing Guide; CPA Trendlines Cornerstone billing-rates report; SmartVault/SmartPath pricing survey coverage",
+      "url": "https://karbonhq.com/resources/accounting-services-pricing-guide/",
+      "figure_quoted": "\"79% of firms have moved away from hourly billing for bookkeeping, shifting to fixed or tiered monthly packages\"; \"Value-based pricing, fixed-fee arrangements, and advisory retainers are replacing hourly billing\" while hourly remains standard for complex/one-off engagements at \"$150 to $400 per hour\"",
+      "access_date": "2026-07-20",
+      "quality": "MED"
+    }
+  },
+  "scores": {
+    "V": {
+      "arithmetic": "ai_replaceable_share = 0.342*0.40 + 0.0549*0.75 + 0.042*0.70 + 0.1032*0.20 + 0.051*0.20 + 0.0202*0.65 + 0.0144*0.65 + 0.0424*0.30 + 0.0129*0.70 + 0.0188*0.35 + 0.2982*0.30 = 0.1368 + 0.041175 + 0.0294 + 0.02064 + 0.0102 + 0.01313 + 0.00936 + 0.01272 + 0.00903 + 0.00658 + 0.08946 = 0.378495; V_raw = 0.5051 * 0.378495 = 0.1911778245; V = 10 * min(1, 0.1911778245/0.25) = 10 * 0.764711298 = 7.64711298",
+      "score": 7.64711298
+    },
+    "C": {
+      "arithmetic": "C = 10 * pi_dist * pi_moat = 10 * 0.55 * 0.7 = 3.85",
+      "score": 3.8499999999999996
+    },
+    "A": {
+      "arithmetic": "A = min(10, 10/t50) = min(10, 10/3.0) = 3.33333333333",
+      "score": 3.3333333333333335
+    },
+    "B": {
+      "arithmetic": "TD = clamp(log10(2286)/4, 0, 1) = 3.359076226/4 = 0.839769057; OW = clamp((0.33-0.10)/0.35, 0.1, 0.9) = 0.657142857, +0.1 succession bonus (documented) = 0.757142857; CFD = min(0.9, log10(31)/2) = 1.491361694/2 = 0.745680847; B = 10*sqrt(0.839769057*0.757142857)/(1+0.3*0.745680847) = 10*sqrt(0.635825286)/1.223704254 = 10*0.797386527/1.223704254 = 6.516169593",
+      "score": 6.516169592610689
+    },
+    "M": {
+      "arithmetic": "M = clamp(4*(11.0-4.0)/4.0, 0, 10) = clamp(7.0, 0, 10) = 7.0",
+      "score": 7.0
+    }
+  },
+  "S": 5.372612028417493,
+  "cross_checks": {
+    "uplift_pp": 19.11778245,
+    "uplift_vs_A_consistent": "V_raw of 0.1912 implies ~19.1pp of revenue as maximum EBITDA uplift at full capture — far above the 3pp floor — while A = 3.33; no inconsistency. Even at realistic capture (C/10 ~ 0.385), retained uplift is ~7.4pp, comfortably material.",
+    "terminal_value": {
+      "class": "DURABLE",
+      "justification": "By revenue line: attest is DURABLE by statute — audit opinions, comfort letters and many filings require a licensed CPA firm signature, a demand floor AI cannot remove; complex tax is DURABLE-to-PRESSURED (liability and complexity keep clients paying; the simple-return tail leaks to TurboTax/IRS Direct File/generic AI, but that tail sits mostly in 541213 tax-prep chains, not CPA offices); CAS is PRESSURED on price as platform-native AI compresses bookkeeping hours, though the outsourced-controller relationship persists. AI cuts the operator's cost of production (fieldwork/prep hours) far more than it replaces the product; the CPA shortage and value-pricing shift support fee retention. Net: smaller-headcount stamp-and-judgment economics with demand intact — DURABLE, with the caveat that hourly-billed compliance revenue deflates where clients benchmark fees (reflected in pi_dist = 0.55)."
+    },
+    "no_proxy_confirmed": "Confirmed: V is built from the provided labor_share and role_mix plus task-level automatable fractions (fieldwork/prep/drafting vs judgment/sign-off); A is derived from Thomson Reuters/Wolters Kluwer/CPA.com adoption surveys and the e-file diffusion analog. The PE wave (deal tracker, platform counts, multiples) was used only for active_consolidators (B) and buy/exit multiples (M), never as evidence for V or A.",
+    "pricing_model_deflation": "Billing mix: hourly and hours-anchored fixed fees dominate audit/tax compliance; CAS mostly fixed monthly subscription (79% of firms off hourly for bookkeeping); value pricing growing. Hourly/benchmarked compliance billing is a genuine deflation channel — AI hour-collapse becomes lower bills where clients compare fees — partially offset by the documented CPA pipeline shortage letting firms hold rates and by subscription/value pricing retaining savings. Reflected in pi_dist = 0.55 (vs ~0.8+ for unbenchmarked D2C pricing), with pi_moat = 0.7 carrying the statutory attest floor; the deflation is priced per revenue line as required."
+  },
+  "confidence_overall": "MED",
+  "heterogeneous": false,
+  "top_uncertain_inputs": [
+    {
+      "input": "t50_years",
+      "plausible_range": "2-5 years",
+      "score_impact": "A = 10/t50 spans 2.0 (t50=5) to 5.0 (t50=2) around the central 3.33; S moves roughly -0.53/+0.45 around 5.37 (S ~ A^0.2)."
+    },
+    {
+      "input": "pi_dist",
+      "plausible_range": "0.45-0.70",
+      "score_impact": "C spans 3.15-4.9; S spans roughly 5.16-5.65. Whether the pipeline shortage or fee benchmarking wins determines capture — the core economic uncertainty of the thesis."
+    },
+    {
+      "input": "buy_mult",
+      "plausible_range": "3.0-5.0",
+      "score_impact": "M = 4*(11-buy)/buy spans 4.8 (buy=5.0) to 10.0-clamped (buy=3.0); S spans roughly 4.98-5.79."
+    },
+    {
+      "input": "owners_60plus_pct",
+      "plausible_range": "0.25-0.45",
+      "score_impact": "OW (with bonus) spans 0.529-1.0; B spans ~5.45-7.49; S moves roughly -0.19/+0.15."
+    }
+  ],
+  "reviewer_note": "Role-mix contamination handled per rule 6: the provided mix is 4-digit 5412, diluting CPA offices with tax-prep chains (541213), payroll bureaus (541214) and bookkeeping firms (541219) — within true CPA offices the accountant share is higher and clerk/preparer shares lower, which would push ai_replaceable_share modestly DOWN (clerk/preparer fractions are the highest); the provided mix was used unchanged for arithmetic. labor_share 0.5051 is IPS-based and understates true labor cost at partnership firms because LLP partner profit draws sit largely outside measured compensation — normalized-comp V_raw would be somewhat higher; conflict noted, provided value used. buy_mult converts broker revenue/SDE quotes to normalized EBITDA per rule 3 using Auxo's explicit normalized-EBITDA bands. exit_mult 11.0x is mid-low of the documented 10-15x platform band. n_band=2286 uses a generic 15.65% margin; true normalized margins at $2-10M-revenue CPA firms (after market-rate partner comp) are plausibly 15-25%, so the band is roughly right but the 20-99 employee class boundary is margin-sensitive. Formula-vs-intuition: no override needed — V=7.65, A=3.33 match the qualitative picture of a heavily AI-exposed, fast-adopting professional service whose capture (C=3.85) is the binding constraint."
+}

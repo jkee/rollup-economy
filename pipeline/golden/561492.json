@@ -1,0 +1,308 @@
+{
+  "naics": "561492",
+  "title": "Court Reporting and Stenotype Services",
+  "run_meta": {
+    "model_id": "claude-fable-5",
+    "run_date": "2026-07-20",
+    "run_id": "golden-f1-561492",
+    "template_version": "3.0",
+    "prompt_version": "p3-aff6579"
+  },
+  "dataset_inputs": {
+    "labor_share": {
+      "value": 0.2728,
+      "method": "QCEW 2024 private total annual wages at 561492 ($800,378,213) x benefits multiplier 1.4294 [ECEC private-industry total comp $46.60/hr / wages $32.60/hr = 1.4294 (March 2026 reference period)] / SUSB 2022 receipts at 561492 ($3,128,565,000). Vintage mismatch: 2024 wages over 2022 receipts, stated. Level: 6-digit. Harmonized to IPS basis ÷1.3407 (median of 65 dual-method codes).",
+      "sources": [
+        "BLS QCEW 2024 annual averages (US000, private)",
+        "BLS ECEC news release (raw/ecec.nr0.htm)",
+        "Census SUSB 2022 (receipts by NAICS)"
+      ],
+      "year": "2024 wages / 2022 receipts",
+      "quality": "MED"
+    },
+    "role_mix": {
+      "oews_level": "4-digit 5614",
+      "occupations": [
+        {
+          "soc": "43-4051",
+          "title": "Customer Service Representatives",
+          "emp_share": 0.3409,
+          "wage_share": 0.2589
+        },
+        {
+          "soc": "41-9041",
+          "title": "Telemarketers",
+          "emp_share": 0.0668,
+          "wage_share": 0.0442
+        },
+        {
+          "soc": "43-3011",
+          "title": "Bill and Account Collectors",
+          "emp_share": 0.0603,
+          "wage_share": 0.0485
+        },
+        {
+          "soc": "43-1011",
+          "title": "First-Line Supervisors of Office and Administrative Support Workers",
+          "emp_share": 0.0461,
+          "wage_share": 0.0548
+        },
+        {
+          "soc": "41-3091",
+          "title": "Sales Representatives of Services, Except Advertising, Insurance, Financial Services, and Travel",
+          "emp_share": 0.0328,
+          "wage_share": 0.0404
+        },
+        {
+          "soc": "11-1021",
+          "title": "General and Operations Managers",
+          "emp_share": 0.0321,
+          "wage_share": 0.0753
+        },
+        {
+          "soc": "41-2021",
+          "title": "Counter and Rental Clerks",
+          "emp_share": 0.023,
+          "wage_share": 0.0174
+        },
+        {
+          "soc": "31-9094",
+          "title": "Medical Transcriptionists",
+          "emp_share": 0.0207,
+          "wage_share": 0.0125
+        },
+        {
+          "soc": "43-9051",
+          "title": "Mail Clerks and Mail Machine Operators, Except Postal Service",
+          "emp_share": 0.0198,
+          "wage_share": 0.0147
+        },
+        {
+          "soc": "15-1232",
+          "title": "Computer User Support Specialists",
+          "emp_share": 0.0177,
+          "wage_share": 0.0162
+        }
+      ],
+      "quality": "MED"
+    },
+    "n_total": {
+      "value": 3004,
+      "source": "SUSB 2022 (firms, all enterprise sizes)",
+      "year": "2022",
+      "quality": "HIGH"
+    },
+    "n_band": {
+      "value": 60,
+      "derivation": "margin 0.1565 (margins.json[56]: Damodaran Jan 2026: Business & Consumer Services EBITDA/Sales 15.65%); revenue/employee $242,882 (SUSB 2022 receipts/employment at 561492); class <5: 2,701 firms, avg revenue/firm $234,096 (class receipts/firms), implied EBITDA $36,636 -> out of $1-10M band; class 5-9: 164 firms, avg revenue/firm $1,455,720 (class receipts/firms), implied EBITDA $227,820 -> out of $1-10M band; class 10-19: 72 firms, avg revenue/firm $2,802,000 (class receipts/firms), implied EBITDA $438,513 -> out of $1-10M band; class 20-99: 51 firms, avg revenue/firm $7,039,745 (class receipts/firms), implied EBITDA $1,101,720 -> IN $1-10M band; class 100-499: 9 firms, avg revenue/firm $46,248,556 (class receipts/firms), implied EBITDA $7,237,899 -> IN $1-10M band; class 500+: 7 firms, avg revenue/firm $182,932,429 (class receipts/firms), implied EBITDA $28,628,925 -> out of $1-10M band; n_band = 60",
+      "margin_used": 0.1565,
+      "margin_source": "Damodaran Jan 2026: Business & Consumer Services EBITDA/Sales 15.65%",
+      "quality": "ESTIMATE"
+    }
+  },
+  "inputs": {
+    "ai_replaceable_share": {
+      "value": 0.5325,
+      "breakdown_by_role": [
+        {
+          "role": "Court reporters / stenographers (production core; hypothesis structure — provided 4-digit role_mix is unrepresentative for this code)",
+          "labor_share_of_total": 0.4,
+          "within_role_automatable_fraction": 0.45,
+          "contribution": 0.18,
+          "rationale": "AI speech recognition now produces a rough verbatim draft at near-zero cost, compressing the paid human element toward capture-plus-certification. Not automatable: swearing witnesses, certifying the record, officer-of-the-court role, and realtime stenographic delivery where court rules require it. The draft-production portion of the reporter's paid work (the majority of billed pages) is substantially automatable; the appearance/oath/certification portion is not.",
+          "plausible_range": "0.3-0.6"
+        },
+        {
+          "role": "Transcriptionists, scopists and proofreaders",
+          "labor_share_of_total": 0.125,
+          "within_role_automatable_fraction": 0.8,
+          "contribution": 0.1,
+          "rationale": "Cleaning ASR drafts into certified transcripts is exactly what current AI does well; human involvement shrinks to a QA/certification pass. W-2 slice only; much of this work also sits in 1099 freelance networks outside the wage bill.",
+          "plausible_range": "0.65-0.9"
+        },
+        {
+          "role": "Scheduling, calendar and production coordination",
+          "labor_share_of_total": 0.2,
+          "within_role_automatable_fraction": 0.75,
+          "contribution": 0.15,
+          "rationale": "Job scheduling, reporter assignment, transcript production tracking and delivery are routine coordination — near-fully automatable with current AI plus workflow software; residual human share for conflict resolution and rush-job triage.",
+          "plausible_range": "0.6-0.85"
+        },
+        {
+          "role": "Management and sales",
+          "labor_share_of_total": 0.125,
+          "within_role_automatable_fraction": 0.25,
+          "contribution": 0.03125,
+          "rationale": "Law-firm relationship management and litigation-support selling persist; internal ops reporting, billing analytics and proposal assembly automate.",
+          "plausible_range": "0.15-0.35"
+        },
+        {
+          "role": "Captioning / CART realtime staff",
+          "labor_share_of_total": 0.075,
+          "within_role_automatable_fraction": 0.4,
+          "contribution": 0.03,
+          "rationale": "ASR captioning already substitutes at the low end (education, webinars); legal/broadcast realtime and ADA-quality-sensitive work holds longer. Blended.",
+          "plausible_range": "0.25-0.55"
+        },
+        {
+          "role": "Remaining admin, billing, exhibits, IT",
+          "labor_share_of_total": 0.075,
+          "within_role_automatable_fraction": 0.55,
+          "contribution": 0.04125,
+          "rationale": "Invoicing, collections, exhibit handling and general admin — heavily automatable; IT/physical residual persists.",
+          "plausible_range": "0.4-0.7"
+        }
+      ],
+      "quality": "ESTIMATE"
+    },
+    "pi_dist": {
+      "value": 0.45,
+      "rationale": "The agency holds the law firm's calendar and preferred-vendor/panel status, but pricing is transparent per-page/per-appearance in a competitive market: when AI collapses production cost per page, law-firm procurement and digital-first competitors (already marketing lower page rates) bid the page rate down toward the new cost floor — the per-unit pricing model hands a large share of AI savings to clients. Statutory page-rate schedules cap official/court work outright. Client relationships also leak through freelance reporters, who are the officers who appear and routinely take relationships with them; acquired books suffer reporter (not just client) churn.",
+      "plausible_range": "0.35-0.55",
+      "sources": [
+        "https://www.ilnd.uscourts.gov/Pages.aspx?page=transcriptrates",
+        "https://courtreporters.com/blog/how-much-does-a-court-reporter-cost.html"
+      ],
+      "quality": "ESTIMATE"
+    },
+    "pi_moat": {
+      "value": 0.35,
+      "rationale": "Real barriers exist: a number of states (e.g. California, Texas via CSR statutes) still require licensed stenographic CSRs for depositions, the record must be certified by an officer authorized to administer oaths, and court-rule chain-of-custody liability keeps a credentialed human in the loop. But the moat is draining, not widening: FRCP 30(b)(3) already permits nonstenographic recording, roughly 30 states permit digital/voice-writer reporting, and the documented stenographer shortage is itself the argument regulators cite for loosening rules further. Clients can increasingly bypass agencies via remote-deposition platforms with built-in ASR plus an AAERT-certified digital reporter. No proprietary data; switching costs low.",
+      "plausible_range": "0.25-0.45",
+      "sources": [
+        "https://www.uscourts.gov/court-programs/federal-court-reporting-program",
+        "https://viqsolutions.com/media-center/misconceptions-about-the-court-reporter-shortage-part-1/"
+      ],
+      "quality": "ESTIMATE"
+    },
+    "t50_years": {
+      "value": 3.5,
+      "derivation": "current_adoption_pct ~25% of firms materially using ASR/AI in production (ESTIMATE — the large platforms controlling a big share of volume are aggressively integrating ASR/digital workflows, but the firm count is dominated by ~2,700 micro steno agencies whose principals are stenographers with documented professional resistance). Historical analogs cut both ways: CAT/realtime steno software took ~10-15 years to majority in the 1980s-90s, but remote depositions went from niche to dominant in under 2 years in 2020 when forced — and the reporter shortage (1,120 retiring vs ~200 entering per year) is a comparable forcing function today, pushing even reluctant firms to ASR-assisted production to cover jobs. From 25% to 50% under an active forcing function: ~3-4 years. t50 = 3.5.",
+      "plausible_range": "2-6",
+      "quality": "ESTIMATE"
+    },
+    "current_adoption_pct": {
+      "value": 0.25,
+      "source": "No industry survey exists; estimate triangulated from trade/vendor reporting on hybrid ASR workflows and digital-reporting substitution",
+      "url": "https://stenoimperium.com/2025/08/06/the-era-of-aggregation-lexitas-veritext-magna-and-others-consolidating-the-court-reporting-industry/",
+      "figure_quoted": "'These conglomerates are aggressively integrating automated speech recognition (ASR), digital reporting, and artificial intelligence to reduce reliance on human stenographers' (Steno Imperium, Aug 2025); hybrid model 'AI capturing the speech, and a professional human reviewer certifying the transcript' described as the emerging professional standard (Rev/TransPerfect 2025). Material = firm uses ASR/AI drafts or digital capture in production, or AI scheduling/production automation, beyond experimentation. Large platforms (a large volume share) qualify; the micro-firm majority does not yet — estimated 25% of firms.",
+      "access_date": "2026-07-20",
+      "quality": "ESTIMATE"
+    },
+    "historical_analogs": {
+      "value": "CAT (computer-aided transcription) and realtime steno software took roughly 10-15 years to reach majority use among reporters (1980s-1990s). Remote/videoconference depositions went from <10% to dominant in under 2 years (2020-21) when COVID forced them — evidence this industry adopts fast under a forcing function. The current stenographer shortage (1,120 retiring vs ~200 entering annually) is such a forcing function for ASR/digital adoption.",
+      "source": "Speechmatics industry review (citing NCRA data); Rev court-reporter shortage analysis",
+      "url": "https://www.speechmatics.com/company/articles-and-news/court-reporter-shortage",
+      "figure_quoted": "'only 200 new stenographers join the field each year, while 1,120 retire'",
+      "access_date": "2026-07-20",
+      "quality": "LOW"
+    },
+    "owners_60plus_pct": {
+      "value": 0.45,
+      "source": "NCRA member age data via Speechmatics review; Ducker Worldwide Court Reporting Industry Outlook (2013-14, NCRA-commissioned)",
+      "url": "https://www.speechmatics.com/company/articles-and-news/court-reporter-shortage",
+      "figure_quoted": "'the National Court Reporters Association reported an average member age of approximately 56 years old as of June 1, 2025'; Ducker 2013-14: median working reporter age 51, 'the largest percent of the reporter population is over the age of 46'. Agency owners are predominantly senior reporters and skew older than the membership average; with mean member age ~56, share of owners 60+ estimated at 45%.",
+      "access_date": "2026-07-20",
+      "quality": "ESTIMATE",
+      "succession_shortage_documented": {
+        "value": true,
+        "evidence": "Ducker Report (NCRA-commissioned) projected a shortfall of ~5,500 qualified reporters; 'only 200 new stenographers join the field each year, while 1,120 retire' (NCRA data via Speechmatics/Rev). The pipeline collapse is the industry's defining documented fact — retiring owner-reporters have no next generation of stenographer-successors to sell to internally."
+      }
+    },
+    "active_consolidators": {
+      "value": 5,
+      "source": "Steno Imperium consolidation review; Veritext and Lexitas acquisition announcements",
+      "url": "https://stenoimperium.com/2025/08/06/the-era-of-aggregation-lexitas-veritext-magna-and-others-consolidating-the-court-reporting-industry/",
+      "figure_quoted": "PE-backed platforms with add-ons in the last 24 months: Veritext (Leonard Green; at least six court-reporting firms acquired in 2025 incl. Catana Reporting, Scribe Associates, Metro Atlanta Reporters, plus ADR firms), Lexitas (Apax; 31 total acquisitions, TP.One Court Reporting July 2025), US Legal Support, Magna Legal Services, Esquire Deposition Solutions — 5 active PE-backed consolidators.",
+      "access_date": "2026-07-20",
+      "quality": "MED"
+    },
+    "buy_mult": {
+      "value": 5.0,
+      "source": "Jackim Woods & Co. court-reporting firm valuation guidance; BizBite court reporting agency profile",
+      "url": "https://www.jackimwoods.com/tag/business-valuation/",
+      "figure_quoted": "Valuation tiers by EBITDA size for court reporting firms: 'Over $1,000,000: 4.0-6.0x EBITDA'; BizBite: 'EBITDA multiples often in the 3.5x-5.5x range' for agencies earning $300K-$2.5M. Median 5.0x used for $1-10M EBITDA band firms; stated by the brokers as EBITDA-basis for firms above $1M (owner-comp-adjusted at that size).",
+      "access_date": "2026-07-20",
+      "quality": "LOW"
+    },
+    "exit_mult": {
+      "value": 10.0,
+      "source": "No disclosed multiples on Veritext/Lexitas/USLS transactions; estimated from PE legal-services platform comps",
+      "url": "https://www.privsource.com/acquisitions/legal-services/2025",
+      "figure_quoted": "Veritext (Leonard Green, 2020) and Lexitas (Apax recap, 2021) traded at undisclosed multiples; PE-backed legal-services/litigation-support platforms of $10M+ EBITDA characteristically clear high-single to low-double-digit EBITDA multiples. 10.0x used as a conservative platform estimate.",
+      "access_date": "2026-07-20",
+      "quality": "ESTIMATE"
+    },
+    "pricing_structure": {
+      "value": "Essentially 100% per-unit: transcripts billed per page (original plus copy rates, tiered by delivery speed), plus per-session appearance fees and per-hour/per-unit charges for video, realtime feeds and rough drafts. Official/court work is capped by statutory schedules — Judicial Conference maximum federal rates (e.g. $5.45/page 3-day original, $3.70/page single realtime feed) and state page-rate schedules; freelance deposition work prices at market per-page rates plus appearance fees. No retainers or cost-plus; pricing is transparent and comparable across vendors.",
+      "source": "US District Court (N.D. Ill.) Judicial Conference maximum transcript rates; CourtReporters.com rate survey",
+      "url": "https://www.ilnd.uscourts.gov/Pages.aspx?page=transcriptrates",
+      "figure_quoted": "'Maximum transcript rates per page are set at the national level for all federal district courts by the Judicial Conference'; '3-day transcript... $5.45 per page for original'; 'realtime... $3.70 per page for one feed'; 'Court reporter appearance fees may be awarded in addition to the per page limit'",
+      "access_date": "2026-07-20",
+      "quality": "HIGH"
+    }
+  },
+  "scores": {
+    "V": {
+      "arithmetic": "ai_replaceable_share = 0.18 + 0.10 + 0.15 + 0.03125 + 0.03 + 0.04125 = 0.5325 (hypothesis role structure — provided 4-digit role_mix unrepresentative, per prompt trap guidance); V_raw = labor_share 0.2728 x 0.5325 = 0.145266; V = 10 x min(1, 0.145266/0.25) = 10 x 0.581064 = 5.81064",
+      "score": 5.81064
+    },
+    "C": {
+      "arithmetic": "C = 10 x pi_dist 0.45 x pi_moat 0.35 = 1.575",
+      "score": 1.575
+    },
+    "A": {
+      "arithmetic": "A = min(10, 10/t50) = min(10, 10/3.5) = 2.857142857142857",
+      "score": 2.857142857142857
+    },
+    "B": {
+      "arithmetic": "TD = clamp(log10(60)/4,0,1) = clamp(1.7781512503836436/4) = 0.4445378125959109; OW = clamp((0.45-0.10)/0.35,0.1,0.9) = clamp(1.0) = 0.9, +0.1 succession bonus (documented shortage) = 1.0 (cap 1.0); CFD = min(0.9, log10(1+5)/2) = min(0.9, 0.7781512503836436/2) = 0.3890756251918218; B = 10 x sqrt(0.4445378125959109 x 1.0) / (1 + 0.3 x 0.3890756251918218) = 10 x 0.6667367191104802 / 1.1167226875575465 = 5.970476793671771",
+      "score": 5.970476793671771
+    },
+    "M": {
+      "arithmetic": "M = clamp(4 x (10.0 - 5.0) / 5.0, 0, 10) = clamp(4.0) = 4.0",
+      "score": 4.0
+    }
+  },
+  "S": 3.623273334637323,
+  "cross_checks": {
+    "uplift_pp": 14.5266,
+    "uplift_vs_A_consistent": "V_raw 0.145266 implies up to ~14.5pp of revenue freed as EBITDA uplift at full automation of declared W-2 tasks — well above the 3pp floor, and A = 2.857 (< 5), so no inconsistency to explain. Note the true operational uplift is larger than the W-2 arithmetic shows: much production cost is 1099 freelance page-rate payout in COGS, and ASR collapses that too — but per-unit pricing hands much of it back to clients (see C).",
+    "terminal_value": {
+      "class": "MELTING",
+      "justification": "The paid product is a certified verbatim record. Mature ASR produces the verbatim text at near-zero marginal cost, so what remains purchasable is the oath, certification, chain-of-custody liability and rule-mandated realtime. Rule mechanisms: FRCP 28 requires only 'an officer authorized to administer oaths' and FRCP 30(b)(3) already permits recording 'by nonstenographic means' — the federal bypass is legal today, merely unconventional. State CSR statutes (California CCP, Texas Gov't Code) still mandate licensed stenographic/certified reporters for depositions, but roughly 30 states permit digital/voice-writer reporting and the documented stenographer shortage (1,120 retiring vs ~200 entering per year) is the exact argument regulators and courts cite for loosening further — the moat is draining, not widening. This is not just agencies cutting transcription costs (margin story): clients increasingly do not need what steno agencies sell, because a remote-deposition platform with built-in ASR plus a low-cost certified digital reporter (or in some jurisdictions a stipulated recording) replaces the product outright, collapsing the per-page revenue pool. Litigation volume persists and someone must swear and certify, so revenue does not go to zero — but it shrinks to a thin certification wrapper priced near the new cost floor. Product replacement, not mere pressure: MELTING. The captioning/CART sub-segment (~5-10% of the code) is growing on ADA demand, but is itself exposed to ASR at the low end and cannot offset the deposition melt."
+    },
+    "no_proxy_confirmed": "Confirmed. V was built from the labor_share and a declared hypothesis role structure with task-level automatability judgments (ASR draft production, scopist cleanup, scheduling); A was derived from an adoption estimate grounded in technology-behavior reporting and adoption analogs (CAT software, remote depositions) plus the shortage forcing function. Veritext/Lexitas/USLS deal activity was used only for active_consolidators (CFD, inside B) and multiple estimates (M) — never as evidence of automatability or adoption speed.",
+    "pricing_model_deflation": "Billing is ~100% per-unit (per page + appearance fees), with statutory schedules capping official/court work and transparent competitive market rates on commercial deposition work. This is the worst structure for retaining AI savings: when production cost per page collapses, digital-first competitors already marketing lower page rates and law-firm procurement bid the page rate toward the new cost floor, and statutory caps prevent upside capture on official work. This deflation mechanism is why pi_dist = 0.45 (not 0.7+ despite genuine preferred-vendor calendar control) and, combined with the draining regulatory moat (pi_moat = 0.35), yields C = 1.575."
+    },
+  "confidence_overall": "LOW",
+  "heterogeneous": true,
+  "top_uncertain_inputs": [
+    {
+      "input": "t50_years",
+      "plausible_range": "2-6",
+      "score_impact": "A ranges 1.667 (t50=6) to 5.0 (t50=2); S ranges ~3.25 to ~4.05 holding all else constant. Firm-count adoption among ~2,700 micro steno agencies is the crux — volume-weighted adoption is far ahead of firm-count adoption."
+    },
+    {
+      "input": "ai_replaceable_share (reporter wage-bill share and reporter automatable fraction)",
+      "plausible_range": "0.42-0.62 overall (reporters 30-50% of wage bill at 0.3-0.6 automatable)",
+      "score_impact": "V ranges ~4.58 to ~6.77; S ranges ~3.46 to ~3.74. The provided role_mix is a 4-digit proxy that omits court reporters entirely, so the whole breakdown is a declared hypothesis (ESTIMATE)."
+    },
+    {
+      "input": "exit_mult / buy_mult",
+      "plausible_range": "buy 4-6x; exit 8-12x",
+      "score_impact": "M ranges 1.333 (buy 6, exit 8) to 8.0 (buy 4, exit 12); S ranges ~2.91 to ~4.16. No disclosed platform multiples exist in this tiny industry — M is the least-sourced factor."
+    },
+    {
+      "input": "pi_dist",
+      "plausible_range": "0.35-0.55",
+      "score_impact": "C ranges 1.225-1.925; S ranges ~3.45 to ~3.77, driven by how fast per-page rates reprice to the ASR cost floor."
+    },
+    {
+      "input": "owners_60plus_pct",
+      "plausible_range": "0.35-0.55",
+      "score_impact": "OW stays clamped at 0.9 (+0.1 bonus = 1.0) across the entire range (even 0.35 gives (0.35-0.10)/0.35 = 0.714 -> 0.814 with bonus; B moves from 5.97 to 5.39, S ~3.55). Modest impact despite ESTIMATE quality."
+    }
+  ],
+  "reviewer_note": "Heterogeneous flag set deliberately although 561492 is not a formal catch-all: deposition/legal court reporting (dominant, scored here) and captioning/CART (est. 5-10%, ADA-driven, growing) have opposite demand trajectories; scored the dominant deposition sub-segment. Key caveats: (1) The provided role_mix (4-digit 5614) is dominated by contact-center occupations and omits SOC 23-2011 Court Reporters entirely — per the prompt's trap guidance V was built from the stated hypothesis role structure, and ai_replaceable_share is therefore ESTIMATE quality end-to-end. (2) The 0.2728 labor_share captures only W-2 staff; a large share of deposition reporters are 1099 freelancers paid per page/appearance through agencies, so agency P&Ls are intermediary spreads on freelance production — the formula-computed V (5.81) understates total automatable production cost but also overstates what the agency (vs the freelancer) initially captures; both effects are noted, arithmetic reported as specified. (3) n_band = 60 is tiny and single-year noisy; a single Veritext/Lexitas acquisition materially changes the universe, and the five active consolidators have been consolidating this space for a decade — the remaining independent band-firm pool is likely materially smaller than 60. (4) M = 4.0 rests on the weakest sourcing in the record (broker rules-of-thumb buy-side, undisclosed platform exits); treat with caution. (5) Terminal class is MELTING — the formula still produces S = 3.62 because B and M are decent, but the terminal-value finding is the dominant strategic fact: the per-page revenue pool being bought is repricing toward the ASR cost floor as CSR rules loosen under shortage pressure. Formula result reported per rule 1; reviewer intuition agrees with the low C and would weight the melt harder than S alone conveys."
+}

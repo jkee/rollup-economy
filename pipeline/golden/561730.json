@@ -1,0 +1,297 @@
+{
+  "naics": "561730",
+  "title": "Landscaping Services",
+  "run_meta": {
+    "model_id": "claude-fable-5",
+    "run_date": "2026-07-20",
+    "run_id": "golden-f1-561730",
+    "template_version": "3.0",
+    "prompt_version": "p3-aff6579"
+  },
+  "dataset_inputs": {
+    "labor_share": {
+      "value": 0.4087,
+      "method": "QCEW 2024 private total annual wages at 561730 ($45,367,770,541) x benefits multiplier 1.4294 [ECEC private-industry total comp $46.60/hr / wages $32.60/hr = 1.4294 (March 2026 reference period)] / SUSB 2022 receipts at 561730 ($118,363,300,000). Vintage mismatch: 2024 wages over 2022 receipts, stated. Level: 6-digit. Harmonized to IPS basis ÷1.3407 (median of 65 dual-method codes).",
+      "sources": [
+        "BLS QCEW 2024 annual averages (US000, private)",
+        "BLS ECEC news release (raw/ecec.nr0.htm)",
+        "Census SUSB 2022 (receipts by NAICS)"
+      ],
+      "year": "2024 wages / 2022 receipts",
+      "quality": "MED"
+    },
+    "role_mix": {
+      "oews_level": "5-digit 56173",
+      "occupations": [
+        {
+          "soc": "37-3011",
+          "title": "Landscaping and Groundskeeping Workers",
+          "emp_share": 0.6133,
+          "wage_share": 0.535
+        },
+        {
+          "soc": "37-1012",
+          "title": "First-Line Supervisors of Landscaping, Lawn Service, and Groundskeeping Workers",
+          "emp_share": 0.0906,
+          "wage_share": 0.109
+        },
+        {
+          "soc": "37-3013",
+          "title": "Tree Trimmers and Pruners",
+          "emp_share": 0.0455,
+          "wage_share": 0.0518
+        },
+        {
+          "soc": "11-1021",
+          "title": "General and Operations Managers",
+          "emp_share": 0.0362,
+          "wage_share": 0.0758
+        },
+        {
+          "soc": "43-9061",
+          "title": "Office Clerks, General",
+          "emp_share": 0.0278,
+          "wage_share": 0.0265
+        },
+        {
+          "soc": "41-3091",
+          "title": "Sales Representatives of Services, Except Advertising, Insurance, Financial Services, and Travel",
+          "emp_share": 0.0245,
+          "wage_share": 0.0343
+        },
+        {
+          "soc": "37-3012",
+          "title": "Pesticide Handlers, Sprayers, and Applicators, Vegetation",
+          "emp_share": 0.0131,
+          "wage_share": 0.0125
+        },
+        {
+          "soc": "47-2061",
+          "title": "Construction Laborers",
+          "emp_share": 0.0112,
+          "wage_share": 0.0109
+        },
+        {
+          "soc": "43-6014",
+          "title": "Secretaries and Administrative Assistants, Except Legal, Medical, and Executive",
+          "emp_share": 0.011,
+          "wage_share": 0.0103
+        },
+        {
+          "soc": "43-3031",
+          "title": "Bookkeeping, Accounting, and Auditing Clerks",
+          "emp_share": 0.0103,
+          "wage_share": 0.0102
+        }
+      ],
+      "quality": "MED"
+    },
+    "n_total": {
+      "value": 114842,
+      "source": "SUSB 2022 (firms, all enterprise sizes)",
+      "year": "2022",
+      "quality": "HIGH"
+    },
+    "n_band": {
+      "value": 593,
+      "derivation": "margin 0.1565 (margins.json[56]: Damodaran Jan 2026: Business & Consumer Services EBITDA/Sales 15.65%); revenue/employee $152,919 (SUSB 2022 receipts/employment at 561730); class <5: 82,695 firms, avg revenue/firm $299,970 (class receipts/firms), implied EBITDA $46,945 -> out of $1-10M band; class 5-9: 16,643 firms, avg revenue/firm $933,160 (class receipts/firms), implied EBITDA $146,040 -> out of $1-10M band; class 10-19: 8,936 firms, avg revenue/firm $1,879,235 (class receipts/firms), implied EBITDA $294,100 -> out of $1-10M band; class 20-99: 5,888 firms, avg revenue/firm $5,038,071 (class receipts/firms), implied EBITDA $788,458 -> out of $1-10M band; class 100-499: 593 firms, avg revenue/firm $22,899,949 (class receipts/firms), implied EBITDA $3,583,842 -> IN $1-10M band; class 500+: 87 firms, avg revenue/firm $206,781,494 (class receipts/firms), implied EBITDA $32,361,304 -> out of $1-10M band; n_band = 593",
+      "margin_used": 0.1565,
+      "margin_source": "Damodaran Jan 2026: Business & Consumer Services EBITDA/Sales 15.65%",
+      "quality": "ESTIMATE"
+    }
+  },
+  "inputs": {
+    "ai_replaceable_share": {
+      "value": 0.095355,
+      "breakdown_by_role": [
+        {
+          "role": "Field crews (37-3011 + 37-3013 + 37-3012 + 47-2061)",
+          "labor_share_of_total": 0.6102,
+          "within_role_automatable_fraction": 0.0,
+          "contribution": 0.0,
+          "rationale": "Physical outdoor work — mowing, planting, pruning, pesticide application, installation. Current AI does not perform it. Robotic/autonomous mowers are a robotics-capex substitution channel with separate economics and early commercial adoption; per the no-robotics-inflation rule they are excluded from the AI-automatable fraction.",
+          "plausible_range": "0.00-0.02"
+        },
+        {
+          "role": "Crew supervisors / foremen (37-1012)",
+          "labor_share_of_total": 0.109,
+          "within_role_automatable_fraction": 0.05,
+          "contribution": 0.00545,
+          "rationale": "On-site crew leadership is physical/interpersonal. AI scheduling, route planning and job documentation widen span of control only marginally.",
+          "plausible_range": "0.02-0.10"
+        },
+        {
+          "role": "Management (11-1021)",
+          "labor_share_of_total": 0.0758,
+          "within_role_automatable_fraction": 0.25,
+          "contribution": 0.01895,
+          "rationale": "Job costing, scheduling, fleet reporting and financial reporting automate substantially inside existing FSM platforms; client relationships, labor recruitment and crew management persist.",
+          "plausible_range": "0.15-0.35"
+        },
+        {
+          "role": "Sales and estimating (41-3091)",
+          "labor_share_of_total": 0.0343,
+          "within_role_automatable_fraction": 0.5,
+          "contribution": 0.01715,
+          "rationale": "AI property measurement/takeoff from aerial imagery and automated quoting compress estimating labor substantially; relationship selling on commercial accounts persists.",
+          "plausible_range": "0.35-0.65"
+        },
+        {
+          "role": "Office and back office (43-9061 + 43-6014 + 43-3031)",
+          "labor_share_of_total": 0.047,
+          "within_role_automatable_fraction": 0.75,
+          "contribution": 0.03525,
+          "rationale": "Invoicing, scheduling/dispatch entry, payroll for a seasonal hourly workforce, bookkeeping — near-fully automatable with current AI plus existing software; small residual for exception handling and phone traffic.",
+          "plausible_range": "0.6-0.9"
+        },
+        {
+          "role": "Remainder / long tail (mechanics, drivers, irrigation techs, designers, admin tail)",
+          "labor_share_of_total": 0.1237,
+          "within_role_automatable_fraction": 0.15,
+          "contribution": 0.018555,
+          "rationale": "Equipment maintenance and driving are physical; landscape design/CAD and the admin tail are AI-exposed. Blended low fraction.",
+          "plausible_range": "0.08-0.25"
+        }
+      ],
+      "quality": "MED"
+    },
+    "pi_dist": {
+      "value": 0.35,
+      "rationale": "Commercial maintenance (the dominant revenue mode for band-size firms) is procured by property/facility managers, often nationally, and re-bid annually or tri-annually on competitive tender against near-zero switching costs — cost savings from AI or robotics get competed away at the next bid cycle. BrightView, the only large public pure-play, runs only a 13.2% adjusted EBITDA margin at $2.7B scale (record year, FY2025), evidence that commercial pricing power is chronically thin. Residential recurring and design-build books are owned by the local brand and quoted per job, retaining somewhat more of any cost saving. Blended toward the commercial mode: 0.35.",
+      "plausible_range": "0.30-0.45",
+      "sources": [
+        "https://www.sec.gov/Archives/edgar/data/1734713/000119312525288114/bv-ex99_1.htm",
+        "https://www.prolandscapermagazine.com/us/2025/11/25/brightview-closes-fiscal-year-with-record-ebitda/"
+      ],
+      "quality": "MED"
+    },
+    "pi_moat": {
+      "value": 0.4,
+      "rationale": "Entry barriers are near zero (a truck, a trailer, a crew); no licensure except pesticide applicators; commercial switching costs are low by design of the tender process. Offsets: physical local presence is mandatory (clients cannot bypass the firm with generic AI — grass is cut on site), and route/branch density confers a real unit-cost advantage that a new entrant cannot instantly replicate. Cheap universal AI back-office tools cut minimum efficient scale further and mildly increase fragmentation pressure.",
+      "plausible_range": "0.30-0.50",
+      "sources": [
+        "https://www.sec.gov/Archives/edgar/data/1734713/000119312525288114/bv-ex99_1.htm"
+      ],
+      "quality": "MED"
+    },
+    "t50_years": {
+      "value": 4.5,
+      "derivation": "Current material adoption ~20% (see current_adoption_pct: 43% of L&L 2026 Tech Report respondents 'always' or 'usually' use AI tools, but mostly generative chat for content/comms; material use in the automatable functions — AI takeoff/estimating, automated invoicing/dispatch — is well below that; Aspire's 2025 industry report was widely cited as 83% not having adopted AI). Historical analog: field-service management software took roughly 10 years from the ~2010 launch wave (Service Autopilot 2009, LMN, Aspire 2013) to ~50%+ penetration, and 93% now use some digital software. AI features ship inside those already-installed platforms (Aspire, Jobber, SingleOps), so diffusion runs faster than the standalone-software analog: ~20% -> 50% in about 4.5 years.",
+      "plausible_range": "3-8",
+      "quality": "ESTIMATE"
+    },
+    "current_adoption_pct": {
+      "value": 0.2,
+      "source": "Lawn & Landscape 2026 Technology Report (discounted; see figure_quoted)",
+      "url": "https://www.lawnandlandscape.com/article/2026-tech-report/",
+      "figure_quoted": "\"32% 'always' use AI tools like ChatGPT; 11% 'usually' rely on AI; 30% are occasional users.\" Material = AI substantially performing an automatable function (AI takeoff/estimating, automated invoicing, dispatch/scheduling automation), not occasional ChatGPT use for content. The 43% always/usually figure is dominated by generative chat for marketing/comms; secondary sources citing Aspire's 2025 Landscape Industry Report report 83% of professionals had NOT adopted AI tools. Declared material adoption: 20%.",
+      "access_date": "2026-07-20",
+      "quality": "LOW"
+    },
+    "historical_analogs": {
+      "value": "Business-management/field-service software: ~10 years from the ~2010 launch wave (Service Autopilot 2009, LMN, Aspire 2013) to majority penetration; 93% of surveyed landscape businesses now use digital software daily. Smartphone/GPS crew tracking diffused faster (~7-8 years).",
+      "source": "Aspire landscaping industry statistics (software penetration endpoint); vendor founding dates public record",
+      "url": "https://www.youraspire.com/blog/landscaping-industry-statistics",
+      "figure_quoted": "\"93% of surveyed businesses use digital software in their daily operations.\" \"51% of landscapers prioritize all-in-one software solutions like Aspire.\"",
+      "access_date": "2026-07-20",
+      "quality": "ESTIMATE"
+    },
+    "owners_60plus_pct": {
+      "value": 0.3,
+      "source": "No landscaping-specific owner-age distribution found; estimated from national small-business owner demographics adjusted down for a physically demanding trade",
+      "url": "https://www.oberlo.com/statistics/average-age-of-small-business-owners",
+      "figure_quoted": "\"More than one-third (37%) of small business owners [are] between 55 and 73 years old\" (2024, national all-industry). Landscaping ownership skews slightly younger given physical demands (average landscaper age ~40 per Zippia); estimated 30% of owners aged 60+.",
+      "access_date": "2026-07-20",
+      "quality": "ESTIMATE",
+      "succession_shortage_documented": {
+        "value": false,
+        "evidence": "Generic small-business statistics (e.g., ~80% of owners lack a documented transition plan) and NALP succession-planning content exist, but no landscaping-specific evidence of a shortage of successors was found; the deep PE bid for these assets argues against a buyer/successor shortage. Not documented."
+      }
+    },
+    "active_consolidators": {
+      "value": 12,
+      "source": "Trade-press count of named PE-backed landscape platforms with add-ons in the last 24 months: Yellowstone Landscape (Harvest Partners/Neuberger Berman minority Dec 2024), Sperber (New Water Capital), Mariani Premier Group (add-ons MD Nursery, Landscape East & West 2024-25), Juniper Landscaping (Bregal; add-on Landscape Maintenance Professionals), Aspen Grove (Trivest), LandCare, Schill Grounds Management (TruArc, ex-Argonne; add-ons Begonia Brothers, Atlas Outdoor), HeartLand, Monarch Landscape Companies, Landscape Workshop (majority stake sold 2025), LMC Landscape Partners (add-on Shinto Landscaping), The Grounds Guys/Neighborly (Roark)",
+      "url": "https://www.lawnandlandscape.com/article/landscaping-industry-news-june-issue-2025/",
+      "figure_quoted": "Lawn & Landscape June 2025: 'Majority stake in Landscape Workshop sold; Schill expands'; PrivSource: 'LMC Landscape Partners Acquires Shinto Landscaping'; 'Harvest Partners Acquires Yellowstone Landscape'; Neuberger Berman minority stake in Yellowstone Dec 2024. Count of distinct named PE-backed platforms with add-ons in trailing 24 months: 12.",
+      "access_date": "2026-07-20",
+      "quality": "MED"
+    },
+    "buy_mult": {
+      "value": 5.9,
+      "source": "GF Data 2025 full-year median for home-services segment, $10-50M EV (landscape-maintenance subset IQR 5.3-6.6x), as republished in CT Acquisitions Landscaping M&A Multiples Report 2026 (secondary republication — marked as such)",
+      "url": "https://ctacquisitions.com/guides/landscaping-ma-multiples-2026/",
+      "figure_quoted": "\"GF Data reporting '5.9x adjusted EBITDA' for 2025 full-year transactions\" ($10M-$50M enterprise values, home services; landscape subset IQR 5.3x-6.6x). Corroborating: Baird Home Services Q4 2025, 7 disclosed landscape add-ons at blended 6.2x; IBBA Market Pulse Q1 2026 median 4.3x adjusted EBITDA for smaller ($500K-$2M) deals. Figures are adjusted (post-owner-comp) EBITDA, satisfying the normalization rule; sub-$500K SDE multiples were excluded.",
+      "access_date": "2026-07-20",
+      "quality": "MED"
+    },
+    "exit_mult": {
+      "value": 8.7,
+      "source": "PitchBook 2025 landscaping platform transactions, as republished in CT Acquisitions Landscaping M&A Multiples Report 2026 (secondary republication — marked as such)",
+      "url": "https://ctacquisitions.com/guides/landscaping-ma-multiples-2026/",
+      "figure_quoted": "\"Platform Scale ($10M+ Adjusted EBITDA): '7.5x to 10.0x adjusted EBITDA' per PitchBook 2025, with '22 landscaping and lawn care platform transactions' averaging '8.7x adjusted EBITDA' and ranging '7.2x to 10.1x'.\"",
+      "access_date": "2026-07-20",
+      "quality": "MED"
+    },
+    "pricing_structure": {
+      "value": "Commercial maintenance: fixed-fee annual/multi-year contracts, competitively re-bid annually or tri-annually via property/facility-manager tender — largest revenue mode for band-size ($20M+ revenue) firms. Residential maintenance: recurring per-visit/monthly fixed fee, locally branded, stickier. Design-build/installation: per-job fixed bid, project-based and cyclical. Snow removal (northern firms): seasonal contract or per-event, weather-volatile. Essentially no hourly/cost-plus billing, but competitive re-tendering of fixed-fee commercial work functions like cost-plus over a bid cycle: cost improvements are competed into price. BrightView (commercial pure-play): 13.2% adjusted EBITDA margin FY2025 — a record — evidencing structurally thin commercial pricing power.",
+      "source": "BrightView FY2025 results (8-K exhibit); Lawn & Landscape / Landscape Management trade coverage of commercial re-bid structure",
+      "url": "https://www.sec.gov/Archives/edgar/data/1734713/000119312525288114/bv-ex99_1.htm",
+      "figure_quoted": "\"Record adjusted EBITDA of $352.3 million\"; \"record adjusted EBITDA margin of 13.2%, representing a 150 basis point improvement year-over-year\" (BrightView FY2025).",
+      "access_date": "2026-07-20",
+      "quality": "MED"
+    }
+  },
+  "scores": {
+    "V": {
+      "arithmetic": "ai_replaceable_share = 0.6102*0.0 + 0.109*0.05 + 0.0758*0.25 + 0.0343*0.50 + 0.047*0.75 + 0.1237*0.15 = 0 + 0.00545 + 0.01895 + 0.01715 + 0.03525 + 0.018555 = 0.095355. V_raw = 0.4087 * 0.095355 = 0.0389715885. V = 10 * min(1, 0.0389715885/0.25) = 10 * 0.155886354 = 1.55886354",
+      "score": 1.55886354
+    },
+    "C": {
+      "arithmetic": "C = 10 * pi_dist * pi_moat = 10 * 0.35 * 0.40 = 1.4",
+      "score": 1.4
+    },
+    "A": {
+      "arithmetic": "A = min(10, 10 / t50) = min(10, 10 / 4.5) = 2.2222222222222223",
+      "score": 2.2222222222222223
+    },
+    "B": {
+      "arithmetic": "TD = clamp(log10(593)/4, 0, 1) = 2.7730546936262624/4 = 0.6932636734065656 (computed: 0.6932636733410656). OW = clamp((0.30-0.10)/0.35, 0.1, 0.9) = 0.5714285714285714; succession bonus not applied (not documented). CFD = min(0.9, log10(1+12)/2) = min(0.9, 1.1139433523068367/2) = 0.5569716761534184. B = 10 * sqrt(0.6932636733410656 * 0.5714285714285714) / (1 + 0.3*0.5569716761534184) = 10 * sqrt(0.3961506704806089) / 1.1670915028460255 = 10 * 0.6294050051608515 / 1.1670915028460255 = 5.392936299660392",
+      "score": 5.392936299660392
+    },
+    "M": {
+      "arithmetic": "M = clamp(4 * (8.7 - 5.9) / 5.9, 0, 10) = clamp(4 * 0.47457627118644063, 0, 10) = 1.8983050847457619",
+      "score": 1.8983050847457619
+    }
+  },
+  "S": 2.183649771795309,
+  "cross_checks": {
+    "uplift_pp": 3.8971588500000003,
+    "uplift_vs_A_consistent": "V_raw of 0.0389715885 implies a maximum EBITDA uplift of ~3.90pp of revenue if all automatable labor cost were captured. Uplift is above the 3pp threshold and A = 2.22 is well below 5, so no inconsistency: modest uplift paired with slow-to-moderate adoption is internally coherent.",
+    "terminal_value": {
+      "class": "DURABLE",
+      "justification": "Grass is cut and beds are planted by crews physically on site; ~72% of the wage bill (field labor + supervision) is untouched by mature AI, so paid demand fully survives — AI cuts a thin office/sales/estimating wrapper of the operator's costs, it does not replace the operator's product. The decisive issue is capture, not survival: with annual competitive re-bids on commercial maintenance and near-zero entry barriers, savings from AI back-office tools flow to property managers at the next bid cycle (BrightView's 13.2% record margin shows how thin commercial pricing power stays). Robotic mowing is a separate robotics-capex substitution channel with uncertain commercial timeline and was kept strictly out of the AI-labor channel. Demand: DURABLE."
+    },
+    "no_proxy_confirmed": "Confirmed. V was built solely from the OEWS role mix and per-role task automatability judgments (field labor set to 0.0). A was derived from the Lawn & Landscape 2026 Technology Report adoption figures and the field-service-software diffusion analog. No deal activity, consolidation trend, or PE narrative was used for V or A; PE platform activity informed only CFD (within B) and buy/exit multiples (M).",
+    "pricing_model_deflation": "Billing mix: fixed-fee commercial maintenance contracts (annual/tri-annual competitive re-bid; dominant for band-size firms), recurring residential fees, per-job design-build bids, seasonal snow contracts. Although nothing is billed cost-plus or hourly, competitive re-tendering of commercial fixed-fee work transmits cost savings to clients within one bid cycle — economically equivalent to cost-plus at annual frequency. This deflation is reflected in pi_dist = 0.35 (gatekeeper procurement + re-bid pass-through), and near-zero entry barriers are reflected in pi_moat = 0.40; C = 1.4 is low accordingly."
+  },
+  "confidence_overall": "MED",
+  "heterogeneous": false,
+  "top_uncertain_inputs": [
+    {
+      "input": "t50_years",
+      "plausible_range": "3-8",
+      "score_impact": "A = 10/t50: t50=3 gives A=3.33, t50=8 gives A=1.25 — S moves roughly from 2.37 to 1.95 (about +/-0.2 on S), the single largest lever."
+    },
+    {
+      "input": "buy_mult",
+      "plausible_range": "4.3-6.6 (IBBA 4.3x small deals to GF landscape-subset high 6.6x)",
+      "score_impact": "M = 4*(8.7-buy)/buy: buy=4.3 gives M=4.09, buy=6.6 gives M=1.27 — S ranges roughly 1.96 to 2.55."
+    },
+    {
+      "input": "owners_60plus_pct",
+      "plausible_range": "0.25-0.40",
+      "score_impact": "OW ranges 0.4286-0.8571; B ranges ~4.67-6.60; S moves by roughly -0.06/+0.09."
+    }
+  ],
+  "reviewer_note": "Formula result (S~2.18) matches intuition directionally: this is a B/M-led roll-up story (593 in-band targets, deep PE bid, real multiple arbitrage) with a structurally weak AI story — 61% of the wage bill is field labor scored at 0.0 automatable, so V=1.56 despite a high labor share. Conflicts/limitations: (1) buy_mult and exit_mult come from a secondary republication (ctacquisitions.com) of GF Data/PitchBook/Baird figures; primary reports are paywalled; Principium Group could not be verified as a live source. (2) current_adoption_pct is LOW quality — the L&L 43% always/usually AI figure is generative-chat-dominated while the Aspire-derived 83%-not-adopted figure could not be verified at the primary source (403); the declared 20% material adoption drives t50. (3) owners_60plus_pct is a national small-business estimate, no landscaping-specific age data found; succession-shortage flag left false, so no OW bonus. (4) Mix heterogeneity within 561730 (commercial maintenance vs residential vs design-build vs tree care) is real but 561730 is not a catch-all code; scored on the commercial-maintenance-weighted profile of band-size firms; heterogeneous=false. (5) Dataset n_band=593 rests on a 15.65% Damodaran margin that is generous vs BrightView's 13.2% record commercial margin — used as given per rule 6; if true margins are lower, n_band shifts but the count stays in the hundreds. (6) EBITDA-to-FCF gap from heavy equipment capex means M overstates cash-on-cash arbitrage somewhat; multiples used are adjusted-EBITDA basis, SDE figures excluded."
+}

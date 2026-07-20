@@ -1,0 +1,342 @@
+{
+  "naics": "561422",
+  "title": "Telemarketing Bureaus and Other Contact Centers",
+  "run_meta": {
+    "model_id": "claude-fable-5",
+    "run_date": "2026-07-20",
+    "run_id": "golden-f1-561422",
+    "template_version": "3.0",
+    "prompt_version": "p3-aff6579"
+  },
+  "dataset_inputs": {
+    "labor_share": {
+      "value": 0.5817,
+      "method": "QCEW 2024 private total annual wages at 561422 ($17,861,129,852) x benefits multiplier 1.4294 [ECEC private-industry total comp $46.60/hr / wages $32.60/hr = 1.4294 (March 2026 reference period)] / SUSB 2022 receipts at 561422 ($32,736,522,000). Vintage mismatch: 2024 wages over 2022 receipts, stated. Level: 6-digit. Harmonized to IPS basis ÷1.3407 (median of 65 dual-method codes).",
+      "sources": [
+        "BLS QCEW 2024 annual averages (US000, private)",
+        "BLS ECEC news release (raw/ecec.nr0.htm)",
+        "Census SUSB 2022 (receipts by NAICS)"
+      ],
+      "year": "2024 wages / 2022 receipts",
+      "quality": "MED"
+    },
+    "role_mix": {
+      "oews_level": "4-digit 5614",
+      "occupations": [
+        {
+          "soc": "43-4051",
+          "title": "Customer Service Representatives",
+          "emp_share": 0.3409,
+          "wage_share": 0.2589
+        },
+        {
+          "soc": "41-9041",
+          "title": "Telemarketers",
+          "emp_share": 0.0668,
+          "wage_share": 0.0442
+        },
+        {
+          "soc": "43-3011",
+          "title": "Bill and Account Collectors",
+          "emp_share": 0.0603,
+          "wage_share": 0.0485
+        },
+        {
+          "soc": "43-1011",
+          "title": "First-Line Supervisors of Office and Administrative Support Workers",
+          "emp_share": 0.0461,
+          "wage_share": 0.0548
+        },
+        {
+          "soc": "41-3091",
+          "title": "Sales Representatives of Services, Except Advertising, Insurance, Financial Services, and Travel",
+          "emp_share": 0.0328,
+          "wage_share": 0.0404
+        },
+        {
+          "soc": "11-1021",
+          "title": "General and Operations Managers",
+          "emp_share": 0.0321,
+          "wage_share": 0.0753
+        },
+        {
+          "soc": "41-2021",
+          "title": "Counter and Rental Clerks",
+          "emp_share": 0.023,
+          "wage_share": 0.0174
+        },
+        {
+          "soc": "31-9094",
+          "title": "Medical Transcriptionists",
+          "emp_share": 0.0207,
+          "wage_share": 0.0125
+        },
+        {
+          "soc": "43-9051",
+          "title": "Mail Clerks and Mail Machine Operators, Except Postal Service",
+          "emp_share": 0.0198,
+          "wage_share": 0.0147
+        },
+        {
+          "soc": "15-1232",
+          "title": "Computer User Support Specialists",
+          "emp_share": 0.0177,
+          "wage_share": 0.0162
+        }
+      ],
+      "quality": "MED"
+    },
+    "n_total": {
+      "value": 2299,
+      "source": "SUSB 2022 (firms, all enterprise sizes)",
+      "year": "2022",
+      "quality": "HIGH"
+    },
+    "n_band": {
+      "value": 201,
+      "derivation": "margin 0.1565 (margins.json[56]: Damodaran Jan 2026: Business & Consumer Services EBITDA/Sales 15.65%); revenue/employee $84,840 (SUSB 2022 receipts/employment at 561422); class <5: 926 firms, avg revenue/firm $563,971 (class receipts/firms), implied EBITDA $88,261 -> out of $1-10M band; class 5-9: 247 firms, avg revenue/firm $1,328,636 (class receipts/firms), implied EBITDA $207,931 -> out of $1-10M band; class 10-19: 210 firms, avg revenue/firm $3,113,986 (class receipts/firms), implied EBITDA $487,339 -> out of $1-10M band; class 20-99: 400 firms, avg revenue/firm $5,157,090 (class receipts/firms), implied EBITDA $807,085 -> out of $1-10M band; class 100-499: 201 firms, avg revenue/firm $24,411,512 (class receipts/firms), implied EBITDA $3,820,402 -> IN $1-10M band; class 500+: 315 firms, avg revenue/firm $77,024,206 (class receipts/firms), implied EBITDA $12,054,288 -> out of $1-10M band; n_band = 201",
+      "margin_used": 0.1565,
+      "margin_source": "Damodaran Jan 2026: Business & Consumer Services EBITDA/Sales 15.65%",
+      "quality": "ESTIMATE"
+    }
+  },
+  "inputs": {
+    "ai_replaceable_share": {
+      "value": 0.531975,
+      "breakdown_by_role": [
+        {
+          "role": "Customer Service Representatives (43-4051)",
+          "labor_share_of_total": 0.2589,
+          "within_role_automatable_fraction": 0.65,
+          "contribution": 0.168285,
+          "rationale": "Core exposure: AI voice/chat agents handle routine tier-1 interactions end-to-end. Sized from deflection evidence, not assumed: Gartner-cited data shows AI deflecting 45%+ of queries, and production voice-AI deployments grew 340% YoY; adding handle-time compression on residual human calls (agent-assist, auto-summarization) puts the substitutable share of CSR labor cost at ~0.65. Residual: escalation, empathy-critical, complex multi-system cases.",
+          "plausible_range": "0.5-0.8"
+        },
+        {
+          "role": "Telemarketers (41-9041)",
+          "labor_share_of_total": 0.0442,
+          "within_role_automatable_fraction": 0.6,
+          "contribution": 0.02652,
+          "rationale": "Scripted outbound qualification is technically highly automatable, but the FCC's Feb 2024 TCPA ruling makes AI-generated voices in robocalls illegal without prior express consent - a legal limiter on full automation of cold outbound. Consented and warm outbound automates.",
+          "plausible_range": "0.4-0.8"
+        },
+        {
+          "role": "Bill and Account Collectors (43-3011)",
+          "labor_share_of_total": 0.0485,
+          "within_role_automatable_fraction": 0.6,
+          "contribution": 0.0291,
+          "rationale": "Payment reminders, promise-to-pay workflows and scripted negotiation automate well; FDCPA compliance actually favors consistent bots. Complex disputes and hardship conversations persist.",
+          "plausible_range": "0.45-0.75"
+        },
+        {
+          "role": "First-Line Supervisors / QA (43-1011)",
+          "labor_share_of_total": 0.0548,
+          "within_role_automatable_fraction": 0.35,
+          "contribution": 0.01918,
+          "rationale": "QA scoring is already AI-saturated (100% interaction scoring vs sampling) and coaching analytics automate; span of control widens. Live escalation handling and people management persist.",
+          "plausible_range": "0.25-0.5"
+        },
+        {
+          "role": "Sales Representatives of Services (41-3091)",
+          "labor_share_of_total": 0.0404,
+          "within_role_automatable_fraction": 0.2,
+          "contribution": 0.00808,
+          "rationale": "Enterprise BPO selling is relationship/RFP work; proposal and RFP-response production automates as a sliver.",
+          "plausible_range": "0.1-0.3"
+        },
+        {
+          "role": "General and Operations Managers (11-1021)",
+          "labor_share_of_total": 0.0753,
+          "within_role_automatable_fraction": 0.25,
+          "contribution": 0.018825,
+          "rationale": "Workforce management, forecasting and reporting automate substantially; client relationship management and site leadership persist.",
+          "plausible_range": "0.15-0.35"
+        },
+        {
+          "role": "Counter and Rental Clerks (41-2021)",
+          "labor_share_of_total": 0.0174,
+          "within_role_automatable_fraction": 0.6,
+          "contribution": 0.01044,
+          "rationale": "Likely 4-digit proxy artifact; routine transactional clerical work is largely automatable where it genuinely exists in contact centers.",
+          "plausible_range": "0.4-0.8"
+        },
+        {
+          "role": "Medical Transcriptionists (31-9094)",
+          "labor_share_of_total": 0.0125,
+          "within_role_automatable_fraction": 0.9,
+          "contribution": 0.01125,
+          "rationale": "Proxy artifact from sibling document-prep codes; speech-to-text transcription is essentially solved by current AI.",
+          "plausible_range": "0.8-0.95"
+        },
+        {
+          "role": "Mail Clerks and Mail Machine Operators (43-9051)",
+          "labor_share_of_total": 0.0147,
+          "within_role_automatable_fraction": 0.3,
+          "contribution": 0.00441,
+          "rationale": "Proxy artifact; physical mail handling is not AI-substitutable, but digitization/sorting workflow slivers automate.",
+          "plausible_range": "0.15-0.5"
+        },
+        {
+          "role": "Computer User Support Specialists (15-1232)",
+          "labor_share_of_total": 0.0162,
+          "within_role_automatable_fraction": 0.4,
+          "contribution": 0.00648,
+          "rationale": "Tier-1 desktop/telephony support automates; CCaaS/AI platform integration work grows with deployment.",
+          "plausible_range": "0.25-0.55"
+        },
+        {
+          "role": "Unlisted tail (residual occupations)",
+          "labor_share_of_total": 0.4171,
+          "within_role_automatable_fraction": 0.55,
+          "contribution": 0.229405,
+          "rationale": "The provided role_mix is a 4-digit 5614 proxy in which agent occupations are diluted; per prompt guidance, agent occupations plausibly run 55-70% of the wage bill at 561422 proper, so the large residual is mostly additional frontline agent-type labor plus routine clerical, with some non-automatable facilities/training/HR. Blended at 0.55, slightly below the CSR fraction.",
+          "plausible_range": "0.4-0.65"
+        }
+      ],
+      "quality": "MED"
+    },
+    "pi_dist": {
+      "value": 0.25,
+      "rationale": "Pricing-model deflation is the central mechanism: outsourced contact-center work is billed per agent-hour, per FTE, per minute, or per transaction, so when AI deflects contacts or cuts handle time the billed unit itself disappears - AI savings flow to the client as fewer billed units, not to the operator as margin. Enterprise clients own the customer data and telephony stack, run multi-vendor RFPs on 2-3 year contracts, and rebid competitively. Outcome/resolution-based re-pricing exists but is nascent (Everest Group tracks the shift; voice-heavy operators' compressed public multiples evidence the market's view that operators are not keeping the spread). Small-bureau SMB clients are stickier and less sophisticated, which keeps the value above the floor.",
+      "plausible_range": "0.15-0.35",
+      "sources": [
+        "https://auxocapitaladvisors.com/business-process-outsourcing-bpo-m-a/",
+        "https://www.outsource-consultants.com/blog/the-long-explanation-of-pricing-in-call-center-bpo-ma/"
+      ],
+      "quality": "MED"
+    },
+    "pi_moat": {
+      "value": 0.35,
+      "rationale": "No license, statute, or physical act stands between the client and an AI voice agent doing the same job: clients can license AI agents directly from CCaaS/AI vendors (Genesys, NICE, Five9, model providers) and cut the bureau out. Real but modest barriers: compliance certifications (HIPAA, PCI), state-licensed collections operations, domain-trained workflows and integrations, and switching costs on live programs. Domestic bureaus already lost the cost-arbitrage war to offshore once, evidencing weak defenses against a cheaper substitute.",
+      "plausible_range": "0.25-0.45",
+      "sources": [
+        "https://info.siteselectiongroup.com/blog/the-bpo-consolidation-wave-has-begun"
+      ],
+      "quality": "MED"
+    },
+    "t50_years": {
+      "value": 1.5,
+      "derivation": "current_adoption_pct ~40% of firms materially using AI (large operators near-universally deploying agent-assist/deflection in production; micro bureaus lagging). Trajectory: production voice-AI deployments +340% YoY, and CCaaS platforms now bundle AI agents into standard offerings, so small bureaus acquire AI passively through their existing vendor stack. Remaining ~10pp to reach 50% of firms at the observed pace = ~1-1.5 years. Historical analog (cloud CCaaS ~8-10 years to majority) is a ceiling, not a guide - AI rides on the already-installed CCaaS rails rather than requiring a platform migration. t50 = 1.5 years.",
+      "plausible_range": "1-3",
+      "quality": "MED"
+    },
+    "current_adoption_pct": {
+      "value": 0.4,
+      "source": "CloudTalk AI Voice Agent Statistics 2026 (aggregating industry surveys incl. ContactBabel data); Gartner deflection data via Lorikeet",
+      "url": "https://www.cloudtalk.io/blog/ai-voice-agent-statistics/",
+      "figure_quoted": "\"78% of businesses are now deploying voice AI\"; \"production deployments grew 340% year-over-year across 500+ organisations\"; ContactBabel-cited economics: \"AI voice minutes cost around $0.08/min versus $7.16 per human-handled call.\" Material = AI voice/chat deflection or full agent-assist live in production on client programs (not pilots). Caveat per prompt trap: most surveys cover in-house centers and enterprise buyers, not BPO operators; firm-count-weighted adoption across 2,299 mostly small 561422 firms estimated at 0.40 (large operators near-universal, micro bureaus lagging).",
+      "access_date": "2026-07-20",
+      "quality": "MED"
+    },
+    "historical_analogs": {
+      "value": "Cloud CCaaS took roughly 8-10 years from early-2010s introduction to ~50% of US contact-center seats (~2020-21); IVR took ~15 years to near-universality in the 1980s-90s. Gen-AI agent adoption is tracking far faster (340% YoY production growth) because it deploys on top of the installed CCaaS base rather than requiring platform migration.",
+      "source": "CloudTalk / CallBotics aggregation of ContactBabel and industry deployment data",
+      "url": "https://callbotics.ai/blog/ai-contact-center-statistics-trends-predictions",
+      "figure_quoted": "Voice AI 'becoming operational infrastructure rather than experimental pilots'; production deployments +340% YoY. CCaaS/IVR timelines are estimated from industry history, not a single published series.",
+      "access_date": "2026-07-20",
+      "quality": "ESTIMATE"
+    },
+    "owners_60plus_pct": {
+      "value": 0.3,
+      "source": "US Census Bureau, Annual Business Survey - generic small-business owner age distribution (industry-specific owner-age data for 561422 does not exist openly; per prompt, estimated from generic small-business data)",
+      "url": "https://www.census.gov/library/visualizations/2020/comm/business-owners-ages.html",
+      "figure_quoted": "\"Over Half of U.S. Business Owners Were Age 55 and Over\" - owners 55+ account for ~51% of employer businesses (2019 ABS). Interpolating the 55-64/65+ split puts owners 60+ at roughly 30% of employer-business owners; applied as the estimate for small contact-center bureau owners (range 0.25-0.40).",
+      "access_date": "2026-07-20",
+      "quality": "ESTIMATE",
+      "succession_shortage_documented": {
+        "value": false,
+        "evidence": "No industry-specific documentation of a succession shortage for contact-center bureaus was found; small-operator demographics are thin in this industry (as the prompt anticipated), and weak buyer demand for small voice-heavy bureaus amid AI uncertainty is a demand problem, not a documented owner-succession shortage. Bonus not applied."
+      }
+    },
+    "active_consolidators": {
+      "value": 5,
+      "source": "Site Selection Group 'The BPO Consolidation Wave Has Begun'; PRNewswire (MCI/Market Force); ResultsCX press release (ChrysCapital)",
+      "url": "https://info.siteselectiongroup.com/blog/the-bpo-consolidation-wave-has-begun",
+      "figure_quoted": "PE-backed platforms with verified add-ons in the last 24 months: MCI (acquired Market Force Information, Mar 2024), ResultsCX (ChrysCapital bought platform from One Equity Partners, 2024; ~20,000 employees, 25 centers), IntouchCX (acquired WebPurify, Jan 2025), Everise (Warburg Pincus-backed, active), ibex/other mid-tier CX platforms. Site Selection Group: 'The BPO consolidation wave has begun... valuations across traditional voice-heavy BPO platforms have compressed amid AI uncertainty.' Conservative count of named, verified-active PE-backed consolidators = 5.",
+      "access_date": "2026-07-20",
+      "quality": "MED"
+    },
+    "buy_mult": {
+      "value": 4.0,
+      "source": "First Page Sage small-business EBITDA multiples 2025 (size-tier benchmarks for labor-intensive services); Site Selection Group compression commentary",
+      "url": "https://firstpagesage.com/business/ebitda-multiples-for-small-business/",
+      "figure_quoted": "Labor-intensive services benchmark: 'a $2M EBITDA staffing company sells at 4x-5x EBITDA'; voice-heavy BPO trades at the low end of that band because 'multiples for commoditized delivery models are under pressure' amid AI uncertainty (Site Selection Group). Median for a single-location/small bureau set at 4.0x normalized EBITDA (market-rate owner comp replaced; small-bureau financials are typically SDE - owner salary at a ~$120-150K ops-executive rate deducted before margining).",
+      "access_date": "2026-07-20",
+      "quality": "ESTIMATE"
+    },
+    "exit_mult": {
+      "value": 6.5,
+      "source": "Jahani & Associates digital-CX BPO transaction study; public comps (Teleperformance, Concentrix)",
+      "url": "https://jahaniandassociates.com/digital-customer-experience-driven-bpo-transactions-and-valuations/",
+      "figure_quoted": "Digital-CX-driven BPO transactions: 'EV/EBITDA multiples average 14x with a median of 13x... from a low of 6x to a high of 22x' - but that cohort is tech-forward CX; voice-heavy public comps price the melt: 'Teleperformance trades at 0.8x EV/Revenue and 4.3x EV/EBITDA' and Concentrix buybacks at 'no more than 5x EBITDA' (multiples.vc; MarketScreener). A $10M+ EBITDA voice-heavy domestic platform realistically exits between the public-comp floor (~4.5x) and the digital-CX low end (~6x+): 6.5x used.",
+      "access_date": "2026-07-20",
+      "quality": "ESTIMATE"
+    },
+    "pricing_structure": {
+      "value": "Predominantly per-unit labor billing: per agent-hour / per FTE per month for dedicated programs (the majority of outsourced revenue), per-minute or per-call/per-transaction for shared and overflow work, contingency percentage on collections, and per-lead/per-sale on some outbound. Outcome/resolution-based pricing is emerging under gen AI but remains a small minority of contracts. Under every dominant model the billed unit is human time or a human-handled interaction.",
+      "source": "Outsource Consultants - pricing in call center/BPO M&A; Auxo Capital Advisors BPO M&A 2025",
+      "url": "https://www.outsource-consultants.com/blog/the-long-explanation-of-pricing-in-call-center-bpo-ma/",
+      "figure_quoted": "BPO pricing anchors on per-hour/per-FTE/per-transaction contract rates; Auxo: 'The anchor is EV/EBITDA for contract-heavy operators with stable GP%' with buyer objection 'AI will compress your volume/margins' and sellers urged to show 'pricing policy and gainshare guardrails' - direct evidence the default contract passes AI gains to clients absent explicit gainshare terms.",
+      "access_date": "2026-07-20",
+      "quality": "MED"
+    }
+  },
+  "scores": {
+    "V": {
+      "arithmetic": "ai_replaceable_share = 0.168285 + 0.02652 + 0.0291 + 0.01918 + 0.00808 + 0.018825 + 0.01044 + 0.01125 + 0.00441 + 0.00648 + 0.229405 = 0.531975; V_raw = labor_share x ai_replaceable_share = 0.5817 x 0.531975 = 0.3094498575; V = 10 x min(1, 0.3094498575 / 0.25) = 10 x min(1, 1.23779943) = 10 x 1 = 10.0",
+      "score": 10.0
+    },
+    "C": {
+      "arithmetic": "C = 10 x pi_dist x pi_moat = 10 x 0.25 x 0.35 = 0.875",
+      "score": 0.875
+    },
+    "A": {
+      "arithmetic": "A = min(10, 10 / t50) = min(10, 10 / 1.5) = 6.6666667",
+      "score": 6.6666667
+    },
+    "B": {
+      "arithmetic": "TD = clamp(log10(201)/4, 0, 1) = clamp(2.3031961/4, 0, 1) = 0.5757990; OW = clamp((0.30 - 0.10)/0.35, 0.1, 0.9) = 0.5714286, no succession bonus (not documented) = 0.5714286; CFD = min(0.9, log10(1+5)/2) = min(0.9, 0.7781513/2) = 0.3890756; B = 10 x sqrt(0.5757990 x 0.5714286) / (1 + 0.3 x 0.3890756) = 10 x sqrt(0.3290280) / 1.1167227 = 10 x 0.5736095 / 1.1167227 = 5.1365438",
+      "score": 5.1365438
+    },
+    "M": {
+      "arithmetic": "M = clamp(4 x (6.5 - 4.0) / 4.0, 0, 10) = clamp(4 x 0.625, 0, 10) = 2.5",
+      "score": 2.5
+    }
+  },
+  "S": 3.7575567,
+  "cross_checks": {
+    "uplift_pp": 30.94499,
+    "uplift_vs_A_consistent": "V_raw = 0.30945 implies ~30.9pp of revenue in AI-substitutable labor cost - far above the 3pp floor - and A = 6.67, so the inconsistency trigger (uplift < 3pp with A >= 5) does not fire. The tension here is the reverse: the uplift is enormous but under per-unit billing it accrues largely to clients as fewer billed units, which is carried in C (0.875), not suppressed in V.",
+    "terminal_value": {
+      "class": "MELTING",
+      "justification": "The product is human conversation sold by the hour or seat; no license, statute, or physical act separates the client from an AI voice agent doing the same job, so the AI agent is the direct replacement of the product the operator sells - not a tool that cuts its delivery cost. Sizing the residual: escalation, empathy-critical, and regulated-disclosure calls plausibly preserve a minority of today's volume (deflection already 45%+ on routine queries and rising with capability), and per-unit pricing on that residual may even rise (complex-call premiums), but the billed-unit base shrinks structurally. Domestic bureaus already lost the cost-arbitrage war to offshore once; AI is a second, deeper cost substitute. Public voice-heavy comps at ~4.3-5x EV/EBITDA are the market pricing this melt. Classified MELTING."
+    },
+    "no_proxy_confirmed": "Confirmed. V was built from the provided role_mix plus deflection-rate and deployment evidence (Gartner-cited 45%+ deflection, production growth data); A from adoption statistics and the CCaaS/IVR analog. No deal activity, consolidation wave, or PE interest was used for V or A; consolidation evidence informed only B (CFD count) and M (multiples).",
+    "pricing_model_deflation": "Billing is predominantly per agent-hour / per FTE / per minute / per transaction, with contingency collections and per-lead outbound - the billed unit is human time. AI efficiency therefore flows to clients as fewer billed units and lower rebid rates, not to the operator as margin; outcome-based re-pricing with gainshare is nascent and a small contract minority. This is the central mechanism of the industry and is reflected directly in pi_dist = 0.25 (deflation of the revenue unit) and reinforced in pi_moat = 0.35 (clients can license AI agents from CCaaS vendors and bypass the bureau entirely)."
+  },
+  "confidence_overall": "MED",
+  "heterogeneous": false,
+  "top_uncertain_inputs": [
+    {
+      "input": "t50_years",
+      "plausible_range": "1-3 years",
+      "score_impact": "A ranges 10.0 (t50=1) to 3.33 (t50=3); S ranges ~4.08 to ~3.27 around the 3.758 base"
+    },
+    {
+      "input": "buy_mult / exit_mult spread",
+      "plausible_range": "buy 3-5x, exit 5-9x; M from ~0 (exit 5 / buy 5) to 8.0 (exit 9 / buy 3)",
+      "score_impact": "M=1 gives S ~3.13; M=8 gives S ~4.74; M near 0 collapses S toward 0 - the single most score-sensitive input"
+    },
+    {
+      "input": "pi_dist x pi_moat",
+      "plausible_range": "C from 0.375 (0.15 x 0.25) to 1.575 (0.35 x 0.45)",
+      "score_impact": "S ranges ~3.17 to ~4.23"
+    },
+    {
+      "input": "owners_60plus_pct",
+      "plausible_range": "0.25-0.40",
+      "score_impact": "OW 0.4286-0.8571; B ~4.45-6.29; S ~3.65-3.92"
+    }
+  ],
+  "reviewer_note": "Formula tension, reported per rule 1: S = 3.76 emerges because V saturates at 10 (30.9pp of revenue in substitutable labor) and A is high - but this is precisely the profile of a MELTING industry where the AI value accrues to clients, not the operator. The multiplicative model lets a 0.875 C only partially offset V=10, A=6.67; my judgment is that the composite overstates roll-up attractiveness for a terminal-MELTING code, but the arithmetic is reported as computed. Melting-base caveat (per prompt): n_total is only 2,299 firms and the 201-firm band sits in the 100-499 class where AI-driven volume loss hits hardest; QCEW/SUSB trend verification was not independently completed, so the acquisition universe may be shrinking faster than the 2022 SUSB snapshot implies - treat TD as a ceiling. role_mix is a 4-digit 5614 proxy: medical transcriptionists, mail clerks and counter clerks are sibling-code artifacts; per prompt guidance the large unlisted tail (0.4171 wage share) was treated as predominantly frontline-agent labor, which is the biggest single lever in V (though V stays saturated at 10 across the tail's full 0.4-0.65 range). Offshore substitution is a confounder: domestic revenue can melt via offshoring as well as AI; the MELTING classification rests on AI replacing the product, with offshore as an accelerant. owners_60plus_pct and buy/exit multiples are ESTIMATE-quality (no industry-specific owner-age data exists; small-bureau transaction comps are thin and voice-heavy platform exits are re-pricing downward amid AI uncertainty - public comps at 4.3-5x bound the exit assumption). Adoption surveys mostly cover in-house centers and enterprise buyers rather than BPO operators (prompt trap); firm-count weighting was applied to correct. Consolidation evidence used only for B and M per rule 2. EBITDA quirks (client concentration, facility leases, attrition costs) argue for quality-of-earnings discipline beyond the multiple."
+}

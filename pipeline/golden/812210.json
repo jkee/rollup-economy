@@ -1,0 +1,317 @@
+{
+  "naics": "812210",
+  "title": "Funeral Homes and Funeral Services",
+  "run_meta": {
+    "model_id": "claude-fable-5",
+    "run_date": "2026-07-20",
+    "run_id": "golden-f1-812210",
+    "template_version": "3.0",
+    "prompt_version": "p3-aff6579"
+  },
+  "dataset_inputs": {
+    "labor_share": {
+      "value": 0.326,
+      "method": "BLS Industry Productivity (IPS) direct: labor compensation (L02) $5,800.0M / sectoral output (T30) $17,793.8M, year 2022",
+      "sources": [
+        "BLS Industry Productivity and Costs flat files (ip.data.1.AllData), measures L02 and T30"
+      ],
+      "year": "2022",
+      "quality": "HIGH"
+    },
+    "role_mix": {
+      "oews_level": "4-digit 8122",
+      "occupations": [
+        {
+          "soc": "39-4021",
+          "title": "Funeral Attendants",
+          "emp_share": 0.2249,
+          "wage_share": 0.1624
+        },
+        {
+          "soc": "39-4031",
+          "title": "Morticians, Undertakers, and Funeral Arrangers",
+          "emp_share": 0.1881,
+          "wage_share": 0.2122
+        },
+        {
+          "soc": "11-9171",
+          "title": "Funeral Home Managers",
+          "emp_share": 0.0967,
+          "wage_share": 0.1667
+        },
+        {
+          "soc": "37-3011",
+          "title": "Landscaping and Groundskeeping Workers",
+          "emp_share": 0.0942,
+          "wage_share": 0.0773
+        },
+        {
+          "soc": "43-9061",
+          "title": "Office Clerks, General",
+          "emp_share": 0.0621,
+          "wage_share": 0.0497
+        },
+        {
+          "soc": "43-6014",
+          "title": "Secretaries and Administrative Assistants, Except Legal, Medical, and Executive",
+          "emp_share": 0.0577,
+          "wage_share": 0.0481
+        },
+        {
+          "soc": "39-4011",
+          "title": "Embalmers",
+          "emp_share": 0.0248,
+          "wage_share": 0.0287
+        },
+        {
+          "soc": "41-3091",
+          "title": "Sales Representatives of Services, Except Advertising, Insurance, Financial Services, and Travel",
+          "emp_share": 0.0243,
+          "wage_share": 0.0266
+        },
+        {
+          "soc": "43-4171",
+          "title": "Receptionists and Information Clerks",
+          "emp_share": 0.021,
+          "wage_share": 0.0145
+        },
+        {
+          "soc": "39-4012",
+          "title": "Crematory Operators",
+          "emp_share": 0.0204,
+          "wage_share": 0.0183
+        }
+      ],
+      "quality": "MED"
+    },
+    "n_total": {
+      "value": 10725,
+      "source": "SUSB 2022 (firms, all enterprise sizes)",
+      "year": "2022",
+      "quality": "HIGH"
+    },
+    "n_band": {
+      "value": 40,
+      "derivation": "margin 0.1565 (margins.json[81]: Damodaran Jan 2026: Business & Consumer Services EBITDA/Sales 15.65%); revenue/employee $162,073 (SUSB 2022 receipts/employment at 812210); class <5: 4,937 firms, avg revenue/firm $548,492 (class receipts/firms), implied EBITDA $85,839 -> out of $1-10M band; class 5-9: 3,060 firms, avg revenue/firm $1,134,884 (class receipts/firms), implied EBITDA $177,609 -> out of $1-10M band; class 10-19: 1,786 firms, avg revenue/firm $1,855,167 (class receipts/firms), implied EBITDA $290,334 -> out of $1-10M band; class 20-99: 893 firms, avg revenue/firm $4,331,400 (class receipts/firms), implied EBITDA $677,864 -> out of $1-10M band; class 100-499: 40 firms, avg revenue/firm $18,374,525 (class receipts/firms), implied EBITDA $2,875,613 -> IN $1-10M band; class 500+: 9 firms, avg revenue/firm $423,789,444 (class receipts/firms), implied EBITDA $66,323,048 -> out of $1-10M band; n_band = 40",
+      "margin_used": 0.1565,
+      "margin_source": "Damodaran Jan 2026: Business & Consumer Services EBITDA/Sales 15.65%",
+      "quality": "ESTIMATE"
+    }
+  },
+  "inputs": {
+    "ai_replaceable_share": {
+      "value": 0.14475,
+      "breakdown_by_role": [
+        {
+          "role": "Morticians, Undertakers, and Funeral Arrangers (39-4031)",
+          "labor_share_of_total": 0.2122,
+          "within_role_automatable_fraction": 0.15,
+          "contribution": 0.031830,
+          "rationale": "Licensed, relational, physical work (arrangement conferences, removals, service direction) is not automatable; the AI-touchable sliver is paperwork wrapped inside the role: death certificates, permits, insurance assignments, obituary drafting. AI obituary/case-doc tools (Tribute, Passare) already do this. ~15% of the role's hours are that paperwork.",
+          "plausible_range": "0.10-0.25"
+        },
+        {
+          "role": "Funeral Home Managers (11-9171)",
+          "labor_share_of_total": 0.1667,
+          "within_role_automatable_fraction": 0.25,
+          "contribution": 0.041675,
+          "rationale": "Often licensee-owners; scheduling, compliance filings, pre-need administration and reporting automate; community presence, family relationships and staff leadership do not.",
+          "plausible_range": "0.15-0.35"
+        },
+        {
+          "role": "Funeral Attendants (39-4021)",
+          "labor_share_of_total": 0.1624,
+          "within_role_automatable_fraction": 0.0,
+          "contribution": 0.0,
+          "rationale": "Physical service work: visitation staffing, casket movement, processions. Not automatable by current AI.",
+          "plausible_range": "0.0-0.05"
+        },
+        {
+          "role": "Embalmers + Crematory Operators (39-4011, 39-4012)",
+          "labor_share_of_total": 0.047,
+          "within_role_automatable_fraction": 0.0,
+          "contribution": 0.0,
+          "rationale": "Licensed physical preparation and cremation operations. Not automatable.",
+          "plausible_range": "0.0-0.05"
+        },
+        {
+          "role": "Landscaping and Groundskeeping Workers (37-3011)",
+          "labor_share_of_total": 0.0773,
+          "within_role_automatable_fraction": 0.0,
+          "contribution": 0.0,
+          "rationale": "Physical grounds work; largely cemetery contamination from the 4-digit 8122 proxy (812220), not funeral-home staff. Zero regardless.",
+          "plausible_range": "0.0-0.0"
+        },
+        {
+          "role": "Office and administration (43-9061 + 43-6014 + 43-4171)",
+          "labor_share_of_total": 0.1123,
+          "within_role_automatable_fraction": 0.5,
+          "contribution": 0.056150,
+          "rationale": "Case administration, filings, billing, aftercare correspondence, phone handling - the clean AI surface. Half the work is substantially doable by current AI; in-person reception and grieving-family phone contact remains human.",
+          "plausible_range": "0.35-0.65"
+        },
+        {
+          "role": "Sales Representatives of Services (41-3091, pre-need sales)",
+          "labor_share_of_total": 0.0266,
+          "within_role_automatable_fraction": 0.2,
+          "contribution": 0.005320,
+          "rationale": "Pre-need selling is relationship/trust work; the heavy contract paperwork and follow-up correspondence automates.",
+          "plausible_range": "0.1-0.3"
+        },
+        {
+          "role": "Unlisted remainder (drivers, transport, support tail)",
+          "labor_share_of_total": 0.1955,
+          "within_role_automatable_fraction": 0.05,
+          "contribution": 0.009775,
+          "rationale": "Removal/transport driving and physical support work is not automatable; small scheduling/dispatch/admin sliver is. Remainder = 1 - sum of listed wage shares (0.8045).",
+          "plausible_range": "0.0-0.10"
+        }
+      ],
+      "quality": "MED"
+    },
+    "pi_dist": {
+      "value": 0.85,
+      "rationale": "The firm owns the client directly: consumer-paid, at-need purchase with strong local price opacity, grief-constrained shopping, and no upstream gatekeeper, platform or procurement layer. Pricing is itemized fixed/per-unit under the FTC Funeral Rule GPL, not cost-plus or hourly, so AI admin savings are retained margin by default - no billing mechanism hands them to clients. Docked from 1.0 because the FTC Funeral Rule review (potential mandatory online price posting) and online direct-cremation price transparency are live threats to the opacity that supports retention.",
+      "plausible_range": "0.75-0.95",
+      "sources": [
+        "https://nfda.org/news/media-center/nfda-news-releases/id/9786/nfda-releases-2025-cremation-burial-report-comprehensive-insights-to-guide-the-future-of-funeral-service",
+        "https://www.ftc.gov/legal-library/browse/rules/funeral-rule"
+      ],
+      "quality": "MED"
+    },
+    "pi_moat": {
+      "value": 0.65,
+      "rationale": "Real barriers: state funeral director/embalmer licensing everywhere, physical premises, and multi-generational family-name community trust. Generic AI cannot bypass the firm - disposition is licensed and physical. But the bypass that matters is non-AI: online direct-cremation brands (Tulip, Solace, Aftercare-style entrants) that never use the acquired firm's premises, home funerals, and celebration-of-life venues unbundling the service; cremation share at 63.4% (2025) heading to 82.3% (2045) structurally erodes what the moat protects. Also acquisition-specific risk: case-volume attrition when the selling director exits even if the family name is retained.",
+      "plausible_range": "0.5-0.75",
+      "sources": [
+        "https://nfda.org/news/media-center/nfda-news-releases/id/9786/nfda-releases-2025-cremation-burial-report-comprehensive-insights-to-guide-the-future-of-funeral-service",
+        "https://us-funerals.com/death-care-disrupted-how-cremation-and-tech-are-changing-the-funeral-industry/"
+      ],
+      "quality": "MED"
+    },
+    "t50_years": {
+      "value": 6.0,
+      "derivation": "current_adoption_pct ~10% materially using AI today (18% 'using or planning within a year', so material current use lower). Historical analog: this is a documented slow-adopter industry - websites took roughly 12-15 years from mid-1990s introduction to majority penetration (>85% only by 2022), livestreaming needed a pandemic shock to spike. But AI obituary/admin tools are being pushed free-of-charge through incumbent vendor platforms already installed in most homes (Tribute Technology, Passare, Tukios), which compresses the distribution lag that slowed websites. From ~10% today, reaching 50% material use in the automatable functions ~ 6 years (roughly half the website curve).",
+      "plausible_range": "4-10",
+      "quality": "ESTIMATE"
+    },
+    "current_adoption_pct": {
+      "value": 0.10,
+      "source": "Gitnux - AI In The Funeral Industry Statistics (aggregated industry survey data); corroborated by Washington Post reporting on AI obituary tools",
+      "url": "https://gitnux.org/ai-in-the-funeral-industry-statistics/",
+      "figure_quoted": "18% of funeral directors are currently using AI or plan to implement it within the next year",
+      "access_date": "2026-07-20",
+      "quality": "LOW"
+    },
+    "historical_analogs": {
+      "value": "Funeral home websites: introduced mid-1990s, majority penetration only in the late 2000s/2010s (~12-15 years to ~50%), >85% by 2022. Livestreaming: available since ~2010, minority adoption until COVID forced a 300% surge in 2020. CRM adoption still only ~35%. Consistent pattern: 10-15 year adoption curves for practice technology in this industry.",
+      "source": "WifiTalents funeral industry statistics compilation; University of Melbourne DeathTech research on slow deathcare tech adoption",
+      "url": "https://wifitalents.com/funeral-home-industry-statistics/",
+      "figure_quoted": "over 85% having an active online presence as of 2022; approximately 35% of funeral homes utilize CRM systems; live streaming services increased by 300% during the pandemic",
+      "access_date": "2026-07-20",
+      "quality": "LOW"
+    },
+    "owners_60plus_pct": {
+      "value": 0.38,
+      "source": "Obitley industry analysis citing NFDA owner-demographic estimates; corroborated by Connecting Directors coverage of succession-planning study",
+      "url": "https://www.obitley.com/stories/independent-funeral-directors",
+      "figure_quoted": "NFDA estimates 38% of independent owner-operators are 60+, and only 24% have a documented succession plan",
+      "access_date": "2026-07-20",
+      "quality": "MED",
+      "succession_shortage_documented": {
+        "value": true,
+        "evidence": "An estimated 28% of independent funeral home owners are over 65 with no identified successor; only 24% of owner-operators have a documented succession plan; nearly half plan to retire within five years while less than a quarter have a succession plan (NFDA-cited figures via Obitley/Connecting Directors, accessed 2026-07-20)."
+      }
+    },
+    "active_consolidators": {
+      "value": 8,
+      "source": "Funeral Director Daily M&A coverage; KFF Health News; The Shoestring consolidation reporting. Platforms with add-ons in last 24 months: SCI, Park Lawn (Homesteaders/Birch Hill, private since Aug 2024), Carriage Services, Foundation Partners Group (recapitalized 2025), Rollings Funeral Service, Pinnacle Funeral Service, Legacy Funeral Group, Milestone/Rosewood Private Investments",
+      "url": "https://funeraldirectordaily.com/will-2024-be-a-year-of-mergers-and-acquisitions/",
+      "figure_quoted": "SCI spent more than $181M on 26 funeral service properties and six cemeteries in 2024; 'Rollings and Pinnacle are privately held buyers paying strong multiples'; 'In 2024 Milestone was acquired by Rosewood Private Investments'",
+      "access_date": "2026-07-20",
+      "quality": "MED"
+    },
+    "buy_mult": {
+      "value": 5.0,
+      "source": "Creedy & Co. funeral home valuation series (specialist deathcare appraiser), corroborated by CT Acquisitions broker guidance (4-6x for single-location homes)",
+      "url": "https://funeralhomeconsulting.org/funeral-home-valuation-part-iv-the-final-chapter/",
+      "figure_quoted": "the range of purchase multiples heard most frequently is 4 to 6.5 times EBITDA, with 5 times EBITDA representing the neutral point or average multiple for a decent but unremarkable firm",
+      "access_date": "2026-07-20",
+      "quality": "MED"
+    },
+    "exit_mult": {
+      "value": 11.0,
+      "source": "GuruFocus SCI EV/EBITDA (public platform comp); Park Lawn C$1.2B take-private at 62.1% premium (Aug 2024) consistent with low-double-digit adjusted EBITDA multiple",
+      "url": "https://www.gurufocus.com/term/enterprise-value-to-ebitda/SCI",
+      "figure_quoted": "SERVICE INTERNATIONAL EV-to-EBITDA: 11.89 - Near Median (10-year median 12.19); Park Lawn acquired for C$26.50/share, ~C$1.2 billion including net debt",
+      "access_date": "2026-07-20",
+      "quality": "MED"
+    },
+    "pricing_structure": {
+      "value": "~100% itemized fixed/per-unit consumer-paid pricing under the FTC Funeral Rule General Price List (services fee, casket, embalming, facilities, transport itemized per case). No hourly, retainer or cost-plus billing. Median funeral with viewing and burial $8,300 (2023); median funeral with cremation $6,280; online direct cremation sold at roughly $1,000-2,500, a fraction of burial revenue per case. Pre-need contracts (trust- or insurance-funded) lock future volume at locked-in prices.",
+      "source": "NFDA 2025 Cremation & Burial Report release and NFDA GPL survey medians",
+      "url": "https://nfda.org/news/media-center/nfda-news-releases/id/9786/nfda-releases-2025-cremation-burial-report-comprehensive-insights-to-guide-the-future-of-funeral-service",
+      "figure_quoted": "projected 2025 cremation rate is 63.4%... by 2045, cremation is expected to reach 82.3%; median cost of a funeral with viewing and burial was $8,300; median cost of a funeral with cremation was $6,280",
+      "access_date": "2026-07-20",
+      "quality": "HIGH"
+    }
+  },
+  "scores": {
+    "V": {
+      "arithmetic": "V_raw = labor_share 0.326 x ai_replaceable_share 0.14475 = 0.04718850; V = 10 x min(1, 0.04718850/0.25) = 10 x 0.18875400 = 1.88754000",
+      "score": 1.887540
+    },
+    "C": {
+      "arithmetic": "C = 10 x pi_dist 0.85 x pi_moat 0.65 = 5.52500000",
+      "score": 5.525
+    },
+    "A": {
+      "arithmetic": "A = min(10, 10/t50) = min(10, 10/6.0) = 1.66666667",
+      "score": 1.6666666666666667
+    },
+    "B": {
+      "arithmetic": "TD = clamp(log10(40)/4, 0, 1) = clamp(1.60205999/4) = 0.40051500; OW = clamp((0.38-0.10)/0.35, 0.1, 0.9) = 0.80000000, +0.1 succession bonus (documented) = 0.90000000; CFD = min(0.9, log10(1+8)/2) = min(0.9, 0.95424251/2) = 0.47712125; B = 10 x sqrt(0.40051500 x 0.90000000) / (1 + 0.3 x 0.47712125) = 10 x sqrt(0.36046350) / 1.14313638 = 6.00386125 / 1.14313638 = 5.25209040",
+      "score": 5.252090
+    },
+    "M": {
+      "arithmetic": "M = clamp(4 x (exit_mult 11.0 - buy_mult 5.0) / 5.0, 0, 10) = clamp(4 x 1.2, 0, 10) = 4.80000000",
+      "score": 4.8
+    }
+  },
+  "S": 3.375437,
+  "cross_checks": {
+    "uplift_pp": 4.71885,
+    "uplift_vs_A_consistent": "V_raw 0.0471885 = 4.71885pp of revenue as potential EBITDA uplift (on ~20-25% normalized EBITDA margins, a meaningful ~20% relative uplift). A = 1.667 < 5, so the low-uplift/high-A inconsistency test does not trigger; uplift is above 3pp in any case. Consistent.",
+    "terminal_value": {
+      "class": "PRESSURED",
+      "justification": "AI cuts the operator's costs (the ~11% office/admin wage share plus paperwork slivers inside licensed roles); it does not replace the product - mature AI does not embalm, transport, conduct services or sit with grieving families. But demand economics shrink structurally without AI: case volume grows demographically while revenue per case falls as cremation share climbs from 63.4% (2025) toward 82.3% (2045) and online direct-cremation entrants (selling at ~$1,000-2,500 vs $8,300 median burial) disintermediate the premises entirely. 'Deaths are increasing' does NOT mean revenue is safe: mix shift is a secular revenue-per-case decline independent of AI, and the ~4.7pp AI cost uplift is roughly one cremation-mix decade's worth of revenue erosion, not a transformation. Demand for licensed disposition persists indefinitely, so not MELTING; but the traditional full-service funeral home's unit economics are being squeezed, so PRESSURED, not DURABLE."
+    },
+    "no_proxy_confirmed": "Confirmed. V was computed solely from the provided labor_share and role_mix with within-role automatable fractions justified by task content (paperwork vs licensed/physical/relational work). A was derived from a current-adoption survey figure and the industry's own website/livestreaming/CRM adoption history. No deal activity, consolidation trend, or PE interest was used for V or A; consolidator counts and multiples inform only B (CFD) and M.",
+    "pricing_model_deflation": "Billing is ~100% itemized fixed/per-unit consumer pricing under the FTC Funeral Rule GPL - no hourly, cost-plus or audited billing exists to mechanically pass AI savings to clients, so efficiency gains default to operator margin. This supports the high pi_dist (0.85). The real deflation channels are not billing-model but (a) price transparency: online direct-cremation advertising and the FTC's potential mandatory online GPL posting compress local price opacity (reflected in pi_dist dock from 1.0), and (b) mix: cremation share growth cuts revenue per case regardless of billing model (reflected in pi_moat 0.65 and the PRESSURED terminal class)."
+  },
+  "confidence_overall": "MED",
+  "heterogeneous": false,
+  "top_uncertain_inputs": [
+    {
+      "input": "t50_years",
+      "plausible_range": "4-10 years",
+      "score_impact": "A ranges 1.0 (t50=10) to 2.5 (t50=4); S moves roughly 3.05 to 3.66 holding others fixed - the single largest swing factor."
+    },
+    {
+      "input": "current_adoption_pct",
+      "plausible_range": "0.05-0.18",
+      "score_impact": "Feeds t50 only; at 18% material use today t50 could be ~5 (A=2.0, S~3.5); at 5% t50 nearer 8 (A=1.25, S~3.2). LOW-quality aggregator source."
+    },
+    {
+      "input": "exit_mult",
+      "plausible_range": "9-12",
+      "score_impact": "M ranges 3.2 to 5.6; S moves roughly 3.11 to 3.48. Platform exits for private $10M+ EBITDA groups are not publicly disclosed; SCI public multiple is the proxy."
+    },
+    {
+      "input": "ai_replaceable_share",
+      "plausible_range": "0.10-0.20",
+      "score_impact": "V ranges 1.30 to 2.61; S moves roughly 3.13 to 3.61."
+    }
+  ],
+  "reviewer_note": "Formula results reported as computed; no overrides. Points of note: (1) n_band=40 is used as given per rule 6 but is almost certainly a floor - the derivation's generic 15.65% margin is below the 20-25%+ normalized EBITDA margins healthy funeral homes run, and at realistic margins part of the 893-firm 20-99 employee class (avg revenue $4.3M) would clear $1M EBITDA; TD (0.40) and hence B are understated if so (n_band=900 would give TD~0.74, B~6.7, S~3.55). (2) role_mix is 4-digit 8122 including 812220 Cemeteries and Crematories - the 7.7% groundskeeper share is largely cemetery contamination; I set it to zero automatable so it dilutes ai_replaceable_share slightly downward, which is conservative for V. (3) buy_mult 5.0x is quoted by specialist appraisers on normalized EBITDA after owner comp; small-home listings quoted on SDE run higher nominal prices - I used the EBITDA-basis figure per rule 3. Family owner comp, owner real estate at non-market rent, and pre-need trust income all require normalization in any real diligence. (4) Pre-need books cut both ways in acquisitions: locked volume but below-inflation locked pricing; treated as neutral in scoring. (5) current_adoption_pct and historical_analogs rest on LOW-quality aggregator statistics; primary NFDA member-survey AI data was not accessible without membership. (6) Cross-check 2: the dominant economic force here is cremation-mix revenue deflation, not AI - the roll-up case is a B/M story (fragmented aging-owner base, wide buy/exit multiple arbitrage) with a modest V."
+}

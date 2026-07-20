@@ -1,0 +1,344 @@
+{
+  "naics": "531210",
+  "title": "Offices of Real Estate Agents and Brokers",
+  "run_meta": {
+    "model_id": "claude-fable-5",
+    "run_date": "2026-07-20",
+    "run_id": "golden-f1-531210",
+    "template_version": "3.0",
+    "prompt_version": "p3-aff6579"
+  },
+  "dataset_inputs": {
+    "labor_share": {
+      "value": 0.1826,
+      "method": "QCEW 2024 private total annual wages at 531210 ($30,836,359,913) x benefits multiplier 1.4294 [ECEC private-industry total comp $46.60/hr / wages $32.60/hr = 1.4294 (March 2026 reference period)] / SUSB 2022 receipts at 531210 ($180,013,344,000). Vintage mismatch: 2024 wages over 2022 receipts, stated. Level: 6-digit. Harmonized to IPS basis ÷1.3407 (median of 65 dual-method codes).",
+      "sources": [
+        "BLS QCEW 2024 annual averages (US000, private)",
+        "BLS ECEC news release (raw/ecec.nr0.htm)",
+        "Census SUSB 2022 (receipts by NAICS)"
+      ],
+      "year": "2024 wages / 2022 receipts",
+      "quality": "MED"
+    },
+    "role_mix": {
+      "oews_level": "3-digit 531",
+      "occupations": [
+        {
+          "soc": "49-9071",
+          "title": "Maintenance and Repair Workers, General",
+          "emp_share": 0.1677,
+          "wage_share": 0.1289
+        },
+        {
+          "soc": "11-9141",
+          "title": "Property, Real Estate, and Community Association Managers",
+          "emp_share": 0.1308,
+          "wage_share": 0.1549
+        },
+        {
+          "soc": "41-9022",
+          "title": "Real Estate Sales Agents",
+          "emp_share": 0.0843,
+          "wage_share": 0.0872
+        },
+        {
+          "soc": "41-2021",
+          "title": "Counter and Rental Clerks",
+          "emp_share": 0.0551,
+          "wage_share": 0.037
+        },
+        {
+          "soc": "43-9061",
+          "title": "Office Clerks, General",
+          "emp_share": 0.049,
+          "wage_share": 0.0334
+        },
+        {
+          "soc": "11-1021",
+          "title": "General and Operations Managers",
+          "emp_share": 0.0411,
+          "wage_share": 0.083
+        },
+        {
+          "soc": "37-2011",
+          "title": "Janitors and Cleaners, Except Maids and Housekeeping Cleaners",
+          "emp_share": 0.0363,
+          "wage_share": 0.024
+        },
+        {
+          "soc": "43-6014",
+          "title": "Secretaries and Administrative Assistants, Except Legal, Medical, and Executive",
+          "emp_share": 0.0307,
+          "wage_share": 0.0212
+        },
+        {
+          "soc": "43-3031",
+          "title": "Bookkeeping, Accounting, and Auditing Clerks",
+          "emp_share": 0.0292,
+          "wage_share": 0.024
+        },
+        {
+          "soc": "49-1011",
+          "title": "First-Line Supervisors of Mechanics, Installers, and Repairers",
+          "emp_share": 0.0267,
+          "wage_share": 0.0282
+        }
+      ],
+      "quality": "LOW"
+    },
+    "n_total": {
+      "value": 150892,
+      "source": "SUSB 2022 (firms, all enterprise sizes)",
+      "year": "2022",
+      "quality": "HIGH"
+    },
+    "n_band": {
+      "value": 259,
+      "derivation": "margin 0.0396 (margins.json[53]: Damodaran Jan 2026: Real Estate (Operations & Services) EBITDA/Sales 3.96% (agency/brokerage/property-management economics, dominant in firm counts)); revenue/employee $432,174 (SUSB 2022 receipts/employment at 531210); class <5: 140,557 firms, avg revenue/firm $449,562 (class receipts/firms), implied EBITDA $17,803 -> out of $1-10M band; class 5-9: 6,638 firms, avg revenue/firm $2,862,814 (class receipts/firms), implied EBITDA $113,367 -> out of $1-10M band; class 10-19: 2,095 firms, avg revenue/firm $6,465,620 (class receipts/firms), implied EBITDA $256,039 -> out of $1-10M band; class 20-99: 1,204 firms, avg revenue/firm $16,484,213 (class receipts/firms), implied EBITDA $652,775 -> out of $1-10M band; class 100-499: 259 firms, avg revenue/firm $48,286,429 (class receipts/firms), implied EBITDA $1,912,143 -> IN $1-10M band; class 500+: 139 firms, avg revenue/firm $373,541,367 (class receipts/firms), implied EBITDA $14,792,238 -> out of $1-10M band; n_band = 259",
+      "margin_used": 0.0396,
+      "margin_source": "Damodaran Jan 2026: Real Estate (Operations & Services) EBITDA/Sales 3.96% (agency/brokerage/property-management economics, dominant in firm counts)",
+      "quality": "ESTIMATE"
+    }
+  },
+  "inputs": {
+    "ai_replaceable_share": {
+      "value": 0.23226,
+      "breakdown_by_role": [
+        {
+          "role": "Maintenance and Repair Workers (49-9071) - 3-digit proxy contamination",
+          "labor_share_of_total": 0.1289,
+          "within_role_automatable_fraction": 0.0,
+          "contribution": 0.0,
+          "rationale": "Physical building operations from sibling codes (lessors/property managers), largely absent from actual 531210 brokerage offices. Not automatable either way. Contamination flagged per prompt guidance.",
+          "plausible_range": "0.00-0.02"
+        },
+        {
+          "role": "Property, Real Estate, and Community Association Managers (11-9141) - largely proxy contamination",
+          "labor_share_of_total": 0.1549,
+          "within_role_automatable_fraction": 0.1,
+          "contribution": 0.01549,
+          "rationale": "Mostly lessor/property-management contamination, not brokerage staff. Where present, the role is relationship/judgment work with a modest reporting/scheduling/communication sliver AI handles.",
+          "plausible_range": "0.05-0.20"
+        },
+        {
+          "role": "Real Estate Sales Agents, W-2 slice (41-9022)",
+          "labor_share_of_total": 0.0872,
+          "within_role_automatable_fraction": 0.25,
+          "contribution": 0.0218,
+          "rationale": "AI already does much of the task list (listing prep, CMA/pricing drafts, marketing copy, scheduling, disclosure paperwork) but the state license required to collect a commission and the trust/negotiation relationship are not automatable. Only the W-2 salaried slice is in the wage bill; the vast majority of agents are 1099 and outside labor_share entirely.",
+          "plausible_range": "0.15-0.35"
+        },
+        {
+          "role": "Counter and Rental Clerks (41-2021) - largely proxy contamination",
+          "labor_share_of_total": 0.037,
+          "within_role_automatable_fraction": 0.4,
+          "contribution": 0.0148,
+          "rationale": "Rental-desk contamination from lessors; where present, application processing, booking and inquiry handling are highly automatable, with an in-person service remainder.",
+          "plausible_range": "0.25-0.55"
+        },
+        {
+          "role": "Office Clerks, General (43-9061)",
+          "labor_share_of_total": 0.0334,
+          "within_role_automatable_fraction": 0.6,
+          "contribution": 0.02004,
+          "rationale": "Listing administration, file compliance, data entry - the clean AI surface in a brokerage office.",
+          "plausible_range": "0.40-0.75"
+        },
+        {
+          "role": "General and Operations Managers (11-1021)",
+          "labor_share_of_total": 0.083,
+          "within_role_automatable_fraction": 0.25,
+          "contribution": 0.02075,
+          "rationale": "Recruiting funnels, production reporting and office admin automate; managing-broker compliance supervision is statutory (a licensed broker must supervise agents) and persists.",
+          "plausible_range": "0.15-0.35"
+        },
+        {
+          "role": "Janitors and Cleaners (37-2011) - proxy contamination",
+          "labor_share_of_total": 0.024,
+          "within_role_automatable_fraction": 0.0,
+          "contribution": 0.0,
+          "rationale": "Physical work from sibling codes; not brokerage staff, not automatable.",
+          "plausible_range": "0.00-0.02"
+        },
+        {
+          "role": "Secretaries and Administrative Assistants (43-6014)",
+          "labor_share_of_total": 0.0212,
+          "within_role_automatable_fraction": 0.6,
+          "contribution": 0.01272,
+          "rationale": "Scheduling, correspondence, document assembly - same clean surface as clerks.",
+          "plausible_range": "0.40-0.75"
+        },
+        {
+          "role": "Bookkeeping, Accounting, and Auditing Clerks (43-3031)",
+          "labor_share_of_total": 0.024,
+          "within_role_automatable_fraction": 0.55,
+          "contribution": 0.0132,
+          "rationale": "Commission disbursement accounting, trust-account reconciliation and AP/AR automate substantially; escrow/trust compliance review persists.",
+          "plausible_range": "0.35-0.70"
+        },
+        {
+          "role": "First-Line Supervisors of Mechanics (49-1011) - proxy contamination",
+          "labor_share_of_total": 0.0282,
+          "within_role_automatable_fraction": 0.0,
+          "contribution": 0.0,
+          "rationale": "Building-trades supervision from sibling codes; not brokerage staff, not automatable.",
+          "plausible_range": "0.00-0.02"
+        },
+        {
+          "role": "Remainder / unlisted tail (marketing, IT, transaction coordination, leasing staff, real estate brokers 41-9021)",
+          "labor_share_of_total": 0.3782,
+          "within_role_automatable_fraction": 0.3,
+          "contribution": 0.11346,
+          "rationale": "At 531210 proper this tail is mostly marketing/content (heavily automatable), transaction coordinators (heavily automatable) and licensed brokers/IT/support (partial or not). Blended 0.30; the tail is the single largest driver of the estimate and inherits the LOW-quality proxy problem.",
+          "plausible_range": "0.20-0.40"
+        }
+      ],
+      "quality": "LOW"
+    },
+    "pi_dist": {
+      "value": 0.25,
+      "rationale": "The operator (brokerage) does not own the client or the savings. The agent's book is personal and fully portable; upstream, Zillow/Realtor.com/Homes.com and the MLSs control search traffic and sell leads back to agents, so AI improvements in discovery/matching accrue to portals, not brokerages. The brokerage's retained 'company dollar' is thin (Damodaran ops-services margin 3.96% on receipts) and split competition is the documented deflation mechanism: any AI-driven agent productivity gain strengthens top agents' bargaining power and gets competed away as higher splits (100%-split and cap models like eXp already leave the brokerage a fee, not a margin). The one genuine retention channel: commission pricing is market-set, not cost-based, so savings on the small W-2 admin base are not contractually passed to consumers - hence 0.25 rather than lower. Post-settlement commission rates have so far held (buyer side ~2.82% Feb 2026 vs ~2.6% pre-settlement per Clever/AccountTECH tracking), so consumer-side clawback is not yet realized.",
+      "plausible_range": "0.15-0.35",
+      "sources": [
+        "https://listwithclever.com/average-real-estate-commission-rate/",
+        "https://www.housingwire.com/articles/lower-commission-rates-damage-profitability-for-brokerages/",
+        "https://www.redfin.com/news/commissions-q3-2025/"
+      ],
+      "quality": "MED"
+    },
+    "pi_moat": {
+      "value": 0.35,
+      "rationale": "The statutory moat is real but narrow: state license law requires a licensed agent/broker to collect a commission, so full generic-AI bypass of licensed intermediation is legally blocked. Everything else is weak: an acquirer of a brokerage owns almost nothing durable - agents can leave next day with their books, brands are often franchised (separate royalty stream), offices are increasingly virtual, and the bypass path (flat-fee MLS listing + AI-drafted paperwork + transaction attorney) is legal and cheapening. MLS/portal gatekeeping protects the industry's data position but is owned by MLSs/portals, not by an acquirable brokerage.",
+      "plausible_range": "0.25-0.45",
+      "sources": [
+        "https://www.nar.realtor/research-and-statistics/research-reports/realtor-technology-survey",
+        "https://real-data.com/statistics/brokerage-profitability-after-nar-settlement/"
+      ],
+      "quality": "MED"
+    },
+    "t50_years": {
+      "value": 2.5,
+      "derivation": "current_adoption_pct: NAR's 2025 Technology Survey has 68% of Realtors using AI, but only 17% report significant business impact and 33% moderate - material firm-level deployment in the automatable functions (marketing content, transaction coordination, back-office) is estimated at ~30% of brokerage firms today. Historical analog: eSignature - a comparable workflow technology - is now at 79% member use and went from niche (post-2005 ESIGN-era tools) to majority use in roughly 8-10 years; AI rides free consumer tools (ChatGPT 58% of members) with no hardware or regulatory gate, and this industry historically adopts consumer-facing tech faster than back-office tech. From ~30% material today at the observed momentum (68% casual use converting to material use as tools embed in MLS/CRM/TC platforms): ~2.5 years to 50% material adoption.",
+      "plausible_range": "1.5-4",
+      "quality": "MED"
+    },
+    "current_adoption_pct": {
+      "value": 0.3,
+      "source": "NAR 2025 REALTORS Technology Survey (random sample of 49,233 active Realtors, fielded July 2025); HousingWire coverage",
+      "url": "https://cms.nar.realtor/sites/default/files/2025-09/2025-realtors-technology-survey-report-09-18-2025.pdf",
+      "figure_quoted": "AI adoption reached 68% of agents; most common tool ChatGPT (58%); but only 17% report AI having a significant positive impact and 33% moderately positive, while 46% see no noticeable difference. Material = firm-level paid deployment of AI in marketing/listing content, transaction coordination or back-office workflows (not casual chatbot use); estimated at ~30% of firms = roughly the significant+half-of-moderate impact share.",
+      "access_date": "2026-07-20",
+      "quality": "MED"
+    },
+    "historical_analogs": {
+      "value": "eSignature in real estate: from early tools (post-2000 ESIGN Act, DocuSign founded 2003) to majority use took roughly 8-12 years, crossing ~50% of members in the mid-2010s; now 79% (2025 NAR survey). Social media for business use followed a similar sub-decade curve to 75%. Real estate adopts consumer-grade workflow tech fast; back-office/MLS tech slower.",
+      "source": "NAR 2025 REALTORS Technology Survey",
+      "url": "https://cms.nar.realtor/sites/default/files/2025-09/2025-realtors-technology-survey-report-09-18-2025.pdf",
+      "figure_quoted": "eSignature (79%) and social media (75%) remain the most widely used tech tools among Realtors.",
+      "access_date": "2026-07-20",
+      "quality": "MED"
+    },
+    "owners_60plus_pct": {
+      "value": 0.44,
+      "source": "NAR 2025 Member Profile (via RealEstateNews/Houston Agent coverage of the report)",
+      "url": "https://www.realestatenews.com/2025/08/06/fewer-younger-agents-holding-on-amid-market-headwinds",
+      "figure_quoted": "Median member age 57, up from 55 in 2023; 'the share of agents who are 60 or older has jumped from 35% to 44%'; only 11% under 40. Members-60+ used as the owner proxy; broker-owners skew older than the membership, so 0.44 is conservative for owners.",
+      "access_date": "2026-07-20",
+      "quality": "MED",
+      "succession_shortage_documented": {
+        "value": false,
+        "evidence": "Aging membership and a thinning under-40 pipeline are documented (NAR 2025 Member Profile), but no primary source documents a succession shortage of brokerage OWNERS specifically (unsold firms, no-heir closures); RTC commentary notes weaker valuations reflect performance, not absent buyers. Flag left false."
+      }
+    },
+    "active_consolidators": {
+      "value": 3,
+      "source": "Deal coverage 2024-2026: RealEstateNews/HousingWire (Compass-@properties/Christie's, Compass-Anywhere), Peerage Realty (PitchBook profile; Premier Sotheby's expansion), The Agency, William Raveis",
+      "url": "https://www.realestatenews.com/2024/12/02/compass-to-acquire-properties-christies-international-real-estate",
+      "figure_quoted": "Consolidation is heavy but strategic-led, not PE-platform-led: Compass (public) acquired Christie's/@properties ($444M, closed Jan 2025) and signed the Anywhere merger (Sep 2025, ~$10B EV); PE-backed platforms doing brokerage add-ons in the last 24 months are roughly three - Peerage Realty Partners (serial Sotheby's-affiliate add-ons), The Agency (investor-backed, 27 new offices 2025, occasional acquisitions), and family/investor-backed William Raveis (e.g., Jordan Real Estate, Nantucket). Search found no HVAC-style PE roll-up cohort in residential brokerage.",
+      "access_date": "2026-07-20",
+      "quality": "ESTIMATE"
+    },
+    "buy_mult": {
+      "value": 3.5,
+      "source": "CT Acquisitions real estate brokerage valuation guide; RTC Consulting market commentary; DealStream rules of thumb",
+      "url": "https://ctacquisitions.com/real-estate-brokerage-business-valuation/",
+      "figure_quoted": "'Real estate brokerage business valuation in 2026: 0.5-1.5x GCI or 3-5x EBITDA'; real estate services broadly 3-8x with small/seasonal operations at the lower end; RTC notes multiples have held but valuations fell on weaker earnings, with more deferred consideration. Used 3.5x = lower-middle of the 3-5x small-firm range, on EBITDA after market-rate owner compensation (RTC-style company-dollar-based EBITDA, not GCI).",
+      "access_date": "2026-07-20",
+      "quality": "MED"
+    },
+    "exit_mult": {
+      "value": 7.0,
+      "source": "Compass-Anywhere merger filings/coverage; CT Acquisitions/RTC range top end for scaled diversified platforms",
+      "url": "https://www.sec.gov/Archives/edgar/data/1398987/000162828025054793/anywhereredefm14a.htm",
+      "figure_quoted": "Compass-Anywhere all-stock merger at ~$10B combined enterprise value (announced Sep 22, 2025) with >$225M run-rate synergies - implying high-single-digit EV/EBITDA for a scaled platform whose multiple is propped by franchise royalty and title/escrow streams; pure-brokerage services range tops out near 8x ('3x to 8x EBITDA... stable, well-diversified brokerage... at the higher end'). Used 7.0x for a $10M+ EBITDA diversified platform.",
+      "access_date": "2026-07-20",
+      "quality": "ESTIMATE"
+    },
+    "pricing_structure": {
+      "value": "Essentially 100% of brokerage revenue is percentage-of-transaction-value commission (avg total ~5.7% as of Feb 2026: ~2.88% listing side, ~2.82% buyer side), of which 70-90%+ passes through to 1099 agents under contractual splits; the brokerage retains thin 'company dollar' plus per-transaction/desk fees (100%-split and cap models) and, at franchisors, royalty fees. No hourly, retainer, or cost-plus billing of consequence; post-settlement (Aug 2024) buyer-agent compensation is negotiated separately but rates have rebounded to roughly pre-settlement levels.",
+      "source": "Clever 2026 commission survey; AccountTECH 224,000-transaction study; Redfin commission tracking",
+      "url": "https://listwithclever.com/average-real-estate-commission-rate/",
+      "figure_quoted": "'The average total commission is about 5.70 percent as of February 2026, split into a 2.88 percent listing-side fee and a 2.82 percent buyer's-side fee'; AccountTECH: buyer-agent commission 2.55% in January 2025, 'identical to the rate from one year prior' across 224,000+ transactions at ~1,300 brokerage offices; compression so far only at the $1M+ tier (2.30% Q1 2024 to 2.17% Q1 2025).",
+      "access_date": "2026-07-20",
+      "quality": "HIGH"
+    }
+  },
+  "scores": {
+    "V": {
+      "arithmetic": "ai_replaceable_share = 0.1289*0.0 + 0.1549*0.10 + 0.0872*0.25 + 0.037*0.40 + 0.0334*0.60 + 0.083*0.25 + 0.024*0.0 + 0.0212*0.60 + 0.024*0.55 + 0.0282*0.0 + 0.3782*0.30 = 0 + 0.01549 + 0.0218 + 0.0148 + 0.02004 + 0.02075 + 0 + 0.01272 + 0.0132 + 0 + 0.11346 = 0.23226. V_raw = 0.1826 * 0.23226 = 0.042410676. V = 10 * min(1, 0.042410676/0.25) = 10 * 0.169642704 = 1.69642704",
+      "score": 1.69642704
+    },
+    "C": {
+      "arithmetic": "C = 10 * pi_dist * pi_moat = 10 * 0.25 * 0.35 = 0.875",
+      "score": 0.875
+    },
+    "A": {
+      "arithmetic": "A = min(10, 10/t50) = min(10, 10/2.5) = 4.0",
+      "score": 4.0
+    },
+    "B": {
+      "arithmetic": "TD = clamp(log10(259)/4, 0, 1) = 2.413299764/4 = 0.603324941. OW = clamp((0.44-0.10)/0.35, 0.1, 0.9) = clamp(0.971428571, 0.1, 0.9) = 0.9; succession bonus not applied (succession_shortage_documented = false). CFD = min(0.9, log10(1+3)/2) = min(0.9, 0.602059991/2) = 0.301029996. B = 10 * sqrt(0.603324941 * 0.9) / (1 + 0.3*0.301029996) = 10 * sqrt(0.542992447) / 1.090308999 = 10 * 0.736880246 / 1.090308999 = 6.758452998",
+      "score": 6.758452998
+    },
+    "M": {
+      "arithmetic": "M = clamp(4 * (7.0 - 3.5) / 3.5, 0, 10) = clamp(4 * 1.0, 0, 10) = 4.0",
+      "score": 4.0
+    }
+  },
+  "S": 2.761226953,
+  "cross_checks": {
+    "uplift_pp": 4.2410676,
+    "uplift_vs_A_consistent": "V_raw = 0.0424 implies ~4.24pp of revenue (receipts basis) at full realization. A = 4.0 < 5 and uplift >= 3pp, so the inconsistency trigger (uplift < 3pp with A >= 5) does not fire. Note the receipts basis understates the operator-relevant effect: on retained company dollar the same W-2 savings are a much larger share of the brokerage's own P&L - but per the formulas, V is computed on receipts.",
+    "terminal_value": {
+      "class": "PRESSURED",
+      "justification": "Two failure modes, kept separate. (1) AI cutting brokerage office costs: real but small - the W-2 base is only 18.26% of receipts and much of the true cost line (agent splits) is a pass-through AI cannot harvest. (2) AI plus fee compression shrinking the commission pool: the post-settlement evidence says NOT YET - buyer-agent rates dipped after Aug 2024, then recovered to ~2.82% by Feb 2026 (Redfin/AccountTECH/Clever), with compression only at the $1M+ tier. Consumer trust in the largest transaction of their lives plus the statutory license requirement is holding the full-commission model for now. But the structural direction is one-way: buyer-agent decoupling is in place, portals and AI make discovery/valuation self-serve, the bypass wrapper (flat-fee MLS + AI paperwork + attorney) gets cheaper every year, and any eventual compression comes straight out of the commission pool that is this industry's entire revenue. Demand for licensed intermediation persists but the paid-value-per-transaction is under secular pressure: PRESSURED, not MELTING - the rate evidence does not yet show the pool shrinking - and not DURABLE, because the operator's product is exactly the layer AI plus decoupling squeezes."
+    },
+    "no_proxy_confirmed": "Confirmed: V was built from the OEWS role mix (with contamination flagged) and task-level analysis of brokerage functions; A was derived from the NAR 2025 Technology Survey and the eSignature diffusion analog. Neither used deal activity. Compass-Anywhere, Compass-Christie's/@properties, Peerage et al. informed only active_consolidators (B) and the multiples (M).",
+    "pricing_model_deflation": "Billing is ~100% percentage-of-value commission with 70-90%+ contractually passed through to 1099 agents. AI efficiency leaks out of the operator through two channels: (a) split competition - agent productivity gains raise top-producer bargaining power and are competed away as richer splits/cap models, and (b) prospective consumer-side compression post-decoupling (not yet realized in rates: buyer side back to ~2.82%). There is no cost-plus/audited pass-through, so savings on the small W-2 admin base are retainable - which is why pi_dist is 0.25 rather than 0.1. pi_moat 0.35 carries the statutory-license floor against full AI bypass, offset by zero agent lock-in and portal/MLS gatekeeping of lead flow. Together C = 0.875, the binding constraint in this score."
+  },
+  "confidence_overall": "LOW",
+  "heterogeneous": false,
+  "top_uncertain_inputs": [
+    {
+      "input": "t50_years",
+      "plausible_range": "1.5-4 years",
+      "score_impact": "A ranges 2.5-6.667; S ranges ~2.51-3.06 (S scales as (A/4.0)^0.2 around 2.761)"
+    },
+    {
+      "input": "ai_replaceable_share (tail fraction; role_mix is LOW-quality 3-digit proxy)",
+      "plausible_range": "0.17-0.30 (tail fraction 0.20-0.40 dominates)",
+      "score_impact": "V 1.24-2.19; S ~2.59-2.91"
+    },
+    {
+      "input": "exit_mult",
+      "plausible_range": "5.0-9.0 (scaled-platform comps are franchise/title-inflated; pure brokerage lower)",
+      "score_impact": "M 1.714-6.286; S ~2.33-3.02"
+    },
+    {
+      "input": "pi_dist",
+      "plausible_range": "0.15-0.35",
+      "score_impact": "C 0.525-1.225; S ~2.49-2.95"
+    }
+  ],
+  "reviewer_note": "STRUCTURAL MIS-FIT (per prompt trap list, confronted head-on): the operator's biggest cost line - agent commission splits - is 1099 pass-through, not W-2 labor, so an AI-labor thesis cannot harvest it; labor_share 0.1826 is among the lowest in the screen and V = 1.696 correctly reflects that only a thin W-2 admin/marketing wrapper is automatable on a receipts basis. ROLE-MIX CONTAMINATION: role_mix is the 3-digit 531 proxy (quality LOW) - maintenance workers, janitors, mechanics supervisors, most property managers and rental clerks (~35-37% of the proxy wage bill) are lessor/property-manager staff, not brokerage staff; their fractions were set at/near zero and the true brokerage V structure lives mostly in the 0.3782 unlisted tail (fraction 0.30), making ai_replaceable_share LOW quality. heterogeneous = false (not a catch-all; residential brokerage dominates 531210), but the proxy contamination is recorded here instead. DATASET CONFLICTS: none material; the 3.96% Damodaran margin on receipts is consistent with pass-through economics (never compare GCI-basis and company-dollar-basis multiples - buy_mult/exit_mult here are EBITDA-basis). CONSOLIDATOR COUNT: consolidation is heavy but strategic-led (Compass, HomeServices); genuinely PE-backed add-on platforms are ~3 (ESTIMATE) - if one instead counted all active strategic consolidators (~8), CFD rises to 0.477 and B falls to ~6.45, S to ~2.74 (minor). M = 4.0 warrants skepticism: the 3.5x->7.0x spread is real in quoted ranges, but the 7x end embeds franchise-royalty and title/escrow streams a brokerage roll-up would have to build, and n_band = 259 with agent-portability risk makes the arbitrage hard to execute; the formula result stands per rule 1. FORMULA VS INTUITION: S = 2.761 feels a touch generous for a business where the acquired asset can walk out the door - the weakness is correctly concentrated in V (1.70) and C (0.875), and B/M carry the score; flagged for the reviewer. Post-settlement commission structure is in live flux; pricing inputs are 2025-2026 vintage and should be re-run if rates start compressing."
+}

@@ -1,0 +1,304 @@
+{
+  "naics": "541930",
+  "title": "Translation and Interpretation Services",
+  "run_meta": {
+    "model_id": "claude-fable-5",
+    "run_date": "2026-07-20",
+    "run_id": "golden-f1-541930",
+    "template_version": "3.0",
+    "prompt_version": "p3-aff6579"
+  },
+  "dataset_inputs": {
+    "labor_share": {
+      "value": 0.4178,
+      "method": "QCEW 2024 private total annual wages at 541930 ($2,402,956,156) x benefits multiplier 1.4294 [ECEC private-industry total comp $46.60/hr / wages $32.60/hr = 1.4294 (March 2026 reference period)] / SUSB 2022 receipts at 541930 ($6,131,619,000). Vintage mismatch: 2024 wages over 2022 receipts, stated. Level: 6-digit. Harmonized to IPS basis ÷1.3407 (median of 65 dual-method codes).",
+      "sources": [
+        "BLS QCEW 2024 annual averages (US000, private)",
+        "BLS ECEC news release (raw/ecec.nr0.htm)",
+        "Census SUSB 2022 (receipts by NAICS)"
+      ],
+      "year": "2024 wages / 2022 receipts",
+      "quality": "MED"
+    },
+    "role_mix": {
+      "oews_level": "4-digit 5419",
+      "occupations": [
+        {
+          "soc": "29-2056",
+          "title": "Veterinary Technologists and Technicians",
+          "emp_share": 0.1378,
+          "wage_share": 0.0917
+        },
+        {
+          "soc": "31-9096",
+          "title": "Veterinary Assistants and Laboratory Animal Caretakers",
+          "emp_share": 0.117,
+          "wage_share": 0.0651
+        },
+        {
+          "soc": "29-1131",
+          "title": "Veterinarians",
+          "emp_share": 0.0832,
+          "wage_share": 0.1712
+        },
+        {
+          "soc": "43-4171",
+          "title": "Receptionists and Information Clerks",
+          "emp_share": 0.0692,
+          "wage_share": 0.0381
+        },
+        {
+          "soc": "39-2021",
+          "title": "Animal Caretakers",
+          "emp_share": 0.0448,
+          "wage_share": 0.0208
+        },
+        {
+          "soc": "43-4051",
+          "title": "Customer Service Representatives",
+          "emp_share": 0.0357,
+          "wage_share": 0.0225
+        },
+        {
+          "soc": "11-1021",
+          "title": "General and Operations Managers",
+          "emp_share": 0.0335,
+          "wage_share": 0.0658
+        },
+        {
+          "soc": "27-4021",
+          "title": "Photographers",
+          "emp_share": 0.0311,
+          "wage_share": 0.0229
+        },
+        {
+          "soc": "41-3091",
+          "title": "Sales Representatives of Services, Except Advertising, Insurance, Financial Services, and Travel",
+          "emp_share": 0.0232,
+          "wage_share": 0.0327
+        },
+        {
+          "soc": "27-3091",
+          "title": "Interpreters and Translators",
+          "emp_share": 0.0223,
+          "wage_share": 0.021
+        }
+      ],
+      "quality": "MED"
+    },
+    "n_total": {
+      "value": 2674,
+      "source": "SUSB 2022 (firms, all enterprise sizes)",
+      "year": "2022",
+      "quality": "HIGH"
+    },
+    "n_band": {
+      "value": 28,
+      "derivation": "margin 0.1565 (margins.json[54]: Damodaran Jan 2026: Business & Consumer Services EBITDA/Sales 15.65%); revenue/employee $162,427 (SUSB 2022 receipts/employment at 541930); class <5: 2,193 firms, avg revenue/firm $268,027 (class receipts/firms), implied EBITDA $41,946 -> out of $1-10M band; class 5-9: 223 firms, avg revenue/firm $1,388,377 (class receipts/firms), implied EBITDA $217,281 -> out of $1-10M band; class 10-19: 120 firms, avg revenue/firm $3,092,642 (class receipts/firms), implied EBITDA $483,998 -> out of $1-10M band; class 20-99: 95 firms, avg revenue/firm $5,796,705 (class receipts/firms), implied EBITDA $907,184 -> out of $1-10M band; class 100-499: 28 firms, avg revenue/firm $40,892,000 (class receipts/firms), implied EBITDA $6,399,598 -> IN $1-10M band; class 500+: 15 firms, avg revenue/firm $211,163,133 (class receipts/firms), implied EBITDA $33,047,030 -> out of $1-10M band; n_band = 28",
+      "margin_used": 0.1565,
+      "margin_source": "Damodaran Jan 2026: Business & Consumer Services EBITDA/Sales 15.65%",
+      "quality": "ESTIMATE"
+    }
+  },
+  "inputs": {
+    "ai_replaceable_share": {
+      "value": 0.48625,
+      "breakdown_by_role": [
+        {
+          "role": "Staff interpreters and translators (W-2 linguists)",
+          "labor_share_of_total": 0.25,
+          "within_role_automatable_fraction": 0.4,
+          "contribution": 0.1,
+          "rationale": "Written translation is the most AI-displaced task in the economy — MTPE is already the default workflow at documented 30-70%-of-rate pricing. Staff linguists skew toward certified/sworn, high-liability legal/medical work, transcreation and QA of MT output, which persist; live/on-site interpretation is real-time and holds longer. Role share is the guidance hypothesis (~20-30% of W-2 wages) because the provided 5419 role_mix is veterinary-contaminated and unusable.",
+          "plausible_range": "0.30-0.55"
+        },
+        {
+          "role": "Project managers and localization engineers",
+          "labor_share_of_total": 0.3,
+          "within_role_automatable_fraction": 0.5,
+          "contribution": 0.15,
+          "rationale": "File prep, TM/termbase management, vendor assignment, automated QA passes and delivery are being automated end-to-end by TMS platforms with AI orchestration; client-side program management, escalation and quality accountability persist. Share per guidance hypothesis (~25-35%).",
+          "plausible_range": "0.35-0.65"
+        },
+        {
+          "role": "Interpretation scheduling and operations (OPI/VRI/on-site dispatch)",
+          "labor_share_of_total": 0.125,
+          "within_role_automatable_fraction": 0.75,
+          "contribution": 0.09375,
+          "rationale": "Appointment scheduling, interpreter matching and telephony routing automate near-fully; interpreting platforms already do this. Residual human layer for escalations and last-minute coverage. Share per guidance hypothesis (~10-15%).",
+          "plausible_range": "0.60-0.85"
+        },
+        {
+          "role": "Sales and account management",
+          "labor_share_of_total": 0.125,
+          "within_role_automatable_fraction": 0.3,
+          "contribution": 0.0375,
+          "rationale": "RFP responses and quoting automate; healthcare-system, court and enterprise localization relationships persist and are the firm's real asset. Share per guidance hypothesis (~10-15%).",
+          "plausible_range": "0.20-0.40"
+        },
+        {
+          "role": "Management",
+          "labor_share_of_total": 0.09,
+          "within_role_automatable_fraction": 0.25,
+          "contribution": 0.0225,
+          "rationale": "Capacity planning and margin management automate substantially; compliance ownership (HIPAA, court certification), leadership and client escalation persist. 11-1021 at 6.6% is one of the few plausible signals in the contaminated proxy; ~9% with adjacent management tail.",
+          "plausible_range": "0.15-0.35"
+        },
+        {
+          "role": "Admin and back office",
+          "labor_share_of_total": 0.11,
+          "within_role_automatable_fraction": 0.75,
+          "contribution": 0.0825,
+          "rationale": "Invoicing (per-word/per-minute reconciliation), freelancer payables and compliance paperwork automate near-fully with current AI. Share is the remainder of the rebuilt structure (~10-15% guidance).",
+          "plausible_range": "0.60-0.85"
+        }
+      ],
+      "quality": "LOW"
+    },
+    "pi_dist": {
+      "value": 0.3,
+      "rationale": "Pricing-model deflation is documented, not hypothetical: translation is billed per word with explicit MTPE discount tiers (MTPE priced at 30-70% of the full human per-word rate as the industry-standard rate card), so AI production savings are passed to clients as lower prices by construction — per-word rates have been falling for a decade. Interpreting is per minute/hour, and public payers and hospital procurement re-rate mandated-interpreting contracts at renewal as delivery costs fall, clawing back savings. The operator keeps savings only in the minority of revenue under fixed-fee or mandate-protected contracts. Institutional contracts (statewide court, health-system language access) are firm-owned and transferable, which is why pi_dist is not lower still.",
+      "plausible_range": "0.2-0.4",
+      "sources": [
+        "https://www.weglot.com/blog/machine-translation-post-editing-rates",
+        "https://www.nimdzi.com/machine-translation-post-editing-how-much-is-the-fish-nimdzi-finger-food/",
+        "https://www.tandfonline.com/doi/full/10.1080/0907676X.2023.2292572"
+      ],
+      "quality": "MED"
+    },
+    "pi_moat": {
+      "value": 0.45,
+      "rationale": "Real but narrow gates: court interpreter certification requirements, Section 1557/HHS language-access mandates for qualified interpreters in healthcare, USCIS-certified translation, sworn documents, and ISO 17100-type requirements for regulated content genuinely block LLM bypass for those revenue lines; HIPAA and liability requirements add switching friction on institutional contracts. But for ordinary business translation — the bulk of written volume — enterprise clients can and do bypass LSPs with LLM translation plus an in-house reviewer; no license protects the general product, and generic-AI bypass is the central threat to the code.",
+      "plausible_range": "0.35-0.55",
+      "sources": [
+        "https://www.hhs.gov/civil-rights/for-individuals/section-1557/index.html",
+        "https://slator.com/2026-market-report-language-solutions-ai/"
+      ],
+      "quality": "MED"
+    },
+    "t50_years": {
+      "value": 1.5,
+      "derivation": "current_adoption_pct: already ~33% of LSPs had implemented LLMs in workflows in April 2024 (Slator, n=223), with ~20% more testing and only 3% with no plans; super agencies were at 75% and ALC-surveyed companies' LLM-based MT jumped 11%->29% in one year. The historical analog (CAT/TM tools took roughly a decade to become the default) is superseded because LLM adoption is demand-side forced: clients impose MTPE rate cards, so non-adoption means losing bids. Extrapolating the observed ~15-20pp/year implementation growth from ~33% in early 2024, the 50%-of-firms threshold is essentially being crossed now; from today (mid-2026) full material adoption in automatable functions across the small-firm tail puts t50 at ~1.5 years.",
+      "plausible_range": "1-2.5",
+      "quality": "MED"
+    },
+    "current_adoption_pct": {
+      "value": 0.33,
+      "source": "Slator 2024 Language Industry Market Report — Language AI Edition (survey April 2024, n=223 LSPs)",
+      "url": "https://slator.com/how-many-language-service-providers-use-large-language-models-in-workflows/",
+      "figure_quoted": "'One in three LSPs have implemented large language models into their workflows' (April 2024, 223 companies); 75% of Super Agencies vs just under 30% of Boutiques; ~20% more testing use cases/betas; only 3% report no plans. Material = LLM/MT implemented in production workflows (MTPE, AI QA, workflow orchestration), not mere experimentation. Figure is 2+ years old; current share is plausibly at or above 50%.",
+      "access_date": "2026-07-20",
+      "quality": "MED"
+    },
+    "historical_analogs": {
+      "value": "Machine translation inside LSP workflows: from niche (~2016, post-NMT) to default — ALC 2024 survey shows LLM-produced MT among MT-using companies jumped from 11% (2023) to 29% (2024), an 18pp single-year gain; CAT/translation-memory tools took roughly a decade (mid-1990s to mid-2000s) to become the professional default. NMT reached majority LSP use in roughly 5-7 years; LLM uptake is tracking faster because it is client-demanded via MTPE rate cards.",
+      "source": "Slator coverage of ALC 2024 Industry Survey",
+      "url": "https://slator.com/translation-companies-accelerating-adoption-large-language-models-alc-survey/",
+      "figure_quoted": "'Of 70 companies using MT in their workflows, nearly a third — 29% — said they used LLMs to produce MT', up from 'just 11%' in 2023.",
+      "access_date": "2026-07-20",
+      "quality": "MED"
+    },
+    "owners_60plus_pct": {
+      "value": 0.25,
+      "source": "No published owner-age data for US LSPs found (ALC industry survey is member-gated and no owner-age cut is public) — ESTIMATE",
+      "url": "https://www.alcus.org/page/2024IndustrySurvey",
+      "figure_quoted": "No public figure. Basis: Census ABS shows >50% of US business owners are 55+ economy-wide, but the LSP owner base skews younger than legacy trades — many firms were founded in the 1990s-2010s localization and remote-interpreting waves, and 2,193 of 2,674 firms are micro businesses with founder-operators across age bands. Central estimate 25% aged 60+.",
+      "access_date": "2026-07-20",
+      "quality": "ESTIMATE",
+      "succession_shortage_documented": {
+        "value": false,
+        "evidence": "No documented succession shortage found for this industry: sale motivation in current coverage (Slator M&A reports, ALC M&A Corner) is AI uncertainty and consolidation economics, not owner retirement without successors. Flag left false."
+      }
+    },
+    "active_consolidators": {
+      "value": 6,
+      "source": "Slator M&A coverage + PitchBook/press: Propio (Leonard Green/TT Capital — ULG Sep 2024, Akorbi + ASL Services Oct 2024, CyraCom Jul 2025), Sorenson Communications (Ariel Alternatives — OmniBridge, Hand Talk), GLOBO (VSS Capital — All Access Interpreters), Boostlingo (Mainsail — Interpreter Intelligence, VoiceBoxer), BIG Language Solutions (MSouth Equity), t'works (European PE-backed, US-active tuck-ins)",
+      "url": "https://slator.com/propio-language-services-acquires-united-language-group/",
+      "figure_quoted": "Propio alone closed ULG (Sep 2024), Akorbi and ASL Services (Oct 15, 2024) and CyraCom (Jul 1, 2025); Sorenson, GLOBO, Boostlingo and BIG each closed add-ons within the last 24 months. Count = 6 PE-backed platforms with disclosed US add-ons in the window; strategics (TransPerfect, LanguageLine/Teleperformance) excluded from the PE count.",
+      "access_date": "2026-07-20",
+      "quality": "MED"
+    },
+    "buy_mult": {
+      "value": 5.5,
+      "source": "Slator M&A coverage of disclosed small-LSP deal multiples",
+      "url": "https://slator.com/hong-kong-hetermedia-acquires-majority-boutique-lsp-into23/",
+      "figure_quoted": "Disclosed small-deal prints: HeterMedia/Into23 at '6.3x EBITDA'; Stoquart/Version Internationale at 'around 5x adjusted EBITDA' (adjusted = post owner-comp normalization per rule 3). Median of recent disclosed boutique prints ~5.5x; Slator notes most small-deal prices go undisclosed.",
+      "access_date": "2026-07-20",
+      "quality": "MED"
+    },
+    "exit_mult": {
+      "value": 10.2,
+      "source": "Teleperformance acquisition of LanguageLine Solutions (2016) — the benchmark scaled-platform print in this code; corroborating current activity: Propio/CyraCom (2025, undisclosed)",
+      "url": "https://slator.com/teleperformance-folds-languageline-into-new-unit-keeps-brand/",
+      "figure_quoted": "LanguageLine: 'revenue of US$388 million and adjusted EBITDA of US$147 million in 2015', acquired for '$1.5 billion' — ~10.2x adjusted EBITDA. Interpreting-heavy platforms remain the exit route (Propio recapped by Leonard Green 2023; CyraCom bought 2025 at undisclosed multiple). Dated print; current AI overhang argues exits at or below this level for translation-heavy platforms.",
+      "access_date": "2026-07-20",
+      "quality": "LOW"
+    },
+    "pricing_structure": {
+      "value": "Translation: per-word rate cards with explicit MTPE discount tiers (MTPE at 30-70% of full human per-word rate; light post-editing ~40-50%, full post-editing ~50-70%) — the dominant model for written work; some fixed-fee project and rare retainer arrangements. Interpreting: per-minute (OPI/VRI) and per-hour/per-encounter (on-site, court) rates, often under institutional contracts with hospitals, courts and insurers, re-rated at renewal. Effectively all revenue is per-unit priced; almost none is value-priced.",
+      "source": "Weglot MTPE pricing guide; Nimdzi MTPE pricing analysis",
+      "url": "https://www.weglot.com/blog/machine-translation-post-editing-rates",
+      "figure_quoted": "'MTPE rates usually fall between 30% and 70% of a standard human translation rate'; light post-editing '40 to 50 percent of the full per-word rate', full post-editing '50 to 70 percent'.",
+      "access_date": "2026-07-20",
+      "quality": "MED"
+    }
+  },
+  "scores": {
+    "V": {
+      "arithmetic": "ai_replaceable_share = Σ(role share × fraction) = 0.25×0.40 + 0.30×0.50 + 0.125×0.75 + 0.125×0.30 + 0.09×0.25 + 0.11×0.75 = 0.10 + 0.15 + 0.09375 + 0.0375 + 0.0225 + 0.0825 = 0.48625; V_raw = labor_share × ai_replaceable_share = 0.4178 × 0.48625 = 0.20315525; V = 10 × min(1, 0.20315525 / 0.25) = 10 × 0.812621 = 8.12621",
+      "score": 8.12621
+    },
+    "C": {
+      "arithmetic": "C = 10 × pi_dist × pi_moat = 10 × 0.30 × 0.45 = 1.35",
+      "score": 1.35
+    },
+    "A": {
+      "arithmetic": "A = min(10, 10 / t50) = min(10, 10 / 1.5) = 6.666666666666667",
+      "score": 6.666666666666667
+    },
+    "B": {
+      "arithmetic": "TD = clamp(log10(28)/4, 0, 1) = clamp(1.4471580313422192/4) = 0.3617895078355548; OW = clamp((0.25-0.10)/0.35, 0.1, 0.9) = 0.4285714285714286 (no succession bonus — not documented); CFD = min(0.9, log10(1+6)/2) = min(0.9, 0.8450980400142568/2) = 0.4225490200071284; B = 10 × sqrt(0.3617895078355548 × 0.4285714285714286) / (1 + 0.3 × 0.4225490200071284) = 10 × sqrt(0.15505264621523777) / 1.1267647060021385 = 10 × 0.3937672487844028 / 1.1267647060021385 = 3.494671484533129",
+      "score": 3.494671484533129
+    },
+    "M": {
+      "arithmetic": "M = clamp(4 × (exit_mult - buy_mult) / buy_mult, 0, 10) = clamp(4 × (10.2 - 5.5) / 5.5, 0, 10) = clamp(18.8 / 5.5, 0, 10) = 3.4181818181818175",
+      "score": 3.4181818181818175
+    }
+  },
+  "S": 3.8749527691048544,
+  "cross_checks": {
+    "uplift_pp": 20.315525,
+    "uplift_vs_A_consistent": "V_raw = 0.2032 implies ~20.3pp of revenue freed at full adoption — far above the 3pp floor — and A = 6.67 is high. High uplift with fast adoption is internally consistent and matches the observed reality: adoption is client-forced through MTPE rate cards. Note the capture caveat: C = 1.35 says most of that 20pp is competed away to clients rather than kept.",
+    "terminal_value": {
+      "class": "MELTING",
+      "justification": "This is the canonical melter: LLMs produce the product itself — translated text — at near-zero marginal cost. The substitutable bulk (ordinary business translation, most written work) is already collapsing into MT-with-review at falling per-word rates, and at mature AI much of it becomes client-side self-service. What survives as paid demand is the mandate-protected floor: statutorily required live interpretation (Section 1557 healthcare encounters, court certification, ADA/deaf services — Sorenson/LanguageLine territory), certification-gated document translation (USCIS, sworn/legal), and liability-bearing regulated content. For a typical US firm in this code, that floor is plausibly on the order of a third to a half of revenue (interpreting-heavy firms more, translation agencies less), and even the interpreting floor faces AI speech translation on remote modalities plus payer re-rating. Demand for the product category as sold by these firms is shrinking structurally: MELTING, with a mandate-protected interpreting residue that is merely PRESSURED."
+    },
+    "no_proxy_confirmed": "Confirmed. V was built from the labor_share dataset input and a rebuilt LSP role structure with fractions grounded in task-level AI capability (MTPE workflows, TMS automation, scheduling platforms) — no deal evidence used. A was derived from the Slator and ALC adoption surveys and MT/CAT diffusion analogs. Consolidation activity (Propio, Sorenson, GLOBO, Boostlingo, BIG) informed only active_consolidators (B) and the multiple inputs (M).",
+    "pricing_model_deflation": "Billing is effectively 100% per-unit: per word (translation) and per minute/hour/encounter (interpreting). Deflation is documented, not hypothetical: MTPE discount tiers price AI work at 30-70% of the human rate, i.e., the rate card itself passes AI savings to clients; interpreting contracts are re-rated downward at renewal by hospital procurement and public payers. Only fixed-fee and mandate-protected revenue retains savings. This is exactly why pi_dist = 0.30 (low) despite institutional contract ownership, and why pi_moat = 0.45 covers only the certification/liability-gated lines; C = 1.35 is the record's expression of near-total pass-through."
+  },
+  "confidence_overall": "LOW",
+  "heterogeneous": true,
+  "top_uncertain_inputs": [
+    {
+      "input": "t50_years",
+      "plausible_range": "1-2.5 years",
+      "score_impact": "A ranges 4.0-10.0; S ranges ~3.50-4.20. Adoption is demonstrably fast, but 'material adoption by 50% of firms' among the 2,193 micro-firms could lag the headline survey base, which skews toward larger LSPs."
+    },
+    {
+      "input": "ai_replaceable_share (rebuilt role structure)",
+      "plausible_range": "0.38-0.58",
+      "score_impact": "V ranges ~6.35-9.69; S ranges ~3.69-4.01. The entire role structure is a hypothesis because the provided 5419 role_mix is veterinary-contaminated; no W-2 wage-bill decomposition for actual LSPs is published."
+    },
+    {
+      "input": "exit_mult / buy_mult spread",
+      "plausible_range": "buy 5.0-6.3x, exit 8-12x",
+      "score_impact": "M ranges ~1.08 (buy 6.3, exit 8) to ~5.6 (buy 5.0, exit 12); S ranges ~3.08-4.28. The exit anchor is a 2016 print (LanguageLine 10.2x); current AI overhang may have compressed exits for translation-heavy platforms well below it — this is the biggest downside risk to M."
+    },
+    {
+      "input": "owners_60plus_pct",
+      "plausible_range": "0.15-0.35",
+      "score_impact": "OW 0.143-0.714; B ranges ~2.02-4.51; S ranges ~3.47-4.08. Pure estimate — no public owner-age data for LSPs."
+    }
+  ],
+  "reviewer_note": "Heterogeneous: the code blends written translation (the melting half) and interpreting (mandate-protected, growing, physically/real-time delivered); blended firm-level economics mask opposite terminal trajectories, and sign-language/TRS (Sorenson), captioning (512191 boundary) and TMS software (511210/513210) straddle the boundary. Dataset conflicts, used as given per rule 6: (1) the provided 4-digit 5419 role_mix is veterinary-dominated (veterinarians 17.1% wage share; 27-3091 Interpreters and Translators only 2.1%) and unusable as an LSP proxy — per the prompt's own guidance the V breakdown was rebuilt from the hypothesized LSP W-2 structure, so ai_replaceable_share is LOW quality; (2) labor_share 0.4178 covers only the W-2 wage bill — most production linguists are 1099 freelancers sitting in COGS (LSP gross margins run 40-50% over freelance spend), so the true language-labor content AI attacks is materially larger than V_raw implies and V = 8.13 is, if anything, understated for economic exposure while overstated as owner-captured opportunity (C = 1.35 carries that correction); (3) n_band = 28 makes the roll-up universe extremely thin — the 100-499 employee class only — and the 15 largest firms are already consolidator-owned; the 95-firm 20-99 class sits just below the $1M EBITDA line at Damodaran's 15.65% margin, so n_band is sensitive to the margin assumption. Score tension to flag honestly: S = 3.87 looks mid-pack, but it is the product of a high-V/high-A cost-savings engine crossed with the worst capture (C = 1.35) and a MELTING terminal class — the geometric mean hides that the value largely does not accrue to the operator; a reviewer should read this record as 'fast, valuable AI, mostly competed away, thin target universe, product melting'. The exit_mult is a 2016 print used for lack of newer disclosed platform multiples; treat M = 3.42 as optimistic if translation-heavy exits have re-rated under AI overhang. succession bonus not applied (no documented shortage). No formula overrides; all scores are mechanical outputs of the recorded inputs."
+}

@@ -1,0 +1,343 @@
+{
+  "naics": "524210",
+  "title": "Insurance Agencies and Brokerages",
+  "run_meta": {
+    "model_id": "claude-fable-5",
+    "run_date": "2026-07-20",
+    "run_id": "golden-f1-524210",
+    "template_version": "3.0",
+    "prompt_version": "p3-aff6579"
+  },
+  "dataset_inputs": {
+    "labor_share": {
+      "value": 0.5348,
+      "method": "QCEW 2024 private total annual wages at 524210 ($103,879,237,202) x benefits multiplier 1.4294 [ECEC private-industry total comp $46.60/hr / wages $32.60/hr = 1.4294 (March 2026 reference period)] / SUSB 2022 receipts at 524210 ($207,109,590,000). Vintage mismatch: 2024 wages over 2022 receipts, stated. Level: 6-digit. Harmonized to IPS basis ÷1.3407 (median of 65 dual-method codes).",
+      "sources": [
+        "BLS QCEW 2024 annual averages (US000, private)",
+        "BLS ECEC news release (raw/ecec.nr0.htm)",
+        "Census SUSB 2022 (receipts by NAICS)"
+      ],
+      "year": "2024 wages / 2022 receipts",
+      "quality": "MED"
+    },
+    "role_mix": {
+      "oews_level": "5-digit 52421",
+      "occupations": [
+        {
+          "soc": "41-3021",
+          "title": "Insurance Sales Agents",
+          "emp_share": 0.3536,
+          "wage_share": 0.3461
+        },
+        {
+          "soc": "43-4051",
+          "title": "Customer Service Representatives",
+          "emp_share": 0.1258,
+          "wage_share": 0.0725
+        },
+        {
+          "soc": "43-9041",
+          "title": "Insurance Claims and Policy Processing Clerks",
+          "emp_share": 0.0668,
+          "wage_share": 0.0428
+        },
+        {
+          "soc": "11-1021",
+          "title": "General and Operations Managers",
+          "emp_share": 0.0419,
+          "wage_share": 0.0815
+        },
+        {
+          "soc": "13-1031",
+          "title": "Claims Adjusters, Examiners, and Investigators",
+          "emp_share": 0.0409,
+          "wage_share": 0.0402
+        },
+        {
+          "soc": "43-9061",
+          "title": "Office Clerks, General",
+          "emp_share": 0.0328,
+          "wage_share": 0.0176
+        },
+        {
+          "soc": "13-2053",
+          "title": "Insurance Underwriters",
+          "emp_share": 0.0317,
+          "wage_share": 0.0346
+        },
+        {
+          "soc": "43-1011",
+          "title": "First-Line Supervisors of Office and Administrative Support Workers",
+          "emp_share": 0.0215,
+          "wage_share": 0.0203
+        },
+        {
+          "soc": "43-6014",
+          "title": "Secretaries and Administrative Assistants, Except Legal, Medical, and Executive",
+          "emp_share": 0.0199,
+          "wage_share": 0.0105
+        },
+        {
+          "soc": "13-1161",
+          "title": "Market Research Analysts and Marketing Specialists",
+          "emp_share": 0.0162,
+          "wage_share": 0.0145
+        }
+      ],
+      "quality": "MED"
+    },
+    "n_total": {
+      "value": 120434,
+      "source": "SUSB 2022 (firms, all enterprise sizes)",
+      "year": "2022",
+      "quality": "HIGH"
+    },
+    "n_band": {
+      "value": 3236,
+      "derivation": "margin 0.2357 (margins.json[524]: Damodaran Jan 2026: Insurance (General) EBITDA/Sales 23.57%); revenue/employee $256,440 (SUSB 2022 receipts/employment at 524210); class <5: 91,066 firms, avg revenue/firm $323,793 (class receipts/firms), implied EBITDA $76,318 -> out of $1-10M band; class 5-9: 20,081 firms, avg revenue/firm $929,879 (class receipts/firms), implied EBITDA $219,173 -> out of $1-10M band; class 10-19: 5,672 firms, avg revenue/firm $2,313,385 (class receipts/firms), implied EBITDA $545,265 -> out of $1-10M band; class 20-99: 2,689 firms, avg revenue/firm $8,126,954 (class receipts/firms), implied EBITDA $1,915,523 -> IN $1-10M band; class 100-499: 547 firms, avg revenue/firm $40,097,678 (class receipts/firms), implied EBITDA $9,451,023 -> IN $1-10M band; class 500+: 379 firms, avg revenue/firm $269,239,583 (class receipts/firms), implied EBITDA $63,459,770 -> out of $1-10M band; n_band = 3,236",
+      "margin_used": 0.2357,
+      "margin_source": "Damodaran Jan 2026: Insurance (General) EBITDA/Sales 23.57%",
+      "quality": "ESTIMATE"
+    }
+  },
+  "inputs": {
+    "ai_replaceable_share": {
+      "value": 0.39649,
+      "breakdown_by_role": [
+        {
+          "role": "Insurance Sales Agents (41-3021)",
+          "labor_share_of_total": 0.3461,
+          "within_role_automatable_fraction": 0.25,
+          "contribution": 0.086525,
+          "rationale": "Quoting, application data entry, carrier comparison shopping and proposal assembly automate heavily (AI quoting/submission tools live from Applied/Vertafore/insurtech vendors). But wage bill skews to commercial producers whose relationship selling, complex risk placement and renewal retention conversations persist; personal-lines producers are far more exposed than middle-market commercial. Blended across lines of business.",
+          "plausible_range": "0.15-0.35"
+        },
+        {
+          "role": "Customer Service Representatives (43-4051)",
+          "labor_share_of_total": 0.0725,
+          "within_role_automatable_fraction": 0.55,
+          "contribution": 0.039875,
+          "rationale": "Certificates of insurance, endorsements, policy checking, renewal remarketing and carrier correspondence are the industry's biggest AI target and are automating fast; client advocacy in claims and complex-service escalations stay human.",
+          "plausible_range": "0.4-0.7"
+        },
+        {
+          "role": "Insurance Claims and Policy Processing Clerks (43-9041)",
+          "labor_share_of_total": 0.0428,
+          "within_role_automatable_fraction": 0.75,
+          "contribution": 0.0321,
+          "rationale": "Pure document/data workflow — near-fully automatable with current AI plus carrier API/download connectivity; residual human share for exception handling and carrier-portal fragmentation.",
+          "plausible_range": "0.6-0.9"
+        },
+        {
+          "role": "General and Operations Managers (11-1021)",
+          "labor_share_of_total": 0.0815,
+          "within_role_automatable_fraction": 0.2,
+          "contribution": 0.0163,
+          "rationale": "Book analytics, carrier-relationship reporting and ops dashboards automate substantially; carrier contract negotiation, producer recruitment and P&L ownership persist.",
+          "plausible_range": "0.1-0.3"
+        },
+        {
+          "role": "Claims Adjusters, Examiners, and Investigators (13-1031)",
+          "labor_share_of_total": 0.0402,
+          "within_role_automatable_fraction": 0.4,
+          "contribution": 0.01608,
+          "rationale": "Desk adjudication of routine claims automates substantially (document intake, coverage matching, estimate review); field inspection and negotiation persist. Mostly present in MGA/TPA-flavored firms within the code.",
+          "plausible_range": "0.3-0.55"
+        },
+        {
+          "role": "Office Clerks, General (43-9061)",
+          "labor_share_of_total": 0.0176,
+          "within_role_automatable_fraction": 0.75,
+          "contribution": 0.0132,
+          "rationale": "Generic document handling, filing and data entry — near-fully automatable.",
+          "plausible_range": "0.6-0.9"
+        },
+        {
+          "role": "Insurance Underwriters (13-2053)",
+          "labor_share_of_total": 0.0346,
+          "within_role_automatable_fraction": 0.35,
+          "contribution": 0.01211,
+          "rationale": "MGA/MGU delegated-underwriting sub-segment: risk triage, file assembly and data pre-fill automate; appetite judgment and carrier accountability persist.",
+          "plausible_range": "0.25-0.5"
+        },
+        {
+          "role": "First-Line Supervisors of Office and Administrative Support Workers (43-1011)",
+          "labor_share_of_total": 0.0203,
+          "within_role_automatable_fraction": 0.25,
+          "contribution": 0.005075,
+          "rationale": "Workflow monitoring and QA automate partially; people management persists (and shrinks only as the supervised pool shrinks).",
+          "plausible_range": "0.15-0.4"
+        },
+        {
+          "role": "Secretaries and Administrative Assistants (43-6014)",
+          "labor_share_of_total": 0.0105,
+          "within_role_automatable_fraction": 0.65,
+          "contribution": 0.006825,
+          "rationale": "Scheduling, correspondence and document prep — heavily automatable with current AI assistants.",
+          "plausible_range": "0.5-0.8"
+        },
+        {
+          "role": "Market Research Analysts and Marketing Specialists (13-1161)",
+          "labor_share_of_total": 0.0145,
+          "within_role_automatable_fraction": 0.6,
+          "contribution": 0.0087,
+          "rationale": "Lead generation, cross-sell campaign content and analytics automate near-fully; brand/relationship marketing partially persists.",
+          "plausible_range": "0.5-0.75"
+        },
+        {
+          "role": "Unlisted tail (account managers, accounting/commission reconciliation, compliance, IT, HR, misc admin)",
+          "labor_share_of_total": 0.3194,
+          "within_role_automatable_fraction": 0.5,
+          "contribution": 0.1597,
+          "rationale": "Per OEWS residual: mix of account-manager roles (~8-12pp, partial ~0.55-0.6 like CSRs), accounting/commission reconciliation and back-office admin (heavily automatable ~0.6-0.7), and lower-automatable professional/IT/HR slivers. Blended at 0.50 to avoid winner-anchor inflation.",
+          "plausible_range": "0.4-0.6"
+        }
+      ],
+      "quality": "MED"
+    },
+    "pi_dist": {
+      "value": 0.85,
+      "rationale": "The agency legally owns expirations/renewals — the industry's core asset doctrine — and acquired books renew at high rates, so the firm (not a platform or procurement desk) controls the client. Revenue is a carrier-set commission on premium (client pays the carrier, not the agency), so AI cost savings cannot be competed away through client fee pressure in the core model: efficiency drops to the operator's margin dollar-for-dollar. Two leaks keep this below ~0.9: (1) carriers can trim commission schedules over time as their own AI reduces what they need agents for; (2) fee-based large-commercial accounts do see and negotiate the cost; (3) producer book portability — books partially walk with producers despite non-piracy agreements.",
+      "plausible_range": "0.75-0.9",
+      "sources": [
+        "https://agentero.com/blog/insurance-agent-commission-structure-explained",
+        "https://www.siaaz.com/blog/independent-insurance-agent-commission-rates"
+      ],
+      "quality": "MED"
+    },
+    "pi_moat": {
+      "value": 0.6,
+      "rationale": "Every producer must hold state licenses (NIPR); AI cannot legally bind coverage or advise in most states without a licensed human — real but shallow, since carriers hold licenses too and can go direct. Switching costs are moderate (renewal inertia, carrier appointments, historical loss data). Against this: personal lines already proved direct distribution wins when the interaction is simple (GEICO/Progressive), embedded and AI-native distribution exists, and carriers could underwrite small-commercial direct as AI simplifies intake. Independent-agency share has held in commercial lines because of carrier appetite fragmentation and risk complexity, not statute.",
+      "plausible_range": "0.5-0.7",
+      "sources": [
+        "https://www.iamagazine.com/news/solid-ground-big-i-research-shows-the-independent-agency-channel-is-strong/",
+        "https://nipr.com/licensing-center"
+      ],
+      "quality": "MED"
+    },
+    "t50_years": {
+      "value": 2.5,
+      "derivation": "current_adoption_pct ~30% material use (22% 'limited areas' + 8% 'embedded in daily workflows' per 2026 Big 'I' ACT Tech Trends survey), with two-thirds of agencies planning to increase AI use within 12 months. Historical agency-tech analogs (AMS to near-universal, personal-lines comparative raters to ~57%) took ~10-15 years to majority, but GenAI adoption in this document-heavy vertical has gone 0->30% in roughly 3 years (2023-2026), a much steeper curve, and the vendor channel (Applied/Vertafore AMS duopoly shipping embedded AI) removes the integration barrier that slowed prior tech. Extrapolating the current slope (~7-8pp/yr, accelerating per stated intent): 20pp remaining to 50% implies ~2-3 years. t50 = 2.5.",
+      "plausible_range": "1.5-4",
+      "quality": "MED"
+    },
+    "current_adoption_pct": {
+      "value": 0.3,
+      "source": "Big 'I' Agents Council for Technology (ACT) 2026 Tech Trends Report, via Agency Checklists / Insurance Journal",
+      "url": "https://agencychecklists.com/2026/02/24/act-report-two-thirds-of-independent-agents-plan-to-increase-ai-use-in-2026-80216/",
+      "figure_quoted": "31% of agencies reported they are not currently using AI, 33% 'just experimenting', 22% using AI in limited areas, 8% embedded in daily workflows; two-thirds plan to increase AI use in next 12 months. Material use = limited-area use or deeper in core workflows: 22% + 8% = 30%.",
+      "access_date": "2026-07-20",
+      "quality": "MED"
+    },
+    "historical_analogs": {
+      "value": "Agency management systems reached >90% penetration but over multiple decades; personal-lines comparative raters reached ~57% of agencies roughly 15 years after mainstream introduction (Catalyit 2024 research); real-time/download carrier connectivity took 10+ years to majority. Comparable prior technology: ~10-15 years to ~50%.",
+      "source": "Catalyit 2024 research via First Connect / Nationwide Agency Forward; Big 'I' Agency Universe Study AMS penetration",
+      "url": "https://www.firstconnectinsurance.com/blog/comparative-rater/",
+      "figure_quoted": "'personal-lines rating platforms are used by 57 percent of agencies' (Catalyit 2024); 'more than 9 out of 10 independent agencies in the U.S. reporting use of an AMS'",
+      "access_date": "2026-07-20",
+      "quality": "LOW"
+    },
+    "owners_60plus_pct": {
+      "value": 0.4,
+      "source": "2023 Agency Growth Study (Liberty Mutual / Safeco / State Auto), reported by IA Magazine",
+      "url": "https://www.iamagazine.com/news/2023-agency-growth-study-agencies-anticipate-ownership-changes/",
+      "figure_quoted": "'40% of the agency principals surveyed are older than 60 years old and 20% are older than 65 years old. Half of agencies will experience a major change of ownership in the next 10 years.' (survey of 450+ agency principals/owners)",
+      "access_date": "2026-07-20",
+      "quality": "MED",
+      "succession_shortage_documented": {
+        "value": false,
+        "evidence": "Aging ownership is well documented (40% of principals over 60), but a successor shortage is not: the Big 'I' Agency Universe Study reports more than 8 in 10 agencies have a perpetuation plan, and the deep external buyer pool means exits clear readily. No source reviewed documents a shortage of successors/buyers."
+      }
+    },
+    "active_consolidators": {
+      "value": 30,
+      "source": "OPTIS Partners year-end 2025 M&A report, via Insurance Journal / AccessNewswire",
+      "url": "https://www.insurancejournal.com/news/national/2026/01/22/855124.htm",
+      "figure_quoted": "695 agency deals in 2025 (down 12% from 2024); private-equity-backed/hybrid brokers accounted for 72% of all transactions; top buyers BroadStreet Partners, Hub International (49 deals), Inszone (45), World, Keystone Agency Partners, Leavitt. OPTIS's buyer tables show roughly 25-35 PE-backed platforms completing multiple add-ons across 2024-2025; 30 used as the count of active PE-backed platforms in the last 24 months.",
+      "access_date": "2026-07-20",
+      "quality": "ESTIMATE"
+    },
+    "buy_mult": {
+      "value": 9.5,
+      "source": "CT Acquisitions Insurance Agency M&A Multiples Report 2026 (aggregating MarshBerry quarterly, OPTIS Partners, GF Data)",
+      "url": "https://ctacquisitions.com/guides/insurance-agency-ma-multiples-2026/",
+      "figure_quoted": "'7.0x to 9.0x adjusted EBITDA' for lower-middle-market brokerages ($2-10M revenue); '9.0x to 12.0x adjusted EBITDA' for regional platforms ($10-50M revenue). The $1-10M EBITDA band spans both tiers (~$4-40M revenue at ~24% margin); 9.5x taken as the band median. Adjusted-EBITDA basis (post market-rate owner comp, contingents normalized).",
+      "access_date": "2026-07-20",
+      "quality": "MED"
+    },
+    "exit_mult": {
+      "value": 14.0,
+      "source": "MarshBerry valuation commentary; CT Acquisitions 2026 multiples report",
+      "url": "https://www.marshberry.com/resource/to-the-point/2025-2026-valuation-update-firms-with-delegated-authority-reach-all-time-highs/",
+      "figure_quoted": "'platform firms have held flat at an average of around 14x EBITDA for base purchase price at closing, and 19x with an earn-out' (MarshBerry); PE-backed platform primary transactions '12.0x to 16.0x adjusted EBITDA' (CT Acquisitions). 14.0x base used, excluding earn-out upside for conservatism.",
+      "access_date": "2026-07-20",
+      "quality": "MED"
+    },
+    "pricing_structure": {
+      "value": "~90%+ of core retail-agency revenue is carrier-set commission on premium: 10-15% of premium on new P&C business, 8-12% on renewals, varying 5-20% by line; contingent/profit-sharing commissions add roughly 2-5% of premium equivalent (volatile, buyer-haircut). Fee-based compensation (in lieu of or on top of commission) is confined mostly to large-commercial/benefits accounts — a small minority of revenue for the $1-10M EBITDA retail agency. Clients pay the carrier, not the agency, so agency operating costs are invisible to the client.",
+      "source": "Agentero commission-structure guide; SIAA of Arizona commission-rate explainer",
+      "url": "https://agentero.com/blog/insurance-agent-commission-structure-explained",
+      "figure_quoted": "'average agency-level commission is 10% to 15% of premium on new business and 8% to 12% on renewals'; 'Contingent commissions can add 2-5% of total premium to an agency's revenue'",
+      "access_date": "2026-07-20",
+      "quality": "MED"
+    }
+  },
+  "scores": {
+    "V": {
+      "arithmetic": "ai_replaceable_share = 0.086525+0.039875+0.0321+0.0163+0.01608+0.0132+0.01211+0.005075+0.006825+0.0087+0.1597 = 0.39649; V_raw = labor_share 0.5348 x 0.39649 = 0.212042852; V = 10 x min(1, 0.212042852/0.25) = 10 x 0.84817140800 = 8.48171408",
+      "score": 8.48171408
+    },
+    "C": {
+      "arithmetic": "C = 10 x pi_dist 0.85 x pi_moat 0.60 = 5.1",
+      "score": 5.1
+    },
+    "A": {
+      "arithmetic": "A = min(10, 10/t50) = min(10, 10/2.5) = 4.0",
+      "score": 4.0
+    },
+    "B": {
+      "arithmetic": "TD = clamp(log10(3236)/4,0,1) = clamp(3.5100085129402347/4) = 0.8775021282350587; OW = clamp((0.40-0.10)/0.35,0.1,0.9) = clamp(0.8571428571428571) = 0.8571428571428571 (no succession bonus, shortage not documented); CFD = min(0.9, log10(1+30)/2) = min(0.9, 1.4913616938342726/2) = 0.7456808469171363; B = 10 x sqrt(0.8775021282350587 x 0.8571428571428571) / (1 + 0.3 x 0.7456808469171363) = 10 x sqrt(0.7521446813443361) / 1.2237042540751409 = 8.672627464843382 / 1.2237042540751409 = 7.087192426655177",
+      "score": 7.087192426655177
+    },
+    "M": {
+      "arithmetic": "M = clamp(4 x (14.0 - 9.5) / 9.5, 0, 10) = clamp(18.0/9.5) = 1.8947368421052631",
+      "score": 1.8947368421052631
+    }
+  },
+  "S": 4.712239810494563,
+  "cross_checks": {
+    "uplift_pp": 21.2042852,
+    "uplift_vs_A_consistent": "V_raw 0.2120 implies up to ~21.2pp of revenue freed as EBITDA uplift at full automation of the declared tasks — far above the 3pp floor, so no tension with A = 4.0 (t50 = 2.5y). Realized uplift will phase in with adoption, but the ceiling is large and consistent with a fast adoption incentive.",
+    "terminal_value": {
+      "class": "PRESSURED",
+      "justification": "AI cutting agency costs (service/processing labor) is real and large, and distinct from AI replacing the product (matching insureds to carriers). Demand is held by agency ownership of renewals, licensed-intermediary requirements, and carrier appetite fragmentation — none of which is a statute protecting the channel. Personal lines already proved direct wins when interaction is simple (GEICO/Progressive), and AI plausibly makes small-commercial simple enough for carriers/AI-native platforms to go direct over 10+ years, eroding that commission pool. But the $1-10M EBITDA band firms are predominantly commercial/benefits agencies whose books skew to complexity-protected middle-market commercial risk (fragmented carrier appetite, negotiated placement, claims advocacy) — a majority of the target book by revenue. Commission pools in personal/small-commercial shrink; middle-market commercial placement demand persists. Net: shrinking but surviving demand — PRESSURED, not MELTING."
+    },
+    "no_proxy_confirmed": "Confirmed. V was derived solely from the provided labor_share and role_mix plus within-role automatable fractions grounded in task content (quoting, COIs, endorsements, policy checking, claims desk work). A was derived solely from the Big 'I' ACT adoption survey and agency-tech adoption analogs (AMS, comparative raters). No deal counts, consolidator activity, or M&A trends were used for V or A; OPTIS/MarshBerry data informed only B (crowding via CFD) and M (multiples).",
+    "pricing_model_deflation": "Billing is overwhelmingly carrier-set commission on premium (10-15% new / 8-12% renewal) plus volatile contingents; fee-for-service is a small minority confined to large-commercial/benefits accounts. Because the client pays the carrier and never sees the agency's cost base, AI efficiency accrues to the operator as margin rather than deflating to clients — the opposite of cost-plus/hourly deflation. This supports the high pi_dist = 0.85; the residual leaks (carriers trimming commission schedules over time, fee-negotiated large accounts, producer book portability) are why pi_dist is not 0.9+, and channel-bypass risk (carriers/insurtechs going direct as AI simplifies placement) is priced in pi_moat = 0.60."
+  },
+  "confidence_overall": "MED",
+  "heterogeneous": true,
+  "top_uncertain_inputs": [
+    {
+      "input": "t50_years",
+      "plausible_range": "1.5-4",
+      "score_impact": "A ranges 2.5 (t50=4) to 6.67 (t50=1.5); S ranges ~4.28 to ~5.22 holding all else constant. Largest single swing factor in S."
+    },
+    {
+      "input": "buy_mult",
+      "plausible_range": "8.0-11.5",
+      "score_impact": "M ranges 3.0 (buy=8.0) down to 0.87 (buy=11.5, near-converged spread); S ranges ~5.17 down to ~4.03. The decade-long buyer frenzy may have compressed the band-firm entry price more than the 9.5x estimate reflects."
+    },
+    {
+      "input": "within_role_automatable_fraction (producers + unlisted tail)",
+      "plausible_range": "producers 0.15-0.35; tail 0.4-0.6",
+      "score_impact": "ai_replaceable_share ranges ~0.33-0.47, V_raw 0.174-0.250, V 6.98-9.99; S ranges ~4.52 to ~4.87."
+    },
+    {
+      "input": "pi_moat",
+      "plausible_range": "0.5-0.7",
+      "score_impact": "C ranges 4.25-5.95; S ranges ~4.54 to ~4.86, driven by how fast carriers/AI-native platforms can take small-commercial direct."
+    }
+  ],
+  "reviewer_note": "Heterogeneous code scored on the dominant sub-segment: retail independent P&C/benefits agencies (the Big 'I'/Reagan survey universe). 524210 also contains MGAs/MGUs, wholesale brokers, life/annuity shops and personal-lines-only agencies with different economics and AI exposure (MGAs carry underwriters; personal-lines-only books are far more terminal-exposed) — flagged heterogeneous:true for that reason even though the code is not a formal catch-all. Key tensions: (1) M is the binding constraint — this is the most consolidator-crowded services vertical in the US and entry multiples for $1-10M EBITDA firms (9-12x per MarshBerry-derived tiers) have converged well toward the ~14x platform exit, leaving M=1.89; the classic roll-up arbitrage is mostly gone here and S=4.71 reflects that despite a near-max V. (2) The n_band derivation uses Damodaran 'Insurance (General)' margin 23.57%, which is a carrier-flavored composite; agency-specific EBITDA margins (Reagan OGP ~20-25% for well-run agencies) are similar, so the band count is not materially distorted — used as given per rule 6. (3) succession_shortage_documented set to false deliberately: ownership is old (40% of principals 60+) but perpetuation plans are widespread (>80% per Agency Universe Study) and the buyer pool is deep, so no shortage is documented — OW stays at 0.8571 without the +0.1 bonus. (4) P&C rate cycle: 2023-2025 hard-market premium growth inflated commission revenue and TTM EBITDA; a softening cycle would shave margins — buyers already haircut contingents, reflected in using base (not earn-out) multiples. (5) current_adoption_pct counts limited-area use as material; if only 'embedded in daily workflows' (8%) counted, t50 stretches toward 4y and A falls to 2.5 — captured in the t50 range."
+}

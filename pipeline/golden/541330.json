@@ -1,0 +1,365 @@
+{
+  "naics": "541330",
+  "title": "Engineering Services",
+  "run_meta": {
+    "model_id": "claude-fable-5",
+    "run_date": "2026-07-20",
+    "run_id": "golden-f1-541330",
+    "template_version": "3.0",
+    "prompt_version": "p3-aff6579"
+  },
+  "dataset_inputs": {
+    "labor_share": {
+      "value": 0.4698,
+      "method": "BLS Industry Productivity (IPS) direct: labor compensation (L02) $172,759.1M / sectoral output (T30) $367,702.1M, year 2024",
+      "sources": [
+        "BLS Industry Productivity and Costs flat files (ip.data.1.AllData), measures L02 and T30"
+      ],
+      "year": "2024",
+      "quality": "HIGH"
+    },
+    "role_mix": {
+      "oews_level": "5-digit 54133",
+      "occupations": [
+        {
+          "soc": "17-2051",
+          "title": "Civil Engineers",
+          "emp_share": 0.1613,
+          "wage_share": 0.166
+        },
+        {
+          "soc": "13-1082",
+          "title": "Project Management Specialists",
+          "emp_share": 0.0577,
+          "wage_share": 0.0667
+        },
+        {
+          "soc": "17-2141",
+          "title": "Mechanical Engineers",
+          "emp_share": 0.0442,
+          "wage_share": 0.0474
+        },
+        {
+          "soc": "11-9041",
+          "title": "Architectural and Engineering Managers",
+          "emp_share": 0.0384,
+          "wage_share": 0.0629
+        },
+        {
+          "soc": "17-3011",
+          "title": "Architectural and Civil Drafters",
+          "emp_share": 0.0354,
+          "wage_share": 0.0234
+        },
+        {
+          "soc": "17-2071",
+          "title": "Electrical Engineers",
+          "emp_share": 0.0346,
+          "wage_share": 0.0381
+        },
+        {
+          "soc": "11-1021",
+          "title": "General and Operations Managers",
+          "emp_share": 0.0312,
+          "wage_share": 0.0534
+        },
+        {
+          "soc": "15-1252",
+          "title": "Software Developers",
+          "emp_share": 0.03,
+          "wage_share": 0.0378
+        },
+        {
+          "soc": "17-3022",
+          "title": "Civil Engineering Technologists and Technicians",
+          "emp_share": 0.0243,
+          "wage_share": 0.0161
+        },
+        {
+          "soc": "47-4011",
+          "title": "Construction and Building Inspectors",
+          "emp_share": 0.0241,
+          "wage_share": 0.0187
+        }
+      ],
+      "quality": "MED"
+    },
+    "n_total": {
+      "value": 45692,
+      "source": "SUSB 2022 (firms, all enterprise sizes)",
+      "year": "2022",
+      "quality": "HIGH"
+    },
+    "n_band": {
+      "value": 6137,
+      "derivation": "margin 0.1565 (margins.json[54]: Damodaran Jan 2026: Business & Consumer Services EBITDA/Sales 15.65%); revenue/employee $260,281 (SUSB 2022 receipts/employment at 541330); class <5: 27,901 firms, avg revenue/firm $412,809 (class receipts/firms), implied EBITDA $64,605 -> out of $1-10M band; class 5-9: 6,267 firms, avg revenue/firm $1,523,903 (class receipts/firms), implied EBITDA $238,491 -> out of $1-10M band; class 10-19: 4,702 firms, avg revenue/firm $3,089,183 (class receipts/firms), implied EBITDA $483,457 -> out of $1-10M band; class 20-99: 4,840 firms, avg revenue/firm $9,897,160 (class receipts/firms), implied EBITDA $1,548,906 -> IN $1-10M band; class 100-499: 1,297 firms, avg revenue/firm $42,835,429 (class receipts/firms), implied EBITDA $6,703,745 -> IN $1-10M band; class 500+: 685 firms, avg revenue/firm $252,830,867 (class receipts/firms), implied EBITDA $39,568,031 -> out of $1-10M band; n_band = 6,137",
+      "margin_used": 0.1565,
+      "margin_source": "Damodaran Jan 2026: Business & Consumer Services EBITDA/Sales 15.65%",
+      "quality": "ESTIMATE"
+    }
+  },
+  "inputs": {
+    "ai_replaceable_share": {
+      "value": 0.34761,
+      "breakdown_by_role": [
+        {
+          "role": "Civil Engineers (17-2051)",
+          "labor_share_of_total": 0.166,
+          "within_role_automatable_fraction": 0.3,
+          "contribution": 0.0498,
+          "rationale": "EOR stamp, professional liability, field judgment and client/agency interaction are not automatable, but the task mix is heavy in calculation packages, modeling runs, code-compliance checking and report drafting — all directly AI-exposed today. ACEC member firms themselves report 68% believe 10-29% of current work tasks are automatable; 0.30 sits at the top of that self-report and mid-range of the 0.2-0.4 guidance band, reflecting that engineer time skews to production over stamping in most delivery organizations.",
+          "plausible_range": "0.2-0.4"
+        },
+        {
+          "role": "Mechanical Engineers (17-2141)",
+          "labor_share_of_total": 0.0474,
+          "within_role_automatable_fraction": 0.3,
+          "contribution": 0.01422,
+          "rationale": "Same production/liability split as civil: load calcs, equipment schedules, spec drafting AI-exposed; stamped judgment and coordination persist.",
+          "plausible_range": "0.2-0.4"
+        },
+        {
+          "role": "Electrical Engineers (17-2071)",
+          "labor_share_of_total": 0.0381,
+          "within_role_automatable_fraction": 0.3,
+          "contribution": 0.01143,
+          "rationale": "Circuit/load calculations, panel schedules, code-compliance checks AI-exposed; responsible-charge work persists.",
+          "plausible_range": "0.2-0.4"
+        },
+        {
+          "role": "Specialty engineers tail (environmental, structural, geotechnical and other unlisted 17-2xxx)",
+          "labor_share_of_total": 0.135,
+          "within_role_automatable_fraction": 0.3,
+          "contribution": 0.0405,
+          "rationale": "Unlisted engineering-specialty share of the wage bill (guidance: est. ~10-15% beyond the three listed disciplines; 13.5% used). Same task structure as listed engineers — modeling, calc packages, permit/report drafting are AI-exposed; stamping and field judgment are not.",
+          "plausible_range": "0.2-0.4"
+        },
+        {
+          "role": "Architectural and Engineering Managers (11-9041)",
+          "labor_share_of_total": 0.0629,
+          "within_role_automatable_fraction": 0.15,
+          "contribution": 0.009435,
+          "rationale": "Client and agency relationships persist; internal reporting, resourcing and coordination paperwork automates.",
+          "plausible_range": "0.1-0.25"
+        },
+        {
+          "role": "General and Operations Managers (11-1021)",
+          "labor_share_of_total": 0.0534,
+          "within_role_automatable_fraction": 0.15,
+          "contribution": 0.00801,
+          "rationale": "Same split: relationship and P&L judgment persist; reporting/coordination overhead automates.",
+          "plausible_range": "0.1-0.25"
+        },
+        {
+          "role": "Project Management Specialists (13-1082)",
+          "labor_share_of_total": 0.0667,
+          "within_role_automatable_fraction": 0.4,
+          "contribution": 0.02668,
+          "rationale": "Schedule, budget, submittal and RFI paperwork automates substantially with current tools; client/agency coordination and claims judgment persist.",
+          "plausible_range": "0.3-0.5"
+        },
+        {
+          "role": "Architectural and Civil Drafters (17-3011)",
+          "labor_share_of_total": 0.0234,
+          "within_role_automatable_fraction": 0.6,
+          "contribution": 0.01404,
+          "rationale": "Production drawings are the most directly automatable cost line (generative drafting/model-to-sheet automation); residual QC and model management persist.",
+          "plausible_range": "0.5-0.75"
+        },
+        {
+          "role": "Civil Engineering Technologists and Technicians (17-3022)",
+          "labor_share_of_total": 0.0161,
+          "within_role_automatable_fraction": 0.45,
+          "contribution": 0.007245,
+          "rationale": "Data reduction and computation automate; lab/materials-testing has a physical component that does not.",
+          "plausible_range": "0.3-0.6"
+        },
+        {
+          "role": "Other 17-30xx drafting/technician tail",
+          "labor_share_of_total": 0.05,
+          "within_role_automatable_fraction": 0.5,
+          "contribution": 0.025,
+          "rationale": "Unlisted technician occupations (guidance: est. ~4-6% more) — blend of highly automatable drafting/data work and physical lab/field tasks.",
+          "plausible_range": "0.35-0.65"
+        },
+        {
+          "role": "Software Developers (15-1252)",
+          "labor_share_of_total": 0.0378,
+          "within_role_automatable_fraction": 0.3,
+          "contribution": 0.01134,
+          "rationale": "AI-augmented rather than eliminated; coding assistants absorb a substantial share of implementation hours in digital-delivery teams.",
+          "plausible_range": "0.2-0.45"
+        },
+        {
+          "role": "Construction and Building Inspectors (47-4011)",
+          "labor_share_of_total": 0.0187,
+          "within_role_automatable_fraction": 0.05,
+          "contribution": 0.000935,
+          "rationale": "Physical site presence required; AI/drone-augmented reporting is a sliver, the inspection itself is not automatable.",
+          "plausible_range": "0.0-0.1"
+        },
+        {
+          "role": "Field and survey staff tail",
+          "labor_share_of_total": 0.055,
+          "within_role_automatable_fraction": 0.05,
+          "contribution": 0.00275,
+          "rationale": "Survey crews, field techs, as-built verification (guidance: est. ~4-6% more beyond listed inspectors) — physical work; only report write-up automates.",
+          "plausible_range": "0.0-0.1"
+        },
+        {
+          "role": "Admin, marketing, proposal and other office tail",
+          "labor_share_of_total": 0.2295,
+          "within_role_automatable_fraction": 0.55,
+          "contribution": 0.126225,
+          "rationale": "Balance of the unlisted wage bill: proposal production for QBS pursuits (large, near-fully automatable overhead), scheduling, invoicing, document control, accounting/HR/IT support. 0.55 blends near-full automation of document production against persistent in-person and judgment slices. This is the largest single contribution and the softest share estimate.",
+          "plausible_range": "0.4-0.65"
+        }
+      ],
+      "quality": "MED"
+    },
+    "pi_dist": {
+      "value": 0.45,
+      "rationale": "Split market. Public clients (state DOTs, municipalities, federal — roughly a third or more of industry revenue) select via QBS and pay on FAR Part 31 / AASHTO-audited overhead multipliers: when AI cuts labor hours or overhead, the audited rate falls and the savings pass mechanically to the client at the next audit cycle — a structural clawback of AI efficiency. Private work is majority lump-sum/fixed-fee (benchmark data: ~59% of fees overall, 76% for 1-20-staff firms), where the firm keeps efficiency inside a contract but competitive fee proposals re-price it away over successive pursuits. Offsets: the firm (not a platform) owns the client relationship, on-call/framework contracts are institutional and survive acquisition, and QBS explicitly forbids price-based selection on public work, slowing fee deflation.",
+      "plausible_range": "0.35-0.55",
+      "sources": [
+        "https://www.dmcpas.com/articles/understanding-far-overhead-calculations-and-audits-for-architecture-and-engineering-firms/",
+        "https://www.dot.state.oh.us/Divisions/Finance/Auditing/Current%20Consultant%20Audit%20Circulars/AudAcctgGuide2010(Gormley-webpage%20format).htm",
+        "https://monograph.com/blog/engineering-fees-pricing-models-best-practices"
+      ],
+      "quality": "MED"
+    },
+    "pi_moat": {
+      "value": 0.65,
+      "rationale": "Every state requires a PE in responsible charge and firm registration; EOR liability and professional-liability insurance are hard barriers no generic AI bypasses. Switching costs are real on on-call contracts, framework agreements and multi-year capital programs; local agency relationships and prequalification are institutional assets. Erosion risks holding it below 0.75: the 'plan-stamp' pattern (industrial/developer clients insourcing design with AI tooling plus a single stamping PE) is practiced at the margins despite responsible-charge rules, and commodity segments (small-site civil, routine MEP) face fee competition from AI-tooled small firms.",
+      "plausible_range": "0.55-0.75",
+      "sources": [
+        "https://www.acec.org/wp-content/uploads/2025/05/The-Role-of-Artificial-Intelligence-in-the-Engineering-Industry.pdf"
+      ],
+      "quality": "MED"
+    },
+    "t50_years": {
+      "value": 1.5,
+      "derivation": "Deltek Clarity 46th (2025): 53% of A&E firms 'leveraging AI tools', up from 38% a year earlier — +15pp/yr momentum. Discounting to 'material use in the automatable functions' (production, not experimentation) puts current firm-level material adoption ~40%. Gap to 50% at even half the observed +15pp/yr pace = ~1.3-2 years. Historical analog agrees on speed once momentum builds: BIM went 28%->49% in two years (2007-2009) and 71% by 2012 (McGraw-Hill SmartMarket). t50 = 1.5 years.",
+      "plausible_range": "1-3",
+      "quality": "MED"
+    },
+    "current_adoption_pct": {
+      "value": 0.4,
+      "source": "Deltek Clarity Architecture & Engineering Industry Study, 46th Annual (2025), n~700 US/Canada firms; ACEC Research Institute Engineering Business Sentiment Q1 2025",
+      "url": "https://www.prnewswire.com/news-releases/ai-talent-and-record-profits-what-the-46th-annual-deltek-clarity-ae-study-reveals-about-the-architecture--engineering-industry-302453217.html",
+      "figure_quoted": "Deltek: 'AI adoption surged across the industry, with 53% of firms leveraging AI tools - up from 38% last year.' ACEC: '63% of member firms report having an AI strategy in place or being actively engaged in developing one' (Q1 2025). 40% used here = the 53% 'leveraging AI tools' discounted for the stricter 'materially using AI in the automatable functions' bar (production drafting/calc/proposal/PM workflows in routine use, not pilots or individual chatbot use).",
+      "access_date": "2026-07-20",
+      "quality": "MED"
+    },
+    "historical_analogs": {
+      "value": "BIM (closest prior production-technology shift in design firms): ~2 years from 28% to 49% adoption (2007-2009), 71% by 2012 — i.e. ~2-3 years from one-third penetration to majority. CAD adoption (1980s-90s) took closer to a decade but predates cloud distribution.",
+      "source": "McGraw-Hill Construction SmartMarket Report, The Business Value of BIM in North America 2007-2012",
+      "url": "https://www.prnewswire.com/news-releases/bim-adoption-expands-from-17-in-2007-to-over-70-in-2012-according-to-new-mcgraw-hill-construction-report-189185591.html",
+      "figure_quoted": "'The percentage of companies using BIM jumped from 17% in 2007, to 49% in 2009, to 71% in 2012.' (Some report editions cite 28% for 2007 on a different measurement basis.)",
+      "access_date": "2026-07-20",
+      "quality": "HIGH"
+    },
+    "owners_60plus_pct": {
+      "value": 0.35,
+      "source": "Zweig Group Principals, Partners & Owners Report (age distribution of AEC principals) — 60+ share estimated from published distribution",
+      "url": "https://zweiggroup.com/blogs/news/diversity-of-age",
+      "figure_quoted": "Zweig Group: '82 percent of AEC firm principals are older than 50'; 'only 2 percent of AEC firm principals are 39 years of age or younger'; 'the median age at which principals plan to retire is 65.' No direct 60+ split is published in open sources; 35% assumes roughly two-fifths of the 50+ mass sits above 60, consistent with a median principal age in the mid-to-upper 50s.",
+      "access_date": "2026-07-20",
+      "quality": "ESTIMATE",
+      "succession_shortage_documented": {
+        "value": true,
+        "evidence": "Zweig: only '2 percent of AEC firm principals are 39 years of age or younger' and '75 percent of firms do not have an age requirement for principals to begin to sell down their ownership' — a thin successor bench with no forced transition mechanism; Morrissey Goodale attributes the deal wave partly to 'a wave of leadership transitions', and ACEC ('As Sellers Cash Out, Buyers Cash In') documents external sale displacing internal succession."
+      }
+    },
+    "active_consolidators": {
+      "value": 114,
+      "source": "Morrissey Goodale (via ACEC Private Equity's Power Play / Morrissey Goodale AE M&A coverage)",
+      "url": "https://www.acec.org/news/last-word-blog/post/private-equitys-power-play/",
+      "figure_quoted": "'There are now 114 private equity-backed platforms in the AE industry. That's up from 50 just 5 years ago.' Add-on activity is confirmed current: 2025 was 'the first year on record with more than 500 completed domestic transactions', with 'PE-backed acquirers and/or PE recaps now account for more than half of all design and environmental consulting firm deals' and '72% of 2025 deals involved firms under $10 million in revenue' (Morrissey Goodale).",
+      "access_date": "2026-07-20",
+      "quality": "MED"
+    },
+    "buy_mult": {
+      "value": 5.0,
+      "source": "Auxo Capital Advisors, Engineering Firm Valuation Multiples (2026 Guide) — adjusted-EBITDA basis (post owner-comp normalization)",
+      "url": "https://auxocapitaladvisors.com/engineering-firm-valuation-multiples/",
+      "figure_quoted": "'Smaller firms typically trade on adjusted EBITDA multiples in the 4x to 6x range... priced for tuck-in integration into larger platforms'; '5x-7x EBITDA for single-office regional firms.' 5.0x = midpoint of the small-firm adjusted-EBITDA range; adjusted EBITDA here is already net of normalized owner compensation (rule 3), unlike Zweig-style pre-owner-comp quotes.",
+      "access_date": "2026-07-20",
+      "quality": "MED"
+    },
+    "exit_mult": {
+      "value": 10.5,
+      "source": "Auxo Capital Advisors 2026 guide (consistent with EFCG/Morrissey Goodale platform commentary)",
+      "url": "https://auxocapitaladvisors.com/engineering-firm-valuation-multiples/",
+      "figure_quoted": "'8x-11x for mid-size multi-state platforms, and 10x-13x+ for premium scale with infrastructure exposure.' 10.5x used for a $10M+ EBITDA platform exit — bottom of the premium-scale band / top of the multi-state band.",
+      "access_date": "2026-07-20",
+      "quality": "MED"
+    },
+    "pricing_structure": {
+      "value": "Mixed: lump-sum/fixed fee is the dominant model (~59% of fees overall; 76% for firms with 1-20 staff), the balance hourly/T&M and cost-based public contracts. Public-agency work (state DOT, municipal, federal — roughly a third of industry revenue, higher in transportation/water firms) is QBS-selected and priced as a multiplier on FAR Part 31 / AASHTO-audited overhead rates or cost-plus-fixed-fee — a structurally cost-based channel where audited efficiency passes to the client. No retainer or value-based pricing at scale.",
+      "source": "Monograph engineering fees benchmark; Dannible & McKee / Ohio DOT AASHTO Uniform Audit & Accounting Guide (FAR overhead mechanism)",
+      "url": "https://monograph.com/blog/engineering-fees-pricing-models-best-practices",
+      "figure_quoted": "'lump sum/fixed fee is the dominant model at 59%... Firms with 1-20 staff use fixed fees for 76% of their work'; FAR/AASHTO: audited overhead rate 'used as a multiplier when a firm performs projects for state or federal government, including departments of transportation.'",
+      "access_date": "2026-07-20",
+      "quality": "MED"
+    }
+  },
+  "scores": {
+    "V": {
+      "arithmetic": "ai_replaceable_share = 0.166*0.30 + 0.0474*0.30 + 0.0381*0.30 + 0.135*0.30 + 0.0629*0.15 + 0.0534*0.15 + 0.0667*0.40 + 0.0234*0.60 + 0.0161*0.45 + 0.05*0.50 + 0.0378*0.30 + 0.0187*0.05 + 0.055*0.05 + 0.2295*0.55 = 0.0498 + 0.01422 + 0.01143 + 0.0405 + 0.009435 + 0.00801 + 0.02668 + 0.01404 + 0.007245 + 0.025 + 0.01134 + 0.000935 + 0.00275 + 0.126225 = 0.34761; V_raw = labor_share 0.4698 * 0.34761 = 0.163307178; V = 10 * min(1, 0.163307178/0.25) = 10 * 0.653228712 = 6.5322871199999994",
+      "score": 6.5322871199999994
+    },
+    "C": {
+      "arithmetic": "C = 10 * pi_dist 0.45 * pi_moat 0.65 = 2.925",
+      "score": 2.925
+    },
+    "A": {
+      "arithmetic": "A = min(10, 10 / t50 1.5) = 6.666666666666667",
+      "score": 6.666666666666667
+    },
+    "B": {
+      "arithmetic": "TD = clamp(log10(6137)/4, 0, 1) = clamp(3.787956123283932/4) = 0.946989030820983; OW = clamp((0.35-0.10)/0.35, 0.1, 0.9) = 0.7142857142857143, +0.1 succession bonus (succession_shortage_documented=true) = 0.8142857142857143 (cap 1.0 not binding); CFD = min(0.9, log10(1+114)/2) = min(0.9, 2.0606978403536114/2 = 1.0303489201768057) = 0.9; B = 10 * sqrt(0.946989030820983 * 0.8142857142857143) / (1 + 0.3*0.9) = 10 * sqrt(0.7711196536684718) / 1.27 = 10 * 0.878134189736663 / 1.27 = 6.914442368026517",
+      "score": 6.914442368026517
+    },
+    "M": {
+      "arithmetic": "M = clamp(4 * (exit 10.5 - buy 5.0) / buy 5.0, 0, 10) = clamp(4 * 1.1, 0, 10) = 4.4",
+      "score": 4.4
+    }
+  },
+  "S": 5.2198971127428,
+  "cross_checks": {
+    "uplift_pp": 16.3307178,
+    "uplift_vs_A_consistent": "V_raw 0.1633 = ~16.3pp of revenue freed at full capture — far above the 3pp floor with A = 6.67, so no inconsistency. Against the 15.65% margin proxy this would roughly double EBITDA if fully captured; pi_dist 0.45 says roughly half or more leaks to clients via audited overhead and competitive fee re-pricing.",
+    "terminal_value": {
+      "class": "PRESSURED",
+      "justification": "Both at once, channel by channel. AI is cutting the operator's costs: proposal/admin overhead (~23% of wage bill), drafting and PM paperwork are cost lines the operator keeps inside lump-sum contracts near-term. But AI is also shrinking the billable base: on the cost-based public channel, FAR Part 31/AASHTO-audited overhead multipliers mechanically re-price AI-collapsed hours into lower client cost at the next audit cycle, and on hourly/T&M work fewer production hours are simply fewer billed hours. Paid demand itself is robust — stamps, EOR liability, responsible-charge rules and public infrastructure funding keep the product mandatory, and no mature AI supplies a stamp or carries liability — so the product is not being replaced (not MELTING). The 5-10 year picture is a smaller-headcount stamp-and-liability business with fee structures (audited multipliers, competitive lump-sum pursuit pricing) steadily conveying the productivity gain to clients: demand persists, the billable base per project shrinks = PRESSURED."
+    },
+    "no_proxy_confirmed": "Confirmed. V was built from labor_share, OEWS role mix and per-role task-mix fractions (grounded in ACEC's own task-automation self-report and the production/liability split); A was derived from the Deltek Clarity adoption series (53% vs 38% prior year) and the BIM historical analog. The 114-platform PE count, 500+ deal record and multiple data informed only B (CFD) and M.",
+    "pricing_model_deflation": "Billing mix: ~59% lump-sum/fixed fee (76% in 1-20-staff firms), remainder hourly/T&M and cost-based public contracts on FAR/AASHTO-audited overhead multipliers. Deflation runs through two channels: audited overhead rates pass AI cost reductions to public clients mechanically at each audit cycle, and competitive fee proposals re-price lump-sum work downward across pursuit cycles; hourly/T&M converts hour reduction directly into revenue reduction. QBS (no price competition on public selection) and relationship switching costs slow but do not stop the pass-through. All of this is reflected in pi_dist = 0.45; pi_moat = 0.65 carries the licensure/EOR-liability barrier separately."
+  },
+  "confidence_overall": "MED",
+  "heterogeneous": false,
+  "top_uncertain_inputs": [
+    {
+      "input": "t50_years",
+      "plausible_range": "1-3 years",
+      "score_impact": "A ranges 10.0 (t50=1) to 3.33 (t50=3) vs 6.67 at t50=1.5; S moves roughly 4.55-5.66. The 'material use' discount from Deltek's 53% headline is judgment — if material adoption is already >50%, t50<1 and A pins at 10."
+    },
+    {
+      "input": "within_role_automatable_fraction for engineers (0.30 across ~0.386 of wage bill)",
+      "plausible_range": "0.2-0.4",
+      "score_impact": "ai_replaceable_share ranges ~0.309-0.386, V ranges ~5.81-7.26 vs 6.53; S moves roughly -0.12/+0.11. Together with the admin-tail fraction (0.4-0.65 on 0.2295 share) this is the main V lever."
+    },
+    {
+      "input": "owners_60plus_pct",
+      "plausible_range": "0.28-0.45",
+      "score_impact": "OW (incl. +0.1 bonus) ranges 0.614-1.0 vs 0.814; B ranges ~6.01-7.66; S moves roughly -0.15/+0.11. Zweig's 60+ split is paywalled; 0.35 is inferred from the published 50+ = 82% figure."
+    },
+    {
+      "input": "buy_mult / exit_mult spread",
+      "plausible_range": "buy 4-6x, exit 9-13x",
+      "score_impact": "M ranges ~2.0 (6->9) to 9.0 (4->13) vs 4.4; S moves roughly 4.46-6.03. H1-2025 data showing platforms and add-ons both averaging 7.2x warns the small-firm discount may be narrower than the quoted ranges imply."
+    }
+  ],
+  "reviewer_note": "Sub-segment mix noted but heterogeneous=false: 541330 is not a catch-all and all sub-segments (transportation, water/wastewater, MEP, structural, geotech, environmental engineering) share the same production model — billable design hours under stamp/EOR liability — though AI exposure varies (field/survey/inspection-heavy firms materially lower V than design-production firms; one automatable fraction was NOT applied across segments — physical roles are carried at 0.05). Softest V assumption: the unlisted ~47% of the wage bill was decomposed per the prompt's guidance bands (specialty engineers 13.5%, other technicians 5%, field/survey 5.5%, admin/marketing/proposal 22.95%) — the admin tail at 0.55 automatable contributes 0.126 of the 0.348 ai_replaceable_share, so V leans on an inferred share, not an OEWS-observed one. Adoption caveat: Deltek Clarity and ACEC span 'A&E' broadly (architecture 541310 members included), quoted here for 541330 per the boundary trap; direction unlikely to differ, level may. Multiples: buy_mult 5.0 uses adjusted-EBITDA broker ranges (rule-3 compliant); Zweig-style pre-owner-comp multiples were not used. Note the tension the record preserves honestly: V=6.53 and A=6.67 are high while C=2.93 is the binding constraint — the formula says value is created fast but a large share leaks to clients via FAR/AASHTO audited overhead and competitive fee re-pricing; no override applied. B benefits from a documented succession shortage (+0.1 OW) and CFD capped at 0.9 with 114 active platforms — crowding is the real B-side risk, and 72% of 2025 deals already involved sub-$10M-revenue firms, so the band is being actively picked over. Dataset inputs used as given, incl. the Damodaran Business & Consumer Services 15.65% margin proxy (ESTIMATE) inside n_band."
+}
