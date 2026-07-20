@@ -1,0 +1,96 @@
+{
+  "naics": "541219",
+  "run_id": "fleet-s2-541219",
+  "review_meta": {
+    "model_id": "Sol",
+    "review_date": "2026-07-20",
+    "prompt_version": "validator-3.0"
+  },
+  "verdict": "wrong",
+  "checks": {
+    "sources_exist": {
+      "pass": true,
+      "note": "All seven canonical URLs resolve to their named domains and pages, although the Auxo page yielded no accessible article text and therefore cannot substantiate its claim."
+    },
+    "figures_match_sources": {
+      "pass": false,
+      "note": "The cited pages do not support the five-consolidator count, 3.0x target buy multiple, quoted 60%/68% adoption rates, QuickBooks Online historical adoption path, 38% owner-age estimate, or the stated QuickBooks Live $300/$500/$700 tiers. The exit citation also uses revenue-tier scope rather than the required $10M+ EBITDA exit scope."
+    },
+    "judgment_inputs_plausible": {
+      "pass": false,
+      "note": "The prompt permits the stated hypothesis role structure, and pi_dist/pi_moat are bounded with concrete rationales. However, t50_years=2 is internally inconsistent with current_adoption_pct=0.55: if the defined 50% threshold has already been exceeded, it cannot simultaneously be two years in the future. The underlying 55% target-population baseline and historical speed analog are also unsupported."
+    },
+    "rubric_consistent": {
+      "pass": false,
+      "note": "The catch-all code is marked heterogeneous and the dominant bookkeeping segment is identified, but B and M use unsupported and scope-mismatched inputs. The ARITH_DELTA_WITHIN_TOL flag is acknowledged: the nonzero B and S stored-versus-recomputed deltas are within the orchestrator's tolerance, but that does not resolve the provenance and t50 failures."
+    },
+    "cross_checks_honest": {
+      "pass": false,
+      "note": "The terminal, no-proxy, and pricing-deflation mechanisms are explicit, but the uplift and adoption consistency discussion relies on unsupported automation and adoption figures. The pricing cross-check repeats a $300-$700 QuickBooks Live range contradicted by the cited page's $200-$400 ongoing tiers."
+    }
+  },
+  "source_audits": [
+    {
+      "input_path": "inputs.active_consolidators.url",
+      "url": "https://thefinancestory.com/private-equity-accounting-roll-ups-hitting-reality-check",
+      "resolves": true,
+      "claim_supported": false,
+      "note": "The article covers accounting roll-ups, mainly UK/Irish and CPA/accountancy platforms, and gives general EBITDA ranges. It does not report 65 US transactions in 2024, 104 in 2025, or identify five PE/growth-equity platforms making 541219-specific add-ons in the last 24 months. Bench, Pilot, FinancePal, Decimal, and OutsourcePartners are absent."
+    },
+    {
+      "input_path": "inputs.buy_mult.url",
+      "url": "https://auxocapitaladvisors.com/accounting-firm-ma-valuation-multiples/",
+      "resolves": true,
+      "claim_supported": false,
+      "note": "The URL returned no accessible article text. It therefore cannot verify the claimed 0.7-1.0x revenue, 1.8-3.2x SDE, 3.0-5.0x normalized EBITDA ranges, the owner-compensation conversion, or the 3.0x target buy multiple."
+    },
+    {
+      "input_path": "inputs.current_adoption_pct.url",
+      "url": "https://receiptsai.com/ai-automation-accounting-statistics-2026",
+      "resolves": true,
+      "claim_supported": false,
+      "note": "The compilation reports, among other differently scoped figures, 69% adoption among US tax/accounting professionals, 40% organizational adoption in a Thomson Reuters survey, and 46% daily accountant use. It does not report the quoted 60% of accounting firms, 68% of small accounting firms, or establish 55% material adoption among US 541219 firms."
+    },
+    {
+      "input_path": "inputs.exit_mult.url",
+      "url": "https://ctacquisitions.com/accounting-firm-business-valuation/",
+      "resolves": true,
+      "claim_supported": false,
+      "note": "The page gives 8-12x EBITDA for 'PE-platform-ready' firms with $5M+ revenue and 5-7x for $2-5M revenue, plus general 4-7x ranges. It does not provide observed $10M+ EBITDA platform exits, the quoted 6.5-8.0x outsourced-accounting range, or a 9.0x 541219 exit comp with matching size and service scope."
+    },
+    {
+      "input_path": "inputs.historical_analogs.url",
+      "url": "https://www.firmofthefuture.com/news/accountant-tech-survey-2026/",
+      "resolves": true,
+      "claim_supported": false,
+      "note": "The 2026 survey of 725 US accounting/bookkeeping professionals reports 88% using AI for at least one client service, 86% for operations, 30% using AI by default, and 54% situationally. It does not document QuickBooks Online moving from 5% in 2013 to 50% by 2018, a five-year historical adoption analog, or a one-to-two-year embedded-AI rollout path."
+    },
+    {
+      "input_path": "inputs.owners_60plus_pct.url",
+      "url": "https://controllerscouncil.org/accounting-crisis-cpa-firms-face-75-retirements/",
+      "resolves": true,
+      "claim_supported": false,
+      "note": "The 2022 article says almost 75% of the CPA workforce met retirement age in 2020, a workforce-eligibility statistic about CPAs. It does not measure owners, age 60+, 541219 bookkeepers/non-CPA practices, the 38% value, or a firm-succession shortage; it also does not contain the cited ABS cohort percentages."
+    },
+    {
+      "input_path": "inputs.pricing_structure.url",
+      "url": "https://www.dancingnumbers.com/quickbooks-live-bookkeeping/",
+      "resolves": true,
+      "claim_supported": false,
+      "note": "The page states a $500 first-month setup fee and ongoing monthly tiers of $200, $300, and $400 for the three expense bands. This directly contradicts the quoted $300, $500, and $700 ongoing tiers and does not substantiate the broader $200-$1,500 independent-firm billing mix."
+    }
+  ],
+  "reasons": [
+    "At inputs.current_adoption_pct.url (https://receiptsai.com/ai-automation-accounting-statistics-2026), the source does not contain the quoted 60% firm or 68% small-firm adoption figures and does not establish 55% material adoption in NAICS 541219. Re-run with a primary survey whose population, unit of analysis, and material-use definition match the scored industry.",
+    "At inputs.t50_years, the value 2.0 contradicts inputs.current_adoption_pct.value=0.55 because the rubric defines t50 as years from today until the industry reaches 50%; the run simultaneously says that threshold is already crossed and two years away. Correct the temporal definition after replacing the unsupported adoption baseline and analog, without prescribing a replacement score.",
+    "At inputs.historical_analogs.url (https://www.firmofthefuture.com/news/accountant-tech-survey-2026/), the cited cross-sectional 2026 survey contains no evidence for the claimed 2013-to-2018 QuickBooks Online adoption path or one-to-two-year embedded-AI rollout. Provide dated, comparable adoption-level observations that establish the historical trajectory.",
+    "At inputs.owners_60plus_pct.url (https://controllerscouncil.org/accounting-crisis-cpa-firms-face-75-retirements/), a statement that 75% of the CPA workforce met retirement age is not an owner-age share for non-CPA/bookkeeping firms and does not support 0.38 or the succession bonus. Re-run with owner-level 541219 or defensibly comparable age data and separate evidence of a documented succession shortage.",
+    "At inputs.active_consolidators.url (https://thefinancestory.com/private-equity-accounting-roll-ups-hitting-reality-check), the article does not substantiate five 541219-specific PE-backed platforms making add-ons in the last 24 months. Supply platform-by-platform transaction evidence within the exact window and exclude VC-backed operating companies that are not active add-on consolidators.",
+    "At inputs.buy_mult.url (https://auxocapitaladvisors.com/accounting-firm-ma-valuation-multiples/), no accessible source content supports 3.0x normalized EV/EBITDA, and the run does not provide a source-supported owner-compensation normalization from SDE or revenue multiples. Use accessible target-size 541219 transaction evidence and show the full normalization chain.",
+    "At inputs.exit_mult.url (https://ctacquisitions.com/accounting-firm-business-valuation/), the cited 8-12x indication is scoped to firms with $5M+ revenue, not observed exits of $10M+ EBITDA 541219 platforms, and the other quoted ranges are absent. Replace it with recent transactions or credible comps matching the rubric's exit-size and service scope.",
+    "At inputs.pricing_structure.url (https://www.dancingnumbers.com/quickbooks-live-bookkeeping/), the source gives a $500 setup month followed by $200/$300/$400 monthly tiers, contradicting the run's $300/$500/$700 quote and repeated cross-check. Correct the cited figures and add evidence for the actual independent-bookkeeping fixed-fee/hourly revenue mix used in capture reasoning."
+  ],
+  "flags_reviewed": [
+    "ARITH_DELTA_WITHIN_TOL: nonzero stored-vs-recomputed deltas on B, S"
+  ]
+}

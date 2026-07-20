@@ -1,0 +1,78 @@
+{
+  "naics": "541340",
+  "run_id": "fleet-s2-541340",
+  "review_meta": {
+    "model_id": "Sol",
+    "review_date": "2026-07-20",
+    "prompt_version": "validator-3.0"
+  },
+  "verdict": "wrong",
+  "checks": {
+    "sources_exist": {
+      "pass": true,
+      "note": "All four canonical HTTP(S) citations resolve to accessible pages on the cited sites."
+    },
+    "figures_match_sources": {
+      "pass": false,
+      "note": "None of the four cited pages supports its full score-driving claim: the M&A index does not establish zero drafting-bureau consolidators, the AutoCAD vendor page does not report 8% or 78% adoption, the BIM history does not provide the claimed 50% timeline, and the offshore staffing page publishes no hourly rates or US billing mix."
+    },
+    "judgment_inputs_plausible": {
+      "pass": false,
+      "note": "The prompt permits rebuilding the 4-digit role mix, and the declared role shares sum to one, but the 85% CAD/BIM automation fraction lacks auditable task evidence. The 20% adoption baseline, 4.5-year t50, 45% older-owner share, 2.5x buy multiple, and 4.0x exit multiple are unsupported estimates, while pi_dist and pi_moat rely on unverified rate and insourcing assertions."
+    },
+    "rubric_consistent": {
+      "pass": false,
+      "note": "The run uses the supplied deterministic dataset inputs and addresses the drafting-specific terminal question, but V, A, B, C, and M all depend on unsupported score-driving assumptions. The LOW_CONFIDENCE flag is confirmed and remains unresolved. The ESTIMATE_HEAVY flag is confirmed for ai_replaceable_share, buy_mult, current_adoption_pct, exit_mult, owners_60plus_pct, and t50_years. The ARITH_DELTA_WITHIN_TOL flag is acknowledged for A, B, and S; small arithmetic deltas do not cure the evidentiary failures."
+    },
+    "cross_checks_honest": {
+      "pass": false,
+      "note": "The no-proxy section discloses the hypothesis role rebuild, but the pricing check presents $10-30 offshore rates, pure piece-rate billing, immediate pass-through, and client insourcing as established facts even though the cited page provides no prices or billing evidence. The terminal check likewise assigns a 5-15% surviving scan-to-BIM niche and a 2-5-year collapse window without canonical support."
+    }
+  },
+  "source_audits": [
+    {
+      "input_path": "inputs.active_consolidators.url",
+      "url": "https://www.morrisseygoodale.com/resources/ma-update/",
+      "resolves": true,
+      "claim_supported": false,
+      "note": "The page is a broad index of architecture and engineering M&A updates. It contains no 541340 or drafting-bureau analysis and cannot establish that a systematic search found zero PE-backed platforms actively acquiring US drafting service bureaus in the specified 24-month window."
+    },
+    {
+      "input_path": "inputs.current_adoption_pct.url",
+      "url": "https://www.energent.ai/use-cases/en/compare/ai-solution-for-autocad",
+      "resolves": true,
+      "claim_supported": false,
+      "note": "The page markets Energent's AutoCAD-related AI solution and describes product benchmarks and a block-replacement case study. It does not contain the quoted 8% firm-integration or 78% interest figures, identify a survey population, or support 20% material AI adoption among US 541340 firms."
+    },
+    {
+      "input_path": "inputs.historical_analogs.url",
+      "url": "https://vdci.edu/blog/the-evolution-and-adoption-of-bim-software-around-the-world",
+      "resolves": true,
+      "claim_supported": false,
+      "note": "The article gives a qualitative BIM history, including early technical origins and later government mandates. It does not report near-zero adoption in 2002-2004, approximately 50% adoption by 2009-2010, a seven-to-eight-year time to 50%, or faster CAD adoption by drafting firms."
+    },
+    {
+      "input_path": "inputs.pricing_structure.url",
+      "url": "https://www.offshoreph.com/our-services/engineering-and-construction-support/draftsmen/",
+      "resolves": true,
+      "claim_supported": false,
+      "note": "The OffshorePH staffing page says costs vary with project complexity, software expertise, and experience level and directs users to request a quote. It publishes no India $10-25 or Philippines $12-30 hourly rates and provides no evidence for US 541340 hourly or per-sheet billing, lack of relationship lock-in, or immediate pass-through of AI savings."
+    }
+  ],
+  "reasons": [
+    "At inputs.current_adoption_pct.url (https://www.energent.ai/use-cases/en/compare/ai-solution-for-autocad), the cited vendor page does not contain the quoted 8% or 78% figures and cannot support the conversion to 20% material adoption among US drafting service firms. Replace it with an accessible survey that defines the firm population and material production use.",
+    "At inputs.historical_analogs.url (https://vdci.edu/blog/the-evolution-and-adoption-of-bim-software-around-the-world), the qualitative history does not provide the claimed near-zero-to-50% BIM adoption observations or drafting-firm CAD curve. Add dated adoption measurements before deriving inputs.t50_years.",
+    "At inputs.pricing_structure.url (https://www.offshoreph.com/our-services/engineering-and-construction-support/draftsmen/), the page gives no price card and says rates vary. Supply accessible rate evidence and US 541340 billing-mix evidence before assigning pi_dist=0.10 or claiming pure hourly/piece-rate deflation.",
+    "At inputs.active_consolidators.url (https://www.morrisseygoodale.com/resources/ma-update/), a general A/E deal index cannot prove the absence of 541340 acquirers. Document the complete search method and exact-window target classification, including evidence for each candidate platform, before setting active_consolidators=0.",
+    "At inputs.buy_mult, the URL is empty and the source text supplies no auditable transaction set for the claimed 2.5x normalized EBITDA multiple. Add recent drafting-bureau transactions or a transparent, source-supported normalization from genuinely comparable micro-cap professional-services deals.",
+    "At inputs.exit_mult, the URL is empty and the run acknowledges that no exit-size drafting platform was identified. A theoretical 4.0x strategic multiple is not a sourced exit comp; provide matching-scope transactions or treat the multiple gap and M score as unsubstantiated.",
+    "At inputs.owners_60plus_pct, the URL is empty and the 45% estimate is inferred from an uncited AEC CEO-age analogy and firm-size narrative. Add owner-level 541340 demographic evidence, or a clearly sourced and calibrated proxy, before using it in B.",
+    "At inputs.ai_replaceable_share.breakdown_by_role, the hypothesis rebuild assigns 60% of wages to CAD/BIM technicians and 85% automation within that role without canonical task-level capability evidence. Add current production-workflow benchmarks and support for the 541340 role shares before accepting V=10.",
+    "At cross_checks.terminal_value and inputs.pi_moat, the claimed 2-5-year demand collapse, 5-15% surviving field-capture niche, lack of relationship barriers, and client ability to bypass bureaus are score- and terminal-driving but have no canonical support. Add current Autodesk capability evidence, buyer-workflow evidence, and revenue-mix data, then recalibrate the terminal class and moat."
+  ],
+  "flags_reviewed": [
+    "LOW_CONFIDENCE",
+    "ESTIMATE_HEAVY: 6 inputs with quality ESTIMATE (ai_replaceable_share, buy_mult, current_adoption_pct, exit_mult, owners_60plus_pct, t50_years)",
+    "ARITH_DELTA_WITHIN_TOL: nonzero stored-vs-recomputed deltas on A, B, S"
+  ]
+}

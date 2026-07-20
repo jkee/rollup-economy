@@ -1,0 +1,98 @@
+{
+  "naics": "541380",
+  "run_id": "fleet-s2-541380",
+  "review_meta": {
+    "model_id": "Sol",
+    "review_date": "2026-07-20",
+    "prompt_version": "validator-3.0"
+  },
+  "verdict": "wrong",
+  "checks": {
+    "sources_exist": {
+      "pass": true,
+      "note": "Identity and all deterministic dataset inputs match exactly, and all seven URL occurrences resolved to accessible source content."
+    },
+    "figures_match_sources": {
+      "pass": false,
+      "note": "The accessible sources support general lab AI activity, selected TICC platform multiples, general owner demographics, and one geotechnical lab's unit fee schedule, but not the record's 12% adoption, 10-12-year analog, 35% lab-owner age, six consolidators, 7.5x buy multiple, 11.5x exit midpoint, or 70/20/10 pricing mix."
+    },
+    "judgment_inputs_plausible": {
+      "pass": false,
+      "note": "All within-role fractions and capture/moat values are bounded and qualitatively respect the physical-testing constraint, but t50_years=10 lacks a supported adoption analog and begins from an unsupported 12% firm-adoption estimate, making the score-bearing A judgment unverifiable."
+    },
+    "rubric_consistent": {
+      "pass": false,
+      "note": "The record correctly bounds AI exposure to reporting, administration, and data reduction and marks the heterogeneous subsegments, but A, B, C, and M use unsupported quantified research. BORDERLINE: |S - pass cut 3.00| = 0.1457 makes these defects decision-critical. ESTIMATE_HEAVY: 3 inputs with quality ESTIMATE (current_adoption_pct, owners_60plus_pct, t50_years) is unresolved. ARITH_DELTA_WITHIN_TOL: nonzero stored-vs-recomputed deltas on B, M, S, V is within tolerance and not independently disqualifying."
+    },
+    "cross_checks_honest": {
+      "pass": false,
+      "note": "The uplift, no-proxy, and durable-demand distinctions are candid, but pricing_model_deflation presents a 70/20/10 industry revenue mix as fact when the sole pricing URL is only one construction-materials laboratory's fee schedule. The terminal statement also asserts ISO 17025 requires a qualified human technical reviewer without a URL-bearing accreditation source in the record."
+    }
+  },
+  "source_audits": [
+    {
+      "input_path": "inputs.active_consolidators.url",
+      "url": "https://www.businesswire.com/news/home/20260630020706/en/New-Mountain-Capital-Partners-with-SAM-Leading-Geospatial-and-Inspection-Solutions-Company-for-Next-Phase-of-Growth",
+      "resolves": true,
+      "claim_supported": false,
+      "note": "This release concerns New Mountain's investment in SAM, a geospatial and inspection platform. It does not mention UES, Alliance, Pace, Element, Acuren, or Montrose, document their testing-lab add-ons, or support a count of six active 541380 consolidators."
+    },
+    {
+      "input_path": "inputs.buy_mult.url",
+      "url": "https://www.mainsights.io/articles/testing-inspection-certification-compliance-ticc-platforms-valuation-outcomes-and-consolidation-dynamics",
+      "resolves": true,
+      "claim_supported": false,
+      "note": "Mainsights reports selected scaled TICC platform transactions, including ATS at 11.2x and GBA at 10.7x, and emphasizes material subsegment differences. It does not report an 8x small-cap median, US independent-lab add-on observations, or support a 7.5x buy multiple for $1M-$5M EBITDA labs."
+    },
+    {
+      "input_path": "inputs.current_adoption_pct.url",
+      "url": "https://cloudlims.com/is-your-lab-data-ready-for-ai-in-2025-how-a-lims-can-help/",
+      "resolves": true,
+      "claim_supported": false,
+      "note": "CloudLIMS says laboratory AI use increased 14% year over year and cites a separate study in which 25.6% of laboratories had active AI projects. It does not measure US independent testing laboratories, define material use for NAICS 541380, or support a 12% adoption level."
+    },
+    {
+      "input_path": "inputs.exit_mult.url",
+      "url": "https://www.capstonepartners.com/insights/article-industrial-environmental-services-market-update/",
+      "resolves": true,
+      "claim_supported": false,
+      "note": "Capstone supports the announced Acuren acquisition of diversified NV5 at 10.9x EV/EBITDA. The page does not support the quoted Acuren 9.7x or ATS 11.2x transactions, Eurofins/Intertek trading comps, a lab-only 10x-12x range, or the selected 11.5x midpoint."
+    },
+    {
+      "input_path": "inputs.historical_analogs.url",
+      "url": "https://revollims.com/next-gen-lims-ai-iot-mobile-transform-labs",
+      "resolves": true,
+      "claim_supported": false,
+      "note": "The LIMS vendor article describes next-generation LIMS features and claims turnaround-time and cost reductions. It contains no 1995 adoption baseline, penetration observation, or 10-12-year path to 50% LIMS adoption."
+    },
+    {
+      "input_path": "inputs.owners_60plus_pct.url",
+      "url": "https://www.oberlo.com/statistics/average-age-of-small-business-owners",
+      "resolves": true,
+      "claim_supported": false,
+      "note": "Oberlo reports 47% Gen X and 37% boomer ownership across all US small businesses in 2024, with boomers defined as ages 55-73. It does not report age 60-plus, testing-lab owners, or evidence that supports increasing a roughly 20-22% general estimate to 35% for independent labs."
+    },
+    {
+      "input_path": "inputs.pricing_structure.url",
+      "url": "https://www.engeo.com/wp-content/uploads/2024/06/2024-Summary-of-Lab-Fees-1.pdf",
+      "resolves": true,
+      "claim_supported": false,
+      "note": "ENGEO's 2024 construction-materials/geotechnical schedule verifies ASTM method-specific unit prices, rush prices, and some hourly specimen-preparation charges for one accredited lab. It cannot establish a 70% per-test, 20% project-bid, and 10% recurring revenue mix across heterogeneous NAICS 541380 laboratories."
+    }
+  ],
+  "reasons": [
+    "Replace inputs.current_adoption_pct.url (https://cloudlims.com/is-your-lab-data-ready-for-ai-in-2025-how-a-lims-can-help/) with a defined US independent-testing-lab survey or a reproducible estimate chain; year-over-year growth and 25.6% active projects do not support 12% material firm adoption.",
+    "Re-derive inputs.historical_analogs.value and inputs.t50_years from dated LIMS or comparable diffusion observations. https://revollims.com/next-gen-lims-ai-iot-mobile-transform-labs contains no 10-12-year adoption arc.",
+    "Support inputs.owners_60plus_pct.value with laboratory-owner evidence or a defensible age-60-plus technical-services proxy; the general Oberlo generation shares do not justify 35% for independent lab owners.",
+    "Provide one or more transaction-level citations covering each platform counted in inputs.active_consolidators; the SAM geospatial release is unrelated to the six named testing-lab consolidators.",
+    "Replace inputs.buy_mult.url with small US laboratory add-on transactions or a normalized broker dataset. The Mainsights platform outcomes do not support a 7.5x small-lab buy median.",
+    "Support inputs.exit_mult.value with directly comparable $10M-plus testing-lab platform transactions. The Capstone URL verifies NV5 at 10.9x only and does not substantiate the full 10x-12x range or 11.5x midpoint.",
+    "Substantiate inputs.pricing_structure.value and cross_checks.pricing_model_deflation with cross-subsegment revenue-mix evidence; ENGEO's single-lab fee schedule demonstrates per-test pricing but not the asserted 70/20/10 industry mix.",
+    "Add an auditable accreditation source for cross_checks.terminal_value.justification and distinguish requirements for the material 541380 subsegments instead of treating ISO 17025 human review as universal without support."
+  ],
+  "flags_reviewed": [
+    "BORDERLINE: |S - pass cut 3.00| = 0.1457",
+    "ESTIMATE_HEAVY: 3 inputs with quality ESTIMATE (current_adoption_pct, owners_60plus_pct, t50_years)",
+    "ARITH_DELTA_WITHIN_TOL: nonzero stored-vs-recomputed deltas on B, M, S, V"
+  ]
+}

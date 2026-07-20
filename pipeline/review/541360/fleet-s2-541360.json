@@ -1,0 +1,96 @@
+{
+  "naics": "541360",
+  "run_id": "fleet-s2-541360",
+  "review_meta": {
+    "model_id": "Sol",
+    "review_date": "2026-07-20",
+    "prompt_version": "validator-3.0"
+  },
+  "verdict": "wrong",
+  "checks": {
+    "sources_exist": {
+      "pass": false,
+      "note": "Identity and all deterministic dataset inputs match exactly. Four cited pages resolved, but the Tracxn, SEC, and GeoScienceWorld citations were inaccessible in the full audit."
+    },
+    "figures_match_sources": {
+      "pass": false,
+      "note": "None of the seven citations supports its complete score-bearing claim: the accessible sources establish general AI capability, broad energy multiples, all-industry owner ages, and industry composition, but not the record's adoption rate, analog duration, age-60-plus rate, transaction multiples, consolidator count, or 80-90% pricing mix."
+    },
+    "judgment_inputs_plausible": {
+      "pass": false,
+      "note": "The rebuilt role shares and bounded within-role fractions are directionally plausible under the prompt, as are low capture and a field-acquisition moat. However, current_adoption_pct=0.20 and t50_years=5.5 are unsupported estimates presented through citations that do not measure firm adoption or historical diffusion, so A cannot pass full-depth validation."
+    },
+    "rubric_consistent": {
+      "pass": false,
+      "note": "The record applies competitive-bid deflation to pi_dist and distinguishes physical acquisition from interpretation, consistent in form with the rubric, but M and A are built from unsupported evidence. LOW_CONFIDENCE is therefore unresolved and material. ARITH_DELTA_WITHIN_TOL: nonzero stored-vs-recomputed deltas on A, B, M, S is within arithmetic tolerance and is not independently disqualifying."
+    },
+    "cross_checks_honest": {
+      "pass": false,
+      "note": "Uplift and no-proxy statements are internally coherent, but the pricing cross-check asserts an unsubstantiated 80-90% day-rate/project-bid mix. The terminal check also claims interpretation is being replaced and is a meaningful share for most firms without quantifying the acquisition/processing/interpretation revenue split requested by the prompt; First Research only reports processing and integrated services at 25% each."
+    }
+  },
+  "source_audits": [
+    {
+      "input_path": "inputs.active_consolidators.url",
+      "url": "https://tracxn.com/d/acquisitions/acquisitions-by-surveying-and-mapping/__FFHcX24CuwEkH6PmRn0lxNCmgf0gIBmmcrM3gpI6Rlc",
+      "resolves": false,
+      "claim_supported": false,
+      "note": "The cited Tracxn page returned HTTP 403 and was inaccessible, so it cannot support the asserted absence of PE-backed 541360 add-on platforms in the last 24 months."
+    },
+    {
+      "input_path": "inputs.buy_mult.url",
+      "url": "https://www.sec.gov/Archives/edgar/data/1852767/000110465923027454/tm2225848-6_f4a.htm",
+      "resolves": false,
+      "claim_supported": false,
+      "note": "The exact SEC filing URL was inaccessible in the audit. The claimed 2.9x-7.3x range, 3.4x median, comparability to small 541360 firms, and private-company discount could not be verified."
+    },
+    {
+      "input_path": "inputs.current_adoption_pct.url",
+      "url": "https://www.patsnap.com/resources/blog/articles/ai-seismic-interpretation-technology-landscape-2026/",
+      "resolves": true,
+      "claim_supported": false,
+      "note": "PatSnap describes commercially deployed AI applications such as horizon tracking, fault detection, and facies classification, but gives no percentage of small US 541360 firms using AI and does not support the record's 20% adoption value."
+    },
+    {
+      "input_path": "inputs.exit_mult.url",
+      "url": "https://ibinterviewquestions.com/guides/valuation-investment-banking/current-ma-multiples-across-sectors-2025-2026",
+      "resolves": true,
+      "claim_supported": false,
+      "note": "The page reports broad energy and materials medians of 7.4x and 8.9x and conventional hydrocarbon assets at 4-7x. It has no geophysical-services observation, no 2.9x-7.3x geophysical range, and no evidence for a 5.5x platform exit."
+    },
+    {
+      "input_path": "inputs.historical_analogs.url",
+      "url": "https://pubs.geoscienceworld.org/seg/geophysics/article/89/1/WA157/629087/Machine-learning-for-seismic-exploration-Where-are",
+      "resolves": false,
+      "claim_supported": false,
+      "note": "The GeoScienceWorld article was inaccessible in the full audit, and the citation as described concerns machine learning rather than documenting an 8-10-year small-firm 3D-seismic adoption path to 50%."
+    },
+    {
+      "input_path": "inputs.owners_60plus_pct.url",
+      "url": "https://advocacy.sba.gov/wp-content/uploads/2021/03/Business-Ownership-Demographics-Fact-Sheet.pdf",
+      "resolves": true,
+      "claim_supported": false,
+      "note": "The 2021 SBA fact sheet reports that in 2017 owners age 55-plus represented 35% of nonemployers and 51% of employers across all industries. It does not report age 60-plus, professional-services-specific ownership, geophysical firms, or support a 35% value for NAICS 541360."
+    },
+    {
+      "input_path": "inputs.pricing_structure.url",
+      "url": "https://www.firstresearch.com/Industry-Research/Geophysical-Surveying-and-Mapping-Services.html",
+      "resolves": true,
+      "claim_supported": false,
+      "note": "The accessible excerpt says profitability depends on contract flow and lists data collection, data sales, integrated services, and processing, with processing and integrated services at 25% each. It does not state competitive day-rate/project-bid pricing or substantiate an 80-90% revenue share under those models."
+    }
+  ],
+  "reasons": [
+    "Replace inputs.current_adoption_pct.url (https://www.patsnap.com/resources/blog/articles/ai-seismic-interpretation-technology-landscape-2026/) with firm-level US 541360 adoption evidence or clearly document the 20% value as an unsupported estimate; the page describes capabilities, not adoption prevalence.",
+    "Re-derive inputs.historical_analogs.value and inputs.t50_years from dated diffusion evidence. The inaccessible GeoScienceWorld URL does not establish that small geophysical firms took 8-10 years to reach 50% 3D-seismic adoption.",
+    "Provide accessible, transaction-specific evidence for inputs.buy_mult.url and a comparable $10M-plus platform source for inputs.exit_mult.url; the SEC citation could not be audited and the broad energy guide does not support the geophysical buy/exit assumptions.",
+    "Use accessible last-24-month transaction evidence for inputs.active_consolidators.url (https://tracxn.com/d/acquisitions/acquisitions-by-surveying-and-mapping/__FFHcX24CuwEkH6PmRn0lxNCmgf0gIBmmcrM3gpI6Rlc); a blocked database page cannot establish a zero count.",
+    "Re-estimate inputs.owners_60plus_pct from an age-60-plus geophysical-owner proxy. The SBA fact sheet reports all-industry age-55-plus shares and does not support the 35% 541360 input.",
+    "Substantiate inputs.pricing_structure.value and cross_checks.pricing_model_deflation with billing-mix evidence. https://www.firstresearch.com/Industry-Research/Geophysical-Surveying-and-Mapping-Services.html does not support the asserted 80-90% day-rate/project-bid share.",
+    "Quantify the field-acquisition versus processing/interpretation revenue split in cross_checks.terminal_value.justification using comparable 541360 evidence, as required by the prompt, before classifying the whole code as PRESSURED."
+  ],
+  "flags_reviewed": [
+    "LOW_CONFIDENCE",
+    "ARITH_DELTA_WITHIN_TOL: nonzero stored-vs-recomputed deltas on A, B, M, S"
+  ]
+}

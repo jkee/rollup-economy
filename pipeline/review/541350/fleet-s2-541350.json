@@ -1,0 +1,97 @@
+{
+  "naics": "541350",
+  "run_id": "fleet-s2-541350",
+  "review_meta": {
+    "model_id": "Sol",
+    "review_date": "2026-07-20",
+    "prompt_version": "validator-3.0"
+  },
+  "verdict": "wrong",
+  "checks": {
+    "sources_exist": {
+      "pass": false,
+      "note": "Identity and all four deterministic dataset_inputs match the assigned manifest and derived dataset exactly, but the buy-multiple and owner-age URLs were inaccessible, while the other five URLs resolved."
+    },
+    "figures_match_sources": {
+      "pass": false,
+      "note": "Spectora supports the 1-in-3 AI-adoption claim and Angi supports fixed pricing and the $296-$424 range, but the cited WIN article contains none of the claimed Porch/Radian acquisition evidence, BizBuySell contains no home-inspection or 7-9x platform multiple, HomeInspecto does not establish a 2016 50% crossing, and Angi currently says $344 rather than the quoted $343."
+    },
+    "judgment_inputs_plausible": {
+      "pass": false,
+      "note": "Most declared values are bounded and directionally plausible under the prompt's inspector-specific role reconstruction, but inputs.ai_replaceable_share.breakdown_by_role[1].within_role_automatable_fraction is 0.25 despite its own stated plausible range of 0.10-0.20, and t50_years=3 depends on an unsupported historical crossing date."
+    },
+    "rubric_consistent": {
+      "pass": false,
+      "note": "The flat-fee capture and physical-presence logic follow the frozen rubric, but A and M rely on unsupported analog/multiple evidence. BORDERLINE: |S - conditional cut 4.00| = 0.0972 therefore heightens rather than cures the score-affecting sourcing defects. ARITH_DELTA_WITHIN_TOL: nonzero stored-vs-recomputed deltas on A, B, S is within the orchestrator's arithmetic tolerance and is not independently disqualifying."
+    },
+    "cross_checks_honest": {
+      "pass": false,
+      "note": "The uplift and no-proxy checks are internally candid, but the terminal-value discussion relies on uncited waiver-rate assertions and pricing_model_deflation attributes a 25-50% report-writing-time reduction to Spectora even though the audited Spectora page does not state that percentage."
+    }
+  },
+  "source_audits": [
+    {
+      "input_path": "inputs.active_consolidators.url",
+      "url": "https://wini.com/franchise/future-of-home-inspection-industry/",
+      "resolves": true,
+      "claim_supported": false,
+      "note": "The WIN franchise article discusses industry growth, service diversification, technology, and WIN's franchise support. It does not mention Porch, Radian Capital, an acquisition streak, PE-backed add-ons, or establish a count of two active consolidators."
+    },
+    {
+      "input_path": "inputs.buy_mult.url",
+      "url": "https://homeservicesbusinessvaluation.com/home-inspection-business-valuation/how-to-sell-a-home-inspection-business",
+      "resolves": false,
+      "claim_supported": false,
+      "note": "The cited page was inaccessible during full audit, so the claimed 2x-4x SDE, 3.2x-6.5x EBITDA, and 2.8x average SDE figures could not be verified."
+    },
+    {
+      "input_path": "inputs.current_adoption_pct.url",
+      "url": "https://www.spectora.com/r/5-ways-ai-changing-home-inspection-industry",
+      "resolves": true,
+      "claim_supported": true,
+      "note": "Spectora's July 30, 2025 article states that one in three inspectors use AI tools in their workflows and that 58% plan near-term adoption; it also says 83% of AI-using inspectors use it for report writing."
+    },
+    {
+      "input_path": "inputs.exit_mult.url",
+      "url": "https://www.bizbuysell.com/learning-center/industry-valuation-multiples/",
+      "resolves": true,
+      "claim_supported": false,
+      "note": "The generic BizBuySell industry-multiples page does not contain a home-inspection category, the claimed 3.2x-6.5x home-inspection EBITDA range, or the asserted 7-9x PE platform exit range."
+    },
+    {
+      "input_path": "inputs.historical_analogs.url",
+      "url": "https://homeinspecto.com/blog/digital-reporting-professional-insight",
+      "resolves": true,
+      "claim_supported": false,
+      "note": "The vendor page states 91% current digital-reporting use versus 42% a decade earlier, but supplies no intervening observations and does not establish that adoption crossed 50% in 2016 or two years after the 42% observation."
+    },
+    {
+      "input_path": "inputs.owners_60plus_pct.url",
+      "url": "https://www.homeinspector.org/engaging-the-next-generation-of-home-inspectors-opportunity-urgency-and-a-path-forward",
+      "resolves": false,
+      "claim_supported": false,
+      "note": "The cited ASHI page was inaccessible during full audit, so the quoted age distribution, inferred 35% age-60-plus share, and machine-readable succession-shortage claim could not be verified."
+    },
+    {
+      "input_path": "inputs.pricing_structure.url",
+      "url": "https://www.angi.com/articles/how-much-does-home-inspection-cost.htm",
+      "resolves": true,
+      "claim_supported": false,
+      "note": "Angi supports a $296-$424 range and says many inspectors charge a fixed price up to 2,000 square feet, but the current page gives a $344 average rather than the quoted $343 and does not support the asserted approximately 90%-plus residential-revenue share."
+    }
+  ],
+  "reasons": [
+    "Replace inputs.active_consolidators.url (https://wini.com/franchise/future-of-home-inspection-industry/) with transaction-level evidence naming PE-backed platforms and add-ons in the last 24 months; the cited WIN article does not support the value of two.",
+    "Supply an accessible transaction or broker source for inputs.buy_mult.url (https://homeservicesbusinessvaluation.com/home-inspection-business-valuation/how-to-sell-a-home-inspection-business) and document the SDE-to-EBITDA normalization used for the small-firm buy multiple.",
+    "Replace inputs.exit_mult.url (https://www.bizbuysell.com/learning-center/industry-valuation-multiples/) with a credible $10M-plus-EBITDA platform transaction or comparable; the generic page supports neither the home-inspection range nor the 7-9x assertion.",
+    "Re-derive inputs.historical_analogs.value and inputs.t50_years from dated adoption observations; https://homeinspecto.com/blog/digital-reporting-professional-insight provides only decade endpoints and cannot establish a 2016 50% crossing.",
+    "Provide an accessible source for inputs.owners_60plus_pct.url (https://www.homeinspector.org/engaging-the-next-generation-of-home-inspectors-opportunity-urgency-and-a-path-forward) and evidence supporting both the 35% age-60-plus estimate and succession flag.",
+    "Correct inputs.pricing_structure.figure_quoted and substantiate the claimed approximately 90%-plus residential revenue mix; https://www.angi.com/articles/how-much-does-home-inspection-cost.htm currently reports a $344 average and does not quantify revenue mix.",
+    "Reconcile inputs.ai_replaceable_share.breakdown_by_role[1].within_role_automatable_fraction with its declared range: 0.25 exceeds the stated 0.10-0.20 bound; provide a supported rationale and internally consistent range for the rerun.",
+    "Correct cross_checks.pricing_model_deflation or cite evidence for its claimed 25-50% report-writing-time reduction; the audited Spectora URL does not state that percentage."
+  ],
+  "flags_reviewed": [
+    "BORDERLINE: |S - conditional cut 4.00| = 0.0972",
+    "ARITH_DELTA_WITHIN_TOL: nonzero stored-vs-recomputed deltas on A, B, S"
+  ]
+}

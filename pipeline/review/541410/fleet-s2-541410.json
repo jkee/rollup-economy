@@ -1,0 +1,104 @@
+{
+  "naics": "541410",
+  "run_id": "fleet-s2-541410",
+  "review_meta": {
+    "model_id": "Sol",
+    "review_date": "2026-07-20",
+    "prompt_version": "validator-3.0"
+  },
+  "verdict": "wrong",
+  "checks": {
+    "sources_exist": {
+      "pass": false,
+      "note": "Identity and all four deterministic dataset inputs match exactly. Seven of eight URL occurrences resolved, but the Dan Cumberland Labs historical-analog URL was inaccessible."
+    },
+    "figures_match_sources": {
+      "pass": false,
+      "note": "Peak supports the 3.05x-3.75x interior-design EBITDA range, ROG supports the cited A/E statistics, and both succession pages support the planning percentages. The remaining citations do not support the zero consolidator count, 29% interior-firm adoption trajectory, 30% owner-age estimate, 40/30/30 billing split, or a 5.5x interior-platform exit."
+    },
+    "judgment_inputs_plausible": {
+      "pass": false,
+      "note": "The individual fractions are bounded, but the role reconstruction violates the prompt's explicit contamination warning: inputs.ai_replaceable_share.breakdown_by_role[1] retains the full 15.38% four-digit graphic-designer wage share and applies 75% automation even while admitting that the role largely belongs to 541430; art directors are similarly left unreallocated. This materially inflates V."
+    },
+    "rubric_consistent": {
+      "pass": false,
+      "note": "The record recognizes goods pass-through, key-person risk, and mixed billing, but it does not score residential and commercial/contract interiors separately or identify which dominates the $1M-$10M EBITDA band, and it labels heterogeneous=false despite materially different capture and terminal mechanisms. LOW_CONFIDENCE is unresolved because multiple core inputs remain unsupported. ARITH_DELTA_WITHIN_TOL: nonzero stored-vs-recomputed deltas on B, M, S, V is within tolerance and not independently disqualifying."
+    },
+    "cross_checks_honest": {
+      "pass": false,
+      "note": "The uplift and no-proxy statements are internally clear, but no-proxy incorrectly says V rests on occupational duties while it knowingly retains contaminated four-digit graphic/art shares. The pricing and terminal checks also rely on an unsupported 40/30/30 revenue mix and do not fulfill the prompt's required separate treatment of goods-logistics and design-fee revenue with evidence."
+    }
+  },
+  "source_audits": [
+    {
+      "input_path": "inputs.active_consolidators.url",
+      "url": "https://businessofhome.com/articles/the-news-that-defined-the-design-industry-in-2024",
+      "resolves": true,
+      "claim_supported": false,
+      "note": "The year-in-review article documents Havenly's roll-up of home-product brands and PE-backed design-software acquisitions. It does not perform a comprehensive search of interior-design service transactions or establish that zero PE-backed 541410 add-on platforms were active in the last 24 months."
+    },
+    {
+      "input_path": "inputs.buy_mult.url",
+      "url": "https://peakbusinessvaluation.com/valuation-multiples-for-interior-design/",
+      "resolves": true,
+      "claim_supported": true,
+      "note": "Peak explicitly reports an average 3.05x-3.75x EBITDA multiple range for interior design businesses; 3.40x is the mathematical midpoint. The page describes educational averages rather than a disclosed transaction sample, but the quoted range itself matches."
+    },
+    {
+      "input_path": "inputs.current_adoption_pct.url",
+      "url": "https://www.houzz.com/magazine/2025-u-s-houzz-state-of-ai-in-construction-and-design-stsetivw-vs~182438411",
+      "resolves": true,
+      "claim_supported": false,
+      "note": "Houzz links to a survey of 722 US construction and design businesses and reports that nearly one-third of design businesses use AI, with 20% using it daily or weekly and 32% monthly or rarely. It does not support the uncited 1stDibs 9%-16%-29% trajectory, isolate NAICS 541410, or establish the input's 29% material-adoption value."
+    },
+    {
+      "input_path": "inputs.exit_mult.url",
+      "url": "https://www.rog-partners.com/inside-the-latest-a/e-business-valuation-and-m-a-transaction-study",
+      "resolves": true,
+      "claim_supported": false,
+      "note": "ROG reports 257 A/E transactions with an all-firm 5.30x median, 5.91x mean, and 6.77x upper quartile. It does not report interior-design platform exits or evidence that an interior platform should use a 5.0x-6.0x range or 5.5x midpoint; the adjacent A/E proxy is not normalized to this code's goods-heavy economics."
+    },
+    {
+      "input_path": "inputs.historical_analogs.url",
+      "url": "https://dancumberlandlabs.com/blog/ai-adoption-curve/",
+      "resolves": false,
+      "claim_supported": false,
+      "note": "The cited page was inaccessible, so the 2.34x diffusion multiplier, 27% meaningful-use figure, and 63% pilot-purgatory figure could not be verified. It also cannot audit the uncited CAD and BIM adoption timelines in this input."
+    },
+    {
+      "input_path": "inputs.owners_60plus_pct.succession_shortage_documented.evidence",
+      "url": "https://builder.media/2025/04/asid-releases-new-research-exploring-succession-planning-for-interior-design-firms/",
+      "resolves": true,
+      "claim_supported": true,
+      "note": "Builder.Media reports Greenway Group's 63-firm architecture/interior-design study: 12% of 2-10-person firms and less than 5% of sole practitioners have succession plans, directly supporting the cited planning deficit."
+    },
+    {
+      "input_path": "inputs.owners_60plus_pct.url",
+      "url": "https://www.asid.org/news/new-research-explores-succession-planning-for-interior-design-firms",
+      "resolves": true,
+      "claim_supported": false,
+      "note": "ASID directly reports the 63-firm sample and the 12% small-firm and under-5% sole-practitioner succession-plan rates. It publishes no owner-age breakdown and does not support the score-bearing estimate that 30% of interior-design owners are 60-plus; lack of a plan alone does not measure age."
+    },
+    {
+      "input_path": "inputs.pricing_structure.url",
+      "url": "https://interiordesigncommunity.com/interior-design-fee-structures/",
+      "resolves": true,
+      "claim_supported": false,
+      "note": "The community article names flat fee, hourly, goods/procurement markup, and per-square-foot models and says hybrids are common. Its examples are anecdotal and it provides no revenue-share survey supporting 40% fixed fee, 30% hourly, and 30% product markup or the residential/commercial allocation."
+    }
+  ],
+  "reasons": [
+    "Rebuild inputs.ai_replaceable_share.breakdown_by_role at the six-digit level as the prompt requires: reallocate the contaminated 5414 graphic-designer and art-director shares before applying automation fractions, rather than retaining their full parent-cell wage shares.",
+    "Replace inputs.current_adoption_pct.url with an interior-design-specific source for the 29% value and 2023-2025 trajectory, or use the Houzz design-firm measure with its actual material-use definition and sample limitations.",
+    "Provide an accessible source for inputs.historical_analogs.url and dated evidence for the CAD/BIM/AI diffusion claims used to derive inputs.t50_years; the cited Dan Cumberland Labs page could not be audited.",
+    "Support inputs.owners_60plus_pct.value with owner-age evidence. The ASID URL documents a succession-planning deficit but provides no age-60-plus percentage, so it cannot support 0.30 or the resulting B input.",
+    "Use a reproducible last-24-month deal search for inputs.active_consolidators rather than inferring zero from https://businessofhome.com/articles/the-news-that-defined-the-design-industry-in-2024, which covers selected home-industry stories and unrelated product/software acquisitions.",
+    "Replace inputs.exit_mult.url with an interior-design platform transaction or show a defensible normalization from A/E firms to goods-heavy 541410 economics; ROG's A/E statistics do not establish the 5.5x exit input.",
+    "Substantiate inputs.pricing_structure.value and cross_checks.pricing_model_deflation with revenue-mix evidence. https://interiordesigncommunity.com/interior-design-fee-structures/ supports the existence of several models but not the 40/30/30 weights.",
+    "Revise heterogeneous and cross_checks.terminal_value to identify the $1M-$10M EBITDA target-band mix and separately evaluate residential markup-driven firms versus commercial/contract studios, as the assigned prompt requires."
+  ],
+  "flags_reviewed": [
+    "LOW_CONFIDENCE",
+    "ARITH_DELTA_WITHIN_TOL: nonzero stored-vs-recomputed deltas on B, M, S, V"
+  ]
+}

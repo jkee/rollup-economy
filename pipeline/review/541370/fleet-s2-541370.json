@@ -1,0 +1,97 @@
+{
+  "naics": "541370",
+  "run_id": "fleet-s2-541370",
+  "review_meta": {
+    "model_id": "Sol",
+    "review_date": "2026-07-20",
+    "prompt_version": "validator-3.0"
+  },
+  "verdict": "wrong",
+  "checks": {
+    "sources_exist": {
+      "pass": true,
+      "note": "Identity and all four deterministic dataset inputs match exactly, and all seven URL occurrences resolved to accessible pages."
+    },
+    "figures_match_sources": {
+      "pass": false,
+      "note": "The pages support only partial background: broad GeoAI use, an aging surveyor workforce, engineering-firm multiples, and generic UK surveying fee methods. They do not support the specific 15% adoption, 8-12-year analog, 45% owner-age, four-platform count, surveying-specific multiples, or US land-survey billing percentages used in the score."
+    },
+    "judgment_inputs_plausible": {
+      "pass": false,
+      "note": "The reconstructed roles and within-role fractions are bounded and broadly plausible, but t50_years=9.5 contradicts its own derivation: a 9-10-year total analog beginning around 2023 cannot still have 9.5 years remaining in 2026, and three elapsed years are one-third, not two-thirds, of nine years."
+    },
+    "rubric_consistent": {
+      "pass": false,
+      "note": "The record correctly distinguishes licensed physical boundary work from automatable office work, but A, B, and M depend on unsupported research inputs. BORDERLINE: |S - pass cut 3.00| = 0.1064 makes those defects decision-critical. ESTIMATE_HEAVY: 3 inputs with quality ESTIMATE (current_adoption_pct, owners_60plus_pct, t50_years) remains unresolved because the estimates lack adequate quantitative chains. ARITH_DELTA_WITHIN_TOL: nonzero stored-vs-recomputed deltas on A, B, M, S is within tolerance and not independently disqualifying."
+    },
+    "cross_checks_honest": {
+      "pass": false,
+      "note": "The no-proxy statement is candid, but the pricing check repeats an unsupported 60/30/10 mix. The terminal check calls aerial/mapping 'half' of the code while parenthetically assigning it only 20-30%, and it does not source that segment share or the claim that one PLS can stamp materially more AI-produced work."
+    }
+  },
+  "source_audits": [
+    {
+      "input_path": "inputs.active_consolidators.url",
+      "url": "https://www.businesswire.com/news/home/20260630020706/en/New-Mountain-Capital-Partners-with-SAM-Leading-Geospatial-and-Inspection-Solutions-Company-for-Next-Phase-of-Growth",
+      "resolves": true,
+      "claim_supported": false,
+      "note": "The release verifies New Mountain's majority investment in SAM and an intention to pursue strategic acquisitions. It does not document the listed SAM acquisitions or establish Bowman, NV5, and Woolpert as additional qualifying active platforms, so it cannot support a count of four."
+    },
+    {
+      "input_path": "inputs.buy_mult.url",
+      "url": "https://ctacquisitions.com/how-to-sell-an-engineering-firm/",
+      "resolves": true,
+      "claim_supported": false,
+      "note": "The broker page gives 5x-7x for single-office regional engineering firms and identifies Bowman as geospatial/transportation, but expressly scopes its guide to engineering firms and provides no surveying-firm transactions or owner-compensation normalization supporting a 5.5x surveying add-on median."
+    },
+    {
+      "input_path": "inputs.current_adoption_pct.url",
+      "url": "https://projectgeospatial.org/geospatial-frontiers/the-geoai-revolution-charting-the-2030-geospatial-workforce-landscape",
+      "resolves": true,
+      "claim_supported": false,
+      "note": "The article says dozens or hundreds of firms across the broad geospatial ecosystem embed AI. It does not define material use, identify the US 541370 firm denominator, or support the estimated 15% adoption rate."
+    },
+    {
+      "input_path": "inputs.exit_mult.url",
+      "url": "https://ctacquisitions.com/how-to-sell-an-engineering-firm/",
+      "resolves": true,
+      "claim_supported": false,
+      "note": "The page gives 8x-11x for multi-state engineering platforms with $8M-$25M EBITDA, but it does not establish an 8.4x Bowman trading multiple, a surveying/geospatial platform transaction range, or an 8.5x exit value for this code."
+    },
+    {
+      "input_path": "inputs.historical_analogs.url",
+      "url": "https://nottinghillsurveyors.com/blog/navigating-the-2026-land-survey-equipment-boom-total-stations-gps-and-laser-scanners-reviewed",
+      "resolves": true,
+      "claim_supported": false,
+      "note": "This UK property-surveying site's equipment article reports current equipment market shares and growth, including UAV-LiDAR at 12.8% market share in 2025. It does not show GPS, drone, or CAD adoption paths to 50% or support the quoted 12-15-year and 7-8-year transitions."
+    },
+    {
+      "input_path": "inputs.owners_60plus_pct.url",
+      "url": "https://landsurveyorsunited.com/articles/vanishing-lines-confronting-the-surveying-workforce-shortage",
+      "resolves": true,
+      "claim_supported": false,
+      "note": "The community article states an average licensed-surveyor age around 58 and two or three impending retirements per new entrant, supporting a workforce shortage. It does not measure firm owners, provide an age distribution, or support the score-bearing estimate that 45% of owners are 60-plus."
+    },
+    {
+      "input_path": "inputs.pricing_structure.url",
+      "url": "https://www.cq-business-management-software.com/blog/how-to-price-surveying-projects/",
+      "resolves": true,
+      "claim_supported": false,
+      "note": "The page lists hourly, fixed-project, and per-acre/per-lot methods and worked examples in British pounds, primarily for UK property/building surveys. It provides no US land-survey revenue mix and does not support the asserted 60% fixed, 30% unit-price/T&M, and 10% cost-plus/per-acre split or the boundary/DOT assignments."
+    }
+  ],
+  "reasons": [
+    "Replace inputs.current_adoption_pct.url (https://projectgeospatial.org/geospatial-frontiers/the-geoai-revolution-charting-the-2030-geospatial-workforce-landscape) with a defined, US 541370-relevant firm survey or a reproducible estimate chain; 'dozens or hundreds' across the geospatial ecosystem does not support 15%.",
+    "Re-derive inputs.historical_analogs.value and inputs.t50_years from dated adoption observations. https://nottinghillsurveyors.com/blog/navigating-the-2026-land-survey-equipment-boom-total-stations-gps-and-laser-scanners-reviewed does not support the cited diffusion durations, and the current remaining-time arithmetic contradicts its own 2023 start date.",
+    "Support inputs.owners_60plus_pct.value with an owner-specific age distribution. https://landsurveyorsunited.com/articles/vanishing-lines-confronting-the-surveying-workforce-shortage supports an aging licensed workforce and shortage, but not a 45% age-60-plus owner share.",
+    "Provide transaction-level evidence for all four qualifying platforms in inputs.active_consolidators. https://www.businesswire.com/news/home/20260630020706/en/New-Mountain-Capital-Partners-with-SAM-Leading-Geospatial-and-Inspection-Solutions-Company-for-Next-Phase-of-Growth verifies SAM only.",
+    "Replace both inputs.buy_mult.url and inputs.exit_mult.url with surveying/geospatial transactions or directly comparable public disclosures and show owner-compensation normalization; the engineering-firm broker ranges do not establish surveying-specific 5.5x and 8.5x inputs.",
+    "Substantiate inputs.pricing_structure.value and cross_checks.pricing_model_deflation with US land-survey billing-mix evidence; the cited UK pricing guide names possible methods but provides none of the 60/30/10 percentages.",
+    "Reconcile cross_checks.terminal_value.justification by quantifying licensed boundary versus unlicensed mapping revenue and removing the contradiction between 'half' and '20-30%' before assigning PRESSURED."
+  ],
+  "flags_reviewed": [
+    "BORDERLINE: |S - pass cut 3.00| = 0.1064",
+    "ESTIMATE_HEAVY: 3 inputs with quality ESTIMATE (current_adoption_pct, owners_60plus_pct, t50_years)",
+    "ARITH_DELTA_WITHIN_TOL: nonzero stored-vs-recomputed deltas on A, B, M, S"
+  ]
+}
