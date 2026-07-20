@@ -1,0 +1,238 @@
+{
+  "naics": "541330",
+  "title": "Engineering Services",
+  "run_meta": {
+    "model_id": "claude-sonnet (adapted fixture)",
+    "run_date": "2026-07-20",
+    "run_id": "2026-07-20_sonnet_tv3_fixture",
+    "template_version": "3.0",
+    "prompt_version": "fixture-adapted-from-tv2-prototype"
+  },
+  "dataset_inputs": {
+    "labor_share": {
+      "value": 0.47,
+      "derivation": "BLS Industry Productivity via FRED — Labor Compensation (IPUMN541330L020000000) $172,759.143M / Sectoral Output (IPUMN541330T300000000) $367,702.147M for NAICS 541330, 2024 = 0.470. Fixture note: carried from the v2 prototype run; in production this value comes from pipeline/datasets/."
+    },
+    "role_mix": {
+      "licensed_pes_principals": 0.35,
+      "staff_engineers": 0.2,
+      "engineering_technicians": 0.1,
+      "cad_bim_drafters": 0.08,
+      "project_managers": 0.09,
+      "field_survey_inspection": 0.08,
+      "admin_marketing_proposal": 0.1,
+      "derivation": "BLS OEWS May 2023 NAICS 541330 occupation table (https://www.bls.gov/oes/2023/may/naics5_541330.htm), shares of labor cost. Fixture note: carried from the v2 prototype run."
+    },
+    "n_total": {
+      "value": 38516,
+      "derivation": "naicslist.com / Census-derived (https://naicslist.com/naics/541330): 38,516 companies active in NAICS 541330, est. employment 1,098,479. Fixture note: production value comes from pipeline/datasets/ (SUSB)."
+    },
+    "n_band": {
+      "value": 7000,
+      "derivation": "Zweig Group 2024 median firm: 38 FTE, NSR $6.3M, EBITDA $965K (~15.3% margin); $1M EBITDA ≈ NSR $6.5M, $10M EBITDA ≈ NSR $65M. SUSB size distribution: ~50% of 38,516 firms are <10 employees (below $1M EBITDA); ~30% (~11,555 firms) in 10-249 employee range; ~60% of those below $10M EBITDA → 11,555 × 0.6 ≈ 6,933, rounded to 7,000. ESTIMATE — SUSB 6-digit breakdown not directly fetched."
+    }
+  },
+  "inputs": {
+    "ai_replaceable_share": {
+      "value": 0.3785,
+      "breakdown_by_role": [
+        {
+          "role": "Licensed PEs/principals incl. draws",
+          "labor_share_of_total": 0.35,
+          "within_role_automatable_fraction": 0.25,
+          "contribution": 0.0875,
+          "rationale": "Engineer-of-record stamp, liability, client trust are non-automatable; analysis and report-writing hours are heavily AI-exposed. 25% fraction conservative for report drafting, literature review, calculations review.",
+          "plausible_range": "0.15-0.35"
+        },
+        {
+          "role": "Staff engineers (EIT/non-PE)",
+          "labor_share_of_total": 0.2,
+          "within_role_automatable_fraction": 0.5,
+          "contribution": 0.1,
+          "rationale": "Calculations, modeling and report drafting automate substantially; field verification and judgment calls persist. 50% fraction covers document production and routine analysis.",
+          "plausible_range": "0.35-0.60"
+        },
+        {
+          "role": "Engineering technicians/technologists",
+          "labor_share_of_total": 0.1,
+          "within_role_automatable_fraction": 0.35,
+          "contribution": 0.035,
+          "rationale": "Lab/materials testing and data collection partly physical; data reduction and report prep automate. 35% fraction.",
+          "plausible_range": "0.25-0.45"
+        },
+        {
+          "role": "CAD/BIM drafters and designers",
+          "labor_share_of_total": 0.08,
+          "within_role_automatable_fraction": 0.75,
+          "contribution": 0.06,
+          "rationale": "Production drawings are the most automatable cost line; generative AI tools already produce draft sets. 25% retained for quality review, jurisdictional compliance, and revision cycles.",
+          "plausible_range": "0.60-0.85"
+        },
+        {
+          "role": "Project managers",
+          "labor_share_of_total": 0.09,
+          "within_role_automatable_fraction": 0.3,
+          "contribution": 0.027,
+          "rationale": "Client/agency coordination persists; schedule, budget and submittal paperwork automates. 30% fraction.",
+          "plausible_range": "0.20-0.40"
+        },
+        {
+          "role": "Field, survey and inspection staff",
+          "labor_share_of_total": 0.08,
+          "within_role_automatable_fraction": 0.05,
+          "contribution": 0.004,
+          "rationale": "Physical site presence (construction inspection, surveying) — AI-resistant, drone-augmented only at margins. 5% for data processing back in office.",
+          "plausible_range": "0.0-0.10"
+        },
+        {
+          "role": "Admin/marketing/proposal staff",
+          "labor_share_of_total": 0.1,
+          "within_role_automatable_fraction": 0.65,
+          "contribution": 0.065,
+          "rationale": "Proposal production for QBS pursuits is a large, automatable overhead. 65% for drafting, formatting, boilerplate. 35% retained for strategic pursuits and relationship-based writing.",
+          "plausible_range": "0.50-0.75"
+        }
+      ],
+      "quality": "MED"
+    },
+    "pi_dist": {
+      "value": 0.55,
+      "rationale": "Public-sector clients (DOTs, municipalities; ~50% of revenue) select via QBS on on-call/MSA contracts held by the firm, but re-competed every 3-5 years; individual principals matter for retention. Private/developer clients (~30%) hold closer relationships at firm level. Industrial (~15%) are more personal. FAR cost-plus audited overhead means AI efficiency gains on public work reduce billable cost and are passed to clients rather than retained as margin — a direct pi_dist depressant. Engineer-of-record is institutional to the firm, not entirely personal. Net score: 0.55 reflecting partial firm-level control diluted by QBS re-competition and cost-plus billing for public share.",
+      "plausible_range": "0.45-0.65",
+      "sources": [
+        "FAQs: Overhead Rate Audits & FAR Part 31 for A&E Firms — Cherry Bekaert (https://www.cbh.com/insights/articles/faqs-overhead-rate-audits-far-part-31-for-ae-firms/)",
+        "Deltek Clarity 45th A&E Study 2024 (https://www.deltek.com/en/about/media-center/press-releases/2024/deltek-releases-the-45th-annual-deltek-clarity-ae-industry-study)"
+      ],
+      "quality": "MED"
+    },
+    "pi_moat": {
+      "value": 0.55,
+      "rationale": "PE licensure (engineer-of-record stamp) creates legal barrier — every state requires a PE in responsible charge, blocking AI-only bypass for any stamped deliverable. Firm registration requirements add layer. However: (1) FAR/AASHTO overhead audits reduce AI-driven cost advantages for public work (clawback channel); (2) QBS re-competition every 3-5 years limits lock-in; (3) developer/private clients can adopt plan-stamping (insource with AI + single stamping PE) though responsible-charge rules constrain spread; (4) proprietary project data and records create moderate switching cost. Net: licensure provides genuine but imperfect moat; pricing structure deflates margin capture. Score 0.55.",
+      "plausible_range": "0.50-0.60",
+      "sources": [
+        "FAR Part 31 overhead audit structure — Cherry Bekaert, GMA CPA (https://www.gma-cpa.com/blog/far-overhead-rates-and-audits-for-a/e-firms-faqs)",
+        "ACEC 2024 Economic Assessment (https://www.acec.org/wp-content/uploads/2024/10/ACEC-Research-Institute-2024-Economic-Assessment-Forecast-Final-1.pdf)"
+      ],
+      "quality": "MED"
+    },
+    "t50_years": {
+      "value": 3.0,
+      "derivation": "Current material adoption ~32% (mid-2026). Historical analogues (CAD, BIM) took 8-10 years total to 50%. AI adoption has been tripling YoY (Deltek). Starting from near-zero ~2022, 4-year S-curve would put 50% around 2026-2028. Given current 32% and tripling YoY trend slowing to 1.5-2x per year as diffusion broadens, estimate 3 more years (2029) to reach 50% material adoption in automatable functions. t50 = 3 years.",
+      "plausible_range": "2-5 years",
+      "quality": "MED"
+    },
+    "current_adoption_pct": {
+      "value": 0.32,
+      "source": "Deltek Clarity 46th Annual A&E Industry Study (2025)",
+      "url": "https://www.prnewswire.com/news-releases/ai-talent-and-record-profits-what-the-46th-annual-deltek-clarity-ae-study-reveals-about-the-architecture--engineering-industry-302453217.html",
+      "figure_quoted": "53% of firms already use AI and machine learning; two-thirds have embraced generative AI. Narrowed to material use in automatable production functions (not just experimentation) from 53% headline to ~32% — proposal-level AI is not the same as production-workflow AI.",
+      "access_date": "2026-07-20",
+      "quality": "MED"
+    },
+    "historical_analogs": {
+      "value": "CAD adoption from manual drafting: ~10 years to reach 50% (early 1980s to early 1990s). BIM adoption: ~8-10 years from early adopters (~2004) to ~50% (~2013-2015). Both analogues involve similar professional inertia, licensure-related caution, and capital investment.",
+      "source": "Industry knowledge; no single primary source for analog comparison. Secondary: AIA and ENR historical adoption curves discussed in trade literature.",
+      "url": "",
+      "figure_quoted": "CAD ~10 years to 50%; BIM ~8-10 years to ~50%",
+      "access_date": "2026-07-20",
+      "quality": "MED"
+    },
+    "owners_60plus_pct": {
+      "value": 0.45,
+      "source": "Zweig Group 2024 Valuation Report of AEC Firms; ACEC Research Institute OTMS survey and workforce analysis",
+      "url": "https://zweiggroup.com/blogs/news/zweig-group-releases-2024-valuation-report-of-aec-firms-highlighting-industry-growth-and-value-trends",
+      "figure_quoted": "'nearly 80 percent of firm owners looking to transition in the next decade' — implies large share aged 55+; 45% aged 60+ is a conservative estimate consistent with documented succession shortage.",
+      "access_date": "2026-07-20",
+      "quality": "ESTIMATE",
+      "succession_shortage_documented": {
+        "value": true,
+        "evidence": "Zweig Group 2024 Valuation Report: 'nearly 80 percent of firm owners looking to transition in the next decade'; ACEC OTMS survey confirms aging ownership base and thin internal-transition pipeline."
+      }
+    },
+    "active_consolidators": {
+      "value": 30,
+      "source": "Morrissey Goodale 2024 M&A data; Auxo Capital 2025 data",
+      "url": "",
+      "figure_quoted": "25+ PE-backed platforms named (Salas O'Brien, Verdantas, WSB, IMEG, Ardurra, Consor, WGI/First Reserve, CPL/GHK Capital, RTM/MML Capital, Olsson/MSCP, Bowman/Nasdaq, NV5/Nasdaq, Pennoni, Mainstay, and 15+ others). PE-backed share of AE M&A exceeded 50% of all deals in 2024-2025. Counted conservatively at 30 active add-on platforms in last 24 months.",
+      "access_date": "2026-07-20",
+      "quality": "MED"
+    },
+    "buy_mult": {
+      "value": 4.5,
+      "source": "Zweig Group 2024 Valuation Report of AEC Firms; Auxo Capital 2026 guide",
+      "url": "https://zweiggroup.com/blogs/news/zweig-group-releases-2024-valuation-report-of-aec-firms-highlighting-industry-growth-and-value-trends",
+      "figure_quoted": "Zweig median value/EBITDA = 4.23 (all-size survey); Auxo: smaller founder-led engineering firms 3.5x-5.5x adjusted EBITDA. Normalized buy multiple for single-location/$1-5M EBITDA firm: 4.5x (above Zweig median to account for EBITDA normalization per rule 3 — owner comp added back).",
+      "access_date": "2026-07-20",
+      "quality": "MED"
+    },
+    "exit_mult": {
+      "value": 9.0,
+      "source": "Auxo Capital Advisors 2026 guide: Engineering Firm Valuation Multiples",
+      "url": "https://auxocapitaladvisors.com/engineering-firm-valuation-multiples/",
+      "figure_quoted": "Platform-quality engineering $10M+ EBITDA at 8.5-12x EBITDA; PE paying avg 10.6x for construction/engineering 2018-2025; WSP/TRC deal at 15.9x (strategic outlier). Conservative platform exit: 9.0x as midpoint of 8.5-10x for established multi-state platform (below strategic premium).",
+      "access_date": "2026-07-20",
+      "quality": "MED"
+    },
+    "pricing_structure": {
+      "value": "~40-55% hourly/cost-plus with FAR overhead multiplier (federal and state DOT work); ~10-15% QBS negotiated lump sum/hourly (municipal); ~30-40% fixed-fee/lump-sum (private developer and industrial clients).",
+      "source": "FAR Part 31 overhead audit literature — Cherry Bekaert; Deltek Clarity A&E Study",
+      "url": "https://www.cbh.com/insights/articles/faqs-overhead-rate-audits-far-part-31-for-ae-firms/",
+      "figure_quoted": "Under cost-plus/FAR billing: AI reduces direct labor hours → reduces overhead base → reduces total billing → efficiency gain flows to client, not firm. Under fixed-fee billing the firm captures the margin. The ~50% public-sector cost-plus exposure is the primary deflation channel.",
+      "access_date": "2026-07-20",
+      "quality": "MED"
+    }
+  },
+  "scores": {
+    "V": {
+      "arithmetic": "V_raw = labor_share × ai_replaceable_share = 0.470 × 0.3785 = 0.177895. V = 10 × min(1, 0.177895/0.25) = 10 × 0.71158 = 7.1158",
+      "score": 7.1158
+    },
+    "C": {
+      "arithmetic": "C = 10 × pi_dist × pi_moat = 10 × 0.55 × 0.55 = 3.025",
+      "score": 3.025
+    },
+    "A": {
+      "arithmetic": "A = min(10, 10 / t50) = min(10, 10/3.0) = 3.3333",
+      "score": 3.3333
+    },
+    "B": {
+      "arithmetic": "TD = clamp(log10(7000)/4, 0, 1) = clamp(3.845098/4) = 0.961275. OW = clamp((0.45-0.10)/0.35, 0.1, 0.9) = 0.9; +0.1 documented succession shortage (Zweig) → 1.0 (cap 1.0). CFD = min(0.9, log10(1+30)/2) = min(0.9, 1.491362/2) = 0.745681. B = 10 × sqrt(0.961275 × 1.0) / (1 + 0.3 × 0.745681) = 9.804461 / 1.223704 = 8.0121",
+      "score": 8.0121
+    },
+    "M": {
+      "arithmetic": "M = clamp(4 × (9.0-4.5)/4.5, 0, 10) = clamp(4 × 1.0) = 4.0",
+      "score": 4.0
+    }
+  },
+  "S": 4.7025,
+  "cross_checks": {
+    "uplift_pp": 17.7895,
+    "uplift_vs_A_consistent": "V_raw = 0.177895 → theoretical EBITDA uplift of 17.79pp (gross). However, ~50% of AE revenue flows through FAR/AASHTO cost-plus audited contracts where AI-driven labor hour reductions reduce overhead recovery and billing directly — client captures efficiency gain, not the firm. Effective retained uplift for the operator ≈ 17.79 × 0.50 (private/fixed-fee share) = ~8.9pp. With A ≈ 3.3 (moderate-slow adoption), this is consistent: significant but partially captured value being unlocked gradually. No contradiction requiring revision.",
+    "terminal_value": {
+      "class": "PRESSURED",
+      "justification": "Near-term: PE stamp, EOR liability, and infrastructure-funding demand (IIJA/BIL) keep engineering services paid demand robust — AI cuts production hours, it does not replace the stamped deliverable. Medium-term: AI-collapsed production hours risk converting the industry into a smaller-headcount stamp-and-liability business, and on the dominant public cost-plus side FAR overhead audits pass AI productivity gains to clients as lower billing — demand persists but revenue per engagement shrinks. Classified PRESSURED (demand shrinks but persists) per the run's own words: 'terminal value ambiguous and dependent on client-mix evolution' — fixture-adaptation judgment call, see reviewer_note."
+    },
+    "no_proxy_confirmed": "Confirmed. V derived from FRED BLS labor compensation/output ratio (primary source, no deal activity) and OEWS occupation breakdown (primary source). A derived from Deltek Clarity AI adoption survey of A&E firms (primary survey, no M&A reference). Neither V nor A was informed by PE deal count, consolidation waves, or acquisition multiples.",
+    "pricing_model_deflation": "Material deflation channel confirmed. Billing mix per pricing_structure input: (1) hourly/cost-plus with FAR overhead multiplier ~40-55% of sector revenue; (2) QBS negotiated ~10-15%; (3) fixed-fee ~30-40%. Under cost-plus/FAR billing AI efficiency flows to the client, not the firm — structural mechanism confirmed by FAR Part 31 overhead audit literature. Under fixed-fee billing the firm captures the margin. Reflected in pi_dist = 0.55 and pi_moat = 0.55, which discount AI's value to operators specifically because of the pricing-model clawback on the public side."
+  },
+  "confidence_overall": "MED",
+  "heterogeneous": false,
+  "top_uncertain_inputs": [
+    {
+      "input": "t50_years",
+      "plausible_range": "2-5 years",
+      "score_impact": "A ranges from 10/2 = 5.0 (t50=2) to 10/5 = 2.0 (t50=5); central estimate A = 3.33. S moves from 4.70 to ~5.10 (t50=2) or ~4.25 (t50=5). Largest single-input uncertainty."
+    },
+    {
+      "input": "n_band / TD",
+      "plausible_range": "3,000-10,000 firms with $1-10M EBITDA",
+      "score_impact": "TD = log10(n_band)/4 moves from 0.869 (3,000) to 1.0 (10,000); B moves from ~7.62 to ~8.17; S moves by roughly ∓0.05."
+    },
+    {
+      "input": "pi_dist × pi_moat (C)",
+      "plausible_range": "pi_dist 0.45-0.65, pi_moat 0.50-0.60",
+      "score_impact": "C ranges from 10×0.45×0.50 = 2.25 to 10×0.65×0.60 = 3.90; S moves from ~4.43 to ~4.95 — the upper edge stays below the strong cut (5.5), the lower edge stays above the conditional cut (4.0)."
+    }
+  ],
+  "reviewer_note": "REGRESSION FIXTURE — adapted 2026-07-20 from the v2-format prototype run (2026-07-20_sonnet_tv2.json) to the v3 schema; permanent build test per V3_PLAN 2.4. All scores recomputed with template-3.0 formulas (floats, no PD in B): V 7.1158 / C 3.025 / A 3.3333 / B 8.0121 / M 4.0, S 4.7025 (v2 integers were 7/3/3/6/4, product 504). Adaptation judgment calls: (1) terminal_value class set to PRESSURED from the v2 record's ambivalent terminal-value text ('demand is not being replaced, hours are being reduced' but 'terminal value ambiguous and dependent on client-mix evolution' with the cost-plus clawback channel) — not a fresh research finding; (2) succession_shortage_documented = true per the Zweig transition figure already cited in the v2 record; (3) access_date 2026-07-20 applied where the v2 record carried none. The dominant economic tension is unchanged from the v2 run: FAR/cost-plus pricing deflation suppresses C (3.025) despite high V (7.1158)."
+}

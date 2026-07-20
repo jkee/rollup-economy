@@ -1,6 +1,7 @@
 # Score one industry for an AI roll-up screen — NAICS {{NAICS}}, {{TITLE}} (US)
 
 **Template version: 3.0** — frozen 2026-07-20. Changes require a version bump and a full re-run (`V3_PRODUCT.md` P4).
+**Changelog: 3.0.1** — machine-readability clarification, no rubric change: `owners_60plus_pct` carries a structured `succession_shortage_documented` field (see Step 1) so the build applies the OW +0.1 succession bonus mechanically.
 
 You are scoring a single industry. Work context-free: do NOT look up any existing roll-up scoring of this industry (including anything on lisaivanchikova.github.io or similar maps). If you cannot access the web, stop and say so — do not proceed from memory alone, and never fabricate sources or URLs.
 
@@ -42,7 +43,7 @@ Each with source name, URL, the specific figure quoted, access date, and quality
 
 - `current_adoption_pct` — share of US firms in this industry already materially using AI in the automatable functions (be explicit what counts as material).
 - `historical_analogs` — years this industry took to reach ~50% on comparable prior technology.
-- `owners_60plus_pct` — share of owners aged 60+; note whether a succession shortage is documented.
+- `owners_60plus_pct` — share of owners aged 60+; note whether a succession shortage is documented. Record the succession finding machine-readably inside this input as `"succession_shortage_documented": {"value": true|false, "evidence": "<short quote or citation, or why not documented>"}` — the build reads this flag to apply the OW +0.1 succession bonus; prose alone is not read.
 - `active_consolidators` — count of PE-backed platforms actively doing add-ons in this specific industry in the last 24 months.
 - `buy_mult` — median EV/EBITDA actually paid for single-location/small firms (normalized per rule 3).
 - `exit_mult` — EV/EBITDA for $10M+ EBITDA platforms in recent transactions or credible comps.
@@ -101,7 +102,7 @@ Return a single JSON object validating against `run_record.schema.json`:
     "t50_years": {"value": 0.0, "derivation": "", "plausible_range": "", "quality": ""},
     "current_adoption_pct": {"value": 0.0, "source": "", "url": "", "figure_quoted": "", "access_date": "", "quality": ""},
     "historical_analogs": {"value": "", "source": "", "url": "", "figure_quoted": "", "access_date": "", "quality": ""},
-    "owners_60plus_pct": {"value": 0.0, "source": "", "url": "", "figure_quoted": "", "access_date": "", "quality": ""},
+    "owners_60plus_pct": {"value": 0.0, "source": "", "url": "", "figure_quoted": "", "access_date": "", "quality": "", "succession_shortage_documented": {"value": false, "evidence": ""}},
     "active_consolidators": {"value": 0, "source": "", "url": "", "figure_quoted": "", "access_date": "", "quality": ""},
     "buy_mult": {"value": 0.0, "source": "", "url": "", "figure_quoted": "", "access_date": "", "quality": ""},
     "exit_mult": {"value": 0.0, "source": "", "url": "", "figure_quoted": "", "access_date": "", "quality": ""},

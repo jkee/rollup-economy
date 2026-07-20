@@ -37,10 +37,10 @@ Sequencing has two deliberate inversions: the build/check script (Phase 2) is bu
 
 ## Phase 2 — Build & check script (Stage 4) · ~1 day
 
-- [ ] 2.1 Build script: schema validation → arithmetic recompute from inputs (**hard fail on any mismatch**) → S, gates, verdicts, borderline flags, percentile context → generate `6digit/six_data.json` + README/methodology numbers
-- [ ] 2.2 Deep-dive reconciliation report: screen verdict vs `deep-dives/` conclusions, divergences listed
-- [ ] 2.3 Per-record flag list for the validator (LOW confidence, borderline, failed cross-checks, anomalies)
-- [ ] 2.4 Regression fixture: 541330 adapted to the v3 schema runs end-to-end through the build; kept as the permanent test
+- [x] 2.1 Build script: schema validation → arithmetic recompute from inputs (**hard fail on any mismatch**) → S, gates, verdicts, borderline flags, percentile context → generate `6digit/six_data_v3.json` (v2 `six_data.json` stays archived) + `pipeline/build/stats.json` for README/methodology numbers. `pipeline/build/build.py`, stdlib-only, accepted-review filter with `--allow-unreviewed` for the pilot. Note: schemas + template bumped 3.0.1 (machine-readable `succession_shortage_documented` inside `owners_60plus_pct` — clarification only, no rubric change; needs human sign-off)
+- [x] 2.2 Deep-dive reconciliation report: `pipeline/build/reconciliation.md` generated from `pipeline/build/deep_dive_expectations.json` (stances + quotes extracted from `deep-dives/*.html`, human-curated-pending-review)
+- [x] 2.3 Per-record flag list for the validator → `pipeline/build/flags.json` (LOW confidence, borderline, gate_blocked, uplift-vs-A tension, ESTIMATE-heavy, within-tolerance arithmetic deltas)
+- [x] 2.4 Regression fixture: 541330 adapted to the v3 schema (`pipeline/runs/541330/2026-07-20_sonnet_tv3_fixture.json`, scores recomputed with v3 float formulas: V 7.12 / C 3.03 / A 3.33 / B 8.01 / M 4.0 → S 4.70, conditional) + bootstrap acceptance in `pipeline/review/541330.json`; permanent tests in `pipeline/build/test_build.py` (fixture passes, corruption fails, threshold coupling, determinism)
 
 **Deliverable:** one-command deterministic build. **Done when:** fixture passes; intentionally corrupted arithmetic fails the build.
 

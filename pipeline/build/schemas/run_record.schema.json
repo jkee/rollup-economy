@@ -2,6 +2,7 @@
   "$schema": "http://json-schema.org/draft-07/schema#",
   "$id": "run_record.schema.json",
   "title": "v3 run record — one scoring run of one NAICS code",
+  "description": "Changelog: 3.0.1 — machine-readability clarification, no rubric change: owners_60plus_pct now requires a structured succession_shortage_documented {value: boolean, evidence: string} so the build can apply the OW +0.1 succession bonus mechanically.",
   "type": "object",
   "required": ["naics", "title", "run_meta", "dataset_inputs", "inputs", "scores", "S", "cross_checks", "confidence_overall", "heterogeneous", "top_uncertain_inputs", "reviewer_note"],
   "additionalProperties": false,
@@ -73,7 +74,7 @@
         },
         "current_adoption_pct": { "$ref": "#/definitions/research_input" },
         "historical_analogs": { "$ref": "#/definitions/research_input" },
-        "owners_60plus_pct": { "$ref": "#/definitions/research_input" },
+        "owners_60plus_pct": { "$ref": "#/definitions/owners_60plus_input" },
         "active_consolidators": { "$ref": "#/definitions/research_input" },
         "buy_mult": { "$ref": "#/definitions/research_input" },
         "exit_mult": { "$ref": "#/definitions/research_input" },
@@ -154,6 +155,26 @@
         "figure_quoted": { "type": "string" },
         "access_date": { "type": "string", "format": "date" },
         "quality": { "$ref": "#/definitions/quality" }
+      }
+    },
+    "owners_60plus_input": {
+      "type": "object",
+      "required": ["value", "source", "url", "figure_quoted", "access_date", "quality", "succession_shortage_documented"],
+      "properties": {
+        "value": {},
+        "source": { "type": "string", "minLength": 1 },
+        "url": { "type": "string" },
+        "figure_quoted": { "type": "string" },
+        "access_date": { "type": "string", "format": "date" },
+        "quality": { "$ref": "#/definitions/quality" },
+        "succession_shortage_documented": {
+          "type": "object",
+          "required": ["value", "evidence"],
+          "properties": {
+            "value": { "type": "boolean" },
+            "evidence": { "type": "string" }
+          }
+        }
       }
     },
     "judgment_input_unit": {
