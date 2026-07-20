@@ -55,6 +55,7 @@ SECTOR_NAMES = {
 
 CONF_RANK = {"LOW": 0, "MED": 1, "HIGH": 2}
 URL_RE = re.compile(r"https?://[^\s<>\"']+")
+SUPPORTED_TEMPLATE_VERSIONS = ("3.0", "3.1")
 
 
 # ---------------------------------------------------------------------------
@@ -62,8 +63,8 @@ URL_RE = re.compile(r"https?://[^\s<>\"']+")
 # in this environment (PEP 668). Covers everything our two schemas use:
 # type, required, properties, additionalProperties, enum, const, pattern,
 # minLength, minimum/maximum/exclusiveMinimum, minItems/maxItems, items,
-# contains, $ref (#/definitions/...), if/then/else. "format" is annotation-only (as in
-# draft-07 default) and is ignored.
+# contains, allOf, $ref (#/definitions/...), if/then/else. "format" is
+# annotation-only (as in draft-07 default) and is ignored.
 # ---------------------------------------------------------------------------
 
 def _type_ok(value, t):
@@ -76,7 +77,11 @@ def _type_ok(value, t):
     if t == "number":
         return isinstance(value, (int, float)) and not isinstance(value, bool)
     if t == "integer":
-        return isinstance(value, int) and not isinstance(value, bool)
+        return (
+            isinstance(value, (int, float))
+            and not isinstance(value, bool)
+            and float(value).is_integer()
+        )
     if t == "boolean":
         return isinstance(value, bool)
     if t == "null":
@@ -96,6 +101,8 @@ def schema_errors(value, schema, root, path="$"):
     errs = []
     if "$ref" in schema:
         return schema_errors(value, _resolve_ref(schema["$ref"], root), root, path)
+    for subschema in schema.get("allOf", []):
+        errs.extend(schema_errors(value, subschema, root, path))
 
     t = schema.get("type")
     if t is not None:
@@ -435,6 +442,16 @@ def acceptance_status(naics, rec, review_dir, review_schema,
     if review.get("run_id") != run_id:
         errs.append("%s (review): review run_id %r does not match current run_id %r"
                     % (naics, review.get("run_id"), run_id))
+    expected_review_prompt = {
+        "3.1": "validator-3.1",
+    }.get(rec.get("run_meta", {}).get("template_version"))
+    actual_review_prompt = review.get("review_meta", {}).get("prompt_version")
+    if (expected_review_prompt is not None
+            and actual_review_prompt != expected_review_prompt):
+        errs.append(
+            "%s (review): review prompt_version %r does not match required %r"
+            % (naics, actual_review_prompt, expected_review_prompt)
+        )
     raw_audits = review.get("source_audits", [])
     if not isinstance(raw_audits, list):
         raw_audits = []
@@ -511,6 +528,12 @@ def record_flags(rec, computed, decision, deltas):
             if isinstance(value, dict)
             and value.get("provenance_type") == "ESTIMATE"
         )
+        estimates.extend(sorted(
+            "dataset_inputs.%s" % name
+            for name in ("labor_share", "n_band")
+            if isinstance(rec.get("dataset_inputs", {}).get(name), dict)
+            and rec["dataset_inputs"][name].get("provenance_type") == "ESTIMATE"
+        ))
         estimate_label = "provenance_type ESTIMATE"
     else:
         estimates = sorted(name for name, value in inp.items()
@@ -559,8 +582,18 @@ def run_build(repo_root, allow_unreviewed=False, runs_dir=None, review_dir=None,
         path, rec = records[naics]
         # 1. schema validation
         template_version = rec.get("run_meta", {}).get("template_version")
-        schema_key = "3.1" if template_version == "3.1" else "3.0"
-        run_schema = run_schemas[schema_key]
+        if template_version not in run_schemas:
+            errors.append(
+                "%s (%s): unsupported template_version %r; supported versions are %s"
+                % (
+                    naics,
+                    os.path.basename(path),
+                    template_version,
+                    ", ".join(SUPPORTED_TEMPLATE_VERSIONS),
+                )
+            )
+            continue
+        run_schema = run_schemas[template_version]
         errs = ["%s (%s): %s" % (naics, os.path.basename(path), e)
                 for e in schema_errors(rec, run_schema, run_schema)]
         if rec.get("naics") != naics:

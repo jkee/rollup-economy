@@ -183,7 +183,11 @@ class ReviewValidation(unittest.TestCase):
         self.review = {
             "naics": "123456",
             "run_id": "fleet-s1-123456",
-            "review_meta": {"model_id": "Sol", "review_date": "2026-07-20"},
+            "review_meta": {
+                "model_id": "Sol",
+                "review_date": "2026-07-20",
+                "prompt_version": "validator-test-v1",
+            },
             "verdict": "accepted",
             "checks": {
                 name: {"pass": True, "note": "Checked independently."}
@@ -265,6 +269,20 @@ class ReviewValidation(unittest.TestCase):
         message = "\n".join(result["errors"])
         self.assertIn("run_id", message)
         self.assertIn("flags_reviewed mismatch", message)
+
+    def test_v31_entry_requires_frozen_validator_prompt(self):
+        self.entry["required_validator_prompt_version"] = "validator-3.1"
+        errors = campaign.review_semantic_errors(self.review, self.entry)
+        self.assertIn(
+            "review prompt_version 'validator-test-v1' != required 'validator-3.1'",
+            "\n".join(errors),
+        )
+
+        self.review["review_meta"]["prompt_version"] = "validator-3.1"
+        self.assertEqual(
+            campaign.review_semantic_errors(self.review, self.entry),
+            [],
+        )
 
     def test_cli_missing_reviews_fail_unless_explicitly_allowed(self):
         incomplete = {

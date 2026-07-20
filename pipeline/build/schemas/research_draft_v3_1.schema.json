@@ -37,8 +37,8 @@
       "description": "Normally empty. A fallback is permitted only when the corresponding deterministic dataset value is null; the finalizer enforces that rule.",
       "additionalProperties": false,
       "properties": {
-        "labor_share": { "$ref": "#/definitions/research_input" },
-        "n_band": { "$ref": "#/definitions/research_input" }
+        "labor_share": { "$ref": "#/definitions/nonnegative_number_input" },
+        "n_band": { "$ref": "#/definitions/nonnegative_integer_input" }
       }
     },
     "inputs": {
@@ -61,14 +61,14 @@
         "ai_replaceable_share": { "$ref": "#/definitions/role_judgment_set" },
         "pi_dist": { "$ref": "#/definitions/judgment_input" },
         "pi_moat": { "$ref": "#/definitions/judgment_input" },
-        "t50_years": { "$ref": "#/definitions/research_input" },
-        "current_adoption_pct": { "$ref": "#/definitions/research_input" },
-        "historical_analogs": { "$ref": "#/definitions/research_input" },
+        "t50_years": { "$ref": "#/definitions/nonnegative_number_input" },
+        "current_adoption_pct": { "$ref": "#/definitions/fraction_input" },
+        "historical_analogs": { "$ref": "#/definitions/string_input" },
         "owners_60plus_pct": { "$ref": "#/definitions/owners_input" },
-        "active_consolidators": { "$ref": "#/definitions/research_input" },
-        "buy_mult": { "$ref": "#/definitions/research_input" },
-        "exit_mult": { "$ref": "#/definitions/research_input" },
-        "pricing_structure": { "$ref": "#/definitions/research_input" }
+        "active_consolidators": { "$ref": "#/definitions/nonnegative_integer_input" },
+        "buy_mult": { "$ref": "#/definitions/positive_number_input" },
+        "exit_mult": { "$ref": "#/definitions/positive_number_input" },
+        "pricing_structure": { "$ref": "#/definitions/string_input" }
       }
     },
     "cross_checks": {
@@ -190,6 +190,56 @@
           "citations": { "minItems": 1 }
         }
       }
+    },
+    "nonnegative_number_input": {
+      "allOf": [
+        { "$ref": "#/definitions/research_input" },
+        {
+          "properties": {
+            "value": { "type": "number", "minimum": 0 }
+          }
+        }
+      ]
+    },
+    "fraction_input": {
+      "allOf": [
+        { "$ref": "#/definitions/research_input" },
+        {
+          "properties": {
+            "value": { "type": "number", "minimum": 0, "maximum": 1 }
+          }
+        }
+      ]
+    },
+    "positive_number_input": {
+      "allOf": [
+        { "$ref": "#/definitions/research_input" },
+        {
+          "properties": {
+            "value": { "type": "number", "exclusiveMinimum": 0 }
+          }
+        }
+      ]
+    },
+    "nonnegative_integer_input": {
+      "allOf": [
+        { "$ref": "#/definitions/research_input" },
+        {
+          "properties": {
+            "value": { "type": "integer", "minimum": 0 }
+          }
+        }
+      ]
+    },
+    "string_input": {
+      "allOf": [
+        { "$ref": "#/definitions/research_input" },
+        {
+          "properties": {
+            "value": { "type": "string", "minLength": 1 }
+          }
+        }
+      ]
     },
     "owners_input": {
       "type": "object",

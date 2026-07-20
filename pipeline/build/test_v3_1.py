@@ -5,12 +5,15 @@ These tests do not read, write or rerun any production industry record.
 """
 
 import copy
+import contextlib
 import importlib.util
+import io
 import json
 import os
 import shutil
 import tempfile
 import unittest
+from pathlib import Path
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 SCHEMAS = os.path.join(HERE, "schemas")
@@ -251,6 +254,44 @@ class V31Finalizer(unittest.TestCase):
         _record, errors = finalize.finalize(source_draft, dataset())
         self.assertIn("fallback is forbidden", "\n".join(errors))
 
+    def test_dataset_fallback_bounds_are_enforced(self):
+        source_draft = draft()
+        source_dataset = dataset()
+        source_dataset["labor_share"]["value"] = None
+        source_draft["dataset_fallbacks"]["labor_share"] = evidence(-0.1)
+        _record, errors = finalize.finalize(source_draft, source_dataset)
+        self.assertIn(
+            "effective labor_share.value must be a nonnegative number",
+            "\n".join(errors),
+        )
+
+        # Dataset derivation deliberately preserves labor-compensation/revenue
+        # anomalies above 1.0; the invariant is nonnegative, not a fraction cap.
+        source_draft["dataset_fallbacks"]["labor_share"]["value"] = 2.0
+        record, errors = finalize.finalize(source_draft, source_dataset)
+        self.assertEqual(errors, [])
+        self.assertEqual(record["dataset_inputs"]["labor_share"]["value"], 2.0)
+
+        source_draft = draft()
+        source_dataset = dataset()
+        source_dataset["n_band"]["value"] = None
+        source_draft["dataset_fallbacks"]["n_band"] = evidence(-1)
+        _record, errors = finalize.finalize(source_draft, source_dataset)
+        self.assertIn(
+            "effective n_band.value must be a nonnegative integer",
+            "\n".join(errors),
+        )
+        source_draft["dataset_fallbacks"]["n_band"]["value"] = 100.0
+        record, errors = finalize.finalize(source_draft, source_dataset)
+        self.assertEqual(errors, [])
+        self.assertEqual(record["dataset_inputs"]["n_band"]["value"], 100.0)
+        source_draft["dataset_fallbacks"]["n_band"]["value"] = 100.5
+        _record, errors = finalize.finalize(source_draft, source_dataset)
+        self.assertIn(
+            "effective n_band.value must be a nonnegative integer",
+            "\n".join(errors),
+        )
+
     def test_url_outside_atomic_citation_is_rejected(self):
         source_draft = draft()
         source_draft["inputs"]["buy_mult"]["derivation"] += " https://example.com/hidden"
@@ -295,6 +336,40 @@ class V31Finalizer(unittest.TestCase):
             for flag in flags
         ))
 
+    def test_estimate_flags_include_dataset_fallbacks(self):
+        source_draft = draft()
+        source_dataset = dataset()
+        source_dataset["labor_share"]["value"] = None
+        source_draft["dataset_fallbacks"]["labor_share"] = evidence(0.4)
+        record, errors = finalize.finalize(source_draft, source_dataset)
+        self.assertEqual(errors, [])
+        computed, arithmetic_errors, deltas = build.recompute(record)
+        self.assertEqual(arithmetic_errors, [])
+        with open(os.path.join(HERE, "thresholds.json")) as handle:
+            thresholds = json.load(handle)
+        decision = build.decide(
+            computed["S"],
+            {name: computed[name] for name in "VCABM"},
+            record["cross_checks"]["terminal_value"]["class"],
+            record["confidence_overall"],
+            thresholds,
+        )
+        flags = build.record_flags(record, computed, decision, deltas)
+        estimate_flag = next(
+            flag for flag in flags if flag.startswith("ESTIMATE_HEAVY:")
+        )
+        self.assertIn("dataset_inputs.labor_share", estimate_flag)
+
+    def test_final_schema_rejects_invalid_scoring_types(self):
+        record, errors = finalize.finalize(draft(), dataset())
+        self.assertEqual(errors, [])
+        record["inputs"]["buy_mult"]["value"] = "four"
+        errors = build.schema_errors(record, self.run_schema, self.run_schema)
+        self.assertIn(
+            "$.inputs.buy_mult.value: expected type number, got str",
+            errors,
+        )
+
     def test_build_selects_v31_schema(self):
         record, errors = finalize.finalize(draft(), dataset())
         self.assertEqual(errors, [])
@@ -334,6 +409,43 @@ class V31Finalizer(unittest.TestCase):
             build.schema_errors(record, self.run_schema, self.run_schema),
         )
 
+    def test_build_and_campaign_reject_unknown_template_version(self):
+        record, errors = finalize.finalize(draft(), dataset())
+        self.assertEqual(errors, [])
+        record["run_meta"]["template_version"] = "3.2"
+        root = tempfile.mkdtemp(prefix="v31_unknown_version_")
+        self.addCleanup(shutil.rmtree, root)
+        runs = os.path.join(root, "runs", "999999")
+        reviews = os.path.join(root, "reviews")
+        output = os.path.join(root, "output")
+        os.makedirs(runs)
+        os.makedirs(reviews)
+        os.makedirs(output)
+        run_path = os.path.join(runs, "synthetic.json")
+        with open(run_path, "w") as handle:
+            json.dump(record, handle)
+        result = build.run_build(
+            repo_root=root,
+            allow_unreviewed=True,
+            runs_dir=os.path.join(root, "runs"),
+            review_dir=reviews,
+            thresholds_path=os.path.join(HERE, "thresholds.json"),
+            schemas_dir=SCHEMAS,
+            expectations_path=os.path.join(root, "missing-expectations.json"),
+            site_out=os.path.join(output, "site.json"),
+            stats_out=os.path.join(output, "stats.json"),
+            flags_out=os.path.join(output, "flags.json"),
+            reconciliation_out=os.path.join(output, "reconciliation.md"),
+        )
+        self.assertFalse(result["ok"])
+        self.assertIn("unsupported template_version '3.2'", "\n".join(result["errors"]))
+        with open(os.path.join(HERE, "thresholds.json")) as handle:
+            thresholds = json.load(handle)
+        with self.assertRaisesRegex(ValueError, "unsupported template_version '3.2'"):
+            campaign._campaign_entry(
+                root, "fleet", run_path, record, thresholds
+            )
+
     def test_v31_prompt_renders_in_memory_without_writing(self):
         template_path = assemble.VERSION_PATHS["3.1"]["template"]
         template = template_path.read_text(encoding="utf-8")
@@ -344,6 +456,86 @@ class V31Finalizer(unittest.TestCase):
         self.assertIn("Template version: 3.1", rendered)
         self.assertIn("do not copy them into the draft", rendered)
         self.assertIn("{{MODEL_ID}}", rendered)
+
+    def test_v31_prompt_assembly_creates_output_directory(self):
+        root = tempfile.mkdtemp(prefix="v31_prompt_assembly_")
+        self.addCleanup(shutil.rmtree, root)
+        prompts_dir = Path(root) / "nested" / "prompts_v3_1"
+        original = assemble.VERSION_PATHS["3.1"]["prompts"]
+        assemble.VERSION_PATHS["3.1"]["prompts"] = prompts_dir
+        self.addCleanup(
+            assemble.VERSION_PATHS["3.1"].__setitem__, "prompts", original
+        )
+        with contextlib.redirect_stdout(io.StringIO()):
+            assemble.main(["--template-version", "3.1"])
+        self.assertTrue(prompts_dir.is_dir())
+        self.assertTrue((prompts_dir / "541420.md").is_file())
+
+    def test_v31_acceptance_requires_validator_v31(self):
+        record, errors = finalize.finalize(draft(), dataset())
+        self.assertEqual(errors, [])
+        root = tempfile.mkdtemp(prefix="v31_review_binding_")
+        self.addCleanup(shutil.rmtree, root)
+        review_dir = os.path.join(root, "review")
+        review_naics_dir = os.path.join(review_dir, record["naics"])
+        os.makedirs(review_naics_dir)
+        expected_audits = build.source_audit_pairs(record)
+        review = {
+            "naics": record["naics"],
+            "run_id": record["run_meta"]["run_id"],
+            "review_meta": {
+                "model_id": "Sol",
+                "review_date": "2026-07-20",
+                "prompt_version": "validator-3.0",
+            },
+            "verdict": "accepted",
+            "checks": {
+                name: {"pass": True, "note": "Synthetic full-depth check."}
+                for name in campaign.CHECK_NAMES
+            },
+            "source_audits": [
+                dict(
+                    pair,
+                    resolves=True,
+                    claim_supported=True,
+                    note="Synthetic source audit.",
+                )
+                for pair in expected_audits
+            ],
+            "reasons": [],
+            "flags_reviewed": [],
+        }
+        review_path = os.path.join(
+            review_naics_dir, record["run_meta"]["run_id"] + ".json"
+        )
+        with open(review_path, "w") as handle:
+            json.dump(review, handle)
+        with open(os.path.join(SCHEMAS, "review_record.schema.json")) as handle:
+            review_schema = json.load(handle)
+        status, _summary, errors = build.acceptance_status(
+            record["naics"],
+            record,
+            review_dir,
+            review_schema,
+            expected_audits,
+            [],
+        )
+        self.assertEqual(status, "pending")
+        self.assertIn("does not match required 'validator-3.1'", "\n".join(errors))
+
+        review["review_meta"]["prompt_version"] = "validator-3.1"
+        with open(review_path, "w") as handle:
+            json.dump(review, handle)
+        status, _summary, errors = build.acceptance_status(
+            record["naics"],
+            record,
+            review_dir,
+            review_schema,
+            expected_audits,
+            [],
+        )
+        self.assertEqual(errors, [])
+        self.assertEqual(status, "accepted")
 
     def test_review_campaign_routes_v31_prompt_path(self):
         record, errors = finalize.finalize(draft(), dataset())

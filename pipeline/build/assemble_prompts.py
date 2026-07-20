@@ -225,7 +225,7 @@ def validate_prompt_text(naics, text):
         fail(naics, f"runtime placeholder(s) missing from assembled prompt: {', '.join(missing_runtime)}")
 
 
-def main():
+def main(argv=None):
     parser = argparse.ArgumentParser(description="Assemble v3 per-code prompts from blocks + datasets + frozen template.")
     parser.add_argument("--check", action="store_true", help="Validate only: re-render in memory and compare against prompts on disk; write nothing.")
     parser.add_argument(
@@ -234,12 +234,14 @@ def main():
         default="3.0",
         help="Contract to assemble. Defaults to 3.0 so existing prompts remain untouched.",
     )
-    args = parser.parse_args()
+    args = parser.parse_args(argv)
 
     targets = json.loads(TARGETS_PATH.read_text(encoding="utf-8"))
     version_paths = VERSION_PATHS[args.template_version]
     template = version_paths["template"].read_text(encoding="utf-8")
     prompts_dir = version_paths["prompts"]
+    if not args.check:
+        prompts_dir.mkdir(parents=True, exist_ok=True)
 
     skipped, written, checked, errors = [], [], [], []
 

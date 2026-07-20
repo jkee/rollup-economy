@@ -105,6 +105,29 @@ def semantic_errors(draft, dataset):
             errors.append("dataset %s.value is non-null; fallback is forbidden"
                           % name)
 
+    effective_labor_share = (
+        fallbacks.get("labor_share", {}).get("value")
+        if dataset.get("labor_share", {}).get("value") is None
+        else dataset.get("labor_share", {}).get("value")
+    )
+    if (not isinstance(effective_labor_share, (int, float))
+            or isinstance(effective_labor_share, bool)
+            or effective_labor_share < 0):
+        errors.append("effective labor_share.value must be a nonnegative number")
+
+    for name in ("n_total", "n_band"):
+        dataset_value = dataset.get(name, {}).get("value")
+        effective_value = (
+            fallbacks.get(name, {}).get("value")
+            if dataset_value is None
+            else dataset_value
+        )
+        if (not isinstance(effective_value, (int, float))
+                or isinstance(effective_value, bool)
+                or not float(effective_value).is_integer()
+                or effective_value < 0):
+            errors.append("effective %s.value must be a nonnegative integer" % name)
+
     role_mix = dataset.get("role_mix")
     occupations = role_mix.get("occupations") if isinstance(role_mix, dict) else None
     if not isinstance(occupations, list) or not occupations:

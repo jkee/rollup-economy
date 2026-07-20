@@ -88,11 +88,16 @@ def assert_exact_membership(actual, expected, label):
 
 def _campaign_entry(repo_root, kind, path, record, thresholds):
     template_version = record.get("run_meta", {}).get("template_version")
-    schema_name = (
-        "run_record_v3_1.schema.json"
-        if template_version == "3.1"
-        else "run_record.schema.json"
-    )
+    schema_names = {
+        "3.0": "run_record.schema.json",
+        "3.1": "run_record_v3_1.schema.json",
+    }
+    if template_version not in schema_names:
+        raise ValueError(
+            "%s has unsupported template_version %r; supported versions are %s"
+            % (path, template_version, ", ".join(build.SUPPORTED_TEMPLATE_VERSIONS))
+        )
+    schema_name = schema_names[template_version]
     run_schema = load_json(os.path.join(
         repo_root, "pipeline", "build", "schemas", schema_name
     ))
@@ -116,7 +121,10 @@ def _campaign_entry(repo_root, kind, path, record, thresholds):
     run_id = record["run_meta"]["run_id"]
     naics = record["naics"]
     relpath = os.path.relpath(path, repo_root)
-    prompt_dir = "prompts_v3_1" if template_version == "3.1" else "prompts"
+    prompt_dir = {
+        "3.0": "prompts",
+        "3.1": "prompts_v3_1",
+    }[template_version]
     prompt_path = os.path.join("pipeline", prompt_dir, naics + ".md")
     dataset_path = os.path.join(
         "pipeline", "datasets", "derived", naics + ".json"
@@ -130,7 +138,7 @@ def _campaign_entry(repo_root, kind, path, record, thresholds):
                 "%s %s dependency does not exist: %s"
                 % (kind, dependency_name, dependency_path)
             )
-    return {
+    entry = {
         "kind": kind,
         "naics": naics,
         "run_id": run_id,
@@ -143,6 +151,9 @@ def _campaign_entry(repo_root, kind, path, record, thresholds):
         "stage4_flags": flags,
         "expected_source_audits": source_audit_pairs(record),
     }
+    if template_version == "3.1":
+        entry["required_validator_prompt_version"] = "validator-3.1"
+    return entry
 
 
 def build_manifest(repo_root=DEFAULT_REPO, enforce_pilot_counts=True):
@@ -248,6 +259,14 @@ def review_semantic_errors(review, entry):
     if review.get("run_id") != entry["run_id"]:
         errors.append("run_id %r != manifest %r"
                       % (review.get("run_id"), entry["run_id"]))
+    required_prompt_version = entry.get("required_validator_prompt_version")
+    actual_prompt_version = review.get("review_meta", {}).get("prompt_version")
+    if (required_prompt_version is not None
+            and actual_prompt_version != required_prompt_version):
+        errors.append(
+            "review prompt_version %r != required %r"
+            % (actual_prompt_version, required_prompt_version)
+        )
 
     expected_audits = {
         (item["input_path"], item["url"])

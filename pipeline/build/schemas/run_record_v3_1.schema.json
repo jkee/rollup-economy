@@ -46,10 +46,10 @@
       "required": ["labor_share", "role_mix", "n_total", "n_band"],
       "additionalProperties": false,
       "properties": {
-        "labor_share": { "$ref": "#/definitions/dataset_value" },
+        "labor_share": { "$ref": "#/definitions/nonnegative_dataset_number" },
         "role_mix": { "type": "object" },
-        "n_total": { "$ref": "#/definitions/dataset_value" },
-        "n_band": { "$ref": "#/definitions/dataset_value" }
+        "n_total": { "$ref": "#/definitions/nonnegative_dataset_integer" },
+        "n_band": { "$ref": "#/definitions/nonnegative_dataset_integer" }
       }
     },
     "inputs": {
@@ -72,14 +72,14 @@
         "ai_replaceable_share": { "$ref": "#/definitions/final_role_input" },
         "pi_dist": { "$ref": "#/definitions/judgment_input" },
         "pi_moat": { "$ref": "#/definitions/judgment_input" },
-        "t50_years": { "$ref": "#/definitions/research_input" },
-        "current_adoption_pct": { "$ref": "#/definitions/research_input" },
-        "historical_analogs": { "$ref": "#/definitions/research_input" },
+        "t50_years": { "$ref": "#/definitions/nonnegative_number_input" },
+        "current_adoption_pct": { "$ref": "#/definitions/fraction_input" },
+        "historical_analogs": { "$ref": "#/definitions/string_input" },
         "owners_60plus_pct": { "$ref": "#/definitions/owners_input" },
-        "active_consolidators": { "$ref": "#/definitions/research_input" },
-        "buy_mult": { "$ref": "#/definitions/research_input" },
-        "exit_mult": { "$ref": "#/definitions/research_input" },
-        "pricing_structure": { "$ref": "#/definitions/research_input" }
+        "active_consolidators": { "$ref": "#/definitions/nonnegative_integer_input" },
+        "buy_mult": { "$ref": "#/definitions/positive_number_input" },
+        "exit_mult": { "$ref": "#/definitions/positive_number_input" },
+        "pricing_structure": { "$ref": "#/definitions/string_input" }
       }
     },
     "scores": {
@@ -195,6 +195,56 @@
         }
       }
     },
+    "nonnegative_number_input": {
+      "allOf": [
+        { "$ref": "#/definitions/research_input" },
+        {
+          "properties": {
+            "value": { "type": "number", "minimum": 0 }
+          }
+        }
+      ]
+    },
+    "fraction_input": {
+      "allOf": [
+        { "$ref": "#/definitions/research_input" },
+        {
+          "properties": {
+            "value": { "type": "number", "minimum": 0, "maximum": 1 }
+          }
+        }
+      ]
+    },
+    "positive_number_input": {
+      "allOf": [
+        { "$ref": "#/definitions/research_input" },
+        {
+          "properties": {
+            "value": { "type": "number", "exclusiveMinimum": 0 }
+          }
+        }
+      ]
+    },
+    "nonnegative_integer_input": {
+      "allOf": [
+        { "$ref": "#/definitions/research_input" },
+        {
+          "properties": {
+            "value": { "type": "integer", "minimum": 0 }
+          }
+        }
+      ]
+    },
+    "string_input": {
+      "allOf": [
+        { "$ref": "#/definitions/research_input" },
+        {
+          "properties": {
+            "value": { "type": "string", "minLength": 1 }
+          }
+        }
+      ]
+    },
     "owners_input": {
       "type": "object",
       "required": [
@@ -307,11 +357,18 @@
         }
       }
     },
-    "dataset_value": {
+    "nonnegative_dataset_number": {
       "type": "object",
       "required": ["value"],
       "properties": {
-        "value": { "type": "number" }
+        "value": { "type": "number", "minimum": 0 }
+      }
+    },
+    "nonnegative_dataset_integer": {
+      "type": "object",
+      "required": ["value"],
+      "properties": {
+        "value": { "type": "integer", "minimum": 0 }
       }
     },
     "factor_score": {
