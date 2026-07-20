@@ -28,10 +28,10 @@ Sequencing has two deliberate inversions: the build/check script (Phase 2) is bu
 
 ## Phase 1 — Dataset layer (Stage 1) · ~1–2 days
 
-- [ ] 1.1 Download scripts + checksums into `pipeline/datasets/raw/`: Census SUSB (firms by size class per NAICS), CBP, BLS OEWS industry tables, QCEW
-- [ ] 1.2 Derivation code → `pipeline/datasets/derived/<naics>.json` per code: `labor_share`, OEWS role mix, `n_total`, size-class distribution → $1–10M EBITDA band chain (`n_band`)
-- [ ] 1.3 Sanity check vs known points: 541330 (reference labor share 0.470 from BLS-via-FRED) + 3–4 hand-checked codes across different sectors
-- [ ] 1.4 Coverage report: which of the 1,012 codes lack a direct series and use a stated fallback (parent-code inheritance, imputation — method recorded per code)
+- [x] 1.1 Download scripts + checksums into `pipeline/datasets/raw/`: Census SUSB (firms by size class per NAICS), CBP, BLS OEWS industry tables, QCEW
+- [x] 1.2 Derivation code → `pipeline/datasets/derived/<naics>.json` per code: `labor_share`, OEWS role mix, `n_total`, size-class distribution → $1–10M EBITDA band chain (`n_band`)
+- [x] 1.3 Sanity check vs known points: 541330 (reference labor share 0.470 from BLS-via-FRED) + 3–4 hand-checked codes across different sectors — QCEW-method labor_share harmonized to the IPS basis (÷ median ×1.3407 from the 65 dual-method codes); 541330 independent cross-method lands at 0.4924 vs 0.470 reference (see `pipeline/datasets/sanity_check.md`)
+- [x] 1.4 Coverage report: which of the 1,012 codes lack a direct series and use a stated fallback (parent-code inheritance, imputation — method recorded per code)
 
 **Deliverable:** deterministic dataset inputs for all 1,012 codes. **Done when:** coverage report shows 100% with method stated; spot checks pass.
 
