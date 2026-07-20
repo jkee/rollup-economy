@@ -46,7 +46,7 @@ Sequencing has two deliberate inversions: the build/check script (Phase 2) is bu
 
 ## Phase 3 — Prompt generation (Stage 2) · ~½ day for sector 54
 
-- [ ] 3.1 Meta-prompt for the best model producing per-code blocks: role structure for V, suggested primary sources, capture questions for C, terminal-value question, known traps
+- [ ] 3.1 Meta-prompt for the best model producing per-code blocks: role structure for V, suggested primary sources, capture questions for C, terminal-value question, known traps. **Null-handling rule (from the phase 1–2 review):** when a dataset input is `null` (84 labor_share, 181 n_band data gaps), the generated prompt must instruct the run to research that input itself, show the chain, and mark it ESTIMATE — a documented exception to "dataset inputs are never researched"
 - [ ] 3.2 Regenerate sector-54 prompts under template v3, dataset inputs embedded → `pipeline/prompts/`
 
 **Deliverable:** v3 prompts for sector 54. **Done when:** each prompt validates against the template (all placeholders filled, dataset inputs present).

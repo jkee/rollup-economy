@@ -445,7 +445,10 @@ def margin_for(code, margins):
 def derive_n_band(code, susb, margins, n_total):
     mkey, m = margin_for(code, margins)
     if m is None:
-        return {"value": 0, "derivation": "no margin entry for sector",
+        # data gap, not a real zero: null means "run must research this"
+        return {"value": None, "derivation": "DATA GAP: no margin entry for "
+                "sector; n_band could not be computed — the research run must "
+                "supply it with a shown chain, quality ESTIMATE",
                 "margin_used": None, "margin_source": "missing",
                 "quality": "ESTIMATE"}
     margin, msrc = m["ebitda_margin"], m["source"]
@@ -491,7 +494,13 @@ def derive_n_band(code, susb, margins, n_total):
         if in_band:
             n_band += firms
     if not counted:
-        chain.append("no SUSB size-class data for this code; n_band=0")
+        # data gap, not a real zero: no size class could be priced at all
+        chain.append("DATA GAP: no SUSB size-class data for this code; "
+                     "n_band could not be computed — the research run must "
+                     "supply it with a shown chain, quality ESTIMATE")
+        return {"value": None, "derivation": "; ".join(chain),
+                "margin_used": margin, "margin_source": msrc,
+                "quality": "ESTIMATE"}
     chain.append(f"n_band = {n_band:,}")
     return {"value": n_band, "derivation": "; ".join(chain),
             "margin_used": margin, "margin_source": msrc,
@@ -616,9 +625,15 @@ def coverage_report(records, universe, harm):
               f"All {len(records)} codes: quality ESTIMATE by construction "
               "(public-company margins applied to small-firm revenue).",
               ""]
+    nb_gap = count(lambda r: r["n_band"]["value"] is None)
     nb_zero = count(lambda r: r["n_band"]["value"] == 0)
-    lines += [f"- codes with n_band = 0: {nb_zero}",
-              f"- codes with n_band > 0: {len(records) - nb_zero}", ""]
+    nb_pos = len(records) - nb_gap - nb_zero
+    lines += [f"- codes with n_band > 0: {nb_pos}",
+              f"- codes with n_band = 0 (genuinely computed — every priced "
+              f"size class falls outside $1–10M EBITDA): {nb_zero}",
+              f"- codes with n_band = null (DATA GAP — no size-class data "
+              f"or no margin; the research run must supply the value): "
+              f"{nb_gap}", ""]
 
     lines += ["## Known gaps", "",
               "- **Economic Census API**: `api.census.gov/data/2022/ecnbasic` "

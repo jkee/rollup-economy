@@ -59,8 +59,9 @@ Codes with no firm/establishment series at all (3): 112130, 517122, 541120
 
 All 1012 codes: quality ESTIMATE by construction (public-company margins applied to small-firm revenue).
 
-- codes with n_band = 0: 204
 - codes with n_band > 0: 808
+- codes with n_band = 0 (genuinely computed — every priced size class falls outside $1–10M EBITDA): 23
+- codes with n_band = null (DATA GAP — no size-class data or no margin; the research run must supply the value): 181
 
 ## Known gaps
 

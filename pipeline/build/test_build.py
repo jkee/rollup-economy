@@ -145,5 +145,49 @@ class BuildHarness(unittest.TestCase):
                                  "output %s not byte-identical across builds" % key)
 
 
+class VerdictEngine(unittest.TestCase):
+    """decide() paths the single fixture cannot reach: gates, caps, floor."""
+
+    @classmethod
+    def setUpClass(cls):
+        with open(THRESHOLDS) as f:
+            cls.th = json.load(f)
+
+    def decide(self, S, factors, terminal="DURABLE", confidence="HIGH"):
+        return build.decide(S, factors, terminal, confidence, self.th)
+
+    def test_hell_yes_when_all_gates_pass(self):
+        f = {k: 7.5 for k in "VCABM"}
+        self.assertEqual(self.decide(7.5, f)["verdict"], "hell_yes")
+
+    def test_gate_blocked_downgrades_to_strong(self):
+        f = dict({k: 8.0 for k in "VCABM"}, M=5.5)  # below the 6.0 factor gate
+        r = self.decide(7.5, f)
+        self.assertEqual(r["verdict"], "strong")
+        self.assertTrue(r["gate_blocked"])
+
+    def test_melting_caps_at_pass(self):
+        f = {k: 6.5 for k in "VCABM"}
+        r = self.decide(6.0, f, terminal="MELTING")
+        self.assertEqual(r["verdict"], "pass")
+        self.assertIn("terminal_value:MELTING", r["capped_by"])
+
+    def test_low_confidence_caps_at_conditional(self):
+        f = {k: 6.5 for k in "VCABM"}
+        r = self.decide(6.0, f, confidence="LOW")
+        self.assertEqual(r["verdict"], "conditional")
+
+    def test_factor_floor_kills(self):
+        f = dict({k: 7.0 for k in "VCABM"}, M=0.5)  # below the 1.0 kill floor
+        self.assertEqual(self.decide(5.0, f)["verdict"], "kill")
+
+    def test_borderline_flag_near_cut(self):
+        f = {k: 5.0 for k in "VCABM"}
+        cut = self.th["verdict_cuts"]["strong"]
+        eps = self.th["borderline_epsilon"]
+        self.assertTrue(self.decide(cut - eps / 2, f)["borderline"])
+        self.assertFalse(self.decide(cut - 3 * eps, f)["borderline"])
+
+
 if __name__ == "__main__":
     unittest.main(verbosity=2)
