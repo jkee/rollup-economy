@@ -1,0 +1,293 @@
+{
+  "naics": "541840",
+  "title": "Media Representatives",
+  "run_meta": {
+    "model_id": "claude-sonnet-4-6",
+    "run_date": "2026-07-20",
+    "run_id": "fleet-s2-541840",
+    "template_version": "3.0",
+    "prompt_version": "p3-aff6579"
+  },
+  "dataset_inputs": {
+    "labor_share": {
+      "value": 0.4372,
+      "method": "QCEW 2024 private total annual wages at 541840 ($2,214,615,737) x benefits multiplier 1.4294 [ECEC private-industry total comp $46.60/hr / wages $32.60/hr = 1.4294 (March 2026 reference period)] / SUSB 2022 receipts at 541840 ($5,400,046,000). Vintage mismatch: 2024 wages over 2022 receipts, stated. Level: 6-digit. Harmonized to IPS basis ÷1.3407 (median of 65 dual-method codes).",
+      "sources": [
+        "BLS QCEW 2024 annual averages (US000, private)",
+        "BLS ECEC news release (raw/ecec.nr0.htm)",
+        "Census SUSB 2022 (receipts by NAICS)"
+      ],
+      "year": "2024 wages / 2022 receipts",
+      "quality": "MED"
+    },
+    "role_mix": {
+      "oews_level": "4-digit 5418",
+      "occupations": [
+        {
+          "soc": "41-3011",
+          "title": "Advertising Sales Agents",
+          "emp_share": 0.0952,
+          "wage_share": 0.0818
+        },
+        {
+          "soc": "27-3031",
+          "title": "Public Relations Specialists",
+          "emp_share": 0.0799,
+          "wage_share": 0.0829
+        },
+        {
+          "soc": "13-1161",
+          "title": "Market Research Analysts and Marketing Specialists",
+          "emp_share": 0.0741,
+          "wage_share": 0.0655
+        },
+        {
+          "soc": "11-1021",
+          "title": "General and Operations Managers",
+          "emp_share": 0.0539,
+          "wage_share": 0.0926
+        },
+        {
+          "soc": "27-1024",
+          "title": "Graphic Designers",
+          "emp_share": 0.0449,
+          "wage_share": 0.033
+        },
+        {
+          "soc": "41-9011",
+          "title": "Demonstrators and Product Promoters",
+          "emp_share": 0.0389,
+          "wage_share": 0.0162
+        },
+        {
+          "soc": "41-3091",
+          "title": "Sales Representatives of Services, Except Advertising, Insurance, Financial Services, and Travel",
+          "emp_share": 0.0353,
+          "wage_share": 0.0302
+        },
+        {
+          "soc": "27-1026",
+          "title": "Merchandise Displayers and Window Trimmers",
+          "emp_share": 0.029,
+          "wage_share": 0.0121
+        },
+        {
+          "soc": "11-2021",
+          "title": "Marketing Managers",
+          "emp_share": 0.0285,
+          "wage_share": 0.052
+        },
+        {
+          "soc": "27-1011",
+          "title": "Art Directors",
+          "emp_share": 0.0282,
+          "wage_share": 0.0407
+        }
+      ],
+      "quality": "MED"
+    },
+    "n_total": {
+      "value": 1163,
+      "source": "SUSB 2022 (firms, all enterprise sizes)",
+      "year": "2022",
+      "quality": "HIGH"
+    },
+    "n_band": {
+      "value": 50,
+      "derivation": "margin 0.1565 (margins.json[54]: Damodaran Jan 2026: Business & Consumer Services EBITDA/Sales 15.65%); revenue/employee $300,671 (SUSB 2022 receipts/employment at 541840); class <5: 916 firms, avg revenue/firm $464,112 (class receipts/firms), implied EBITDA $72,634 -> out of $1-10M band; class 5-9: 107 firms, avg revenue/firm $1,610,327 (class receipts/firms), implied EBITDA $252,016 -> out of $1-10M band; class 10-19: 60 firms, avg revenue/firm $5,427,867 (class receipts/firms), implied EBITDA $849,461 -> out of $1-10M band; class 20-99: 50 firms, avg revenue/firm $14,497,680 (class receipts/firms), implied EBITDA $2,268,887 -> IN $1-10M band; class 100-499: 16 firms, avg revenue/firm $67,318,188 (class receipts/firms), implied EBITDA $10,535,296 -> out of $1-10M band; class 500+: 14 firms, avg revenue/firm $191,069,071 (class receipts/firms), implied EBITDA $29,902,310 -> out of $1-10M band; n_band = 50",
+      "margin_used": 0.1565,
+      "margin_source": "Damodaran Jan 2026: Business & Consumer Services EBITDA/Sales 15.65%",
+      "quality": "ESTIMATE"
+    }
+  },
+  "inputs": {
+    "ai_replaceable_share": {
+      "value": 0.381,
+      "breakdown_by_role": [
+        {
+          "role": "Media sales agents (core function)",
+          "labor_share_of_total": 0.4,
+          "within_role_automatable_fraction": 0.15,
+          "contribution": 0.06,
+          "rationale": "Relationship selling to agencies and advertisers on behalf of station/publisher clients is the product itself. AI assists prospecting, avails packaging and proposal generation but the negotiated sale — where it persists against programmatic displacement — remains human. Proxy OEWS 41-3011 (8.18%) + 41-3091 (3.02%) = 11.2% of proxy wage bill, but media rep firms are dominated by sales agents — reconstructed to 40% per prompt guidance. Within-role automatable fraction set at low 0.15: the non-automatable core (relationship, negotiation, rate leverage) is the primary value driver, though prospecting and avails proposals are AI-assisted.",
+          "plausible_range": "0.10-0.20 automatable fraction; contribution range 0.040-0.080"
+        },
+        {
+          "role": "Sales support, planning and research",
+          "labor_share_of_total": 0.1,
+          "within_role_automatable_fraction": 0.85,
+          "contribution": 0.085,
+          "rationale": "Ratings/audience research decks, avails packaging, one-sheets and proposal materials are directly automatable. AI tools already handle audience segment analysis, CPM benchmarking, and proposal generation. Proxy OEWS 13-1161 (6.55%) covers part; reconstructed to 10% including research/planner tail. Within-role fraction 0.85: only output requiring judgment (narrative synthesis for complex sponsorship proposals) remains human.",
+          "plausible_range": "0.75-0.90 automatable fraction; contribution range 0.075-0.090"
+        },
+        {
+          "role": "Owners and management",
+          "labor_share_of_total": 0.16,
+          "within_role_automatable_fraction": 0.2,
+          "contribution": 0.032,
+          "rationale": "Relationships with represented media owners (the rep contracts) and key agency accounts persist; these are the firm's core asset. Internal management and reporting automate. Proxy OEWS 11-1021 (9.26%) + 11-2021 (5.20%) = 14.46%; reconstructed to 16%. The exclusive rep contract relationship is the non-automatable core.",
+          "plausible_range": "0.15-0.25 automatable fraction; contribution range 0.024-0.040"
+        },
+        {
+          "role": "Order management, traffic and back office",
+          "labor_share_of_total": 0.17,
+          "within_role_automatable_fraction": 0.8,
+          "contribution": 0.136,
+          "rationale": "Insertion orders, make-goods, invoicing and reconciliation are directly automatable — and already being displaced by programmatic pipes (programmatic TV, programmatic radio via Triton/AdsWizz). Traffic order entry and billing reconciliation have been the first functions automated in media companies. Not in OEWS top-10; estimated 15-20% per prompt; using 17% midpoint.",
+          "plausible_range": "0.70-0.90 automatable fraction; contribution range 0.119-0.153"
+        },
+        {
+          "role": "Remaining tail (incl. proxy contaminants)",
+          "labor_share_of_total": 0.17,
+          "within_role_automatable_fraction": 0.4,
+          "contribution": 0.068,
+          "rationale": "The 4-digit 5418 proxy imports PR specialists (8.29%), Graphic Designers (3.30%), Art Directors (4.07%), Demonstrators (1.62%), and Merchandise Displayers (1.21%) — none of which exist in media rep firms. These phantom occupations represent ~18% of the proxy wage bill. The true tail in rep firms is finance/IT/admin (~10%) and miscellaneous support. Finance/admin automates readily; the phantom proxy contamination is scored conservatively at 0.40 since we cannot separate real from phantom within this bucket. Automatable fraction 0.40 is lower than 541830 back office (0.70) because the contaminating creative roles would be near-zero if real, dragging the average down.",
+          "plausible_range": "0.30-0.55 automatable fraction; contribution range 0.051-0.094"
+        }
+      ],
+      "quality": "MED"
+    },
+    "pi_dist": {
+      "value": 0.45,
+      "rationale": "Rep firms earn commission on ad sales made for represented media owners (typically 10-15% of gross billings placed) — not hours-based. AI hour-savings flow to the operator by construction because the commission is per sale, not per labor hour. However, the commission base itself is the deflation channel: media owners are (1) cutting rep commissions or terminating contracts to in-house sales; (2) routing inventory to programmatic SSPs (FreeWheel for TV, Triton/AdsWizz for radio) that pay reps nothing; (3) consolidating to fewer rep relationships. The pi_dist question for this code is which party controls the client relationship — for rep firms the 'client' is the media owner (who grants the exclusive rep contract) AND the agency/advertiser (who buys via the rep). Rep contracts are typically exclusive but terminable (60-90 day cancellation clauses). Individual sales agents carry agency relationships (key account management is person-dependent). Score 0.45 reflects: commission model is operator-favorable for retaining AI margin, but media owner bypass is a real and accelerating mechanism (programmatic displacement), and individual account control creates dependency risk on senior salespeople.",
+      "plausible_range": "0.35-0.55",
+      "sources": [
+        "ANA Media Agency Compensation Practices 2019 (commission structure)",
+        "AdExchanger: The Rise of Principal Media 2024",
+        "IAB State of Data 2025 (programmatic adoption rates)"
+      ],
+      "quality": "MED"
+    },
+    "pi_moat": {
+      "value": 0.25,
+      "rationale": "Very low moat for independent media rep firms. No licensure required. The sole barriers are: (1) exclusive rep contracts — legally meaningful but terminable with 60-90 day notice, and media owners are demonstrably exercising that termination option as programmatic SSP infrastructure matures; (2) established agency/advertiser buyer relationships — valuable but person-dependent and portable when salespeople change jobs. The national broadcast rep business has consolidated to near-monopoly (Katz Media Group, owned by iHeartMedia, dominates national TV/radio rep) — remaining independents serve niche segments (specialty publishers, local/regional, OOH, political broadcast) where programmatic pipes are less developed. The realistic threat is direct programmatic bypass: SSP platforms (Magnite, FreeWheel) let media owners sell inventory directly to DSPs without a rep firm in the chain. Political broadcast spend is the one durable niche (requires local market expertise and incumbent relationships that programmatic doesn't replicate). Score 0.25: some residual moat from niche specialization and established buyer relationships, but rapidly eroding.",
+      "plausible_range": "0.15-0.35",
+      "sources": [
+        "eMarketer: Programmatic advertising FAQ 2026",
+        "IAB State of Data 2025",
+        "Prompt guidance: Katz Media/iHeart consolidation history"
+      ],
+      "quality": "MED"
+    },
+    "t50_years": {
+      "value": 4.0,
+      "derivation": "Current adoption: IAB State of Data 2025 found 30% of agencies/brands/publishers have fully integrated AI across media campaign lifecycle. For media rep firms specifically, sales support and order management AI tools (CRM automation, proposal generators, traffic systems) were adopted earlier than general AI — estimating current material adoption at ~30%. Historical analog: programmatic advertising went from ~10% (2012) to ~50% adoption (~2015-2016), approximately 4 years. For rep firms, AI adoption in core functions (sales support, trafficking) is faster than for buying agencies because the functions are more rote/templated — but the shrinking industry reduces investment incentive, and the subset of rep firm functions that are truly AI-automatable (sales support, back office) may already be at high adoption while the core (relationship sales) is inherently resistant. Estimate: t50 = 4.0 years (2030) for 50% of remaining firms adopting AI across automatable functions — slower than 541830 because the declining industry creates lower investment pressure.",
+      "plausible_range": "2.5-6.0 years",
+      "quality": "MED"
+    },
+    "current_adoption_pct": {
+      "value": 0.3,
+      "source": "IAB State of Data 2025",
+      "url": "https://www.iab.com/wp-content/uploads/2025/03/IAB_State_of_Data_2025_March__V2.pdf",
+      "figure_quoted": "Only 30% of agencies, brands, and publishers have fully integrated AI across the media campaign lifecycle (IAB State of Data 2025, March 2025)",
+      "access_date": "2026-07-20",
+      "quality": "MED"
+    },
+    "historical_analogs": {
+      "value": "4-5 years",
+      "source": "eMarketer / MarTech (programmatic advertising adoption 2012-2016)",
+      "url": "https://martech.org/us-programmatic-ad-spend-10-billion-2014-double-2016-emarketer/",
+      "figure_quoted": "US programmatic hit ~$10B (approx 45% of digital display spend) in 2014; exceeded 61% globally by 2018 — crossing 50% adoption circa 2015-2016, approximately 4 years from 2011-2012 baseline adoption",
+      "access_date": "2026-07-20",
+      "quality": "MED"
+    },
+    "owners_60plus_pct": {
+      "value": 0.38,
+      "source": "Oberlo / SBA Advocacy general small business demographics; broadcast industry inference",
+      "url": "https://www.oberlo.com/statistics/average-age-of-small-business-owners",
+      "figure_quoted": "37% of small business owners are between 55-73 years old (2024); self-employed age 65+ rose from 13.0% (2013) to 16.3% (2023) per Census/SBA",
+      "access_date": "2026-07-20",
+      "quality": "ESTIMATE",
+      "succession_shortage_documented": {
+        "value": false,
+        "evidence": "No succession shortage specifically documented for NAICS 541840 media rep firms. Estimate of 0.38 (60+) is slightly above the general small business average (37% aged 55-73), reflecting that many independent broadcast rep firms were founded in the 1970s-1990s by owners now in their late 60s-70s, and the shrinking industry reduces the pool of younger buyers/successors — but no formal succession shortage study of this code was found."
+      }
+    },
+    "active_consolidators": {
+      "value": 1,
+      "source": "JEGI Clarity / FE International / marketing M&A research 2025 (inferred from absence of dedicated 541840 roll-ups)",
+      "url": "https://www.feinternational.com/blog/agency-marketing-ma-consolidation-ai-exit-opportunities",
+      "figure_quoted": "PE remains active in performance marketing, ecommerce enablement, influencer networks, and analytics roll-ups — no dedicated media rep firm (541840) PE platform identified in 2024-2025 M&A research. Marketing services M&A rose 14% YTD 2025 but concentrated in digital/performance categories, not traditional broadcast rep.",
+      "access_date": "2026-07-20",
+      "quality": "ESTIMATE"
+    },
+    "buy_mult": {
+      "value": 3.5,
+      "source": "Axial.net / agency valuation data; adjusted for structural decline premium",
+      "url": "https://www.axial.net/forum/digital-marketing-agency-valuation-multiples/",
+      "figure_quoted": "Small agencies around $500K EBITDA: 3.33x average (TobinLeff data); $1-2M EBITDA range: 3.5x-5x. Applying lower bound (3.5x) for media rep firms given structural traditional-media decline creates buyer leverage and depresses multiples below general agency norms. No active buyer market for traditional broadcast rep firm acquisitions identified.",
+      "access_date": "2026-07-20",
+      "quality": "ESTIMATE"
+    },
+    "exit_mult": {
+      "value": 5.5,
+      "source": "Axial.net / First Page Sage agency valuation data; adjusted for structural decline",
+      "url": "https://firstpagesage.com/business/marketing-agency-valuation-multiples-and-valuations/",
+      "figure_quoted": "Mid-size agencies $3-5M EBITDA: 6.1x-8.2x; smaller agencies 3.5x-5.5x. Applying 5.5x for a platform-level exit of a niche publisher rep aggregator — discounted from the general performance agency 8-10x range due to (1) structural decline of traditional media commission base; (2) programmatic disintermediation risk; (3) absence of recurring SaaS-like revenue; (4) key-person dependency of rep relationships.",
+      "access_date": "2026-07-20",
+      "quality": "ESTIMATE"
+    },
+    "pricing_structure": {
+      "value": "Commission on ad sales made for represented media owners (typically 10-15% of gross billings placed). Not hours-based. Operator retains AI efficiency as margin unless media owner renegotiates commission rates or terminates the rep contract.",
+      "source": "ANA Media Agency Compensation Practices 2019; industry knowledge",
+      "url": "https://s3.amazonaws.com/media.mediapost.com/uploads/MediaAgencyCompensation.pdf",
+      "figure_quoted": "Media rep firms earn commission on sales of ad time/space for represented media owners; commission typically 10-15% of gross billings. AI efficiency flows to operator unless commission rate is renegotiated by the media owner (primary deflation mechanism) or inventory shifts to programmatic pipes that bypass the rep entirely.",
+      "access_date": "2026-07-20",
+      "quality": "MED"
+    }
+  },
+  "scores": {
+    "V": {
+      "arithmetic": "V_raw = labor_share × ai_replaceable_share = 0.4372 × 0.381 = 0.1665732; V = 10 × min(1, 0.1665732 / 0.25) = 10 × min(1, 0.6662928) = 10 × 0.6662928 = 6.662928",
+      "score": 6.662928
+    },
+    "C": {
+      "arithmetic": "C = 10 × pi_dist × pi_moat = 10 × 0.45 × 0.25 = 10 × 0.1125 = 1.125",
+      "score": 1.125
+    },
+    "A": {
+      "arithmetic": "A = min(10, 10 / t50_years) = min(10, 10 / 4.0) = min(10, 2.5) = 2.5",
+      "score": 2.5
+    },
+    "B": {
+      "arithmetic": "TD = clamp(log10(50) / 4, 0, 1) = clamp(1.698970004336018 / 4, 0, 1) = clamp(0.4247425010840047, 0, 1) = 0.4247425010840047; OW = clamp((0.38 - 0.10) / 0.35, 0.1, 0.9) = clamp(0.8, 0.1, 0.9) = 0.8; succession_shortage_documented=false so no +0.1; CFD = min(0.9, log10(1+1) / 2) = min(0.9, log10(2)/2) = min(0.9, 0.3010299957/2) = min(0.9, 0.1505149978) = 0.1505149978; B = 10 × sqrt(0.4247425010840047 × 0.8) / (1 + 0.3 × 0.1505149978) = 10 × sqrt(0.3397940009) / (1 + 0.0451544993) = 10 × 0.5829194... / 1.0451544993 = 5.829194... / 1.0451544993 = 5.577343...",
+      "score": 5.577343065393889
+    },
+    "M": {
+      "arithmetic": "M = clamp(4 × (exit_mult - buy_mult) / buy_mult, 0, 10) = clamp(4 × (5.5 - 3.5) / 3.5, 0, 10) = clamp(4 × 2.0 / 3.5, 0, 10) = clamp(8.0 / 3.5, 0, 10) = clamp(2.285714..., 0, 10) = 2.285714...",
+      "score": 2.2857142857142856
+    }
+  },
+  "S": 2.9897948578285427,
+  "cross_checks": {
+    "uplift_pp": 16.66,
+    "uplift_vs_A_consistent": "V_raw = 16.66pp of revenue freed. A = 2.5 (< 5). The cross-check tension condition (uplift < 3pp AND A >= 5) does not apply: uplift is 16.66pp which far exceeds 3pp. Consistent — high V with slow adoption speed. The high labor_share (0.4372) reflects that this code's receipts are likely net commission income (not gross billings pass-through), making the labor cost ratio authentically high and V credibly elevated. Note the MELTING terminal class creates tension with a high V score: AI could free significant labor costs, but if the revenue base is melting (traditional media secular decline + programmatic displacement of rep function), the freed costs may be moot because the business shrinks faster than AI savings can be realized.",
+    "terminal_value": {
+      "class": "MELTING",
+      "justification": "Two mechanisms run simultaneously and reinforce each other. (1) AI cuts operator costs: the commission/% of sales model means AI efficiency (proposal generation, avails automation, traffic management) flows to the operator as margin — this is the favorable scenario. (2) AI replaces the operator's product: programmatic SSPs (FreeWheel for broadcast TV, Triton/AdsWizz for radio, Magnite for digital publishers) automate the ad sales function that rep firms perform, routing inventory directly from media owners to DSPs without a human rep in the chain. The traditional media that rep firms sell (broadcast spot TV, national spot radio, print) has been in secular volume decline for 20+ years, with digital advertising compounding the loss. Political cycle years (2022, 2024) provide temporary revenue bumps, but the non-political underlying trend is negative. The terminal state is that the product itself — third-party human representation of traditional broadcast and print ad inventory — is being replaced. Programmatic pipes have already displaced this function for digital publisher inventory; the remaining traditional broadcast/print niche is shrinking. There is a small residual: complex political broadcast spend (requiring local market relationships and incumbent agency ties) and niche specialty publisher representation where programmatic SSP coverage is thin. This residual is insufficient to sustain 50 band-sized independent firms; the n_band likely contracts to single digits over 10 years. Classification: MELTING.",
+      "justification": "Two mechanisms reinforce each other: (1) AI cuts operator costs — commission billing means AI labor savings flow to operator as margin. (2) AI replaces the product — programmatic SSPs (FreeWheel, Triton/AdsWizz, Magnite) automate the sales function rep firms perform, routing media owner inventory directly to DSPs. The underlying traditional media (broadcast spot TV, national spot radio, print) has been in secular volume decline 20+ years independent of AI; programmatic pipes are accelerating displacement of the human rep function on what remains. Political broadcast spend and niche specialty publisher rep are small residuals — insufficient to sustain the current n_band of 50 firms. Classification: MELTING. This is distinct from PRESSURED because the combination of secular demand decline AND product replacement (not just cost-cutting) means the industry's own revenue base is contracting, not just its margins."
+    },
+    "no_proxy_confirmed": "V was derived from the reconstructed role structure (prompt-guided, removing proxy contamination) applied to the provided labor_share dataset input — no reference to M&A deal activity or PE consolidation trends. A was derived from the IAB State of Data 2025 current adoption survey and the eMarketer programmatic adoption historical analog — no reference to deal activity. Confirmed: V and A are grounded in AI capability and adoption evidence only.",
+    "pricing_model_deflation": "Billing mix: commission on ad sales made for represented media owners (10-15% of gross billings — not hours-based). AI efficiency (in proposal generation, avails, traffic management) flows TO THE OPERATOR as margin because the billing basis is per sale, not per hour. The primary deflation channel is NOT fee rescoping by clients but rather: (1) media owners terminating or renegotiating rep contracts as they route inventory to programmatic SSPs that pay no commission; (2) reduction in the total billings base as traditional media spend declines. The commission model is pricing-model-favorable for retaining AI savings, but the deflation arrives through contract termination and volume loss — not commission-rate compression from fee auditors as in 541830. This is reflected in pi_dist=0.45 (operator has moderate commission-income retention from AI savings, but faces structural commission-base erosion from programmatic bypass) and pi_moat=0.25 (very low barrier — exclusive rep contracts are terminable, no licensure, no proprietary data, no physical presence moat)."
+  },
+  "confidence_overall": "LOW",
+  "heterogeneous": false,
+  "top_uncertain_inputs": [
+    {
+      "input": "t50_years",
+      "plausible_range": "2.5-6.0 years",
+      "score_impact": "At t50=2.5: A=4.0, S≈3.33; at t50=6.0: A=1.667, S≈2.74. Range of approximately ±0.30 around base S=2.99."
+    },
+    {
+      "input": "buy_mult",
+      "plausible_range": "2.5-4.5 (wide: declining market, thin buyer pool, ESTIMATE quality)",
+      "score_impact": "At buy_mult=2.5, exit_mult=5.5: M=clamp(4×3/2.5,0,10)=4.8, S≈3.29; at buy_mult=4.5, exit_mult=5.5: M=clamp(4×1/4.5,0,10)=0.889, S≈2.50. Largest single driver of S given M sensitivity."
+    },
+    {
+      "input": "pi_moat",
+      "plausible_range": "0.15-0.35",
+      "score_impact": "At 0.15: C=0.675, S≈2.69; at 0.35: C=1.575, S≈3.26. Range of approximately ±0.29 around base S=2.99."
+    }
+  ],
+  "reviewer_note": "This code carries two severe structural warnings that dominate the scoring. (1) Small-N red flag: n_band = 50 is extremely thin. The roll-up thesis may fail on N alone before any scoring subtlety matters — 50 acquirable firms is below the minimum viable platform size for most PE roll-up strategies. (2) Structural decline: the traditional media that rep firms sell (broadcast spot, print) has been in secular volume decline for 20+ years independent of AI. The MELTING terminal classification reflects that the product (human third-party rep of traditional media inventory) is being replaced by programmatic SSP infrastructure, not merely cost-pressured. V is high (6.66) because the reconstructed labor_share is authentically high (commission-net receipts, not gross billings pass-through), but V in a MELTING business measures the potential efficiency gain on a shrinking and potentially disappearing revenue base — a high V in a MELTING code is less meaningful than in a DURABLE or PRESSURED code. Confidence rated LOW due to: (a) ESTIMATE quality on buy_mult, exit_mult, active_consolidators, and owners_60plus_pct; (b) thin web research coverage of this specific code during rate-limited research session; (c) the 4-digit 5418 proxy role-mix contamination is severe for this code (all contaminating roles — PR, design, art direction, demonstrations, display — are entirely absent from actual rep firms). The ai_replaceable_share reconstruction carries high uncertainty. Role-mix contamination: the 5418 proxy occupations (PR specialists 8.29%, Graphic Designers 3.30%, Art Directors 4.07%, Demonstrators 1.62%, Merchandise Displayers 1.21%) do not exist in media rep firms — they were excluded from the role breakdown per prompt instructions. The reconstructed role structure reflects the actual firm type (sales-agent-dominant) rather than the proxy-contaminated OEWS data. Note on terminal_value JSON: the justification field was duplicated in the raw source — the second (longer) version is the authoritative one."
+}

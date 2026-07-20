@@ -1,0 +1,302 @@
+{
+  "naics": "541830",
+  "title": "Media Buying Agencies",
+  "run_meta": {
+    "model_id": "claude-sonnet-4-6",
+    "run_date": "2026-07-20",
+    "run_id": "fleet-s2-541830",
+    "template_version": "3.0",
+    "prompt_version": "p3-aff6579"
+  },
+  "dataset_inputs": {
+    "labor_share": {
+      "value": 0.2759,
+      "method": "QCEW 2024 private total annual wages at 541830 ($2,332,376,359) x benefits multiplier 1.4294 [ECEC private-industry total comp $46.60/hr / wages $32.60/hr = 1.4294 (March 2026 reference period)] / SUSB 2022 receipts at 541830 ($9,013,654,000). Vintage mismatch: 2024 wages over 2022 receipts, stated. Level: 6-digit. Harmonized to IPS basis ÷1.3407 (median of 65 dual-method codes).",
+      "sources": [
+        "BLS QCEW 2024 annual averages (US000, private)",
+        "BLS ECEC news release (raw/ecec.nr0.htm)",
+        "Census SUSB 2022 (receipts by NAICS)"
+      ],
+      "year": "2024 wages / 2022 receipts",
+      "quality": "MED"
+    },
+    "role_mix": {
+      "oews_level": "4-digit 5418",
+      "occupations": [
+        {
+          "soc": "41-3011",
+          "title": "Advertising Sales Agents",
+          "emp_share": 0.0952,
+          "wage_share": 0.0818
+        },
+        {
+          "soc": "27-3031",
+          "title": "Public Relations Specialists",
+          "emp_share": 0.0799,
+          "wage_share": 0.0829
+        },
+        {
+          "soc": "13-1161",
+          "title": "Market Research Analysts and Marketing Specialists",
+          "emp_share": 0.0741,
+          "wage_share": 0.0655
+        },
+        {
+          "soc": "11-1021",
+          "title": "General and Operations Managers",
+          "emp_share": 0.0539,
+          "wage_share": 0.0926
+        },
+        {
+          "soc": "27-1024",
+          "title": "Graphic Designers",
+          "emp_share": 0.0449,
+          "wage_share": 0.033
+        },
+        {
+          "soc": "41-9011",
+          "title": "Demonstrators and Product Promoters",
+          "emp_share": 0.0389,
+          "wage_share": 0.0162
+        },
+        {
+          "soc": "41-3091",
+          "title": "Sales Representatives of Services, Except Advertising, Insurance, Financial Services, and Travel",
+          "emp_share": 0.0353,
+          "wage_share": 0.0302
+        },
+        {
+          "soc": "27-1026",
+          "title": "Merchandise Displayers and Window Trimmers",
+          "emp_share": 0.029,
+          "wage_share": 0.0121
+        },
+        {
+          "soc": "11-2021",
+          "title": "Marketing Managers",
+          "emp_share": 0.0285,
+          "wage_share": 0.052
+        },
+        {
+          "soc": "27-1011",
+          "title": "Art Directors",
+          "emp_share": 0.0282,
+          "wage_share": 0.0407
+        }
+      ],
+      "quality": "MED"
+    },
+    "n_total": {
+      "value": 663,
+      "source": "SUSB 2022 (firms, all enterprise sizes)",
+      "year": "2022",
+      "quality": "HIGH"
+    },
+    "n_band": {
+      "value": 121,
+      "derivation": "margin 0.1565 (margins.json[54]: Damodaran Jan 2026: Business & Consumer Services EBITDA/Sales 15.65%); revenue/employee $435,127 (SUSB 2022 receipts/employment at 541830); class <5: 406 firms, avg revenue/firm $751,810 (class receipts/firms), implied EBITDA $117,658 -> out of $1-10M band; class 5-9: 90 firms, avg revenue/firm $3,826,767 (class receipts/firms), implied EBITDA $598,889 -> out of $1-10M band; class 10-19: 65 firms, avg revenue/firm $8,081,677 (class receipts/firms), implied EBITDA $1,264,782 -> IN $1-10M band; class 20-99: 56 firms, avg revenue/firm $21,907,357 (class receipts/firms), implied EBITDA $3,428,501 -> IN $1-10M band; class 100-499: 28 firms, avg revenue/firm $94,779,679 (class receipts/firms), implied EBITDA $14,833,020 -> out of $1-10M band; class 500+: 18 firms, avg revenue/firm $219,892,111 (class receipts/firms), implied EBITDA $34,413,115 -> out of $1-10M band; n_band = 121",
+      "margin_used": 0.1565,
+      "margin_source": "Damodaran Jan 2026: Business & Consumer Services EBITDA/Sales 15.65%",
+      "quality": "ESTIMATE"
+    }
+  },
+  "inputs": {
+    "ai_replaceable_share": {
+      "value": 0.514,
+      "breakdown_by_role": [
+        {
+          "role": "Media planners and buyers",
+          "labor_share_of_total": 0.35,
+          "within_role_automatable_fraction": 0.5,
+          "contribution": 0.175,
+          "rationale": "Plan building, audience research, RFP generation, flighting, pacing, optimization and reporting are heavily AI-exposed — native platform automation (Google DV360, The Trade Desk AI) already does most of this; cross-platform complexity and vendor negotiation persist. Proxy OEWS 41-3011 (8.18%) + 13-1161 (6.55%) = 14.73% of wage bill, but actual media-buying firms are dominated by planner/buyer/investment staff — reconstructed to 35% per prompt guidance. Within-role fraction 0.50 (midpoint of prompt's 0.40-0.60 range).",
+          "plausible_range": "0.40-0.60 automatable fraction; contribution range 0.140-0.210"
+        },
+        {
+          "role": "Ad operations, trafficking and reconciliation",
+          "labor_share_of_total": 0.12,
+          "within_role_automatable_fraction": 0.8,
+          "contribution": 0.096,
+          "rationale": "Trafficking, tag management, make-goods, discrepancy reconciliation and media billing are the most directly automatable cost lines. AI and workflow tools (campaign manager APIs, automated reconciliation) already handle the bulk of this. Not in OEWS top-10; estimated at 10-15% per prompt guidance; using 12% midpoint.",
+          "plausible_range": "0.70-0.90 automatable fraction; contribution range 0.070-0.135"
+        },
+        {
+          "role": "Owners and management",
+          "labor_share_of_total": 0.16,
+          "within_role_automatable_fraction": 0.2,
+          "contribution": 0.032,
+          "rationale": "Client relationships, media-vendor rate leverage (scale-based, survives acquisition) and principal deal-making persist; internal management and reporting automate. Proxy OEWS 11-1021 (9.26%) + 11-2021 (5.20%) = 14.46%; reconstructed to 16% for actual firms. Many firms are founder-led given n_total=663.",
+          "plausible_range": "0.15-0.25 automatable fraction; contribution range 0.024-0.040"
+        },
+        {
+          "role": "Analytics and data staff",
+          "labor_share_of_total": 0.08,
+          "within_role_automatable_fraction": 0.55,
+          "contribution": 0.044,
+          "rationale": "Attribution, MMM-lite reporting and dashboarding automate heavily via AI tools (Rockerbox, Northbeam, etc.); measurement design judgment and client-specific analytics interpretation persist. Not in OEWS top-10; estimated 6-10% per prompt; using 8% midpoint.",
+          "plausible_range": "0.45-0.65 automatable fraction; contribution range 0.036-0.052"
+        },
+        {
+          "role": "Client service",
+          "labor_share_of_total": 0.09,
+          "within_role_automatable_fraction": 0.3,
+          "contribution": 0.027,
+          "rationale": "Status reporting, plan presentations, and performance decks automate; relationship ownership and strategic counsel persist. Proxy OEWS 41-3091 (3.02%) underestimates actual client-facing roles in buying shops; reconstructed to 9%.",
+          "plausible_range": "0.20-0.40 automatable fraction; contribution range 0.018-0.036"
+        },
+        {
+          "role": "Back office and remaining tail (incl. proxy contaminants)",
+          "labor_share_of_total": 0.2,
+          "within_role_automatable_fraction": 0.7,
+          "contribution": 0.14,
+          "rationale": "Finance/billing admin in a business that reconciles high-volume media invoices — strongly automatable. The 4-digit 5418 proxy contaminates with PR specialists (8.29%), Graphic Designers (3.30%), Demonstrators (1.62%), Merchandise Displayers (1.21%) — none present in media buying shops. These contaminating roles plus true finance/admin sum to ~20% of the reconstructed wage bill. AI-driven accounts-payable/receivable, media invoice reconciliation tools address most of this.",
+          "plausible_range": "0.60-0.80 automatable fraction; contribution range 0.120-0.160"
+        }
+      ],
+      "quality": "MED"
+    },
+    "pi_dist": {
+      "value": 0.55,
+      "rationale": "Dominant pricing model is commission on media spend (typically 3-15% of billings) and fixed-fee retainers benchmarked to spend. This is pricing-model-favorable: AI cost savings flow to the operator as margin because the billing basis is spend (not hours). However, the client-facing deflation channel is commission-rate pressure via fee auditors (Ebiquity, Accenture Media) and client procurement departments — ANA documented that 1/3 of advertisers revised media agency contracts in a recent year. Additionally, platform self-serve (Google PMax, Meta Advantage+) directly threatens the commission base itself for SMB/mid-market clients, the core market for these 663 firms. Client relationships are partially firm-level (buying clout and vendor relationships) and partially individual-level (account director relationships). Principal-based buying margin — the highest-capture channel — is structurally inaccessible to band-sized independents lacking holdco-scale inventory commitments. Net: moderate firm control, with ongoing erosion channel through rate compression and direct bypass.",
+      "plausible_range": "0.45-0.65",
+      "sources": [
+        "ANA Media Agency Compensation Practices 2019 (commission structure data)",
+        "ANA Programmatic Media Supply Chain Transparency Study 2023-2024",
+        "Marketing Dive: ANA one-third of advertisers revised contracts",
+        "AdExchanger: The Rise of Principal Media 2024"
+      ],
+      "quality": "MED"
+    },
+    "pi_moat": {
+      "value": 0.35,
+      "rationale": "No licensure requirement. Switching costs are moderate: established media vendor rate leverage (reach-scale dependent), platform fee structures, workflow integration (DSPs, ad servers), and client onboarding friction. However, the moat is under active compression from (1) Google PMax and Meta Advantage+ targeting exactly the SMB/mid-market clients of these 663 firms; (2) retail media self-serve consoles reducing the cross-channel complexity that justified agency involvement; (3) absence of proprietary data moats at band-scale. The realistic threat is direct platform bypass, not just commodity competition. Score reflects meaningful but eroding switching costs with no hard barrier.",
+      "plausible_range": "0.25-0.45",
+      "sources": [
+        "eMarketer: FAQ on AI media buying 2026",
+        "MediaPost: Hey Agencies, Meta and Google Are Taking Your Business 2024",
+        "IAB State of Data 2025",
+        "JP Morgan: How Advertising Agencies Compete in 2026"
+      ],
+      "quality": "MED"
+    },
+    "t50_years": {
+      "value": 3.0,
+      "derivation": "Current adoption: IAB State of Data 2025 (March 2025) found 30% of agencies/brands/publishers have fully integrated AI across media campaign lifecycle. Historical analog: programmatic advertising went from ~10% adoption (2012) to crossing ~50% adoption in approximately 2015-2016, a span of ~4 years from early adoption; eMarketer data shows US programmatic hit ~45% of digital display spend in 2014 and exceeded 60% by 2018, placing the 50% crossing at 2015-2016 (4-5 years from 2011 baseline). AI adoption in agencies is accelerating faster: IAB's 2025 study found 'half of those who haven't fully integrated AI expect to do it by 2026,' implying ~65% fully integrated by end of 2026. On this trajectory 50% is crossed approximately 2025-2026. Taking conservative view (smaller firms lag, 'fully integrated' overstates 'materially adopting'), t50 = 3.0 years (mid-2029). Plausible range: 1.5-5 years.",
+      "plausible_range": "1.5-5.0 years",
+      "quality": "MED"
+    },
+    "current_adoption_pct": {
+      "value": 0.3,
+      "source": "IAB State of Data 2025",
+      "url": "https://www.iab.com/wp-content/uploads/2025/03/IAB_State_of_Data_2025_March__V2.pdf",
+      "figure_quoted": "Only 30% of agencies, brands, and publishers have fully integrated AI across the media campaign lifecycle",
+      "access_date": "2026-07-20",
+      "quality": "MED"
+    },
+    "historical_analogs": {
+      "value": "4-5 years",
+      "source": "eMarketer / MarTech (programmatic advertising adoption 2012-2016)",
+      "url": "https://martech.org/us-programmatic-ad-spend-10-billion-2014-double-2016-emarketer/",
+      "figure_quoted": "Programmatic ad spend hit $10B in 2014, approximately 45% of digital display; reached 61%+ by 2018 — crossing 50% adoption circa 2015-2016, approximately 4 years from 2011-2012 baseline",
+      "access_date": "2026-07-20",
+      "quality": "MED"
+    },
+    "owners_60plus_pct": {
+      "value": 0.35,
+      "source": "Oberlo / SBA Advocacy (general small business owner age data)",
+      "url": "https://www.oberlo.com/statistics/average-age-of-small-business-owners",
+      "figure_quoted": "37% of small business owners are between 55-73 years old in 2024; share of self-employed age 65+ rose from 13.0% (2013) to 16.3% (2023) per Census/SBA",
+      "access_date": "2026-07-20",
+      "quality": "ESTIMATE",
+      "succession_shortage_documented": {
+        "value": false,
+        "evidence": "No succession shortage specifically documented for NAICS 541830 media buying agencies. General small business data cited; agency-industry-specific owner age surveys (Ad Age Agency Report) do not publish 60+ breakdowns. Estimate of 35% over 60 based on general small business demographics (37% aged 55-73) adjusted for the fact that many media buying agencies were founded in the 1990s-2000s digital-advertising expansion era by owners now in their 50s-60s."
+      }
+    },
+    "active_consolidators": {
+      "value": 3,
+      "source": "FE International / Campaign US / LinkedIn PE agency landscape (2025)",
+      "url": "https://www.feinternational.com/blog/agency-marketing-ma-consolidation-ai-exit-opportunities",
+      "figure_quoted": "PE-backed performance and digital platforms including Tinuiti, Wpromote, Power Digital, Bounteous, and New Engen roll up specialty agencies; marketing services M&A rose 14% YTD 2025. Specific media-buying (541830) PE platforms are fewer — performance media roll-ups (Tinuiti, Power Digital, New Engen) overlap with this code.",
+      "access_date": "2026-07-20",
+      "quality": "ESTIMATE"
+    },
+    "buy_mult": {
+      "value": 4.5,
+      "source": "Axial.net / First Page Sage marketing agency valuation multiples 2025",
+      "url": "https://www.axial.net/forum/digital-marketing-agency-valuation-multiples/",
+      "figure_quoted": "Small agencies $1-2M EBITDA: 3.5x-5x; average ~4.5x for agencies around $1-3M EBITDA. TobinLeff data: ~$500K EBITDA averages 3.33x. Using 4.5x as representative of band-sized (10-99 employee class) media buying agency acquisitions.",
+      "access_date": "2026-07-20",
+      "quality": "MED"
+    },
+    "exit_mult": {
+      "value": 8.5,
+      "source": "First Page Sage / Axial / JEGI Clarity M&A data 2025",
+      "url": "https://firstpagesage.com/business/marketing-agency-valuation-multiples-and-valuations/",
+      "figure_quoted": "Agencies $5-10M EBITDA: 8.1x-10.6x; larger agencies (10M+ EBITDA platform exits) typically 8x-10x for generalist media services. Using 8.5x for performance media platforms given AI/disintermediation risk discount vs. higher-growth digital specialties.",
+      "access_date": "2026-07-20",
+      "quality": "MED"
+    },
+    "pricing_structure": {
+      "value": "Commission on media spend (3-15% of billings); fixed-fee retainers benchmarked to spend; some principal-based trading margin at holdco scale. Commission dominant for independents.",
+      "source": "ANA Media Agency Compensation Practices; ANA Programmatic Transparency studies 2023-2024",
+      "url": "https://s3.amazonaws.com/media.mediapost.com/uploads/MediaAgencyCompensation.pdf",
+      "figure_quoted": "40% of respondents use commissions for programmatic media; 24% for digital media buying; 12% for general agency services (ANA 2024 programmatic benchmark). Commission and % of spend models dominate independent media agency billing.",
+      "access_date": "2026-07-20",
+      "quality": "MED"
+    }
+  },
+  "scores": {
+    "V": {
+      "arithmetic": "V_raw = labor_share × ai_replaceable_share = 0.2759 × 0.514 = 0.1418126; V = 10 × min(1, 0.1418126 / 0.25) = 10 × min(1, 0.5672504) = 10 × 0.5672504 = 5.672504",
+      "score": 5.672504
+    },
+    "C": {
+      "arithmetic": "C = 10 × pi_dist × pi_moat = 10 × 0.55 × 0.35 = 10 × 0.1925 = 1.925",
+      "score": 1.925
+    },
+    "A": {
+      "arithmetic": "A = min(10, 10 / t50_years) = min(10, 10 / 3.0) = min(10, 3.33333...) = 3.33333...",
+      "score": 3.3333333333333335
+    },
+    "B": {
+      "arithmetic": "TD = clamp(log10(121) / 4, 0, 1) = clamp(2.082785370 / 4, 0, 1) = clamp(0.520696342, 0, 1) = 0.520696342; OW = clamp((0.35 - 0.10) / 0.35, 0.1, 0.9) = clamp(0.714285714, 0.1, 0.9) = 0.714285714; succession_shortage_documented=false so no +0.1; CFD = min(0.9, log10(1+3) / 2) = min(0.9, log10(4)/2) = min(0.9, 0.602059991/2) = min(0.9, 0.301029996) = 0.301029996; B = 10 × sqrt(0.520696342 × 0.714285714) / (1 + 0.3 × 0.301029996) = 10 × sqrt(0.371925959) / (1 + 0.090308999) = 10 × 0.609856506 / 1.090308999 = 6.09856506 / 1.090308999 = 5.593428",
+      "score": 5.593428
+    },
+    "M": {
+      "arithmetic": "M = clamp(4 × (exit_mult - buy_mult) / buy_mult, 0, 10) = clamp(4 × (8.5 - 4.5) / 4.5, 0, 10) = clamp(4 × 4.0 / 4.5, 0, 10) = clamp(16.0 / 4.5, 0, 10) = clamp(3.555555..., 0, 10) = 3.555555...",
+      "score": 3.5555555555555554
+    }
+  },
+  "S": 3.732,
+  "cross_checks": {
+    "uplift_pp": 14.18,
+    "uplift_vs_A_consistent": "V_raw = 14.18pp of revenue freed. A = 3.33 (< 5). The cross-check tension condition (uplift < 3pp AND A >= 5) does not apply: uplift is 14.18pp which far exceeds 3pp. Consistent — high V with moderate-to-slow adoption speed.",
+    "terminal_value": {
+      "class": "PRESSURED",
+      "justification": "The terminal state is not full disintermediation but meaningful demand compression. Two distinct mechanisms: (1) AI cuts operator costs — commission/% of spend model means AI efficiency on internal labor (planning, trafficking, analytics) flows to operator as margin, not to clients. This is the favorable case. (2) AI replaces the operator's product — Google PMax and Meta Advantage+ automate the buy-side for the SMB/mid-market clients these 663 firms serve, shrinking the spend that flows through independent media buyers. The terminal scenario is a smaller number of firms managing complex cross-channel campaigns and principal-deal inventory for mid-market advertisers that exceed self-serve capability thresholds, while the long tail of SMB spend routes directly through platform AI. This is PRESSURED not MELTING: some demand for independent, cross-platform, vendor-neutral media expertise survives mature AI (especially for clients with $1M+ media budgets across 5+ channels), but the market shrinks significantly from today's base. The n_total=663 universe likely contracts to ~200-300 firms over 10 years."
+    },
+    "no_proxy_confirmed": "V was derived from the reconstructed role structure (prompt-guided) applied to the labor_share dataset input — no reference to M&A deal activity or PE consolidation trends. A was derived from IAB State of Data 2025 (current adoption survey) and eMarketer programmatic adoption historical analog — no reference to deal activity. Confirmed: V and A are grounded in AI capability and adoption evidence only.",
+    "pricing_model_deflation": "Billing mix: commission on media spend (~40% of transactions per ANA 2024) and fixed fees benchmarked to spend (~35%); principal-based trading margin (~15%, mostly at holdco scale, not available to band-sized independents). The commission/% of spend model means AI efficiency flows TO THE OPERATOR as margin (the billing basis is spend, not hours — AI reducing planning hours does not mechanically reduce the commission). The deflation channel is instead: (a) fee auditors (Ebiquity, MediaLink) compressing commission rates via contract renegotiation — ANA found 1/3 of advertisers revised contracts recently; (b) platform self-serve reducing the spend that flows through agencies entirely. This is reflected in pi_dist=0.55 (moderate: operator keeps AI savings as margin but faces commission-rate pressure and base erosion) and pi_moat=0.35 (meaningful but eroding switching costs; platform bypass is a real mechanism). The principal-based margin trap for small independents is noted: they cannot access the highest-capture model, so their margin structure is more exposed."
+  },
+  "confidence_overall": "MED",
+  "heterogeneous": false,
+  "top_uncertain_inputs": [
+    {
+      "input": "t50_years",
+      "plausible_range": "1.5-5.0 years",
+      "score_impact": "At t50=1.5 years: A=6.67 → S≈4.08; at t50=5.0 years: A=2.0 → S≈3.33. Range of approximately ±0.37 around base S=3.73."
+    },
+    {
+      "input": "ai_replaceable_share",
+      "plausible_range": "0.45-0.58 (driven by media planner/buyer and back-office fraction uncertainty)",
+      "score_impact": "At 0.45: V_raw=0.1242, V=4.97, S≈3.64; at 0.58: V_raw=0.1600, V=6.40, S≈3.80. Range of approximately ±0.08 around base S=3.73."
+    },
+    {
+      "input": "pi_moat",
+      "plausible_range": "0.25-0.45",
+      "score_impact": "At 0.25: C=1.375, S≈3.57; at 0.45: C=2.475, S≈3.91. Range of approximately ±0.17 around base S=3.73."
+    }
+  ],
+  "reviewer_note": "Labor_share caveat: the 0.2759 figure is computed on SUSB gross billings receipts (not net commission income). If net revenue is ~25-35% of gross billings (a typical gross-to-net ratio for commission-based media buying), the true labor_share on a net-revenue basis would be 3-4x higher (0.7-1.0+), implying V_raw would be capped at 1.0 and V=10. However, the dataset note already addresses this: the SUSB receipts figure for 541830 ($9B) and revenue/employee ($435K) suggest the SUSB is capturing mostly commission income (net), not gross billings pass-through — otherwise revenue/employee would be $2M-4M, which is holdco-scale. This creates ambiguity: if SUSB receipts approximate net commission revenue, then V=5.67 is reasonable; if there is substantial billings pass-through contamination, V could be higher. The score is reported at face value per dataset rules; this conflict is flagged here. Role-mix contamination: the 4-digit 5418 proxy (OEWS) was explicitly reconstructed per prompt guidance to remove PR specialists, graphic designers, demonstrators, and merchandise displayers — not present in actual media buying shops. The ai_replaceable_share breakdown uses reconstructed roles, not raw OEWS wage shares. Active consolidators (3) is an estimate reflecting performance-media-adjacent PE platforms; no dedicated 541830-only roll-up platform was identified in research — the true active count may be 1-4."
+}

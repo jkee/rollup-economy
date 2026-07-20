@@ -1,0 +1,341 @@
+{
+  "naics": "541940",
+  "title": "Veterinary Services",
+  "run_meta": {
+    "model_id": "claude-sonnet-4-6",
+    "run_date": "2026-07-20",
+    "run_id": "fleet-s2-541940",
+    "template_version": "3.0",
+    "prompt_version": "p3-aff6579"
+  },
+  "dataset_inputs": {
+    "labor_share": {
+      "value": 0.4494,
+      "method": "BLS Industry Productivity (IPS) direct: labor compensation (L02) $27,215.0M / sectoral output (T30) $60,564.7M, year 2022",
+      "sources": [
+        "BLS Industry Productivity and Costs flat files (ip.data.1.AllData), measures L02 and T30"
+      ],
+      "year": "2022",
+      "quality": "HIGH"
+    },
+    "role_mix": {
+      "oews_level": "5-digit 54194",
+      "occupations": [
+        {
+          "soc": "29-2056",
+          "title": "Veterinary Technologists and Technicians",
+          "emp_share": 0.257,
+          "wage_share": 0.1998
+        },
+        {
+          "soc": "31-9096",
+          "title": "Veterinary Assistants and Laboratory Animal Caretakers",
+          "emp_share": 0.2184,
+          "wage_share": 0.1419
+        },
+        {
+          "soc": "29-1131",
+          "title": "Veterinarians",
+          "emp_share": 0.1549,
+          "wage_share": 0.3725
+        },
+        {
+          "soc": "43-4171",
+          "title": "Receptionists and Information Clerks",
+          "emp_share": 0.1268,
+          "wage_share": 0.0817
+        },
+        {
+          "soc": "39-2021",
+          "title": "Animal Caretakers",
+          "emp_share": 0.0823,
+          "wage_share": 0.0445
+        },
+        {
+          "soc": "43-4051",
+          "title": "Customer Service Representatives",
+          "emp_share": 0.0345,
+          "wage_share": 0.0238
+        },
+        {
+          "soc": "43-1011",
+          "title": "First-Line Supervisors of Office and Administrative Support Workers",
+          "emp_share": 0.0263,
+          "wage_share": 0.0265
+        },
+        {
+          "soc": "43-9061",
+          "title": "Office Clerks, General",
+          "emp_share": 0.0187,
+          "wage_share": 0.0134
+        },
+        {
+          "soc": "11-1021",
+          "title": "General and Operations Managers",
+          "emp_share": 0.0127,
+          "wage_share": 0.0244
+        },
+        {
+          "soc": "43-3031",
+          "title": "Bookkeeping, Accounting, and Auditing Clerks",
+          "emp_share": 0.0075,
+          "wage_share": 0.0062
+        }
+      ],
+      "quality": "MED"
+    },
+    "n_total": {
+      "value": 26306,
+      "source": "SUSB 2022 (firms, all enterprise sizes)",
+      "year": "2022",
+      "quality": "HIGH"
+    },
+    "n_band": {
+      "value": 133,
+      "derivation": "margin 0.1565 (margins.json[54]: Damodaran Jan 2026: Business & Consumer Services EBITDA/Sales 15.65%); revenue/employee $134,841 (SUSB 2022 receipts/employment at 541940); class <5: 8,547 firms, avg revenue/firm $415,786 (class receipts/firms), implied EBITDA $65,071 -> out of $1-10M band; class 5-9: 6,573 firms, avg revenue/firm $930,923 (class receipts/firms), implied EBITDA $145,689 -> out of $1-10M band; class 10-19: 7,178 firms, avg revenue/firm $1,671,661 (class receipts/firms), implied EBITDA $261,615 -> out of $1-10M band; class 20-99: 3,831 firms, avg revenue/firm $3,892,081 (class receipts/firms), implied EBITDA $609,111 -> out of $1-10M band; class 100-499: 133 firms, avg revenue/firm $26,557,188 (class receipts/firms), implied EBITDA $4,156,200 -> IN $1-10M band; class 500+: 44 firms, avg revenue/firm $524,440,955 (class receipts/firms), implied EBITDA $82,075,009 -> out of $1-10M band; n_band = 133",
+      "margin_used": 0.1565,
+      "margin_source": "Damodaran Jan 2026: Business & Consumer Services EBITDA/Sales 15.65%",
+      "quality": "ESTIMATE"
+    }
+  },
+  "inputs": {
+    "ai_replaceable_share": {
+      "value": 0.135757,
+      "breakdown_by_role": [
+        {
+          "role": "Veterinarians (29-1131)",
+          "labor_share_of_total": 0.3725,
+          "within_role_automatable_fraction": 0.07,
+          "contribution": 0.026075,
+          "rationale": "Licensed physical acts (surgery, vaccination, prescribing under VCPR) are not automatable. Only documentation and SOAP note time (~30-40 min/day per clinician saved by AI scribes) is automatable. 7% is defensible upper bound within licensed clinical role.",
+          "plausible_range": "0.04-0.10"
+        },
+        {
+          "role": "Veterinary Technologists and Technicians (29-2056)",
+          "labor_share_of_total": 0.1998,
+          "within_role_automatable_fraction": 0.05,
+          "contribution": 0.009990,
+          "rationale": "Physical animal handling, anesthesia monitoring, lab draws, imaging positioning are hands-on credentialed work in chronic shortage. AI diagnostic assist trims a small fraction of lab reporting and record entry tasks.",
+          "plausible_range": "0.03-0.08"
+        },
+        {
+          "role": "Veterinary Assistants and Laboratory Animal Caretakers (31-9096)",
+          "labor_share_of_total": 0.1419,
+          "within_role_automatable_fraction": 0.03,
+          "contribution": 0.004257,
+          "rationale": "Restraint, kenneling, cleaning, feeding — fully physical work. Essentially zero AI substitution; 3% allows for minimal records data entry tasks only.",
+          "plausible_range": "0.01-0.05"
+        },
+        {
+          "role": "Receptionists and Information Clerks (43-4171)",
+          "labor_share_of_total": 0.0817,
+          "within_role_automatable_fraction": 0.55,
+          "contribution": 0.044935,
+          "rationale": "Most AI-exposed block in the clinic. Scheduling, appointment reminders, triage chat, prescription-refill requests, and payment collection are being automated by AI phone/text agents now (e.g., VetHero, Digitail, Shepherd AI). In-person check-in, grief-laden conversations, and clinic flow management keep some human presence. 55% is consistent with vendor surveys showing majority of front-desk volume handled by AI tools.",
+          "plausible_range": "0.40-0.70"
+        },
+        {
+          "role": "Animal Caretakers (39-2021)",
+          "labor_share_of_total": 0.0445,
+          "within_role_automatable_fraction": 0.02,
+          "contribution": 0.000890,
+          "rationale": "Boarding, grooming, feeding — entirely physical. Essentially no AI substitution; 2% allows for inventory/feeding-schedule logging only.",
+          "plausible_range": "0.01-0.04"
+        },
+        {
+          "role": "Customer Service Representatives (43-4051)",
+          "labor_share_of_total": 0.0238,
+          "within_role_automatable_fraction": 0.60,
+          "contribution": 0.014280,
+          "rationale": "Similar to receptionists: outbound reminders, phone triage, chat support, and insurance reimbursement follow-up are highly automatable. Slightly higher fraction than reception because CSR tasks skew toward information transfer with less in-person requirement.",
+          "plausible_range": "0.45-0.75"
+        },
+        {
+          "role": "First-Line Supervisors of Office and Administrative Support Workers (43-1011)",
+          "labor_share_of_total": 0.0265,
+          "within_role_automatable_fraction": 0.25,
+          "contribution": 0.006625,
+          "rationale": "Scheduling optimization, KPI reporting, inventory management, and payroll prep automate; staff management, client escalation, and morale functions persist. 25% is a modest fraction reflecting the supervisory nature of the role.",
+          "plausible_range": "0.15-0.35"
+        },
+        {
+          "role": "Office Clerks, General (43-9061)",
+          "labor_share_of_total": 0.0134,
+          "within_role_automatable_fraction": 0.70,
+          "contribution": 0.009380,
+          "rationale": "Records requests, filing, data entry, and report prep are near-fully automatable. 70% reflects that a minority of tasks require physical presence or judgment.",
+          "plausible_range": "0.55-0.85"
+        },
+        {
+          "role": "General and Operations Managers (11-1021)",
+          "labor_share_of_total": 0.0244,
+          "within_role_automatable_fraction": 0.20,
+          "contribution": 0.004880,
+          "rationale": "Financial reporting, payroll prep, inventory analytics automate; client escalation, staff management, vendor negotiation, and strategic decisions persist. 20% reflects modest automation of the managerial task mix.",
+          "plausible_range": "0.12-0.30"
+        },
+        {
+          "role": "Bookkeeping, Accounting, and Auditing Clerks (43-3031)",
+          "labor_share_of_total": 0.0062,
+          "within_role_automatable_fraction": 0.75,
+          "contribution": 0.004650,
+          "rationale": "AP/AR, invoicing, reconciliation, and insurance claim submission (pet-insurance reimbursement paperwork) automate near-fully with AI bookkeeping tools. 75% allows for audit-related judgment tasks remaining.",
+          "plausible_range": "0.60-0.85"
+        },
+        {
+          "role": "Other unlisted roles (estimated tail)",
+          "labor_share_of_total": 0.0653,
+          "within_role_automatable_fraction": 0.15,
+          "contribution": 0.009795,
+          "rationale": "Remaining ~6.5% of wage bill not captured in OEWS top-10. Likely back-office admin, IT, and miscellaneous support roles. Conservative 15% automation fraction reflecting mixed composition.",
+          "plausible_range": "0.08-0.22"
+        }
+      ],
+      "quality": "MED"
+    },
+    "pi_dist": {
+      "value": 0.72,
+      "rationale": "Veterinary clinics own the client record, location, and appointment relationship directly — no upstream gatekeeper, platform, or procurement department intermediates. Fee-for-service pricing with no third-party cost audit: when AI cuts front-desk and records labor, the clinic keeps the savings (no mechanism transfers them to clients by contract). Post-acquisition attrition from corporate consolidators is ~10-15% over 2 years (well-managed transitions retain most clients through medical-record continuity and location retention). Tempered from a higher value by local market competition (26K+ firms, multiple clinics in most markets) and the corporate pricing umbrella effect in consolidated markets. 0.72 reflects strong direct client relationship with moderate competitive pressure.",
+      "plausible_range": "0.60-0.80",
+      "sources": [
+        "NAPHIA State of Industry 2025: pet insurance penetration 3.9% — no third-party payer auditing costs",
+        "CT Acquisitions veterinary M&A guide 2026: client retention post-acquisition"
+      ],
+      "quality": "MED"
+    },
+    "pi_moat": {
+      "value": 0.68,
+      "rationale": "State practice acts require a licensed DVM for all medical procedures; VCPR (valid vet-client-patient relationship) is legally required for prescribing in most states (in-person in ~35 states), which gates the revenue-bearing medical acts against AI bypass. ~3.9% pet insurance penetration means no payer controls pricing or can claw back savings. Physical location stickiness (30-40 min average drive tolerance) and medical-record incumbency add switching cost. Moat is real but bounded: AI symptom checkers and telehealth may deflect low-acuity visits (flea/tick advice, minor dermatology questions) at the margin, and a minority of states have loosened in-person VCPR requirements for telemedicine. Competitive intensity is moderate (fragmented GP market). 0.68 reflects strong-but-not-impenetrable moat.",
+      "plausible_range": "0.55-0.78",
+      "sources": [
+        "AVMA VCPR policy position and state law survey (most states require in-person for prescribing)",
+        "NAPHIA 2025 SOI: 3.9% US pet insurance penetration — no cost-audit mechanism"
+      ],
+      "quality": "MED"
+    },
+    "t50_years": {
+      "value": 7.0,
+      "derivation": "Current material AI adoption at the firm level: ~25% of clinics actively using AI tools (Digitail/AAHA Dec 2023-Jan 2024 survey reports 39.2% of professionals use AI; applying a haircut to firm-level material deployment gives ~25%). Historical analog: veterinary PIMS/cloud practice management software began ~5% adoption in early 2000s and reached ~50% adoption by ~2018 — approximately 15 years. AI tools are spreading faster due to: (a) no infrastructure requirement (SaaS), (b) intense vendor marketing, (c) clear ROI for scribes. From current 25% to 50%: half the S-curve remains, but momentum is faster. Estimated remaining time = 7 years (2033). Sensitivity: if adoption is already higher (35%) the remaining time is 5 years; if slower (slower tech curve), 10 years.",
+      "plausible_range": "5-10 years",
+      "quality": "MED"
+    },
+    "current_adoption_pct": {
+      "value": 0.25,
+      "source": "Digitail and AAHA Survey (published by Digitail, 2024)",
+      "url": "https://digitail.com/blog/39-2-of-veterinary-professionals-use-ai-tools-in-their-practice-digitail-and-aaha-survey/",
+      "figure_quoted": "39.2% of veterinary professionals reported using AI tools in their practice settings; 69.5% of those who tried AI use it daily or weekly",
+      "access_date": "2026-07-20",
+      "quality": "MED"
+    },
+    "historical_analogs": {
+      "value": "Veterinary PIMS/cloud practice management software: ~15 years from ~5% (early 2000s) to ~50% adoption (~2018). Human medicine EHR (with HITECH mandate): ~10 years. Veterinary has no mandate, so slower curve applies.",
+      "source": "Digitail blog on Evolution of Veterinary PIMS; HappyDoc AI blog on Evolution of Veterinary Practice Management Systems",
+      "url": "https://happydoc.ai/blog/the-evolution-of-veterinary-practice-management-systems-from-paper-records-to-ai-powered-intelligence",
+      "figure_quoted": "Evolution from paper records (1960s-1980s) through early digital (1980s-1990s) to cloud PIMS (2010s); adoption trajectory implies ~15-year diffusion to majority",
+      "access_date": "2026-07-20",
+      "quality": "MED"
+    },
+    "owners_60plus_pct": {
+      "value": 0.38,
+      "source": "AVMA Census of Veterinarians (2019/2021) and co.vet veterinarian facts summary",
+      "url": "https://co.vet/post/veterinarian-facts/",
+      "figure_quoted": "39% of vets are currently 55 or older; baby boomers represent about one-third of veterinary practice owners; ~40% of practice-owning veterinarians considering selling in next 5 years (AVMA 2021 Census)",
+      "access_date": "2026-07-20",
+      "quality": "MED",
+      "succession_shortage_documented": {
+        "value": true,
+        "evidence": "AVMA 2021 Census: ~40% of practice-owning veterinarians considering selling in next 5 years; individual proprietorships declined from 19.7% in 2012 to 9.9% in 2022; younger DVMs less likely to own due to educational debt and corporate employment growth — documented succession shortage driving PE/corporate consolidation wave"
+      }
+    },
+    "active_consolidators": {
+      "value": 7,
+      "source": "CT Acquisitions Private Equity Veterinary 2026 Report; Transitions Elite veterinary consolidator directory 2026",
+      "url": "https://ctacquisitions.com/guides/private-equity-veterinary-2026/",
+      "figure_quoted": "Active PE-backed platforms as of 2026: Mars Veterinary Health, Ethos Veterinary Health (JAB/NVA), PetVet Care Centers (KKR), Mission Pet Health (SVP+MVP merger), Thrive Pet Healthcare (TSG Consumer), VetCor (Harvest+Cressey), Heartland Veterinary Partners — 7 institutional platforms actively acquiring",
+      "access_date": "2026-07-20",
+      "quality": "MED"
+    },
+    "buy_mult": {
+      "value": 7.5,
+      "source": "CT Acquisitions Veterinary Practice M&A Multiples Report 2026",
+      "url": "https://ctacquisitions.com/guides/veterinary-practice-ma-multiples-2026/",
+      "figure_quoted": "LMM cohort ($1M-$3M adjusted EBITDA, 2024-Q1 2026 closed transactions): 6.5x to 9.5x adjusted EBITDA; median approximately 7.5x. Post-2022 compression: roughly 15-20% below 2020-2022 peak.",
+      "access_date": "2026-07-20",
+      "quality": "MED"
+    },
+    "exit_mult": {
+      "value": 11.5,
+      "source": "CT Acquisitions Veterinary Practice M&A Multiples Report 2026",
+      "url": "https://ctacquisitions.com/guides/veterinary-practice-ma-multiples-2026/",
+      "figure_quoted": "Platform assets ($10M+ adjusted EBITDA): 10.5x to 14.0x adjusted EBITDA (median 11.5x-12.5x). Reflects post-2022 compression from 13.0x-17.0x peak.",
+      "access_date": "2026-07-20",
+      "quality": "MED"
+    },
+    "pricing_structure": {
+      "value": "Retail fee-for-service: clinic-set price schedule paid out of pocket by pet owners (~96.1% of visits). Pet insurance reimburses owners (not clinics) at 3.9% US penetration. No cost-plus, no audited billing, no third-party payer with pricing control. Some subscription wellness plans (~10-15% of GP revenue at adopting clinics) are fixed monthly fees.",
+      "source": "NAPHIA State of the Industry Report 2025; AVMA news on US pet insurance industry",
+      "url": "https://naphia.org/news/naphia-news/soi-report-2025/",
+      "figure_quoted": "In 2024, overall US pet insurance penetration reached 3.9% of 163.6 million pets (NAPHIA 2025 SOI). Gross Written Premiums $4.7 billion in 2024.",
+      "access_date": "2026-07-20",
+      "quality": "HIGH"
+    }
+  },
+  "scores": {
+    "V": {
+      "arithmetic": "V_raw = labor_share × ai_replaceable_share = 0.4494 × 0.135757 = 0.061023; V = 10 × min(1, 0.061023 / 0.25) = 10 × min(1, 0.244093) = 10 × 0.244093 = 2.44093",
+      "score": 2.44093
+    },
+    "C": {
+      "arithmetic": "C = 10 × pi_dist × pi_moat = 10 × 0.72 × 0.68 = 10 × 0.4896 = 4.896",
+      "score": 4.896
+    },
+    "A": {
+      "arithmetic": "A = min(10, 10 / t50_years) = min(10, 10 / 7.0) = min(10, 1.42857) = 1.42857",
+      "score": 1.42857
+    },
+    "B": {
+      "arithmetic": "TD = clamp(log10(133) / 4, 0, 1) = clamp(2.12385 / 4, 0, 1) = clamp(0.530962, 0, 1) = 0.530962; OW = clamp((0.38 - 0.10) / 0.35, 0.1, 0.9) = clamp(0.28 / 0.35, 0.1, 0.9) = clamp(0.80000, 0.1, 0.9) = 0.80000; succession_shortage_documented = true -> OW = min(1.0, 0.80000 + 0.1) = 0.90000; CFD = min(0.9, log10(1 + 7) / 2) = min(0.9, log10(8) / 2) = min(0.9, 0.90309 / 2) = min(0.9, 0.45154) = 0.45154; B = 10 × sqrt(0.530962 × 0.90000) / (1 + 0.3 × 0.45154) = 10 × sqrt(0.477866) / (1 + 0.135463) = 10 × 0.691278 / 1.135463 = 6.91278 / 1.135463 = 6.08877",
+      "score": 6.08877
+    },
+    "M": {
+      "arithmetic": "M = clamp(4 × (exit_mult - buy_mult) / buy_mult, 0, 10) = clamp(4 × (11.5 - 7.5) / 7.5, 0, 10) = clamp(4 × 4.0 / 7.5, 0, 10) = clamp(4 × 0.53333, 0, 10) = clamp(2.13333, 0, 10) = 2.13333",
+      "score": 2.13333
+    }
+  },
+  "S": 2.94542,
+  "cross_checks": {
+    "uplift_pp": 6.1,
+    "uplift_vs_A_consistent": "V_raw × 100 = 6.1 pp EBITDA uplift. A = 1.43, which is below 5, so the cross-check tension condition (uplift < 3pp while A >= 5) does not apply. Uplift of 6.1 pp is consistent with A of 1.43: adoption is genuinely slow (7-year t50) because veterinary AI beyond scribes requires significant workflow change and the ~75% of the wage bill in licensed/physical roles offers limited scope for automation. No tension.",
+    "terminal_value": {
+      "class": "PRESSURED",
+      "justification": "Licensed physical acts (surgery, vaccination, dental, fracture repair, euthanasia) require a DVM under state practice acts and the VCPR requirement for prescribing gates the revenue-bearing acts against AI bypass — the operator's core product is DURABLE against AI replacement. However, AI triage tools and telehealth may deflect low-acuity visits (minor dermatology, behavioral questions, flea/tick queries) that previously triggered paid exam-room visits, and rising corporate pricing (3% visit decline in 2025 despite revenue growth) signals price-sensitive demand erosion at the margin. Several states have loosened in-person VCPR requirements for telemedicine, creating a boundary-erosion risk. Classification: PRESSURED — physical vet care demand survives mature AI but faces volume and margin pressure at the low-acuity edges, with VCPR boundary evolution as the key terminal risk."
+    },
+    "no_proxy_confirmed": "V was derived solely from OEWS wage-share data for specific occupations and within-role automation fractions based on task characterization (licensed/physical vs. documentable/administrative). A was derived from the Digitail/AAHA current adoption survey and a PIMS historical diffusion analog. No reference to PE deal activity, M&A volumes, or consolidation trends in setting V or A.",
+    "pricing_model_deflation": "Billing is retail fee-for-service (clinic-set prices, ~96% paid out of pocket). Pet insurance reimburses the pet owner, not the clinic, so the insurer does not audit the clinic's cost structure or claw back AI savings. No cost-plus, no audited billing, no procurement intermediary. When AI reduces front-desk and records labor, the savings accrue to the clinic operator directly — there is no contractual mechanism passing them to clients. This structure is reflected in pi_dist = 0.72 (strong direct capture) rather than a lower value. The moderate discount from 1.0 reflects competitive market pressure from 26K+ firms and the pricing umbrella dynamics in consolidated markets, not a billing-model deflation mechanism."
+  },
+  "confidence_overall": "MED",
+  "heterogeneous": false,
+  "top_uncertain_inputs": [
+    {
+      "input": "t50_years",
+      "plausible_range": "5-10 years",
+      "score_impact": "t50=5 -> A=2.0, S~3.19; t50=10 -> A=1.0, S~2.71. Delta ~0.5 S points across plausible range. Biggest single lever."
+    },
+    {
+      "input": "ai_replaceable_share",
+      "plausible_range": "0.10-0.18",
+      "score_impact": "Low end (0.10) -> V=1.80, S~2.78; high end (0.18) -> V=3.24, S~3.09. Delta ~0.3 S points."
+    },
+    {
+      "input": "owners_60plus_pct",
+      "plausible_range": "0.30-0.50",
+      "score_impact": "At 0.30: OW=0.657+0.1=0.757, B=5.60; at 0.50: OW capped at 0.9+0.1->1.0, B=6.44. Delta ~0.3 B points, S impact ~0.1 S points. Moderate."
+    },
+    {
+      "input": "buy_mult",
+      "plausible_range": "6.5-9.5",
+      "score_impact": "buy_mult=6.5 -> M=clamp(4*(11.5-6.5)/6.5,0,10)=clamp(3.077,0,10)=3.077, S~3.11; buy_mult=9.5 -> M=clamp(4*(11.5-9.5)/9.5,0,10)=clamp(0.842,0,10)=0.842, S~2.25. Wide range due to M sensitivity to buy_mult."
+    }
+  ],
+  "reviewer_note": "n_band note: The 133 firms in the 100-499 class are multi-doctor group practices, not the classic roll-up target (2-4 DVM clinic, $1.5-4M revenue). The real target universe for consolidators is the 3,831-firm 20-99 class (avg EBITDA ~$609K, below $1M threshold) plus the 7,178-firm 10-19 class. At a well-run GP margin of 18-20% (above the 15.65% Damodaran proxy), the 20-99 class would enter the band. This means n_band = 133 significantly understates the actual acquirable universe; the TD subfactor is therefore understated. // S arithmetic check: V=2.44093, C=4.896, A=1.42857, B=6.08877, M=2.13333; product=2.44093×4.896=11.95399×1.42857=17.07713×6.08877=104.0166×2.13333=221.902; S=221.902^0.2=2.94595. // buy_mult and exit_mult are both post-2022 compressed figures (per CT Acquisitions report: ~15-20% below 2020-2022 peak). Peak-era multiples would be buy~9x, exit~14x, giving M=clamp(4*(14-9)/9,0,10)=2.22 — similar to current M. Multiple compression has been proportional, so M is relatively stable across the cycle. // Thrive Pet Healthcare financial distress (S&P CCC+ April 2025) noted: one of the 7 counted consolidators is in distress; true actively-acquiring count may be closer to 6. CFD sensitivity: active_consolidators=6 -> CFD=min(0.9,log10(7)/2)=min(0.9,0.4226)=0.4226; B=10*sqrt(0.530962*0.9)/(1+0.3*0.4226)=6.91278/1.12678=6.133 — immaterial change to S."
+}

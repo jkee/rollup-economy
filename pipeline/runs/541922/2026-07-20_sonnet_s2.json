@@ -1,0 +1,340 @@
+{
+  "naics": "541922",
+  "title": "Commercial Photography",
+  "run_meta": {
+    "model_id": "claude-sonnet-4-6",
+    "run_date": "2026-07-20",
+    "run_id": "fleet-s2-541922",
+    "template_version": "3.0",
+    "prompt_version": "p3-aff6579"
+  },
+  "dataset_inputs": {
+    "labor_share": {
+      "value": 0.3098,
+      "method": "QCEW 2024 private total annual wages at 541922 ($721,209,516) x benefits multiplier 1.4294 [ECEC private-industry total comp $46.60/hr / wages $32.60/hr = 1.4294 (March 2026 reference period)] / SUSB 2022 receipts at 541922 ($2,481,739,000). Vintage mismatch: 2024 wages over 2022 receipts, stated. Level: 6-digit. Harmonized to IPS basis ÷1.3407 (median of 65 dual-method codes).",
+      "sources": [
+        "BLS QCEW 2024 annual averages (US000, private)",
+        "BLS ECEC news release (raw/ecec.nr0.htm)",
+        "Census SUSB 2022 (receipts by NAICS)"
+      ],
+      "year": "2024 wages / 2022 receipts",
+      "quality": "MED"
+    },
+    "role_mix": {
+      "oews_level": "5-digit 54192",
+      "occupations": [
+        {
+          "soc": "27-4021",
+          "title": "Photographers",
+          "emp_share": 0.5303,
+          "wage_share": 0.5072
+        },
+        {
+          "soc": "43-9061",
+          "title": "Office Clerks, General",
+          "emp_share": 0.0575,
+          "wage_share": 0.0433
+        },
+        {
+          "soc": "11-1021",
+          "title": "General and Operations Managers",
+          "emp_share": 0.0569,
+          "wage_share": 0.1033
+        },
+        {
+          "soc": "51-9151",
+          "title": "Photographic Process Workers and Processing Machine Operators",
+          "emp_share": 0.0359,
+          "wage_share": 0.031
+        },
+        {
+          "soc": "41-3091",
+          "title": "Sales Representatives of Services, Except Advertising, Insurance, Financial Services, and Travel",
+          "emp_share": 0.0299,
+          "wage_share": 0.0295
+        },
+        {
+          "soc": "41-2031",
+          "title": "Retail Salespersons",
+          "emp_share": 0.0272,
+          "wage_share": 0.0188
+        },
+        {
+          "soc": "43-4051",
+          "title": "Customer Service Representatives",
+          "emp_share": 0.0254,
+          "wage_share": 0.0186
+        },
+        {
+          "soc": "27-4031",
+          "title": "Camera Operators, Television, Video, and Film",
+          "emp_share": 0.023,
+          "wage_share": 0.026
+        },
+        {
+          "soc": "43-3031",
+          "title": "Bookkeeping, Accounting, and Auditing Clerks",
+          "emp_share": 0.0181,
+          "wage_share": 0.0211
+        },
+        {
+          "soc": "27-2012",
+          "title": "Producers and Directors",
+          "emp_share": 0.0156,
+          "wage_share": 0.025
+        }
+      ],
+      "quality": "MED"
+    },
+    "n_total": {
+      "value": 4902,
+      "source": "SUSB 2022 (firms, all enterprise sizes)",
+      "year": "2022",
+      "quality": "HIGH"
+    },
+    "n_band": {
+      "value": 6,
+      "derivation": "margin 0.1565 (margins.json[54]: Damodaran Jan 2026: Business & Consumer Services EBITDA/Sales 15.65%); revenue/employee $197,654 (SUSB 2022 receipts/employment at 541922); class <5: 4,417 firms, avg revenue/firm $304,123 (class receipts/firms), implied EBITDA $47,595 -> out of $1-10M band; class 5-9: 272 firms, avg revenue/firm $1,123,423 (class receipts/firms), implied EBITDA $175,816 -> out of $1-10M band; class 10-19: 122 firms, avg revenue/firm $1,767,893 (class receipts/firms), implied EBITDA $276,675 -> out of $1-10M band; class 20-99: 74 firms, avg revenue/firm $6,381,662 (class receipts/firms), implied EBITDA $998,730 -> out of $1-10M band; class 100-499: 11 firms, avg revenue/firm $6,048,909 (class receipts/firms), implied EBITDA $946,654 -> out of $1-10M band; class 500+: 6 firms, avg revenue/firm $13,065,500 (class receipts/firms), implied EBITDA $2,044,751 -> IN $1-10M band; n_band = 6",
+      "margin_used": 0.1565,
+      "margin_source": "Damodaran Jan 2026: Business & Consumer Services EBITDA/Sales 15.65%",
+      "quality": "ESTIMATE"
+    }
+  },
+  "inputs": {
+    "ai_replaceable_share": {
+      "value": 0.403465,
+      "breakdown_by_role": [
+        {
+          "role": "Photographers (27-4021)",
+          "labor_share_of_total": 0.5072,
+          "within_role_automatable_fraction": 0.35,
+          "contribution": 0.17752,
+          "rationale": "Physical on-location and studio capture (products, food, architecture, corporate) is not automatable; but retouching, compositing, background replacement, and batch editing — a large share of billed hours — are already AI-automated. Generative AI attacks the product-shot and lifestyle deliverable directly. Fraction 0.35 reflects ~35% of photographer labor hours in post-production and retouching tasks now largely AI-executable, while on-set capture and art direction remain human.",
+          "plausible_range": "0.25-0.50"
+        },
+        {
+          "role": "Office Clerks, General (43-9061)",
+          "labor_share_of_total": 0.0433,
+          "within_role_automatable_fraction": 0.70,
+          "contribution": 0.030310,
+          "rationale": "Booking, invoicing, filing, licensing renewal, and asset delivery are near-fully automatable by AI workflow tools. Fraction 0.70 leaves 30% for judgment-heavy communication tasks.",
+          "plausible_range": "0.55-0.80"
+        },
+        {
+          "role": "General and Operations Managers (11-1021)",
+          "labor_share_of_total": 0.1033,
+          "within_role_automatable_fraction": 0.30,
+          "contribution": 0.030990,
+          "rationale": "Production scheduling, bid assembly, resource planning, and studio ops are substantially automatable. Agency/brand relationship management, vendor negotiations, and strategic decisions persist as human work. Fraction 0.30.",
+          "plausible_range": "0.20-0.40"
+        },
+        {
+          "role": "Photographic Process Workers and Processing Machine Operators (51-9151)",
+          "labor_share_of_total": 0.0310,
+          "within_role_automatable_fraction": 0.85,
+          "contribution": 0.026350,
+          "rationale": "Digital asset processing, file prep, format conversion, color grading pipelines, and delivery automation are near-fully AI-executable. A small fraction involves bespoke hand-finishing. Fraction 0.85.",
+          "plausible_range": "0.75-0.95"
+        },
+        {
+          "role": "Sales Representatives of Services (41-3091)",
+          "labor_share_of_total": 0.0295,
+          "within_role_automatable_fraction": 0.35,
+          "contribution": 0.010325,
+          "rationale": "Quoting, usage-license paperwork, and CRM updates automate; winning new agency/brand accounts is relationship work that persists. Fraction 0.35.",
+          "plausible_range": "0.25-0.50"
+        },
+        {
+          "role": "Retail Salespersons (41-2031)",
+          "labor_share_of_total": 0.0188,
+          "within_role_automatable_fraction": 0.40,
+          "contribution": 0.007520,
+          "rationale": "This role share likely reflects portrait-studio contamination in the 5-digit 54192 mix. In commercial context, retail-adjacent ordering and quoting automates at ~40%; in-person advisory persists.",
+          "plausible_range": "0.30-0.55"
+        },
+        {
+          "role": "Customer Service Representatives (43-4051)",
+          "labor_share_of_total": 0.0186,
+          "within_role_automatable_fraction": 0.55,
+          "contribution": 0.010230,
+          "rationale": "Client communications, scheduling confirmations, delivery notifications, and FAQ responses automate well. Escalations and complex client negotiations persist. Fraction 0.55.",
+          "plausible_range": "0.40-0.70"
+        },
+        {
+          "role": "Camera Operators, Television, Video, and Film (27-4031)",
+          "labor_share_of_total": 0.0260,
+          "within_role_automatable_fraction": 0.30,
+          "contribution": 0.007800,
+          "rationale": "Corporate/brand video shoots are physical; editing, cutdowns, and versioning automate heavily. Fraction 0.30 reflects the post-production automatable share.",
+          "plausible_range": "0.20-0.45"
+        },
+        {
+          "role": "Bookkeeping, Accounting, and Auditing Clerks (43-3031)",
+          "labor_share_of_total": 0.0211,
+          "within_role_automatable_fraction": 0.80,
+          "contribution": 0.016880,
+          "rationale": "Invoicing, per-image fee reconciliation, licensing-fee tracking, and bookkeeping automate near-fully. Fraction 0.80.",
+          "plausible_range": "0.65-0.90"
+        },
+        {
+          "role": "Producers and Directors (27-2012)",
+          "labor_share_of_total": 0.0250,
+          "within_role_automatable_fraction": 0.25,
+          "contribution": 0.006250,
+          "rationale": "Capacity planning and margin management automate somewhat; creative direction, talent/agency relationship management, and shoot orchestration persist as human work. Fraction 0.25.",
+          "plausible_range": "0.15-0.35"
+        },
+        {
+          "role": "Other/unlisted roles (admin, production assistants, digital techs)",
+          "labor_share_of_total": 0.1762,
+          "within_role_automatable_fraction": 0.45,
+          "contribution": 0.079290,
+          "rationale": "The 10 listed OEWS occupations account for 82.38% of wage bill. The remaining 17.62% is estimated to be production assistants, digital technicians, photo editors, and admin support. Physical on-set roles (production assistants) are not automatable; digital tech and editing roles are largely automatable. Estimated 45% automatable for this mixed tail.",
+          "plausible_range": "0.35-0.55"
+        }
+      ],
+      "quality": "MED"
+    },
+    "pi_dist": {
+      "value": 0.45,
+      "rationale": "Commercial photography pricing is split between day rates (~50% of revenue) and usage licensing (~50%). Clients (brands, agencies, procurement departments) own the relationship: they write the brief, control usage licensing terms, and increasingly hold AI-generated alternatives as a cost lever. Usage licensing is the most deflation-exposed line — clients can produce comparable imagery at $3-12/image vs. $85-250/SKU via AI tools, applying systematic downward pressure on licensing fees. Day rates show more resistance where physical presence or brand-specific shooter style is required, but procurement teams use AI alternatives as leverage at contract renewal. Firm-level relationship control is moderate-low: commercial studios with established agency relationships retain some client loyalty, but most commercial work is bid-based and transactional. Score 0.45 reflects that AI savings flow substantially to clients via licensing collapse, partially offset by physical-shoot day-rate stickiness.",
+      "plausible_range": "0.35-0.60",
+      "sources": [
+        "Wonderful Machine pricing & negotiation case archives — wonderfulmachine.com",
+        "autophoto.ai/blog/ai-product-photography-photo-editing-stats — AI vs traditional photography cost comparison",
+        "Getty Images 2024 investor disclosures — creative segment -4.8% YoY"
+      ],
+      "quality": "MED"
+    },
+    "pi_moat": {
+      "value": 0.40,
+      "rationale": "No licensure requirement for commercial photography. Physical presence required for on-location/studio work is a partial moat (cannot be digitally replaced for e-commerce shots that must depict actual products, regulated advertising with substantiation requirements, live corporate events). Photographer portfolio/style creates switching costs but these are personal, not firm-level — acquirer retention risk is high when the owner-photographer departs. E-commerce and catalog product photography faces direct substitution from AI image generation at 60-70% cost reduction. Advertising/lifestyle photography faces substitution for synthetic-acceptable uses. The genuine moat segments are: physical-truth e-commerce (product must match real item for online retail accuracy), regulated advertising depictions, and live events. These segments represent an estimated 40-50% of commercial photography revenue. Score 0.40 reflects moderate physical moat in physical-truth segment, low moat in synthetic-acceptable segment.",
+      "plausible_range": "0.30-0.55",
+      "sources": [
+        "autophoto.ai — 60-70% cost reduction AI vs traditional photography",
+        "petapixel.com/2025/01/12 — Getty/Shutterstock stock photo crisis from generative AI",
+        "Association of Photographers — 58% of photographers surveyed lost assignments to AI by early 2025"
+      ],
+      "quality": "MED"
+    },
+    "t50_years": {
+      "value": 3.5,
+      "derivation": "Current adoption ~25% (share of commercial photography firms materially using AI in automatable functions: retouching, batch editing, generative product imagery). Source: autophoto.ai stats (14% of eCommerce shops actively using AI for image manipulation; 25% using generative AI for photography work); Zenfolio 2026 SOPI (nearly 50% using AI weekly but primarily for admin/text tasks — visual AI materially lower). Using 25% as the current material-adoption rate for AI in automatable production functions. Historical analog: film-to-digital transition in professional photography: ~1998 (early digital workflows) to ~2008 (majority adoption) = ~10 years. However, AI diffusion is faster: software-only delivery, no hardware investment required, strong cost incentive (60-70% cost reduction for product shots), and competitive pressure from clients already using AI tools. Adjustment: 10-year analog × 0.4 speed factor = 4 years to 50%, minus 2 years already elapsed since early adoption (2024 baseline) × progress to 25% = ~3.5 years from today (2026). Plausible range: 2-5 years.",
+      "plausible_range": "2-5 years",
+      "quality": "MED"
+    },
+    "current_adoption_pct": {
+      "value": 0.25,
+      "source": "autophoto.ai AI product photography statistics 2026; Zenfolio 2026 State of the Photography Industry Survey",
+      "url": "https://autophoto.ai/blog/ai-product-photography-photo-editing-stats/",
+      "figure_quoted": "14% of eCommerce shops actively use AI for image manipulation; 25% of respondents have used generative AI for photography-related work; nearly 50% of photographers use AI tools weekly (but primarily for admin tasks, not visual production)",
+      "access_date": "2026-07-20",
+      "quality": "MED"
+    },
+    "historical_analogs": {
+      "value": "Film-to-digital transition in commercial photography: ~10 years (~1998 to ~2008) to reach majority (>50%) adoption. Professional workflows shifted from analog film to digital capture/delivery over this period, driven by turnaround speed requirements and client delivery format changes.",
+      "source": "Digital photography Wikipedia; PetaPixel industry history; Canonoutsideofauto digital camera timeline",
+      "url": "https://en.wikipedia.org/wiki/Digital_photography",
+      "figure_quoted": "The shift from film to digital in professional photography occurred over the late 1990s through mid-2000s, with digital becoming majority workflow for commercial photographers approximately 2006-2010",
+      "access_date": "2026-07-20",
+      "quality": "MED"
+    },
+    "owners_60plus_pct": {
+      "value": 0.28,
+      "source": "Zenfolio 2026 State of the Photography Industry Survey",
+      "url": "https://zenfolio.com/sopi/2026-april/",
+      "figure_quoted": "The 60 and older demographic accounts for 28% of photography industry responses",
+      "access_date": "2026-07-20",
+      "quality": "MED",
+      "succession_shortage_documented": {
+        "value": false,
+        "evidence": "Gallup 2024 found most small business owners lack succession plans (general finding, not photography-specific). No photography-specific succession shortage is documented by ASMP, PPA, or trade sources. The high owner-operator dependence of commercial studios (portfolio is personal) makes succession structurally difficult but no trade body has documented a shortage distinct from the general small-business pattern."
+      }
+    },
+    "active_consolidators": {
+      "value": 1,
+      "source": "CT Acquisitions photography M&A guide; John Salony photography M&A guide; general PE roll-up market research 2024-2026",
+      "url": "https://www.johnsalony.com/photography",
+      "figure_quoted": "Strategic acquirers in photography include CADY (school photography), Jostens and Herff Jones (yearbook), ImageQuix (high-volume software platform), Aryeo (real-estate media, acquired by Zillow). No PE-backed platform identified as actively rolling up commercial (advertising/brand) photography studios in the last 24 months.",
+      "access_date": "2026-07-20",
+      "quality": "LOW"
+    },
+    "buy_mult": {
+      "value": 4.0,
+      "source": "John Salony photography M&A guide; CT Acquisitions photography business sale guide",
+      "url": "https://www.johnsalony.com/photography",
+      "figure_quoted": "Photography studios with commercial accounts and photographer teams: 1.5x-3.0x SDE for owner-dependent studios; 4x-9x EBITDA for larger operations with professional management. For commercial studios with some recurring work: ~2.5x SDE. Converting SDE to EBITDA basis: SDE ≈ EBITDA + owner replacement cost (~$80-100K). For $100K EBITDA after normalization: EV ≈ 4.0x-4.5x EBITDA.",
+      "access_date": "2026-07-20",
+      "quality": "LOW"
+    },
+    "exit_mult": {
+      "value": 7.0,
+      "source": "John Salony photography M&A guide; general professional/creative services EBITDA multiples",
+      "url": "https://www.johnsalony.com/photography",
+      "figure_quoted": "PE buyers pay 3.5x-5.0x SDE premium; for EBITDA-based larger operations: 4x-9x EBITDA range cited. For $10M+ EBITDA platforms in creative/professional services (no dedicated photography comp available), general services exit multiples range 6-9x. Setting 7.0x as mid-range for a hypothetical $10M+ EBITDA commercial photography platform with recurring institutional accounts.",
+      "access_date": "2026-07-20",
+      "quality": "ESTIMATE"
+    },
+    "pricing_structure": {
+      "value": "Day rates (~50% of revenue) plus usage licensing (~50%). Day rates for commercial photographers: $2,500-$5,000/day creative fee. Usage licensing: structured as flat fee by term/territory or percentage of media value, typically $5,000-$50,000 per usage tier. AI impact: licensing fees are most deflated (AI alternatives exist at $3-12/image vs $85-250/SKU traditional), creating a free substitute that procurement teams use as leverage at contract renewal. Day rates show more resistance where physical presence or brand-specific style is required.",
+      "source": "Wonderful Machine Pricing & Negotiating case archives; autophoto.ai cost comparison data",
+      "url": "https://wonderfulmachine.com/consulting/pricing-and-negotiating/",
+      "figure_quoted": "For a six-day athleisure product shoot: $2,500/day creative fee + $19,800 for 3-year web/ecommerce/social usage license. AI alternative: $3-12/image vs $85-250/SKU traditional photography — 60-70% cost reduction for product shots.",
+      "access_date": "2026-07-20",
+      "quality": "MED"
+    }
+  },
+  "scores": {
+    "V": {
+      "arithmetic": "V_raw = labor_share × ai_replaceable_share = 0.3098 × 0.403465 = 0.124993; V = 10 × min(1, 0.124993/0.25) = 10 × 0.499974 = 4.999738",
+      "score": 4.999738
+    },
+    "C": {
+      "arithmetic": "C = 10 × pi_dist × pi_moat = 10 × 0.45 × 0.40 = 1.800000",
+      "score": 1.800000
+    },
+    "A": {
+      "arithmetic": "A = min(10, 10/t50_years) = min(10, 10/3.5) = min(10, 2.857143) = 2.857143",
+      "score": 2.857143
+    },
+    "B": {
+      "arithmetic": "TD = clamp(log10(6)/4, 0, 1) = clamp(0.778151/4, 0, 1) = clamp(0.194538, 0, 1) = 0.194538; OW = clamp((0.28-0.10)/0.35, 0.1, 0.9) = clamp(0.514286, 0.1, 0.9) = 0.514286; succession_shortage=false so no +0.1; CFD = min(0.9, log10(1+1)/2) = min(0.9, 0.301030/2) = min(0.9, 0.150515) = 0.150515; B = 10 × sqrt(0.194538 × 0.514286) / (1 + 0.3 × 0.150515) = 10 × sqrt(0.100048) / 1.045154 = 10 × 0.316304 / 1.045154 = 3.026382",
+      "score": 3.026382
+    },
+    "M": {
+      "arithmetic": "M = clamp(4 × (exit_mult - buy_mult) / buy_mult, 0, 10) = clamp(4 × (7.0 - 4.0) / 4.0, 0, 10) = clamp(4 × 0.75, 0, 10) = clamp(3.0, 0, 10) = 3.000000",
+      "score": 3.000000
+    }
+  },
+  "S": 2.976044,
+  "cross_checks": {
+    "uplift_pp": 12.499346,
+    "uplift_vs_A_consistent": "uplift_pp = 12.50pp, A = 2.857143 (< 5). No tension: A is below 5 because t50 = 3.5 years reflects already-rapid adoption; the 12.5pp uplift is consistent with V ~5 (moderate AI-replaceable share in a low-labor-share industry).",
+    "terminal_value": {
+      "class": "PRESSURED",
+      "justification": "Commercial photography is PRESSURED, not MELTING. The key distinction: a significant share of commercial photography revenue requires depicting actual physical products, people, or environments — e-commerce shots must match the real item (online retail accuracy, return rate liability), regulated advertising must use genuine depictions, live corporate events cannot be fabricated, and architecture/food photography increasingly requires on-site capture for authenticity/quality standards. These uses create a persistent demand floor that AI cannot fully replace. However, synthetic-acceptable uses (lifestyle backgrounds, concept advertising, stock-style imagery) ARE melting — AI generates these at near-zero marginal cost and Getty's creative segment declining 4.8% YoY confirms the substitution is active. The blended verdict is PRESSURED: the physical-truth segment (estimated 40-55% of this code's revenue) survives at mature AI; the synthetic-acceptable segment (45-60%) shrinks substantially. The code does not classify as MELTING because a substantial fraction of demand genuinely requires a camera of something real."
+    },
+    "no_proxy_confirmed": "Confirmed. V was derived from OEWS role-mix automatable fractions based on task-level analysis of what AI can currently do (retouching, batch processing, generative product shots) vs. what requires physical presence (capture, on-location work). A was derived from current adoption surveys (Zenfolio 2026, autophoto.ai stats) and the film-to-digital historical analog, adjusted for faster AI diffusion. No deal activity, consolidation trends, or M&A comps were used for V or A.",
+    "pricing_model_deflation": "Billing mix: ~50% day rates (creative fee per shoot day), ~50% usage licensing (flat fee or percentage of media value by term/territory). AI deflation channel: usage licensing is the most exposed — AI tools produce comparable imagery at $3-12/image vs $85-250/SKU traditionally, giving procurement teams a zero-cost alternative that they use as leverage at contract renewal. Getty Images creative segment -4.8% YoY in 2024 confirms the substitution is live. Day rates show more resistance for physical-presence work but are also under procurement pressure. pi_dist = 0.45 reflects that AI savings flow substantially to clients (licensing collapse) rather than being retained as operator margin, partially offset by day-rate stickiness. pi_moat = 0.40 reflects limited licensure barriers but real physical-presence moat in the physical-truth segment."
+  },
+  "confidence_overall": "MED",
+  "heterogeneous": false,
+  "top_uncertain_inputs": [
+    {
+      "input": "t50_years",
+      "plausible_range": "2-5 years",
+      "score_impact": "At t50=2: A=5.0, S≈3.48; at t50=5: A=2.0, S≈2.70. S range ~2.70-3.48 depending on t50, a 0.78-point swing — the largest single input uncertainty."
+    },
+    {
+      "input": "exit_mult",
+      "plausible_range": "5.0-9.0x EBITDA",
+      "score_impact": "At exit_mult=5.0: M=1.0, S≈2.22; at exit_mult=9.0: M=5.0, S≈3.55. No PE roll-up comp universe exists for commercial photography, making exit_mult the second-largest uncertainty."
+    },
+    {
+      "input": "ai_replaceable_share",
+      "plausible_range": "0.30-0.50",
+      "score_impact": "At ars=0.30: V_raw=0.0929, V=3.72, S≈2.71; at ars=0.50: V_raw=0.1549, V=6.20, S≈3.24. Primarily driven by photographer role fraction (0.25-0.50 plausible range)."
+    }
+  ],
+  "reviewer_note": "n_band = 6 (only the 500+ employee class lands in the $1-10M EBITDA band). The roll-up target universe here is effectively nonexistent for this code — the six largest commercial photography firms are not a PE roll-up target set in any practical sense. Role-mix caveat: the 5-digit 54192 OEWS data is shared with portrait studios (541921); the retail salesperson share (1.88% of wage bill) likely reflects portrait operations. For this commercial-context scoring, the retail salesperson fraction is retained at dataset value but flagged as portrait contamination. The unlisted 17.62% tail is estimated as production assistants, digital techs, and admin support; the 0.45 automatable fraction is a judgment input. Getty creative revenue decline (-4.8% YoY 2024) and the Association of Photographers finding that 58% of photographers lost assignments to AI by early 2025 strongly support the PRESSURED terminal value classification — demand is not collapsing but is structurally shrinking in the synthetic-acceptable segment."
+}

@@ -1,0 +1,289 @@
+{
+  "naics": "541890",
+  "title": "Other Services Related to Advertising",
+  "run_meta": {
+    "model_id": "claude-sonnet-4-6",
+    "run_date": "2026-07-20",
+    "run_id": "fleet-s2-541890",
+    "template_version": "3.0",
+    "prompt_version": "p3-aff6579"
+  },
+  "dataset_inputs": {
+    "labor_share": {
+      "value": 0.2741,
+      "method": "QCEW 2024 private total annual wages at 541890 ($4,995,994,780) x benefits multiplier 1.4294 [ECEC private-industry total comp $46.60/hr / wages $32.60/hr = 1.4294 (March 2026 reference period)] / SUSB 2022 receipts at 541890 ($19,434,299,000). Vintage mismatch: 2024 wages over 2022 receipts, stated. Level: 6-digit. Harmonized to IPS basis ÷1.3407 (median of 65 dual-method codes).",
+      "sources": [
+        "BLS QCEW 2024 annual averages (US000, private)",
+        "BLS ECEC news release (raw/ecec.nr0.htm)",
+        "Census SUSB 2022 (receipts by NAICS)"
+      ],
+      "year": "2024 wages / 2022 receipts",
+      "quality": "MED"
+    },
+    "role_mix": {
+      "oews_level": "4-digit 5418",
+      "occupations": [
+        {"soc": "41-3011", "title": "Advertising Sales Agents", "emp_share": 0.0952, "wage_share": 0.0818},
+        {"soc": "27-3031", "title": "Public Relations Specialists", "emp_share": 0.0799, "wage_share": 0.0829},
+        {"soc": "13-1161", "title": "Market Research Analysts and Marketing Specialists", "emp_share": 0.0741, "wage_share": 0.0655},
+        {"soc": "11-1021", "title": "General and Operations Managers", "emp_share": 0.0539, "wage_share": 0.0926},
+        {"soc": "27-1024", "title": "Graphic Designers", "emp_share": 0.0449, "wage_share": 0.033},
+        {"soc": "41-9011", "title": "Demonstrators and Product Promoters", "emp_share": 0.0389, "wage_share": 0.0162},
+        {"soc": "41-3091", "title": "Sales Representatives of Services, Except Advertising, Insurance, Financial Services, and Travel", "emp_share": 0.0353, "wage_share": 0.0302},
+        {"soc": "27-1026", "title": "Merchandise Displayers and Window Trimmers", "emp_share": 0.029, "wage_share": 0.0121},
+        {"soc": "11-2021", "title": "Marketing Managers", "emp_share": 0.0285, "wage_share": 0.052},
+        {"soc": "27-1011", "title": "Art Directors", "emp_share": 0.0282, "wage_share": 0.0407}
+      ],
+      "quality": "MED"
+    },
+    "n_total": {
+      "value": 6397,
+      "source": "SUSB 2022 (firms, all enterprise sizes)",
+      "year": "2022",
+      "quality": "HIGH"
+    },
+    "n_band": {
+      "value": 482,
+      "derivation": "margin 0.1565 (margins.json[54]: Damodaran Jan 2026: Business & Consumer Services EBITDA/Sales 15.65%); revenue/employee $189,523 (SUSB 2022 receipts/employment at 541890); class <5: 4,615 firms, avg revenue/firm $481,015 (class receipts/firms), implied EBITDA $75,279 -> out of $1-10M band; class 5-9: 806 firms, avg revenue/firm $1,794,295 (class receipts/firms), implied EBITDA $280,807 -> out of $1-10M band; class 10-19: 442 firms, avg revenue/firm $3,905,484 (class receipts/firms), implied EBITDA $611,208 -> out of $1-10M band; class 20-99: 398 firms, avg revenue/firm $12,154,884 (class receipts/firms), implied EBITDA $1,902,239 -> IN $1-10M band; class 100-499: 84 firms, avg revenue/firm $40,233,821 (class receipts/firms), implied EBITDA $6,296,593 -> IN $1-10M band; class 500+: 52 firms, avg revenue/firm $112,013,500 (class receipts/firms), implied EBITDA $17,530,113 -> out of $1-10M band; n_band = 482",
+      "margin_used": 0.1565,
+      "margin_source": "Damodaran Jan 2026: Business & Consumer Services EBITDA/Sales 15.65%",
+      "quality": "ESTIMATE"
+    }
+  },
+  "inputs": {
+    "ai_replaceable_share": {
+      "value": 0.406755,
+      "breakdown_by_role": [
+        {
+          "role": "Advertising Sales Agents (41-3011) — promo products account managers",
+          "labor_share_of_total": 0.0818,
+          "within_role_automatable_fraction": 0.45,
+          "contribution": 0.036810,
+          "rationale": "In the dominant sub-segment (promo products distribution), this role covers inside sales and account management. AI already automates product search, supplier sourcing, quoting, virtual mockup generation, and order paperwork — the core transactional workflow. What persists: the client relationship with corporate procurement buyers, upselling, event/program strategy. 45% reflects the substantial automation of the sourcing-to-quote workflow while preserving the relationship-management component.",
+          "plausible_range": "0.35-0.60"
+        },
+        {
+          "role": "Public Relations Specialists (27-3031) — agency contamination; program comms in promo",
+          "labor_share_of_total": 0.0829,
+          "within_role_automatable_fraction": 0.40,
+          "contribution": 0.033160,
+          "rationale": "Agency contamination from the 4-digit proxy; minimally present in real 541890 promo-products firms. Where present (program reporting, campaign recaps, client communications), AI substantially automates drafting and summarization. Creative judgment and relationship management persist.",
+          "plausible_range": "0.30-0.55"
+        },
+        {
+          "role": "Market Research Analysts and Marketing Specialists (13-1161) — product/trend research",
+          "labor_share_of_total": 0.0655,
+          "within_role_automatable_fraction": 0.75,
+          "contribution": 0.049125,
+          "rationale": "In promo products context, this function covers product search, supplier discovery, category trend analysis, and program research — all near-fully AI-automatable. ASI/SAGE database search is already software; AI generative tools can source product alternatives, prepare trend briefs, and compile supplier comparisons with minimal human input. Residual 25% = client-category strategy interpretation.",
+          "plausible_range": "0.60-0.85"
+        },
+        {
+          "role": "General and Operations Managers (11-1021) — distributor principals and ops managers",
+          "labor_share_of_total": 0.0926,
+          "within_role_automatable_fraction": 0.30,
+          "contribution": 0.027780,
+          "rationale": "Supplier negotiation and key-account stewardship are human; ops reporting, inventory/program admin, and routine billing oversight automate. 30% reflects the admin/reporting portion of a working distributor-principal's week.",
+          "plausible_range": "0.20-0.40"
+        },
+        {
+          "role": "Graphic Designers (27-1024) — imprint proofs, virtual mockups, spec sheets",
+          "labor_share_of_total": 0.033,
+          "within_role_automatable_fraction": 0.85,
+          "contribution": 0.028050,
+          "rationale": "Logo placement, imprint proofs, virtual mockups and spec sheets are ALREADY the leading AI use case in promo products — AI design tools generate them in seconds. PPAI/ASI surveys report 78% of distributors using AI for marketing content including artwork. The residual 15% is custom or complex creative requiring human art direction.",
+          "plausible_range": "0.70-0.95"
+        },
+        {
+          "role": "Demonstrators and Product Promoters (41-9011) — in-store sampling/demo staff",
+          "labor_share_of_total": 0.0162,
+          "within_role_automatable_fraction": 0.05,
+          "contribution": 0.000810,
+          "rationale": "Physical in-store demonstration and sampling staffing is not automatable — it is presence work. The 5% fraction captures scheduling and route/event assignment automation only.",
+          "plausible_range": "0.03-0.08"
+        },
+        {
+          "role": "Sales Representatives of Services (41-3091) — outside sales and account reps",
+          "labor_share_of_total": 0.0302,
+          "within_role_automatable_fraction": 0.40,
+          "contribution": 0.012080,
+          "rationale": "Similar to advertising sales agents: proposal automation, CRM data entry, order status updates, and follow-up communications automate well. The relationship-management and consultative-selling component — the distributor's primary source of switching cost — persists.",
+          "plausible_range": "0.30-0.55"
+        },
+        {
+          "role": "Merchandise Displayers and Window Trimmers (27-1026) — physical display work",
+          "labor_share_of_total": 0.0121,
+          "within_role_automatable_fraction": 0.05,
+          "contribution": 0.000605,
+          "rationale": "Physical display and rack setup is not automatable. The 5% captures planogram reporting and digital visual-merchandising planning.",
+          "plausible_range": "0.03-0.08"
+        },
+        {
+          "role": "Marketing Managers (11-2021) — program marketing and merch-store management",
+          "labor_share_of_total": 0.052,
+          "within_role_automatable_fraction": 0.45,
+          "contribution": 0.023400,
+          "rationale": "Campaign reporting, program recaps, company merch-store management and client analytics automate substantially. Strategy, supplier relationship management, and key-account business development persist. PPAI research: 88% of PPAI 100 distributors use AI for marketing purposes.",
+          "plausible_range": "0.35-0.60"
+        },
+        {
+          "role": "Art Directors (27-1011) — creative direction for promo programs",
+          "labor_share_of_total": 0.0407,
+          "within_role_automatable_fraction": 0.55,
+          "contribution": 0.022385,
+          "rationale": "Virtual proof creation, template artwork generation and branded merchandise visual styling are largely AI-automatable. Creative strategy, client-brand interpretation and final approval workflows remain human. 55% reflects the heavy template/proof production component.",
+          "plausible_range": "0.40-0.70"
+        },
+        {
+          "role": "Unlisted remainder — order operations/fulfillment coordination, field/event staff, admin",
+          "labor_share_of_total": 0.493,
+          "within_role_automatable_fraction": 0.35,
+          "contribution": 0.172550,
+          "rationale": "Listed top-10 wage shares sum to 0.507, leaving 0.493 in unlisted occupations. Per prompt guidance for 541890, this includes: order operations/fulfillment coordination and admin (~25-35% of total wage bill — PO entry, supplier chasing, proof routing, billing automate near-fully; physical kitting/fulfillment doesn't); field/event staff (~10-15% of total wage bill — physical presence, not automatable); and other residual. Blended fraction: estimated 30% of total wage bill is automatable order-ops/admin (fraction 0.80), 13% is field/event (fraction 0.05), and 10.3% is other supervision/misc (fraction 0.25). Weighted: ((0.30×0.80)+(0.13×0.05)+(0.063×0.25))/0.493 = (0.240+0.0065+0.01575)/0.493 = 0.26225/0.493 = 0.5320. Adjusted downward to 0.35 to account for the catch-all heterogeneity — the demo/sampling and experiential sub-segments within the unlisted tail have much lower automatable fractions, diluting the estimate for the whole 541890 code.",
+          "plausible_range": "0.25-0.50"
+        }
+      ],
+      "quality": "MED"
+    },
+    "pi_dist": {
+      "value": 0.35,
+      "rationale": "Promotional products distributors price as a markup over supplier cost (industry-standard 30-40% gross margins per ASI benchmark data). Unlike cost-plus or audited billing, the markup is generally not visible to clients, giving distributors partial pricing control. However: (1) AI-native direct platforms (4imprint at $1.37B revenue with 10.8% operating margin as largest distributor) and print-on-demand services price near cost for routine orders, creating a market ceiling for independent distributor pricing; (2) corporate procurement increasingly uses RFPs and reverse auctions that reduce markup; (3) sales reps own client relationships and can move books between distributorships (portability risk). Partial control: pi_dist = 0.35.",
+      "plausible_range": "0.25-0.50",
+      "sources": [
+        "4imprint 2024 annual results (Wikipedia): revenue $1,367.9M, operating income $148.1M, operating margin 10.8% — largest distributor benchmark for platform pricing dynamics (accessed 2026-07-20)",
+        "PPAI 2024 industry data: $26.78B total US distributor sales, large distributors 54% of sales (accessed 2026-07-20): https://www.ppai.org/media-hub/ppai-sales-volume-estimate-modest-growth-in-2024-but-reasons-for-optimism-remain/",
+        "PPAI ESTIMATE on gross margins: industry standard 30-40% gross margin for independent distributors (basis: consistent industry reporting, multiple ASI/PPAI sources)"
+      ],
+      "quality": "MED"
+    },
+    "pi_moat": {
+      "value": 0.30,
+      "rationale": "Barriers to entry and switching costs are moderate-low. Key-person portability is the dominant risk: sales reps own the account book and routinely move between distributorships — a roll-up acquires revenue that may walk with the rep. ASI/SAGE membership gates for supplier access are weakening (more suppliers accept direct corporate orders). Virtual mockup/proof generation is now near-commodity via AI. Physical kitting/fulfillment provides a moderate moat for distributors holding inventory. The primary bypass threat is AI-native platforms and print-on-demand eliminating the independent distributor for routine branded merch orders. No licensure; switching is low-friction for clients who find a competing distributor.",
+      "plausible_range": "0.20-0.40",
+      "sources": [
+        "PPAI research: 59% of PPAI 100 distributors use AI — vanguard adoption creates platform competition for smaller independent distributors (accessed 2026-07-20): https://www.ppai.org/media-hub/ai-s-role-in-promo-grows-despite-hurdles/",
+        "Champlain Capital / Align Capital iPROMOTEu transaction Jan 2023 — PE actively consolidating to capture scale against platform competition: https://aligncp.com/news/align-capital-partners-completes-sale-of-ipromoteu/ (accessed 2026-07-20)"
+      ],
+      "quality": "MED"
+    },
+    "t50_years": {
+      "value": 6.0,
+      "derivation": "current_adoption_pct = 0.25 (25% of all 541890 firms materially using AI in automatable functions — product search, artwork proofs, order entry, marketing content). PPAI 100 vanguard already at 59%; the micro-distributor tail (<5 employees = 72% of firms by count) is well below. Historical analog: ASI/SAGE online catalog/ordering platform adoption — from ~2003-2005 industry adoption to ~50% penetration by ~2010-2012 = approximately 7-8 year window. AI tools are more accessible (SaaS, low or no capital cost). Starting from 25% at mid-2026, to reach 50% requires adding 25pp across all firm sizes, most of the distance already covered in the vanguard (PPAI 100 at 59%). Estimated 6 years (by 2032) for industry-wide 50% threshold. Derivation: analog 7.5 years × (1 - 0.25/0.50) adjustment for already-started adoption × AI accessibility factor 0.90 = 7.5 × 0.5 × 0.90 = 3.4 — too fast; correction: the 25% current adoption is concentrated in the top tier, the micro-tail is <5%, so the diffusion from 25% industry-average to 50% industry-average still requires the full analog timeline minus elapsed. Revised: 6.0 years from today (2026).",
+      "plausible_range": "4.0-9.0 years",
+      "quality": "ESTIMATE"
+    },
+    "current_adoption_pct": {
+      "value": 0.25,
+      "source": "PPAI research — AI adoption in promotional products industry; PPAI 100 distributors (top 100 by revenue) at 59%; full industry including micro-distributors estimated at 25%",
+      "url": "https://www.ppai.org/media-hub/ai-s-role-in-promo-grows-despite-hurdles/",
+      "figure_quoted": "59% of PPAI 100 distributors use AI in their business operations; 78% of PPAI 100 distributors use AI for marketing content generation (PPAI Research, 2024/2025). Full industry estimate: 25% materially using AI across all 6,397 firms, including the micro-distributor tail where AI adoption is low.",
+      "access_date": "2026-07-20",
+      "quality": "MED"
+    },
+    "historical_analogs": {
+      "value": "7-8 years for ASI/SAGE online catalog and e-ordering platform adoption to reach 50% of promotional products distributors (~2003-2010); 8-10 years for digital order management/ERP adoption among small distributors",
+      "source": "ESTIMATE — based on ASI annual technology surveys (historical context) and general SMB technology diffusion patterns in specialty distribution; no single primary source with exact year-by-year adoption curve for this specific industry",
+      "url": "https://www.ppai.org/media-hub/ppai-research-new-year-new-ish-trends/",
+      "figure_quoted": "ESTIMATE: ASI/SAGE online ordering reached approximately 50% distributor adoption within ~7-8 years of widespread platform availability (~2003-2010). AI adoption is expected to diffuse at a similar or faster rate given SaaS accessibility and lower capital barriers.",
+      "access_date": "2026-07-20",
+      "quality": "ESTIMATE"
+    },
+    "owners_60plus_pct": {
+      "value": 0.45,
+      "source": "U.S. Census Bureau / Gallup Pathways to Wealth Survey 2024 (cross-industry proxy) — 52.3% of US employer-businesses owned by those 55+; Boomers (60-78) = 37% of small business owners; 4,615 of 6,397 firms have <5 employees (72%), consistent with founder-operator model skewing older",
+      "url": "https://news.gallup.com/poll/657362/small-business-owners-lack-succession-plan.aspx",
+      "figure_quoted": "just over half (52.3%) of U.S. employer-businesses are owned by people who are at or near retirement age, those 55 and older; Boomers (60-78) make up 37% of small business owners (Gallup Pathways to Wealth Survey, fall 2024)",
+      "access_date": "2026-07-20",
+      "quality": "ESTIMATE",
+      "succession_shortage_documented": {
+        "value": true,
+        "evidence": "Gallup 2024 survey: roughly 50% of all small business owners either plan to close their business or lack any succession plan; 70% of small businesses fail to sell at time of owner retirement (Teamshares succession statistics). For promo products specifically: the industry has >6,000 distributors most of which are solo/micro shops; PE consolidators (HALO/TPG Growth, iPROMOTEu/Champlain Capital) are explicitly targeting the succession opportunity to acquire founder-operator books of business at retirement."
+      }
+    },
+    "active_consolidators": {
+      "value": 3,
+      "source": "Web research: identified 3 active PE-backed platforms doing add-on acquisitions in 541890 in the last 24 months",
+      "url": "https://aligncp.com/news/align-capital-partners-completes-sale-of-ipromoteu/",
+      "figure_quoted": "1) HALO Branded Solutions (TPG Growth, acquired Aug 2023) — active M&A strategy, second largest US distributor with history of acquiring Counselor Top 40 firms; 2) iPROMOTEu (Champlain Capital, acquired Jan 2023) — acquired AIA Corporation in 2024, ranked #8 distributor in 2025 Counselor Top 40; 3) Advantage Solutions (public, ADSY) — active consolidation in demo/sampling/field-marketing sub-segment within 541890. Count = 3 confirmed PE-backed or strategic consolidation platforms actively doing add-ons.",
+      "access_date": "2026-07-20",
+      "quality": "MED"
+    },
+    "buy_mult": {
+      "value": 4.5,
+      "source": "ESTIMATE — basis: First Page Sage 2025: $1-3M EBITDA marketing agencies 4.5-5.5x; BizBuySell 2024 wholesale/distribution at $3M sales ~3.4x SDE; promotional products distributors score between these benchmarks. Key-person portability risk (sales reps own account books and can move to competing distributors) applies a discount vs. pure agency multiples. EBITDA normalization: commission-only reps and owner-operator compensation require careful SDE-to-EBITDA conversion — at the $1-3M EBITDA level, estimate EBITDA multiple of 4.5x on a normalized post-owner-comp basis.",
+      "url": "https://firstpagesage.com/business/marketing-agency-valuation-multiples-and-valuations/",
+      "figure_quoted": "ESTIMATE: 4.5x EBITDA for small 541890 promo-products distributor ($1-3M EBITDA). Basis: marketing agencies $1-3M EBITDA at 4.5-5.5x (First Page Sage 2025); distribution discount for key-person risk → 4.5x.",
+      "access_date": "2026-07-20",
+      "quality": "ESTIMATE"
+    },
+    "exit_mult": {
+      "value": 8.0,
+      "source": "ESTIMATE — basis: PE platform exits in promo products distribution: HALO Branded Solutions sold to TPG Growth (Aug 2023) and iPROMOTEu sold to Champlain Capital (Jan 2023) — both at undisclosed terms but consistent with marketing services platform range. Marketing services platforms at $10M+ EBITDA: 7-9x based on sector M&A benchmarks. Advantage Solutions (public proxy for field marketing/sampling platform) trades at ~7-8x adjusted EBITDA ($356M adj EBITDA on $3.57B revenue). Using midpoint 8.0x for a promo distribution platform with $10M+ EBITDA.",
+      "url": "https://www.ppai.org/media-hub/tpg-growth-completes-acquisition-of-halo-branded-solutions/",
+      "figure_quoted": "ESTIMATE: 8.0x EBITDA exit multiple for 541890 platform. Basis: HALO/TPG Growth (Aug 2023) and iPROMOTEu/Champlain Capital (Jan 2023) — terms undisclosed; Advantage Solutions market comparable ~7-8x adj EBITDA (2024 adj EBITDA $356M; market cap ~$700M = ~2x, but includes debt load from LBO); marketing services platform sector 7-9x. Midpoint: 8.0x.",
+      "access_date": "2026-07-20",
+      "quality": "ESTIMATE"
+    },
+    "pricing_structure": {
+      "value": "Markup over supplier cost — independent distributors apply 30-40% gross margin to supplier invoice price. No retainer or subscription model for most small distributors; billing is per-order. Commission-only sales reps typically receive 50%+ of gross margin dollars. Platform distributors (4imprint) operate direct/online with lower gross margins but higher volume. Program/corporate clients may have annual contracts with approved-supplier pricing.",
+      "source": "PPAI 2024 industry data; 4imprint 2024 annual results (Wikipedia); ASI industry benchmarks",
+      "url": "https://www.ppai.org/media-hub/ppai-sales-volume-estimate-modest-growth-in-2024-but-reasons-for-optimism-remain/",
+      "figure_quoted": "US distributor promotional products sales $26.78B in 2024 (2.63% growth). 4imprint operating income $148.1M on $1,367.9M revenue = 10.8% operating margin as platform benchmark. Independent distributors: 30-40% gross margin standard (ASI).",
+      "access_date": "2026-07-20",
+      "quality": "MED"
+    }
+  },
+  "scores": {
+    "V": {
+      "arithmetic": "V_raw = labor_share × ai_replaceable_share = 0.2741 × 0.406755 = 0.111491; V = 10 × min(1, 0.111491/0.25) = 10 × 0.445963 = 4.45963",
+      "score": 4.45963
+    },
+    "C": {
+      "arithmetic": "C = 10 × pi_dist × pi_moat = 10 × 0.35 × 0.30 = 1.05",
+      "score": 1.05
+    },
+    "A": {
+      "arithmetic": "A = min(10, 10/t50_years) = min(10, 10/6.0) = min(10, 1.666667) = 1.666667",
+      "score": 1.666667
+    },
+    "B": {
+      "arithmetic": "TD = clamp(log10(482)/4, 0, 1) = clamp(2.683047/4, 0, 1) = clamp(0.670762, 0, 1) = 0.670762; OW_raw = clamp((0.45-0.10)/0.35, 0.1, 0.9) = clamp(1.0, 0.1, 0.9) = 0.9; succession_shortage_documented = true → OW = min(1.0, 0.9+0.1) = 1.0; CFD = min(0.9, log10(1+3)/2) = min(0.9, log10(4)/2) = min(0.9, 0.602060/2) = min(0.9, 0.301030) = 0.301030; B = 10 × sqrt(0.670762 × 1.0) / (1 + 0.3 × 0.301030) = 10 × 0.819001 / (1 + 0.090309) = 10 × 0.819001 / 1.090309 = 8.190010 / 1.090309 = 7.511540",
+      "score": 7.511540
+    },
+    "M": {
+      "arithmetic": "M = clamp(4 × (exit_mult - buy_mult) / buy_mult, 0, 10) = clamp(4 × (8.0 - 4.5) / 4.5, 0, 10) = clamp(4 × 0.777778, 0, 10) = clamp(3.111111, 0, 10) = 3.111111",
+      "score": 3.111111
+    }
+  },
+  "S": 2.83309,
+  "cross_checks": {
+    "uplift_pp": 11.1491,
+    "uplift_vs_A_consistent": "uplift_pp = 11.1491 (V_raw × 100 = 11.15pp of revenue freed). A = 1.667, well below 5. Cross-check condition (uplift < 3pp while A >= 5) does NOT trigger. The moderate A reflects the multi-year adoption timeline for micro-distributor tail even as the PPAI 100 vanguard already shows 59% adoption. The relatively high uplift (11.15pp) is consistent with a moderately labor-intensive business with significant automatable back-office and creative functions.",
+    "terminal_value": {
+      "class": "PRESSURED",
+      "justification": "The dominant sub-segment's product — physical branded promotional merchandise (branded mugs, apparel, pens, tote bags) — cannot be replaced by AI; you cannot digitize a branded mug. Total US promo industry sales grew to $26.8B in 2024 and $27.1B in 2025 (PPAI), confirming durable demand. However, AI attacks the distributor's intermediation function — product search, artwork/proofs, ordering — which is the independent distributor's core value-add. AI-native platforms (4imprint at $1.4B revenue, online merch stores, print-on-demand) are eroding the independent distributor's margin by offering self-service at lower cost. The deciding mechanism: if AI enables corporate buyers to design merch and order directly from suppliers or AI-native platforms, the independent distributor is disintermediated. Current evidence (PPAI data, platform growth) suggests demand for the product is DURABLE but the independent distributor's economics are PRESSURED by disintermediation. Terminal value class: PRESSURED."
+    },
+    "no_proxy_confirmed": "V was set by computing AI-automatable fractions of the dominant sub-segment (promo products distribution) workforce structure applied to the 4-digit role mix — specifically: artwork/proofs at 85%, product search/research at 75%, account management at 40-45%, order ops admin at 35% blended. PPAI survey data on AI adoption (59% PPAI 100 at 59% using AI for content/marketing) was used as evidence of adoption speed (A input), not as evidence for V. No deal activity, consolidation trends, or M&A data used for V or A inputs.",
+    "pricing_model_deflation": "Billing is per-order markup over supplier cost (30-40% gross margins for independent distributors). This is not cost-plus or audited billing, so AI savings do not mechanically flow to clients — distributors can theoretically retain margin. However, AI-native platforms (4imprint, online merch sites) with self-service ordering apply competitive ceiling pressure: when AI enables clients to bypass the distributor entirely or to compare supplier prices directly, the independent distributor's markup is competed away. This dynamic is reflected in pi_dist = 0.35 (moderate-low control) and pi_moat = 0.30 (moderate-low barrier). The per-order pricing model itself does not create automatic pass-through, but platform competition does."
+  },
+  "confidence_overall": "MED",
+  "heterogeneous": true,
+  "top_uncertain_inputs": [
+    {
+      "input": "t50_years",
+      "plausible_range": "4.0-9.0 years",
+      "score_impact": "At t50=4: A=2.5, S≈3.30. At t50=9: A=1.111, S≈2.56. Range of S: ~2.56 to ~3.30. The PPAI 100 at 59% adoption suggests the vanguard is already past 50%; the full-industry t50 depends on diffusion speed in the micro-distributor tail."
+    },
+    {
+      "input": "buy_mult",
+      "plausible_range": "3.5x-6.0x EBITDA",
+      "score_impact": "At buy=3.5, exit=8.0: M=clamp(4×(8.0-3.5)/3.5,0,10)=clamp(5.143,0,10)=5.143, S≈3.14. At buy=6.0, exit=8.0: M=clamp(4×(8.0-6.0)/6.0,0,10)=clamp(1.333,0,10)=1.333, S≈2.35. Key-person portability risk is the dominant uncertainty in buy_mult."
+    },
+    {
+      "input": "ai_replaceable_share",
+      "plausible_range": "0.32-0.50",
+      "score_impact": "At ars=0.32: V_raw=0.2741×0.32=0.08771, V=10×(0.08771/0.25)=3.508, S≈2.65. At ars=0.50: V_raw=0.2741×0.50=0.13705, V=10×min(1,0.13705/0.25)=5.482, S≈3.01. The catch-all heterogeneity (demo/event sub-segments with lower AI fractions) and the unlisted remainder composition are the main sources of uncertainty."
+    }
+  ],
+  "reviewer_note": "541890 is a catch-all code. Dominant sub-segment scored: promotional products distribution (branded merchandise), consistent with PPAI data showing ~$26.8B US total distributor sales in 2024 vs. SUSB $19.4B receipts for the code (gap reflects PPAI including some suppliers/manufacturers; distributor-only segment is approximately $16-17B, plausibly the majority of 541890 receipts). Other sub-segments in this code: in-store demonstration/sampling services (physically non-automatable; pulls V down if larger than assumed — Advantage Solutions proxy segment shows 10% EBITDA margin); event/experiential marketing support; display lettering; aerial advertising. Role-mix contamination: the 4-digit 5418 proxy imports ad-agency occupations; re-weighted toward sales (accounts for 45% automatable fraction) and order-ops/admin (35% blended for unlisted remainder). Key-person portability is the dominant moat risk for the promo-products sub-segment and depresses pi_moat and buy_mult. The n_band is well-defined (482 firms in 20-499 employee classes with $1-10M EBITDA at Damodaran margin); the 500+ class exceeds the band (avg EBITDA $17.5M at 15.65% margin). EBITDA normalization note: promo distributors running on commission-only reps need gross vs. net revenue normalization before applying Damodaran margins — actual EBITDA margins for small distributors likely lower than 15.65%, which would reduce n_band and B; this is a downside risk. heterogeneous = true."
+}

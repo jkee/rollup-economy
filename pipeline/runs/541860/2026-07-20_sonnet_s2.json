@@ -1,0 +1,290 @@
+{
+  "naics": "541860",
+  "title": "Direct Mail Advertising",
+  "run_meta": {
+    "model_id": "claude-sonnet-4-6",
+    "run_date": "2026-07-20",
+    "run_id": "fleet-s2-541860",
+    "template_version": "3.0",
+    "prompt_version": "p3-aff6579"
+  },
+  "dataset_inputs": {
+    "labor_share": {
+      "value": 0.2807,
+      "method": "QCEW 2024 private total annual wages at 541860 ($2,490,801,764) x benefits multiplier 1.4294 [ECEC private-industry total comp $46.60/hr / wages $32.60/hr = 1.4294 (March 2026 reference period)] / SUSB 2022 receipts at 541860 ($9,462,087,000). Vintage mismatch: 2024 wages over 2022 receipts, stated. Level: 6-digit. Harmonized to IPS basis ÷1.3407 (median of 65 dual-method codes).",
+      "sources": [
+        "BLS QCEW 2024 annual averages (US000, private)",
+        "BLS ECEC news release (raw/ecec.nr0.htm)",
+        "Census SUSB 2022 (receipts by NAICS)"
+      ],
+      "year": "2024 wages / 2022 receipts",
+      "quality": "MED"
+    },
+    "role_mix": {
+      "oews_level": "4-digit 5418",
+      "occupations": [
+        {"soc": "41-3011", "title": "Advertising Sales Agents", "emp_share": 0.0952, "wage_share": 0.0818},
+        {"soc": "27-3031", "title": "Public Relations Specialists", "emp_share": 0.0799, "wage_share": 0.0829},
+        {"soc": "13-1161", "title": "Market Research Analysts and Marketing Specialists", "emp_share": 0.0741, "wage_share": 0.0655},
+        {"soc": "11-1021", "title": "General and Operations Managers", "emp_share": 0.0539, "wage_share": 0.0926},
+        {"soc": "27-1024", "title": "Graphic Designers", "emp_share": 0.0449, "wage_share": 0.033},
+        {"soc": "41-9011", "title": "Demonstrators and Product Promoters", "emp_share": 0.0389, "wage_share": 0.0162},
+        {"soc": "41-3091", "title": "Sales Representatives of Services, Except Advertising, Insurance, Financial Services, and Travel", "emp_share": 0.0353, "wage_share": 0.0302},
+        {"soc": "27-1026", "title": "Merchandise Displayers and Window Trimmers", "emp_share": 0.029, "wage_share": 0.0121},
+        {"soc": "11-2021", "title": "Marketing Managers", "emp_share": 0.0285, "wage_share": 0.052},
+        {"soc": "27-1011", "title": "Art Directors", "emp_share": 0.0282, "wage_share": 0.0407}
+      ],
+      "quality": "MED"
+    },
+    "n_total": {
+      "value": 1652,
+      "source": "SUSB 2022 (firms, all enterprise sizes)",
+      "year": "2022",
+      "quality": "HIGH"
+    },
+    "n_band": {
+      "value": 261,
+      "derivation": "margin 0.1565 (margins.json[54]: Damodaran Jan 2026: Business & Consumer Services EBITDA/Sales 15.65%); revenue/employee $264,563 (SUSB 2022 receipts/employment at 541860); class <5: 924 firms, avg revenue/firm $552,198 (class receipts/firms), implied EBITDA $86,419 -> out of $1-10M band; class 5-9: 254 firms, avg revenue/firm $2,034,370 (class receipts/firms), implied EBITDA $318,379 -> out of $1-10M band; class 10-19: 185 firms, avg revenue/firm $3,671,557 (class receipts/firms), implied EBITDA $574,599 -> out of $1-10M band; class 20-99: 199 firms, avg revenue/firm $12,029,618 (class receipts/firms), implied EBITDA $1,882,635 -> IN $1-10M band; class 100-499: 62 firms, avg revenue/firm $31,234,274 (class receipts/firms), implied EBITDA $4,888,164 -> IN $1-10M band; class 500+: 28 firms, avg revenue/firm $122,338,179 (class receipts/firms), implied EBITDA $19,145,925 -> out of $1-10M band; n_band = 261",
+      "margin_used": 0.1565,
+      "margin_source": "Damodaran Jan 2026: Business & Consumer Services EBITDA/Sales 15.65%",
+      "quality": "ESTIMATE"
+    }
+  },
+  "inputs": {
+    "ai_replaceable_share": {
+      "value": 0.380000,
+      "breakdown_by_role": [
+        {
+          "role": "Advertising Sales Agents (41-3011)",
+          "labor_share_of_total": 0.0818,
+          "within_role_automatable_fraction": 0.40,
+          "contribution": 0.032720,
+          "rationale": "Quoting, job specs and proof approvals automate substantially; client relationships with agencies, nonprofits and financial-services mailers are often personal to the owner-operator and persist. 40% automation fraction reflecting mix of automatable transactional work and non-automatable relationship work.",
+          "plausible_range": "0.30-0.50"
+        },
+        {
+          "role": "Public Relations Specialists (27-3031)",
+          "labor_share_of_total": 0.0829,
+          "within_role_automatable_fraction": 0.65,
+          "contribution": 0.053885,
+          "rationale": "5418 contamination — these roles barely exist in direct mail houses. Where present (campaign reporting, audience segmentation summaries), they are near-fully automatable. 65% fraction (slightly lower than maximum to allow for minimal client-presentation judgment).",
+          "plausible_range": "0.50-0.80"
+        },
+        {
+          "role": "Market Research Analysts and Marketing Specialists (13-1161)",
+          "labor_share_of_total": 0.0655,
+          "within_role_automatable_fraction": 0.75,
+          "contribution": 0.049125,
+          "rationale": "Data services and list management are the white-collar core of a direct mail house and the most AI-exposed function. List hygiene, merge/purge, NCOA processing, segmentation and response modeling are near-fully automatable by current AI. 75% fraction — the 25% residual covers data strategy and client customization judgment.",
+          "plausible_range": "0.65-0.85"
+        },
+        {
+          "role": "General and Operations Managers (11-1021)",
+          "labor_share_of_total": 0.0926,
+          "within_role_automatable_fraction": 0.40,
+          "contribution": 0.037040,
+          "rationale": "Plant scheduling, postal-rate optimization and job costing automate substantially; customer escalation and vendor negotiation persist and cannot be automated. 40% fraction balancing automatable operational analytics vs non-automatable interpersonal management.",
+          "plausible_range": "0.30-0.50"
+        },
+        {
+          "role": "Graphic Designers (27-1024)",
+          "labor_share_of_total": 0.0330,
+          "within_role_automatable_fraction": 0.75,
+          "contribution": 0.024750,
+          "rationale": "Direct mail creative, copy and versioning are directly AI-generable; many houses already template creative. 75% fraction — high because direct mail creative is formulaic (headlines, offers, calls to action in fixed formats), with 25% residual for bespoke brand work.",
+          "plausible_range": "0.65-0.85"
+        },
+        {
+          "role": "Demonstrators and Product Promoters (41-9011)",
+          "labor_share_of_total": 0.0162,
+          "within_role_automatable_fraction": 0.10,
+          "contribution": 0.001620,
+          "rationale": "Primarily in-person promotional roles; physical presence cannot be automated. Minimal 10% for scheduling and administrative components only.",
+          "plausible_range": "0.05-0.15"
+        },
+        {
+          "role": "Sales Representatives of Services (41-3091)",
+          "labor_share_of_total": 0.0302,
+          "within_role_automatable_fraction": 0.40,
+          "contribution": 0.012080,
+          "rationale": "Similar to advertising sales agents: quoting, job specifications, and follow-up automate; client relationships persist. Same 40% fraction as 41-3011.",
+          "plausible_range": "0.30-0.50"
+        },
+        {
+          "role": "Merchandise Displayers and Window Trimmers (27-1026)",
+          "labor_share_of_total": 0.0121,
+          "within_role_automatable_fraction": 0.05,
+          "contribution": 0.000605,
+          "rationale": "Physical display work; cannot be automated. Minimal 5% for scheduling components only.",
+          "plausible_range": "0.02-0.10"
+        },
+        {
+          "role": "Marketing Managers (11-2021)",
+          "labor_share_of_total": 0.0520,
+          "within_role_automatable_fraction": 0.45,
+          "contribution": 0.023400,
+          "rationale": "Campaign reporting, analytics and internal briefing automate; marketing strategy, client relationship management, and postal-logistics decision-making persist. 45% reflecting mix of automatable administrative and non-automatable strategic functions.",
+          "plausible_range": "0.35-0.55"
+        },
+        {
+          "role": "Art Directors (27-1011)",
+          "labor_share_of_total": 0.0407,
+          "within_role_automatable_fraction": 0.65,
+          "contribution": 0.026455,
+          "rationale": "Direct mail creative direction — standard formats, offer-driven layouts, personalized versioning — is more templated than general advertising and therefore more automatable. 65% fraction (higher than OOH equivalent at 60%) reflecting direct mail's formulaic creative requirements.",
+          "plausible_range": "0.50-0.75"
+        },
+        {
+          "role": "Unlisted roles (production/lettershop operations, admin/back-office, data staff)",
+          "labor_share_of_total": 0.4930,
+          "within_role_automatable_fraction": 0.24,
+          "contribution": 0.118320,
+          "rationale": "Unlisted 49.3% covers: (1) production/lettershop physical workers — press operators (51-5112), mail machine operators (43-9051), bindery/insertion crews (~35% of total wage bill, 0% automatable: physical print, inserting, sorting and postal logistics are machine-operated but human-run; not AI-automatable); (2) admin/back-office — order entry, billing, postal paperwork, CSR (~15% of total wage bill, ~80% automatable by current AI for order management and statements of mailing). Blended fraction: (0.35×0 + 0.15×0.80) / 0.493 = 0.12/0.493 = 0.2434 ≈ 0.24. The 0.2807 labor share corroborates the production-heavy character (heavy materials/postage pass-through reduces labor share).",
+          "plausible_range": "0.17-0.30"
+        }
+      ],
+      "quality": "MED"
+    },
+    "pi_dist": {
+      "value": 0.30,
+      "rationale": "Direct mail jobs are bid per-piece with postage passed through at cost. When AI collapses data-prep, creative and admin cost lines, competitive bidding among mail houses passes savings straight to clients as lower per-piece prices — this is the deflation channel. Agencies route jobs to lowest-bidding shop, further weakening firm-level client ownership. Clients (or their agencies) can use generic AI to do list hygiene, segmentation, creative versioning themselves, collapsing the white-collar value-added margin while leaving only low-margin physical print-and-mail execution. pi_dist set low at 0.30 reflecting: (a) per-piece competitive bidding makes cost savings fully visible to buyers; (b) agency intermediation means the firm does not own the client relationship; (c) AI bypass of white-collar services is technically feasible and increasingly practiced by sophisticated mailers.",
+      "plausible_range": "0.20-0.40",
+      "sources": [
+        "USPS FY2025 Annual Report: Marketing Mail 56,756M pieces at $15,734M revenue; 7.38% rate increase July 2025 — postage is the dominant cost, operator cannot control it",
+        "ctacquisitions.com printing valuation 2026: 'direct mail/variable-data with strong recurring marketing-services pull-through trades 5.5-6.5x EBITDA' vs 3.5-4.5x for general print — value-added services are the only premium, and AI can replicate them",
+        "Pragmatic CRM (2025): USPS postage rate increase analysis noting direct mailers absorbing 7.38% rate increase — operator has no pricing leverage on dominant cost line"
+      ],
+      "quality": "MED"
+    },
+    "pi_moat": {
+      "value": 0.25,
+      "rationale": "Minimal moat barriers for direct mail houses: (1) No licensure required to operate a mail house; (2) Physical equipment (presses, inserters, mail sorters) is commodity-priced and available at auction; (3) CASS certification (postal address accuracy) and NCOA processing agreements are modest switching costs but widely available; (4) AI makes the white-collar differentiation layer (data hygiene, creative, versioning) replicable by clients or any competitor; (5) secular USPS Marketing Mail volume decline (40% from 2008 to 2025, down to 56.8B pieces) shrinks the revenue base over time. Moat set at 0.25 reflecting only the physical production plant (real equipment investment, space, postal relationship) as a meaningful barrier; all white-collar services are bypassable.",
+      "plausible_range": "0.15-0.35",
+      "sources": [
+        "USPS FY2025 Annual Report: Marketing Mail 56,756M pieces FY2025; down 40% from 99B pieces in FY2008 (christopholivierconsulting.com citing USPS OIG data)",
+        "USPS OIG (2025): projects 14-41% further decline in combined mail volume 2025-2035 in baseline scenario",
+        "piworld.com State of M&A Market Commercial Printing: 'PE involvement in general commercial printing remains limited' — reflecting the structural headwinds"
+      ],
+      "quality": "MED"
+    },
+    "t50_years": {
+      "value": 8.0,
+      "derivation": "current_adoption_pct = 0.15 (15% of direct mail firms materially using AI in automatable functions, defined as AI for data/list management, creative generation, or back-office automation at a material level; anchored by: large operators like Mittera and RRD are clearly AI-enabled, but the 924 firms with <5 employees are mostly small lettershops with minimal technology investment; 15% estimate reflects roughly 250 of 1,652 total firms being materially AI-enabled). historical_analog = 15 years for digital print technology adoption in commercial printing (offset-to-digital transition roughly 2000-2015 to reach majority adoption). Derivation: logistic curve from 0 to 50% over 15 years; at 15% current, on the lower-left of the S-curve; midpoint (~50%) is approximately 8-10 years away depending on rate of acceleration from AI-native competitors (e.g., programmatic direct mail platforms like Lob). Small lettershops are slow adopters (thin margins, limited capital, aging ownership). Setting t50 = 8.0 years (2026 to 2034), slightly more conservative than OOH given worse financial profile.",
+      "plausible_range": "6-12 years",
+      "quality": "ESTIMATE"
+    },
+    "current_adoption_pct": {
+      "value": 0.15,
+      "source": "PRINTING United Alliance / industry commentary; The Target Report (November 2024); Mittera company profile",
+      "url": "https://www.thetargetreport.com/2024/12/on-demand-print-merch-is-big-business.html",
+      "figure_quoted": "25 print M&A transactions in November 2024 alone; Mittera at 24 acquisitions (technology-forward operator); 'direct mail printing remains a bullish segment for highly personalized, data-driven mail pieces on production inkjet.' AI/data adoption concentrated in larger operators and specialized platforms; small lettershops estimated at ~15% material AI adoption.",
+      "access_date": "2026-07-20",
+      "quality": "ESTIMATE"
+    },
+    "historical_analogs": {
+      "value": "15 years (offset-to-digital print transition ~2000-2015; data/list management automation ~2005-2020)",
+      "source": "Industry commentary via piworld.com and printing industry sources",
+      "url": "https://www.piworld.com/article/state-of-ma-market-commercial-printing-industry/",
+      "figure_quoted": "Commercial printing companies that adapted to digital survived; those that did not closed. Technology transitions in printing typically take 10-15 years to achieve majority adoption across the fragmented industry — analog to digital; offset to inkjet.",
+      "access_date": "2026-07-20",
+      "quality": "MED"
+    },
+    "owners_60plus_pct": {
+      "value": 0.60,
+      "source": "Graphic Arts Advisors (via piworld.com) / Project Equity business-owner demographics",
+      "url": "https://www.piworld.com/article/succession-planning-where-do-printers-stand/",
+      "figure_quoted": "Graphic Arts Advisors: succession planning challenge in commercial printing is 'almost ubiquitous' with owners wanting to retire with 'no succession plan within their business, no family members, nobody within the company to take it over.' Project Equity: 52.3% of US business owners are 55+; commercial printing skews older than average — ESTIMATE 60% of direct mail house owners are 60+ based on documented severity of aging-owner problem.",
+      "access_date": "2026-07-20",
+      "quality": "ESTIMATE",
+      "succession_shortage_documented": {
+        "value": true,
+        "evidence": "Graphic Arts Advisors senior managing director Mark Hahn: lack of succession planning in commercial printing is 'almost ubiquitous in that segment of the market'; owners 'wanting to retire with no succession plan within their business, no family members, nobody within the company to take it over' and exhibit 'a certain amount of owner fatigue' (piworld.com State of M&A Market for Commercial Printing). This directly documents a succession shortage in the commercial print/direct mail segment."
+      }
+    },
+    "active_consolidators": {
+      "value": 3,
+      "source": "The Target Report (November 2024) / Mittera company profile / piworld.com M&A analysis",
+      "url": "https://www.thetargetreport.com/2024/12/on-demand-print-merch-is-big-business.html",
+      "figure_quoted": "25 print M&A transactions in November 2024; Mittera identified as major consolidator (24 acquisitions as of October 2024); RRD (backed by Chatham Asset Management) active in direct mail; Mittera and Vericast/related platforms identified as active roll-up buyers. Count of 3 reflects: Mittera (active direct mail acquirer), RRD/Chatham (large-scale direct mail platform), and one additional active regional/PE-backed consolidator.",
+      "access_date": "2026-07-20",
+      "quality": "MED"
+    },
+    "buy_mult": {
+      "value": 4.0,
+      "source": "Peak Business Valuation (printing business valuation multiples) / ctacquisitions.com (2026 printing valuation) / Rock LaManna commentary",
+      "url": "https://peakbusinessvaluation.com/printing-business-valuation-multiples/",
+      "figure_quoted": "EBITDA multiples for printing businesses usually fall between 2.99x and 3.93x EBITDA (Peak Business Valuation); Rock LaManna: 'the multiple for the printing industry is 4'; ctacquisitions.com: general commercial offset 3.5-4.5x, direct mail/variable-data hybrid 4.5-5.5x. For small direct mail operators (under $5M EBITDA, limited marketing services pull-through), buy_mult = 4.0x after normalization per rule 3 (SDE to EBITDA conversion: removing owner comp and adding market-rate management salary reduces effective multiple slightly from SDE basis). 4.0x is median of 3.0-5.5x range for small shops.",
+      "access_date": "2026-07-20",
+      "quality": "MED"
+    },
+    "exit_mult": {
+      "value": 7.0,
+      "source": "Marketing services M&A comps / ctacquisitions.com printing valuation 2026",
+      "url": "https://ctacquisitions.com/printing-business-valuation/",
+      "figure_quoted": "ctacquisitions.com: direct mail/variable-data with strong recurring marketing-services pull-through trades 5.5-6.5x EBITDA; label/packaging specialists 5-7x EBITDA; PE middle-market average 7.2-7.5x EBITDA (GF Data). Exit multiple for $10M+ EBITDA direct mail platform with marketing-services integration estimated at 7.0x — above the sub-scale operator range but below the branded marketing-services premium. Mittera (the main consolidator) likely exits at 6-8x as a technology-forward print/direct mail platform.",
+      "access_date": "2026-07-20",
+      "quality": "ESTIMATE"
+    },
+    "pricing_structure": {
+      "value": "Per-piece pricing with USPS postage passed through at cost. Competitive sealed-bid environment for mid-size jobs; direct pricing for recurring accounts. Postage is 50%+ of a direct mail campaign cost. Creative, data prep, and admin are value-added services that can be bundled or unbundled. No cost-plus protection — competitive bidding forces price transparency on all non-postage cost lines.",
+      "source": "USPS FY2025 Annual Report; Pragmatic CRM postage analysis 2025; industry commentary",
+      "url": "https://about.usps.com/newsroom/national-releases/2025/1114-usps-reports-fiscal-year-2025-results.htm",
+      "figure_quoted": "Marketing Mail revenue increased $350 million or 2.3% on a volume decline of 764 million pieces or 1.3% — revenue growing only due to rate increases; 7.38% average Marketing Mail rate increase effective July 2025; operator absorbs pass-through cost increase with zero capture leverage",
+      "access_date": "2026-07-20",
+      "quality": "MED"
+    }
+  },
+  "scores": {
+    "V": {
+      "arithmetic": "V_raw = labor_share × ai_replaceable_share = 0.2807 × 0.380000 = 0.106666; V = 10 × min(1, 0.106666/0.25) = 10 × min(1, 0.426664) = 10 × 0.426664 = 4.26664",
+      "score": 4.26664
+    },
+    "C": {
+      "arithmetic": "C = 10 × pi_dist × pi_moat = 10 × 0.30 × 0.25 = 10 × 0.075 = 0.75",
+      "score": 0.75
+    },
+    "A": {
+      "arithmetic": "A = min(10, 10/t50_years) = min(10, 10/8.0) = min(10, 1.25) = 1.25",
+      "score": 1.25
+    },
+    "B": {
+      "arithmetic": "n_band=261; TD = clamp(log10(261)/4, 0, 1) = clamp(2.416641/4, 0, 1) = clamp(0.604160, 0, 1) = 0.604160; OW_raw = clamp((0.60-0.10)/0.35, 0.1, 0.9) = clamp(1.428571, 0.1, 0.9) = 0.9; succession bonus: OW = min(1.0, 0.9+0.1) = 1.0; CFD = min(0.9, log10(1+3)/2) = min(0.9, 0.602060/2) = min(0.9, 0.301030) = 0.301030; B = 10 × sqrt(0.604160 × 1.0) / (1 + 0.3 × 0.301030) = 10 × 0.777277 / (1 + 0.090309) = 7.77277 / 1.090309 = 7.128804",
+      "score": 7.128804
+    },
+    "M": {
+      "arithmetic": "M = clamp(4 × (exit_mult - buy_mult) / buy_mult, 0, 10) = clamp(4 × (7.0 - 4.0) / 4.0, 0, 10) = clamp(4 × 0.75, 0, 10) = clamp(3.0, 0, 10) = 3.0",
+      "score": 3.0
+    }
+  },
+  "S": 2.43464,
+  "cross_checks": {
+    "uplift_pp": 10.67,
+    "uplift_vs_A_consistent": "uplift_pp = V_raw × 100 = 0.106666 × 100 = 10.67 percentage points of revenue freed as labor savings. A = 1.25 (well below 5). No tension: the rule flags uplift_pp < 3 while A >= 5; here A < 5 so no conflict. The 10.67pp uplift is material but both adoption is slow (t50=8 years) and capture is low (C=0.75 due to deflation channel). Consistent — the low C score reflects that AI efficiency mostly flows to clients via competitive bidding, which is appropriate given the per-piece bid pricing model.",
+    "terminal_value": {
+      "class": "MELTING",
+      "justification": "Direct mail operators face a dual threat that warrants MELTING classification. First, demand melt: USPS Marketing Mail volume declined 40% from 99 billion pieces in FY2008 to 56.8 billion pieces in FY2025, a structural trend driven by electronic diversion. The USPS OIG projects a further 14-41% decline in combined mail volumes from 2025-2035. USPS rate increases (7.38% average in July 2025) compound the melt by making direct mail more expensive relative to digital alternatives. Second, AI accelerates the substitutes: AI simultaneously makes email, digital display, and programmatic advertising cheaper and better-targeted, specifically attacking the measurement and personalization advantages that made direct mail defensible. The operator's AI story is a cost cut on a melting revenue base — and the secular melt rate (3-5% per year volume decline) exceeds any plausible margin gain from AI efficiency in the white-collar cost lines. Classification: MELTING — the product base itself (physical direct mail volume) is being replaced by digital substitutes accelerated by AI capabilities."
+    },
+    "no_proxy_confirmed": "V was derived from the automatable fraction of each OEWS occupation in the role_mix, applied to what current AI can substantially do in a direct mail house context — no reference to deal activity, consolidation trends, or M&A volumes. A was derived from current_adoption_pct estimated from operator technology profiles and the historical analog of digital technology adoption in commercial printing — neither involves PE deal flow or consolidation evidence. Confirmed: V and A justified without reference to deal activity.",
+    "pricing_model_deflation": "Direct mail is explicitly a per-piece competitive-bid pricing model with postage passed through at cost. This is the paradigmatic deflation channel: AI savings in data prep, creative, and admin are exactly the lines that show up as cost reductions that competitors will match in the next bid, passing savings to clients as lower per-piece prices rather than retaining them as margin. pi_dist = 0.30 reflects this explicitly: the firm does not control the client (agency intermediation), the pricing model is fully transparent (bid-based), and AI bypasses the white-collar value-added layer that represented the firm's differentiation. pi_moat = 0.25 confirms no structural barrier prevents this deflation from fully flowing through. The 10.67pp uplift estimate is therefore largely theoretical from the firm's perspective — most of that labor saving will be competed away in lower per-piece bids within 2-3 years of widespread AI adoption among competing mail houses."
+  },
+  "confidence_overall": "MED",
+  "heterogeneous": false,
+  "top_uncertain_inputs": [
+    {
+      "input": "t50_years",
+      "plausible_range": "6-12 years",
+      "score_impact": "At t50=6: A=1.667, S increases from ~2.43 to ~2.61. At t50=12: A=0.833, S decreases to ~2.18. Moderate sensitivity — A is already low so variation has limited impact on S. Range ~2.18-2.61 bracketing the base 2.43."
+    },
+    {
+      "input": "pi_dist",
+      "plausible_range": "0.20-0.40",
+      "score_impact": "At pi_dist=0.20: C=0.50, S~2.16. At pi_dist=0.40: C=1.00, S~2.73. Most sensitive dimension — captures the central uncertainty of whether competitive bidding fully deflates AI savings. Range ~2.16-2.73."
+    },
+    {
+      "input": "buy_mult",
+      "plausible_range": "3.0-5.5",
+      "score_impact": "At buy=3.0, exit=7.0: M=clamp(4×4/3,0,10)=clamp(5.333,0,10)=5.333; S~2.85. At buy=5.5, exit=7.0: M=clamp(4×1.5/5.5,0,10)=clamp(1.091,0,10)=1.091; S~2.10. M is highly sensitive to buy multiple — the low absolute multiple spread ($7-$4=$3) is compressed at the small end of the printing industry."
+    }
+  ],
+  "reviewer_note": "Three structural concerns require reviewer attention. (1) n_band likely overstated: the dataset uses the generic Business & Consumer Services EBITDA margin of 15.65%. Actual print/mail EBITDA margins are typically 5-10% for small shops; at 7.5% margin, the 20-99 class ($12M avg revenue → $0.9M EBITDA) would fall OUT of the $1-10M band, and the 100-499 class ($31M avg → $2.3M EBITDA) would remain in-band. Under a 7.5% margin, n_band would drop to ~62 (100-499 class only), dramatically reducing TD and B. The prompt instructs to use the provided dataset value (261) and flag. (2) Role-mix contamination (same as 541850): the OEWS proxy is 4-digit 5418 dominated by ad agencies. Actual direct mail houses are production plants — press operators (51-5112), mail machine operators (43-9051), insertion crews — none appearing in the top-10. The unlisted 49.3% bucket captures these physical workers; re-weighting sets 35% of total wage bill to production (0% automatable). The low labor_share of 0.2807 corroborates this materials/postage-heavy production character. (3) MELTING terminal value creates a systemic risk to M: the secular volume decline in Marketing Mail (down 40% since 2008, projected further decline) means that roll-up exit multiples may compress over time as the medium shrinks, making the buy-mult/exit-mult spread potentially negative in a 5-7 year hold. The static multiple spread used here (buy=4x, exit=7x) assumes a functioning roll-up exit market exists; if USPS volume continues to melt and PE interest in the sector fades, M would be lower."
+}

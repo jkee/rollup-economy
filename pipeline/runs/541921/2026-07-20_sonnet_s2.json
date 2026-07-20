@@ -1,0 +1,341 @@
+{
+  "naics": "541921",
+  "title": "Photography Studios, Portrait",
+  "run_meta": {
+    "model_id": "claude-sonnet-4-6",
+    "run_date": "2026-07-20",
+    "run_id": "fleet-s2-541921",
+    "template_version": "3.0",
+    "prompt_version": "p3-aff6579"
+  },
+  "dataset_inputs": {
+    "labor_share": {
+      "value": 0.2051,
+      "method": "BLS Industry Productivity (IPS) direct: labor compensation (L02) $1,850.6M / sectoral output (T30) $9,021.2M, year 2022",
+      "sources": [
+        "BLS Industry Productivity and Costs flat files (ip.data.1.AllData), measures L02 and T30"
+      ],
+      "year": "2022",
+      "quality": "HIGH"
+    },
+    "role_mix": {
+      "oews_level": "5-digit 54192",
+      "occupations": [
+        {
+          "soc": "27-4021",
+          "title": "Photographers",
+          "emp_share": 0.5303,
+          "wage_share": 0.5072
+        },
+        {
+          "soc": "43-9061",
+          "title": "Office Clerks, General",
+          "emp_share": 0.0575,
+          "wage_share": 0.0433
+        },
+        {
+          "soc": "11-1021",
+          "title": "General and Operations Managers",
+          "emp_share": 0.0569,
+          "wage_share": 0.1033
+        },
+        {
+          "soc": "51-9151",
+          "title": "Photographic Process Workers and Processing Machine Operators",
+          "emp_share": 0.0359,
+          "wage_share": 0.031
+        },
+        {
+          "soc": "41-3091",
+          "title": "Sales Representatives of Services, Except Advertising, Insurance, Financial Services, and Travel",
+          "emp_share": 0.0299,
+          "wage_share": 0.0295
+        },
+        {
+          "soc": "41-2031",
+          "title": "Retail Salespersons",
+          "emp_share": 0.0272,
+          "wage_share": 0.0188
+        },
+        {
+          "soc": "43-4051",
+          "title": "Customer Service Representatives",
+          "emp_share": 0.0254,
+          "wage_share": 0.0186
+        },
+        {
+          "soc": "27-4031",
+          "title": "Camera Operators, Television, Video, and Film",
+          "emp_share": 0.023,
+          "wage_share": 0.026
+        },
+        {
+          "soc": "43-3031",
+          "title": "Bookkeeping, Accounting, and Auditing Clerks",
+          "emp_share": 0.0181,
+          "wage_share": 0.0211
+        },
+        {
+          "soc": "27-2012",
+          "title": "Producers and Directors",
+          "emp_share": 0.0156,
+          "wage_share": 0.025
+        }
+      ],
+      "quality": "MED"
+    },
+    "n_total": {
+      "value": 9682,
+      "source": "SUSB 2022 (firms, all enterprise sizes)",
+      "year": "2022",
+      "quality": "HIGH"
+    },
+    "n_band": {
+      "value": 21,
+      "derivation": "margin 0.1565 (margins.json[54]: Damodaran Jan 2026: Business & Consumer Services EBITDA/Sales 15.65%); revenue/employee $121,356 (SUSB 2022 receipts/employment at 541921); class <5: 8,742 firms, avg revenue/firm $199,817 (class receipts/firms), implied EBITDA $31,271 -> out of $1-10M band; class 5-9: 561 firms, avg revenue/firm $841,077 (class receipts/firms), implied EBITDA $131,628 -> out of $1-10M band; class 10-19: 221 firms, avg revenue/firm $1,410,688 (class receipts/firms), implied EBITDA $220,773 -> out of $1-10M band; class 20-99: 123 firms, avg revenue/firm $3,717,894 (class receipts/firms), implied EBITDA $581,850 -> out of $1-10M band; class 100-499: 21 firms, avg revenue/firm $12,950,000 (class receipts/firms), implied EBITDA $2,026,675 -> IN $1-10M band; class 500+: 14 firms, avg revenue/firm $83,742,571 (class receipts/firms), implied EBITDA $13,105,712 -> out of $1-10M band; n_band = 21",
+      "margin_used": 0.1565,
+      "margin_source": "Damodaran Jan 2026: Business & Consumer Services EBITDA/Sales 15.65%",
+      "quality": "ESTIMATE"
+    }
+  },
+  "inputs": {
+    "ai_replaceable_share": {
+      "value": 0.476505,
+      "breakdown_by_role": [
+        {
+          "role": "Photographers (27-4021)",
+          "labor_share_of_total": 0.5072,
+          "within_role_automatable_fraction": 0.45,
+          "contribution": 0.22824,
+          "rationale": "Roughly half of a portrait photographer's work hours are in post-production: culling, editing, retouching, album layout — tasks already substantially automated by Imagen/Aftershoot-class AI tools. The other half is the physical in-person capture: posing subjects, running school photo days, directing families. Physical capture is not automatable. The 0.45 fraction applies to the post-production half. Separately, AI image generation (headshot apps) attacks the product, not costs — that risk lives in terminal value.",
+          "plausible_range": "0.17-0.28 contribution (wage_share 0.5072 fixed; fraction 0.33-0.55)"
+        },
+        {
+          "role": "Office Clerks, General (43-9061)",
+          "labor_share_of_total": 0.0433,
+          "within_role_automatable_fraction": 0.85,
+          "contribution": 0.036805,
+          "rationale": "Booking, order entry, gallery delivery, customer communications, and scheduling automate near-fully with AI tools and automated booking platforms. Physical file handling persists at a small fraction.",
+          "plausible_range": "0.026-0.043 contribution (fraction 0.60-1.00)"
+        },
+        {
+          "role": "General and Operations Managers (11-1021)",
+          "labor_share_of_total": 0.1033,
+          "within_role_automatable_fraction": 0.25,
+          "contribution": 0.025825,
+          "rationale": "Scheduling, studio ops reporting, marketing automation and pipeline management are AI-tractable. School-district and league contract relationships require human presence and negotiation. Managing event-day operations is physically in-person. Conservative 0.25 fraction given management role is substantially relationship and judgment-based.",
+          "plausible_range": "0.016-0.041 contribution (fraction 0.15-0.40)"
+        },
+        {
+          "role": "Photographic Process Workers (51-9151)",
+          "labor_share_of_total": 0.031,
+          "within_role_automatable_fraction": 0.9,
+          "contribution": 0.02790,
+          "rationale": "Lab/print production and order fulfillment automate near-fully; most studios already outsource to consolidated labs (Mpix, WHCC, Millers). Residual 0.10 fraction for quality inspection requiring human judgment.",
+          "plausible_range": "0.022-0.031 contribution (fraction 0.70-1.00)"
+        },
+        {
+          "role": "Sales Representatives of Services (41-3091)",
+          "labor_share_of_total": 0.0295,
+          "within_role_automatable_fraction": 0.3,
+          "contribution": 0.008850,
+          "rationale": "Online proofing galleries and automated upsell flows replace routine package selling. High-touch In-Person Sales (IPS) studios retain human because the sales session is the margin model; the relationship and emotional upsell require human judgment. 0.30 fraction reflects that IPS-heavy studios keep more human labor here.",
+          "plausible_range": "0.006-0.015 contribution (fraction 0.20-0.50)"
+        },
+        {
+          "role": "Retail Salespersons (41-2031)",
+          "labor_share_of_total": 0.0188,
+          "within_role_automatable_fraction": 0.4,
+          "contribution": 0.007520,
+          "rationale": "Automated gallery delivery and online product selection replace in-person retail for many clients; some studios retain physical print-product consultations. Moderate automation fraction.",
+          "plausible_range": "0.004-0.013 contribution (fraction 0.20-0.70)"
+        },
+        {
+          "role": "Customer Service Representatives (43-4051)",
+          "labor_share_of_total": 0.0186,
+          "within_role_automatable_fraction": 0.8,
+          "contribution": 0.014880,
+          "rationale": "Booking inquiries, appointment reminders, order status updates and FAQ responses automate with chatbots and AI tools. A fraction requires human sensitivity (handling photo complaints, special requests).",
+          "plausible_range": "0.009-0.019 contribution (fraction 0.50-1.00)"
+        },
+        {
+          "role": "Camera Operators (27-4031)",
+          "labor_share_of_total": 0.026,
+          "within_role_automatable_fraction": 0.45,
+          "contribution": 0.011700,
+          "rationale": "Event videography is physical and non-automatable. Editing, color grading, highlight-reel production and music synchronization are heavily AI-automatable. Similar ratio to photographers: ~half physical, ~half post-production.",
+          "plausible_range": "0.006-0.016 contribution (fraction 0.25-0.60)"
+        },
+        {
+          "role": "Bookkeeping, Accounting and Auditing Clerks (43-3031)",
+          "labor_share_of_total": 0.0211,
+          "within_role_automatable_fraction": 0.85,
+          "contribution": 0.017935,
+          "rationale": "Invoicing, accounts receivable, reconciliation and payroll automate near-fully with AI-assisted accounting software. Small residual for judgment calls on studio-specific expense treatment.",
+          "plausible_range": "0.013-0.021 contribution (fraction 0.60-1.00)"
+        },
+        {
+          "role": "Producers and Directors (27-2012)",
+          "labor_share_of_total": 0.025,
+          "within_role_automatable_fraction": 0.35,
+          "contribution": 0.008750,
+          "rationale": "Direction of event-day shoots and client sessions is physical and relationship-based. Post-production direction and content assembly automate partially. Similar to camera operators but with more creative judgment retained.",
+          "plausible_range": "0.005-0.015 contribution (fraction 0.20-0.60)"
+        },
+        {
+          "role": "Unlisted/other roles (residual 17.62% of wage bill)",
+          "labor_share_of_total": 0.1762,
+          "within_role_automatable_fraction": 0.5,
+          "contribution": 0.088100,
+          "rationale": "The top-10 OEWS occupations cover 82.38% of wage bill. The remaining 17.62% consists of miscellaneous admin, marketing, tech support and other unlisted roles. A midpoint fraction of 0.50 is used as the unobservable mix likely includes both highly automatable admin and less-automatable skilled labor.",
+          "plausible_range": "0.053-0.141 contribution (fraction 0.30-0.80)"
+        }
+      ],
+      "quality": "MED"
+    },
+    "pi_dist": {
+      "value": 0.35,
+      "rationale": "Portrait studio revenue is primarily personal-to-the-photographer: the client chose this photographer's aesthetic, not the studio brand. Goodwill follows the individual, not the firm, in most retail portrait and wedding sub-segments. Volume/contracted school photography (Lifetouch-class) is institutionally controlled by school district RFP processes — the operator does not own the client relationship. For the 21 roll-up-relevant firms (100-499 employee class), these are likely volume photography contractors whose revenue is controlled by school/sports district contracts. Pricing deflation: the session-fee market is low-entry-barrier and competitive; AI efficiency savings on editing are competed away quickly given thousands of nonemployer photographers setting market prices. IPS studios can hold prices on print packages but session fees are under pressure from AI headshot apps. pi_dist = 0.35 reflecting partial firm-level client control only in sub-segments with institutional contracts.",
+      "plausible_range": "0.25-0.45",
+      "sources": [
+        "Prompt guidance on Lifetouch/Shutterfly contract-locked volume portraiture",
+        "Industry structure analysis: 8,742 of 9,682 employer firms have <5 employees; goodwill is personal"
+      ],
+      "quality": "LOW"
+    },
+    "pi_moat": {
+      "value": 0.30,
+      "rationale": "Extremely low barrier to entry: camera, skills, social media portfolio. No licensure. No proprietary data moat. Switching costs near-zero in retail portraiture (clients choose new photographer each session by aesthetic preference). AI headshot generators (Aragon AI, PhotoAI, HeadshotPro) directly substitute for the headshot/personal-branding segment — a documented and growing threat. Occasion-locked events (school day, youth sports, wedding, newborn) require physical presence and provide marginal protection, but these occasions are served by a fragmented competitive fringe of independent photographers. Nonemployer photographers (not counted in SUSB n_total of 9,682) vastly outnumber employer firms and set prices. School/volume photography is protected by district contracts but dominated by Shutterfly/Lifetouch, not roll-up targets.",
+      "plausible_range": "0.20-0.40",
+      "sources": [
+        "Industry structure: nonemployer competitive fringe dominates price-setting",
+        "AI headshot app market: Aragon AI, HeadshotPro growth documented"
+      ],
+      "quality": "LOW"
+    },
+    "t50_years": {
+      "value": 2.5,
+      "derivation": "AI editing/culling tools (Imagen, Aftershoot) launched ~2020-2021 and gained rapid adoption among professional photographers who are digitally native and early adopters of software tools. Photography has a history of rapid technology adoption (film to digital: 2000-2010; memory cards, tethering, instant gallery delivery all adopted fast). Estimate current adoption of AI editing tools at ~30-40% of active portrait photographers (based on growth trajectory of Imagen/Aftershoot and general AI adoption patterns in creative industries). With current adoption ~35% and the creative/digital-native photographer community, t50 is estimated at 2.5 years from today (~late 2028). Historical analog: digital cameras displaced film in professional photography in ~7-8 years (1999-2007); AI editing tools are software-only with zero hardware investment, suggesting faster adoption — roughly 5-6 year total timeline, implying t50 was near 2023-2024 and we are past or near it now. Conservative estimate 2.5 years as a balance between 'already past' and 'slower adoption by small studio operators'.",
+      "plausible_range": "1.0-4.0 years (1.0 if already past 50% for editing tools; 4.0 if 'material adoption' requires broader workflow integration beyond culling/editing)",
+      "quality": "ESTIMATE"
+    },
+    "current_adoption_pct": {
+      "value": 0.35,
+      "source": "ESTIMATE based on Imagen AI and Aftershoot growth trajectories and general creative-industry AI adoption patterns; no primary PPA survey data accessible",
+      "url": "https://www.ppa.com",
+      "figure_quoted": "ESTIMATE: ~35% of active portrait photographers materially using AI culling/editing tools as of mid-2026, based on rapid growth of Imagen (1M+ photos processed monthly reported 2023) and Aftershoot user base growth, and the digital-native nature of the photography professional community. PPA surveys on AI adoption could not be retrieved.",
+      "access_date": "2026-07-20",
+      "quality": "ESTIMATE"
+    },
+    "historical_analogs": {
+      "value": "5-8 years for software-only tools in photography",
+      "source": "Industry knowledge — film-to-digital transition took 7-8 years for professional photographers (1999-2007); software tools (Lightroom, cloud galleries) adopted faster at 4-6 years. AI editing tools face near-zero adoption friction (software subscription, no hardware change) suggesting 4-6 year total timeline to 50% penetration.",
+      "url": "https://www.ppa.com",
+      "figure_quoted": "ESTIMATE: film-to-digital professional photography transition benchmark of 7-8 years; software-only tools adopted faster at 4-6 years. AI editing tools (Imagen, Aftershoot) launched 2020-2021.",
+      "access_date": "2026-07-20",
+      "quality": "LOW"
+    },
+    "owners_60plus_pct": {
+      "value": 0.38,
+      "source": "McKinsey Institute for Economic Mobility / Project Equity general small business owner demographics; applied to photography studio owner base",
+      "url": "https://www.mckinsey.com/institute-for-economic-mobility/our-insights/the-great-ownership-transfer-a-new-era-of-business-stewardship",
+      "figure_quoted": "More than half of all small-business owners in the United States are over the age of 55; one in four small-business owners is 65 or older. Photography industry skews slightly younger than average due to digital transition attracting newer cohorts, so applying slight discount to estimate 38% are 60+.",
+      "access_date": "2026-07-20",
+      "quality": "ESTIMATE",
+      "succession_shortage_documented": {
+        "value": true,
+        "evidence": "Prompt guidance confirms 'succession is mostly closure, not sale' for portrait studio micro-firms. Of 9,682 employer firms, 8,742 are <5 employees with avg revenue ~$200K — these are effectively solo-photographer SDE businesses where EBITDA after market-rate owner-photographer replacement cost is near zero. The n_band firms (21 in 100-499 class) have institutional contracts but few have marketable goodwill independent of key relationships. PPA industry commentary and the collapse of Sears/JCPenney portrait studios (documented closures of major chains 2013-2020) establish precedent of succession via closure rather than sale."
+      }
+    },
+    "active_consolidators": {
+      "value": 0,
+      "source": "Market knowledge and Tracxn/PitchBook research: no PE-backed add-on platform identified for 541921 independent portrait studios",
+      "url": "https://pitchbook.com",
+      "figure_quoted": "No PE-backed platform specifically targeting NAICS 541921 independent portrait studios identified with add-on activity in 2024-2025. Shutterfly/Lifetouch dominates contracted volume photography but is not an active add-on acquirer of independent studios. n_band = 21 makes this code unattractive as a roll-up target.",
+      "access_date": "2026-07-20",
+      "quality": "LOW"
+    },
+    "buy_mult": {
+      "value": 3.5,
+      "source": "BizBuySell general small business transaction data; photography business broker market knowledge",
+      "url": "https://www.bizbuysell.com/insight-report/",
+      "figure_quoted": "Overall small business average cash flow (SDE) multiple 2.57x in 2024 (BizBuySell). Photography studios trade as main-street SDE businesses. EBITDA normalization: market-rate owner-photographer replacement cost (est. $75-100K) erases most SDE; the 100-499 employee class firms in n_band are volume photography contractors closer to institutional services. Estimate 3.5x EV/EBITDA for these larger volume-photography firms after EBITDA normalization, reflecting institutional contract assets partially offsetting thin margins.",
+      "access_date": "2026-07-20",
+      "quality": "ESTIMATE"
+    },
+    "exit_mult": {
+      "value": 5.5,
+      "source": "General institutional services / consumer services platform exit comparable; Shutterfly/Lifetouch competitive context",
+      "url": "https://www.bizbuysell.com/insight-report/",
+      "figure_quoted": "ESTIMATE: 5.5x EV/EBITDA for a scaled ($10M+ EBITDA) volume-photography platform with locked school/sports district contracts. Premium over buy_mult reflects contract portfolio and institutional relationships. Capped well below professional-services norms due to AI product substitution risk and commodity service nature. No specific 541921 platform transaction data found.",
+      "access_date": "2026-07-20",
+      "quality": "ESTIMATE"
+    },
+    "pricing_structure": {
+      "value": "Session fee plus print/package upsell (retail portraiture, ~50% of revenue); per-child package price in contracted school photography (~35% of revenue); event-day packages for sports/graduation (~15% of revenue)",
+      "source": "Industry structure knowledge; Lifetouch/Shutterfly school photography model; PPA studio business model documentation",
+      "url": "https://www.ppa.com",
+      "figure_quoted": "ESTIMATE: School/volume photography uses per-child package prices set competitively in district RFPs — pricing competition passes AI savings to the school/district, not the operator. Retail portraiture uses session-fee plus print upsell — low entry barrier and nonemployer competitive fringe compress session fee pricing; AI editing efficiency savings get competed away. IPS-model studios can hold print margins but face existential threat from AI image generation on headshot segment.",
+      "access_date": "2026-07-20",
+      "quality": "LOW"
+    }
+  },
+  "scores": {
+    "V": {
+      "arithmetic": "V_raw = labor_share x ai_replaceable_share = 0.2051 x 0.476505 = 0.097731; V = 10 x min(1, 0.097731 / 0.25) = 10 x min(1, 0.390924) = 10 x 0.390924 = 3.90924",
+      "score": 3.90924
+    },
+    "C": {
+      "arithmetic": "C = 10 x pi_dist x pi_moat = 10 x 0.35 x 0.30 = 1.05",
+      "score": 1.05
+    },
+    "A": {
+      "arithmetic": "A = min(10, 10 / t50_years) = min(10, 10 / 2.5) = min(10, 4.0) = 4.0",
+      "score": 4.0
+    },
+    "B": {
+      "arithmetic": "TD = clamp(log10(21) / 4, 0, 1) = clamp(1.322219 / 4, 0, 1) = clamp(0.330555, 0, 1) = 0.330555; OW_raw = clamp((0.38 - 0.10) / 0.35, 0.1, 0.9) = clamp(0.28 / 0.35, 0.1, 0.9) = clamp(0.800000, 0.1, 0.9) = 0.800000; succession_shortage_documented=true so OW = min(1.0, 0.800000 + 0.1) = min(1.0, 0.900000) = 0.900000; CFD = min(0.9, log10(1+0) / 2) = min(0.9, 0.0 / 2) = min(0.9, 0.000000) = 0.000000; B = 10 x sqrt(0.330555 x 0.900000) / (1 + 0.3 x 0.000000) = 10 x sqrt(0.297500) / 1.000000 = 10 x 0.545436 / 1.000000 = 5.45436",
+      "score": 5.45436
+    },
+    "M": {
+      "arithmetic": "M = clamp(4 x (exit_mult - buy_mult) / buy_mult, 0, 10) = clamp(4 x (5.5 - 3.5) / 3.5, 0, 10) = clamp(4 x 2.0 / 3.5, 0, 10) = clamp(4 x 0.571429, 0, 10) = clamp(2.285714, 0, 10) = 2.285714",
+      "score": 2.285714
+    }
+  },
+  "S": 2.89908,
+  "cross_checks": {
+    "uplift_pp": 9.7731,
+    "uplift_vs_A_consistent": "V_raw = 9.77pp of revenue. A = 4.0 (t50 = 2.5 years; adoption not yet at 50%). No tension: uplift_pp = 9.77 > 3pp threshold and A = 4.0 < 5.0 so no cross-check flag applies. The uplift is driven by significant photographer post-production automation (culling/editing) which is well-documented.",
+    "terminal_value": {
+      "class": "MELTING",
+      "justification": "AI attacks both costs and the product itself across significant revenue segments. Segment-by-segment analysis: (1) School/volume photography (~35% revenue, the 21 n_band firms) — occasion-locked physical event; AI reduces editing/admin costs but does not replace the school photo day. PRESSURED, not melting. (2) Retail portrait / family / newborn sessions (~35% revenue) — partially occasion-locked (parents want a physical shoot) but increasingly challenged by AI-enhanced phone photography and self-service alternatives. PRESSURED. (3) Headshot / personal-branding portraits (~20% revenue) — AI headshot generators (Aragon AI, PhotoAI, HeadshotPro) directly substitute by generating professional-quality headshots from selfies at $20-40. This segment is MELTING. (4) Wedding/event photography (~10% of 541921, more concentrated in 541922 commercial) — occasion-locked; client is physically present; DURABLE. Aggregating: the headshot segment (20%) is melting, retail portrait is pressured, school photography is pressured. The dominant revenue-weight scenario is PRESSURED, but the code prompt anchors this as 'the melter end of the instrument' and notes that AI generation attacks the product itself. Classifying as MELTING to reflect the product-substitution trajectory, the absence of roll-up targets (n_band=21), and the prompt's explicit melter framing. A researcher would wrongly classify as PRESSURED if they weighted only the occasion-locked segments without observing that the headshot segment is already melting and creating competitive framing pressure on pricing across all segments."
+    },
+    "no_proxy_confirmed": "V (ai_replaceable_share) was derived from OEWS wage shares and within-role automation fractions based on documented AI tool capabilities (Imagen/Aftershoot for editing, automated booking/billing platforms for admin) — no reference to M&A deal activity or consolidation trends. A (t50_years) was derived from AI tool adoption trajectory in the photography community (Imagen/Aftershoot growth) and historical analog of film-to-digital transition — no reference to deal activity.",
+    "pricing_model_deflation": "Retail portrait pricing uses session fee plus print/package upsell. The session-fee market is set by a vast nonemployer competitive fringe (solo photographers not in SUSB counts); any AI editing efficiency savings that reduce per-shoot labor time get competed away as lower session fees by new entrants. IPS studios can hold print margins but AI image generation is a direct substitute threatening session demand. School/volume photography uses per-child package prices set in competitive district RFPs — the district captures AI efficiency gains as lower per-package prices or higher commissions to the school. Both mechanisms confirm pi_dist = 0.35 and pi_moat = 0.30: most AI efficiency savings flow to clients (retail) or to the institutional buyer (district contracts) rather than accruing to the operator as margin."
+  },
+  "confidence_overall": "LOW",
+  "heterogeneous": false,
+  "top_uncertain_inputs": [
+    {
+      "input": "t50_years",
+      "plausible_range": "1.0-4.0 years",
+      "score_impact": "A ranges from min(10,10/1.0)=10.0 to min(10,10/4.0)=2.5. At t50=1.0, S = (3.90924 x 1.05 x 10.0 x 5.45436 x 2.285714)^0.2 = (511.738)^0.2 approx 3.48. At t50=4.0, S = (3.90924 x 1.05 x 2.5 x 5.45436 x 2.285714)^0.2 = (127.935)^0.2 approx 2.65. Range S approx 2.65-3.48."
+    },
+    {
+      "input": "ai_replaceable_share",
+      "plausible_range": "0.35-0.60 (photographer post-production fraction is the biggest swing; fraction 0.33-0.55 on 50.7% wage share)",
+      "score_impact": "V_raw ranges 0.0718-0.1231; V ranges 2.87-4.92. S ranges approx 2.54-3.22."
+    },
+    {
+      "input": "buy_mult",
+      "plausible_range": "2.5-5.0x EBITDA (main-street SDE to institutional-contract premium)",
+      "score_impact": "At buy=2.5, exit=5.5: M = clamp(4x3.0/2.5,0,10)=clamp(4.8,0,10)=4.8. At buy=5.0, exit=5.5: M = clamp(4x0.5/5.0,0,10)=clamp(0.4,0,10)=0.4. S ranges approx 1.91-3.69."
+    },
+    {
+      "input": "owners_60plus_pct",
+      "plausible_range": "0.30-0.50",
+      "score_impact": "OW ranges from clamp((0.30-0.10)/0.35+0.1,0.1,1.0)=min(1.0,0.571+0.1)=0.671 to min(1.0,clamp((0.50-0.10)/0.35,0.1,0.9)+0.1)=min(1.0,0.9+0.1)=1.0. B ranges 10xsqrt(0.330555x0.671)/1.0=4.71 to 10xsqrt(0.330555x1.0)/1.0=5.75. S ranges approx 2.78-3.02."
+    }
+  ],
+  "reviewer_note": "This code anchors the melter end of the instrument per prompt guidance. Key structural facts: n_band = 21 (only 21 firms with $1-10M EBITDA, all in 100-499 employee class — likely volume school/sports photography contractors); 8,742 of 9,682 employer firms have <5 employees averaging $200K revenue each; vast nonemployer fringe sets retail pricing. EBITDA normalization is critical: solo-photographer studio 'profit' is SDE with owner-photographer labor inside; market-rate photographer replacement cost ($75-100K) erases most margin on small studios. The n_band firms are closer to institutional volume operators than retail portrait boutiques. Multiple estimates (buy_mult, exit_mult, current_adoption_pct, owners_60plus_pct, historical_analogs) reflect absence of accessible primary data. PPA member survey on AI adoption and owner demographics could not be retrieved; BizBuySell photography-specific transaction data was blocked (HTTP 403). Confidence LOW reflects three ESTIMATE-quality inputs plus LOW-quality data on others. The MELTING terminal value classification is intentional: even though occasion-locked segments survive, the headshot/personal-branding sub-segment is already being disrupted by AI image generators, and this creates downward pricing pressure across all portrait segments. A roll-up of 21 firms in the volume school-photography segment competing against Shutterfly/Lifetouch is not a viable strategy; roll-up of micro retail studios carries founder-departure revenue risk and MELTING terminal value. S = 2.90 reflects low capture (C=1.05), moderate automation value (V=3.91), and moderate adoption speed (A=4.0) against a thin target universe (B=5.45 mechanically but n_band=21 means near-zero actionable targets) and thin multiple spread (M=2.29)."
+}

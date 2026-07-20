@@ -1,0 +1,290 @@
+{
+  "naics": "541850",
+  "title": "Indoor and Outdoor Display Advertising",
+  "run_meta": {
+    "model_id": "claude-sonnet-4-6",
+    "run_date": "2026-07-20",
+    "run_id": "fleet-s2-541850",
+    "template_version": "3.0",
+    "prompt_version": "p3-aff6579"
+  },
+  "dataset_inputs": {
+    "labor_share": {
+      "value": 0.3265,
+      "method": "QCEW 2024 private total annual wages at 541850 ($2,510,459,678) x benefits multiplier 1.4294 [ECEC private-industry total comp $46.60/hr / wages $32.60/hr = 1.4294 (March 2026 reference period)] / SUSB 2022 receipts at 541850 ($8,196,645,000). Vintage mismatch: 2024 wages over 2022 receipts, stated. Level: 6-digit. Harmonized to IPS basis ÷1.3407 (median of 65 dual-method codes).",
+      "sources": [
+        "BLS QCEW 2024 annual averages (US000, private)",
+        "BLS ECEC news release (raw/ecec.nr0.htm)",
+        "Census SUSB 2022 (receipts by NAICS)"
+      ],
+      "year": "2024 wages / 2022 receipts",
+      "quality": "MED"
+    },
+    "role_mix": {
+      "oews_level": "4-digit 5418",
+      "occupations": [
+        {"soc": "41-3011", "title": "Advertising Sales Agents", "emp_share": 0.0952, "wage_share": 0.0818},
+        {"soc": "27-3031", "title": "Public Relations Specialists", "emp_share": 0.0799, "wage_share": 0.0829},
+        {"soc": "13-1161", "title": "Market Research Analysts and Marketing Specialists", "emp_share": 0.0741, "wage_share": 0.0655},
+        {"soc": "11-1021", "title": "General and Operations Managers", "emp_share": 0.0539, "wage_share": 0.0926},
+        {"soc": "27-1024", "title": "Graphic Designers", "emp_share": 0.0449, "wage_share": 0.033},
+        {"soc": "41-9011", "title": "Demonstrators and Product Promoters", "emp_share": 0.0389, "wage_share": 0.0162},
+        {"soc": "41-3091", "title": "Sales Representatives of Services, Except Advertising, Insurance, Financial Services, and Travel", "emp_share": 0.0353, "wage_share": 0.0302},
+        {"soc": "27-1026", "title": "Merchandise Displayers and Window Trimmers", "emp_share": 0.029, "wage_share": 0.0121},
+        {"soc": "11-2021", "title": "Marketing Managers", "emp_share": 0.0285, "wage_share": 0.052},
+        {"soc": "27-1011", "title": "Art Directors", "emp_share": 0.0282, "wage_share": 0.0407}
+      ],
+      "quality": "MED"
+    },
+    "n_total": {
+      "value": 2083,
+      "source": "SUSB 2022 (firms, all enterprise sizes)",
+      "year": "2022",
+      "quality": "HIGH"
+    },
+    "n_band": {
+      "value": 112,
+      "derivation": "margin 0.1565 (margins.json[54]: Damodaran Jan 2026: Business & Consumer Services EBITDA/Sales 15.65%); revenue/employee $382,092 (SUSB 2022 receipts/employment at 541850); class <5: 1,543 firms, avg revenue/firm $457,235 (class receipts/firms), implied EBITDA $71,557 -> out of $1-10M band; class 5-9: 283 firms, avg revenue/firm $1,808,318 (class receipts/firms), implied EBITDA $283,002 -> out of $1-10M band; class 10-19: 130 firms, avg revenue/firm $3,468,000 (class receipts/firms), implied EBITDA $542,742 -> out of $1-10M band; class 20-99: 84 firms, avg revenue/firm $12,111,917 (class receipts/firms), implied EBITDA $1,895,515 -> IN $1-10M band; class 100-499: 28 firms, avg revenue/firm $53,150,286 (class receipts/firms), implied EBITDA $8,318,020 -> IN $1-10M band; class 500+: 15 firms, avg revenue/firm $268,195,267 (class receipts/firms), implied EBITDA $41,972,559 -> out of $1-10M band; n_band = 112",
+      "margin_used": 0.1565,
+      "margin_source": "Damodaran Jan 2026: Business & Consumer Services EBITDA/Sales 15.65%",
+      "quality": "ESTIMATE"
+    }
+  },
+  "inputs": {
+    "ai_replaceable_share": {
+      "value": 0.364345,
+      "breakdown_by_role": [
+        {
+          "role": "Advertising Sales Agents (41-3011)",
+          "labor_share_of_total": 0.0818,
+          "within_role_automatable_fraction": 0.40,
+          "contribution": 0.032720,
+          "rationale": "Prospecting, proposal decks, rate-card quoting and availability lookups automate substantially (40%); local advertiser relationships and programmatic-platform negotiations persist and cannot be automated.",
+          "plausible_range": "0.30-0.50"
+        },
+        {
+          "role": "Public Relations Specialists (27-3031)",
+          "labor_share_of_total": 0.0829,
+          "within_role_automatable_fraction": 0.70,
+          "contribution": 0.058030,
+          "rationale": "These roles are 5418 agency contamination largely absent in real OOH operators. Where they exist (audience measurement packaging, campaign reporting, proof-of-performance decks), AI can handle nearly all drafting and data-assembly work. High automation fraction set because those tasks that do exist here are near-fully automatable.",
+          "plausible_range": "0.55-0.80"
+        },
+        {
+          "role": "Market Research Analysts and Marketing Specialists (13-1161)",
+          "labor_share_of_total": 0.0655,
+          "within_role_automatable_fraction": 0.70,
+          "contribution": 0.045850,
+          "rationale": "Overstated for actual OOH operators (5418 contamination). Functions that do exist — Geopath audience data packaging, segmentation and campaign analytics — are near-fully automatable by current AI. Fraction set high because the remaining real tasks in a billboard firm are documentation and analysis, not judgment.",
+          "plausible_range": "0.55-0.80"
+        },
+        {
+          "role": "General and Operations Managers (11-1021)",
+          "labor_share_of_total": 0.0926,
+          "within_role_automatable_fraction": 0.35,
+          "contribution": 0.032410,
+          "rationale": "Internal reporting, billing, inventory management and scheduling automate substantially; landowner lease negotiations, permit fights and regulatory compliance require relationship/legal judgment that AI cannot replace. Net fraction 35% reflecting split between administrative (automatable) and relational/regulatory (not automatable) functions.",
+          "plausible_range": "0.25-0.45"
+        },
+        {
+          "role": "Graphic Designers (27-1024)",
+          "labor_share_of_total": 0.0330,
+          "within_role_automatable_fraction": 0.75,
+          "contribution": 0.024750,
+          "rationale": "Billboard and display creative layout is among the most directly AI-automatable design work — fixed formats, static or templated content, no interactive design judgment. Many operators already outsource. 75% automatable; 25% retained for client-specific approval and unique creative concepts.",
+          "plausible_range": "0.65-0.85"
+        },
+        {
+          "role": "Demonstrators and Product Promoters (41-9011)",
+          "labor_share_of_total": 0.0162,
+          "within_role_automatable_fraction": 0.10,
+          "contribution": 0.001620,
+          "rationale": "Primarily in-person promotional and experiential roles; physical presence cannot be automated by AI. Minimal automation fraction of 10% for scheduling and reporting only.",
+          "plausible_range": "0.05-0.15"
+        },
+        {
+          "role": "Sales Representatives of Services (41-3091)",
+          "labor_share_of_total": 0.0302,
+          "within_role_automatable_fraction": 0.40,
+          "contribution": 0.012080,
+          "rationale": "Similar to advertising sales agents: quoting, follow-up and availability lookup automate; client relationships and negotiations persist. Same 40% fraction as 41-3011.",
+          "plausible_range": "0.30-0.50"
+        },
+        {
+          "role": "Merchandise Displayers and Window Trimmers (27-1026)",
+          "labor_share_of_total": 0.0121,
+          "within_role_automatable_fraction": 0.05,
+          "contribution": 0.000605,
+          "rationale": "Physical installation and display work; cannot be automated by AI. Minimal 5% for scheduling and administrative components only.",
+          "plausible_range": "0.02-0.10"
+        },
+        {
+          "role": "Marketing Managers (11-2021)",
+          "labor_share_of_total": 0.0520,
+          "within_role_automatable_fraction": 0.45,
+          "contribution": 0.023400,
+          "rationale": "Campaign reporting, analytics and internal briefing automate; strategy, client relationship management and vendor negotiation persist. 45% fraction reflects mix of automatable administrative tasks and non-automatable strategic judgment.",
+          "plausible_range": "0.35-0.55"
+        },
+        {
+          "role": "Art Directors (27-1011)",
+          "labor_share_of_total": 0.0407,
+          "within_role_automatable_fraction": 0.60,
+          "contribution": 0.024420,
+          "rationale": "Billboard and signage creative direction automatable for standard formats via AI image generation and layout tools; conceptual brand direction and client approval interaction less automatable. 60% fraction between highly-automatable design execution and non-automatable brand strategy.",
+          "plausible_range": "0.45-0.70"
+        },
+        {
+          "role": "Unlisted roles (installation/print/field crew, admin/back-office, lease-ops staff)",
+          "labor_share_of_total": 0.4930,
+          "within_role_automatable_fraction": 0.22,
+          "contribution": 0.108460,
+          "rationale": "The unlisted 49.3% of wage bill covers three pools: (1) installation/billposting/field crews and large-format print operators (~30% of total wage bill, 0% automatable — physically hanging vinyls, servicing digital boards at height, maintaining structures); (2) admin/back-office including billing, contract admin, scheduling, collections (~17% of total wage bill, ~80% automatable by current AI); (3) residual lease-ops and long-tail mgmt staff (~2.6%, ~20% automatable). Blended fraction: (0.30×0 + 0.17×0.80 + 0.026×0.20) / 0.4930 = (0 + 0.136 + 0.0052) / 0.493 = 0.1412/0.493 = 0.2864. Rounded conservatively to 0.22 to reflect uncertainty in the installation-to-admin split.",
+          "plausible_range": "0.15-0.30"
+        }
+      ],
+      "quality": "MED"
+    },
+    "pi_dist": {
+      "value": 0.65,
+      "rationale": "OOH space is sold off rate cards priced on location scarcity and audience impressions — not cost-plus. AI savings in sales, design and admin flow to operator as margin (not passed to clients as lower fees). However, programmatic DOOH platforms (Vistar Media, Place Exchange, Broadsign) increasingly intermediate the advertiser transaction, extracting ~15-20% take rate on programmatic inventory. Direct deals still represent ~59% of marketer OOH buying (eMarketer 2026 survey). Local advertiser relationships often personal to the owner-operator. DOOH is 36.3% of OOH revenue; ~70% of DOOH is programmatic = ~25% of total OOH transacted via platform with take-rate. Platform reduces capture from 1.0 by ~0.35 × 0.25 = ~0.09. Starting at 0.75 for direct relationship control, minus ~0.10 for platform intermediation = 0.65.",
+      "plausible_range": "0.55-0.75",
+      "sources": [
+        "eMarketer FAQ on AI in OOH advertising (July 2026): '59% of marketers still buy OOH inventory only through direct deals'",
+        "OAAA 2025 OOH Facts & Figures: 'DOOH accounted for 36.3% of total OOH revenue in 2025'",
+        "Advision.digital (2026): 'programmatic DOOH is 70% of North America DOOH spend'"
+      ],
+      "quality": "MED"
+    },
+    "pi_moat": {
+      "value": 0.70,
+      "rationale": "Physical permitted billboard locations are zoning-scarce real assets AI cannot replicate. Many jurisdictions cap or ban new billboards, grandfathering existing structures as perpetual assets with high barriers to competitive entry. Site leases are long-term and transferable, protecting the asset base through ownership transitions. AI-bypass threat is effectively zero on the core asset — advertisers cannot use generic AI to create a permitted billboard location. Modest downward pressure: (1) programmatic platforms commoditize rate transparency and can compress spot rates toward market; (2) AI-optimized digital channels compete for advertiser budget; (3) small operators with personal local-advertiser relationships face succession risk when owner exits. Moat scored at 0.70 (strong physical scarcity protection, moderate rate and budget-competition risk).",
+      "plausible_range": "0.60-0.80",
+      "sources": [
+        "Billboard Insider: 'national companies continue seeking regional portfolios with reliable cash flow' — confirming asset durability",
+        "Stark Capital Solutions (2025): 'experienced brokers can achieve higher multiples by demonstrating consistent occupancy, clean leases' — moat evidence",
+        "SignValue Appraising Billboard Companies: 'permitted structures with zoning protection command premium multiples'"
+      ],
+      "quality": "MED"
+    },
+    "t50_years": {
+      "value": 7.0,
+      "derivation": "current_adoption_pct = 0.20 (20% of OOH firms materially using AI in automatable functions, defined as using AI tools for creative generation, audience analytics, or back-office automation at least materially in their workflow; anchored by: DOOH = 36.3% of OOH revenue, programmatic = ~70% of DOOH spend in North America, but the majority of the firm count is tiny local operators with <5 employees who are purely analog; estimate 20% of 2,083 firms ≈ 400 firms with material AI adoption concentrated among the mid-size and digital-enabled segment). historical_analog = 15 years for DOOH penetration to reach ~36% from near-zero (approximately 2009-2024). Derivation: logistic adoption model — 15-year curve from 0% to ~50% means the inflection is at ~year 7-8. At 20% current, approximately 5-7 years remain to reach 50%. Small independent operators are slow adopters (limited capital, low tech sophistication), pulling t50 higher. Setting t50 = 7.0 years (2026 to 2033).",
+      "plausible_range": "5-10 years",
+      "quality": "ESTIMATE"
+    },
+    "current_adoption_pct": {
+      "value": 0.20,
+      "source": "OAAA 2025 OOH Facts & Figures / eMarketer 2026 / Advision.digital 2026",
+      "url": "https://oaaa.org/news/out-of-home-advertising-revenue-reaches-record-9-46-billion/",
+      "figure_quoted": "DOOH accounted for 36.3% of total OOH revenue in 2025; 70% of North America DOOH spend transacted programmatically; 59% of marketers still buy OOH inventory only through direct deals",
+      "access_date": "2026-07-20",
+      "quality": "MED"
+    },
+    "historical_analogs": {
+      "value": "15 years (DOOH penetration 2009-2024)",
+      "source": "OAAA industry revenue reporting / industry commentary",
+      "url": "https://oaaa.org/wp-content/uploads/2026/04/2025-OOH-Ad-Spend-Performance-Facts-and-Figures-FINAL.pdf",
+      "figure_quoted": "Digital OOH went from near-zero in ~2009 to 36.3% of OOH revenue by 2025 — approximately 15 years to reach rough 36% penetration; 50% penetration expected mid-2020s",
+      "access_date": "2026-07-20",
+      "quality": "MED"
+    },
+    "owners_60plus_pct": {
+      "value": 0.55,
+      "source": "Project Equity / general US business-owner demographics; OOH industry commentary via Billboard Insider and OOH Today",
+      "url": "https://project-equity.org/news/employee-ownership-insider/business-owner-statistics-exit-planning/",
+      "figure_quoted": "52.3% of US business owners are 55 or older (29.5% in 55-64 cohort, 22.8% age 65+); independent billboard plants described throughout industry commentary as multi-generation family businesses with aging ownership — slightly higher skew than US average estimated at 55%",
+      "access_date": "2026-07-20",
+      "quality": "ESTIMATE",
+      "succession_shortage_documented": {
+        "value": true,
+        "evidence": "OOH Today, Billboard Insider, and OOH industry commentary consistently describe independent billboard plants as multi-generational family businesses. Stark Capital Solutions (2025) notes 'mid-size firms seek liquidity or growth partners' reflecting exit pressure. Broader business succession data (Teamshares 2025): 'one-third of business owners don't have a long-term succession plan.' Billboard Insider: 'consolidation and acquisitions continue as national companies seek regional portfolios' — consistent with owners lacking internal successors and selling to consolidators."
+      }
+    },
+    "active_consolidators": {
+      "value": 3,
+      "source": "Billboard Insider Out of Home Acquisition List for 2025",
+      "url": "https://billboardinsider.com/out-of-home-acquisition-list-for-2024-2/",
+      "figure_quoted": "~70 acquisition transactions in 2025; Lamar Advertising (13+ deals), Adams Outdoor (~9 deals), and other active regionals (Huntington Billboards, Mashburn, YESCO doing 2-3 deals each). No explicitly PE-backed roll-up platforms identified; 3 active non-Big-Three consolidators doing multiple add-ons (Adams Outdoor, Huntington, Mashburn/regionals).",
+      "access_date": "2026-07-20",
+      "quality": "MED"
+    },
+    "buy_mult": {
+      "value": 9.0,
+      "source": "SignValue Appraising Billboard Companies; Stark Capital Solutions 2025; Billboard Insider valuation commentary",
+      "url": "https://www.signvalue.com/appraising-billboard-companies/",
+      "figure_quoted": "EBITDA multiples for companies with solid sign inventories have tended to be 8x to 12x (SignValue); Stark Capital: 'companies generating over $1M annually: 10x to 13x cash flow'; smaller acquirers pay 'as low as 2.5x to 3x EGIM' (revenue multiples); standardized Billboard Cash Flow multiples consistently range 8-12x (Billboard Insider). Median of 8-12x range = 10x; adjusting down to 9x for the smaller single-location/sub-$5M EBITDA operator segment where buyer pool is thinner.",
+      "access_date": "2026-07-20",
+      "quality": "MED"
+    },
+    "exit_mult": {
+      "value": 14.0,
+      "source": "Billboard Insider Public OOH Company Valuations December 2024; Bloomberg/Axios on Blackstone acquisition of New Tradition",
+      "url": "https://billboardinsider.com/public-out-of-home-company-valuations-at-december-2024/",
+      "figure_quoted": "Lamar at 16.1x 2024 EBITDA, OUTFRONT at 12.5x, Clear Channel at 11x (public comps, December 2024). Blackstone's New Tradition acquisition at 18x EBITDA. For a $10M+ EBITDA OOH platform, exit multiple estimated at 14x — below Lamar's REIT premium (16.1x) but above the leveraged OUTFRONT/Clear Channel (12.5x/11x), reflecting a non-REIT private mid-market platform exit.",
+      "access_date": "2026-07-20",
+      "quality": "MED"
+    },
+    "pricing_structure": {
+      "value": "Rate-card, per-face, per-period (4-week cycles for static; CPM or guaranteed-impression for DOOH/programmatic). Not cost-plus. Postage/materials pass-through minimal (unlike direct mail). ~59% of volume still direct deals; ~41% through programmatic platforms with 15-20% platform take rate.",
+      "source": "OAAA Facts & Figures 2025; eMarketer FAQ on AI in OOH (2026); Advision.digital programmatic DOOH 2026",
+      "url": "https://www.emarketer.com/content/faq-on-ai-ooh-advertising--how-artificial-intelligence-reshaping-channel-2026",
+      "figure_quoted": "59% of marketers still buy OOH inventory only through direct deals; DOOH 36.3% of OOH revenue; OOH total revenue $9.46B in 2025",
+      "access_date": "2026-07-20",
+      "quality": "MED"
+    }
+  },
+  "scores": {
+    "V": {
+      "arithmetic": "V_raw = labor_share × ai_replaceable_share = 0.3265 × 0.364345 = 0.118959; V = 10 × min(1, 0.118959/0.25) = 10 × min(1, 0.475836) = 10 × 0.475836 = 4.75836",
+      "score": 4.75836
+    },
+    "C": {
+      "arithmetic": "C = 10 × pi_dist × pi_moat = 10 × 0.65 × 0.70 = 10 × 0.455 = 4.55",
+      "score": 4.55
+    },
+    "A": {
+      "arithmetic": "A = min(10, 10/t50_years) = min(10, 10/7.0) = min(10, 1.428571) = 1.428571",
+      "score": 1.428571
+    },
+    "B": {
+      "arithmetic": "n_band=112; TD = clamp(log10(112)/4, 0, 1) = clamp(2.049218/4, 0, 1) = clamp(0.512305, 0, 1) = 0.512305; OW_raw = clamp((0.55-0.10)/0.35, 0.1, 0.9) = clamp(1.285714, 0.1, 0.9) = 0.9; succession bonus: OW = min(1.0, 0.9+0.1) = 1.0; CFD = min(0.9, log10(1+3)/2) = min(0.9, 0.602060/2) = min(0.9, 0.301030) = 0.301030; B = 10 × sqrt(0.512305 × 1.0) / (1 + 0.3 × 0.301030) = 10 × 0.715755 / (1 + 0.090309) = 7.15755 / 1.090309 = 6.564695",
+      "score": 6.564695
+    },
+    "M": {
+      "arithmetic": "M = clamp(4 × (exit_mult - buy_mult) / buy_mult, 0, 10) = clamp(4 × (14.0 - 9.0) / 9.0, 0, 10) = clamp(4 × 0.555556, 0, 10) = clamp(2.222222, 0, 10) = 2.222222",
+      "score": 2.222222
+    }
+  },
+  "S": 3.395204,
+  "cross_checks": {
+    "uplift_pp": 11.9,
+    "uplift_vs_A_consistent": "uplift_pp = V_raw × 100 = 0.118959 × 100 = 11.9 percentage points of revenue freed as labor savings. A = 1.43 (well below 5). No tension: the rule flags uplift_pp < 3 while A >= 5; here A < 5 so no conflict. The 11.9pp uplift is material but adoption is slow (t50=7 years) so A is low. Consistent.",
+    "terminal_value": {
+      "class": "DURABLE",
+      "justification": "Billboard and display advertising operators hold zoning-permitted physical structures that AI cannot replicate. The product — a permitted location for visual advertising — is an asset, not a service. AI cuts the operator's costs (design, sales support, admin, audience measurement reporting) but does not replace the operator's product. OOH revenue grew to a record $9.46 billion in 2025 (OAAA), up 3.6%, driven by DOOH growth. The terminal demand question is whether advertiser budgets shift to AI-optimized digital channels, but OOH's physical-presence advantage (non-skippable, location-targeted, brand-safe) has proven durable as digital advertising has grown. Permit scarcity in most jurisdictions creates permanent barriers to new supply. Classification: DURABLE — demand survives mature AI, the asset is protected by regulatory scarcity, and AI primarily acts as a cost-cutter rather than a product substitute."
+    },
+    "no_proxy_confirmed": "V was derived from an analysis of the automatable fraction of each occupation in the OEWS role_mix, applying judgment to what share of each role's tasks current AI can substantially do — no reference to deal activity or consolidation trends. A was derived from current_adoption_pct (OAAA/eMarketer industry data on DOOH and programmatic penetration) and the historical analog of DOOH technology adoption (15 years to ~36%), neither of which involves M&A or PE consolidation. Confirmed: V and A justified without proxy from deal activity.",
+    "pricing_model_deflation": "OOH space is sold off rate cards priced on location scarcity and audience impressions — fundamentally not cost-plus. When AI cuts sales labor, design, or back-office costs, the operator retains the savings as higher margin because advertiser pricing is determined by location value, not the operator's cost base. Deflation channel is not present for the dominant (~59%) direct-deal inventory. For programmatic DOOH inventory (~25% of total OOH), the platform take-rate (15-20%) represents permanent value extraction by the platform (Vistar, Place Exchange), not a deflation channel to advertisers. pi_dist=0.65 reflects this partial platform intermediation reducing capture from the theoretical 1.0. pi_moat=0.70 reflects that the physical asset scarcity prevents full value erosion. AI efficiency in design/back-office flows primarily to operator margin, not to clients as lower fees."
+  },
+  "confidence_overall": "MED",
+  "heterogeneous": false,
+  "top_uncertain_inputs": [
+    {
+      "input": "t50_years",
+      "plausible_range": "5-10 years",
+      "score_impact": "At t50=5: A=2.0 vs A=1.43 at t50=7 — S increases from ~3.40 to ~3.64. At t50=10: A=1.0 vs A=1.43 — S decreases to ~3.17. Range ~3.17-3.64 bracketing the base 3.40."
+    },
+    {
+      "input": "ai_replaceable_share",
+      "plausible_range": "0.28-0.44",
+      "score_impact": "At 0.28: V_raw=0.0914, V=3.656, S~3.21. At 0.44: V_raw=0.1437, V=5.748, S~3.62. Role-mix contamination from 5418 agencies is the key uncertainty — real OOH firms have more installation/physical labor and less PR/research."
+    },
+    {
+      "input": "buy_mult",
+      "plausible_range": "7-12",
+      "score_impact": "At buy=7, exit=14: M=clamp(4×7/7,0,10)=4.0; S~3.78. At buy=12, exit=14: M=clamp(4×2/12,0,10)=0.667; S~2.50. Moderate sensitivity — M is the most uncertain score component."
+    }
+  ],
+  "reviewer_note": "Two structural concerns require reviewer attention. (1) n_band likely undercounts eligible firms: the dataset applies the generic Business & Consumer Services EBITDA margin of 15.65%, but mature billboard operators routinely achieve 30-50% EBITDA margins on their plant (location rents are fixed, incremental revenue falls nearly entirely to EBITDA). Under a 35% margin assumption, the 10-19 employee class ($3.47M avg revenue → $1.21M EBITDA) would also enter the $1-10M band, adding ~130 firms; the 5-9 class ($1.81M → $0.63M) remains out; n_band would rise from 112 to ~242, increasing TD and B. The prompt instructs to use the provided dataset value (112) and flag in reviewer_note. (2) Role-mix contamination: the OEWS proxy is 4-digit 5418 dominated by ad agencies and PR firms. Real 541850 billboard operators have ~25-35% of wage bill in installation/field/print crews (zero AI automation) that do not appear in the top-10 OEWS list — captured in the unlisted bucket at 49.3% of wage bill. This contamination means the listed roles overstate white-collar automatable work; the within-role fractions have been set conservatively for PR Specialists and Market Research Analysts to reflect their thin real presence in OOH, partially offsetting the contamination."
+}

@@ -1,0 +1,305 @@
+{
+  "naics": "541990",
+  "title": "All Other Professional, Scientific, and Technical Services",
+  "run_meta": {
+    "model_id": "claude-sonnet-4-6",
+    "run_date": "2026-07-20",
+    "run_id": "fleet-s2-541990",
+    "template_version": "3.0",
+    "prompt_version": "p3-aff6579"
+  },
+  "dataset_inputs": {
+    "labor_share": {
+      "value": 0.8164,
+      "method": "QCEW 2024 private total annual wages at 541990 ($27,219,781,409) x benefits multiplier 1.4294 [ECEC private-industry total comp $46.60/hr / wages $32.60/hr = 1.4294 (March 2026 reference period)] / SUSB 2022 receipts at 541990 ($35,548,824,000). Vintage mismatch: 2024 wages over 2022 receipts, stated. Level: 6-digit. Harmonized to IPS basis ÷1.3407 (median of 65 dual-method codes).",
+      "sources": [
+        "BLS QCEW 2024 annual averages (US000, private)",
+        "BLS ECEC news release (raw/ecec.nr0.htm)",
+        "Census SUSB 2022 (receipts by NAICS)"
+      ],
+      "year": "2024 wages / 2022 receipts",
+      "quality": "MED"
+    },
+    "role_mix": {
+      "oews_level": "4-digit 5419",
+      "occupations": [
+        {
+          "soc": "29-2056",
+          "title": "Veterinary Technologists and Technicians",
+          "emp_share": 0.1378,
+          "wage_share": 0.0917
+        },
+        {
+          "soc": "31-9096",
+          "title": "Veterinary Assistants and Laboratory Animal Caretakers",
+          "emp_share": 0.117,
+          "wage_share": 0.0651
+        },
+        {
+          "soc": "29-1131",
+          "title": "Veterinarians",
+          "emp_share": 0.0832,
+          "wage_share": 0.1712
+        },
+        {
+          "soc": "43-4171",
+          "title": "Receptionists and Information Clerks",
+          "emp_share": 0.0692,
+          "wage_share": 0.0381
+        },
+        {
+          "soc": "39-2021",
+          "title": "Animal Caretakers",
+          "emp_share": 0.0448,
+          "wage_share": 0.0208
+        },
+        {
+          "soc": "43-4051",
+          "title": "Customer Service Representatives",
+          "emp_share": 0.0357,
+          "wage_share": 0.0225
+        },
+        {
+          "soc": "11-1021",
+          "title": "General and Operations Managers",
+          "emp_share": 0.0335,
+          "wage_share": 0.0658
+        },
+        {
+          "soc": "27-4021",
+          "title": "Photographers",
+          "emp_share": 0.0311,
+          "wage_share": 0.0229
+        },
+        {
+          "soc": "41-3091",
+          "title": "Sales Representatives of Services, Except Advertising, Insurance, Financial Services, and Travel",
+          "emp_share": 0.0232,
+          "wage_share": 0.0327
+        },
+        {
+          "soc": "27-3091",
+          "title": "Interpreters and Translators",
+          "emp_share": 0.0223,
+          "wage_share": 0.021
+        }
+      ],
+      "quality": "MED"
+    },
+    "n_total": {
+      "value": 21690,
+      "source": "SUSB 2022 (firms, all enterprise sizes)",
+      "year": "2022",
+      "quality": "HIGH"
+    },
+    "n_band": {
+      "value": 863,
+      "derivation": "margin 0.1565 (margins.json[54]: Damodaran Jan 2026: Business & Consumer Services EBITDA/Sales 15.65%); revenue/employee $261,287 (SUSB 2022 receipts/employment at 541990); class <5: 18,002 firms, avg revenue/firm $408,515 (class receipts/firms), implied EBITDA $63,933 -> out of $1-10M band; class 5-9: 1,791 firms, avg revenue/firm $1,600,634 (class receipts/firms), implied EBITDA $250,499 -> out of $1-10M band; class 10-19: 911 firms, avg revenue/firm $3,055,095 (class receipts/firms), implied EBITDA $478,122 -> out of $1-10M band; class 20-99: 717 firms, avg revenue/firm $9,186,007 (class receipts/firms), implied EBITDA $1,437,610 -> IN $1-10M band; class 100-499: 146 firms, avg revenue/firm $36,320,979 (class receipts/firms), implied EBITDA $5,684,233 -> IN $1-10M band; class 500+: 123 firms, avg revenue/firm $86,630,772 (class receipts/firms), implied EBITDA $13,557,716 -> out of $1-10M band; n_band = 863",
+      "margin_used": 0.1565,
+      "margin_source": "Damodaran Jan 2026: Business & Consumer Services EBITDA/Sales 15.65%",
+      "quality": "ESTIMATE"
+    }
+  },
+  "inputs": {
+    "ai_replaceable_share": {
+      "value": 0.29000,
+      "breakdown_by_role": [
+        {
+          "role": "Appraisers, inspectors and certification specialists (dominant professional core — hypothesis)",
+          "labor_share_of_total": 0.35,
+          "within_role_automatable_fraction": 0.25,
+          "contribution": 0.08750,
+          "rationale": "Dominant professional core of the appraisal/inspection sub-segment. Valuation write-ups, condition-report drafting, and certification paperwork are AI-automatable (AI can draft a standard appraisal report from structured field data). However, the physical inspection visit, the liability-bearing credential sign-off (USPAP, ASA, SAMS accreditation), and the judgment call on anomalous conditions are not. 25% reflects the significant documentation and research-prep fraction of appraiser/inspector time savings from AI tools, with 75% remaining tied to the physical/credentialed core. OEWS data is contaminated (vet occupations dominate 4-digit 5419); this is a hypothesis based on NAICS 541990 description and ASA/NAMS credential structure.",
+          "plausible_range": "0.15-0.35"
+        },
+        {
+          "role": "Field and technical staff — inspection, testing, site work (hypothesis)",
+          "labor_share_of_total": 0.20,
+          "within_role_automatable_fraction": 0.05,
+          "contribution": 0.01000,
+          "rationale": "Physical site visits — vessel surveys, equipment inspections, cargo lot inspections, commodity sampling — require in-person presence. Drone imaging and AI-augmented tools assist but do not substitute for the credentialed human on-site. 5% allows for minor report-data-entry and dispatch-coordination savings.",
+          "plausible_range": "0.02-0.10"
+        },
+        {
+          "role": "Analysts and specialist professionals — weather forecasting, patent brokerage, analytical consultants (hypothesis)",
+          "labor_share_of_total": 0.12,
+          "within_role_automatable_fraction": 0.35,
+          "contribution": 0.04200,
+          "rationale": "Commercial weather forecasting is the most AI-exposed sub-segment: AI models (GraphCast, Pangu-Weather) now achieve 10-day forecast skill approaching NWP at near-zero marginal cost, directly substituting the analytical output of subscription forecast services. Patent brokerage and analytical advisory reports are heavily AI-augmentable. 35% weighted across the heterogeneous specialist mix.",
+          "plausible_range": "0.25-0.50"
+        },
+        {
+          "role": "Sales and client service (hypothesis)",
+          "labor_share_of_total": 0.10,
+          "within_role_automatable_fraction": 0.30,
+          "contribution": 0.03000,
+          "rationale": "Quoting, engagement letter generation, and follow-up automate. Referral relationships with lenders, insurers, attorneys, and auction houses who order appraisals are relationship-based and persist. 30% reflects the document/communication automation fraction.",
+          "plausible_range": "0.20-0.45"
+        },
+        {
+          "role": "Management (hypothesis)",
+          "labor_share_of_total": 0.09,
+          "within_role_automatable_fraction": 0.25,
+          "contribution": 0.02250,
+          "rationale": "Scheduling, dispatch, KPI reporting, and project tracking automate; client escalation, staffing decisions, and engagement management persist. 25% reflects the administrative component of management tasks.",
+          "plausible_range": "0.15-0.35"
+        },
+        {
+          "role": "Admin and back office (hypothesis)",
+          "labor_share_of_total": 0.14,
+          "within_role_automatable_fraction": 0.70,
+          "contribution": 0.09800,
+          "rationale": "Order intake, report delivery, invoicing, license/credential tracking, and billing automate near-fully. Back-office admin in professional services is among the highest-automatable functions; 70% reflects a significant residual for exception handling and physical document management.",
+          "plausible_range": "0.55-0.85"
+        }
+      ],
+      "quality": "LOW"
+    },
+    "pi_dist": {
+      "value": 0.52,
+      "rationale": "For credential-gated appraisal/inspection work, the ordering party (lender, insurer, court, auction house) requires a credentialed human signature and shops among credentialed providers on price and availability. The credential is individual and non-transferable (ASA, SAMS accreditation belongs to the practitioner, not the firm), reducing firm-level client stickiness. When AI collapses report-drafting time, competition among credential-holders will pass some savings to ordering parties via lower fees. The firm controls the assignment relationship but lacks the geographic monopoly of a vet clinic; fixed-fee markets with multiple credentialed substitutes constrain capture. 0.52 reflects partial firm-level control moderated by individual-credential dependency and price-competitive ordering markets.",
+      "plausible_range": "0.40-0.65",
+      "sources": [
+        "USPAP (The Appraisal Foundation) — credential requirement for lending/insurance/litigation appraisals",
+        "NAMS/SAMS credential structures — marine survey accreditation is individual not firm-level",
+        "Prompt guidance on 541990 capture questions re: fixed-fee ordering party competition"
+      ],
+      "quality": "LOW"
+    },
+    "pi_moat": {
+      "value": 0.60,
+      "rationale": "Strong credential-gating for regulated appraisal and inspection work: USPAP-compliant appraisals for real-money lending/insurance/litigation require a liability-bearing credential-holder's signature; NAMS/SAMS-accredited marine surveys are required for hull underwriting; commodity inspection certifications are regulatory requirements for trade settlement. Physical inspection requirement (you must examine the vessel/equipment/lot in person) is a hard AI-bypass barrier. Moderated by: (1) individual credential is non-transferable — roll-ups lose moat when the credential-holder retires; (2) weather forecasting sub-segment has near-zero moat against AI; (3) desktop valuations for informal uses are already AI-substitutable, eroding the advisory slice. 0.60 is the blended moat for the dominant appraisal/inspection sub-segment.",
+      "plausible_range": "0.45-0.72",
+      "sources": [
+        "USPAP — Uniform Standards of Professional Appraisal Practice, required for federally-related transactions",
+        "NAMS — National Association of Marine Surveyors accreditation requirements",
+        "Prompt guidance on terminal-value question re: signature-plus-site-visit vs. deliverable-only revenue"
+      ],
+      "quality": "LOW"
+    },
+    "t50_years": {
+      "value": 8.0,
+      "derivation": "No direct AI-adoption survey exists for NAICS 541990. Inference from: (1) current adoption estimate ~15% of firms materially using AI (fragmented, older-operator-heavy industry, no regulatory mandate, SaaS adoption slower than veterinary/healthcare; the 18,002 <5-employee firms are predominantly sole practitioners with low early-adopter rates); (2) historical analog: valuation/appraisal digitization — automated valuation models (AVM) first appeared ~1995 in real estate; were adopted by ~50% of appraisers for initial comps by ~2012, roughly 17 years; non-real-estate appraisers with no comparable mandate take longer. General professional services AI adoption analog: from ~15% to ~50% would require ~8 years on a logistic curve at the current diffusion rate for non-mandated professional tools. Estimate: t50 = 8 years (2034).",
+      "plausible_range": "6-12 years",
+      "quality": "ESTIMATE"
+    },
+    "current_adoption_pct": {
+      "value": 0.15,
+      "source": "ESTIMATE — no survey specific to NAICS 541990 found; inferred from general professional services AI adoption and the structural characteristics of this code (83% sole proprietors, fragmented, credential-focused, no mandate)",
+      "url": "",
+      "figure_quoted": "ESTIMATE: ~15% of firms materially using AI in automatable functions (drafting, data analysis), based on professional services general adoption benchmarks adjusted downward for the high concentration of sub-5-employee sole-proprietor firms in 541990",
+      "access_date": "2026-07-20",
+      "quality": "ESTIMATE"
+    },
+    "historical_analogs": {
+      "value": "Non-real-estate appraisal digitization (AVM introduction ~1995, ~50% appraiser adoption of digital tools for comps by ~2012): ~17 years. General professional services tool adoption without mandates tends to be slow. AI-specific analog: legal tech (AI contract review) has been adopted by ~20-30% of law firms over 5 years from launch, suggesting faster recent diffusion. Blended estimate: 8-10 year diffusion from current base to 50%.",
+      "source": "ESTIMATE based on appraisal industry digitization history and general professional services AI adoption patterns",
+      "url": "",
+      "figure_quoted": "ESTIMATE: appraisal industry AVM adoption ~17 years from introduction to majority use; AI tools expected to diffuse faster due to SaaS delivery and general AI tailwinds, estimated 8-10 years to 50%",
+      "access_date": "2026-07-20",
+      "quality": "ESTIMATE"
+    },
+    "owners_60plus_pct": {
+      "value": 0.35,
+      "source": "ESTIMATE — no survey specific to 541990 owner demographics found; inferred from SBA small business owner age data and professional services credential-holder demographics",
+      "url": "",
+      "figure_quoted": "ESTIMATE: ~35% of 541990 firm owners aged 60+, based on: (a) SBA data showing ~30-35% of small business owners in professional services are 55+; (b) credentialed profession bias toward older practitioners (ASA, SAMS accreditation takes years to earn, skewing active practitioners toward 45-65 age band); (c) 83% of firms are <5 employees where the owner IS the practitioner",
+      "access_date": "2026-07-20",
+      "quality": "ESTIMATE",
+      "succession_shortage_documented": {
+        "value": false,
+        "evidence": "No formal succession shortage study found for NAICS 541990 or its dominant sub-segments (non-real-estate appraisal, marine surveying). The individual-credential non-transferability creates a structural roll-up challenge (credential retires with the owner), but this has not been documented as a market-level succession shortage in the same way as AVMA data for veterinary practice ownership. Flagged as ESTIMATE."
+      }
+    },
+    "active_consolidators": {
+      "value": 2,
+      "source": "ESTIMATE — no published directory of PE-backed consolidators specifically for NAICS 541990 found; inferred from known professional services M&A activity in adjacent categories",
+      "url": "",
+      "figure_quoted": "ESTIMATE: approximately 2 PE-backed platforms actively doing add-ons in credential-gated appraisal/inspection space (e.g., Stout Risius Ross, Kroll/Duff & Phelps-type acquirers of specialty valuation and inspection firms). The individual-credential non-transferability structurally limits systematic PE roll-up activity relative to veterinary services.",
+      "access_date": "2026-07-20",
+      "quality": "ESTIMATE"
+    },
+    "buy_mult": {
+      "value": 4.5,
+      "source": "ESTIMATE — no published comp set for NAICS 541990 acquisition multiples found; inferred from BizBuySell professional services SDE multiples and general miscellaneous professional services benchmarks",
+      "url": "",
+      "figure_quoted": "ESTIMATE: 4.5x adjusted EBITDA for $1-10M EBITDA appraisal/inspection firms, based on: (a) BizBuySell professional services median SDE multiple ~2.5-3.5x SDE; converting SDE to adjusted EBITDA (adding back key-person salary at market rate) and applying professional services benchmark; (b) key-person credential dependency suppresses multiples relative to veterinary (which also has credential issues but more platform interest). Plausible range 3.5x-6.0x.",
+      "access_date": "2026-07-20",
+      "quality": "ESTIMATE"
+    },
+    "exit_mult": {
+      "value": 7.5,
+      "source": "ESTIMATE — no published platform exit comps for NAICS 541990 found; inferred from professional services company M&A at $10M+ EBITDA scale",
+      "url": "",
+      "figure_quoted": "ESTIMATE: 7.5x adjusted EBITDA for a $10M+ EBITDA platform in valuation/inspection services, based on: professional services platforms (Stout, Kroll, Duff & Phelps) have traded at 7-11x adjusted EBITDA in recent years; the lower end applies to credential-concentrated, harder-to-systematize businesses. Range 6.0x-10.0x.",
+      "access_date": "2026-07-20",
+      "quality": "ESTIMATE"
+    },
+    "pricing_structure": {
+      "value": "Fixed fee per report or per inspection is the dominant billing model for appraisal/inspection (~60-70% of revenue). Subscription/retainer for weather forecasting and ongoing monitoring services (~15-20%). Hourly for arbitration, expert witness, and consulting tail (~10-15%). No cost-plus or third-party cost-audit mechanism. Ordering parties (lenders, insurers, courts, auction houses) set expected fee ranges and shop among credentialed providers on price and availability.",
+      "source": "ESTIMATE based on USPAP appraisal ordering practices, NAMS marine survey fee structures, and general appraisal industry billing models",
+      "url": "",
+      "figure_quoted": "ESTIMATE: fixed-fee-per-report/inspection ~60-70% of revenue; subscription ~15-20%; hourly/advisory ~10-15%. No cost-plus mechanism. Fee competition among credentialed providers passes some AI efficiency savings to ordering parties.",
+      "access_date": "2026-07-20",
+      "quality": "ESTIMATE"
+    }
+  },
+  "scores": {
+    "V": {
+      "arithmetic": "V_raw = labor_share × ai_replaceable_share = 0.8164 × 0.29000 = 0.236756; V = 10 × min(1, 0.236756 / 0.25) = 10 × min(1, 0.947024) = 10 × 0.947024 = 9.47024. NOTE: labor_share of 0.8164 is flagged as implausibly high (likely QCEW/SUSB mismatch per dataset note); used as given per rule 6. At a realistic labor_share of 0.45, V_raw would be 0.45 × 0.29 = 0.1305, V = 5.22 — a materially different result. See reviewer_note.",
+      "score": 9.47024
+    },
+    "C": {
+      "arithmetic": "C = 10 × pi_dist × pi_moat = 10 × 0.52 × 0.60 = 10 × 0.312 = 3.12",
+      "score": 3.12
+    },
+    "A": {
+      "arithmetic": "A = min(10, 10 / t50_years) = min(10, 10 / 8.0) = min(10, 1.25) = 1.25",
+      "score": 1.25
+    },
+    "B": {
+      "arithmetic": "TD = clamp(log10(863) / 4, 0, 1) = clamp(2.93601 / 4, 0, 1) = clamp(0.734002, 0, 1) = 0.734002; OW = clamp((0.35 - 0.10) / 0.35, 0.1, 0.9) = clamp(0.25 / 0.35, 0.1, 0.9) = clamp(0.714286, 0.1, 0.9) = 0.714286; succession_shortage_documented = false -> OW remains 0.714286; CFD = min(0.9, log10(1 + 2) / 2) = min(0.9, log10(3) / 2) = min(0.9, 0.477121 / 2) = min(0.9, 0.238561) = 0.238561; B = 10 × sqrt(0.734002 × 0.714286) / (1 + 0.3 × 0.238561) = 10 × sqrt(0.524287) / (1 + 0.071568) = 10 × 0.724077 / 1.071568 = 7.24077 / 1.071568 = 6.75752",
+      "score": 6.75752
+    },
+    "M": {
+      "arithmetic": "M = clamp(4 × (exit_mult - buy_mult) / buy_mult, 0, 10) = clamp(4 × (7.5 - 4.5) / 4.5, 0, 10) = clamp(4 × 3.0 / 4.5, 0, 10) = clamp(4 × 0.666667, 0, 10) = clamp(2.666667, 0, 10) = 2.666667",
+      "score": 2.666667
+    }
+  },
+  "S": 3.66971,
+  "cross_checks": {
+    "uplift_pp": 23.68,
+    "uplift_vs_A_consistent": "V_raw × 100 = 23.68 pp EBITDA uplift (using inflated labor_share of 0.8164 as given). A = 1.25, well below 5, so the cross-check tension condition (uplift < 3pp while A >= 5) does not apply. At realistic labor_share ~0.45, uplift would be 13.05 pp — still consistent with A = 1.25 (slow adoption with meaningful potential uplift). No tension. The headline 23.68 pp uplift figure is an artifact of the implausible labor_share and should not be taken as operationally credible; sanity-adjusted figure of ~13 pp is noted here.",
+    "terminal_value": {
+      "class": "PRESSURED",
+      "justification": "For the dominant sub-segment (credential-gated appraisal/inspection): physical site visits and liability-bearing human signatures required by third parties (lenders, insurers, courts, auction houses for USPAP-compliant appraisals; hull underwriters for NAMS/SAMS marine surveys; trade settlement for commodity inspection certs) are not AI-replaceable. Demand for this work is DURABLE. However, AI desktop valuations are already substituting for informal/non-regulated valuation requests (the advisory and market-opinion slice that does not require a credential), compressing this revenue line. Fee pressure from AI-augmented competitor appraisers who can complete reports faster will also compress margins. For the weather forecasting sub-segment (minority of code revenue): AI models now outperform traditional NWP for many use cases and the product (a forecast) is directly substitutable — that slice is MELTING. On balance, classification PRESSURED: physical-credential-gated demand survives mature AI but faces volume and margin compression from AI desktop substitutes and fee competition."
+    },
+    "no_proxy_confirmed": "V was derived from hypothesis role fractions for the dominant appraisal/inspection sub-segment based on task characterization (physical/credentialed vs. documentable). No reference to PE deal activity or consolidation trends. A was derived from an analog to appraisal industry digitization history and estimated current adoption rate, with no reference to M&A volumes. ai_replaceable_share quality is LOW reflecting the contaminated role_mix and hypothesis-based construction.",
+    "pricing_model_deflation": "Billing is fixed-fee per report/inspection for ~60-70% of revenue. Unlike fee-for-service vet care (where the clinic captures all savings), fixed-fee appraisal markets with multiple credentialed providers enable competition to pass some AI efficiency savings through to ordering parties (lenders, insurers) via lower quoted fees. This is reflected in pi_dist = 0.52 (notably lower than veterinary's 0.72), which embeds the competitive fee-compression mechanism. pi_moat = 0.60 reflects the credential-gating barrier that prevents complete commoditization despite this competitive pressure."
+  },
+  "confidence_overall": "LOW",
+  "heterogeneous": true,
+  "top_uncertain_inputs": [
+    {
+      "input": "t50_years",
+      "plausible_range": "6-12 years",
+      "score_impact": "t50=6 -> A=1.667, S~3.92; t50=12 -> A=0.833, S~3.39. Delta ~0.5 S points across plausible range."
+    },
+    {
+      "input": "labor_share",
+      "plausible_range": "0.35-0.55 (realistic range for professional services vs. 0.8164 as given)",
+      "score_impact": "At realistic labor_share=0.45: V_raw=0.45×0.29=0.1305, V=5.22, S~2.96; at labor_share=0.55: V_raw=0.1595, V=6.38, S~3.22. The 0.8164 as-given inflates V to 9.47 and S to 3.67. The ~0.7 S-point gap between the as-given and realistic-labor-share scenarios is the dominant uncertainty in this record and makes the headline S figure unreliable as a standalone signal. FLAG: labor_share anomaly dominates V score."
+    },
+    {
+      "input": "ai_replaceable_share",
+      "plausible_range": "0.20-0.38",
+      "score_impact": "At 0.20: V_raw=0.8164×0.20=0.163, V=6.53, S~3.36; at 0.38: V_raw=0.8164×0.38=0.310, V=10.0 (capped), S~3.89. Delta ~0.5 S points. Role_mix is a hypothesis due to contaminated OEWS data — this is a compounding uncertainty."
+    },
+    {
+      "input": "buy_mult",
+      "plausible_range": "3.5-6.0",
+      "score_impact": "buy_mult=3.5 -> M=clamp(4*(7.5-3.5)/3.5,0,10)=clamp(4.571,0,10)=4.571, S~4.17; buy_mult=6.0 -> M=clamp(4*(7.5-6.0)/6.0,0,10)=clamp(1.0,0,10)=1.0, S~2.98. Wide range due to ESTIMATE quality of both buy_mult and exit_mult and absence of published comps for this code."
+    }
+  ],
+  "reviewer_note": "CATCH-ALL CODE SCORED ON DOMINANT SUB-SEGMENT: 541990 spans non-real-estate appraisal, personal-property inspection, marine surveying, cargo/commodity inspection, commercial weather forecasting, patent brokerage, arbitration services, and an unclassifiable residual. Top-3 revenue sub-segments (hypothesis, unverified): (1) Non-real-estate appraisal — personal property, machinery & equipment, business valuation (ASA-credentialed; USPAP-governed; dominant cluster), (2) Marine and cargo inspection/surveying (NAMS/SAMS-credentialed; physical-inspection-required), (3) Commercial weather forecasting (subscription analytical services; highest AI-disruption risk). Dominant sub-segment scored: non-real-estate appraisal + inspection/surveying cluster. heterogeneous: true. // LABOR_SHARE ANOMALY: 0.8164 is flagged in the dataset as implausibly high (likely QCEW/SUSB classification mismatch — QCEW assigns many establishments to 541990 as a residual that SUSB receipts do not include). Used as given per Rule 6. V_raw = 0.2368, V = 9.47 — these are inflated artifacts of the labor_share anomaly. At a professionally-typical labor_share of 0.45, V would be ~5.22 and S would be ~2.97 instead of 3.67. The S score for this code should be interpreted with that caveat. // ROLE_MIX CONTAMINATION: The provided 4-digit 5419 role_mix is dominated by veterinary occupations (vet techs 9.2%, vet assistants 6.5%, veterinarians 17.1% of wage bill) and is explicitly unusable as a proxy for 541990. The ai_replaceable_share breakdown uses hypothesis roles per prompt instructions and is rated LOW quality. // EBITDA normalization note: 18,002 of 21,690 firms are <5 employees with owner-practitioners whose SDE includes their own labor compensation. For a sole-appraiser earning $200K SDE (with $150K market-rate compensation), adjusted EBITDA = $50K — far below the $1M floor of the target band. The n_band = 863 reflects only the 20-99 and 100-499 employee classes, which are multi-practitioner firms. The credential non-transferability issue means these firms face severe key-person risk in acquisitions. // WEATHER SUB-SEGMENT TERMINAL RISK: If commercial weather forecasting represents >20% of 541990 revenue, the terminal value may be closer to MELTING for that slice, and the blended code terminal value would be more adverse than PRESSURED. This is unverifiable given the residual/catch-all nature of the code."
+}

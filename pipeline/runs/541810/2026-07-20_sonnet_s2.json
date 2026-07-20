@@ -1,0 +1,304 @@
+{
+  "naics": "541810",
+  "title": "Advertising Agencies",
+  "run_meta": {
+    "model_id": "claude-sonnet-4-6",
+    "run_date": "2026-07-20",
+    "run_id": "fleet-s2-541810",
+    "template_version": "3.0",
+    "prompt_version": "p3-aff6579"
+  },
+  "dataset_inputs": {
+    "labor_share": {
+      "value": 0.4814,
+      "method": "BLS Industry Productivity (IPS) direct: labor compensation (L02) $33,005.0M / sectoral output (T30) $68,557.8M, year 2022",
+      "sources": [
+        "BLS Industry Productivity and Costs flat files (ip.data.1.AllData), measures L02 and T30"
+      ],
+      "year": "2022",
+      "quality": "HIGH"
+    },
+    "role_mix": {
+      "oews_level": "4-digit 5418",
+      "occupations": [
+        {
+          "soc": "41-3011",
+          "title": "Advertising Sales Agents",
+          "emp_share": 0.0952,
+          "wage_share": 0.0818
+        },
+        {
+          "soc": "27-3031",
+          "title": "Public Relations Specialists",
+          "emp_share": 0.0799,
+          "wage_share": 0.0829
+        },
+        {
+          "soc": "13-1161",
+          "title": "Market Research Analysts and Marketing Specialists",
+          "emp_share": 0.0741,
+          "wage_share": 0.0655
+        },
+        {
+          "soc": "11-1021",
+          "title": "General and Operations Managers",
+          "emp_share": 0.0539,
+          "wage_share": 0.0926
+        },
+        {
+          "soc": "27-1024",
+          "title": "Graphic Designers",
+          "emp_share": 0.0449,
+          "wage_share": 0.033
+        },
+        {
+          "soc": "41-9011",
+          "title": "Demonstrators and Product Promoters",
+          "emp_share": 0.0389,
+          "wage_share": 0.0162
+        },
+        {
+          "soc": "41-3091",
+          "title": "Sales Representatives of Services, Except Advertising, Insurance, Financial Services, and Travel",
+          "emp_share": 0.0353,
+          "wage_share": 0.0302
+        },
+        {
+          "soc": "27-1026",
+          "title": "Merchandise Displayers and Window Trimmers",
+          "emp_share": 0.029,
+          "wage_share": 0.0121
+        },
+        {
+          "soc": "11-2021",
+          "title": "Marketing Managers",
+          "emp_share": 0.0285,
+          "wage_share": 0.052
+        },
+        {
+          "soc": "27-1011",
+          "title": "Art Directors",
+          "emp_share": 0.0282,
+          "wage_share": 0.0407
+        }
+      ],
+      "quality": "MED"
+    },
+    "n_total": {
+      "value": 13682,
+      "source": "SUSB 2022 (firms, all enterprise sizes)",
+      "year": "2022",
+      "quality": "HIGH"
+    },
+    "n_band": {
+      "value": 1175,
+      "derivation": "margin 0.1565 (margins.json[54]: Damodaran Jan 2026: Business & Consumer Services EBITDA/Sales 15.65%); revenue/employee $303,923 (SUSB 2022 receipts/employment at 541810); class <5: 9,620 firms, avg revenue/firm $521,704 (class receipts/firms), implied EBITDA $81,647 -> out of $1-10M band; class 5-9: 1,690 firms, avg revenue/firm $1,849,936 (class receipts/firms), implied EBITDA $289,515 -> out of $1-10M band; class 10-19: 1,101 firms, avg revenue/firm $3,849,742 (class receipts/firms), implied EBITDA $602,485 -> out of $1-10M band; class 20-99: 977 firms, avg revenue/firm $12,049,911 (class receipts/firms), implied EBITDA $1,885,811 -> IN $1-10M band; class 100-499: 198 firms, avg revenue/firm $48,263,556 (class receipts/firms), implied EBITDA $7,553,246 -> IN $1-10M band; class 500+: 96 firms, avg revenue/firm $267,062,250 (class receipts/firms), implied EBITDA $41,795,242 -> out of $1-10M band; n_band = 1,175",
+      "margin_used": 0.1565,
+      "margin_source": "Damodaran Jan 2026: Business & Consumer Services EBITDA/Sales 15.65%",
+      "quality": "ESTIMATE"
+    }
+  },
+  "inputs": {
+    "ai_replaceable_share": {
+      "value": 0.437,
+      "breakdown_by_role": [
+        {
+          "role": "Creative staff (design, art direction, copy, production)",
+          "labor_share_of_total": 0.175,
+          "within_role_automatable_fraction": 0.50,
+          "contribution": 0.0875,
+          "rationale": "Production design, asset versioning, copy drafting and image generation are directly generative-AI-exposed. Creative direction, brand judgment and client sell-through persist. Prompt guidance uses 0.4-0.6 range for production tiers; 0.50 is central estimate. Excludes contaminant OEWS occupations (41-9011 Demonstrators, 27-1026 Merchandise Displayers); uses adjusted agency structure per prompt guidance.",
+          "plausible_range": "0.40-0.60"
+        },
+        {
+          "role": "Account management and client service",
+          "labor_share_of_total": 0.150,
+          "within_role_automatable_fraction": 0.35,
+          "contribution": 0.0525,
+          "rationale": "Status decks, briefs, contact reports and coordination automate substantially. Client relationship ownership is the core agency asset and does not automate. Fraction 0.35 reflects that the majority of account management hours are relationship-facing or judgment-laden.",
+          "plausible_range": "0.25-0.45"
+        },
+        {
+          "role": "Strategy, media and analytics",
+          "labor_share_of_total": 0.110,
+          "within_role_automatable_fraction": 0.45,
+          "contribution": 0.0495,
+          "rationale": "Research synthesis, media planning models, campaign reporting and optimization are heavily AI-exposed. Platforms automate the buying side natively (Google PMax, Meta Advantage+). Senior strategist judgment and media negotiation persist. 0.45 reflects that analytical execution is more automatable than the senior strategy and negotiation layer.",
+          "plausible_range": "0.35-0.55"
+        },
+        {
+          "role": "Management layer",
+          "labor_share_of_total": 0.145,
+          "within_role_automatable_fraction": 0.20,
+          "contribution": 0.029,
+          "rationale": "Client and pitch leadership persists; internal reporting, resourcing and revenue management automate. Management's primary value is client trust and firm direction, which is not automatable. Low fraction 0.20 reflects that most management hours are client-facing or involve judgment calls.",
+          "plausible_range": "0.10-0.30"
+        },
+        {
+          "role": "Sales and business development",
+          "labor_share_of_total": 0.070,
+          "within_role_automatable_fraction": 0.30,
+          "contribution": 0.021,
+          "rationale": "Pitch decks, RFP responses and capability presentations automate heavily. Rainmaking and relationship-driven new business do not. Adjusted for contamination from sibling codes (media rep sales agents) as noted in prompt guidance; true agency new-business staff is estimated at 6-8% of wage bill.",
+          "plausible_range": "0.20-0.40"
+        },
+        {
+          "role": "PR and communications staff",
+          "labor_share_of_total": 0.050,
+          "within_role_automatable_fraction": 0.35,
+          "contribution": 0.0175,
+          "rationale": "Content production, press materials and social drafts automate; media relationships and strategic communications judgment persist. Adjusted for contamination: OEWS shows 27-3031 PR Specialists at 8.3% wage share but this reflects sibling code 541820 contamination; within true integrated agencies this function is estimated at 4-6% of wage bill.",
+          "plausible_range": "0.25-0.45"
+        },
+        {
+          "role": "Back office, admin and remaining tail",
+          "labor_share_of_total": 0.300,
+          "within_role_automatable_fraction": 0.60,
+          "contribution": 0.18,
+          "rationale": "Billing reconciliation (client-cost reconciliation is notoriously manual), traffic management, timesheet administration and production admin are among the most automatable cost lines. 0.60 reflects high task routinization. The 4-digit OEWS top-10 covers only ~51% of the wage bill; remaining occupations are predominantly administrative and back-office.",
+          "plausible_range": "0.50-0.70"
+        }
+      ],
+      "quality": "MED"
+    },
+    "pi_dist": {
+      "value": 0.30,
+      "rationale": "Agency revenue is ~75% fixed-fee/retainer with labor-hour scoping (4A's/ANA 2024). Client procurement departments audit staffing plans and rate cards; when AI cuts hours behind a scope, procurement-driven renegotiations historically convert efficiency into lower fees rather than agency margin — the industry already experienced this with the procurement-compression wave of the 2010s. ANA (2023) shows 82% of client organizations now have in-house agencies handling 61% of work, structurally limiting the small independent's pricing power. Small agencies lack AOR contract stability; account movement data shows high concentration risk at one or two anchor clients. Pi_dist is set low at 0.30 to reflect that the firm captures only a minority of AI productivity gains — most flows to clients via scope renegotiation or is competed away in pitches.",
+      "plausible_range": "0.20-0.40",
+      "sources": [
+        "4A's/ANA 'Decoding Compensation Models' report, March 2024 — 75% of plans are fee-based",
+        "ANA In-House Agency Report 2023 — 82% of brands have in-house agencies, handling 61% of work on average"
+      ],
+      "quality": "MED"
+    },
+    "pi_moat": {
+      "value": 0.30,
+      "rationale": "No licensure protects advertising. Switching costs are low for SMB clients — most small agencies have month-to-month or annual retainers. Proprietary data moats are available only at holding-company scale. The realistic bypass threat is real: clients can combine AI creative tools (Midjourney, Adobe Firefly, ChatGPT) with Google/Meta self-serve platforms and an in-house coordinator. At the independent agency tier serving the roll-up universe ($1-10M EBITDA), the moat is primarily personal relationships and execution quality — both portable and fragile. Platform disintermediation of media buying (PMax, Advantage+) directly competes with a core agency service. Moat is modestly above floor (0.30 vs 0.10) only because small-agency client relationships, integrated campaign management and the operator's local market knowledge provide some stickiness.",
+      "plausible_range": "0.20-0.40",
+      "sources": [
+        "ANA In-House Agency Study 2023 — structural in-housing trend at 82%",
+        "StackAdapt/Ascend2 2025 — AI integration accelerating among agencies"
+      ],
+      "quality": "MED"
+    },
+    "t50_years": {
+      "value": 2.5,
+      "derivation": "Current adoption: ~39% of agencies have significantly integrated AI into day-to-day workflows (StackAdapt/Ascend2 2025); 91% use AI in some form but material integration is defined as AI embedded in core deliverable workflows (copy, creative, analytics), which StackAdapt estimates at 39%. Historical analog: programmatic advertising adoption went from ~4% to ~68% of display spending in roughly 10 years (2010-2020), implying ~6-7 years to reach 50%; however AI tool accessibility (no infrastructure buildout required) and competitive pressure are accelerating this cycle. From 39% today (mid-2026) to 50% requires closing an 11-percentage-point gap. Given the trajectory is accelerating (AI tools became widely accessible in 2023-2024 and adoption surged rapidly to 39%), and given competitive pressure means agencies adopting AI outcompete those that don't, the gap closes in approximately 2-3 years. Central estimate: 2.5 years (reaching 50% material adoption by end of 2028).",
+      "plausible_range": "1.5 to 4.0 years",
+      "quality": "MED"
+    },
+    "current_adoption_pct": {
+      "value": 0.39,
+      "source": "StackAdapt and Ascend2 State of AI in Advertising Agencies 2025",
+      "url": "https://www.stackadapt.com/resources/blog/ai-advertising",
+      "figure_quoted": "only 39% of agencies have significantly integrated AI into their day-to-day workflows",
+      "access_date": "2026-07-20",
+      "quality": "MED"
+    },
+    "historical_analogs": {
+      "value": "6-10 years to reach 50% on comparable prior workflow technologies",
+      "source": "Multiple: programmatic advertising IAB/eMarketer data; cloud SaaS agency adoption",
+      "url": "https://blasto.ai/blog/programmatic-advertising-evolution-explained-timeline-key-players-and-milestones",
+      "figure_quoted": "Programmatic advertising grew from ~4% of display to ~68% over roughly a decade (2010-2020); 68% of agency budgets being allocated programmatically by 2024",
+      "access_date": "2026-07-20",
+      "quality": "MED"
+    },
+    "owners_60plus_pct": {
+      "value": 0.25,
+      "source": "US Census Bureau Business Owner Characteristics data (2025 release); SBA small business profiles; Oberlo analysis of SBO survey",
+      "url": "https://www.census.gov/newsroom/press-releases/2025/business-owner-characteristics.html",
+      "figure_quoted": "Baby Boomers (currently 55-73) form 37% of small business owners; share of self-employed age 65+ increased from 13.0% to 16.3% over 2013-2023. Age 60+ estimated at approximately 25% of small business owners (interpolated: 60+ is between the 55+ Boomer cohort at 37% and the 65+ self-employed cohort at 16.3%).",
+      "access_date": "2026-07-20",
+      "quality": "ESTIMATE",
+      "succession_shortage_documented": {
+        "value": false,
+        "evidence": "No advertising-agency-specific succession shortage has been formally documented by 4A's, ANA, or an industry trade source. The general small-business succession gap (Exit Planning Institute 2025: only 13% of Baby Boomer owners have a written exit plan) applies but is not advertising-specific. Marking false: no trade-association citation specific to 541810."
+      }
+    },
+    "active_consolidators": {
+      "value": 7,
+      "source": "Ad Age, AdWeek, InvestorIdeas.com, PE Hub — named platform companies actively making add-on acquisitions in advertising agencies in the 24 months through mid-2026",
+      "url": "https://www.investorideas.com/news/2026/main/01152-private-equity-buying-marketing-agencies-2026-ai-ma.asp",
+      "figure_quoted": "Named PE-backed platforms with documented advertising-agency add-ons 2024-2026: Mountaingate Capital/Ignite Visibility, Truelink Capital/R/GA, Gemspring Capital/ROR Partners, Shamrock Capital/Penta Group, New Mountain Capital/W2O, plus multiple others documented by JEGI CLARITY as active; estimated 7 active PE-backed consolidator platforms with documented add-on activity in the 24-month window.",
+      "access_date": "2026-07-20",
+      "quality": "MED"
+    },
+    "buy_mult": {
+      "value": 5.0,
+      "source": "Agencies.co 'Definitive Guide to Marketing Agency Valuation 2026'; First Page Sage Marketing Agency EBITDA Multiples 2025",
+      "url": "https://agencies.co/ma-blog/the-definitive-guide-to-marketing-agency-valuation-in-2026/",
+      "figure_quoted": "Small agencies under $3M EBITDA: 4.5x-5.5x range, average 5.0x. First Page Sage: advertising agencies $1-5M EBITDA at 5.5x-7.6x (higher end includes digital-first specialty shops); median for plain-vanilla small independent closer to 5.0x after EBITDA normalization for owner comp.",
+      "access_date": "2026-07-20",
+      "quality": "MED"
+    },
+    "exit_mult": {
+      "value": 9.3,
+      "source": "Agencies.co 'Definitive Guide to Marketing Agency Valuation 2026'; First Page Sage Marketing Agency EBITDA Multiples 2025",
+      "url": "https://agencies.co/ma-blog/the-definitive-guide-to-marketing-agency-valuation-in-2026/",
+      "figure_quoted": "Large agencies $10M+ EBITDA: 8.1x-10.6x range, average 9.3x. JEGI CLARITY noted median of 16.5x for agencies with EBITDA over £12.5M in the UK market, but US small-to-mid-market platform exits trade significantly lower. Using 9.3x as the US mid-market platform exit comp.",
+      "access_date": "2026-07-20",
+      "quality": "MED"
+    },
+    "pricing_structure": {
+      "value": "~75% fixed-fee/retainer (labor-hour-scoped), ~15% project/fixed-price, ~10% performance/commission; retainers audited by client procurement",
+      "source": "4A's/ANA 'Decoding Compensation Models and Implementing the Right Model' report, March 2024; ANA survey on fee dominance",
+      "url": "https://www.aaaa.org/wp-content/uploads/4As-ANA-Decoding-Compensation-Models-and-Implementing-the-Right-Model.pdf",
+      "figure_quoted": "Fixed Fee emerged as the most utilized compensation model; seventy-five percent of all compensation plans using the fee-based model; retainers are scoped against staff-hour plans and rate cards",
+      "access_date": "2026-07-20",
+      "quality": "MED"
+    }
+  },
+  "scores": {
+    "V": {
+      "arithmetic": "V_raw = labor_share × ai_replaceable_share = 0.4814 × 0.437 = 0.2103718; V = 10 × min(1, 0.2103718 / 0.25) = 10 × min(1, 0.8414872) = 10 × 0.8414872 = 8.414872",
+      "score": 8.414872
+    },
+    "C": {
+      "arithmetic": "C = 10 × pi_dist × pi_moat = 10 × 0.30 × 0.30 = 0.90",
+      "score": 0.9
+    },
+    "A": {
+      "arithmetic": "A = min(10, 10 / t50_years) = min(10, 10 / 2.5) = min(10, 4.0) = 4.0",
+      "score": 4.0
+    },
+    "B": {
+      "arithmetic": "n_band=1175; TD = clamp(log10(1175)/4, 0, 1) = clamp(3.070037866607755/4, 0, 1) = clamp(0.7675094666519388, 0, 1) = 0.7675094666519388; owners_60plus_pct=0.25, OW = clamp((0.25-0.10)/0.35, 0.1, 0.9) = clamp(0.4285714285714286, 0.1, 0.9) = 0.4285714285714286; succession_shortage_documented=false so no +0.1 bonus; active_consolidators=7, CFD = min(0.9, log10(8)/2) = min(0.9, 0.9030899869919435/2) = min(0.9, 0.45154499349597177) = 0.45154499349597177; B = 10 × sqrt(0.7675094666519388 × 0.4285714285714286) / (1 + 0.3 × 0.45154499349597177) = 10 × sqrt(0.3289326285651166) / 1.1354634980487914 = 10 × 0.5735264846239593 / 1.1354634980487914 = 5.735264846239593 / 1.1354634980487914 = 5.051034098493887",
+      "score": 5.051034098493887
+    },
+    "M": {
+      "arithmetic": "M = clamp(4 × (exit_mult - buy_mult) / buy_mult, 0, 10) = clamp(4 × (9.3 - 5.0) / 5.0, 0, 10) = clamp(4 × 0.86, 0, 10) = clamp(3.44, 0, 10) = 3.44",
+      "score": 3.44
+    }
+  },
+  "S": 3.5015291936522814,
+  "cross_checks": {
+    "uplift_pp": 21.03718,
+    "uplift_vs_A_consistent": "uplift_pp = 21.0pp which substantially exceeds the 3pp threshold. A = 4.0 which is below 5.0, so the tension check is not triggered. Consistent: high AI value potential (V=8.4) with moderate adoption speed (A=4.0) reflects that agencies are adopting meaningfully but the technology has a 2-3 year window to reach majority adoption. No inconsistency.",
+    "terminal_value": {
+      "class": "PRESSURED",
+      "justification": "Demand for advertising agency services survives mature AI but shrinks in scope. AI handles creative production, copy generation, media planning models and campaign reporting — the volume-based execution work that justified large retainers. What persists is brand stewardship, client relationship management, strategic judgment and cross-platform orchestration. The ANA in-housing trend (82% of brands with in-house agencies by 2023, handling 61% of work) is a structural demand headwind independent of AI. Google PMax and Meta Advantage+ automate media buying natively. The agency product is being restructured: not replaced entirely (executive trust in brand crises, complex multi-market campaigns, creative concepts still need human judgment) but compressed (fewer billable hours per outcome). This is PRESSURED rather than MELTING because a senior-counsel model survives, but PRESSURED rather than DURABLE because the volume underpinning today's retainer economics erodes. Evidence: headcount-per-revenue trends in the industry show declining ratios; account in-housing rates rising; programmatic disintermediation of media buying is already complete at scale."
+    },
+    "no_proxy_confirmed": "V was derived from role-by-role assessment of which specific tasks current AI can substantially perform (copy drafting, asset generation, media analytics, admin automation) — no reference to M&A activity or deal count. A was derived from a named survey of current agency AI integration rates (StackAdapt/Ascend2 39% materially integrated) and historical programmatic adoption analog — no reference to consolidation trends.",
+    "pricing_model_deflation": "~75% of agency revenue is fixed-fee retainer scoped against labor-hour plans (4A's/ANA 2024). When AI cuts the hours behind a scope, the mechanism is: (1) in the near term, agencies may recover chronic over-service (Gould+Partners data for PR shows this pattern holds in adjacent code 541820); (2) at retainer renewal, client procurement departments — which already audit staffing plans and benchmark rate cards — renegotiate the scope down. This is historically documented: procurement-driven fee compression in the 2010s directly extracted efficiency gains from agencies. The deflation mechanism is reflected in pi_dist = 0.30: the firm captures roughly 30% of client-relationship economics, with the remainder captured by clients (via fee renegotiation) or competed away (in pitch cycles). pi_moat = 0.30 captures the additional risk that clients bypass agencies entirely via AI tools plus in-house junior coordinators — a realistic substitution at the SMB tier."
+  },
+  "confidence_overall": "MED",
+  "heterogeneous": false,
+  "top_uncertain_inputs": [
+    {
+      "input": "t50_years",
+      "plausible_range": "1.5 to 4.0 years",
+      "score_impact": "A = 10/t50: at t50=1.5 A=6.67 vs t50=4.0 A=2.50. S shifts from ~3.9 to ~3.1 across this range — approximately 0.8 S-point swing, potentially affecting verdict bucket."
+    },
+    {
+      "input": "pi_dist",
+      "plausible_range": "0.20 to 0.40",
+      "score_impact": "C = 10 × pi_dist × pi_moat. At pi_dist=0.20 C=0.60; at pi_dist=0.40 C=1.20. Combined with pi_moat range, C could range from 0.40 to 1.60 — the C factor is the largest uncertainty in absolute S impact, spanning roughly 0.5 S-point."
+    },
+    {
+      "input": "ai_replaceable_share",
+      "plausible_range": "0.35 to 0.52",
+      "score_impact": "V_raw = 0.4814 × ARS: at ARS=0.35 V_raw=0.1685 V=6.74; at ARS=0.52 V_raw=0.250 V=10.0. S shifts approximately 0.3 points across this range."
+    }
+  ],
+  "reviewer_note": "Role-mix contamination handled per prompt guidance: the 4-digit 5418 OEWS proxy includes Demonstrators and Product Promoters (41-9011, 1.6% wage share) and Merchandise Displayers (27-1026, 1.2% wage share) which are NOT advertising agency occupations (they originate from sibling codes 541850/541890). Similarly, 27-3031 PR Specialists (8.3% wage share) is substantially contaminated from 541820. The breakdown_by_role uses an adjusted agency structure with seven function buckets summing to 100% of wage bill, as specified in prompt guidance. Raw OEWS occupations were not used directly as role fractions. EBITDA normalization: buy_mult and exit_mult are sourced from actual transaction data at agency.co/FirstPageSage which report EV/EBITDA on adjusted EBITDA (after market-rate owner comp) basis per their methodology. The prompt notes the Damodaran margin (15.65%) is used for n_band derivation and was not recalculated. Boundary note: the roll-up-relevant population is the 977-firm 20-99-employee class plus part of the 100-499-employee class (n_band=1,175 per dataset); holding-company (WPP, Omnicom/IPG) data was not used for B or M inputs."
+}
