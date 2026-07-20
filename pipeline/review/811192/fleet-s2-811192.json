@@ -1,0 +1,100 @@
+{
+  "naics": "811192",
+  "run_id": "fleet-s2-811192",
+  "review_meta": {
+    "model_id": "Sol",
+    "review_date": "2026-07-20",
+    "prompt_version": "validator-3.0"
+  },
+  "verdict": "wrong",
+  "checks": {
+    "sources_exist": {
+      "pass": true,
+      "note": "All seven canonical citation occurrences resolve, including the two separate claims attached to the ICA 2025 presentation URL; the ICA AI URL redirects to the current Car Wash Exchange page. Identity matches the manifest. Deterministic inputs fail separately: role_mix matches, while dataset_inputs.labor_share, dataset_inputs.n_total, and dataset_inputs.n_band omit required supplied fields."
+    },
+    "figures_match_sources": {
+      "pass": false,
+      "note": "CT supports format-level asking ranges, Gallup supports 52.3% of employer businesses owned by people age 55+, and Mister Car Wash supports UWC at 75% of its Q4 wash sales. The cited pages do not support 8% material AI adoption, the nine-year RFID analog, 45% of car-wash owners age 60+, a car-wash succession shortage, exactly eight qualifying PE consolidators, 6.5x or 10x as medians actually paid, or a 40-50% industry subscription mix."
+    },
+    "judgment_inputs_plausible": {
+      "pass": false,
+      "note": "The analysis appropriately excludes the clearly contaminated lube-shop occupations and treats physical washing and maintenance as non-AI work. Direct consumer pricing and a physical-site moat make pi_dist=0.85 and pi_moat=0.65 directionally plausible. But cashier displacement is mostly kiosk/app automation rather than current AI, the unexplained 12.43% unlisted wage-share tail is omitted, and t50_years=9 rests on an invented 8% starting point and unsupported RFID dates."
+    },
+    "rubric_consistent": {
+      "pass": false,
+      "note": "The record correctly flags format heterogeneity, discusses real-estate and rent normalization, and keeps the terminal class focused on AI rather than mature tunnel machinery. It violates the mandatory exact-copy rule for three deterministic inputs, uses M&A/PE penetration to construct A despite the no-proxy rule, and treats range midpoints or selected endpoints as the required medians actually paid. The ESTIMATE_HEAVY flag therefore represents material score-bearing uncertainty, while the arithmetic-delta flag is benign because the listed differences remain within orchestrator tolerance."
+    },
+    "cross_checks_honest": {
+      "pass": false,
+      "note": "DURABLE is an honest terminal-value classification and the direct-B2C pricing mechanism is well described. However, no_proxy_confirmed says A does not use PE or deal evidence even though current_adoption_pct is explicitly estimated from the 61% PE share of high-volume express sites, and pricing_model_deflation states a 40-50% industry subscription mix that the Mister Car Wash company benchmark cannot establish."
+    }
+  },
+  "source_audits": [
+    {
+      "input_path": "inputs.active_consolidators.url",
+      "url": "https://www.carwashadvisory.com/car-wash-acquisitions",
+      "resolves": true,
+      "claim_supported": false,
+      "note": "The transaction directory documents many strategic and financial buyers and identifies recent acquisitions, but it does not classify exactly eight platforms as PE-backed and active under the last-24-month criterion. The record's list omits other recent acquirers, includes Crew Carwash without support on the page, and does not provide a qualifying recent add-on for every named platform."
+    },
+    {
+      "input_path": "inputs.buy_mult.url",
+      "url": "https://ctacquisitions.com/how-to-sell-a-car-wash-business/",
+      "resolves": true,
+      "claim_supported": false,
+      "note": "CT reports 5x-8x for a single express tunnel, 3x-5x for a small full-serve or in-bay site, and 7x-9x for a small multi-site chain. It does not report 6.5x as a median actually paid for the heterogeneous n_band population; 6.5x is merely the midpoint of one broker range and no weighting is documented."
+    },
+    {
+      "input_path": "inputs.current_adoption_pct.url",
+      "url": "https://www.carwash.org/conversations-with-ica/ai-in-the-car-wash",
+      "resolves": true,
+      "claim_supported": false,
+      "note": "The redirected ICA page qualitatively describes predictive maintenance, AI-powered cameras, chatbots, and proof-of-concept adoption. It gives no adoption percentage, does not contain the quoted early-adopter sentence, and cannot support the record's 8% estimate."
+    },
+    {
+      "input_path": "inputs.exit_mult.url",
+      "url": "https://www.carwashadvisory.com/learning/ica-2025-presentation",
+      "resolves": true,
+      "claim_supported": false,
+      "note": "The presentation supports rapid institutional ownership growth and reports 61% of the high-volume express-exterior market as institutionally owned. It does not report 8x-10x current mid-market transaction multiples, 10x-12x premium-platform multiples, or 10x as a median exit multiple."
+    },
+    {
+      "input_path": "inputs.historical_analogs.url",
+      "url": "https://www.carwashadvisory.com/learning/ica-2025-presentation",
+      "resolves": true,
+      "claim_supported": false,
+      "note": "The presentation says institutional ownership of high-volume express exterior grew from 13% to 61% over roughly five to six years. It contains no RFID timeline, no 2010-2012 widespread rollout date, no evidence that unlimited memberships reached about 50% of express operators by 2019-2020, and no basis for a nine-year technology-adoption analog."
+    },
+    {
+      "input_path": "inputs.owners_60plus_pct.url",
+      "url": "https://news.gallup.com/poll/657362/small-business-owners-lack-succession-plan.aspx",
+      "resolves": true,
+      "claim_supported": false,
+      "note": "Gallup cites Census data that 52.3% of all US employer businesses are owned by people age 55 or older and reports broad owner planning behavior. It does not measure age 60+, car-wash owners, a 45% car-wash-specific share, or a shortage of successors. Indeed, it says 74% of employer-business owners plan to sell or transfer ownership, which is not evidence of a shortage."
+    },
+    {
+      "input_path": "inputs.pricing_structure.url",
+      "url": "https://ir.mistercarwash.com/news-releases/news-release-details/mister-car-wash-announces-fourth-quarter-and-full-year-2024",
+      "resolves": true,
+      "claim_supported": false,
+      "note": "The primary release supports that UWC sales were 75% of Mister Car Wash's total wash sales in Q4 2024 and confirms a direct subscription business. It does not support the record's industry-wide 40-50% subscription versus 50-60% single-wash blend or the asserted $20-30 monthly ARPU."
+    }
+  ],
+  "reasons": [
+    "At dataset_inputs.labor_share, dataset_inputs.n_total, and dataset_inputs.n_band, the run omits non-null fields from pipeline/datasets/derived/811192.json: labor_share lacks year/quality, n_total lacks year/quality, and n_band lacks margin_used/margin_source/quality. Re-run with each supplied deterministic object copied verbatim.",
+    "At inputs.current_adoption_pct.url (https://www.carwash.org/conversations-with-ica/ai-in-the-car-wash), the ICA page provides no adoption share and not even the quoted early-adopter sentence. Re-run with a representative firm-level survey of material AI use or retain an explicitly unsupported estimate without presenting it as source-derived.",
+    "At inputs.historical_analogs.url (https://www.carwashadvisory.com/learning/ica-2025-presentation), the presentation contains no RFID or unlimited-membership adoption timeline. Re-run with dated, comparable industry technology-adoption observations and derive t50_years reproducibly from the sourced starting point.",
+    "At cross_checks.no_proxy_confirmed, the record denies using M&A or consolidation in A even though current_adoption_pct and t50_years explicitly infer AI adoption from PE ownership of high-volume sites. Re-run A without PE penetration or deal evidence, as required by rule 2.",
+    "At inputs.owners_60plus_pct.url (https://news.gallup.com/poll/657362/small-business-owners-lack-succession-plan.aspx), the all-industry 52.3% age-55+ statistic does not support 45% of car-wash owners age 60+. Re-run with car-wash owner demographics or use a transparent cross-industry conversion whose uncertainty does not masquerade as a sourced industry figure.",
+    "At inputs.owners_60plus_pct.succession_shortage_documented, neither Gallup nor the canonical citation demonstrates a car-wash successor shortage. Re-run with direct industry evidence that viable successors are insufficient before setting the flag true and applying the OW bonus.",
+    "At inputs.active_consolidators.url (https://www.carwashadvisory.com/car-wash-acquisitions), the directory does not substantiate exactly eight PE-backed platforms each with a last-24-month add-on. Re-run with sponsor ownership and a dated qualifying acquisition for every counted platform.",
+    "At inputs.buy_mult.url (https://ctacquisitions.com/how-to-sell-a-car-wash-business/), 6.5x is a midpoint of the 5x-8x single-express range, not a median actually paid for the n_band. Re-run with disclosed normalized-EBITDA transaction observations, separating operating-company value from owned real estate and EBITDA from EBITDAR.",
+    "At inputs.exit_mult.url (https://www.carwashadvisory.com/learning/ica-2025-presentation), the page does not provide the quoted multiple ranges or a 10x median for $10M+ EBITDA platforms. Re-run with recent disclosed transactions or credible comparable-company evidence on a consistently rent-normalized EBITDA basis.",
+    "At inputs.pricing_structure.url (https://ir.mistercarwash.com/news-releases/news-release-details/mister-car-wash-announces-fourth-quarter-and-full-year-2024), a 75% UWC share for the largest public operator cannot support a 40-50% subscription share for the whole heterogeneous industry. Re-run with representative format-weighted industry data, including full-service, self-serve, detailing, and independent express operators.",
+    "At inputs.ai_replaceable_share.breakdown_by_role, mature kiosks, app payment, and automated gates are credited as AI displacement while the 12.43% unlisted wage-share tail is omitted entirely. Re-run with current-AI task substitution separated from ordinary automation and explicitly account for the remainder of the labor mix."
+  ],
+  "flags_reviewed": [
+    "ESTIMATE_HEAVY: 3 inputs with quality ESTIMATE (current_adoption_pct, owners_60plus_pct, t50_years)",
+    "ARITH_DELTA_WITHIN_TOL: nonzero stored-vs-recomputed deltas on A, B, M, S, V"
+  ]
+}

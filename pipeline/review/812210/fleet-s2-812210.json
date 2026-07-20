@@ -1,0 +1,96 @@
+{
+  "naics": "812210",
+  "run_id": "fleet-s2-812210",
+  "review_meta": {
+    "model_id": "Sol",
+    "review_date": "2026-07-20",
+    "prompt_version": "validator-3.1-sol-full"
+  },
+  "verdict": "wrong",
+  "checks": {
+    "sources_exist": {
+      "pass": false,
+      "note": "Six cited pages resolved, but inputs.historical_analogs.url returned an inaccessible/internal-error page. All seven URL occurrences were audited."
+    },
+    "figures_match_sources": {
+      "pass": false,
+      "note": "None of the seven URL occurrences fully establishes its quoted claim: the pages are inaccessible, omit the asserted figure, support only a broader range, or cover a different date/scope."
+    },
+    "judgment_inputs_plausible": {
+      "pass": false,
+      "note": "Role fractions and pi values are bounded and broadly plausible, but t50_years=13 is derived from an unverified 2000-2013 adoption narrative and current_adoption_pct=0.07 is an unsupported subtraction from a combined current-or-planned 18% statistic."
+    },
+    "rubric_consistent": {
+      "pass": false,
+      "note": "The score formulas follow the frozen rubric and the assigned ARITH_DELTA_WITHIN_TOL flag is benign: nonzero stored-versus-recomputed deltas on A, B, S, and V are only display-level precision differences. However, dataset_inputs is not an exact copy of the supplied deterministic chain: labor_share omits year/quality, n_total omits year/quality, and n_band omits margin_used/margin_source/quality."
+    },
+    "cross_checks_honest": {
+      "pass": false,
+      "note": "The four cross-checks are present and the no-proxy statement is directionally candid, but terminal_value and pricing_model_deflation repeat unsupported price/projection claims and assert FTC billing mechanics without an FTC URL."
+    }
+  },
+  "source_audits": [
+    {
+      "input_path": "inputs.active_consolidators.url",
+      "url": "https://ionanalytics.com/insights/mergermarket/deathcare/",
+      "resolves": true,
+      "claim_supported": false,
+      "note": "The July 2023 article documents 2022 activity and identifies Foundation Partners and StoneMor as PE-backed participants, but it does not establish six PE-backed platforms actively adding on in the preceding 24 months or the record's six-name list."
+    },
+    {
+      "input_path": "inputs.buy_mult.url",
+      "url": "https://ctacquisitions.com/how-to-sell-a-funeral-home-business/",
+      "resolves": true,
+      "claim_supported": false,
+      "note": "The broker guide gives 5x-7x EBITDA for a $1.5M-$5M EBITDA small multi-location regional, but it does not establish a transaction median of 6.0x across the three named sources or the claimed market-rate-owner-comp normalization."
+    },
+    {
+      "input_path": "inputs.current_adoption_pct.url",
+      "url": "https://gitnux.org/ai-in-the-funeral-industry-statistics/",
+      "resolves": true,
+      "claim_supported": false,
+      "note": "The page states 18% are using or planning AI and separately states 14% use staffing prediction; it does not separate current from planned adoption, support the derived 7% material-use estimate, or state that 10% have an AI-content policy."
+    },
+    {
+      "input_path": "inputs.exit_mult.url",
+      "url": "https://ctacquisitions.com/how-to-sell-a-funeral-home-business/",
+      "resolves": true,
+      "claim_supported": false,
+      "note": "The page gives 7x-9x+ for $20M+ premium platforms and 6x-8x for $5M-$20M regionals, not the quoted 9x-14x platform-exit range, Park Lawn 8x divestiture, or SCI public-comps evidence."
+    },
+    {
+      "input_path": "inputs.historical_analogs.url",
+      "url": "https://www.afd-digital.com/afd/january_2025/MobilePagedArticle.action?articleId=2033435",
+      "resolves": false,
+      "claim_supported": false,
+      "note": "The cited mobile article returned an internal error, so its content could not be inspected; independent searching did not locate support for the asserted 2000 emergence and 2012-2015 50% penetration timeline."
+    },
+    {
+      "input_path": "inputs.owners_60plus_pct.url",
+      "url": "https://www.prnewswire.com/news-releases/new-study-sheds-light-on-succession-planning-and-the-impact-of-covid-19-on-funeral-profession-301174221.html",
+      "resolves": true,
+      "claim_supported": false,
+      "note": "The 2020 release supports average owner age 55 and 73% lacking an exit/succession plan, but not 48% aged 60+, average age 58 in 2024, 28% over 65 without a successor, or the later graduate and retirement statistics."
+    },
+    {
+      "input_path": "inputs.pricing_structure.url",
+      "url": "https://nfda.org/news/media-center/nfda-news-releases/id/9786/nfda-releases-2025-cremation-burial-report-comprehensive-insights-to-guide-the-future-of-funeral-service",
+      "resolves": true,
+      "claim_supported": false,
+      "note": "The NFDA release supports projected 2025 cremation and burial rates of 63.4% and 31.6%, but it does not state $7,848 burial pricing, $1,500-$2,500 direct-cremation pricing, FTC GPL billing, pre-need contract mechanics, or the record's modeled $300K/$886K revenue figures."
+    }
+  ],
+  "reasons": [
+    "dataset_inputs.labor_share, dataset_inputs.n_total, and dataset_inputs.n_band do not copy the non-null deterministic dataset chains exactly; restore the omitted year/quality and margin_used/margin_source/quality fields from pipeline/datasets/derived/812210.json in a re-run.",
+    "inputs.current_adoption_pct.url (https://gitnux.org/ai-in-the-funeral-industry-statistics/) does not support value 0.07 because it combines current and planned adoption; replace it with a source that separately measures current material AI use or mark and derive the estimate from transparent data.",
+    "inputs.historical_analogs.url (https://www.afd-digital.com/afd/january_2025/MobilePagedArticle.action?articleId=2033435) is inaccessible and does not verify the 13-year adoption analog; cite an accessible source measuring the start and approximately 50% penetration dates.",
+    "inputs.owners_60plus_pct.url (https://www.prnewswire.com/news-releases/new-study-sheds-light-on-succession-planning-and-the-impact-of-covid-19-on-funeral-profession-301174221.html) supports succession-plan scarcity but not value 0.48; obtain an owner-age distribution supporting the 60+ share and keep the succession evidence separate.",
+    "inputs.active_consolidators.url (https://ionanalytics.com/insights/mergermarket/deathcare/) is a 2023 article that does not verify six PE-backed platforms active in the last 24 months; provide dated add-on evidence for every counted platform.",
+    "inputs.buy_mult.url (https://ctacquisitions.com/how-to-sell-a-funeral-home-business/) gives an advisory range, not a median actually paid; provide transaction or comparable evidence supporting the selected EBITDA median after market-rate owner compensation.",
+    "inputs.exit_mult.url (https://ctacquisitions.com/how-to-sell-a-funeral-home-business/) does not contain the quoted 9x-14x range or the Park Lawn/SCI evidence; cite the actual platform transaction/public-comps sources and ensure the selected exit multiple matches their scale and date.",
+    "inputs.pricing_structure.url (https://nfda.org/news/media-center/nfda-news-releases/id/9786/nfda-releases-2025-cremation-burial-report-comprehensive-insights-to-guide-the-future-of-funeral-service) supports disposition rates only; cite accessible NFDA price data and the FTC Funeral Rule for the claimed prices, billing mechanism, and pre-need treatment, and label modeled revenue scenarios as calculations."
+  ],
+  "flags_reviewed": [
+    "ARITH_DELTA_WITHIN_TOL: nonzero stored-vs-recomputed deltas on A, B, S, V"
+  ]
+}
