@@ -1,0 +1,43 @@
+{
+  "naics": "541990",
+  "run_id": "fleet-s2-541990",
+  "review_meta": {
+    "model_id": "Sol",
+    "review_date": "2026-07-20",
+    "prompt_version": "validator-3.0"
+  },
+  "verdict": "wrong",
+  "checks": {
+    "sources_exist": {
+      "pass": false,
+      "note": "build.source_audit_pairs returned an empty list: the record contains zero HTTP(S) citations. The eight ESTIMATE research inputs use blank url fields, so the record has no auditable external provenance. LOW_CONFIDENCE and ESTIMATE_HEAVY remain unresolved."
+    },
+    "figures_match_sources": {
+      "pass": false,
+      "note": "The deterministic labor_share, role_mix, n_total, and n_band objects exactly match the supplied derived dataset, but the claimed adoption, analog, owner-age, consolidator, multiple, and pricing figures cannot be matched to sources because every research URL is blank."
+    },
+    "judgment_inputs_plausible": {
+      "pass": false,
+      "note": "The role fractions, pi_dist=0.52, pi_moat=0.60, and t50_years=8 are bounded and rationalized, but their key premises (dominant sub-segment, credential requirements, billing mix, adoption base, and diffusion analog) are unsupported by auditable evidence. The LOW confidence rating candidly reflects this but does not cure it."
+    },
+    "rubric_consistent": {
+      "pass": false,
+      "note": "The formulas and frozen-rubric structure are followed, and the assigned ARITH_DELTA_WITHIN_TOL flag only reports small nonzero stored-versus-recomputed deltas on B, M, and S. However, the prompt required verification of the catch-all code's dominant sub-segment and complete sourced research chains; the record labels its top-three composition unverified and supplies no URLs."
+    },
+    "cross_checks_honest": {
+      "pass": false,
+      "note": "All four mandatory cross-checks are present and candid about uncertainty, but terminal-value and pricing-model conclusions depend on an unverified revenue composition and unsupported 60-70% fixed-fee billing claim. The ARITH_DELTA_WITHIN_TOL flag does not resolve these evidence failures."
+    }
+  },
+  "source_audits": [],
+  "reasons": [
+    "inputs.current_adoption_pct.url, inputs.historical_analogs.url, inputs.owners_60plus_pct.url, inputs.active_consolidators.url, inputs.buy_mult.url, inputs.exit_mult.url, and inputs.pricing_structure.url are blank, while inputs.t50_years derives from the unsupported adoption and analog figures. Re-run with direct HTTP(S) citations to accessible industry-specific sources, exact quoted figures, dates, units, and scopes for each fallback chain.",
+    "reviewer_note and inputs.ai_replaceable_share assume that non-real-estate appraisal plus inspection/surveying is the dominant 541990 revenue cluster while explicitly calling the top-three composition unverified. Re-run after sourcing an industry-composition benchmark that establishes the dominant sub-segment, then ground the role weights and terminal-value classification in that evidence.",
+    "inputs.pi_dist, inputs.pi_moat, inputs.pricing_structure, and cross_checks.pricing_model_deflation rely on uncited credential-gating and a claimed 60-70% fixed-fee revenue mix. Re-run with accessible primary evidence for the applicable credential/signature rules and billing mix, distinguishing federally related real-estate appraisal from activities actually inside NAICS 541990."
+  ],
+  "flags_reviewed": [
+    "LOW_CONFIDENCE",
+    "ESTIMATE_HEAVY: 8 inputs with quality ESTIMATE (active_consolidators, buy_mult, current_adoption_pct, exit_mult, historical_analogs, owners_60plus_pct, pricing_structure, t50_years)",
+    "ARITH_DELTA_WITHIN_TOL: nonzero stored-vs-recomputed deltas on B, M, S"
+  ]
+}

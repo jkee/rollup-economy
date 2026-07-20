@@ -1,0 +1,97 @@
+{
+  "naics": "561510",
+  "run_id": "fleet-s2-561510",
+  "review_meta": {
+    "model_id": "Sol",
+    "review_date": "2026-07-20",
+    "prompt_version": "validator-3.0"
+  },
+  "verdict": "wrong",
+  "checks": {
+    "sources_exist": {
+      "pass": true,
+      "note": "All seven canonical URL occurrences resolve to accessible intended pages."
+    },
+    "figures_match_sources": {
+      "pass": false,
+      "note": "The deterministic dataset objects match exactly, and the cited pages support a 3.35x-4.11x travel-agency EBITDA range and TMC seller asking ranges. They do not support the selected 15% firm adoption, 8-10-year analog, 35% owner-age input, three active PE consolidators, transaction-based exit comp, or stated pricing revenue shares."
+    },
+    "judgment_inputs_plausible": {
+      "pass": false,
+      "note": "Most named-role fractions are bounded and directionally plausible, but inputs.ai_replaceable_share.breakdown_by_role[10] treats the full 37.87% unlisted wage tail as administrative back office and 55% automatable with no composition evidence. That single unsupported category contributes 0.208285, 44.6% of ai_replaceable_share. pi_dist and pi_moat also rely on uncited exact survey and commission-tier claims, while t50=6 rests on unsupported adoption and analog inputs."
+    },
+    "rubric_consistent": {
+      "pass": false,
+      "note": "The record recognizes heterogeneity, supplier-commission capture, direct-booking bypass, and the PRESSURED terminal class. However, source coverage and comparable-population requirements are not met. The assigned BORDERLINE flag is unresolved: |S - pass cut 3.00| = 0.0719, and the unsupported V, C, A, B, and M inputs are each large enough to change the cut outcome."
+    },
+    "cross_checks_honest": {
+      "pass": false,
+      "note": "The four mandatory cross-checks are present and the cost-cutting versus product-replacement distinction is candid. Their exact adoption, traveler-AI, billing-mix, and moat premises are not auditable from the record's cited pages, so the borderline conclusion cannot be accepted."
+    }
+  },
+  "source_audits": [
+    {
+      "input_path": "inputs.active_consolidators.url",
+      "url": "https://www.businesstravelnews.com/What-to-Watch/2025/Business-Travel-MA-Poised-to-Double-in-2025",
+      "resolves": true,
+      "claim_supported": false,
+      "note": "The opinion article says strategics, PE, family offices, and financial institutions are buyers, and discusses Direct Travel's funded technology strategy. It neither names nor counts three PE-backed platforms actively making $1M-$10M EBITDA travel-agency add-ons in the prior 24 months, and the acquisitions quoted in the input are not on the page."
+    },
+    {
+      "input_path": "inputs.buy_mult.url",
+      "url": "https://peakbusinessvaluation.com/valuation-multiples-for-a-travel-agency/",
+      "resolves": true,
+      "claim_supported": true,
+      "note": "The valuation firm's page directly reports an average 3.35x-4.11x travel-agency EBITDA range and gives a 3.97x example. The selected 3.5x lies within the cited range, though the page does not label 3.97x as the median or identify the target-size distribution."
+    },
+    {
+      "input_path": "inputs.current_adoption_pct.url",
+      "url": "https://www.businesstravelexecutive.com/news/gbta-research-shows-gaps-in-ai-adoption/",
+      "resolves": true,
+      "claim_supported": false,
+      "note": "The page reports that 58% of corporate travel buyers across the US, Canada, and Europe say AI has had little or no impact on their programs. It does not survey US 561510 agency operators, provide a material-use share, support 15% of firms, or contain the quoted 86% advisor-awareness figure."
+    },
+    {
+      "input_path": "inputs.exit_mult.url",
+      "url": "https://www.businesstravelnews.com/What-to-Watch/2025/Business-Travel-MA-Poised-to-Double-in-2025",
+      "resolves": true,
+      "claim_supported": false,
+      "note": "The article supports that TMC sellers were looking for 5x-7x EBITDA and transactional B2B travel-tech sellers for 5x-8x. These are asking ranges in an opinion piece, not disclosed paid transaction multiples or $10M+ EBITDA comparable valuations, so they do not establish a 6.5x exit input."
+    },
+    {
+      "input_path": "inputs.historical_analogs.url",
+      "url": "https://www.altexsoft.com/blog/history-of-flight-booking-crss-gds-distribution-travel-agencies-and-online-reservations/",
+      "resolves": true,
+      "claim_supported": false,
+      "note": "The technology history describes the emergence of internet booking and OTAs, but contains neither 5% of US airline tickets online in 1998 nor internet reservations exceeding GDS reservations in 2006. It therefore does not support the stated 8-10-year diffusion interval."
+    },
+    {
+      "input_path": "inputs.owners_60plus_pct.url",
+      "url": "https://www.travelweekly.com/Industry-Survey-2023",
+      "resolves": true,
+      "claim_supported": false,
+      "note": "Travel Weekly reports that 57% of surveyed advisors are older than 55 and that 55% identify as owners or managers. It does not cross-tabulate those facts, isolate owners, provide an age-60 threshold, or support a 35% 60+ share for target-band firm owners."
+    },
+    {
+      "input_path": "inputs.pricing_structure.url",
+      "url": "https://hostagencyreviews.com/blog/travel-agent-commissions",
+      "resolves": true,
+      "claim_supported": false,
+      "note": "The guide supports supplier commissions, roughly 10% hotel and boutique-tour commissions, tiering, host/consortium leverage, 0-5% domestic air and 10-22% international air, plus the existence of service fees. It does not support 70-80% of net revenue from commissions, 20-30% from fees, cruise 10-16%, hotel 8-15%, preferred 15-20%, $40-$60 ticket fees, over-half fee adoption, or 42% higher income."
+    }
+  ],
+  "reasons": [
+    "inputs.current_adoption_pct.url measures corporate travel buyers across multiple countries, not US 561510 agency operators, and contains no 15% material-use rate. Re-run with an operator-side agency survey or label a bounded extrapolation as ESTIMATE before deriving inputs.t50_years.",
+    "inputs.historical_analogs.url lacks both quoted endpoint figures. Add primary dated online-booking penetration data on a consistent denominator, then derive inputs.t50_years from the resulting diffusion interval.",
+    "inputs.ai_replaceable_share.breakdown_by_role[10] assigns all unlisted roles a 55% back-office automation rate without identifying their occupations. Obtain the full occupation wage distribution or create separately evidenced residual buckets; this category alone contributes 0.208285 and materially affects the borderline score.",
+    "inputs.pi_dist and inputs.pi_moat cite only non-URL source names while relying on exact IC portability, commission-tier, traveler-AI, and duty-of-care claims. Add accessible direct sources for client ownership, contract retention, accreditation/consortia barriers, and consumer bypass before retaining C.",
+    "inputs.owners_60plus_pct.url reports advisor age over 55, not firm-owner age 60+. Supply an owner-specific age distribution or mark an evidence-bounded estimate, then recompute the B input chain.",
+    "inputs.active_consolidators.url does not establish three active PE-backed platforms in the target band. Supply a named platform/add-on ledger for the prior 24 months or correct the estimate and its quality.",
+    "inputs.exit_mult.url gives seller asking ranges rather than paid transaction or comparable-company multiples. Replace it with disclosed $10M+ EBITDA platform evidence and state gross-versus-net revenue comparability.",
+    "inputs.pricing_structure.url does not support the revenue shares or most quoted rates. Use the linked HAR research report and primary supplier/fee schedules to establish the billing mix, then revisit cross_checks.pricing_model_deflation.",
+    "The assigned BORDERLINE flag (|S - pass cut 3.00| = 0.0719) is unresolved because plausible corrections to the unsupported role-tail, adoption, owner-age, capture, consolidator, or exit assumptions can move S across the frozen pass cut. Re-run only after replacing those score-affecting evidence gaps."
+  ],
+  "flags_reviewed": [
+    "BORDERLINE: |S - pass cut 3.00| = 0.0719"
+  ]
+}

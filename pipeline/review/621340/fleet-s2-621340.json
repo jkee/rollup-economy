@@ -1,0 +1,98 @@
+{
+  "naics": "621340",
+  "run_id": "fleet-s2-621340",
+  "review_meta": {
+    "model_id": "Sol",
+    "review_date": "2026-07-20",
+    "prompt_version": "validator-3.0"
+  },
+  "verdict": "wrong",
+  "checks": {
+    "sources_exist": {
+      "pass": true,
+      "note": "All seven canonical citation occurrences resolve to the intended subject pages, with the PMC article also confirmed through its indexed full text. Identity matches the manifest. However, deterministic inputs fail separately: role_mix matches, while dataset_inputs.labor_share, dataset_inputs.n_total, and dataset_inputs.n_band do not copy the supplied non-null chains exactly."
+    },
+    "figures_match_sources": {
+      "pass": false,
+      "note": "Prompt Health directly supports the 550-response survey, about one-third using automation tools, and about two-thirds using AI for documentation. The other score-bearing citations have material gaps: ONC does not support the claimed PT/small-specialty analog or the stated dates; the workforce study does not support the quoted 49% age-50-64 statistic or owner age; CT does not establish exactly six qualifying consolidators or 6.5x as a median; BusinessWire omits the asserted $76.5M purchase price; and SPRY says the 2025 therapy threshold was $2,410, not $2,330."
+    },
+    "judgment_inputs_plausible": {
+      "pass": false,
+      "note": "The role fractions are bounded and appropriately respect the therapist-time billing-unit trap, while pi_dist=0.35 and pi_moat=0.45 are directionally plausible. But current_adoption_pct=0.33 measures generic automation rather than material AI adoption, and t50_years=4 overrides its own extrapolation (about 1.8 years to 50%) with an unsupported laggard adjustment. owners_60plus_pct=0.30 and the succession bonus are not grounded in owner-specific evidence."
+    },
+    "rubric_consistent": {
+      "pass": false,
+      "note": "The record correctly marks the heterogeneous code and dominant PT subsegment, keeps deal activity out of V/A, and acknowledges payer deflation. It violates the mandatory exact-copy rule for three deterministic dataset inputs. It also uses 6.5x after saying the 5.5x-8.0x range midpoint is 6.75x and then 'rounded' conservatively, contrary to the frozen no-rounding and evidence-based-median rules. The BORDERLINE flag is unresolved because S=3.05449 lies only 0.0545 above the 3.00 cut and multiple score-bearing inputs fail audit. The ARITH_DELTA_WITHIN_TOL flag itself is benign because the listed B, M, S, and V differences are within orchestrator tolerance."
+    },
+    "cross_checks_honest": {
+      "pass": false,
+      "note": "The uplift and billing-unit discussion is candid, and PRESSURED is a defensible terminal class. But no_proxy_confirmed presents the PT EHR analog and adoption trajectory as established when they are not. pricing_model_deflation asserts a 40-50/30-40/5-10/5-10 revenue mix not supported by the cited reimbursement page, and it invokes PDGM home-health behavioral adjustment as an analogy even though the scored code is outpatient therapy. The source JSON also contains duplicate cross_checks.terminal_value.justification keys, so the first fuller mechanism-specific answer is overwritten on normal JSON parsing."
+    }
+  },
+  "source_audits": [
+    {
+      "input_path": "inputs.active_consolidators.url",
+      "url": "https://ctacquisitions.com/guides/physical-therapy-ma-multiples-2026/",
+      "resolves": true,
+      "claim_supported": false,
+      "note": "The report names a broad set of PE-backed, public, and strategic outpatient-rehab platforms and describes the consolidation landscape, but it does not establish the record's exact six-platform count under the rubric's PE-backed, active-add-on, and last-24-month criteria. The page itself lists additional operators such as Alliance, US Physical Therapy, Select Medical, ATI, and others."
+    },
+    {
+      "input_path": "inputs.buy_mult.url",
+      "url": "https://ctacquisitions.com/guides/physical-therapy-ma-multiples-2026/",
+      "resolves": true,
+      "claim_supported": false,
+      "note": "The page supports an observed 5.5x-8.0x adjusted-EBITDA band for $1M-$3M groups and says ranges assume normalized owner compensation. Its midpoint is 6.75x; it does not report 6.5x as a median actually paid. The record explicitly rounds the midpoint down for conservatism, which is not source support for the score-bearing value."
+    },
+    {
+      "input_path": "inputs.current_adoption_pct.url",
+      "url": "https://www.prompthealth.com/blog/rehab-therapy-industry-report",
+      "resolves": true,
+      "claim_supported": true,
+      "note": "The vendor survey page reports 550 practice leaders, clinicians, and administrators across PT/OT/SLP settings; about one in three practices had adopted automation tools such as digital intake, smart scheduling, or automated billing; and about two-thirds used AI for documentation. These quoted figures resolve and match, though one-third generic automation is not equivalent to the rubric's material AI-adoption construct."
+    },
+    {
+      "input_path": "inputs.exit_mult.url",
+      "url": "https://www.businesswire.com/news/home/20241007361665/en/U.S.-Physical-Therapy-Announces-Acquisition-of-50-Clinic-Physical-Therapy-Management-Services-Organization",
+      "resolves": true,
+      "claim_supported": false,
+      "note": "The release confirms an agreement to purchase 50% of a 50-clinic MSO generating approximately $64M revenue and $12M EBITDA. It does not disclose a $76.5M price, a $153M enterprise value, or a 12.75x multiple, so it cannot support the transaction-derived exit anchor or the selected 12.0x."
+    },
+    {
+      "input_path": "inputs.historical_analogs.url",
+      "url": "https://healthit.gov/data/quickstats/national-trends-hospital-and-physician-adoption-electronic-health-records/",
+      "resolves": true,
+      "claim_supported": false,
+      "note": "ONC reports a composite office-based-physician EHR trend, currently showing 40% in 2012, 51% in 2014, 77% in 2016, 82% in 2018/2020, and 91% in 2024 with changing Basic/Certified definitions. It does not report 34% in 2011 to 87% in 2019 on the accessible table, a 3-5-year lag for small specialty practices, 86% adoption for PT practices, or AI-documentation growth from 5% in 2022."
+    },
+    {
+      "input_path": "inputs.owners_60plus_pct.url",
+      "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC11879330/",
+      "resolves": true,
+      "claim_supported": false,
+      "note": "The 2024 APTA-member survey/microsimulation supports that about 60% of PTs active at age 50 retire by 65 and projects workforce supply/demand. It does not report that 49% of PTs were age 50-64 in 2019 versus 32% in 2010, does not measure private-practice-owner age, and does not document a clinic-owner succession shortage. A workforce shortage is not evidence of a succession shortage."
+    },
+    {
+      "input_path": "inputs.pricing_structure.url",
+      "url": "https://www.sprypt.com/blog/medicare-physical-therapy-reimbursement",
+      "resolves": true,
+      "claim_supported": false,
+      "note": "SPRY supports the 2025 conversion-factor decrease from $33.29 to $32.35 (2.83%). It states the combined PT/SLP therapy threshold increased to $2,410 in 2025 from $2,330 in 2024, contradicting the quoted 2025 threshold. It does not support the asserted industry revenue mix across Medicare, commercial, workers' compensation, and cash, or a fifth-consecutive-cut claim."
+    }
+  ],
+  "reasons": [
+    "At dataset_inputs.labor_share, dataset_inputs.n_total, and dataset_inputs.n_band, the run does not copy the non-null supplied chains from pipeline/datasets/derived/621340.json exactly: labor_share replaces sources/year/quality with a singular source field, n_total omits year/quality, and n_band omits margin_used/margin_source/quality. Re-run with every supplied deterministic object copied verbatim.",
+    "At inputs.current_adoption_pct.url (https://www.prompthealth.com/blog/rehab-therapy-industry-report), the source's one-third figure covers non-AI automation such as digital intake, scheduling, and billing, while two-thirds separately report AI documentation use. Re-run with a defined practice-level measure of material AI use in the automatable functions rather than substituting generic automation adoption.",
+    "At inputs.historical_analogs.url (https://healthit.gov/data/quickstats/national-trends-hospital-and-physician-adoption-electronic-health-records/), the page does not support the PT/small-specialty lag, PT 86% endpoint, or 5%-to-33% AI trajectory used in t50_years. Re-run with comparable, population-matched dated observations and a reproducible t50 derivation; do not replace the calculated approximately 1.8-year interval with four years through an unquantified adjustment.",
+    "At inputs.owners_60plus_pct.url (https://pmc.ncbi.nlm.nih.gov/articles/PMC11879330/), the study does not support 30% of owners age 60+ or a documented succession shortage. Re-run with private-practice-owner demographics and direct succession evidence; workforce retirement and vacancy pressure alone do not justify the OW succession bonus.",
+    "At inputs.active_consolidators.url (https://ctacquisitions.com/guides/physical-therapy-ma-multiples-2026/), the page does not substantiate an exact count of six PE-backed platforms meeting the last-24-month add-on test. Re-run with sponsor status and a qualifying recent add-on citation for every counted platform.",
+    "At inputs.buy_mult.url (https://ctacquisitions.com/guides/physical-therapy-ma-multiples-2026/), 6.5x is obtained by rounding a stated 6.75x range midpoint downward, not by sourcing the median actually paid. Re-run with an auditable median/statistic for normalized-EBITDA targets in the band and preserve full precision.",
+    "At inputs.exit_mult.url (https://www.businesswire.com/news/home/20241007361665/en/U.S.-Physical-Therapy-Announces-Acquisition-of-50-Clinic-Physical-Therapy-Management-Services-Organization), the release discloses 50% ownership, 50 clinics, and $12M EBITDA but no purchase price. Re-run with a filing or release that discloses the consideration and valuation basis before using the inferred 12.75x transaction anchor or 12.0x exit value.",
+    "At inputs.pricing_structure.url (https://www.sprypt.com/blog/medicare-physical-therapy-reimbursement), the 2025 threshold is misstated and the 40-50/30-40/5-10/5-10 revenue mix is unsupported. Re-run with primary CMS/APTA evidence for reimbursement mechanics and a separate industry source for revenue shares before setting pi_dist and pricing_model_deflation.",
+    "At cross_checks.terminal_value.justification, duplicate JSON keys cause one terminal-value explanation to overwrite the other. Re-run with one unambiguous justification that separately addresses payer rate-setting and digital-MSK substitution with auditable evidence."
+  ],
+  "flags_reviewed": [
+    "BORDERLINE: |S - pass cut 3.00| = 0.0545",
+    "ARITH_DELTA_WITHIN_TOL: nonzero stored-vs-recomputed deltas on B, M, S, V"
+  ]
+}
