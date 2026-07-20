@@ -1,0 +1,56 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "review_record.schema.json",
+  "title": "v3 review record — validator verdict on one run record (Stage 5, P10)",
+  "type": "object",
+  "required": ["naics", "run_id", "review_meta", "verdict", "checks", "reasons", "flags_reviewed"],
+  "additionalProperties": false,
+  "properties": {
+    "naics": { "type": "string", "pattern": "^[0-9]{6}$" },
+    "run_id": { "type": "string" },
+    "review_meta": {
+      "type": "object",
+      "required": ["model_id", "review_date"],
+      "additionalProperties": false,
+      "properties": {
+        "model_id": { "type": "string" },
+        "review_date": { "type": "string", "format": "date" }
+      }
+    },
+    "verdict": { "enum": ["accepted", "wrong"] },
+    "checks": {
+      "type": "object",
+      "required": ["sources_exist", "figures_match_sources", "judgment_inputs_plausible", "rubric_consistent", "cross_checks_honest"],
+      "additionalProperties": false,
+      "properties": {
+        "sources_exist": { "$ref": "#/definitions/check" },
+        "figures_match_sources": { "$ref": "#/definitions/check" },
+        "judgment_inputs_plausible": { "$ref": "#/definitions/check" },
+        "rubric_consistent": { "$ref": "#/definitions/check" },
+        "cross_checks_honest": { "$ref": "#/definitions/check" }
+      }
+    },
+    "reasons": {
+      "type": "array",
+      "items": { "type": "string" },
+      "description": "Required non-empty when verdict is 'wrong': specific, actionable critique attached to the re-run."
+    },
+    "flags_reviewed": {
+      "type": "array",
+      "items": { "type": "string" },
+      "description": "The build's Stage-4 flag list for this record, each addressed explicitly."
+    }
+  },
+  "if": { "properties": { "verdict": { "const": "wrong" } } },
+  "then": { "properties": { "reasons": { "minItems": 1 } } },
+  "definitions": {
+    "check": {
+      "type": "object",
+      "required": ["pass", "note"],
+      "properties": {
+        "pass": { "type": "boolean" },
+        "note": { "type": "string" }
+      }
+    }
+  }
+}

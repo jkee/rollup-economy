@@ -1,0 +1,100 @@
+# v3 Implementation Plan
+
+**Companion to:** [V3_PRODUCT.md](V3_PRODUCT.md) (goal, principles, pipeline spec) · created 2026-07-20
+**Status legend:** `[ ]` todo · `[x]` done · `[~]` in progress. This file is the working tracker — update checkboxes as work lands.
+
+Sequencing has two deliberate inversions: the build/check script (Phase 2) is built **before** any runs, so the pilot validates itself from day one; the dataset layer (Phase 1) comes **before** prompt generation, because prompts embed the precomputed dataset inputs.
+
+---
+
+## Phase 0 — Restructure & freeze (Stage 0) · ~1 day + sign-offs
+
+**Blocking item: the five decisions in `V3_PRODUCT.md` §9 must be resolved before the freeze. Everything else in this phase can proceed in parallel.**
+
+- [x] 0.1 Create `pipeline/` skeleton (`template/ datasets/ blocks/ prompts/ runs/ golden/ review/ build/`)
+- [x] 0.2 Move prototypes into the repo so they're git-tracked: `../prompt_template_v2.md`, `../prompts_54/` (12 prompts + `blocks_batch1.json`), `../results_54/541330.json` (copied in; originals in `../` can be deleted after commit)
+- [~] 0.3 Decide §9 items (owner: Victor):
+  - [x] cut values & factor floors — decided 2026-07-20: **Hell-Yes S ≥ 7.0, every factor ≥ 6.0** (stricter option); Strong ≥ 5.5; Conditional ≥ 4.0; Pass ≥ 3.0; KILL below or any factor < 1.0
+  - [x] C composition — decided: **folded** (C = 10 × π_dist × π_moat, pricing deflation reflected in π_dist with mechanism stated)
+  - [~] golden-set membership — draft of 20 codes in `pipeline/golden/golden_set.json`, awaiting sign-off
+  - [x] P&L card — decided: **drop for launch**; may return later derived from datasets
+  - [x] v1 (4-digit) page — decided: **archive live with a "superseded by v3" banner**
+- [x] 0.4 Write `pipeline/template/prompt_template_v3.md` from v2. Changes: floats end-to-end (no `round()` in factor formulas); PD removed from B; output additions — overall confidence, per-source access dates, `heterogeneous` flag, run-metadata block; dataset inputs marked "provided — do not research"; judgment inputs explicitly labeled as declared opinions
+- [x] 0.5 JSON Schemas: run record + review record (`pipeline/build/schemas/`)
+- [x] 0.6 `pipeline/build/thresholds.json` — single source for cuts, floors, gates, borderline ε; consumed by build and generated docs (P8). Decided values applied
+- [ ] 0.7 Freeze: version-tag template + schemas + thresholds (P4) — **blocked only on golden-set sign-off**. After this point rubric changes = new version + full re-run
+
+**Deliverable:** frozen v3 rubric in-repo. **Done when:** tag exists and §9 has no open items.
+
+## Phase 1 — Dataset layer (Stage 1) · ~1–2 days
+
+- [ ] 1.1 Download scripts + checksums into `pipeline/datasets/raw/`: Census SUSB (firms by size class per NAICS), CBP, BLS OEWS industry tables, QCEW
+- [ ] 1.2 Derivation code → `pipeline/datasets/derived/<naics>.json` per code: `labor_share`, OEWS role mix, `n_total`, size-class distribution → $1–10M EBITDA band chain (`n_band`)
+- [ ] 1.3 Sanity check vs known points: 541330 (reference labor share 0.470 from BLS-via-FRED) + 3–4 hand-checked codes across different sectors
+- [ ] 1.4 Coverage report: which of the 1,012 codes lack a direct series and use a stated fallback (parent-code inheritance, imputation — method recorded per code)
+
+**Deliverable:** deterministic dataset inputs for all 1,012 codes. **Done when:** coverage report shows 100% with method stated; spot checks pass.
+
+## Phase 2 — Build & check script (Stage 4) · ~1 day
+
+- [ ] 2.1 Build script: schema validation → arithmetic recompute from inputs (**hard fail on any mismatch**) → S, gates, verdicts, borderline flags, percentile context → generate `6digit/six_data.json` + README/methodology numbers
+- [ ] 2.2 Deep-dive reconciliation report: screen verdict vs `deep-dives/` conclusions, divergences listed
+- [ ] 2.3 Per-record flag list for the validator (LOW confidence, borderline, failed cross-checks, anomalies)
+- [ ] 2.4 Regression fixture: 541330 adapted to the v3 schema runs end-to-end through the build; kept as the permanent test
+
+**Deliverable:** one-command deterministic build. **Done when:** fixture passes; intentionally corrupted arithmetic fails the build.
+
+## Phase 3 — Prompt generation (Stage 2) · ~½ day for sector 54
+
+- [ ] 3.1 Meta-prompt for the best model producing per-code blocks: role structure for V, suggested primary sources, capture questions for C, terminal-value question, known traps
+- [ ] 3.2 Regenerate sector-54 prompts under template v3, dataset inputs embedded → `pipeline/prompts/`
+
+**Deliverable:** v3 prompts for sector 54. **Done when:** each prompt validates against the template (all placeholders filled, dataset inputs present).
+
+## Phase 4 — Pilot: sector 54 + golden set (Stages 3 + 5) · ~1–2 days incl. iteration
+
+- [ ] 4.1 Runner: API batch, Sonnet-class + web search, 1 run per code → `pipeline/runs/`; automatic retry on schema-validation failure
+- [ ] 4.2 Golden-set runs with the **best model** → `pipeline/golden/`; Sonnet runs of the same codes alongside as the fleet-quality benchmark
+- [ ] 4.3 Validator prompt (best model as critic, P10): sources real & contain quoted figures; judgment inputs plausible, within rubric, consistent with comparable industries; cross-checks honest → `pipeline/review/<naics>.json` (`accepted` / `wrong` + reasons)
+- [ ] 4.4 `wrong` records re-run with critique attached (back to 4.1)
+- [ ] 4.5 Judge pilot vs frozen pass criteria:
+  - golden set separates: known winners above known melters; melters caught by the T gate
+  - zero arithmetic mismatches in the build
+  - acceptance rate and source-quality distribution within the frozen targets
+- [ ] 4.6 If the **instrument** fails: fix template → bump to v3.1 → re-freeze → re-run pilot. Never hand-fix records.
+
+**Deliverable:** accepted run records for sector 54 + golden set. **Done when:** 4.5 criteria all pass.
+
+## Phase 5 — Dashboard traceability · ~1–2 days (can overlap Phase 4)
+
+- [ ] 5.1 Remove: 13-cell matrix UI, the three threshold ladders, fake-link rendering of non-URL sources
+- [ ] 5.2 Add evidence panel: verdict → S → factors → formulas → inputs → source / URL / quoted figure / quality flag
+- [ ] 5.3 Card badges: overall confidence, acceptance status, `borderline`, `heterogeneous`; percentile shown as context next to the absolute verdict; run metadata (model, date, run id, template version, validator verdict)
+- [ ] 5.4 Apply the P&L decision from 0.3
+- [ ] 5.5 README + methodology page numbers generated by the build (P8); hand-written claims removed
+
+**Deliverable:** site renders v3 records with the full why-chain. **Done when:** every displayed number is clickable down to a source or marked ESTIMATE.
+
+## Phase 6 — Full run (1,012 codes) · ~2–3 days elapsed, mostly batch waiting
+
+- [ ] 6.1 Prompt generation for all codes, batched by sector
+- [ ] 6.2 Sonnet run fleet via API batch; per-sector cost + acceptance-rate tracking
+- [ ] 6.3 Validator pass over every record; `wrong` → re-run loop until the queue drains
+- [ ] 6.4 Final build, publish; deep-dive reconciliation reviewed
+- [ ] 6.5 Archive/remove v1 & v2 per decision 0.3; stale-input refresh cadence noted in README (market inputs ~12 months)
+
+**Deliverable:** the v3 map live. **Done when:** all 1,012 published records are validator-accepted and the build is green.
+
+---
+
+## Cost & timeline (rough)
+
+| Item | Estimate |
+|---|---|
+| Sonnet run fleet, 1,012 codes × ~80K tokens | low hundreds of $ |
+| Best model: prompt gen + validator × 1,012 + ~20 golden runs | comparable to or somewhat above the fleet; total likely < $1K |
+| Calendar | ~2–3 weeks part-time; Phases 0–2 week 1, 3–4 week 2, 5–6 week 3 |
+
+**Critical path:** 0.3 decisions → 0.7 freeze → 1.x datasets → 3.x prompts → 4.x pilot → 6.x full run. Phases 2 and 5 hang off the critical path and can run in parallel with their neighbors.
+
+**First move:** draft the golden-set list + confirm proposed cut values (0.3), restructure the repo (0.1–0.2) in the same pass.

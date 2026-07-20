@@ -1,0 +1,179 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "run_record.schema.json",
+  "title": "v3 run record — one scoring run of one NAICS code",
+  "type": "object",
+  "required": ["naics", "title", "run_meta", "dataset_inputs", "inputs", "scores", "S", "cross_checks", "confidence_overall", "heterogeneous", "top_uncertain_inputs", "reviewer_note"],
+  "additionalProperties": false,
+  "properties": {
+    "naics": { "type": "string", "pattern": "^[0-9]{6}$" },
+    "title": { "type": "string", "minLength": 1 },
+    "run_meta": {
+      "type": "object",
+      "required": ["model_id", "run_date", "run_id", "template_version", "prompt_version"],
+      "additionalProperties": false,
+      "properties": {
+        "model_id": { "type": "string" },
+        "run_date": { "type": "string", "format": "date" },
+        "run_id": { "type": "string" },
+        "template_version": { "type": "string" },
+        "prompt_version": { "type": "string" }
+      }
+    },
+    "dataset_inputs": {
+      "type": "object",
+      "required": ["labor_share", "role_mix", "n_total", "n_band"],
+      "properties": {
+        "labor_share": { "$ref": "#/definitions/dataset_value" },
+        "role_mix": { "type": "object" },
+        "n_total": { "$ref": "#/definitions/dataset_value" },
+        "n_band": { "$ref": "#/definitions/dataset_value" }
+      }
+    },
+    "inputs": {
+      "type": "object",
+      "required": ["ai_replaceable_share", "pi_dist", "pi_moat", "t50_years", "current_adoption_pct", "historical_analogs", "owners_60plus_pct", "active_consolidators", "buy_mult", "exit_mult", "pricing_structure"],
+      "additionalProperties": false,
+      "properties": {
+        "ai_replaceable_share": {
+          "type": "object",
+          "required": ["value", "breakdown_by_role", "quality"],
+          "properties": {
+            "value": { "type": "number", "minimum": 0, "maximum": 1 },
+            "breakdown_by_role": {
+              "type": "array",
+              "minItems": 1,
+              "items": {
+                "type": "object",
+                "required": ["role", "labor_share_of_total", "within_role_automatable_fraction", "contribution", "rationale", "plausible_range"],
+                "properties": {
+                  "role": { "type": "string" },
+                  "labor_share_of_total": { "type": "number", "minimum": 0, "maximum": 1 },
+                  "within_role_automatable_fraction": { "type": "number", "minimum": 0, "maximum": 1 },
+                  "contribution": { "type": "number", "minimum": 0, "maximum": 1 },
+                  "rationale": { "type": "string", "minLength": 1 },
+                  "plausible_range": { "type": "string" }
+                }
+              }
+            },
+            "quality": { "$ref": "#/definitions/quality" }
+          }
+        },
+        "pi_dist": { "$ref": "#/definitions/judgment_input_unit" },
+        "pi_moat": { "$ref": "#/definitions/judgment_input_unit" },
+        "t50_years": {
+          "type": "object",
+          "required": ["value", "derivation", "plausible_range", "quality"],
+          "properties": {
+            "value": { "type": "number", "exclusiveMinimum": 0 },
+            "derivation": { "type": "string", "minLength": 1 },
+            "plausible_range": { "type": "string", "minLength": 1 },
+            "quality": { "$ref": "#/definitions/quality" }
+          }
+        },
+        "current_adoption_pct": { "$ref": "#/definitions/research_input" },
+        "historical_analogs": { "$ref": "#/definitions/research_input" },
+        "owners_60plus_pct": { "$ref": "#/definitions/research_input" },
+        "active_consolidators": { "$ref": "#/definitions/research_input" },
+        "buy_mult": { "$ref": "#/definitions/research_input" },
+        "exit_mult": { "$ref": "#/definitions/research_input" },
+        "pricing_structure": { "$ref": "#/definitions/research_input" }
+      }
+    },
+    "scores": {
+      "type": "object",
+      "required": ["V", "C", "A", "B", "M"],
+      "additionalProperties": false,
+      "properties": {
+        "V": { "$ref": "#/definitions/factor_score" },
+        "C": { "$ref": "#/definitions/factor_score" },
+        "A": { "$ref": "#/definitions/factor_score" },
+        "B": { "$ref": "#/definitions/factor_score" },
+        "M": { "$ref": "#/definitions/factor_score" }
+      }
+    },
+    "S": { "type": "number", "minimum": 0, "maximum": 10 },
+    "cross_checks": {
+      "type": "object",
+      "required": ["uplift_pp", "uplift_vs_A_consistent", "terminal_value", "no_proxy_confirmed", "pricing_model_deflation"],
+      "additionalProperties": false,
+      "properties": {
+        "uplift_pp": { "type": "number" },
+        "uplift_vs_A_consistent": { "type": "string", "minLength": 1 },
+        "terminal_value": {
+          "type": "object",
+          "required": ["class", "justification"],
+          "properties": {
+            "class": { "enum": ["DURABLE", "PRESSURED", "MELTING"] },
+            "justification": { "type": "string", "minLength": 1 }
+          }
+        },
+        "no_proxy_confirmed": { "type": "string", "minLength": 1 },
+        "pricing_model_deflation": { "type": "string", "minLength": 1 }
+      }
+    },
+    "confidence_overall": { "enum": ["HIGH", "MED", "LOW"] },
+    "heterogeneous": { "type": "boolean" },
+    "top_uncertain_inputs": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "required": ["input", "plausible_range", "score_impact"],
+        "properties": {
+          "input": { "type": "string" },
+          "plausible_range": { "type": "string" },
+          "score_impact": { "type": "string" }
+        }
+      },
+      "contains": {
+        "type": "object",
+        "properties": { "input": { "const": "t50_years" } },
+        "required": ["input"]
+      }
+    },
+    "reviewer_note": { "type": "string" }
+  },
+  "definitions": {
+    "quality": { "enum": ["HIGH", "MED", "LOW", "ESTIMATE"] },
+    "dataset_value": {
+      "type": "object",
+      "required": ["value", "derivation"],
+      "properties": {
+        "value": { "type": "number" },
+        "derivation": { "type": "string" }
+      }
+    },
+    "research_input": {
+      "type": "object",
+      "required": ["value", "source", "url", "figure_quoted", "access_date", "quality"],
+      "properties": {
+        "value": {},
+        "source": { "type": "string", "minLength": 1 },
+        "url": { "type": "string" },
+        "figure_quoted": { "type": "string" },
+        "access_date": { "type": "string", "format": "date" },
+        "quality": { "$ref": "#/definitions/quality" }
+      }
+    },
+    "judgment_input_unit": {
+      "type": "object",
+      "required": ["value", "rationale", "plausible_range", "sources", "quality"],
+      "properties": {
+        "value": { "type": "number", "minimum": 0, "maximum": 1 },
+        "rationale": { "type": "string", "minLength": 1 },
+        "plausible_range": { "type": "string", "minLength": 1 },
+        "sources": { "type": "array", "items": { "type": "string" } },
+        "quality": { "$ref": "#/definitions/quality" }
+      }
+    },
+    "factor_score": {
+      "type": "object",
+      "required": ["arithmetic", "score"],
+      "properties": {
+        "arithmetic": { "type": "string", "minLength": 1 },
+        "score": { "type": "number", "minimum": 0, "maximum": 10 }
+      }
+    }
+  }
+}
