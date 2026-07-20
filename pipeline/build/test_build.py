@@ -15,7 +15,6 @@ import unittest
 HERE = os.path.dirname(os.path.abspath(__file__))
 REPO = os.path.abspath(os.path.join(HERE, "..", ".."))
 FIXTURE = os.path.join(REPO, "pipeline", "runs", "541330", "2026-07-20_sonnet_tv3_fixture.json")
-REVIEW = os.path.join(REPO, "pipeline", "review", "541330.json")
 THRESHOLDS = os.path.join(HERE, "thresholds.json")
 SCHEMAS = os.path.join(HERE, "schemas")
 EXPECTATIONS = os.path.join(HERE, "deep_dive_expectations.json")
@@ -39,25 +38,85 @@ def expected_fixture_scores():
     return {"V": V, "C": C, "A": A, "B": B, "M": M, "S": S}
 
 
+def fixture_review(run_id="2026-07-20_sonnet_tv3_fixture", verdict="accepted",
+                   record=None, thresholds=None):
+    if record is None:
+        with open(FIXTURE) as f:
+            record = json.load(f)
+    if thresholds is None:
+        with open(THRESHOLDS) as f:
+            thresholds = json.load(f)
+    computed, _arithmetic_errors, deltas = build.recompute(record)
+    decision = build.decide(
+        computed["S"],
+        {name: computed[name] for name in "VCABM"},
+        record["cross_checks"]["terminal_value"]["class"],
+        record["confidence_overall"],
+        thresholds,
+    )
+    flags = build.record_flags(record, computed, decision, deltas)
+    passed = verdict == "accepted"
+    reasons = [] if passed else ["Re-research the cited value and replace the unsupported input."]
+    return {
+        "naics": "541330",
+        "run_id": run_id,
+        "review_meta": {
+            "model_id": "test-validator",
+            "review_date": "2026-07-20",
+            "prompt_version": "validator-test-v1",
+        },
+        "verdict": verdict,
+        "checks": {
+            name: {"pass": passed, "note": "Test fixture review note."}
+            for name in [
+                "sources_exist",
+                "figures_match_sources",
+                "judgment_inputs_plausible",
+                "rubric_consistent",
+                "cross_checks_honest",
+            ]
+        },
+        "source_audits": [
+            dict(
+                pair,
+                resolves=passed,
+                claim_supported=passed,
+                note="Test fixture source audit.",
+            )
+            for pair in build.source_audit_pairs(record)
+        ],
+        "reasons": reasons,
+        "flags_reviewed": flags,
+    }
+
+
 class BuildHarness(unittest.TestCase):
     def setUp(self):
         self.tmp = tempfile.mkdtemp(prefix="v3build_test_")
         self.addCleanup(shutil.rmtree, self.tmp)
 
-    def make_tree(self, name, record=None, thresholds=None):
+    def make_tree(self, name, record=None, thresholds=None, review=None):
         """Isolated runs/review/out tree; returns kwargs for build.run_build."""
         root = os.path.join(self.tmp, name)
         runs = os.path.join(root, "runs", "541330")
-        review = os.path.join(root, "review")
+        review_dir = os.path.join(root, "review")
         out = os.path.join(root, "out")
-        for d in (runs, review, out):
+        for d in (runs, review_dir, out):
             os.makedirs(d)
         if record is None:
             with open(FIXTURE) as f:
                 record = json.load(f)
         with open(os.path.join(runs, "2026-07-20_sonnet_tv3_fixture.json"), "w") as f:
             json.dump(record, f, indent=2)
-        shutil.copy(REVIEW, os.path.join(review, "541330.json"))
+        if review is None:
+            review = fixture_review(
+                record["run_meta"]["run_id"], record=record,
+                thresholds=thresholds,
+            )
+        review_naics_dir = os.path.join(review_dir, review["naics"])
+        os.makedirs(review_naics_dir)
+        with open(os.path.join(review_naics_dir, record["run_meta"]["run_id"] + ".json"), "w") as f:
+            json.dump(review, f, indent=2)
         th_path = os.path.join(root, "thresholds.json")
         if thresholds is None:
             shutil.copy(THRESHOLDS, th_path)
@@ -67,7 +126,7 @@ class BuildHarness(unittest.TestCase):
         return dict(
             repo_root=root,
             runs_dir=os.path.join(root, "runs"),
-            review_dir=review,
+            review_dir=review_dir,
             thresholds_path=th_path,
             schemas_dir=SCHEMAS,
             expectations_path=EXPECTATIONS,
@@ -143,6 +202,91 @@ class BuildHarness(unittest.TestCase):
             with open(cfg1[key], "rb") as f1, open(cfg2[key], "rb") as f2:
                 self.assertEqual(f1.read(), f2.read(),
                                  "output %s not byte-identical across builds" % key)
+
+    def test_review_must_match_exact_run_id(self):
+        """A review at the exact path with a different embedded run_id is invalid."""
+        review = fixture_review("different-run-id")
+        cfg = self.make_tree("review_run_mismatch", review=review)
+        result = build.run_build(**cfg)
+        self.assertFalse(result["ok"])
+        self.assertIn("does not match current run_id", "\n".join(result["errors"]))
+
+    def test_same_naics_multiple_reviews_selects_exact_run(self):
+        """Sibling reviews for the same NAICS do not override the exact-run review."""
+        cfg = self.make_tree("multiple_reviews")
+        sibling = fixture_review("older-run", verdict="wrong")
+        sibling_path = os.path.join(cfg["review_dir"], "541330", "older-run.json")
+        with open(sibling_path, "w") as f:
+            json.dump(sibling, f, indent=2)
+        result = build.run_build(**cfg)
+        self.assertTrue(result["ok"], result.get("errors"))
+        self.assertEqual(result["site"]["records"][0]["acceptance"]["status"], "accepted")
+        self.assertEqual(
+            result["site"]["records"][0]["acceptance"]["review"]["run_id"],
+            "2026-07-20_sonnet_tv3_fixture",
+        )
+
+    def test_accepted_review_with_failed_check_is_invalid(self):
+        """An accepted verdict cannot conceal a failed validator check."""
+        review = fixture_review()
+        review["checks"]["figures_match_sources"]["pass"] = False
+        cfg = self.make_tree("accepted_failed_check", review=review)
+        result = build.run_build(**cfg)
+        self.assertFalse(result["ok"])
+        self.assertIn(
+            "$.checks.figures_match_sources.pass: False != const True",
+            "\n".join(result["errors"]),
+        )
+
+    def test_accepted_review_with_failed_source_audit_is_invalid(self):
+        """Every source audit must resolve and support its claim before acceptance."""
+        review = fixture_review()
+        review["source_audits"][0]["claim_supported"] = False
+        cfg = self.make_tree("accepted_failed_source", review=review)
+        result = build.run_build(**cfg)
+        self.assertFalse(result["ok"])
+        self.assertIn(
+            "$.source_audits[0].claim_supported: False != const True",
+            "\n".join(result["errors"]),
+        )
+
+    def test_accepted_review_with_incomplete_source_coverage_is_invalid(self):
+        """An accepted review cannot omit a citation found in the run record."""
+        review = fixture_review()
+        review["source_audits"].pop()
+        cfg = self.make_tree("accepted_incomplete_sources", review=review)
+        result = build.run_build(**cfg)
+        self.assertFalse(result["ok"])
+        self.assertIn("source_audits coverage mismatch", "\n".join(result["errors"]))
+
+    def test_accepted_review_with_incomplete_flag_coverage_is_invalid(self):
+        """An accepted review must address every deterministic Stage-4 flag."""
+        with open(FIXTURE) as f:
+            record = json.load(f)
+        record["confidence_overall"] = "LOW"
+        review = fixture_review(record=record)
+        review["flags_reviewed"] = []
+        cfg = self.make_tree("accepted_incomplete_flags", record=record, review=review)
+        result = build.run_build(**cfg)
+        self.assertFalse(result["ok"])
+        self.assertIn("flags_reviewed coverage mismatch", "\n".join(result["errors"]))
+
+    def test_wrong_review_may_have_no_source_audits(self):
+        """A no-citation record can be rejected without fabricating an audit entry."""
+        review = fixture_review(verdict="wrong")
+        review["source_audits"] = []
+        with open(os.path.join(SCHEMAS, "review_record.schema.json")) as f:
+            schema = json.load(f)
+        self.assertEqual(build.schema_errors(review, schema, schema), [])
+
+    def test_accepted_review_requires_source_audit(self):
+        """Acceptance requires positive evidence from at least one audited source."""
+        review = fixture_review()
+        review["source_audits"] = []
+        cfg = self.make_tree("accepted_no_sources", review=review)
+        result = build.run_build(**cfg)
+        self.assertFalse(result["ok"])
+        self.assertIn("$.source_audits: fewer than minItems 1", "\n".join(result["errors"]))
 
 
 class VerdictEngine(unittest.TestCase):

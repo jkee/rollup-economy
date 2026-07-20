@@ -40,27 +40,28 @@ Sequencing has two deliberate inversions: the build/check script (Phase 2) is bu
 - [x] 2.1 Build script: schema validation → arithmetic recompute from inputs (**hard fail on any mismatch**) → S, gates, verdicts, borderline flags, percentile context → generate `6digit/six_data_v3.json` (v2 `six_data.json` stays archived) + `pipeline/build/stats.json` for README/methodology numbers. `pipeline/build/build.py`, stdlib-only, accepted-review filter with `--allow-unreviewed` for the pilot. Note: schemas + template bumped 3.0.1 (machine-readable `succession_shortage_documented` inside `owners_60plus_pct` — clarification only, no rubric change; needs human sign-off)
 - [x] 2.2 Deep-dive reconciliation report: `pipeline/build/reconciliation.md` generated from `pipeline/build/deep_dive_expectations.json` (stances + quotes extracted from `deep-dives/*.html`, human-curated-pending-review)
 - [x] 2.3 Per-record flag list for the validator → `pipeline/build/flags.json` (LOW confidence, borderline, gate_blocked, uplift-vs-A tension, ESTIMATE-heavy, within-tolerance arithmetic deltas)
-- [x] 2.4 Regression fixture: 541330 adapted to the v3 schema (`pipeline/runs/541330/2026-07-20_sonnet_tv3_fixture.json`, scores recomputed with v3 float formulas: V 7.12 / C 3.03 / A 3.33 / B 8.01 / M 4.0 → S 4.70, conditional) + bootstrap acceptance in `pipeline/review/541330.json`; permanent tests in `pipeline/build/test_build.py` (fixture passes, corruption fails, threshold coupling, determinism)
+- [x] 2.4 Regression fixture: 541330 adapted to the v3 schema (`pipeline/runs/541330/2026-07-20_sonnet_tv3_fixture.json`, scores recomputed with v3 float formulas: V 7.12 / C 3.03 / A 3.33 / B 8.01 / M 4.0 → S 4.70, conditional) + a temporary bootstrap acceptance in `pipeline/review/541330.json` to exercise the filter; the production bootstrap was removed before the Phase-4 validator canary. Permanent tests in `pipeline/build/test_build.py` cover fixture success, corruption failure, threshold coupling and determinism.
 
 **Deliverable:** one-command deterministic build. **Done when:** fixture passes; intentionally corrupted arithmetic fails the build.
 
 ## Phase 3 — Prompt generation (Stage 2) · ~½ day for sector 54
 
-- [x] 3.1 Meta-prompt for the best model producing per-code blocks — `pipeline/template/blocks_meta_prompt_v3.md` + deterministic `pipeline/build/assemble_prompts.py` (validates shape, placeholders, byte-determinism) + `pipeline/blocks/targets_phase3.json` (63 codes: 49× sector 54 + 14 non-54 golden). **Null-handling rule (from the phase 1–2 review):** when a dataset input is `null` (84 labor_share, 181 n_band data gaps), the generated prompt must instruct the run to research that input itself, show the chain, and mark it ESTIMATE — a documented exception to "dataset inputs are never researched"
-- [x] 3.2 63 blocks written by 5 parallel best-model agents (golden codes with extra rigor; dataset oddities encoded in special_notes; unverified sources flagged `uncertain_exists`) → assembled + validated: 63/63 prompts in `pipeline/prompts/`, `--check` green, runtime placeholders intact
+- [x] 3.1 Meta-prompt for Sol producing per-code blocks — `pipeline/template/blocks_meta_prompt_v3.md` + deterministic `pipeline/build/assemble_prompts.py` (validates shape, placeholders, byte-determinism) + `pipeline/blocks/targets_phase3.json` (63 codes: 49× sector 54 + 14 non-54 golden). **Null-handling rule (from the phase 1–2 review):** when a dataset input is `null` (84 labor_share, 181 n_band data gaps), the generated prompt must instruct the run to research that input itself, show the chain, and mark it ESTIMATE — a documented exception to "dataset inputs are never researched"
+- [x] 3.2 63 blocks written by 5 parallel Sol agents (golden codes with extra rigor; dataset oddities encoded in special_notes; unverified sources flagged `uncertain_exists`) → assembled + validated: 63/63 prompts in `pipeline/prompts/`, `--check` green, runtime placeholders intact
 
 **Deliverable:** v3 prompts for sector 54. **Done when:** each prompt validates against the template (all placeholders filled, dataset inputs present).
 
 ## Phase 4 — Pilot: sector 54 + golden set (Stages 3 + 5) · ~1–2 days incl. iteration
 
 - [x] 4.1 Fleet runs done via in-session agents (not API batch — deferred to Phase 6): 63/63 codes validated (schema + arithmetic recompute), verdicts 7 conditional / 27 pass / 29 kill / 0 green, 20 borderline. **Incident log:** first wave (3-codes-per-agent briefs) collapsed into delegation cascades + a platform outage → 0 usable records; fixed with single-author 2-code briefs + mandatory real-validator self-check loop → 63/63 clean ("s2" runs). Lesson encoded for Phase 6: one API call per code, validator-in-the-loop
-- [x] 4.2 Golden-set runs (20, Fable) in `pipeline/golden/` — separation PASS (`golden_analysis.py`); all 20 codes also have Sonnet fleet runs as the benchmark. Observed: tight cross-model agreement on structure/mechanisms; divergence concentrated in t50 and multiples; 2 terminal-class boundary disagreements (541930 translation, 561492 court reporting) + payer-clawback C-vs-T ambiguity (healthcare codes) — template clarification candidates
-- [ ] 4.3 **DEFERRED by decision 2026-07-20** — validator pass not run (it is ~50% of Phase-4 cost, Fable × 83 records). Open decision when resumed: full-Fable on all 83 vs risk-tiered depth (Fable for conditional/borderline/LOW-conf/golden ≈ 30 records; Sonnet pre-screen with escalation for deep-kill rest)
+- [x] 4.2 Golden-set runs (20, Sol) in `pipeline/golden/` — separation PASS (`golden_analysis.py`); all 20 codes also have GPT-5.5 fleet runs as the benchmark. Observed: tight cross-model agreement on structure/mechanisms; divergence concentrated in t50 and multiples; 2 terminal-class boundary disagreements (541930 translation, 561492 court reporting) + payer-clawback C-vs-T ambiguity (healthcare codes) — template clarification candidates
+- [~] 4.3 **RESOLVED 2026-07-20, in progress** — full-depth Sol validator pass over all 83 records, with no risk-tiering: 63 fleet records plus 20 separate golden reference records. Every URL anywhere in each record and every quoted figure is audited; judgment inputs, rubric consistency, dataset agreement and cross-check honesty are reviewed; every Stage-4 flag is addressed. Reviews are run-scoped at `pipeline/review/<naics>/<run-id>.json`. The Phase-2 production bootstrap was removed before the validator canary.
 - [ ] 4.4 `wrong` records re-run with critique attached (blocked on 4.3)
 - [ ] 4.5 Judge pilot vs frozen pass criteria (partially done: golden separation PASS, zero arithmetic mismatches across all 83 records; acceptance-rate criterion blocked on 4.3):
-  - golden set separates: known winners above known melters; melters caught by the T gate
+  - golden gate passes both `python3 pipeline/build/review_campaign.py validate` (all exact-run reviews and campaign invariants) and `python3 pipeline/build/golden_analysis.py` (known winners above known melters; melters caught by the T gate)
   - zero arithmetic mismatches in the build
-  - acceptance rate and source-quality distribution within the frozen targets
+  - all 83 current records accepted after remediation, with zero unresolved citation/check failures
+  - initial acceptance rate and source-quality distribution reported as diagnostics; no post-hoc percentage target is invented after seeing the records
 - [ ] 4.6 If the **instrument** fails: fix template → bump to v3.1 → re-freeze → re-run pilot. Never hand-fix records.
 
 **Deliverable:** accepted run records for sector 54 + golden set. **Done when:** 4.5 criteria all pass.
@@ -78,7 +79,7 @@ Sequencing has two deliberate inversions: the build/check script (Phase 2) is bu
 ## Phase 6 — Full run (1,012 codes) · ~2–3 days elapsed, mostly batch waiting
 
 - [ ] 6.1 Prompt generation for all codes, batched by sector
-- [ ] 6.2 Sonnet run fleet via API batch; per-sector cost + acceptance-rate tracking
+- [ ] 6.2 GPT-5.5 run fleet via API batch; per-sector cost + acceptance-rate tracking
 - [ ] 6.3 Validator pass over every record; `wrong` → re-run loop until the queue drains
 - [ ] 6.4 Final build, publish; deep-dive reconciliation reviewed
 - [ ] 6.5 Archive/remove v1 & v2 per decision 0.3; stale-input refresh cadence noted in README (market inputs ~12 months)
@@ -91,8 +92,8 @@ Sequencing has two deliberate inversions: the build/check script (Phase 2) is bu
 
 | Item | Estimate |
 |---|---|
-| Sonnet run fleet, 1,012 codes × ~80K tokens | low hundreds of $ |
-| Best model: prompt gen + validator × 1,012 + ~20 golden runs | comparable to or somewhat above the fleet; total likely < $1K |
+| GPT-5.5 run fleet, 1,012 codes × observed token mix | Recalculate after the validator canary; standard API is $5/M input + $30/M output, with GPT-5.5 Batch/Flex at half the standard rate |
+| Sol: prompt gen + full-depth validator × 1,012 + ~20 golden runs | Recalculate from measured input, cached-input, output/reasoning tokens and web calls; Sol standard pricing matches GPT-5.5 standard pricing, so the old ~5× premise is false |
 | Calendar | ~2–3 weeks part-time; Phases 0–2 week 1, 3–4 week 2, 5–6 week 3 |
 
 **Critical path:** 0.3 decisions → 0.7 freeze → 1.x datasets → 3.x prompts → 4.x pilot → 6.x full run. Phases 2 and 5 hang off the critical path and can run in parallel with their neighbors.

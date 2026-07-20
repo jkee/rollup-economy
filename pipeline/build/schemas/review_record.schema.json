@@ -3,18 +3,19 @@
   "$id": "review_record.schema.json",
   "title": "v3 review record — validator verdict on one run record (Stage 5, P10)",
   "type": "object",
-  "required": ["naics", "run_id", "review_meta", "verdict", "checks", "reasons", "flags_reviewed"],
+  "required": ["naics", "run_id", "review_meta", "verdict", "checks", "source_audits", "reasons", "flags_reviewed"],
   "additionalProperties": false,
   "properties": {
     "naics": { "type": "string", "pattern": "^[0-9]{6}$" },
     "run_id": { "type": "string" },
     "review_meta": {
       "type": "object",
-      "required": ["model_id", "review_date"],
+      "required": ["model_id", "review_date", "prompt_version"],
       "additionalProperties": false,
       "properties": {
-        "model_id": { "type": "string" },
-        "review_date": { "type": "string", "format": "date" }
+        "model_id": { "type": "string", "minLength": 1 },
+        "review_date": { "type": "string", "format": "date" },
+        "prompt_version": { "type": "string", "minLength": 1 }
       }
     },
     "verdict": { "enum": ["accepted", "wrong"] },
@@ -32,8 +33,13 @@
     },
     "reasons": {
       "type": "array",
-      "items": { "type": "string" },
+      "items": { "type": "string", "minLength": 10 },
       "description": "Required non-empty when verdict is 'wrong': specific, actionable critique attached to the re-run."
+    },
+    "source_audits": {
+      "type": "array",
+      "items": { "$ref": "#/definitions/source_audit" },
+      "description": "One entry per URL-bearing citation in the reviewed run record."
     },
     "flags_reviewed": {
       "type": "array",
@@ -43,13 +49,49 @@
   },
   "if": { "properties": { "verdict": { "const": "wrong" } } },
   "then": { "properties": { "reasons": { "minItems": 1 } } },
+  "else": {
+    "properties": {
+      "reasons": { "maxItems": 0 },
+      "checks": {
+        "properties": {
+          "sources_exist": { "properties": { "pass": { "const": true } } },
+          "figures_match_sources": { "properties": { "pass": { "const": true } } },
+          "judgment_inputs_plausible": { "properties": { "pass": { "const": true } } },
+          "rubric_consistent": { "properties": { "pass": { "const": true } } },
+          "cross_checks_honest": { "properties": { "pass": { "const": true } } }
+        }
+      },
+      "source_audits": {
+        "minItems": 1,
+        "items": {
+          "properties": {
+            "resolves": { "const": true },
+            "claim_supported": { "const": true }
+          }
+        }
+      }
+    }
+  },
   "definitions": {
     "check": {
       "type": "object",
       "required": ["pass", "note"],
+      "additionalProperties": false,
       "properties": {
         "pass": { "type": "boolean" },
-        "note": { "type": "string" }
+        "note": { "type": "string", "minLength": 1 }
+      }
+    },
+    "source_audit": {
+      "type": "object",
+      "required": ["input_path", "url", "resolves", "claim_supported", "note"],
+      "additionalProperties": false,
+      "properties": {
+        "input_path": { "type": "string", "minLength": 1 },
+        "url": { "type": "string", "pattern": "^https?://", "minLength": 1 },
+        "resolves": { "type": "boolean" },
+        "claim_supported": { "type": "boolean" },
+        "note": { "type": "string", "minLength": 1 }
       }
     }
   }

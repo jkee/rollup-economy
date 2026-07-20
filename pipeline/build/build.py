@@ -8,7 +8,7 @@ Deterministic, stdlib-only, no model calls. Per run record in pipeline/runs/:
   3. verdicts / gates / caps / borderline / percentile from thresholds.json
      (every cut, gate and cap is read from that file — nothing hardcoded)
   4. acceptance filter: publish only codes with an accepted review record in
-     pipeline/review/<naics>.json (--allow-unreviewed publishes pending too)
+     pipeline/review/<naics>/<run-id>.json (--allow-unreviewed publishes pending too)
   5. outputs: 6digit/six_data_v3.json, pipeline/build/stats.json,
      pipeline/build/flags.json, pipeline/build/reconciliation.md
 
@@ -54,14 +54,15 @@ SECTOR_NAMES = {
 }
 
 CONF_RANK = {"LOW": 0, "MED": 1, "HIGH": 2}
+URL_RE = re.compile(r"https?://[^\s<>\"']+")
 
 
 # ---------------------------------------------------------------------------
 # Minimal JSON-Schema (draft-07 subset) validator — jsonschema is unavailable
 # in this environment (PEP 668). Covers everything our two schemas use:
 # type, required, properties, additionalProperties, enum, const, pattern,
-# minLength, minimum/maximum/exclusiveMinimum, minItems, items, contains,
-# $ref (#/definitions/...), if/then. "format" is annotation-only (as in
+# minLength, minimum/maximum/exclusiveMinimum, minItems/maxItems, items,
+# contains, $ref (#/definitions/...), if/then/else. "format" is annotation-only (as in
 # draft-07 default) and is ignored.
 # ---------------------------------------------------------------------------
 
@@ -137,6 +138,8 @@ def schema_errors(value, schema, root, path="$"):
     if isinstance(value, list):
         if "minItems" in schema and len(value) < schema["minItems"]:
             errs.append("%s: fewer than minItems %d" % (path, schema["minItems"]))
+        if "maxItems" in schema and len(value) > schema["maxItems"]:
+            errs.append("%s: more than maxItems %d" % (path, schema["maxItems"]))
         if "items" in schema:
             for i, item in enumerate(value):
                 errs.extend(schema_errors(item, schema["items"], root, "%s[%d]" % (path, i)))
@@ -144,9 +147,12 @@ def schema_errors(value, schema, root, path="$"):
             if not any(not schema_errors(item, schema["contains"], root, path) for item in value):
                 errs.append("%s: no item satisfies 'contains' %s" % (path, json.dumps(schema["contains"])))
 
-    if "if" in schema and "then" in schema:
-        if not schema_errors(value, schema["if"], root, path):
+    if "if" in schema:
+        condition_matches = not schema_errors(value, schema["if"], root, path)
+        if condition_matches and "then" in schema:
             errs.extend(schema_errors(value, schema["then"], root, path))
+        elif not condition_matches and "else" in schema:
+            errs.extend(schema_errors(value, schema["else"], root, path))
 
     return errs
 
@@ -293,6 +299,39 @@ def load_json(path):
         return json.load(f)
 
 
+def _trim_embedded_url(url):
+    """Remove prose punctuation while preserving balanced URL parentheses."""
+    url = url.rstrip(".,;:]}")
+    while url.endswith(")") and url.count(")") > url.count("("):
+        url = url[:-1]
+    return url
+
+
+def source_audit_pairs(record):
+    """Return every distinct (JSON path, HTTP(S) URL) citation in a record."""
+    found = set()
+
+    def walk(value, path):
+        if isinstance(value, dict):
+            for key in sorted(value):
+                child_path = "%s.%s" % (path, key) if path else key
+                walk(value[key], child_path)
+        elif isinstance(value, list):
+            for index, item in enumerate(value):
+                walk(item, "%s[%d]" % (path, index))
+        elif isinstance(value, str):
+            for match in URL_RE.findall(value):
+                url = _trim_embedded_url(match)
+                if url:
+                    found.add((path, url))
+
+    walk(record, "")
+    return [
+        {"input_path": path, "url": url}
+        for path, url in sorted(found, key=lambda pair: (pair[0], pair[1]))
+    ]
+
+
 def discover_runs(runs_dir):
     """Latest v3 run record per code (by run_date, then run_id).
 
@@ -324,29 +363,76 @@ def discover_runs(runs_dir):
     return records, legacy
 
 
-def acceptance_status(naics, rec, review_dir, review_schema):
+def acceptance_status(naics, rec, review_dir, review_schema,
+                      expected_source_audits, expected_flags):
     """Return (status, review_summary, errors). status: accepted|pending|rejected."""
-    path = os.path.join(review_dir, naics + ".json")
+    run_id = rec["run_meta"]["run_id"]
+    if (not run_id or os.path.basename(run_id) != run_id
+            or os.path.sep in run_id
+            or (os.path.altsep and os.path.altsep in run_id)):
+        return "pending", {"note": "unsafe run_id cannot be mapped to a review file"}, [
+            "%s (review): unsafe run_id %r" % (naics, run_id)
+        ]
+    path = os.path.join(review_dir, naics, run_id + ".json")
     if not os.path.isfile(path):
-        return "pending", {"note": "no review record"}, []
+        return "pending", {"note": "no review record for run_id %r" % run_id}, []
     review = load_json(path)
     errs = ["%s (review): %s" % (naics, e)
             for e in schema_errors(review, review_schema, review_schema)]
+    if review.get("naics") != naics:
+        errs.append("%s (review): review naics %r does not match directory %r"
+                    % (naics, review.get("naics"), naics))
+    if review.get("run_id") != run_id:
+        errs.append("%s (review): review run_id %r does not match current run_id %r"
+                    % (naics, review.get("run_id"), run_id))
+    raw_audits = review.get("source_audits", [])
+    if not isinstance(raw_audits, list):
+        raw_audits = []
+    actual_audits = [
+        (audit.get("input_path"), audit.get("url"))
+        for audit in raw_audits
+        if isinstance(audit, dict)
+    ]
+    expected_audits = {
+        (audit["input_path"], audit["url"])
+        for audit in expected_source_audits
+    }
+    actual_audit_set = set(actual_audits)
+    if len(actual_audits) != len(actual_audit_set):
+        errs.append("%s (review): source_audits contains duplicate input_path/url pairs"
+                    % naics)
+    if actual_audit_set != expected_audits:
+        errs.append("%s (review): source_audits coverage mismatch: missing=%s unexpected=%s"
+                    % (naics,
+                       sorted(expected_audits - actual_audit_set),
+                       sorted(actual_audit_set - expected_audits)))
+    raw_flags = review.get("flags_reviewed", [])
+    if not isinstance(raw_flags, list):
+        raw_flags = []
+    actual_flag_set = set(raw_flags) if all(
+        isinstance(flag, str) for flag in raw_flags
+    ) else set()
+    expected_flag_set = set(expected_flags)
+    if len(raw_flags) != len(actual_flag_set):
+        errs.append("%s (review): flags_reviewed contains duplicate or invalid flags"
+                    % naics)
+    if actual_flag_set != expected_flag_set:
+        errs.append("%s (review): flags_reviewed coverage mismatch: missing=%s unexpected=%s"
+                    % (naics,
+                       sorted(expected_flag_set - actual_flag_set),
+                       sorted(actual_flag_set - expected_flag_set)))
     if errs:
         return "pending", {"note": "invalid review record"}, errs
     summary = {
         "run_id": review["run_id"],
         "model_id": review["review_meta"]["model_id"],
         "review_date": review["review_meta"]["review_date"],
+        "prompt_version": review["review_meta"]["prompt_version"],
         "verdict": review["verdict"],
     }
     if review["verdict"] == "wrong":
         summary["reasons"] = review["reasons"]
         return "rejected", summary, []
-    if review["run_id"] != rec["run_meta"]["run_id"]:
-        summary["note"] = ("stale review: reviewed run_id %r != current run_id %r"
-                           % (review["run_id"], rec["run_meta"]["run_id"]))
-        return "pending", summary, []
     return "accepted", summary, []
 
 
@@ -427,11 +513,16 @@ def run_build(repo_root, allow_unreviewed=False, runs_dir=None, review_dir=None,
         decision = decide(computed["S"], factors,
                           rec["cross_checks"]["terminal_value"]["class"],
                           rec["confidence_overall"], th)
+        flags = record_flags(rec, computed, decision, deltas)
         # 4. acceptance
-        status, review_summary, review_errs = acceptance_status(naics, rec, review_dir, review_schema)
+        status, review_summary, review_errs = acceptance_status(
+            naics, rec, review_dir, review_schema,
+            source_audit_pairs(rec), flags,
+        )
         errors.extend(review_errs)
         built[naics] = {"rec": rec, "computed": computed, "decision": decision,
-                        "deltas": deltas, "acceptance": status, "review": review_summary}
+                        "deltas": deltas, "flags": flags,
+                        "acceptance": status, "review": review_summary}
 
     if errors:
         return {"ok": False, "errors": errors}
@@ -451,7 +542,7 @@ def run_build(repo_root, allow_unreviewed=False, runs_dir=None, review_dir=None,
     for naics in sorted(built):
         b = built[naics]
         rec, computed, decision = b["rec"], b["computed"], b["decision"]
-        flags = record_flags(rec, computed, decision, b["deltas"])
+        flags = b["flags"]
         flag_records.append({"naics": naics, "run_id": rec["run_meta"]["run_id"],
                              "verdict": decision["verdict"], "acceptance": b["acceptance"],
                              "flags": flags})
