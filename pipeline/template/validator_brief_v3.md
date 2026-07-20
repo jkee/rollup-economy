@@ -54,6 +54,17 @@ B. Full citation audit — no sampling
   terminal-value evidence, sensitivity evidence, cross-checks and any researched dataset
   fallback. Every occurrence must be audited; a repeated URL at a different JSON path
   receives its own source_audits entry.
+- Before browsing, print the exact canonical input_path/URL pairs with this command,
+  substituting the assigned record path. Use those input_path strings verbatim: they
+  begin with the top-level field name (for example inputs.buy_mult.url), with no `$`
+  or `$.` prefix.
+
+  python3 -c "
+  import importlib.util, json
+  spec = importlib.util.spec_from_file_location('build', 'pipeline/build/build.py')
+  b = importlib.util.module_from_spec(spec); spec.loader.exec_module(b)
+  rec = json.load(open('<assigned_record_path>'))
+  print(json.dumps(b.source_audit_pairs(rec), indent=2))"
 - Open every cited URL. Determine whether it resolves to the cited source and whether the
   accessible content supports the record's quoted figure or claim in context.
 - Treat search-result snippets, unrelated landing pages, title-only matches, inaccessible

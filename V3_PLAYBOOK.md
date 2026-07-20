@@ -39,7 +39,7 @@ Observed GPT-5.5-vs-Sol behavior on the 20 shared benchmark codes: **structure a
 | 1 research run (1 code) | GPT-5.5 | ~50–60K | inherited per-unit burn from the pilot; single-author s2 runs, including web research + self-validation |
 | 1 golden run (1 code) | Sol | ~50–55K | inherited per-unit burn from the pilot; same shape as fleet run |
 | 1 prompt block (1 code) | Sol | ~8–9K | inherited per-unit burn; 13 blocks ≈ 110K per writer agent |
-| 1 acceptance review (1 record) | Sol | ~25–35K **(estimate)** | not yet measured; source-verification web fetches may dominate |
+| 1 acceptance review (1 record) | Sol | token split unavailable; **10–12.5 min observed** | two-record canary: 20 URL/path audits, ~8 live-web calls, 20–25 min total |
 | Build / datasets / analysis | — | ~0 | Python, seconds |
 
 Current standard API pricing is the same for both selected models: **Sol = GPT-5.5 = $5/M input + $30/M output**. GPT-5.5 Batch/Flex is half the standard rate. Therefore the inherited **best ≈ 5× cheap per-token premise is false**: the relevant price ratio is 1× at standard rates, or about 2× when fleet work uses GPT-5.5 Batch/Flex. Total-token comparisons are still insufficient because input, cached input, output/reasoning tokens and web calls have different cost effects.
@@ -49,8 +49,8 @@ Current standard API pricing is the same for both selected models: **Sol = GPT-5
 **Phase-6 extrapolation (1,012 codes, order-of-magnitude):**
 - Fleet: 1,012 × ~55K ≈ 55M GPT-5.5 total tokens
 - Prompt-gen: 1,012 × ~9K ≈ 9M Sol total tokens
-- Validator: 1,012 × ~30K ≈ 30M Sol total tokens; full depth is fixed policy, not a cost-tiering option
-- The first two-record validator canary must capture input tokens, cached-input tokens, output/reasoning tokens, web-call count and elapsed time per record. Replace the blended estimates and extrapolate Phase 6 from that measured mix before the next wave.
+- Validator token extrapolation remains TBD because the sub-agent interface did not expose input/cached/output/reasoning token splits. Full depth is fixed policy, not a cost-tiering option.
+- **First validator canary observed:** two records, 20 URL/path occurrences, approximately 8 live-web calls and 20–25 minutes elapsed (10–12.5 minutes per record). Both records were `wrong`; 18/20 citation occurrences failed claim support. The next API-instrumented canary must capture input, cached-input and output/reasoning token splits before a dollar extrapolation is stated.
 
 ## 4. Runner brief — the canonical contract (Stage 3)
 
