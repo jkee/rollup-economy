@@ -100,6 +100,10 @@ def selection_items(draft):
             continue
         if name == "owners_60plus_pct":
             yield "inputs.owners_60plus_pct.selection", value.get("selection", {})
+            yield (
+                "inputs.owners_60plus_pct.succession_shortage_documented",
+                value.get("succession_shortage_documented", {}),
+            )
         else:
             yield "inputs.%s" % name, value
 
@@ -115,6 +119,11 @@ def final_selection_items(record):
     for name, value in record.get("inputs", {}).items():
         if name != "ai_replaceable_share":
             yield "inputs.%s" % name, value
+            if name == "owners_60plus_pct":
+                yield (
+                    "inputs.owners_60plus_pct.succession_shortage_documented",
+                    value.get("succession_shortage_documented", {}),
+                )
 
 
 def _fact_reference_errors(path, packet, fact_ids):
@@ -130,6 +139,27 @@ def _fact_reference_errors(path, packet, fact_ids):
         errors.append("%s: fact_ids is non-empty but evidence_quality is NONE" % path)
     if not refs and quality != "NONE":
         errors.append("%s: empty fact_ids requires evidence_quality NONE" % path)
+    return errors
+
+
+def _estimate_basis_errors(path, packet):
+    errors = []
+    basis = packet.get("estimate_basis")
+    if not isinstance(basis, dict):
+        return ["%s: ESTIMATE requires structured estimate_basis" % path]
+    starting = basis.get("starting_fact_ids", [])
+    if len(starting) != len(set(starting)):
+        errors.append("%s.estimate_basis.starting_fact_ids contains duplicates" % path)
+    selected = packet.get("fact_ids", [])
+    if set(starting) != set(selected):
+        errors.append(
+            "%s.estimate_basis.starting_fact_ids must match fact_ids exactly: missing=%s unexpected=%s"
+            % (
+                path,
+                sorted(set(selected) - set(starting)),
+                sorted(set(starting) - set(selected)),
+            )
+        )
     return errors
 
 
@@ -188,6 +218,8 @@ def _selection_method_errors(path, selection):
             errors.append("%s: ESTIMATE forbids observed_value and calculation" % path)
         if not estimate_present:
             errors.append("%s: ESTIMATE requires estimate_basis" % path)
+        else:
+            errors.extend(_estimate_basis_errors(path, selection))
     else:
         errors.append("%s: unsupported method %r" % (path, method))
     return errors
@@ -264,12 +296,24 @@ def semantic_errors(draft):
     for path, selection in selection_items(draft):
         errors.extend(_fact_reference_errors(path, selection, fact_ids))
         errors.extend(_selection_method_errors(path, selection))
+        if (
+            path.endswith("succession_shortage_documented")
+            and selection.get("value") is True
+            and selection.get("method") != "OBSERVED"
+        ):
+            errors.append(
+                "%s: value=true requires OBSERVED with a directly verified fact"
+                % path
+            )
 
     role_packet = draft.get("inputs", {}).get("ai_replaceable_share", {})
     errors.extend(
         _fact_reference_errors(
             "inputs.ai_replaceable_share", role_packet, fact_ids
         )
+    )
+    errors.extend(
+        _estimate_basis_errors("inputs.ai_replaceable_share", role_packet)
     )
     errors.extend(_market_boundary_errors(draft))
     return errors
@@ -292,10 +336,22 @@ def final_record_semantic_errors(record):
                 "%s.provenance_type %r does not match Python mapping %r"
                 % (path, selection.get("provenance_type"), expected)
             )
+        if (
+            path.endswith("succession_shortage_documented")
+            and selection.get("value") is True
+            and selection.get("method") != "OBSERVED"
+        ):
+            errors.append(
+                "%s: value=true requires OBSERVED with a directly verified fact"
+                % path
+            )
 
     role_packet = record.get("inputs", {}).get("ai_replaceable_share", {})
     errors.extend(
         _fact_reference_errors("inputs.ai_replaceable_share", role_packet, fact_ids)
+    )
+    errors.extend(
+        _estimate_basis_errors("inputs.ai_replaceable_share", role_packet)
     )
     if role_packet.get("method") != "ESTIMATE":
         errors.append("inputs.ai_replaceable_share.method must be ESTIMATE")

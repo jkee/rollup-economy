@@ -98,6 +98,19 @@ def _campaign_entry(repo_root, kind, path, record, thresholds):
             "%s has unsupported template_version %r; supported versions are %s"
             % (path, template_version, ", ".join(build.SUPPORTED_TEMPLATE_VERSIONS))
         )
+    if template_version == "3.1.1":
+        required_research_model = {
+            "fleet": "gpt-5.6-terra",
+            "golden": "gpt-5.6-sol",
+        }.get(kind)
+        actual_research_model = record.get("run_meta", {}).get("model_id")
+        if required_research_model is None:
+            raise ValueError("unsupported v3.1.1 campaign kind %r" % kind)
+        if actual_research_model != required_research_model:
+            raise ValueError(
+                "%s v3.1.1 model_id %r does not match required %r"
+                % (kind, actual_research_model, required_research_model)
+            )
     schema_name = schema_names[template_version]
     run_schema = load_json(os.path.join(
         repo_root, "pipeline", "build", "schemas", schema_name
@@ -165,6 +178,9 @@ def _campaign_entry(repo_root, kind, path, record, thresholds):
         entry["required_validator_prompt_version"] = required_validator_prompts[
             template_version
         ]
+    if template_version == "3.1.1":
+        entry["required_research_model_id"] = required_research_model
+        entry["required_validator_model_id"] = "gpt-5.6-sol"
     return entry
 
 
@@ -278,6 +294,13 @@ def review_semantic_errors(review, entry):
         errors.append(
             "review prompt_version %r != required %r"
             % (actual_prompt_version, required_prompt_version)
+        )
+    required_model_id = entry.get("required_validator_model_id")
+    actual_model_id = review.get("review_meta", {}).get("model_id")
+    if required_model_id is not None and actual_model_id != required_model_id:
+        errors.append(
+            "review model_id %r != required %r"
+            % (actual_model_id, required_model_id)
         )
 
     expected_audits = {

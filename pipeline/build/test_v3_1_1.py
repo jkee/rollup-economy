@@ -4,6 +4,7 @@
 These tests do not read, write or rerun a production industry record.
 """
 
+import copy
 import importlib.util
 import json
 import math
@@ -55,7 +56,12 @@ def estimate(value):
         "fact_ids": [],
         "rationale": "Synthetic bounded judgment.",
         "plausible_range": "Synthetic bounded range.",
-        "estimate_basis": "Explicit synthetic judgment; no direct selected-value source.",
+        "estimate_basis": {
+            "starting_fact_ids": [],
+            "scope_mismatches": ["none; no source fact is used"],
+            "bridge_steps": ["Use the stated synthetic fixture assumptions."],
+            "judgment_step": "Select the bounded synthetic value by explicit judgment.",
+        },
     }
 
 
@@ -132,7 +138,7 @@ def draft():
         "naics": "999999",
         "title": "Synthetic Industry",
         "run_meta": {
-            "model_id": "synthetic-model",
+            "model_id": "gpt-5.6-terra",
             "run_date": "2026-07-21",
             "run_id": "synthetic-v311-s1-999999",
             "template_version": "3.1.1",
@@ -167,7 +173,12 @@ def draft():
                 ],
                 "evidence_quality": "NONE",
                 "fact_ids": [],
-                "estimate_basis": "Explicit task-level estimates.",
+                "estimate_basis": {
+                    "starting_fact_ids": [],
+                    "scope_mismatches": ["none; no source fact is used"],
+                    "bridge_steps": ["Judge each supplied role's task mix."],
+                    "judgment_step": "Select each bounded role fraction by explicit judgment.",
+                },
             },
             "pi_dist": estimate(0.5),
             "pi_moat": estimate(0.5),
@@ -176,10 +187,7 @@ def draft():
             "historical_analogs": estimate("Synthetic gradual analog"),
             "owners_60plus_pct": {
                 "selection": owner,
-                "succession_shortage_documented": {
-                    "value": False,
-                    "evidence": "No documented shortage in this synthetic fixture.",
-                },
+                "succession_shortage_documented": estimate(False),
             },
             "active_consolidators": estimate(2),
             "buy_mult": estimate(4.0),
@@ -278,6 +286,53 @@ class V311BoundaryTests(unittest.TestCase):
         self.assertIn("ellipses are forbidden", "\n".join(contract.semantic_errors(source)))
         source["evidence_facts"][0]["quote"] = "Thirty percent . . . report use."
         self.assertIn("ellipses are forbidden", "\n".join(contract.semantic_errors(source)))
+        source["evidence_facts"][0]["quote"] = "Thirty percent … report use."
+        self.assertIn("ellipses are forbidden", "\n".join(contract.semantic_errors(source)))
+
+    def test_exact_research_model_ids_are_fail_closed(self):
+        source = draft()
+        source["run_meta"]["model_id"] = "Terra"
+        self.assertIn("not one of", "\n".join(self.schema_errors(source)))
+        source["run_meta"]["model_id"] = "gpt-5.6-sol"
+        self.assertEqual(self.schema_errors(source), [])
+
+    def test_estimate_basis_requires_complete_structured_bridge(self):
+        source = draft()
+        del source["inputs"]["pi_dist"]["estimate_basis"]["judgment_step"]
+        self.assertIn(
+            "missing required key 'judgment_step'",
+            "\n".join(self.schema_errors(source)),
+        )
+        source = draft()
+        source["inputs"]["pi_dist"]["fact_ids"] = ["F1"]
+        source["inputs"]["pi_dist"]["evidence_quality"] = "MED"
+        self.assertIn(
+            "starting_fact_ids must match fact_ids exactly",
+            "\n".join(contract.semantic_errors(source)),
+        )
+
+    def test_succession_shortage_is_a_fact_bound_selection(self):
+        source = draft()
+        shortage = source["inputs"]["owners_60plus_pct"][
+            "succession_shortage_documented"
+        ]
+        shortage["value"] = True
+        self.assertIn(
+            "value=true requires OBSERVED",
+            "\n".join(contract.semantic_errors(source)),
+        )
+
+        source = draft()
+        source["inputs"]["owners_60plus_pct"][
+            "succession_shortage_documented"
+        ] = observed(True, "F1")
+        record, errors = finalizer.finalize(source, dataset())
+        self.assertEqual(errors, [])
+        finalized = record["inputs"]["owners_60plus_pct"][
+            "succession_shortage_documented"
+        ]
+        self.assertEqual(finalized["method"], "OBSERVED")
+        self.assertEqual(finalized["provenance_type"], "DIRECT")
 
     def test_missing_geography_is_rejected_by_schema(self):
         source = draft()
@@ -360,6 +415,83 @@ class V311BoundaryTests(unittest.TestCase):
         self.assertFalse(result["ok"])
         self.assertIn("does not match injected", "\n".join(result["errors"]))
 
+    def test_build_acceptance_requires_exact_sol_validator_model(self):
+        record, errors = finalizer.finalize(draft(), dataset())
+        self.assertEqual(errors, [])
+        root = tempfile.mkdtemp(prefix="v311_review_model_test_")
+        self.addCleanup(shutil.rmtree, root)
+        review_dir = os.path.join(root, "review")
+        review_path = os.path.join(
+            review_dir, record["naics"], record["run_meta"]["run_id"] + ".json"
+        )
+        os.makedirs(os.path.dirname(review_path))
+        with open(os.path.join(SCHEMAS, "review_record.schema.json")) as handle:
+            review_schema = json.load(handle)
+        computed, arithmetic_errors, deltas = build.recompute(record)
+        self.assertEqual(arithmetic_errors, [])
+        with open(os.path.join(HERE, "thresholds.json")) as handle:
+            thresholds = json.load(handle)
+        decision = build.decide(
+            computed["S"],
+            {name: computed[name] for name in "VCABM"},
+            record["cross_checks"]["terminal_value"]["class"],
+            record["confidence_overall"],
+            thresholds,
+        )
+        flags = build.record_flags(record, computed, decision, deltas)
+        expected_audits = build.source_audit_pairs(record)
+        review = {
+            "naics": record["naics"],
+            "run_id": record["run_meta"]["run_id"],
+            "review_meta": {
+                "model_id": "Sol",
+                "review_date": "2026-07-21",
+                "prompt_version": "validator-3.1.1",
+            },
+            "verdict": "accepted",
+            "checks": {
+                name: {"pass": True, "note": "Synthetic pass."}
+                for name in campaign.CHECK_NAMES
+            },
+            "source_audits": [
+                {
+                    "input_path": item["input_path"],
+                    "url": item["url"],
+                    "resolves": True,
+                    "claim_supported": True,
+                    "note": "Synthetic source audit pass.",
+                }
+                for item in expected_audits
+            ],
+            "reasons": [],
+            "flags_reviewed": flags,
+        }
+        with open(review_path, "w") as handle:
+            json.dump(review, handle)
+        status, _summary, model_errors = build.acceptance_status(
+            record["naics"], record, review_dir, review_schema, expected_audits, flags
+        )
+        self.assertEqual(status, "pending")
+        self.assertIn("does not match required", "\n".join(model_errors))
+
+        review["review_meta"]["model_id"] = "gpt-5.6-sol"
+        with open(review_path, "w") as handle:
+            json.dump(review, handle)
+        status, _summary, model_errors = build.acceptance_status(
+            record["naics"], record, review_dir, review_schema, expected_audits, flags
+        )
+        self.assertEqual(model_errors, [])
+        self.assertEqual(status, "accepted")
+
+    def test_build_rejects_sol_as_v311_fleet_research_model(self):
+        source = draft()
+        source["run_meta"]["model_id"] = "gpt-5.6-sol"
+        record, errors = finalizer.finalize(source, dataset())
+        self.assertEqual(errors, [])
+        result = self.build_record(record)
+        self.assertFalse(result["ok"])
+        self.assertIn("fleet model_id", "\n".join(result["errors"]))
+
     def test_review_campaign_routes_future_v311_dependencies(self):
         record, errors = finalizer.finalize(draft(), dataset())
         self.assertEqual(errors, [])
@@ -395,10 +527,69 @@ class V311BoundaryTests(unittest.TestCase):
         self.assertEqual(
             entry["required_validator_prompt_version"], "validator-3.1.1"
         )
+        self.assertEqual(entry["required_research_model_id"], "gpt-5.6-terra")
+        self.assertEqual(entry["required_validator_model_id"], "gpt-5.6-sol")
+
+        wrong_fleet = copy.deepcopy(record)
+        wrong_fleet["run_meta"]["model_id"] = "gpt-5.6-sol"
+        with self.assertRaisesRegex(ValueError, "fleet v3.1.1 model_id"):
+            campaign._campaign_entry(root, "fleet", run_path, wrong_fleet, thresholds)
+
+        golden = campaign._campaign_entry(
+            root, "golden", run_path, wrong_fleet, thresholds
+        )
+        self.assertEqual(golden["required_research_model_id"], "gpt-5.6-sol")
+
+        review = {
+            "naics": record["naics"],
+            "run_id": record["run_meta"]["run_id"],
+            "review_meta": {
+                "model_id": "Sol",
+                "review_date": "2026-07-21",
+                "prompt_version": "validator-3.1.1",
+            },
+            "verdict": "accepted",
+            "checks": {
+                name: {"pass": True, "note": "Synthetic pass."}
+                for name in campaign.CHECK_NAMES
+            },
+            "source_audits": [
+                {
+                    "input_path": item["input_path"],
+                    "url": item["url"],
+                    "resolves": True,
+                    "claim_supported": True,
+                    "note": "Synthetic source audit pass.",
+                }
+                for item in entry["expected_source_audits"]
+            ],
+            "reasons": [],
+            "flags_reviewed": copy.deepcopy(entry["stage4_flags"]),
+        }
+        self.assertIn(
+            "review model_id 'Sol' != required 'gpt-5.6-sol'",
+            "\n".join(campaign.review_semantic_errors(review, entry)),
+        )
+        review["review_meta"]["model_id"] = "gpt-5.6-sol"
+        self.assertEqual(campaign.review_semantic_errors(review, entry), [])
+
+        wrong = copy.deepcopy(review)
+        wrong["verdict"] = "wrong"
+        wrong["reasons"] = [
+            "inputs.pi_dist has an unreasonable selected-value bridge."
+        ]
+        self.assertIn(
+            "wrong requires at least one failed check or source audit",
+            "\n".join(campaign.review_semantic_errors(wrong, entry)),
+        )
+        wrong["checks"]["judgment_inputs_plausible"]["pass"] = False
+        self.assertEqual(campaign.review_semantic_errors(wrong, entry), [])
 
     def test_urls_outside_fact_table_are_rejected(self):
         source = draft()
-        source["inputs"]["buy_mult"]["estimate_basis"] += " https://example.com/hidden"
+        source["inputs"]["buy_mult"]["estimate_basis"][
+            "judgment_step"
+        ] += " https://example.com/hidden"
         self.assertIn("URLs are permitted only", "\n".join(contract.semantic_errors(source)))
 
 

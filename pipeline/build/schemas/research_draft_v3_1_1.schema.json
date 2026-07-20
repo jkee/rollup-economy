@@ -27,7 +27,10 @@
       "required": ["model_id", "run_date", "run_id", "template_version", "prompt_version"],
       "additionalProperties": false,
       "properties": {
-        "model_id": { "type": "string", "minLength": 1 },
+        "model_id": {
+          "enum": ["gpt-5.6-terra", "gpt-5.6-sol"],
+          "description": "Exact authorized runtime model ID. Campaign routing binds Terra to fleet and Sol to golden research."
+        },
         "run_date": { "type": "string", "format": "date", "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}$" },
         "run_id": { "type": "string", "minLength": 1 },
         "template_version": { "const": "3.1.1" },
@@ -179,6 +182,35 @@
         }
       }
     },
+    "estimate_basis": {
+      "type": "object",
+      "required": ["starting_fact_ids", "scope_mismatches", "bridge_steps", "judgment_step"],
+      "additionalProperties": false,
+      "properties": {
+        "starting_fact_ids": {
+          "type": "array",
+          "items": { "type": "string", "pattern": "^F[1-9][0-9]*$" },
+          "description": "Every background fact used in the estimate; must match fact_ids exactly."
+        },
+        "scope_mismatches": {
+          "type": "array",
+          "minItems": 1,
+          "items": { "type": "string", "minLength": 1 },
+          "description": "Enumerate population/geography/unit/period/industry mismatches, or use one explicit 'none' entry."
+        },
+        "bridge_steps": {
+          "type": "array",
+          "minItems": 1,
+          "items": { "type": "string", "minLength": 1 },
+          "description": "Ordered proxy, normalization and population-mapping steps from facts to the judgment."
+        },
+        "judgment_step": {
+          "type": "string",
+          "minLength": 1,
+          "description": "The explicit non-reproducible step that makes the selected value an estimate."
+        }
+      }
+    },
     "selection": {
       "type": "object",
       "required": ["value", "method", "evidence_quality", "fact_ids", "rationale", "plausible_range"],
@@ -198,7 +230,7 @@
         "plausible_range": { "type": "string", "minLength": 1 },
         "observed_value": {},
         "calculation": { "$ref": "#/definitions/calculation" },
-        "estimate_basis": { "type": "string", "minLength": 1 }
+        "estimate_basis": { "$ref": "#/definitions/estimate_basis" }
       },
       "if": {
         "properties": { "method": { "const": "OBSERVED" } },
@@ -256,16 +288,15 @@
       "additionalProperties": false,
       "properties": {
         "selection": { "$ref": "#/definitions/fraction_selection" },
-        "succession_shortage_documented": {
-          "type": "object",
-          "required": ["value", "evidence"],
-          "additionalProperties": false,
-          "properties": {
-            "value": { "type": "boolean" },
-            "evidence": { "type": "string", "minLength": 1 }
-          }
-        }
+        "succession_shortage_documented": { "$ref": "#/definitions/boolean_selection" }
       }
+    },
+    "boolean_selection": {
+      "allOf": [
+        { "$ref": "#/definitions/selection" },
+        { "properties": { "value": { "type": "boolean" } } }
+      ],
+      "description": "Score-affecting succession-shortage flag under the same fact/method contract as every other selected input. CALCULATED is semantically rejected because the value is nonnumeric."
     },
     "role_judgment_set": {
       "type": "object",
@@ -292,7 +323,7 @@
           "type": "array",
           "items": { "type": "string", "pattern": "^F[1-9][0-9]*$" }
         },
-        "estimate_basis": { "type": "string", "minLength": 1 }
+        "estimate_basis": { "$ref": "#/definitions/estimate_basis" }
       }
     },
     "sensitivity_case": {

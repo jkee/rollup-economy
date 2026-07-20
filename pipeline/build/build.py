@@ -482,6 +482,16 @@ def acceptance_status(naics, rec, review_dir, review_schema,
             "%s (review): review prompt_version %r does not match required %r"
             % (naics, actual_review_prompt, expected_review_prompt)
         )
+    expected_review_model = {
+        "3.1.1": "gpt-5.6-sol",
+    }.get(rec.get("run_meta", {}).get("template_version"))
+    actual_review_model = review.get("review_meta", {}).get("model_id")
+    if (expected_review_model is not None
+            and actual_review_model != expected_review_model):
+        errs.append(
+            "%s (review): review model_id %r does not match required %r"
+            % (naics, actual_review_model, expected_review_model)
+        )
     raw_audits = review.get("source_audits", [])
     if not isinstance(raw_audits, list):
         raw_audits = []
@@ -564,6 +574,14 @@ def record_flags(rec, computed, decision, deltas):
             if isinstance(rec.get("dataset_inputs", {}).get(name), dict)
             and rec["dataset_inputs"][name].get("provenance_type") == "ESTIMATE"
         ))
+        if rec.get("run_meta", {}).get("template_version") == "3.1.1":
+            succession = inp.get("owners_60plus_pct", {}).get(
+                "succession_shortage_documented", {}
+            )
+            if succession.get("provenance_type") == "ESTIMATE":
+                estimates.append(
+                    "owners_60plus_pct.succession_shortage_documented"
+                )
         estimate_label = "provenance_type ESTIMATE"
     else:
         estimates = sorted(name for name, value in inp.items()
@@ -621,6 +639,18 @@ def run_build(repo_root, allow_unreviewed=False, runs_dir=None, review_dir=None,
                     os.path.basename(path),
                     template_version,
                     ", ".join(SUPPORTED_TEMPLATE_VERSIONS),
+                )
+            )
+            continue
+        if (template_version == "3.1.1"
+                and rec.get("run_meta", {}).get("model_id") != "gpt-5.6-terra"):
+            errors.append(
+                "%s (%s): v3.1.1 fleet model_id %r does not match required %r"
+                % (
+                    naics,
+                    path,
+                    rec.get("run_meta", {}).get("model_id"),
+                    "gpt-5.6-terra",
                 )
             )
             continue

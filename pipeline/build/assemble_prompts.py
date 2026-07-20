@@ -41,6 +41,10 @@ VERSION_PATHS = {
         "template": REPO / "pipeline" / "template" / "prompt_template_v3_1.md",
         "prompts": REPO / "pipeline" / "prompts_v3_1",
     },
+    "3.1.1": {
+        "template": REPO / "pipeline" / "template" / "prompt_template_v3_1_1.md",
+        "prompts": REPO / "pipeline" / "prompts_v3_1_1",
+    },
 }
 
 RUNTIME_PLACEHOLDERS = {"{{MODEL_ID}}", "{{RUN_DATE}}", "{{RUN_ID}}", "{{PROMPT_VERSION}}"}
@@ -164,7 +168,14 @@ def render_dataset_inputs(naics, block, dataset, template_version):
     gaps = block["research_gaps"]
     if gaps:
         gap_lines = "\n".join(f"- `{g['input']}`: {g['instruction']}" for g in gaps)
-        if template_version == "3.1":
+        if template_version == "3.1.1":
+            fallback_rule = (
+                "provide the value in `dataset_fallbacks` using the v3.1.1 "
+                "selection contract; use `OBSERVED` only for an exact sourced value, "
+                "`CALCULATED` only for fully reproducible fact-backed arithmetic, and "
+                "`ESTIMATE` for any judgmental bridge"
+            )
+        elif template_version == "3.1":
             fallback_rule = (
                 "provide the value in `dataset_fallbacks`, show the full v3.1 evidence "
                 "chain, and use `provenance_type: ESTIMATE` when no source directly "

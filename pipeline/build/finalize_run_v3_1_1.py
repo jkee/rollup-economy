@@ -226,7 +226,7 @@ def finalize_inputs(draft_inputs, role_mix):
             finalized[name] = finalize_roles(value, role_mix)
         elif name == "owners_60plus_pct":
             finalized[name] = finalize_selection(value["selection"])
-            finalized[name]["succession_shortage_documented"] = copy.deepcopy(
+            finalized[name]["succession_shortage_documented"] = finalize_selection(
                 value["succession_shortage_documented"]
             )
         else:
