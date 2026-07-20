@@ -1,0 +1,127 @@
+{
+  "naics": "541211",
+  "run_id": "golden-f1-541211",
+  "review_meta": {
+    "model_id": "Sol",
+    "review_date": "2026-07-20",
+    "prompt_version": "validator-3.1-sol-full"
+  },
+  "verdict": "wrong",
+  "checks": {
+    "sources_exist": {
+      "pass": true,
+      "note": "All 12 cited URL occurrences resolved to accessible pages or the IRS PDF, although resolution alone does not establish the quoted claims."
+    },
+    "figures_match_sources": {
+      "pass": false,
+      "note": "The IRS analog, Auxo buy range, CT Acquisitions platform range, CPA Trendlines deal activity, and several qualitative claims are findable, but inputs.current_adoption_pct.url does not contain the quoted Wolters Kluwer 9%-to-41% figure; inputs.owners_60plus_pct.url supports approximately 25% overall but not the quoted above-40% small-firm or 65%-over-50 claims; inputs.pricing_structure.url does not contain the quoted 79% bookkeeping statistic; and inputs.active_consolidators.url does not directly establish 30 distinct operating platforms doing add-ons."
+    },
+    "judgment_inputs_plausible": {
+      "pass": false,
+      "note": "Role fractions are bounded and concrete and t50=3 years is within its declared range, but pi_dist=0.55 is not reproducibly blended by attest/tax/CAS revenue share as the prompt requires and relies on an unsupported 79% pricing-share statistic. The owner-age input of 0.33 is also an unshown extrapolation from a source that reports about 25% overall."
+    },
+    "rubric_consistent": {
+      "pass": false,
+      "note": "The formulas and deterministic dataset inputs follow the frozen rubric, and the assigned borderline flag is arithmetically consistent because S=5.372612028417493 is 0.1274 below the 5.50 strong cut. However, the B owner input and bonus, A derivation, and C capture input depend on unsupported or incompletely sourced research, so the rubric cannot be considered consistently evidenced."
+    },
+    "cross_checks_honest": {
+      "pass": true,
+      "note": "All four mandatory cross-checks are present. Uplift is consistent, the terminal discussion separates attest, tax, and CAS, no-proxy use is explicitly confirmed, and pricing deflation is acknowledged in pi_dist rather than hidden."
+    }
+  },
+  "source_audits": [
+    {
+      "input_path": "inputs.active_consolidators.url",
+      "url": "https://cpatrendlines.com/2026/02/16/cornerstone-pe-deal-tracker-pe-update-alan-whitman-plants-a-flag-in-the-private-equity-landscape-2020-2026/",
+      "resolves": true,
+      "claim_supported": false,
+      "note": "The page documents heavy recent activity, 52 distinct PE sponsors since 2024, and named repeat acquirers, but it does not count 30 distinct PE-backed operating platforms actively doing add-ons in the last 24 months; sponsors and operating platforms are not interchangeable."
+    },
+    {
+      "input_path": "inputs.buy_mult.url",
+      "url": "https://auxocapitaladvisors.com/accounting-firm-ma-valuation-multiples/",
+      "resolves": true,
+      "claim_supported": true,
+      "note": "The guide defines normalized EBITDA after partner/replacement-labor adjustments and gives traditional local CPA practices a 3.0x-5.0x normalized EBITDA range, supporting the selected 4.0x midpoint."
+    },
+    {
+      "input_path": "inputs.current_adoption_pct.url",
+      "url": "https://www.resultsense.com/news/2025-11-06-accounting-firms-ai-adoption-big-4-small-firms/",
+      "resolves": true,
+      "claim_supported": false,
+      "note": "The article supports 21% of tax firms already using GenAI, 53% planning or considering it, and 25% with no plans. It does not contain the additionally quoted Wolters Kluwer 9% in 2024 to 41% in 2025 statistic, yet that figure is used in the t50 derivation."
+    },
+    {
+      "input_path": "inputs.exit_mult.url",
+      "url": "https://ctacquisitions.com/guides/cpa-accounting-firm-ma-multiples-2026/",
+      "resolves": true,
+      "claim_supported": true,
+      "note": "The accessible guide states a 10.0x-15.0x adjusted-EBITDA range for platform-tier targets above $10M EBITDA in the 2025-Q2 2026 window, which supports selecting 11.0x within that range."
+    },
+    {
+      "input_path": "inputs.historical_analogs.url",
+      "url": "https://www.irs.gov/pub/irs-news/fs-11-10.pdf",
+      "resolves": true,
+      "claim_supported": true,
+      "note": "The IRS history states nationwide expansion in 1990 and that e-filed returns crossed 50% in 2005 with 68.4 million returns, supporting the approximately 15-year e-file analog."
+    },
+    {
+      "input_path": "inputs.owners_60plus_pct.url",
+      "url": "https://www.cpajournal.com/2024/01/23/state-of-the-profession-3/",
+      "resolves": true,
+      "claim_supported": false,
+      "note": "The linked CPA Journal article states that approximately 25% of partners are older than 60. Its accessible text does not support the record's quoted above-40% small-firm share, the 65%-over-50 claim, or the resulting owner-weighted 33% estimate."
+    },
+    {
+      "input_path": "inputs.pi_dist.sources[0]",
+      "url": "https://karbonhq.com/resources/accounting-services-pricing-guide/",
+      "resolves": true,
+      "claim_supported": true,
+      "note": "Karbon describes hourly, fixed-fee, value-based, and subscription models and explicitly explains that hourly billing does not reward automation efficiency, supporting the qualitative pricing-deflation mechanism. It does not provide the separate 79% statistic claimed elsewhere."
+    },
+    {
+      "input_path": "inputs.pi_dist.sources[1]",
+      "url": "https://cpatrendlines.com/2024/01/01/cornerstone-report-on-cpa-billing-rates-fees-and-pricing-at-cpa-firms/",
+      "resolves": true,
+      "claim_supported": true,
+      "note": "The URL redirects to the 2026 report, which presents standard-rate, realization, and net-realized-rate comparisons and supports the claim that rate discipline can preserve pricing power despite modest realization differences."
+    },
+    {
+      "input_path": "inputs.pi_dist.sources[2]",
+      "url": "https://www.thomsonreuters.com/en-us/posts/tax-and-accounting/rosenberg-survey-talent-technology-accounting-challenges/",
+      "resolves": true,
+      "claim_supported": true,
+      "note": "The article reports shrinking talent pools and hiring/retention as the top industry issue, supporting the labor-scarcity counterweight invoked in the pi_dist rationale."
+    },
+    {
+      "input_path": "inputs.pi_moat.sources[0]",
+      "url": "https://www.tellen.ai/post/how-private-equity-uses-aps-to-acquire-us-accounting-firms",
+      "resolves": true,
+      "claim_supported": true,
+      "note": "The page explains that the licensed attest entity performs audit, review, and compilation work and remains majority CPA-owned, supporting the regulatory ownership barrier and APS distinction used in the moat rationale."
+    },
+    {
+      "input_path": "inputs.pi_moat.sources[1]",
+      "url": "https://www.cpajournal.com/2024/01/23/state-of-the-profession-3/",
+      "resolves": true,
+      "claim_supported": true,
+      "note": "The article supports an aging partner base and succession pressure, which are relevant to the stated supply barrier, though it does not quantify generic-AI bypass risk."
+    },
+    {
+      "input_path": "inputs.pricing_structure.url",
+      "url": "https://karbonhq.com/resources/accounting-services-pricing-guide/",
+      "resolves": true,
+      "claim_supported": false,
+      "note": "The guide describes hourly, fixed, value-based, and subscription pricing and quotes roughly $200-$400 hourly rates, but it does not contain the record's exact claim that 79% of firms moved away from hourly billing for bookkeeping or establish revenue shares by pricing model."
+    }
+  ],
+  "reasons": [
+    "Re-run inputs.current_adoption_pct and inputs.t50_years with a direct URL for the Wolters Kluwer 9%-to-41% adoption statistic, or remove that unsupported figure from the derivation; https://www.resultsense.com/news/2025-11-06-accounting-firms-ai-adoption-big-4-small-firms/ supports 21% current tax-firm use but not the quoted Wolters Kluwer series.",
+    "Re-research inputs.owners_60plus_pct.value and its succession chain using a source that directly supports the small-firm age distribution and the 33% blend; https://www.cpajournal.com/2024/01/23/state-of-the-profession-3/ supports approximately 25% overall but not the quoted above-40% and 65% figures.",
+    "Replace or substantiate inputs.pricing_structure.figure_quoted and recompute the evidence basis for inputs.pi_dist with actual attest/tax/CAS revenue weights; https://karbonhq.com/resources/accounting-services-pricing-guide/ describes pricing models but does not report the claimed 79% bookkeeping share.",
+    "Substantiate inputs.active_consolidators.value with a source or documented enumeration of distinct PE-backed operating platforms that completed add-ons in the last 24 months; https://cpatrendlines.com/2026/02/16/cornerstone-pe-deal-tracker-pe-update-alan-whitman-plants-a-flag-in-the-private-equity-landscape-2020-2026/ reports sponsors and transactions but not the claimed count of 30 operating platforms."
+  ],
+  "flags_reviewed": [
+    "BORDERLINE: |S - strong cut 5.50| = 0.1274"
+  ]
+}

@@ -1,0 +1,132 @@
+{
+  "naics": "531210",
+  "run_id": "golden-f1-531210",
+  "review_meta": {
+    "model_id": "gpt-5.4",
+    "review_date": "2026-07-20",
+    "prompt_version": "validator-3.1-sol-full"
+  },
+  "verdict": "wrong",
+  "checks": {
+    "sources_exist": {
+      "pass": false,
+      "note": "Eleven audits resolve, but the real-data.com brokerage-profitability citation returns an internal error and no substantive page or indexed result could be verified."
+    },
+    "figures_match_sources": {
+      "pass": false,
+      "note": "Nine of 12 audits fail. Material mismatches include treating 68% sales-agent respondent composition as AI adoption, converting member age into brokerage-owner age, inventing historical adoption timing, and deriving unsupported consolidator and EBITDA-multiple point estimates."
+    },
+    "judgment_inputs_plausible": {
+      "pass": false,
+      "note": "The LOW_CONFIDENCE flag is warranted, and several judgment inputs lack adequate anchors: 30% firm-level material AI adoption is an estimate derived from member sentiment, active_consolidators=3 is unsupported by the cited public-company acquisition, and the 3.5x/7x multiple pair is not based on comparable observed medians."
+    },
+    "rubric_consistent": {
+      "pass": true,
+      "note": "The dataset_inputs chain is exact, labor shares sum to 1.0, role contributions sum to 0.23226, and all factor formulas recompute. The ARITH_DELTA_WITHIN_TOL flag is correctly limited to nonzero floating-point deltas on B (4.17e-10) and S (3.19e-10), both well within tolerance."
+    },
+    "cross_checks_honest": {
+      "pass": false,
+      "note": "The cross-checks separate cost reduction from product displacement and keep M&A out of V and A, but they overstate the evidence by attributing a 2.82% buyer-side rate across incompatible datasets, asserting a statutory licensing moat from a technology survey, and treating an unsupported 70-90% agent pass-through as established."
+    }
+  },
+  "source_audits": [
+    {
+      "input_path": "inputs.active_consolidators.url",
+      "url": "https://www.realestatenews.com/2024/12/02/compass-to-acquire-properties-christies-international-real-estate",
+      "resolves": true,
+      "claim_supported": false,
+      "note": "The article supports Compass's $444 million acquisition of @properties and Christie's International Real Estate and mentions other Compass transactions. Compass is public, and the page does not identify or count three PE-backed add-on platforms active during the specified 24-month window."
+    },
+    {
+      "input_path": "inputs.buy_mult.url",
+      "url": "https://ctacquisitions.com/real-estate-brokerage-business-valuation/",
+      "resolves": true,
+      "claim_supported": false,
+      "note": "The page publishes advisory ranges, including 1.5-3x for independent boutiques, 2-4x for small franchise firms, 2.5-5x for regional platforms, and 4-6x for institutional platforms. It does not report a 3.5x median actually paid for $1-10M EBITDA firms."
+    },
+    {
+      "input_path": "inputs.current_adoption_pct.url",
+      "url": "https://cms.nar.realtor/sites/default/files/2025-09/2025-realtors-technology-survey-report-09-18-2025.pdf",
+      "resolves": true,
+      "claim_supported": false,
+      "note": "The survey supports 58% ChatGPT use and AI impact responses of 17% significant, 33% moderate, and 46% neutral. Its 68% figure describes the share of respondents whose primary function was sales agent, not AI adoption, and it does not measure 30% material firm-level deployment."
+    },
+    {
+      "input_path": "inputs.exit_mult.url",
+      "url": "https://www.sec.gov/Archives/edgar/data/1398987/000162828025054793/anywhereredefm14a.htm",
+      "resolves": true,
+      "claim_supported": false,
+      "note": "The merger filing supports projected synergies and contains valuation analyses, but it does not establish the record's 7.0x exit point. Its cited analyses use ranges such as 7.5-9.0x for Anywhere and 9.0-11.0x for the pro forma company, while selected-company adjusted-EBITDA medians are higher."
+    },
+    {
+      "input_path": "inputs.historical_analogs.url",
+      "url": "https://cms.nar.realtor/sites/default/files/2025-09/2025-realtors-technology-survey-report-09-18-2025.pdf",
+      "resolves": true,
+      "claim_supported": false,
+      "note": "The survey reports current eSignature use at 79% and social-media use at 75%, but contains no historical series or introduction date showing either technology took 8-12 years to cross 50%."
+    },
+    {
+      "input_path": "inputs.owners_60plus_pct.url",
+      "url": "https://www.realestatenews.com/2025/08/06/fewer-younger-agents-holding-on-amid-market-headwinds",
+      "resolves": true,
+      "claim_supported": false,
+      "note": "The article accurately reports that 44% of surveyed NAR members were age 60 or older, but the required input is brokerage owners age 60+. The page does not provide an owner-specific percentage, and labeling the member figure a conservative owner proxy does not validate it."
+    },
+    {
+      "input_path": "inputs.pi_dist.sources[0]",
+      "url": "https://listwithclever.com/average-real-estate-commission-rate/",
+      "resolves": true,
+      "claim_supported": true,
+      "note": "The page supports percentage-of-transaction commission pricing and its survey-based 5.70% total, 2.88% listing-side, and 2.82% buyer-side headline figures, along with negotiability and recent rate movement."
+    },
+    {
+      "input_path": "inputs.pi_dist.sources[1]",
+      "url": "https://www.housingwire.com/articles/lower-commission-rates-damage-profitability-for-brokerages/",
+      "resolves": true,
+      "claim_supported": true,
+      "note": "HousingWire supports the thin-margin and commission-compression mechanism used in pi_dist: more than half of 100 analyzed brokerages had margins between positive and negative 3%, and lower commission rates could push them into loss."
+    },
+    {
+      "input_path": "inputs.pi_dist.sources[2]",
+      "url": "https://www.redfin.com/news/commissions-q3-2025/",
+      "resolves": true,
+      "claim_supported": true,
+      "note": "Redfin supports the narrower post-settlement observation that buyer-agent commissions had not compressed broadly: its transaction sample showed 2.42% in Q3 2025 versus 2.36% a year earlier and roughly pre-settlement levels."
+    },
+    {
+      "input_path": "inputs.pi_moat.sources[0]",
+      "url": "https://www.nar.realtor/research-and-statistics/research-reports/realtor-technology-survey",
+      "resolves": true,
+      "claim_supported": false,
+      "note": "The NAR page summarizes member technology use and brokerage provision of tools. It does not support the asserted state-law barrier to generic-AI bypass, client-book portability, franchise ownership, or portal and MLS gatekeeping claims used to set pi_moat."
+    },
+    {
+      "input_path": "inputs.pi_moat.sources[1]",
+      "url": "https://real-data.com/statistics/brokerage-profitability-after-nar-settlement/",
+      "resolves": false,
+      "claim_supported": false,
+      "note": "The URL returned an internal error with no substantive content, and an exact-domain search did not surface a verifiable copy. No claim can be audited from this citation."
+    },
+    {
+      "input_path": "inputs.pricing_structure.url",
+      "url": "https://listwithclever.com/average-real-estate-commission-rate/",
+      "resolves": true,
+      "claim_supported": false,
+      "note": "The page supports consumer commission rates and buyer/listing-agent allocation, but it does not establish that essentially 100% of brokerage revenue follows this model, that 70-90% or more passes through to 1099 agents, or the claimed brokerage company-dollar, desk-fee, and franchisor-royalty mix."
+    }
+  ],
+  "reasons": [
+    "Recalculate current_adoption_pct from a source that measures firm-level material deployment. In the cited NAR survey, 68% is respondent job composition, not AI adoption, and the 30% value is an unsupported transformation of impact opinions.",
+    "Supply a historical time series for the eSignature or social-media analog. A 2025 penetration snapshot cannot establish an 8-12-year time to 50%, so the t50_years derivation is not source-complete.",
+    "Replace the 44% NAR-member demographic with a brokerage-owner statistic or clearly mark owners_60plus_pct as an unsupported estimate; agents and brokerage owners are not interchangeable populations.",
+    "Document active_consolidators with named PE-backed platforms and qualifying add-ons in the last 24 months. The cited Compass article describes a public strategic buyer and cannot support a count of three PE-backed platforms.",
+    "Use observed, normalized transaction medians for buy_mult and exit_mult. CT Acquisitions gives advisory tier ranges rather than a 3.5x paid median, and the SEC filing's valuation analyses do not support a 7.0x scaled-platform point estimate.",
+    "Replace the inaccessible real-data.com citation and provide primary legal evidence for the claimed licensing barrier; the NAR technology-survey landing page does not substantiate pi_moat's legal and ownership assertions.",
+    "Add evidence for the brokerage-level revenue and agent-pass-through mix. Clever measures consumer commission rates but not the asserted essentially-100% revenue model or 70-90% pass-through to 1099 agents.",
+    "Correct the cross-check attribution: Clever's 2.82% survey headline, Redfin's 2.42% transaction sample, and HousingWire's 2024 2.55% observation are different datasets and dates, not one jointly observed 2.82% post-settlement rate."
+  ],
+  "flags_reviewed": [
+    "LOW_CONFIDENCE",
+    "ARITH_DELTA_WITHIN_TOL: nonzero stored-vs-recomputed deltas on B, S"
+  ]
+}
