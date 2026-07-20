@@ -1,0 +1,284 @@
+{
+  "naics": "541350",
+  "title": "Building Inspection Services",
+  "run_meta": {
+    "model_id": "claude-sonnet-4-6",
+    "run_date": "2026-07-20",
+    "run_id": "fleet-s2-541350",
+    "template_version": "3.0",
+    "prompt_version": "p3-aff6579"
+  },
+  "dataset_inputs": {
+    "labor_share": {
+      "value": 0.4974,
+      "method": "QCEW 2024 private total annual wages at 541350 ($1,864,147,476) x benefits multiplier 1.4294 [ECEC private-industry total comp $46.60/hr / wages $32.60/hr = 1.4294 (March 2026 reference period)] / SUSB 2022 receipts at 541350 ($3,995,784,000). Vintage mismatch: 2024 wages over 2022 receipts, stated. Level: 6-digit. Harmonized to IPS basis ÷1.3407 (median of 65 dual-method codes).",
+      "sources": [
+        "BLS QCEW 2024 annual averages (US000, private)",
+        "BLS ECEC news release (raw/ecec.nr0.htm)",
+        "Census SUSB 2022 (receipts by NAICS)"
+      ],
+      "year": "2024 wages / 2022 receipts",
+      "quality": "MED"
+    },
+    "role_mix": {
+      "oews_level": "4-digit 5413",
+      "occupations": [
+        {
+          "soc": "17-2051",
+          "title": "Civil Engineers",
+          "emp_share": 0.1164,
+          "wage_share": 0.128
+        },
+        {
+          "soc": "17-1011",
+          "title": "Architects, Except Landscape and Naval",
+          "emp_share": 0.0564,
+          "wage_share": 0.0582
+        },
+        {
+          "soc": "13-1082",
+          "title": "Project Management Specialists",
+          "emp_share": 0.0551,
+          "wage_share": 0.0646
+        },
+        {
+          "soc": "17-3011",
+          "title": "Architectural and Civil Drafters",
+          "emp_share": 0.0474,
+          "wage_share": 0.0328
+        },
+        {
+          "soc": "11-1021",
+          "title": "General and Operations Managers",
+          "emp_share": 0.0338,
+          "wage_share": 0.0572
+        },
+        {
+          "soc": "17-2141",
+          "title": "Mechanical Engineers",
+          "emp_share": 0.0337,
+          "wage_share": 0.0383
+        },
+        {
+          "soc": "11-9041",
+          "title": "Architectural and Engineering Managers",
+          "emp_share": 0.0321,
+          "wage_share": 0.0553
+        },
+        {
+          "soc": "47-4011",
+          "title": "Construction and Building Inspectors",
+          "emp_share": 0.0256,
+          "wage_share": 0.0205
+        },
+        {
+          "soc": "17-2071",
+          "title": "Electrical Engineers",
+          "emp_share": 0.0254,
+          "wage_share": 0.0299
+        },
+        {
+          "soc": "15-1252",
+          "title": "Software Developers",
+          "emp_share": 0.023,
+          "wage_share": 0.0308
+        }
+      ],
+      "quality": "MED"
+    },
+    "n_total": {
+      "value": 7623,
+      "source": "SUSB 2022 (firms, all enterprise sizes)",
+      "year": "2022",
+      "quality": "HIGH"
+    },
+    "n_band": {
+      "value": 40,
+      "derivation": "margin 0.1565 (margins.json[54]: Damodaran Jan 2026: Business & Consumer Services EBITDA/Sales 15.65%); revenue/employee $146,226 (SUSB 2022 receipts/employment at 541350); class <5: 6,523 firms, avg revenue/firm $193,991 (class receipts/firms), implied EBITDA $30,360 -> out of $1-10M band; class 5-9: 612 firms, avg revenue/firm $827,992 (class receipts/firms), implied EBITDA $129,581 -> out of $1-10M band; class 10-19: 305 firms, avg revenue/firm $1,798,961 (class receipts/firms), implied EBITDA $281,537 -> out of $1-10M band; class 20-99: 143 firms, avg revenue/firm $5,816,294 (class receipts/firms), implied EBITDA $910,250 -> out of $1-10M band; class 100-499: 23 firms, avg revenue/firm $18,547,304 (class receipts/firms), implied EBITDA $2,902,653 -> IN $1-10M band; class 500+: 17 firms, avg revenue/firm $24,508,765 (class receipts/firms), implied EBITDA $3,835,622 -> IN $1-10M band; n_band = 40",
+      "margin_used": 0.1565,
+      "margin_source": "Damodaran Jan 2026: Business & Consumer Services EBITDA/Sales 15.65%",
+      "quality": "ESTIMATE"
+    }
+  },
+  "inputs": {
+    "ai_replaceable_share": {
+      "value": 0.349,
+      "breakdown_by_role": [
+        {
+          "role": "Building and home inspectors (owners and staff)",
+          "labor_share_of_total": 0.70,
+          "within_role_automatable_fraction": 0.28,
+          "contribution": 0.196,
+          "rationale": "Hypothesis per prompt guidance: inspectors are ~65-75% of the real wage bill (midpoint 70%). The physical walk-through, attic/crawlspace access, systems testing is unautomatable product core. Report writing, photo annotation, defect narration, and code citation constitute roughly 35-45% of inspector hours; AI tools (Spectora AI Comment Assist, Swift Reporter AI Template Builder, standalone tools) now generate full narratives from prompts. Within-role automatable fraction of 0.28 (slightly below midpoint of 0.2-0.35 range) reflects that physical field time dominates the deliverable and legal/contractual core is the in-person inspection.",
+          "plausible_range": "0.14 to 0.245 (0.20 to 0.35 within-role × 0.70 wage share)"
+        },
+        {
+          "role": "Owner-managers and multi-inspector firm operators",
+          "labor_share_of_total": 0.12,
+          "within_role_automatable_fraction": 0.25,
+          "contribution": 0.03,
+          "rationale": "Hypothesis: ~10-15% of wage bill (midpoint 12%). Scheduling and dispatch automate substantially via ISN-style platforms; realtor-relationship marketing and inspector recruiting persist as human tasks. 0.25 fraction reflects minority of this role's time in clearly automatable tasks.",
+          "plausible_range": "0.012 to 0.024 (0.10-0.20 within-role × 0.12 wage share)"
+        },
+        {
+          "role": "Scheduling, call center, and admin staff",
+          "labor_share_of_total": 0.12,
+          "within_role_automatable_fraction": 0.85,
+          "contribution": 0.102,
+          "rationale": "Hypothesis: ~10-15% of wage bill (midpoint 12%). Booking, confirmations, report delivery, and payment collection are already near-fully platform tasks per ISN/Spectora capabilities. 0.85 fraction reflects high degree of current AI/automation feasibility for this role.",
+          "plausible_range": "0.084 to 0.120 (0.70-1.00 within-role × 0.12 wage share)"
+        },
+        {
+          "role": "Specialty technical staff (commercial PCA, engineers on staff)",
+          "labor_share_of_total": 0.06,
+          "within_role_automatable_fraction": 0.35,
+          "contribution": 0.021,
+          "rationale": "Hypothesis: ~5-6% of wage bill (slightly above prompt's 5% to balance to 100%). ASTM E2018 PCA report production is document-heavy and AI-exposed; field verification is not. 0.35 fraction reflects strong AI exposure in the document/reporting portion of PCA work.",
+          "plausible_range": "0.012 to 0.030 (0.20-0.50 within-role × 0.06 wage share)"
+        }
+      ],
+      "quality": "LOW"
+    },
+    "pi_dist": {
+      "value": 0.52,
+      "rationale": "Home inspection fees are set by local market rates, not by hours — a flat per-inspection fee (~$300-$500 for a standard home per HomeAdvisor/InterNACHI 2024-2025 data). When AI cuts report-writing time, the operator retains the efficiency gain as margin rather than passing it through as lower fees, because the fee was never priced on labor hours. However, realtor referral relationships drive 70-80% of residential inspection flow (realtors steer buyers to preferred inspectors), meaning the firm does not fully own the client relationship — an upstream gatekeeper (realtor) controls access. Franchise systems (Pillar To Post, WIN) have some brand-level dist but individual franchise units still rely on local realtor relationships. pi_dist set at 0.52 reflecting partial client ownership (better than hourly/cost-plus because flat-fee pricing enables margin retention, worse than full ownership because referral flow is realtor-controlled).",
+      "plausible_range": "0.40 to 0.65",
+      "sources": [
+        "HomeAdvisor/Angi: average home inspection cost $296-$424, most common flat-fee structure (Oct 2025)",
+        "NAR Realtors Confidence Index: realtor referral-driven demand for inspections",
+        "Spectora 2026: 10,000+ inspector users, AI tools adoption data"
+      ],
+      "quality": "MED"
+    },
+    "pi_moat": {
+      "value": 0.45,
+      "rationale": "Moat sources: (1) State licensing — ~40 states license home inspectors, creating a statutory human-presence requirement; (2) E&O insurance and liability-backed written opinion — the product is a legal document, not just information; (3) Lender/insurer requirements and contract contingency norms embed the inspection in the transaction structure. Moat weaknesses: (1) No proprietary data moat — any licensed inspector can perform the same inspection; (2) Realtor relationships are personal to the individual inspector, not the firm — acquisition risks client attrition; (3) AI-photo-assisted seller disclosure and iBuyer institutional purchasing could erode demand at the margin; (4) Inspection waiver rate remains 17-20% (NAR 2025-2026), down from 30% peak but structurally elevated. Physical presence requirement is the primary defensible moat; switching costs are low at the consumer level. pi_moat set at 0.45.",
+      "plausible_range": "0.35 to 0.60",
+      "sources": [
+        "NAR Confidence Index: 20% waiver rate as of June 2026",
+        "Working RE: state licensing coverage ~40 states as of 2025",
+        "ASHI/InterNACHI: E&O requirements, licensing guidance"
+      ],
+      "quality": "MED"
+    },
+    "t50_years": {
+      "value": 3.0,
+      "derivation": "Current adoption: Spectora data (June 2026) indicates 1 in 3 inspectors (33%) already using AI tools materially (defined as regular use of AI for report narration/comment generation — the primary automatable function). Historical analog: digital reporting software adoption — industry went from ~42% (circa 2014-2015) to 91% (2024-2025), crossing 50% around 2016-2017 (roughly 2 years from 42% to 50%); however AI report writing only became commercially available broadly in 2023-2024. With 33% at current adoption and a steeper S-curve (AI tools are free/cheap add-ons to existing software), crossing 50% requires ~2-3 more years. t50 set at 3.0 years from July 2026.",
+      "plausible_range": "2 to 5 years",
+      "quality": "MED"
+    },
+    "current_adoption_pct": {
+      "value": 0.33,
+      "source": "Spectora (home inspection software, 10,000+ inspector users)",
+      "url": "https://www.spectora.com/r/5-ways-ai-changing-home-inspection-industry",
+      "figure_quoted": "1 in 3 inspectors are already using AI tools in their workflows — and that number is expected to nearly double by the end of 2025, with 58 percent planning to adopt AI in the near future",
+      "access_date": "2026-07-20",
+      "quality": "MED"
+    },
+    "historical_analogs": {
+      "value": "2 years from 42% to 50% for digital reporting software (2014-2016); AI tools are a faster cycle given free/low-cost add-on nature",
+      "source": "Multiple home inspection industry sources aggregated",
+      "url": "https://homeinspecto.com/blog/digital-reporting-professional-insight",
+      "figure_quoted": "91% of certified inspectors in the United States now utilize some form of digital reporting, compared to just 42% a decade ago",
+      "access_date": "2026-07-20",
+      "quality": "MED"
+    },
+    "owners_60plus_pct": {
+      "value": 0.35,
+      "source": "ASHI — American Society of Home Inspectors, article on next-generation engagement",
+      "url": "https://www.homeinspector.org/engaging-the-next-generation-of-home-inspectors-opportunity-urgency-and-a-path-forward",
+      "figure_quoted": "Approximately 80% of all active inspectors are over 40, and fewer than 5% are under 30. Average age range: 53-57 years old.",
+      "access_date": "2026-07-20",
+      "quality": "ESTIMATE",
+      "succession_shortage_documented": {
+        "value": true,
+        "evidence": "ASHI article explicitly states: 'a wave of retirements is coming, and the profession needs to be intentional about who is coming up behind' and 'solo inspectors retire without succession plans, leaving market share available to those who are ready.' Succession shortage clearly documented. Owners 60+ estimated at 0.35 (ESTIMATE): if average age is 53-57 and 80% are over 40, a right-skewed distribution with sparse young entrants implies ~30-40% are 60+."
+      }
+    },
+    "active_consolidators": {
+      "value": 2,
+      "source": "Industry news, franchise disclosure data, Porch Group/ISN reporting",
+      "url": "https://wini.com/franchise/future-of-home-inspection-industry/",
+      "figure_quoted": "Porch is signaling another acquisition streak; investor appetite from firms like Radian Capital suggests continued strategic interest. Franchise systems (HouseMaster/Neighborly, WIN Home Inspection) represent organized consolidation platforms.",
+      "access_date": "2026-07-20",
+      "quality": "LOW"
+    },
+    "buy_mult": {
+      "value": 3.5,
+      "source": "HedgeStone Business Advisors — Home Inspection Business Valuation Guide; BizBuySell data",
+      "url": "https://homeservicesbusinessvaluation.com/home-inspection-business-valuation/how-to-sell-a-home-inspection-business",
+      "figure_quoted": "Home inspection businesses currently sell for 2x–4x SDE and 3.2x–6.5x EBITDA in today's market. Average SDE multiple 2.8x.",
+      "access_date": "2026-07-20",
+      "quality": "MED"
+    },
+    "exit_mult": {
+      "value": 7.0,
+      "source": "BizBuySell/industry broker data; Spectora majority sale context; PE home services multiples",
+      "url": "https://www.bizbuysell.com/learning-center/industry-valuation-multiples/",
+      "figure_quoted": "Home inspection EBITDA multiples 3.2x-6.5x for small firms; PE home services platforms command premium 7-9x at exit per broker commentary. Using 7.0x for a $10M+ EBITDA inspection platform reflecting platform premium over small-firm buy multiples.",
+      "access_date": "2026-07-20",
+      "quality": "LOW"
+    },
+    "pricing_structure": {
+      "value": "Flat per-inspection fee (dominant: ~90%+ of residential revenue); per-item add-ons (radon, sewer scope, thermal imaging); commercial PCA priced by scope/project",
+      "source": "HomeAdvisor/Angi cost guide; InterNACHI member survey data",
+      "url": "https://www.angi.com/articles/how-much-does-home-inspection-cost.htm",
+      "figure_quoted": "Home inspections usually cost around $343 with most homeowners paying between $296 and $424; many inspectors charge a fixed price for homes up to 2,000 square feet",
+      "access_date": "2026-07-20",
+      "quality": "HIGH"
+    }
+  },
+  "scores": {
+    "V": {
+      "arithmetic": "ai_replaceable_share=0.349 (breakdown: inspectors 0.70×0.28=0.196 + owner-mgrs 0.12×0.25=0.030 + admin 0.12×0.85=0.102 + specialty 0.06×0.35=0.021 = 0.349). V_raw=0.4974×0.349=0.1735926. V=10×min(1,0.1735926/0.25)=10×0.6943704=6.943704",
+      "score": 6.943704
+    },
+    "C": {
+      "arithmetic": "C=10×pi_dist×pi_moat=10×0.52×0.45=10×0.234=2.34",
+      "score": 2.34
+    },
+    "A": {
+      "arithmetic": "A=min(10,10/t50_years)=min(10,10/3.0)=min(10,3.333333)=3.333333",
+      "score": 3.333333
+    },
+    "B": {
+      "arithmetic": "n_band=40. TD=clamp(log10(40)/4,0,1)=clamp(1.60206/4,0,1)=clamp(0.400515,0,1)=0.400515. owners_60plus_pct=0.35; OW_raw=clamp((0.35-0.10)/0.35,0.1,0.9)=clamp(0.714286,0.1,0.9)=0.714286; succession_shortage_documented=true → OW=min(1.0,0.714286+0.1)=min(1.0,0.814286)=0.814286. active_consolidators=2; CFD=min(0.9,log10(3)/2)=min(0.9,0.477121/2)=min(0.9,0.238561)=0.238561. B=10×sqrt(0.400515×0.814286)/(1+0.3×0.238561)=10×sqrt(0.326134)/(1+0.071568)=10×0.571081/1.071568=5.710810/1.071568=5.329318",
+      "score": 5.329318
+    },
+    "M": {
+      "arithmetic": "M=clamp(4×(exit_mult-buy_mult)/buy_mult,0,10)=clamp(4×(7.0-3.5)/3.5,0,10)=clamp(4×3.5/3.5,0,10)=clamp(4×1.0,0,10)=clamp(4.0,0,10)=4.0",
+      "score": 4.0
+    }
+  },
+  "S": 4.098,
+  "cross_checks": {
+    "uplift_pp": 17.36,
+    "uplift_vs_A_consistent": "V_raw=0.1736, interpreted as 17.36pp EBITDA uplift (V_raw × 100). A=3.33 (below 5). No tension: uplift_pp=17.36 is well above 3pp and A is below 5, so cross-check 1 is satisfied. The uplift is substantial (17.36pp) consistent with AI eliminating ~35% of labor cost in the automatable portions; A is moderate because 33% adoption today still leaves years to reach 50%.",
+    "terminal_value": {
+      "class": "DURABLE",
+      "justification": "The physical walk-through is the legal/contractual core of the inspection product: lender requirements, E&O-backed written opinions, and state licensing embed the human inspection in the transaction. AI cuts the operator's report-production costs (margin gain on an intact product) but does not replace the product itself. The waiver rate peaked at 30% in 2022 and has declined to 17-20% by 2025-2026 as the market normalized, indicating structural demand for the human inspection persists. Inspection waivers track competitive market conditions, not AI capability. AI-photo-assisted seller disclosure is a risk but not yet a substitute for the liability-backed licensed inspector opinion. Terminal value: DURABLE. The demand mechanism (licensed human walk-through as contingency) survives mature AI."
+    },
+    "no_proxy_confirmed": "V was set using a rebuilt role-mix based on the prompt's hypothesized occupation structure for 541350 proper (inspector-dominated), not on PE deal activity or consolidation trends. A was derived from Spectora adoption data (33% current) and the digital-software analog (2 years to cross 50% from 42%), both direct evidence of technology adoption curves, not M&A activity.",
+    "pricing_model_deflation": "Billing model is flat per-inspection fee (~$300-$500), set by local market comparables, not hours. When AI cuts report-writing time by 25-50% (per Spectora data), the inspector retains the efficiency gain as margin because clients pay a fixed fee regardless of time spent. This is the opposite of cost-plus/hourly billing. Deflation risk exists only at the market level (oversupply driving fee competition), not at the per-job level. pi_dist=0.52 reflects this partial margin-capture capability — better than hourly/cost-plus, discounted for realtor-controlled referral flow. pi_moat=0.45 reflects physical-presence requirement and licensing but limited proprietary moat. The flat-fee structure is captured in pi_dist rather than deflating it further through pi_moat."
+  },
+  "confidence_overall": "MED",
+  "heterogeneous": false,
+  "top_uncertain_inputs": [
+    {
+      "input": "t50_years",
+      "plausible_range": "2 to 5 years",
+      "score_impact": "At t50=2: A=5.0, S≈4.51. At t50=5: A=2.0, S≈3.71. Range of S: ~3.71–4.51 around central 4.10."
+    },
+    {
+      "input": "ai_replaceable_share",
+      "plausible_range": "0.23 to 0.44 (rebuilding 4-digit role_mix introduces substantial uncertainty)",
+      "score_impact": "At ARS=0.23: V_raw=0.1144, V=4.58, S≈3.76. At ARS=0.44: V_raw=0.2189, V=8.76, S≈4.42."
+    },
+    {
+      "input": "exit_mult",
+      "plausible_range": "5.5 to 9.0x EBITDA",
+      "score_impact": "At exit_mult=5.5: M=2.86, S≈3.84. At exit_mult=9.0: M=6.29, S≈4.42."
+    }
+  ],
+  "reviewer_note": "Role-mix warning applied per prompt: the provided 4-digit 5413 OEWS role_mix is engineering-service dominated (47-4011 Construction and Building Inspectors only 2.05% of wage bill) and materially misrepresents 541350. Role structure was fully rebuilt using prompt hypotheses (inspector-dominated, ~70% wage share). All within-role fractions are hypothesis; ai_replaceable_share quality set to LOW accordingly. Waiver rate data (NAR 2025-2026: 17-20%) used to calibrate terminal value; peak was 30% in June 2022. EBITDA normalization note: industry is overwhelmingly SDE owner-operator; buy_mult of 3.5x converted from 2.8x SDE average (owner comp added back approximately equals one working inspector salary ~$65-75K, yielding ~10-20% conversion from SDE to EBITDA multiple). Sub-segment: dominant segment is residential home inspection; commercial PCA is smaller. Not scored as heterogeneous — residential is clearly dominant. n_band=40 is very thin (only 100-499 and 500+ size classes); the roll-up target pool is the multi-inspector regional firm and franchise operator subset."
+}

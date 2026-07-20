@@ -1,0 +1,305 @@
+{
+  "naics": "541191",
+  "title": "Title Abstract and Settlement Offices",
+  "run_meta": {
+    "model_id": "claude-sonnet-4-6",
+    "run_date": "2026-07-20",
+    "run_id": "fleet-s2-541191",
+    "template_version": "3.0",
+    "prompt_version": "p3-aff6579"
+  },
+  "dataset_inputs": {
+    "labor_share": {
+      "value": 0.3564,
+      "method": "QCEW 2024 private total annual wages at 541191 ($4,182,567,257) x benefits multiplier 1.4294 [ECEC private-industry total comp $46.60/hr / wages $32.60/hr = 1.4294 (March 2026 reference period)] / SUSB 2022 receipts at 541191 ($12,511,998,000). Vintage mismatch: 2024 wages over 2022 receipts, stated. Level: 6-digit. Harmonized to IPS basis ÷1.3407 (median of 65 dual-method codes).",
+      "sources": [
+        "BLS QCEW 2024 annual averages (US000, private)",
+        "BLS ECEC news release (raw/ecec.nr0.htm)",
+        "Census SUSB 2022 (receipts by NAICS)"
+      ],
+      "year": "2024 wages / 2022 receipts",
+      "quality": "MED"
+    },
+    "role_mix": {
+      "oews_level": "4-digit 5411",
+      "occupations": [
+        {
+          "soc": "23-1011",
+          "title": "Lawyers",
+          "emp_share": 0.3717,
+          "wage_share": 0.6215
+        },
+        {
+          "soc": "23-2011",
+          "title": "Paralegals and Legal Assistants",
+          "emp_share": 0.2349,
+          "wage_share": 0.1312
+        },
+        {
+          "soc": "43-6012",
+          "title": "Legal Secretaries and Administrative Assistants",
+          "emp_share": 0.1039,
+          "wage_share": 0.0551
+        },
+        {
+          "soc": "43-9061",
+          "title": "Office Clerks, General",
+          "emp_share": 0.0262,
+          "wage_share": 0.01
+        },
+        {
+          "soc": "43-4171",
+          "title": "Receptionists and Information Clerks",
+          "emp_share": 0.0204,
+          "wage_share": 0.0073
+        },
+        {
+          "soc": "43-3031",
+          "title": "Bookkeeping, Accounting, and Auditing Clerks",
+          "emp_share": 0.0194,
+          "wage_share": 0.0098
+        },
+        {
+          "soc": "43-1011",
+          "title": "First-Line Supervisors of Office and Administrative Support Workers",
+          "emp_share": 0.0188,
+          "wage_share": 0.0132
+        },
+        {
+          "soc": "43-6014",
+          "title": "Secretaries and Administrative Assistants, Except Legal, Medical, and Executive",
+          "emp_share": 0.0185,
+          "wage_share": 0.0077
+        },
+        {
+          "soc": "23-2093",
+          "title": "Title Examiners, Abstractors, and Searchers",
+          "emp_share": 0.0166,
+          "wage_share": 0.0082
+        },
+        {
+          "soc": "11-1021",
+          "title": "General and Operations Managers",
+          "emp_share": 0.0155,
+          "wage_share": 0.0229
+        }
+      ],
+      "quality": "MED"
+    },
+    "n_total": {
+      "value": 6803,
+      "source": "SUSB 2022 (firms, all enterprise sizes)",
+      "year": "2022",
+      "quality": "HIGH"
+    },
+    "n_band": {
+      "value": 102,
+      "derivation": "margin 0.1565 (margins.json[54]: Damodaran Jan 2026: Business & Consumer Services EBITDA/Sales 15.65%); revenue/employee $168,353 (SUSB 2022 receipts/employment at 541191); class <5: 4,072 firms, avg revenue/firm $292,418 (class receipts/firms), implied EBITDA $45,763 -> out of $1-10M band; class 5-9: 1,314 firms, avg revenue/firm $898,276 (class receipts/firms), implied EBITDA $140,580 -> out of $1-10M band; class 10-19: 724 firms, avg revenue/firm $1,931,006 (class receipts/firms), implied EBITDA $302,202 -> out of $1-10M band; class 20-99: 527 firms, avg revenue/firm $5,806,233 (class receipts/firms), implied EBITDA $908,676 -> out of $1-10M band; class 100-499: 102 firms, avg revenue/firm $14,974,725 (class receipts/firms), implied EBITDA $2,343,545 -> IN $1-10M band; class 500+: 64 firms, avg revenue/firm $64,930,969 (class receipts/firms), implied EBITDA $10,161,697 -> out of $1-10M band; n_band = 102",
+      "margin_used": 0.1565,
+      "margin_source": "Damodaran Jan 2026: Business & Consumer Services EBITDA/Sales 15.65%",
+      "quality": "ESTIMATE"
+    }
+  },
+  "inputs": {
+    "ai_replaceable_share": {
+      "value": 0.39875,
+      "breakdown_by_role": [
+        {
+          "role": "Title examiners, abstractors and searchers",
+          "labor_share_of_total": 0.225,
+          "within_role_automatable_fraction": 0.5,
+          "contribution": 0.1125,
+          "rationale": "Automated search on digitized, indexed county records is well advanced (AI tools like DataTrace/SoftPro handle bulk searches); AEGIS Land Title doubled examiner throughput with AI commitment drafting. However, unindexed/historic records, metes-and-bounds legal descriptions and curative judgment remain human. Hypothesis ~50% of this role's labor is in AI-exposed tasks. Plausible range 40-65%.",
+          "plausible_range": "0.40-0.65"
+        },
+        {
+          "role": "Escrow officers and settlement closers",
+          "labor_share_of_total": 0.225,
+          "within_role_automatable_fraction": 0.25,
+          "contribution": 0.05625,
+          "rationale": "CD/settlement-statement preparation, disbursement coordination and file management automate well; fraud-sensitive wire release, licensed escrow duties and closing-table presence remain human. State licensure is not automatable. Hypothesis ~25% of labor in AI-exposed tasks. Plausible range 15-35%.",
+          "plausible_range": "0.15-0.35"
+        },
+        {
+          "role": "Processors, curative and post-closing staff",
+          "labor_share_of_total": 0.2,
+          "within_role_automatable_fraction": 0.7,
+          "contribution": 0.14,
+          "rationale": "Order entry, payoff requests, recording, policy issuance, status tracking — workflow tasks AI handles very well. Most compressible cost line. Curative on hard titles needs judgment but ~30% of this role. Hypothesis ~70% automatable. Plausible range 55-80%.",
+          "plausible_range": "0.55-0.80"
+        },
+        {
+          "role": "Owners, licensed title agents and managers",
+          "labor_share_of_total": 0.15,
+          "within_role_automatable_fraction": 0.1,
+          "contribution": 0.015,
+          "rationale": "Underwriter appointments, state licenses, and realtor/lender referral relationships are the moat; AI replaces neither the license nor the relationship. Small documentation/reporting fraction automatable. Hypothesis ~10% of labor in AI-exposed tasks. Plausible range 5-15%.",
+          "plausible_range": "0.05-0.15"
+        },
+        {
+          "role": "Sales reps (realtor/lender relationship managers)",
+          "labor_share_of_total": 0.1,
+          "within_role_automatable_fraction": 0.0,
+          "contribution": 0.0,
+          "rationale": "Order flow is won through personal relationships with realtors, lenders and builders — the actual moat of a title agency. No AI substitution for the personal trust relationship. Hypothesis 0% automatable. Plausible range 0-5%.",
+          "plausible_range": "0.00-0.05"
+        },
+        {
+          "role": "Reception and general admin",
+          "labor_share_of_total": 0.1,
+          "within_role_automatable_fraction": 0.75,
+          "contribution": 0.075,
+          "rationale": "Standard front-office automation: scheduling, intake, routing, basic communications. Already being replaced by title-specific SaaS (Qualia, Resware). Hypothesis ~75% automatable. Plausible range 60-85%.",
+          "plausible_range": "0.60-0.85"
+        }
+      ],
+      "quality": "LOW"
+    },
+    "pi_dist": {
+      "value": 0.35,
+      "rationale": "Order flow is controlled upstream by realtors, lenders and builders; RESPA Section 8 affiliated business arrangements (JVs between lenders/agents and title companies) institutionalize this captivity. The title agency often does NOT own its demand — it wins orders through personal rep relationships owned by individual employees (not the firm). Premium split is regulator-set (state promulgated or filed rates) so the agency keeps its filed share but regulators could claw back efficiency gains via rate cases. Settlement fees are market-priced with lender/realtor fee pressure. Premium-split revenue (est. ~65% of total) has moderate client control; settlement fees (~35%) are price-competed. Blended pi_dist = 0.35. Plausible range 0.25-0.45.",
+      "plausible_range": "0.25-0.45",
+      "sources": [
+        "ALTA FAQ for Lenders — Title Insurance vs. Attorney Opinion Letters (Jan 2024): https://www.alta.org/file/January-2024-Frequently-Asked-Questions-for-Lenders-Considering-Title-Insurance-vs-Attorney-Opinion-Letters-",
+        "Prompt industry-specific guidance on RESPA Section 8 affiliated business constraints and order-flow captivity",
+        "HousingWire — Title Insurance Leaders Betting on Technology and Efficiency for 2026: https://www.housingwire.com/articles/title-insurance-leaders-bet-on-technology-efficiency-for-2026-growth/"
+      ],
+      "quality": "LOW"
+    },
+    "pi_moat": {
+      "value": 0.4,
+      "rationale": "Barriers include: (1) state title/escrow licensure and underwriter appointment (entry barrier but can be routed around by underwriter direct operations); (2) local relationship equity with title plant/county records data; (3) realtor/lender rep relationships (owned by individual employees, not the firm — highly portable). Against these: GSE AOL programs small but extant (Fannie purchased 10K+ loans with AOLs since 2009; Fannie scrapped the broader title waiver pilot in Aug 2023 but AOL remains); underwriters expanding direct operations; generic consumer AI can threaten the doc-prep/commitment letter drafting tasks. Net moat: medium-low. 0.40. Plausible range 0.30-0.55.",
+      "plausible_range": "0.30-0.55",
+      "sources": [
+        "HousingWire — Fannie Mae Scraps Title Waiver Pilot Program (2023): https://www.housingwire.com/articles/fannie-mae-scraps-title-waiver-pilot-program/",
+        "Freddie Mac expands use of AOLs: https://www.housingwire.com/articles/freddie-mac-expands-use-of-aols-in-selling-guide-update/",
+        "Fannie Mae AOL page: https://singlefamily.fanniemae.com/initiative-updates/attorney-opinion-letter"
+      ],
+      "quality": "LOW"
+    },
+    "t50_years": {
+      "value": 4.0,
+      "derivation": "Current_adoption_pct estimated at 35% materially (Qualia 2025: 90% use any AI, ~33% daily+30% weekly = 63% regular use of some AI tool; material use in specifically automatable core functions estimated at 35% — conservative adjustment given most 'use' is chatbots/productivity tools rather than title-search/curative/processing workflow AI). Gap to 50%: 15 percentage points. Historical analog: e-closing adoption in title industry went from 21% (2020) to 56% (2023), crossing 50% in ~3 years at ~12pp/year. AI in automatable functions likely slower than e-closing (which was driven by lender/GSE pressure) — pace ~5pp/year estimated given active lender/platform pressure but more complex integration. 15pp gap / 5pp per year = 3 years; rounding up for integration friction and the conservative definition of 'material': t50 = 4 years (2030). Plausible range: 3-7 years.",
+      "plausible_range": "3-7 years",
+      "quality": "LOW"
+    },
+    "current_adoption_pct": {
+      "value": 0.35,
+      "source": "Qualia State of AI in Title & Escrow 2025 survey (631 professionals); ALTA reprint July 2024",
+      "url": "https://www.alta.org/news-and-publications/news/20240716-90-of-Title-Professionals-Already-Using-AI-Qualia-Survey-Shows",
+      "figure_quoted": "90% of title & escrow professionals have already adopted generative AI solutions; ~33% use AI daily and ~30% weekly. Only 17% of firms have a formal AI policy. Material use in specifically automatable core functions (title search, curative, processing workflow AI) estimated conservatively at 35%; the 90% figure captures any AI use including chatbots and personal productivity tools not integrated into production workflows.",
+      "access_date": "2026-07-20",
+      "quality": "MED"
+    },
+    "historical_analogs": {
+      "value": "E-closing (digital/hybrid closings) in title industry: 21% adoption in 2020 to 56% in 2023 (~3 years to reach 50%). ALTA 2023 Digital Closing Survey: 61% of title/settlement companies offer some digital closing; fully digital or hybrid closing transactions rose from 7% (2021) to 10% (2023).",
+      "source": "ALTA Digital Closing Survey 2023 (published Oct 2023); TitleCapture blog citing ALTA/Voice of Title Agent data",
+      "url": "https://www.alta.org/blog/post/alta-survey-digital-closings-increase-but-barriers-slow-adoption",
+      "figure_quoted": "Fully digital or hybrid closings increased to 10% of all transactions last year compared to 7% of all deals closed in 2021; 61% of title and settlement companies offering some form of digital or remote closing services (2023). Voice of the Title Agent 2023: 56% of title agencies performing eClosings vs. 21% in 2020.",
+      "access_date": "2026-07-20",
+      "quality": "MED"
+    },
+    "owners_60plus_pct": {
+      "value": 0.4,
+      "source": "Liberty Mutual 2023 Agency Growth Study (insurance agency principals broadly; no ALTA-specific owner-age survey found); general small-business demographic data",
+      "url": "https://agentforthefuture.com/topics/agency-operations/insurance-agency-perpetuation/insurance-agency-perpetuation-research/",
+      "figure_quoted": "40% of agency principals surveyed were older than 60 (Liberty Mutual 2023 Agency Growth Study; covers independent insurance agencies broadly — applied to title agencies as best available proxy; no ALTA-specific owner-age data published).",
+      "access_date": "2026-07-20",
+      "quality": "LOW",
+      "succession_shortage_documented": {
+        "value": false,
+        "evidence": "No ALTA-specific succession shortage documentation found. General small-business data (Gallup 2025) shows only 54% of small-business owners have a formal succession plan; 63% say 'too early' to plan (Project Equity). Liberty Mutual data shows 50% of agency principals expect major ownership change in next 10 years but no title-industry-specific succession shortage formally documented. Succession bonus not applied."
+      }
+    },
+    "active_consolidators": {
+      "value": 3,
+      "source": "ALTA Industry News; HousingWire M&A coverage; press releases 2023-2025",
+      "url": "https://www.alta.org/business-operations/title-insurance-mergers",
+      "figure_quoted": "Active acquirers of title agencies in last 24 months: (1) FNF — acquired First Nationwide Title Agency commercial operations (Oct 2024), Metro Title NC (2024), AllFirst Title Insurance Agency (2022); (2) Stewart Title Guaranty — acquired All New York Title Agency Inc. (2024); (3) Shaddock National Holdings (PE-backed, Plano TX) — ongoing agency roll-up targeting single-owner operations 2020-present. No large PE-backed pure-play agency consolidators beyond Shaddock found; FNF and Stewart are strategic underwriter acquirers. Count = 3.",
+      "access_date": "2026-07-20",
+      "quality": "MED"
+    },
+    "buy_mult": {
+      "value": 4.0,
+      "source": "System2Thinking title agency valuation article (2023); real estate services lower-middle market comps",
+      "url": "https://system2thinking.org/title-agency-valuation/",
+      "figure_quoted": "For our industry, the multiplier for 2023 ranges between 3 and 6.5 (profit multiplier method). For small single-location title agencies in the mortgage-cycle downturn of 2023-2024, multiples compressed to the lower end of this range. ESTIMATE: 4.0x normalized EBITDA (after market-rate owner compensation) for single-location firms; aligns with lower middle market professional services comps of 4-6x for sub-$2M EBITDA businesses.",
+      "access_date": "2026-07-20",
+      "quality": "ESTIMATE"
+    },
+    "exit_mult": {
+      "value": 7.0,
+      "source": "FNF/First American investor disclosures; title agency M&A coverage; professional services platform exit comps",
+      "url": "https://www.prnewswire.com/news-releases/fidelity-national-financial-acquires-first-nationwide-title-agency-302265920.html",
+      "figure_quoted": "FNF and First American public EV/EBITDA multiples trade at 10-12x; private platform agency acquisitions (Doma/TRG Centerbridge transaction 2024) imply lower single-digit to mid-single-digit platform multiples given mortgage cycle depression. Strategic underwriter acquisitions of multi-location platforms historically at 6-9x EBITDA. ESTIMATE: 7.0x for $10M+ EBITDA title agency platforms (strategic buyer basis, post-2022 mortgage cycle compression). This is below pre-2022 levels (~9-10x) due to depressed origination volumes.",
+      "access_date": "2026-07-20",
+      "quality": "ESTIMATE"
+    },
+    "pricing_structure": {
+      "value": "Two revenue lines: (1) Title insurance premium split (~65% of revenue): regulated rate — agent keeps ~70-80% of filed premium (state-specific; promulgated in TX/NM, filed elsewhere); rate changes require regulatory approval (slow deflation channel). (2) Settlement/escrow fees (~35% of revenue): market-priced per-transaction flat fees set by agency, subject to lender/realtor competitive pressure (fast deflation channel). No hourly billing; no retainer. Pure per-transaction model with regulated and unregulated components.",
+      "source": "ALTA FAQ for Lenders (Jan 2024); state title rate filing structures (TX promulgated rate as primary example); industry structure from prompt guidance",
+      "url": "https://www.alta.org/file/January-2024-Frequently-Asked-Questions-for-Lenders-Considering-Title-Insurance-vs-Attorney-Opinion-Letters-",
+      "figure_quoted": "Title agencies operate on a premium-split model where the agent retains approximately 70-80% of the title insurance premium (state-specific) and separately charges settlement/escrow fees per transaction. Total revenue is thus split between regulated (premium split, ~65%) and market-priced (settlement fees, ~35%) components.",
+      "access_date": "2026-07-20",
+      "quality": "MED"
+    }
+  },
+  "scores": {
+    "V": {
+      "arithmetic": "ai_replaceable_share = sum of role contributions: (0.225×0.50)+(0.225×0.25)+(0.20×0.70)+(0.15×0.10)+(0.10×0.00)+(0.10×0.75) = 0.1125+0.05625+0.14+0.015+0.0+0.075 = 0.39875. V_raw = 0.3564 × 0.39875 = 0.14211450. V = 10 × min(1, 0.14211450/0.25) = 10 × 0.56845800 = 5.6845800",
+      "score": 5.6845800
+    },
+    "C": {
+      "arithmetic": "C = 10 × pi_dist × pi_moat = 10 × 0.35 × 0.40 = 1.40",
+      "score": 1.40
+    },
+    "A": {
+      "arithmetic": "A = min(10, 10/t50_years) = min(10, 10/4.0) = min(10, 2.5) = 2.5",
+      "score": 2.5
+    },
+    "B": {
+      "arithmetic": "n_band=102; TD = clamp(log10(102)/4, 0, 1) = clamp(2.008600/4, 0, 1) = clamp(0.502150, 0, 1) = 0.502150. owners_60plus_pct=0.40, succession_shortage=false; OW = clamp((0.40-0.10)/0.35, 0.1, 0.9) = clamp(0.857142857, 0.1, 0.9) = 0.857142857; no succession bonus. active_consolidators=3; CFD = min(0.9, log10(1+3)/2) = min(0.9, log10(4)/2) = min(0.9, 0.602059961/2) = min(0.9, 0.301029980) = 0.301029980. B = 10 × sqrt(0.502150 × 0.857142857) / (1 + 0.3 × 0.301029980) = 10 × sqrt(0.430414163) / (1 + 0.090308994) = 10 × 0.656060961 / 1.090308994 = 6.017194",
+      "score": 6.017190
+    },
+    "M": {
+      "arithmetic": "M = clamp(4 × (exit_mult - buy_mult) / buy_mult, 0, 10) = clamp(4 × (7.0 - 4.0) / 4.0, 0, 10) = clamp(4 × 0.75, 0, 10) = clamp(3.0, 0, 10) = 3.0",
+      "score": 3.0
+    }
+  },
+  "S": 3.243817,
+  "cross_checks": {
+    "uplift_pp": 14.211,
+    "uplift_vs_A_consistent": "V_raw = 0.14211, which converts to ~14.2 percentage points of revenue freed. A = 2.5 (t50 = 4 years, moderately slow). Uplift 14.2pp >> 3pp threshold, fully consistent with A = 2.5. No tension: the moderate A score reflects that adoption is in mid-transition, not that the value opportunity is small.",
+    "terminal_value": {
+      "class": "PRESSURED",
+      "justification": "AI cuts agency labor cost significantly (V_raw ~14pp of revenue) but does NOT eliminate the product. Title insurance is mandated by lenders (GSE guidelines, secondary market requirements) and is a state-regulated product. The Fannie Mae title waiver pilot was scrapped in August 2023; AOLs remain a niche alternative (<10,000 loans out of millions annually). The underlying demand for title assurance PERSISTS because: (1) lenders need protection against title defects regardless of AI efficiency; (2) state-regulated premium structure means the 'toll' survives even if labor content collapses; (3) hard title curative cases require professional judgment. HOWEVER, demand is PRESSURED by: (1) rate regulators may reduce promulgated rates when AI visibly cuts costs; (2) underwriters expanding direct operations squeeze agent premium splits; (3) GSE policy evolution (AOL, e-mortgage, title modernization initiatives) could gradually erode transaction volume for independent agents on low-risk refis. Classify PRESSURED: demand shrinks at the margin but the core product (title insurance on purchase transactions, complex commercial closings, attorney-closing-state work) persists indefinitely."
+    },
+    "no_proxy_confirmed": "V score derived from role-level automation fractions applied to hypothesis role structure — no reference to PE deal activity or consolidation trends. A (t50) derived from current adoption survey data (Qualia 2025) and historical e-closing adoption analog (ALTA 2023 Digital Closing Survey) — no reference to deal activity. Confirmed: V and A set independently of M&A evidence.",
+    "pricing_model_deflation": "Revenue is split: (~65%) regulated premium split where AI efficiency gains accrue to agency as margin expansion (rate cases lag by years; no automatic pass-through); (~35%) market-priced settlement fees subject to lender/realtor competitive pressure where AI efficiency tends to flow to clients as price competition. Blended: premium split line protects ~65% of revenue from immediate pass-through; settlement fee line sees faster deflation. This is captured in pi_dist=0.35 (moderate gatekeeper control, not full capture) and pi_moat=0.40 (licensure and reg structure provide partial price floor). The regulated premium split means AI savings are NOT automatically passed through — they accumulate as margin until a rate case, which is the key distinction vs. pure competitive markets."
+  },
+  "confidence_overall": "LOW",
+  "heterogeneous": false,
+  "top_uncertain_inputs": [
+    {
+      "input": "t50_years",
+      "plausible_range": "3-7 years",
+      "score_impact": "t50=3 → A=3.33 vs t50=7 → A=1.43; S ranges from ~3.5 to ~2.9 holding other inputs fixed. Uncertainty band ±0.3 on S."
+    },
+    {
+      "input": "ai_replaceable_share",
+      "plausible_range": "0.30-0.52 (role hypotheses unverified at 6-digit; OEWS role_mix unusable as-is)",
+      "score_impact": "ai_replaceable_share=0.30 → V_raw=0.107 → V=4.28; ai_replaceable_share=0.52 → V_raw=0.185 → V=7.42; S ranges from ~2.9 to ~3.7."
+    },
+    {
+      "input": "buy_mult",
+      "plausible_range": "3.0-5.5x EBITDA",
+      "score_impact": "At buy=3.0, exit=7.0: M=clamp(4×(7-3)/3,0,10)=5.33; S≈3.7. At buy=5.5, exit=7.0: M=clamp(4×(7-5.5)/5.5,0,10)=1.09; S≈2.7. Significant spread."
+    },
+    {
+      "input": "pi_dist",
+      "plausible_range": "0.25-0.45",
+      "score_impact": "pi_dist=0.25 → C=1.0; pi_dist=0.45 → C=1.8; S ranges from ~3.0 to ~3.5."
+    }
+  ],
+  "reviewer_note": "Role-mix WARNING: The 4-digit OEWS role_mix (Lawyers 62.15% of wages) is entirely unrepresentative of 541191 (title/settlement agency) — the provided role_mix is law-office dominated. All V breakdown uses hypothesis role structure from the prompt (title examiners 22.5%, escrow officers 22.5%, processors 20%, owners 15%, sales reps 10%, admin 10%) rather than the dataset role_mix, flagged as LOW quality. Mortgage-cycle sensitivity: margins and multiples in this record reflect the post-2022 origination downturn (2023-2024 trough); a refi boom recovery would expand EBITDA and multiples. buy_mult and exit_mult are both ESTIMATE quality. active_consolidators=3 may undercount if FNF/First American direct-operation expansion is treated as consolidation; treated here as strategic acquirers (2 underwriters + 1 PE-backed platform = 3). S=3.24 is arithmetic result; reviewer intuition is this feels slightly low given the AI value opportunity but the C score (1.40) correctly penalizes the heavy upstream gatekeeper control of order flow."
+}

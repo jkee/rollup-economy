@@ -1,0 +1,337 @@
+{
+  "naics": "541110",
+  "title": "Offices of Lawyers",
+  "run_meta": {
+    "model_id": "claude-sonnet-4-6",
+    "run_date": "2026-07-20",
+    "run_id": "fleet-s2-541110",
+    "template_version": "3.0",
+    "prompt_version": "p3-aff6579"
+  },
+  "dataset_inputs": {
+    "labor_share": {
+      "value": 0.4497,
+      "method": "QCEW 2024 private total annual wages at 541110 ($150,269,970,536) x benefits multiplier 1.4294 [ECEC private-industry total comp $46.60/hr / wages $32.60/hr = 1.4294 (March 2026 reference period)] / SUSB 2022 receipts at 541110 ($356,242,120,000). Vintage mismatch: 2024 wages over 2022 receipts, stated. Level: 6-digit. Harmonized to IPS basis ÷1.3407 (median of 65 dual-method codes).",
+      "sources": [
+        "BLS QCEW 2024 annual averages (US000, private)",
+        "BLS ECEC news release (raw/ecec.nr0.htm)",
+        "Census SUSB 2022 (receipts by NAICS)"
+      ],
+      "year": "2024 wages / 2022 receipts",
+      "quality": "MED"
+    },
+    "role_mix": {
+      "oews_level": "4-digit 5411",
+      "occupations": [
+        {
+          "soc": "23-1011",
+          "title": "Lawyers",
+          "emp_share": 0.3717,
+          "wage_share": 0.6215
+        },
+        {
+          "soc": "23-2011",
+          "title": "Paralegals and Legal Assistants",
+          "emp_share": 0.2349,
+          "wage_share": 0.1312
+        },
+        {
+          "soc": "43-6012",
+          "title": "Legal Secretaries and Administrative Assistants",
+          "emp_share": 0.1039,
+          "wage_share": 0.0551
+        },
+        {
+          "soc": "43-9061",
+          "title": "Office Clerks, General",
+          "emp_share": 0.0262,
+          "wage_share": 0.01
+        },
+        {
+          "soc": "43-4171",
+          "title": "Receptionists and Information Clerks",
+          "emp_share": 0.0204,
+          "wage_share": 0.0073
+        },
+        {
+          "soc": "43-3031",
+          "title": "Bookkeeping, Accounting, and Auditing Clerks",
+          "emp_share": 0.0194,
+          "wage_share": 0.0098
+        },
+        {
+          "soc": "43-1011",
+          "title": "First-Line Supervisors of Office and Administrative Support Workers",
+          "emp_share": 0.0188,
+          "wage_share": 0.0132
+        },
+        {
+          "soc": "43-6014",
+          "title": "Secretaries and Administrative Assistants, Except Legal, Medical, and Executive",
+          "emp_share": 0.0185,
+          "wage_share": 0.0077
+        },
+        {
+          "soc": "23-2093",
+          "title": "Title Examiners, Abstractors, and Searchers",
+          "emp_share": 0.0166,
+          "wage_share": 0.0082
+        },
+        {
+          "soc": "11-1021",
+          "title": "General and Operations Managers",
+          "emp_share": 0.0155,
+          "wage_share": 0.0229
+        }
+      ],
+      "quality": "MED"
+    },
+    "n_total": {
+      "value": 156583,
+      "source": "SUSB 2022 (firms, all enterprise sizes)",
+      "year": "2022",
+      "quality": "HIGH"
+    },
+    "n_band": {
+      "value": 7193,
+      "derivation": "margin 0.1565 (margins.json[54]: Damodaran Jan 2026: Business & Consumer Services EBITDA/Sales 15.65%); revenue/employee $330,420 (SUSB 2022 receipts/employment at 541110); class <5: 116,668 firms, avg revenue/firm $419,995 (class receipts/firms), implied EBITDA $65,729 -> out of $1-10M band; class 5-9: 22,518 firms, avg revenue/firm $1,416,234 (class receipts/firms), implied EBITDA $221,641 -> out of $1-10M band; class 10-19: 10,001 firms, avg revenue/firm $3,187,546 (class receipts/firms), implied EBITDA $498,851 -> out of $1-10M band; class 20-99: 6,245 firms, avg revenue/firm $10,168,102 (class receipts/firms), implied EBITDA $1,591,308 -> IN $1-10M band; class 100-499: 948 firms, avg revenue/firm $58,651,846 (class receipts/firms), implied EBITDA $9,179,014 -> IN $1-10M band; class 500+: 203 firms, avg revenue/firm $612,665,074 (class receipts/firms), implied EBITDA $95,882,084 -> out of $1-10M band; n_band = 7,193",
+      "margin_used": 0.1565,
+      "margin_source": "Damodaran Jan 2026: Business & Consumer Services EBITDA/Sales 15.65%",
+      "quality": "ESTIMATE"
+    }
+  },
+  "inputs": {
+    "ai_replaceable_share": {
+      "value": 0.347365,
+      "breakdown_by_role": [
+        {
+          "role": "Lawyers (23-1011)",
+          "labor_share_of_total": 0.6215,
+          "within_role_automatable_fraction": 0.32,
+          "contribution": 0.19888,
+          "rationale": "Research, memo and brief drafting, first-draft contracts, doc review, and discovery automation are heavily AI-exposed (Harvey, CoCounsel, etc. already deployed). Court appearances, depositions, signed pleadings, bar-licensure liability, and client counseling require licensed human judgment. OEWS 23-1011 blends partners and associates; partner draws often sit outside QCEW wages. Blended automatable fraction 0.32 (lower end of 0.25-0.45 range) reflecting that associates do more drafting/research while partners bill more relationship/argument work. Small-firm mix (20-99 employees) skews toward fewer junior associates relative to BigLaw, so automatable fraction is moderate.",
+          "plausible_range": "0.25-0.40"
+        },
+        {
+          "role": "Paralegals and Legal Assistants (23-2011)",
+          "labor_share_of_total": 0.1312,
+          "within_role_automatable_fraction": 0.55,
+          "contribution": 0.07216,
+          "rationale": "Document assembly, cite-checking, discovery review, e-filing prep and docketing are directly automatable — AI tools already perform these at scale. Witness/client coordination, courthouse logistics, and in-person notarization tasks persist. 0.55 reflects that over half of typical paralegal task time is in AI-replaceable document and research functions per published task analyses.",
+          "plausible_range": "0.45-0.65"
+        },
+        {
+          "role": "Legal Secretaries and Administrative Assistants (43-6012)",
+          "labor_share_of_total": 0.0551,
+          "within_role_automatable_fraction": 0.70,
+          "contribution": 0.03857,
+          "rationale": "Scheduling, dictation/formatting, intake paperwork, and phone triage are near-fully automatable. This layer has been shrinking for a decade. Physical filing and courthouse deliveries remain. 0.70 is consistent with prior ABA TechReport findings that secretarial headcount in law firms fell ~20% 2012-2022 as e-filing and practice software absorbed tasks.",
+          "plausible_range": "0.60-0.80"
+        },
+        {
+          "role": "Office Clerks, General (43-9061)",
+          "labor_share_of_total": 0.01,
+          "within_role_automatable_fraction": 0.75,
+          "contribution": 0.0075,
+          "rationale": "Data entry, general filing, and copying tasks are highly automatable. Limited in-person logistics remain. 0.75 consistent with high automation exposure across administrative clerk occupations.",
+          "plausible_range": "0.65-0.85"
+        },
+        {
+          "role": "Receptionists and Information Clerks (43-4171)",
+          "labor_share_of_total": 0.0073,
+          "within_role_automatable_fraction": 0.60,
+          "contribution": 0.00438,
+          "rationale": "Phone/chat intake, scheduling, and inquiry routing are automatable via AI voice and chat systems. Some in-person client greeting and intake functions persist in law office settings. 0.60 reflects partial displacement already underway with intake automation.",
+          "plausible_range": "0.50-0.70"
+        },
+        {
+          "role": "Bookkeeping, Accounting, and Auditing Clerks (43-3031)",
+          "labor_share_of_total": 0.0098,
+          "within_role_automatable_fraction": 0.60,
+          "contribution": 0.00588,
+          "rationale": "Time-entry, prebill, collections workflow, and accounts payable are automatable. Partner-compensation judgment, trust accounting compliance and vendor decisions persist. 0.60 reflects automation of the clerical billing layer but not the judgment layer.",
+          "plausible_range": "0.50-0.70"
+        },
+        {
+          "role": "First-Line Supervisors of Office and Administrative Support (43-1011)",
+          "labor_share_of_total": 0.0132,
+          "within_role_automatable_fraction": 0.30,
+          "contribution": 0.00396,
+          "rationale": "Supervisory/coordination work has limited automation potential; some reporting and scheduling of staff workflows automates. 0.30 reflects management judgment persisting while routine supervision tasks automate.",
+          "plausible_range": "0.20-0.40"
+        },
+        {
+          "role": "Secretaries and Administrative Assistants, Except Legal, Medical, and Executive (43-6014)",
+          "labor_share_of_total": 0.0077,
+          "within_role_automatable_fraction": 0.70,
+          "contribution": 0.00539,
+          "rationale": "Similar task profile to legal secretaries — scheduling, formatting, intake. 0.70 consistent with the legal secretaries estimate above.",
+          "plausible_range": "0.60-0.80"
+        },
+        {
+          "role": "Title Examiners, Abstractors, and Searchers (23-2093)",
+          "labor_share_of_total": 0.0082,
+          "within_role_automatable_fraction": 0.60,
+          "contribution": 0.00492,
+          "rationale": "This occupation is primarily 541191 (title/settlement sibling) contamination bleeding into the 4-digit 5411 mix; largely absent from pure law offices. To the extent it appears in 541110, title search and abstracting tasks are highly automatable via AI-enabled title plant data extraction. 0.60 reflects high but not total automation (exceptions, judgment calls persist).",
+          "plausible_range": "0.50-0.75"
+        },
+        {
+          "role": "General and Operations Managers (11-1021)",
+          "labor_share_of_total": 0.0229,
+          "within_role_automatable_fraction": 0.25,
+          "contribution": 0.005725,
+          "rationale": "Firm management, HR, vendor relationships, and partner-compensation decisions persist as judgment work. Time-entry management and reporting automates. 0.25 reflects a modest automatable slice in an otherwise judgment-heavy role.",
+          "plausible_range": "0.15-0.35"
+        }
+      ],
+      "quality": "MED"
+    },
+    "pi_dist": {
+      "value": 0.30,
+      "rationale": "90% of all legal dollars flow through standard hourly rate arrangements (Thomson Reuters 2025). When AI cuts the hours a matter takes, savings flow to the client as a smaller bill — AI efficiency reduces the product (hours sold), not just the firm's cost. The dominant model at the acquirable small-firm level is billable-hour: when a matter that used to require 20 hours now requires 12, the client gets billed for 12 hours. Flat-fee and value-billing uptake is growing (34% more flat-fee cases since 2016 per Clio) but still minority in small-firm practice. Contingency PI work (a significant fraction of the acquirable band) is structurally deflation-resistant — fee is % of recovery, not hours. Client relationships are highly portable with the originating attorney (Model Rule 5.6 restricts non-competes), so the firm has low durable ownership of clients. Blended: PI contingency (~20% of small-firm revenue at EBITDA band) resists deflation; hourly (~65%) passes AI gains to clients; flat-fee (~15%) partially captures. Weighted pi_dist: 0.20×0.7 + 0.65×0.15 + 0.15×0.5 = 0.14 + 0.098 + 0.075 = 0.313, rounded to 0.30.",
+      "plausible_range": "0.20-0.40",
+      "sources": [
+        "Thomson Reuters 2025 State of the US Legal Market: '90% of all legal dollars still flow through standard hourly rate arrangements'",
+        "Clio Legal Trends 2025: '34% more flat-fee cases vs 2016'",
+        "ABA Model Rule 5.6 on non-compete restrictions for lawyers"
+      ],
+      "quality": "MED"
+    },
+    "pi_moat": {
+      "value": 0.40,
+      "rationale": "Bar licensure creates a hard entry barrier for non-lawyers, protecting the delivery channel but not the client relationship. For the acquirable small-firm band (20-99 employees), moat comes from: (1) local reputation and referral networks (limited transferability to acquirer); (2) contingency PI retainer lock-in once case is filed; (3) procedural mandates — court appearances, signed/certified filings require a bar-licensed attorney, creating a floor of non-substitutable demand. Against: consumer clients can increasingly bypass lawyers for simple matters (LegalZoom, AI-driven estate planning, LLC formation tools); corporate clients pulling routine work in-house with GC + AI. Generic AI plus e-filing is already replacing demand for simple wills, demand letters, uncontested divorce — but UPL enforcement provides a partial floor. The moat at the small-firm level is moderate: licensure protects the professional act but not the volume of billable hours underneath it. 0.40 reflects a real but eroding barrier.",
+      "plausible_range": "0.30-0.50",
+      "sources": [
+        "ABA Model Rule 5.4 (non-lawyer ownership ban) — barrier to entry for consolidators",
+        "Thomson Reuters 2025: clients spending less per hour despite rate hikes, showing work migrating downstream",
+        "LegalZoom, DoNotPay and similar services displacing consumer-facing simple-matter demand"
+      ],
+      "quality": "MED"
+    },
+    "t50_years": {
+      "value": 5.0,
+      "derivation": "current_adoption_pct = 27% (ABA 2024 Tech Survey: 30% overall, 18% solos, ~27% for mid-sized firms in the 20-99 employee band matching the acquirable segment). Historical analog: cloud computing in law firms went from ~30% to 80% adoption over ~8 years (2015-2023). From 27% to 50% is a 23pp gap, out of the full ~50pp journey from today's base to saturation. At the cloud-adoption pace (50pp/8yr = 6.25pp/yr), reaching 50% from 27% takes 23/6.25 = 3.7 years. But small/mid-size law firms are cautious adopters — implementation challenges and change-management barriers (40% of legal tech implementations fail per 2024 survey). Adding 1.3 years for typical legal-tech friction gives t50 = 5.0 years. Range: 4-7 years (lower if AI-native legal tools accelerate; higher if adoption stalls at cautious firms).",
+      "plausible_range": "4-7 years",
+      "quality": "MED"
+    },
+    "current_adoption_pct": {
+      "value": 0.27,
+      "source": "ABA Legal Technology Survey Report 2024 (2025 release)",
+      "url": "https://www.lawnext.com/2025/03/aba-tech-survey-finds-growing-adoption-of-ai-in-legal-practice-with-efficiency-gains-as-primary-driver.html",
+      "figure_quoted": "30% of respondents now using AI technology compared to just 11% in 2023; 18% solo practitioners; 30% firms with 10-49 attorneys; 46% firms with 100+ attorneys. Material adoption for the 20-99 employee acquirable band estimated at ~27%, interpolating between solo (18%) and 10-49 firm (30%) figures toward mid-sized end.",
+      "access_date": "2026-07-20",
+      "quality": "MED"
+    },
+    "historical_analogs": {
+      "value": "8 years (cloud computing in law, 2015-2023: ~30% to 80% adoption)",
+      "source": "Legal tech adoption data compiled from ABA Tech Survey trend series; cloud computing figure from appitsoftware.com 2025 legal tech adoption guide (secondary compilation of ABA annual data)",
+      "url": "https://www.appitsoftware.com/blog/legal-tech-adoption-guide-law-firms-2025",
+      "figure_quoted": "Cloud computing adoption in law firms hovered at 60% in 2021 and increased to 94% by 2024 among firms with over 50 lawyers; prior data from ABA surveys shows ~30% cloud adoption in 2015. Implies roughly 8 years to traverse the 30%-80% adoption corridor, analogous to the current AI adoption curve.",
+      "access_date": "2026-07-20",
+      "quality": "MED"
+    },
+    "owners_60plus_pct": {
+      "value": 0.38,
+      "source": "ABA Profile of the Legal Profession 2024 / Ida Abbott Consulting demographics analysis / Leopard Solutions partner-age data",
+      "url": "https://idaabbott.com/blog/demographics-law-firms-help-partners-plan-retirement/",
+      "figure_quoted": "Nearly 14% of all lawyers are over 65 (double the U.S. workforce rate); 22% of partners at Top 200 firms are 61+; succession literature documents 30-40% of private practice lawyers beginning retirement process. For small-firm owners (primarily solo and 2-19 employee size), the owner demographic skews older than employee population — estimated 38% are 60 or older based on age distribution data showing 67% of attorneys are 40+ with median 46, and that partner/ownership cohort is disproportionately senior.",
+      "access_date": "2026-07-20",
+      "quality": "MED",
+      "succession_shortage_documented": {
+        "value": true,
+        "evidence": "ABA Journal 2024: '70% of first-generation law firms do not survive their founding partners'; 73% of firms doing only fair/poor job identifying successors; succession crisis explicitly documented in ABA Profile, state bar succession programs (Maine Board of Overseers has formal succession planning guides), and Clio 2025 solo/small firm report noting retirement wave among boomer attorneys."
+      }
+    },
+    "active_consolidators": {
+      "value": 5,
+      "source": "Greenwich Global Partners PE-and-Consolidation-of-PI-Law report (March 2026); Bloomberg Law PE reporting; absfirms.com 2025 PE/ABS/MSO update",
+      "url": "https://greenwichgp.com/wp-content/uploads/2026/03/GCG-PE-and-the-Consolidation-of-Personal-Injury-Law.pdf",
+      "figure_quoted": "At least 4-5 active PE-backed platforms pursuing add-on acquisitions in the last 24 months: (1) Orion Legal/Uplift Investors (Dudley DeBosier platform, January 2026, personal injury); (2) Certum Group/Certum Legal Solutions (mass tort/PI MSO, launched October 2025); (3) Fortress Investment Group/Esquire Law (20% economic interest, 2025); (4) Pelican Capital/Rafi Law Group ($125M MSO, 2025); (5) Sun Capital Partners/Fletchers Solicitors (US-adjacent add-on strategy). Note: MSO structure is the predominant vehicle; pure law-firm acquisitions remain constrained by Rule 5.4.",
+      "access_date": "2026-07-20",
+      "quality": "MED"
+    },
+    "buy_mult": {
+      "value": 3.5,
+      "source": "Peak Business Valuation — Law Firm Valuation Multiples; BizBuySell Law Firm & Legal Services Benchmark; The Law Practice Exchange",
+      "url": "https://peakbusinessvaluation.com/valuation-multiples-for-a-law-firm/",
+      "figure_quoted": "Average EBITDA multiple range for law firms: 3.75x-4.34x (Peak Business Valuation). However, quoted multiples are often on SDE (seller's discretionary earnings), not EBITDA after market-rate owner comp. After EBITDA normalization (adding back owner comp above market, ~$150-200K for a small-firm partner), effective EBITDA multiples for small consumer/PI practices transact at 3.0x-4.0x normalized EBITDA. Using midpoint 3.5x as the normalized buy-side multiple for the $1-10M EBITDA acquirable band.",
+      "access_date": "2026-07-20",
+      "quality": "MED"
+    },
+    "exit_mult": {
+      "value": 6.0,
+      "source": "The Law Practice Exchange valuation multiples article; PE/MSO structure analysis from absfirms.com and Greenwich Global Partners report",
+      "url": "https://thelawpracticeexchange.com/valuation-multiples-for-law-firm-buyouts-key-insights-for-a-successful-merger/",
+      "figure_quoted": "For law firms with $25M+ annual gross revenue, EBITDA multiples typically 2.5-3.5x in traditional M&A. For PE-backed MSO platforms at exit ($10M+ EBITDA scaled platform), the MSO structure creates a management-services entity that can command higher multiples (6-8x) reflecting recurring contracted revenue from the managed law firms. Using 6.0x as a conservative MSO exit multiple for a scaled personal-injury or consumer-law platform, acknowledging limited public comps and Morgan & Morgan's multi-billion valuation at implied 6-8x range.",
+      "access_date": "2026-07-20",
+      "quality": "LOW"
+    },
+    "pricing_structure": {
+      "value": "Hourly billing ~65% of small-firm revenue; contingency (PI, employment) ~20%; flat/fixed fee ~15%. Hourly billing is the dominant model and converts AI efficiency directly into fewer billed hours at the client's expense. Contingency work is deflation-resistant (fee = % of recovery). Flat-fee is partially deflation-resistant (firm captures efficiency as margin if AI cuts time-on-matter below the flat amount).",
+      "source": "Thomson Reuters State of the US Legal Market 2025; Clio Legal Trends 2025; LeanLaw 2026 billing guide",
+      "url": "https://www.thomsonreuters.com/en-us/posts/legal/state-of-the-us-legal-market-2025/",
+      "figure_quoted": "90% of all legal dollars still flow through standard hourly rate arrangements (Thomson Reuters 2025). Clio data shows 34% more flat-fee matters than 2016. ABA data: 63.9% of firms use hourly billing for at least some clients; average billing rate $341/hour in 2024.",
+      "access_date": "2026-07-20",
+      "quality": "MED"
+    }
+  },
+  "scores": {
+    "V": {
+      "arithmetic": "V_raw = labor_share × ai_replaceable_share = 0.4497 × 0.347365 = 0.156210; V = 10 × min(1, 0.156210 / 0.25) = 10 × 0.624840 = 6.24840",
+      "score": 6.24840
+    },
+    "C": {
+      "arithmetic": "C = 10 × pi_dist × pi_moat = 10 × 0.30 × 0.40 = 1.20000",
+      "score": 1.2
+    },
+    "A": {
+      "arithmetic": "A = min(10, 10 / t50_years) = min(10, 10 / 5.0) = min(10, 2.0) = 2.00000",
+      "score": 2.0
+    },
+    "B": {
+      "arithmetic": "TD = clamp(log10(7193) / 4, 0, 1) = clamp(3.856908 / 4, 0, 1) = clamp(0.964227, 0, 1) = 0.964227; OW = clamp((0.38 - 0.10) / 0.35, 0.1, 0.9) = clamp(0.800000, 0.1, 0.9) = 0.800000; succession bonus: OW = min(1.0, 0.800000 + 0.1) = 0.900000; CFD = min(0.9, log10(1+5) / 2) = min(0.9, log10(6) / 2) = min(0.9, 0.778151 / 2) = min(0.9, 0.389076) = 0.389076; B = 10 × sqrt(0.964227 × 0.900000) / (1 + 0.3 × 0.389076) = 10 × sqrt(0.867804) / (1 + 0.116723) = 10 × 0.931561 / 1.116723 = 9.31561 / 1.116723 = 8.34192",
+      "score": 8.34192
+    },
+    "M": {
+      "arithmetic": "M = clamp(4 × (exit_mult - buy_mult) / buy_mult, 0, 10) = clamp(4 × (6.0 - 3.5) / 3.5, 0, 10) = clamp(4 × 0.714286, 0, 10) = clamp(2.857143, 0, 10) = 2.857143",
+      "score": 2.857143
+    }
+  },
+  "S": 3.24092,
+  "cross_checks": {
+    "uplift_pp": 15.621,
+    "uplift_vs_A_consistent": "uplift_pp = 15.621pp (V_raw × 100), which is well above the 3pp threshold. A = 2.0 (t50 = 5 years). There is no tension: the high uplift is consistent with a moderate A because adoption is measured separately from the size of the opportunity. The V score is high (6.25) because the labor-AI exposure is real and substantial; the A score is moderate because small/mid-size law firms are historically cautious technology adopters.",
+    "terminal_value": {
+      "class": "PRESSURED",
+      "justification": "Bar rules and rights of audience mean a licensed attorney must still sign pleadings, appear in court, and bear malpractice liability — this floor of licensed demand is DURABLE. However, the product the firm sells (billable hours) is under severe pressure from two directions: (1) AI cuts the hours required per matter, deflating the billable hour base under hourly billing (90% of the market); and (2) consumer-facing AI plus e-filing platforms are substituting for simple-matter legal demand (estate planning, LLC formation, uncontested divorce). The industry compresses toward a stamp-appear-and-judgment layer with far fewer billed hours per matter. Residual demand from the justice-gap (latent unmet need) and regulatory mandates partially offsets. Verdict: PRESSURED — demand shrinks but persists, sustained by licensure requirements and relationship-intensive matters that AI cannot fully replace."
+    },
+    "no_proxy_confirmed": "V was derived from the OEWS wage-share breakdown and task-analysis judgment inputs (automatable fraction per role), not from deal activity. The 0.32 automatable fraction for lawyers was grounded in published task evidence about AI tool capabilities (Harvey, CoCounsel for drafting/research) vs. licensed functions (court appearances, signature). A was derived from ABA Tech Survey adoption data and the cloud-computing historical analog in legal, not from deal activity or consolidation trends.",
+    "pricing_model_deflation": "Billing mix: ~65% hourly, ~20% contingency/PI, ~15% flat-fee (sourced from Thomson Reuters 2025, Clio 2025, LeanLaw). Hourly billing is the primary deflation channel: when AI cuts a 20-hour matter to 12 hours, the client is billed for 12 hours under the standard model — AI efficiency flows to the client, not to the operator as margin unless the firm reprices to flat/value billing. Contingency PI work is structurally deflation-resistant: fee is a percentage of recovery, not hours, so AI making the case faster/cheaper increases the PI firm's margin. Flat-fee matters: if AI cuts time-on-matter below the fixed fee, the firm captures margin; client does not benefit. This pricing heterogeneity is reflected in pi_dist = 0.30 (blended, weighted toward the hourly-dominant model) and pi_moat = 0.40 (licensure floor provides some protection but the billable hour is the vulnerable revenue driver)."
+  },
+  "confidence_overall": "MED",
+  "heterogeneous": true,
+  "top_uncertain_inputs": [
+    {
+      "input": "t50_years",
+      "plausible_range": "4-7 years",
+      "score_impact": "A = min(10, 10/t50): at 4 years A = 2.50; at 5 years A = 2.00; at 7 years A = 1.43. S changes from ~3.39 (t50=4) to ~3.24 (t50=5) to ~3.02 (t50=7). Moderate impact on S."
+    },
+    {
+      "input": "buy_mult",
+      "plausible_range": "2.5-4.5x EBITDA",
+      "score_impact": "M = clamp(4×(6.0-buy)/buy, 0, 10): at buy=2.5x M=5.60; at buy=3.5x M=2.86; at buy=4.5x M=1.33. Large range; M drives significant S variance. S ranges from ~3.70 (buy=2.5x) to ~3.24 (buy=3.5x) to ~2.79 (buy=4.5x)."
+    },
+    {
+      "input": "exit_mult",
+      "plausible_range": "4.0-8.0x EBITDA (MSO platform exit)",
+      "score_impact": "At exit=4.0x M=0.57; at exit=6.0x M=2.86; at exit=8.0x M=5.14. M is the second most variable factor; S ranges from ~2.48 (exit=4x) to ~3.24 (exit=6x) to ~3.77 (exit=8x)."
+    },
+    {
+      "input": "pi_dist",
+      "plausible_range": "0.20-0.40",
+      "score_impact": "C = 10 × pi_dist × 0.40: at 0.20 C=0.80; at 0.30 C=1.20; at 0.40 C=1.60. S changes from ~3.06 (pi_dist=0.20) to ~3.24 (pi_dist=0.30) to ~3.40 (pi_dist=0.40)."
+    }
+  ],
+  "reviewer_note": "HETEROGENEOUS: The acquirable band (20-99 employee firms) contains highly heterogeneous practice types: plaintiff PI (contingency, deflation-resistant, now active MSO target), insurance defense (hourly, carrier rate-capped with audited legal bills — very low pricing power, heavy deflation exposure), corporate transactional, and consumer flat-fee. The prompt's guidance to 'score the dominant small-firm mix' was followed: the dominant acquirable segment blends PI and general consumer practice. BigLaw evidence (Am Law rate trends, $1,000+/hr rates cracking in 2025) does not transfer to the 20-99 employee acquirable band. EBITDA normalization: small-firm 'profit' is overwhelmingly owner/partner SDE; the buy_mult of 3.5x is stated on normalized EBITDA after deducting market-rate partner compensation (~$150-200K), not on SDE. EXIT MULT UNCERTAINTY: Exit multiples for MSO platforms are barely established; the 6.0x estimate is based on analogy to other professional-services PE roll-ups and the structure of Morgan & Morgan's multi-billion valuation, not on direct comp transactions — quality LOW. RULE 5.4 CONSTRAINT: Model Rule 5.4 bans non-lawyer ownership in all states except Arizona ABS (153 approved as of 2025) and Utah sandbox. MSO structures sidestep but create structural complexity (services agreement, not equity in the law firm). PE consolidation is nascent and mostly PI-focused, not applicable to full-service small-firm acquisitions. B's active_consolidators = 5 counts only confirmed PE/MSO platforms; traditional law-firm mergers (59 in 2025) are mostly lawyer-to-lawyer, not roll-up buyers. ai_replaceable_share uses the 4-digit 5411 OEWS mix which includes siblings 541191/541199; title examiner occupation (23-2093 at 0.82% wage share) is flagged as sibling contamination but retained at 0.60 automatable fraction as it contributes minimally."
+}

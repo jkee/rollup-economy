@@ -1,0 +1,295 @@
+{
+  "naics": "541213",
+  "title": "Tax Preparation Services",
+  "run_meta": {
+    "model_id": "claude-sonnet-4-6",
+    "run_date": "2026-07-20",
+    "run_id": "fleet-s2-541213",
+    "template_version": "3.0",
+    "prompt_version": "p3-aff6579"
+  },
+  "dataset_inputs": {
+    "labor_share": {
+      "value": 0.5877,
+      "method": "BLS Industry Productivity (IPS) direct: labor compensation (L02) $7,400.9M / sectoral output (T30) $12,593.9M, year 2022",
+      "sources": [
+        "BLS Industry Productivity and Costs flat files (ip.data.1.AllData), measures L02 and T30"
+      ],
+      "year": "2022",
+      "quality": "HIGH"
+    },
+    "role_mix": {
+      "oews_level": "4-digit 5412",
+      "occupations": [
+        {
+          "soc": "13-2011",
+          "title": "Accountants and Auditors",
+          "emp_share": 0.3139,
+          "wage_share": 0.342
+        },
+        {
+          "soc": "43-3031",
+          "title": "Bookkeeping, Accounting, and Auditing Clerks",
+          "emp_share": 0.0942,
+          "wage_share": 0.0549
+        },
+        {
+          "soc": "13-2082",
+          "title": "Tax Preparers",
+          "emp_share": 0.0635,
+          "wage_share": 0.042
+        },
+        {
+          "soc": "11-3031",
+          "title": "Financial Managers",
+          "emp_share": 0.0474,
+          "wage_share": 0.1032
+        },
+        {
+          "soc": "43-6014",
+          "title": "Secretaries and Administrative Assistants, Except Legal, Medical, and Executive",
+          "emp_share": 0.0365,
+          "wage_share": 0.0202
+        },
+        {
+          "soc": "11-1021",
+          "title": "General and Operations Managers",
+          "emp_share": 0.0297,
+          "wage_share": 0.051
+        },
+        {
+          "soc": "43-9061",
+          "title": "Office Clerks, General",
+          "emp_share": 0.0284,
+          "wage_share": 0.0144
+        },
+        {
+          "soc": "13-1111",
+          "title": "Management Analysts",
+          "emp_share": 0.0278,
+          "wage_share": 0.0424
+        },
+        {
+          "soc": "43-3021",
+          "title": "Billing and Posting Clerks",
+          "emp_share": 0.0246,
+          "wage_share": 0.0129
+        },
+        {
+          "soc": "43-1011",
+          "title": "First-Line Supervisors of Office and Administrative Support Workers",
+          "emp_share": 0.0219,
+          "wage_share": 0.0188
+        }
+      ],
+      "quality": "MED"
+    },
+    "n_total": {
+      "value": 19464,
+      "source": "SUSB 2022 (firms, all enterprise sizes)",
+      "year": "2022",
+      "quality": "HIGH"
+    },
+    "n_band": {
+      "value": 40,
+      "derivation": "margin 0.1565 (margins.json[54]: Damodaran Jan 2026: Business & Consumer Services EBITDA/Sales 15.65%); revenue/employee $62,700 (SUSB 2022 receipts/employment at 541213); class <5: 15,428 firms, avg revenue/firm $162,364 (class receipts/firms), implied EBITDA $25,410 -> out of $1-10M band; class 5-9: 2,632 firms, avg revenue/firm $421,091 (class receipts/firms), implied EBITDA $65,901 -> out of $1-10M band; class 10-19: 915 firms, avg revenue/firm $786,051 (class receipts/firms), implied EBITDA $123,017 -> out of $1-10M band; class 20-99: 436 firms, avg revenue/firm $1,867,025 (class receipts/firms), implied EBITDA $292,189 -> out of $1-10M band; class 100-499: 40 firms, avg revenue/firm $9,812,650 (class receipts/firms), implied EBITDA $1,535,680 -> IN $1-10M band; class 500+: 13 firms, avg revenue/firm $208,711,769 (class receipts/firms), implied EBITDA $32,663,392 -> out of $1-10M band; n_band = 40",
+      "margin_used": 0.1565,
+      "margin_source": "Damodaran Jan 2026: Business & Consumer Services EBITDA/Sales 15.65%",
+      "quality": "ESTIMATE"
+    }
+  },
+  "inputs": {
+    "ai_replaceable_share": {
+      "value": 0.67750,
+      "breakdown_by_role": [
+        {
+          "role": "Tax preparers (seasonal, PTIN-holders)",
+          "labor_share_of_total": 0.55,
+          "within_role_automatable_fraction": 0.85,
+          "contribution": 0.46750,
+          "rationale": "Interview-driven 1040 preparation using guided software (e.g., TaxSlayer, Drake, ProSeries) is the canonical AI-automatable task — the preparer already follows a decision tree the software provides. AI removes the marginal labor in asking the taxpayer questions and populating forms. Remaining 15% covers document-intake trust (physical document handling), EITC due-diligence (IRS Form 8867 preparer diligence that requires human judgment on eligibility claims), ITIN handling (identity verification), and refund-advance product counseling. Note: the provided 4-digit 5412 OEWS wage_share for 13-2082 Tax Preparers is only 4.2%, which is wildly unrepresentative of 541213 proper (where preparers are the dominant labor class). Revenue/employee of $62,700 vs $263,807 at 541211 confirms the workforce here is seasonal preparers, not credentialed accountants. Per prompt guidance, the hypothesized structure is used and flagged: tax preparers estimated at ~55% of wage bill in 541213 (hypothesis from prompt).",
+          "plausible_range": "0.75-0.92"
+        },
+        {
+          "role": "Owners / franchisees",
+          "labor_share_of_total": 0.175,
+          "within_role_automatable_fraction": 0.20,
+          "contribution": 0.03500,
+          "rationale": "Local marketing, seasonal hiring, franchisee compliance, and multi-unit operations management are the owner's core activities. In franchise systems, the client file and brand belong to the franchisor, not the local owner — owner's value is in operations execution. Some reporting, scheduling, and client communication automates (~20%). Strategic and relationship functions do not. Hypothesis wage share ~17.5% (owner SDE largely outside QCEW wages, so this understates true owner economics).",
+          "plausible_range": "0.10-0.30"
+        },
+        {
+          "role": "Office managers and seasonal reviewers",
+          "labor_share_of_total": 0.10,
+          "within_role_automatable_fraction": 0.40,
+          "contribution": 0.04000,
+          "rationale": "Quality review and exception handling for seasonal preparers; AI review tools (e.g., ProSeries AI checks) compress review cycles. Human oversight for audit-trigger situations, amended returns, and client escalations remains. Estimated 40% of role tasks are now compressible by AI tools.",
+          "plausible_range": "0.25-0.55"
+        },
+        {
+          "role": "Reception and intake staff",
+          "labor_share_of_total": 0.15,
+          "within_role_automatable_fraction": 0.85,
+          "contribution": 0.12750,
+          "rationale": "Appointment setting, document intake, status calls, and data entry are substantially automatable. Physical document receipt from unbanked/low-tech clients requires some human presence; 15% residual. This is the highest-automatable segment after preparers themselves.",
+          "plausible_range": "0.70-0.92"
+        },
+        {
+          "role": "Long tail (IT, HR, marketing, other operational staff)",
+          "labor_share_of_total": 0.025,
+          "within_role_automatable_fraction": 0.30,
+          "contribution": 0.00750,
+          "rationale": "Very small tail — tax prep storefronts have minimal IT/HR infrastructure; seasonal model keeps overhead thin. Mixed exposure at 0.30.",
+          "plausible_range": "0.20-0.40"
+        }
+      ],
+      "quality": "LOW"
+    },
+    "pi_dist": {
+      "value": 0.35,
+      "rationale": "Tax prep pricing is flat fee per return benchmarked against strong free alternatives: TurboTax free tier, VITA sites (free for low-income), formerly IRS Direct File (now killed for filing season 2026 per IRS November 2025 announcement — a reprieve for storefronts, though permanent status uncertain). In franchise systems, the client file is frequently owned by the franchisor brand (H&R Block, Jackson Hewitt), not the local operator — client relationship control sits above the acquirable unit. Independent preparers have direct client ownership but face intense price competition from free digital alternatives. Revenue decomposition: ~70-75% prep fees (highly price-sensitive; AI removes labor, passes savings to clients via competition), ~25-30% refund product revenue (RALs/refund transfers — less price-sensitive, client wants money NOW, but regulatorily exposed to CFPB and state AGs). Pricing-model deflation is the steepest in the accounting group: flat per-return fees against free alternatives is a structural price floor mechanism. pi_dist=0.35 reflects weak client-relationship control (franchisor ownership, free-alternative pressure) partially offset by the refund-product channel stickiness.",
+      "plausible_range": "0.25-0.45",
+      "sources": [
+        "NATP 2025 Fee Study: average 1040 base fee ~$236 for all preparers; non-credentialed ~$185",
+        "IRS Direct File killed for 2026 (Federal News Network, November 2025)",
+        "H&R Block franchise FDD disclosure on client file ownership"
+      ],
+      "quality": "MED"
+    },
+    "pi_moat": {
+      "value": 0.30,
+      "rationale": "The PTIN requirement to prepare returns for compensation creates a nominal barrier, but PTIN requires no educational credential — anyone can obtain one. No licensure protection shields tax prep storefronts from AI substitution the way CPA licensure shields attest services. Physical storefront presence offers some access/trust value for low-income, EITC-eligible, unbanked, and immigrant (ITIN) clients who distrust online filing or need in-person assistance — this is the most durable segment. Refund-advance product creates switching friction for the cash-now customer segment. Weak overall moat: TurboTax Full Service, VITA, and generic AI already provide competitive alternatives at lower or zero cost; the product (1040 preparation) has minimal complexity barrier that increases with generalist AI capability. pi_moat=0.30 reflects the physical/access/trust moat for EITC/ITIN/refund-product clients only.",
+      "plausible_range": "0.20-0.40",
+      "sources": [
+        "IRS PTIN requirements documentation: no education requirement",
+        "VITA program: IRS-sponsored free filing for <$67K income",
+        "H&R Block 10-K FY2025: 8,714 company + franchise offices as of March 2025"
+      ],
+      "quality": "MED"
+    },
+    "t50_years": {
+      "value": 4.0,
+      "derivation": "Current adoption estimate ~30% (franchise platforms H&R Block and Jackson Hewitt have AI embedded by platform default; tech-forward independent preparers adopting guided AI tools). From Thomson Reuters 2025: 21% enterprise-level GenAI in tax firms (blended with CPA firms); franchise platforms moving faster. Historical analog: tax software reached ~50% CPA firm adoption in ~10-12 years organically; but for 541213 the tools are already integrated into franchise platforms which represent a large share of the market. From 30% current to 50% at same ~8pp/year pace as CPA firms: ~2.5 additional years ≈ 2029 from 2026; but micro-firm and sole-proprietor indie preparers (~70% of n_total) lag. Balancing against franchise platform acceleration: central estimate 4 years (50% by ~2030). Direct File being killed for 2026 slightly dampens the urgency for independents to adopt AI, but Intuit and Drake already embed AI tools that preparers use regardless. Range: 2-6 years.",
+      "plausible_range": "2-6 years",
+      "quality": "MED"
+    },
+    "current_adoption_pct": {
+      "value": 0.30,
+      "source": "Wolters Kluwer 2025 Future Ready Accountant Report (North America subset) + NATP/Thomson Reuters data",
+      "url": "https://www.wolterskluwer.com/en/news/wolters-kluwer-releases-its-2025-future-ready-accountant-report",
+      "figure_quoted": "40% of North American firms use AI-driven tax research; H&R Block and Intuit have added generative AI into their products. Adjusted downward to 30% for 541213 specifically, reflecting that franchise platform AI is already embedded (effectively 100% of H&R Block/JH corporate stores) but independent preparers lag; blended estimate 30% materially using AI in automatable prep functions.",
+      "access_date": "2026-07-20",
+      "quality": "MED"
+    },
+    "historical_analogs": {
+      "value": "Tax software reached ~50% preparer use in ~10-12 years (organic); e-file reached 50% individual returns in 2005 (~19 years from 1986 pilot, partially mandated for preparers after 2011)",
+      "source": "IRS e-file history / E-file.com; IRS e-file preparer mandate 2011",
+      "url": "https://www.e-file.com/help/history-of.php",
+      "figure_quoted": "E-filed returns crossed the 50 percent threshold in 2005 (19 years from 1986 pilot). E-file mandate for preparers filing >10 returns took effect 2011. Tax software (Drake, ProSeries, TaxSlayer) reached widespread adoption in professional tax prep by ~2005-2010.",
+      "access_date": "2026-07-20",
+      "quality": "MED"
+    },
+    "owners_60plus_pct": {
+      "value": 0.30,
+      "source": "IRS PTIN holder statistics / gitnux.org tax preparation industry statistics (2026 compilation)",
+      "url": "https://gitnux.org/tax-preparation-industry-statistics/",
+      "figure_quoted": "Preparers aged 45-64 comprise 52% of the workforce; average experience 12 years. No specific owner-age data for 541213 operators separately published. Estimate of 0.30 (30% of owners aged 60+) based on preparer age distribution and typical small-business owner demographics — flagged as ESTIMATE.",
+      "access_date": "2026-07-20",
+      "quality": "ESTIMATE",
+      "succession_shortage_documented": {
+        "value": false,
+        "evidence": "No documented succession shortage specific to NAICS 541213. Franchise systems (H&R Block, Jackson Hewitt, Liberty Tax) provide structural continuity — the brand and client file survive owner departure. Independent preparers have high turnover (18% annual). No NATP or IRS data documents a succession planning gap analogous to the AICPA-documented CPA shortage. Not documented."
+      }
+    },
+    "active_consolidators": {
+      "value": 3,
+      "source": "CPA Trendlines / franchise industry data; BizBuySell 2025 buyer pool report",
+      "url": "https://www.bizbuysell.com/learning-center/valuation-benchmarks/accounting-cpa-tax-practice/",
+      "figure_quoted": "Active 2026 buyer pool includes H&R Block (franchise acquisition program), Jackson Hewitt (PE-backed by Corsair Capital), Liberty Tax (NASDAQ: TAX/NextPoint Financial). No dedicated PE accounting platform actively accumulating NAICS 541213 at scale — n_band of only 40 firms makes this unattractive for PE platform formation. Count 3 active consolidators.",
+      "access_date": "2026-07-20",
+      "quality": "MED"
+    },
+    "buy_mult": {
+      "value": 3.5,
+      "source": "CT Acquisitions tax preparation business valuation guide (2026); BizBuySell accounting/tax practice benchmarks 2025",
+      "url": "https://ctacquisitions.com/tax-preparation-business-valuation/",
+      "figure_quoted": "Seasonal tax prep practices: 0.75-1.1x revenue; 2.5-4x SDE. EBITDA normalization applied per Rule 3: seasonal prep firm at ~20-25% normalized EBITDA margin after market-rate replacement owner compensation → 0.9x revenue implies ~3.5-4.5x normalized EBITDA. BizBuySell 2025: average earnings multiple 2.34 (SDE-based); converting to normalized EBITDA (lower than SDE by the add-back gap) yields ~3.0-4.0x. Central estimate 3.5x normalized EBITDA.",
+      "access_date": "2026-07-20",
+      "quality": "MED"
+    },
+    "exit_mult": {
+      "value": 6.0,
+      "source": "H&R Block public company EV/EBITDA; franchise industry comparable data",
+      "url": "https://multiples.vc/public-comps/handr-block-valuation-multiples",
+      "figure_quoted": "H&R Block (HRB) trades at approximately 3.5-4x EBITDA as a public company (market cap ~$3.5B, EBITDA ~$976M as of FY2025). No private platform exits disclosed for Jackson Hewitt (Corsair Capital). No dedicated PE tax prep platform exit at the CPA-firm PE scale. Exit_mult of 6.0x reflects a modest premium for multi-unit regional operators above the H&R Block public comp, acknowledging secular headwinds cap the ceiling. Quality LOW — very limited comparable transaction data for this specific segment at platform scale.",
+      "access_date": "2026-07-20",
+      "quality": "LOW"
+    },
+    "pricing_structure": {
+      "value": "Flat fee per return (~70-75% of revenue); refund product revenue (~25-30%: refund advances, refund transfers). NATP 2025: average base 1040 fee ~$236 all preparers, ~$185 non-credentialed. Revenue ~75-85% earned January-April. IRS Direct File was killed for 2026 filing season (IRS November 2025 announcement) — a temporary reprieve from free government competition.",
+      "source": "NATP 2025 Tax Professional Fee Study; IRS Direct File status (Federal News Network November 2025)",
+      "url": "https://www.natptax.com/news-insights/blog/how-much-do-tax-professionals-charge-in-2025-insights-from-natp-s-fee-study/",
+      "figure_quoted": "Average base fee for Form 1040 with Schedules 1-3 rose 45.7% from $162 in 2024 to $236 in 2026 across all preparer types; non-credentialed preparers ~$185. IRS Direct File 'will not be available in Filing Season 2026' per IRS communication to states (Federal News Network, November 2025).",
+      "access_date": "2026-07-20",
+      "quality": "MED"
+    }
+  },
+  "scores": {
+    "V": {
+      "arithmetic": "ai_replaceable_share=0.67750; V_raw=0.5877×0.67750=0.39816675; V=10×min(1,0.39816675/0.25)=10×min(1,1.5926670)=10×1.0=10.0",
+      "score": 10.0
+    },
+    "C": {
+      "arithmetic": "C=10×pi_dist×pi_moat=10×0.35×0.30=10×0.105=1.05",
+      "score": 1.05
+    },
+    "A": {
+      "arithmetic": "A=min(10,10/t50_years)=min(10,10/4.0)=min(10,2.5)=2.5",
+      "score": 2.5
+    },
+    "B": {
+      "arithmetic": "n_band=40; TD=clamp(log10(40)/4,0,1)=clamp(1.602060/4,0,1)=clamp(0.400515,0,1)=0.400515; owners_60plus_pct=0.30; OW_base=clamp((0.30-0.10)/0.35,0.1,0.9)=clamp(0.20/0.35,0.1,0.9)=clamp(0.571429,0.1,0.9)=0.571429; succession_shortage=false so OW=0.571429; active_consolidators=3; CFD=min(0.9,log10(4)/2)=min(0.9,0.602060/2)=min(0.9,0.301030)=0.301030; B=10×sqrt(0.400515×0.571429)/(1+0.3×0.301030)=10×sqrt(0.228866)/(1+0.090309)=10×0.478400/1.090309=4.78400/1.090309=4.38780",
+      "score": 4.38780
+    },
+    "M": {
+      "arithmetic": "buy_mult=3.5; exit_mult=6.0; M=clamp(4×(6.0-3.5)/3.5,0,10)=clamp(4×2.5/3.5,0,10)=clamp(10.0/3.5,0,10)=clamp(2.857143,0,10)=2.857143",
+      "score": 2.857143
+    }
+  },
+  "S": 3.18758,
+  "cross_checks": {
+    "uplift_pp": 39.8167,
+    "uplift_vs_A_consistent": "V_raw=0.3982 implies 39.8 pp of revenue potentially freed by AI — the highest uplift in the scoring set, driven by the extremely high ai_replaceable_share (0.6775) for this labor-intensive, task-routine workforce. A=2.5 (t50=4 years), below 5, so the uplift<3pp tension check does not trigger. The high V (10.0, capped) and low C (1.05) reflect the fundamental tension in this industry: AI can automate almost all the work, but the operator captures very little of the savings due to competitive price pressure and franchisor client-file ownership. This is consistent: high V means there is enormous theoretical AI value; low C means it flows to clients and the franchisor, not the acquired unit's EBITDA.",
+    "terminal_value": {
+      "class": "MELTING",
+      "justification": "Simple 1040 tax return preparation is the most AI-terminal paid service in the scoring set. The product (guided question-and-answer return completion) is being replaced, not just automated internally. Evidence: (1) Intuit TurboTax Full Service and H&R Block AI Assist already deliver near-complete guided filing with AI; (2) IRS Direct File (now killed for 2026 by political/DOGE action, but structurally viable and may return under future administrations) offers free government-sponsored filing; (3) the PTIN-holder preparer follows the same decision tree the software already provides — there is no licensed judgment layer protecting this work. Durable residual: EITC due-diligence (IRS Form 8867 requires preparer attestation — a thin human layer), ITIN processing (identity verification in person), refund-advance product distribution (money product, not a tax service per se), and non-filer resolution/back-tax situations. These residuals are estimated at 15-25% of current revenue. The majority of storefront revenue (simple 1040 prep for W-2/standard-deduction filers) has no structural protection against AI + free alternatives. Classified MELTING: the product itself is being replaced for the modal customer, not just the cost structure of delivering it. Note: DOGE killing Direct File for 2026 delays but does not prevent the MELTING trajectory."
+    },
+    "no_proxy_confirmed": "V=10.0 was derived from BLS labor_share (provided dataset) × ai_replaceable_share computed from the hypothesized role structure (per prompt instruction for this code, given the 4-digit OEWS is unrepresentative). Within-role automatable fractions were justified by task-level analysis of seasonal prep work (decision-tree prep, document intake) — no deal activity referenced. A=2.5 was derived from current adoption estimate (~30% franchise + forward-leaning indie) and historical tax-software/e-file analog — no consolidation trends used.",
+    "pricing_model_deflation": "Billing structure: flat fee per return for ~70-75% of revenue; refund-product revenue (~25-30%) is fee-per-product. The flat-per-return model against free alternatives (TurboTax free, VITA, formerly Direct File) is the steepest deflation setup: when AI removes the labor from preparation, competitive pressure and free alternatives force per-return fees toward zero for simple returns. The W-2/standard-deduction 1040 is already priced near the marginal cost of the labor at ~$185 for non-credentialed preparers; when AI removes that labor cost, the competitive floor collapses. Refund products (RALs, refund transfers) are less price-sensitive — they're financial products with embedded interest/fees that customers pay for immediate cash access. pi_dist=0.35 and pi_moat=0.30 jointly reflect: (a) the franchisor owns the client file in franchise systems (reducing acquirer's pi_dist), (b) no licensure barrier protects prep fees (reducing pi_moat), (c) refund product provides partial pricing insulation. C=1.05 is the lowest C in the scoring set, reflecting that almost none of the V=10.0 AI value converts to operator EBITDA — it passes to clients as lower fees or is retained by the franchisor."
+  },
+  "confidence_overall": "LOW",
+  "heterogeneous": false,
+  "top_uncertain_inputs": [
+    {
+      "input": "t50_years",
+      "plausible_range": "2-6 years",
+      "score_impact": "At t50=2: A=5.0, S=4.37; at t50=4 (central): A=2.5, S=3.19; at t50=6: A=1.67, S=2.77. Range of ~1.6 S-points — highest sensitivity of any input."
+    },
+    {
+      "input": "ai_replaceable_share",
+      "plausible_range": "0.60-0.75 (varies within-role fractions for preparers 0.75-0.92 and reception 0.70-0.92)",
+      "score_impact": "At share=0.60: V_raw=0.5877×0.60=0.3526, V=10.0 (still capped); at share=0.75: V_raw=0.5877×0.75=0.4408, V=10.0 (still capped). V is insensitive to ai_replaceable_share variation because V is already at the cap (10.0). Score impact minimal from share changes — all plausible range values exceed 0.25/labor_share=0.425 threshold."
+    },
+    {
+      "input": "buy_mult",
+      "plausible_range": "2.5-5.0x normalized EBITDA (wide spread: SDE-based broker multiples 2.34x average earnings vs normalized EBITDA after replacement owner comp)",
+      "score_impact": "At buy=2.5 (exit=6.0): M=clamp(4×3.5/2.5,0,10)=clamp(5.6,0,10)=5.6, S=4.05; at buy=3.5 (central): M=2.857, S=3.19; at buy=5.0 (exit=6.0): M=clamp(4×1.0/5.0,0,10)=0.80, S=2.21. Range ~1.8 S-points — buy_mult is highly influential."
+    },
+    {
+      "input": "pi_dist",
+      "plausible_range": "0.25-0.45 (lower if franchisor file ownership dominates; higher if refund-product stickiness is primary)",
+      "score_impact": "At pi_dist=0.25 (pi_moat=0.30): C=0.75, S=2.90; at pi_dist=0.45 (pi_moat=0.30): C=1.35, S=3.42. Range ~0.5 S-points."
+    }
+  ],
+  "reviewer_note": "Role-mix critical flag: The provided OEWS role_mix is 4-digit 5412, dominated by CPA-firm occupations (13-2011 Accountants at 34.2% of wages). This is wildly unrepresentative of NAICS 541213 where seasonal preparers (13-2082 Tax Preparers) are the dominant labor class. The SUSB revenue/employee of $62,700 at 541213 vs $263,807 at 541211 confirms a low-wage, seasonal workforce inconsistent with the provided OEWS structure. Per prompt instruction for this code, a hypothesized role structure was used (seasonal preparers ~55%, owners ~17.5%, managers ~10%, reception ~15%, long tail ~2.5%), flagged as LOW quality for ai_replaceable_share. The high ai_replaceable_share (0.6775) reflects the extremely routine, algorithm-guided nature of consumer 1040 preparation — not an artifact of the provided OEWS structure. EBITDA normalization: broker-quoted multiples for tax prep practices are SDE-based (owner comp inside); buy_mult of 3.5x is normalized to post-replacement-owner-comp EBITDA per Rule 3. Exit_mult of 6.0x is sourced primarily from H&R Block public company comparables — a weak comp for private platform exits; flagged LOW quality. IRS Direct File cancellation (November 2025): reduces near-term substitution threat but does not change the structural MELTING classification — the underlying technology (Intuit, Google, OpenAI) continues developing regardless of government program status. The MELTING terminal classification drives a cap consideration: if thresholds.json caps MELTING codes, S may be capped below 3.19. Terminal value MELTING reflects the modal customer segment (W-2/standard deduction 1040) facing product substitution; complex/EITC/ITIN/refund-product segments are more durable."
+}

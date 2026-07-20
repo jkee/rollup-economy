@@ -1,0 +1,319 @@
+{
+  "naics": "541360",
+  "title": "Geophysical Surveying and Mapping Services",
+  "run_meta": {
+    "model_id": "claude-sonnet-4-6",
+    "run_date": "2026-07-20",
+    "run_id": "fleet-s1-541360",
+    "template_version": "3.0",
+    "prompt_version": "p3-aff6579"
+  },
+  "dataset_inputs": {
+    "labor_share": {
+      "value": 0.7817,
+      "method": "QCEW 2024 private total annual wages at 541360 ($1,461,125,114) x benefits multiplier 1.4294 [ECEC private-industry total comp $46.60/hr / wages $32.60/hr = 1.4294 (March 2026 reference period)] / SUSB 2022 receipts at 541360 ($1,992,974,000). Vintage mismatch: 2024 wages over 2022 receipts, stated. Level: 6-digit. Harmonized to IPS basis ÷1.3407 (median of 65 dual-method codes).",
+      "sources": ["BLS QCEW 2024 annual averages (US000, private)", "BLS ECEC news release (raw/ecec.nr0.htm)", "Census SUSB 2022 (receipts by NAICS)"],
+      "year": "2024 wages / 2022 receipts",
+      "quality": "MED"
+    },
+    "role_mix": {
+      "oews_level": "4-digit 5413",
+      "occupations": [
+        {"soc": "17-2051", "title": "Civil Engineers", "emp_share": 0.1164, "wage_share": 0.128},
+        {"soc": "17-1011", "title": "Architects, Except Landscape and Naval", "emp_share": 0.0564, "wage_share": 0.0582},
+        {"soc": "13-1082", "title": "Project Management Specialists", "emp_share": 0.0551, "wage_share": 0.0646},
+        {"soc": "17-3011", "title": "Architectural and Civil Drafters", "emp_share": 0.0474, "wage_share": 0.0328},
+        {"soc": "11-1021", "title": "General and Operations Managers", "emp_share": 0.0338, "wage_share": 0.0572},
+        {"soc": "17-2141", "title": "Mechanical Engineers", "emp_share": 0.0337, "wage_share": 0.0383},
+        {"soc": "11-9041", "title": "Architectural and Engineering Managers", "emp_share": 0.0321, "wage_share": 0.0553},
+        {"soc": "47-4011", "title": "Construction and Building Inspectors", "emp_share": 0.0256, "wage_share": 0.0205},
+        {"soc": "17-2071", "title": "Electrical Engineers", "emp_share": 0.0254, "wage_share": 0.0299},
+        {"soc": "15-1252", "title": "Software Developers", "emp_share": 0.023, "wage_share": 0.0308}
+      ],
+      "quality": "MED"
+    },
+    "n_total": {"value": 968, "source": "SUSB 2022 (firms, all enterprise sizes)", "year": "2022", "quality": "HIGH"},
+    "n_band": {
+      "value": 78,
+      "derivation": "margin 0.1565; class <5: 726 firms, avg revenue/firm $284,807, implied EBITDA $44,572 -> out of $1-10M band; class 5-9: 99 firms, avg revenue/firm $1,215,010, implied EBITDA $190,149 -> out of $1-10M band; class 10-19: 65 firms, avg revenue/firm $2,396,492, implied EBITDA $375,051 -> out of $1-10M band; class 20-99: 45 firms, avg revenue/firm $6,642,467, implied EBITDA $1,039,546 -> IN $1-10M band; class 100-499: 17 firms, avg revenue/firm $39,378,118, implied EBITDA $6,162,675 -> IN $1-10M band; class 500+: 16 firms, avg revenue/firm $33,862,938, implied EBITDA $5,299,550 -> IN $1-10M band; n_band = 78",
+      "margin_used": 0.1565,
+      "margin_source": "Damodaran Jan 2026: Business & Consumer Services EBITDA/Sales 15.65%",
+      "quality": "ESTIMATE"
+    }
+  },
+  "inputs": {
+    "role_mix_rebuild": {
+      "note": "Rebuilt per prompt: 4-digit OEWS 5413 data is contaminated by civil engineers/architects from NAICS 541330. The top-10 occupations (0.4551 wage share) do not represent 541360 workforce. Prompt-specified 6-digit rebuild used instead.",
+      "roles": [
+        {
+          "label": "Geoscientists/geophysicists",
+          "wage_share": 0.25,
+          "automatable_fraction": 0.40,
+          "contribution": 0.1,
+          "note": "Seismic interpretation, QC, survey design. ML assists velocity modeling, report writing (~50% of role time), yielding 0.40 within-role."
+        },
+        {
+          "label": "Field acquisition crews/equipment operators",
+          "wage_share": 0.25,
+          "automatable_fraction": 0.05,
+          "contribution": 0.0125,
+          "note": "Physical acquisition; no AI substitution for field presence."
+        },
+        {
+          "label": "Data processing/imaging staff",
+          "wage_share": 0.12,
+          "automatable_fraction": 0.80,
+          "contribution": 0.096,
+          "note": "Denoising, migration, stacking, QC — already algorithmic and AI-accelerated."
+        },
+        {
+          "label": "Management (11-1021 + 11-9041)",
+          "wage_share": 0.1125,
+          "automatable_fraction": 0.20,
+          "contribution": 0.0225,
+          "note": "Wage share per provided OEWS data: 0.0572+0.0553=0.1125."
+        },
+        {
+          "label": "Project management (13-1082)",
+          "wage_share": 0.0646,
+          "automatable_fraction": 0.35,
+          "contribution": 0.02261,
+          "note": "Wage share per provided OEWS data."
+        },
+        {
+          "label": "Engineers/architects catch-all (contamination)",
+          "wage_share": 0.15,
+          "automatable_fraction": 0.15,
+          "contribution": 0.0225,
+          "note": "Residual civil/mechanical/electrical engineers present at 6-digit code; low AI fraction."
+        },
+        {
+          "label": "Admin/back office",
+          "wage_share": 0.0529,
+          "automatable_fraction": 0.75,
+          "contribution": 0.039675,
+          "note": "Residual tail to force wage shares to 1.0000. Prompt specified ~5%; exact = 1-(0.25+0.25+0.12+0.1125+0.0646+0.15) = 0.0529."
+        }
+      ],
+      "wage_share_sum_check": 1.0,
+      "ai_replaceable_share": 0.315785,
+      "ai_replaceable_share_arithmetic": "0.100000 + 0.012500 + 0.096000 + 0.022500 + 0.022610 + 0.022500 + 0.039675 = 0.315785"
+    },
+    "current_adoption_pct": {
+      "value": 0.18,
+      "quality": "LOW",
+      "evidence": "No public survey provides a precise adoption rate for operational (not pilot) ML in geophysical firms. ADI Analytics (adi-analytics.com, AI-enabled seismic interpretation market study) notes 'organizational inertia and data fidelity risks are primary blockers to wider SaaS adoption beyond the oil majors,' implying adoption concentrated at large firms. McKinsey finding cited that 'nearly 86% of AI projects in the energy sector never progress beyond the pilot phase' (domesticoperating.com/blog/2026/03/27/use-of-ai-in-oil-and-gas-industry-the-hidden-truth/). SEG Geophysics (Jan 2024) review notes ML in seismic is 'focused on individual tasks rather than a disruptive change' (pubs.geoscienceworld.org/seg/geophysics/article/89/1/WA157). Estimate 18% of geophysical firms materially deploying AI operationally; small 541360 firms lag large platforms.",
+      "sources": [
+        "https://adi-analytics.com/industries/oil-and-gas/oilfield-services-equipment/ai-enabled-seismic-interpretation-market-study/",
+        "https://www.domesticoperating.com/blog/2026/03/27/use-of-ai-in-oil-and-gas-industry-the-hidden-truth/",
+        "https://pubs.geoscienceworld.org/seg/geophysics/article/89/1/WA157/629087/Machine-learning-for-seismic-exploration-Where-are"
+      ]
+    },
+    "historical_analogs": {
+      "technology": "2D-to-3D seismic transition",
+      "years_to_50pct": 5,
+      "evidence": "Wells covered by 3D seismic increased from ~1% (1991) to 65% (1996) — approximately 5 years from near-zero to majority adoption (offshore-mag.com/geosciences/article/16762483). Wildcat success rates based on 3D prospects approaching 50% milestone observed ~1993, approximately 2-3 years from commercial inflection, but industry-wide 50% coverage reached by ~1995-1996. CSEG Recorder: 'Over an eight-year period, there has been a five-fold increase in 3D seismic data acquisition' (csegrecorder.com/articles/view/3d-seismic-surveys-past-present-and-future). Using 5 years as the transition analog.",
+      "sources": [
+        "https://www.offshore-mag.com/geosciences/article/16762483/exploration-3d-seismic-boosting-wildcat-success-reducing-well-count",
+        "https://csegrecorder.com/articles/view/3d-seismic-surveys-past-present-and-future"
+      ]
+    },
+    "t50": {
+      "value": 6,
+      "quality": "LOW",
+      "rationale": "Current adoption ~18%. Historical analog (3D seismic) took ~5 years from near-zero to 50%. AI seismic adoption is accelerating due to SaaS/cloud tools but faces organizational inertia (86% of energy AI projects stall at pilot). Starting from ~18% adoption, 50% adoption is estimated ~5-7 years away. Central estimate: 6 years. Sources: same as current_adoption_pct and historical_analogs."
+    },
+    "owners_60plus_pct": {
+      "value": 0.45,
+      "quality": "LOW",
+      "evidence": "No geophysical firm-specific owner age data found. General US small business data: 52.3% of employer-businesses owned by people 55+ (McKinsey Institute for Economic Mobility via project-equity.org/news/employee-ownership-insider/business-owner-statistics-exit-planning/). Georgia survey of small firms: 52% of owners over age 60 (same source). Geoscience workforce: 'majority of geoscientists in the workforce are within 15 years of retirement age' (americangeosciences.org); 27% projected to retire by 2029. Given technical founder-heavy industry and consistent geoscience aging data, owners_60plus_pct estimated at 0.45 (conservative relative to 52% Georgia data, acknowledging small sample uncertainty).",
+      "sources": [
+        "https://project-equity.org/news/employee-ownership-insider/business-owner-statistics-exit-planning/",
+        "https://www.americangeosciences.org/workforce/reports/status-report",
+        "https://www.latitudemedia.com/news/the-imminent-geologist-shortage/"
+      ]
+    },
+    "succession_shortage_documented": {
+      "value": true,
+      "evidence": "American Geosciences Institute: 'majority of geoscientists in the workforce are within 15 years of retirement age'; projected 27% loss of existing geoscience workforce by 2029 resulting in 'a labor gap of 130,000 full-time geoscientists' (americangeosciences.org/workforce/reports/status-report). Latitude Media: 'The imminent geologist shortage' (latitudemedia.com/news/the-imminent-geologist-shortage/). Succession shortage well-documented at workforce level; small-firm owner succession extrapolated from general SB data showing ~60% of boomer-owned small businesses lack succession plans.",
+      "sources": [
+        "https://www.americangeosciences.org/workforce/reports/status-report",
+        "https://www.latitudemedia.com/news/the-imminent-geologist-shortage/",
+        "https://news.gallup.com/poll/657362/small-business-owners-lack-succession-plan.aspx"
+      ]
+    },
+    "active_consolidators": {
+      "value": 1,
+      "quality": "LOW",
+      "evidence": "PXGEO (marine geophysical services) identified as active acquirer: acquired AmpSeis (ocean bottom node technology, Q1 2024) and Modus Subsea Services (2024) (pxgeo.com/post/pxgeo-acquires-ampseis; marinetechnologynews.com/news/pxgeo-acquires-modus-subsea-636204). PXGEO is categorized as PE-backed/venture-backed per Tracxn/PitchBook profiles. However PXGEO is marine/OBS seismic — partially overlapping with 541360 but skewed toward marine acquisition not onshore geophysical surveying. No confirmed pure-play onshore geophysical surveying PE rollup platform found in 24-month window. TGS-PGS merger (2024) is a public company combination, not PE-backed add-on. Count = 1 (partial credit for PXGEO).",
+      "sources": [
+        "https://www.pxgeo.com/post/pxgeo-acquires-ampseis",
+        "https://www.marinetechnologynews.com/news/pxgeo-acquires-modus-subsea-636204",
+        "https://tracxn.com/d/acquisitions/acquisitions-by-pxgeo/__jT-6zhJSEFHfO2NPicmLQoKazFULiAyd_Tu2uJjIK2w"
+      ]
+    },
+    "buy_mult": {
+      "value": 4.5,
+      "quality": "LOW",
+      "evidence": "No direct transaction data for small geophysical firms (20-99 employees, ~$6.6M revenue) found. General oilfield services small-company M&A: 3-5x EV/EBITDA for cyclical pumping/well services; one 2023 small-cap oilfield services deal (not geophysical) at 5.5x projected EBITDA (mergersandacquisitions.net/insights/oil-gas-services-m-a-trends-analysis-report). Geophysical surveying is more specialized/technical than commodity oilfield services, warranting slight premium over bottom of range. Dawson Geophysical (public comp, $74M revenue): $2M EBITDA FY2024 with market cap ~$110M implying very compressed multiple on current earnings, but revenue base suggests more normalized EBITDA potential. Using 4.5x as central estimate for private transaction at small-firm size.",
+      "sources": [
+        "https://mergersandacquisitions.net/insights/oil-gas-services-m-a-trends-analysis-report",
+        "https://www.prnewswire.com/news-releases/dawson-geophysical-reports-fourth-quarter-and-year-end-2024-results-302414582.html",
+        "https://ibinterviewquestions.com/guides/valuation-investment-banking/current-ma-multiples-across-sectors-2025-2026"
+      ]
+    },
+    "exit_mult": {
+      "value": 7.5,
+      "quality": "MED",
+      "evidence": "Viridien (formerly CGG, NAICS 541360 platform): 2023 EV/EBITDA = 7.7x per multiples.vc (multiples.vc/public-comps/viridien-valuation-multiples). 2024 compressed to 2.8x (leverage-depressed; net debt $420M vs $150M EBITDA = 2.8x net leverage distorting equity multiple). TGS-PGS merger (completed July 2024): combined market cap ~$2.616B, NIBD $649M, implying EV ~$3.265B. Combined revenues ~$1.2-1.5B estimated; using TGS FY2023 EBITDA ~$300M+ range suggests ~8-10x on combined basis, but exact figure unconfirmed (rigzone.com/news/tgs_and_pgs_agree_to_form_26b_energy_data_co). Using 7.5x as platform exit multiple — averaging Viridien's 2023 clean multiple (7.7x) and a slightly discounted estimate for TGS-PGS combined. Note: Viridien 2024 compressed multiple excluded as leverage-distorted.",
+      "sources": [
+        "https://multiples.vc/public-comps/viridien-valuation-multiples",
+        "https://www.rigzone.com/news/tgs_and_pgs_agree_to_form_26b_energy_data_co-19-sep-2023-174039-article/",
+        "https://www.tgs.com/press-releases/tgs-and-pgs-combine-to-establish-the-premier-energy-data-company"
+      ]
+    },
+    "pi_dist": {
+      "value": 0.75,
+      "rationale": "Geophysical surveys for small 541360 firms are sold almost entirely as competitive project bids to oil/gas operators, mining companies, and infrastructure procurement desks. Small firms at this NAICS level lack multi-client seismic library IP (that revenue model is dominated by TGS, Viridien, PGS — large platforms). Day-rate and turnkey contracts leave AI-driven cost savings exposed to rapid competitive repricing; clients absorb gains through bid deflation. Industry data confirms proprietary contract services ~54-70% of large firm revenues (SEC 10-K: Global Geophysical Services 2011 showed 54% proprietary / 46% multi-client); for small firms, multi-client share is effectively 0%. pi_dist = 0.75 (high but not maximum; small residual for client switching friction and crew mobilization margins).",
+      "sources": [
+        "https://www.sec.gov/Archives/edgar/data/0001311486/000117184312000586/f10k_021512.htm"
+      ]
+    },
+    "pi_moat": {
+      "value": 0.30,
+      "rationale": "Some state geoscientist professional licensure exists (e.g., Texas, others) but is not universally required for geophysical field work or data processing. Oil major clients run in-house ML teams. Entry by AI-equipped competitors is feasible (no prohibitive capital barrier for software-side). Main defensible moat is physical field equipment ownership and crew relationships — durable against software disruption but not against price competition from AI-augmented rivals using same equipment. No proprietary data library, no platform network effects. pi_moat = 0.30.",
+      "sources": []
+    }
+  },
+  "scores": {
+    "V": {
+      "value": 9.87396538,
+      "arithmetic": {
+        "V_raw": {
+          "value": 0.2468491345,
+          "formula": "labor_share × ai_replaceable_share = 0.7817 × 0.315785",
+          "detail": "0.7817 × 0.315785 = 0.2468491345"
+        },
+        "V": {
+          "value": 9.87396538,
+          "formula": "10 × min(1, V_raw / 0.25) = 10 × min(1, 0.2468491345 / 0.25) = 10 × min(1, 0.987396538) = 10 × 0.987396538"
+        }
+      },
+      "inputs_used": ["labor_share=0.7817", "ai_replaceable_share=0.315785"]
+    },
+    "C": {
+      "value": 2.25,
+      "arithmetic": {
+        "formula": "10 × pi_dist × pi_moat = 10 × 0.75 × 0.30 = 2.25"
+      },
+      "inputs_used": ["pi_dist=0.75", "pi_moat=0.30"]
+    },
+    "A": {
+      "value": 1.66666666666,
+      "arithmetic": {
+        "formula": "min(10, 10 / t50) = min(10, 10 / 6) = min(10, 1.66666...) = 1.66666..."
+      },
+      "inputs_used": ["t50=6"]
+    },
+    "B": {
+      "value": 6.58063,
+      "arithmetic": {
+        "TD": {
+          "value": 0.473022,
+          "formula": "clamp(log10(78) / 4, 0, 1) = clamp(1.89209 / 4, 0, 1) = clamp(0.473022, 0, 1) = 0.473022",
+          "log10_78": 1.89209
+        },
+        "OW_pre_cap": {
+          "value": 1.0,
+          "formula": "clamp((0.45 - 0.10) / 0.35, 0.1, 0.9) + 0.1 [succession] = clamp(1.0, 0.1, 0.9) + 0.1 = 0.9 + 0.1 = 1.0",
+          "OW_raw": 1.0,
+          "OW_clamped_before_succession": 0.9,
+          "succession_addon": 0.1,
+          "OW_final": 1.0
+        },
+        "CFD": {
+          "value": 0.150515,
+          "formula": "min(0.9, log10(1+1) / 2) = min(0.9, log10(2) / 2) = min(0.9, 0.30103 / 2) = min(0.9, 0.150515) = 0.150515"
+        },
+        "B": {
+          "value": 6.58063,
+          "formula": "10 × sqrt(TD × OW) / (1 + 0.3 × CFD) = 10 × sqrt(0.473022 × 1.0) / (1 + 0.3 × 0.150515)",
+          "sqrt_TD_OW": 0.687766,
+          "numerator": 6.87766,
+          "denominator": 1.045155,
+          "result": 6.58063
+        }
+      },
+      "inputs_used": ["n_band=78", "owners_60plus_pct=0.45", "succession_shortage_documented=true", "active_consolidators=1"]
+    },
+    "M": {
+      "value": 2.66666666666,
+      "arithmetic": {
+        "formula": "clamp(4 × (exit_mult - buy_mult) / buy_mult, 0, 10) = clamp(4 × (7.5 - 4.5) / 4.5, 0, 10) = clamp(4 × 0.66666..., 0, 10) = clamp(2.66666..., 0, 10) = 2.66666..."
+      },
+      "inputs_used": ["exit_mult=7.5", "buy_mult=4.5"]
+    }
+  },
+  "S": {
+    "value": 3.65225,
+    "arithmetic": {
+      "product": 649.7691,
+      "product_steps": [
+        "V × C = 9.87396538 × 2.25 = 22.2164221",
+        "× A = 22.2164221 × 1.66666... = 37.0273701",
+        "× B = 37.0273701 × 6.58063 = 243.66340",
+        "× M = 243.66340 × 2.66666... = 649.7691"
+      ],
+      "formula": "(649.7691)^(1/5) = 3.65225"
+    }
+  },
+  "cross_checks": {
+    "uplift_check": {
+      "V_raw_as_ebitda_uplift_pp": 24.68491345,
+      "note": "V_raw = 0.2468 implies that if all automatable labor is eliminated, EBITDA margin improves by ~24.7 percentage points on a revenue basis (before competitive repricing). This is well above the 3pp threshold. No inconsistency with A=1.67 — the uplift potential is real but the deployment timeline is long (t50=6 years) and competitive pass-through (pi_dist=0.75) means most of this value transfers to clients rather than firms. The A score reflects adoption pace, not the magnitude of the opportunity."
+    },
+    "terminal_value_class": {
+      "classification": "PRESSURED",
+      "rationale": "Revenue is bifurcated: (1) Field acquisition (~25% of wage bill) is durable — AI cannot substitute for physical sensor deployment, crew presence, and equipment operation. This business line survives and may grow as AI interpretation drives demand for higher-quality acquisition. (2) Data processing/imaging (~12% of wages, highest automation fraction 0.80) is MELTING — denoising, migration, stacking, and QC are already algorithmic and AI is accelerating commoditization. (3) Geoscientist interpretation layer (~25% wages, 0.40 fraction) is PRESSURED — AI assists but does not yet fully replace; client skepticism and liability concerns preserve human sign-off for now. Net classification: PRESSURED. The processing revenue stream is melting while acquisition persists; interpretation is being squeezed. Small 541360 firms that lack multi-client IP are most exposed as they cannot monetize AI tools proprietarily."
+    },
+    "no_proxy_audit": {
+      "V_set_without_deal_data": true,
+      "A_set_without_deal_data": true,
+      "evidence": "V_raw = labor_share × ai_replaceable_share. labor_share from QCEW/ECEC/SUSB. ai_replaceable_share from role-mix rebuild per prompt hypothesis. No PE/M&A deal data used. A = 10/t50 where t50 derived from historical_analogs (3D seismic technology diffusion) and current_adoption_pct from industry literature — no deal data used. B and M explicitly use deal/consolidation data (n_band, buy_mult, exit_mult, active_consolidators) as permitted."
+    },
+    "pricing_deflation_check": {
+      "confirmed": true,
+      "evidence": "Small 541360 firms sell ~95%+ of revenues on competitive project bid or day-rate basis. No multi-client library IP. pi_dist set at 0.75 to reflect rapid repricing. Industry structure: operators run competitive tender processes for geophysical surveys, especially in oil and gas. AI cost savings realized by a geophysical contractor will be competed away to client within 1-2 bid cycles. This is embedded in C = 10 × pi_dist × pi_moat = 2.25, which is the primary depressor of S."
+    }
+  },
+  "confidence_overall": "LOW",
+  "heterogeneous": false,
+  "top_uncertain_inputs": [
+    {
+      "input": "buy_mult",
+      "reason": "No direct transaction data for small (~$6.6M revenue) geophysical surveying firms found. Estimated at 4.5x from general oilfield services range. True range could be 3-6x. A 1x change in buy_mult materially changes M and thus S.",
+      "quality": "LOW"
+    },
+    {
+      "input": "t50",
+      "reason": "No survey data on current adoption percentage in small geophysical firms. current_adoption_pct estimated at 18% with low confidence. t50=6 could reasonably range from 4-10 years depending on pace of SaaS tool adoption and oil price cycle. This is the largest driver of A.",
+      "quality": "LOW"
+    },
+    {
+      "input": "owners_60plus_pct",
+      "reason": "No geophysical firm-specific owner demographic data found. Estimated at 0.45 from general small business and geoscience workforce data. OW hits cap at 1.0 due to succession_shortage_documented=true, so this input is partially de-sensitized — any value ≥0.45 produces OW=1.0 given the succession bonus.",
+      "quality": "LOW"
+    },
+    {
+      "input": "active_consolidators",
+      "reason": "Only 1 partial match (PXGEO, marine geophysical, not pure 541360) found. If true count is 0, CFD=0 and B rises to 6.87. If true count is 2-3, B falls. Low deal flow in this NAICS is itself an informative signal.",
+      "quality": "LOW"
+    },
+    {
+      "input": "ai_replaceable_share",
+      "reason": "Built from prompt-specified role structure which is itself an ESTIMATE for the 6-digit code. Within-role fractions (especially 0.40 for geoscientists and 0.80 for data processing) are judgment-based. A ±10pp shift in either fraction moves S by ~0.1-0.2.",
+      "quality": "ESTIMATE"
+    }
+  ],
+  "reviewer_note": "ROLE-MIX REBUILD: The provided OEWS 5413 data is dominated by civil engineers (17-2051, 11.64% emp share) and architects (17-1011, 5.64%) — contamination from NAICS 541330 (Engineering Services). This 4-digit data is structurally inappropriate for 541360 where the actual workforce is geoscientists, field acquisition crews, seismic data processors, and marine/ground survey specialists. The 6-digit rebuild per prompt hypothesis is the operative input. The engineers/architects catch-all (0.15 wage share) preserves some contamination signal with a low automation fraction (0.15) as these roles are partially real even at 541360 firms (project engineers for survey design). CONFLICTS: The Viridien 2024 EV/EBITDA of 2.8x (leverage-distorted) was excluded from exit_mult in favor of the 2023 7.7x (cleaner operational multiple); this judgment is disclosed. M=2.67 is moderate — the multiple expansion thesis depends on buy_mult being truly 4.5x, which has no direct transaction evidence. S=3.65 reflects a difficult combination: high V (labor is automatable) but low C (competitive pass-through captures gains), slow A (6-year t50), and moderate M (limited spread). The industry is PRESSURED not MELTING because physical acquisition is durable."
+}

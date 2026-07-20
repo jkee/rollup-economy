@@ -1,0 +1,288 @@
+{
+  "naics": "541219",
+  "title": "Other Accounting Services",
+  "run_meta": {
+    "model_id": "claude-sonnet-4-6",
+    "run_date": "2026-07-20",
+    "run_id": "fleet-s2-541219",
+    "template_version": "3.0",
+    "prompt_version": "p3-aff6579"
+  },
+  "dataset_inputs": {
+    "labor_share": {
+      "value": 0.7934,
+      "method": "BLS Industry Productivity (IPS) direct: labor compensation (L02) $29,298.0M / sectoral output (T30) $36,927.9M, year 2022",
+      "sources": [
+        "BLS Industry Productivity and Costs flat files (ip.data.1.AllData), measures L02 and T30"
+      ],
+      "year": "2022",
+      "quality": "HIGH"
+    },
+    "role_mix": {
+      "oews_level": "4-digit 5412",
+      "occupations": [
+        {
+          "soc": "13-2011",
+          "title": "Accountants and Auditors",
+          "emp_share": 0.3139,
+          "wage_share": 0.342
+        },
+        {
+          "soc": "43-3031",
+          "title": "Bookkeeping, Accounting, and Auditing Clerks",
+          "emp_share": 0.0942,
+          "wage_share": 0.0549
+        },
+        {
+          "soc": "13-2082",
+          "title": "Tax Preparers",
+          "emp_share": 0.0635,
+          "wage_share": 0.042
+        },
+        {
+          "soc": "11-3031",
+          "title": "Financial Managers",
+          "emp_share": 0.0474,
+          "wage_share": 0.1032
+        },
+        {
+          "soc": "43-6014",
+          "title": "Secretaries and Administrative Assistants, Except Legal, Medical, and Executive",
+          "emp_share": 0.0365,
+          "wage_share": 0.0202
+        },
+        {
+          "soc": "11-1021",
+          "title": "General and Operations Managers",
+          "emp_share": 0.0297,
+          "wage_share": 0.051
+        },
+        {
+          "soc": "43-9061",
+          "title": "Office Clerks, General",
+          "emp_share": 0.0284,
+          "wage_share": 0.0144
+        },
+        {
+          "soc": "13-1111",
+          "title": "Management Analysts",
+          "emp_share": 0.0278,
+          "wage_share": 0.0424
+        },
+        {
+          "soc": "43-3021",
+          "title": "Billing and Posting Clerks",
+          "emp_share": 0.0246,
+          "wage_share": 0.0129
+        },
+        {
+          "soc": "43-1011",
+          "title": "First-Line Supervisors of Office and Administrative Support Workers",
+          "emp_share": 0.0219,
+          "wage_share": 0.0188
+        }
+      ],
+      "quality": "MED"
+    },
+    "n_total": {
+      "value": 45390,
+      "source": "SUSB 2022 (firms, all enterprise sizes)",
+      "year": "2022",
+      "quality": "HIGH"
+    },
+    "n_band": {
+      "value": 531,
+      "derivation": "margin 0.1565 (margins.json[54]: Damodaran Jan 2026: Business & Consumer Services EBITDA/Sales 15.65%); revenue/employee $116,910 (SUSB 2022 receipts/employment at 541219); class <5: 35,754 firms, avg revenue/firm $191,355 (class receipts/firms), implied EBITDA $29,947 -> out of $1-10M band; class 5-9: 5,777 firms, avg revenue/firm $656,548 (class receipts/firms), implied EBITDA $102,750 -> out of $1-10M band; class 10-19: 2,081 firms, avg revenue/firm $1,497,395 (class receipts/firms), implied EBITDA $234,342 -> out of $1-10M band; class 20-99: 1,247 firms, avg revenue/firm $4,177,727 (class receipts/firms), implied EBITDA $653,814 -> out of $1-10M band; class 100-499: 282 firms, avg revenue/firm $13,787,344 (class receipts/firms), implied EBITDA $2,157,719 -> IN $1-10M band; class 500+: 249 firms, avg revenue/firm $24,583,161 (class receipts/firms), implied EBITDA $3,847,265 -> IN $1-10M band; n_band = 531",
+      "margin_used": 0.1565,
+      "margin_source": "Damodaran Jan 2026: Business & Consumer Services EBITDA/Sales 15.65%",
+      "quality": "ESTIMATE"
+    }
+  },
+  "inputs": {
+    "ai_replaceable_share": {
+      "value": 0.5575,
+      "breakdown_by_role": [
+        {
+          "role": "Bookkeepers / accounting clerks",
+          "labor_share_of_total": 0.45,
+          "within_role_automatable_fraction": 0.70,
+          "contribution": 0.315,
+          "rationale": "Bank-feed categorization, reconciliation, and monthly close are among the nearest-term fully automatable white-collar tasks. QuickBooks Intuit Assist and Xero AI already automate 67-85% of transaction categorization natively. Surveyed accounting firms report 67% average reduction in categorization time. Fraction 0.70 leaves 0.30 for cleanup of messy books, unusual transactions, year-end adjustments, and client advisory conversation.",
+          "plausible_range": "0.55-0.80"
+        },
+        {
+          "role": "Owner-operators (non-CPA accountants, enrolled agents)",
+          "labor_share_of_total": 0.25,
+          "within_role_automatable_fraction": 0.35,
+          "contribution": 0.0875,
+          "rationale": "Owner-operators spend significant time on data entry, bookkeeping production, and routine tax-form preparation — all AI-exposed. Client relationships, cleanup judgment, IRS representation (EA credential), and fractional-controller advisory are not automatable. Fraction 0.35 represents the production share of an owner-operator's time that is AI-substitutable.",
+          "plausible_range": "0.25-0.50"
+        },
+        {
+          "role": "Billing / invoicing specialists",
+          "labor_share_of_total": 0.10,
+          "within_role_automatable_fraction": 0.65,
+          "contribution": 0.065,
+          "rationale": "Invoice generation, AR follow-up, and statement processing are direct workflow-automation targets. Many clients' own ERP/AI is also eliminating the outsourced function. Fraction 0.65 allows for exception handling, client disputes, and custom billing arrangements.",
+          "plausible_range": "0.50-0.80"
+        },
+        {
+          "role": "Payroll and tax support staff (non-CPA)",
+          "labor_share_of_total": 0.10,
+          "within_role_automatable_fraction": 0.35,
+          "contribution": 0.035,
+          "rationale": "Adjacent compliance tasks overlapping with 541213/541214. Routine payroll data entry and standard form preparation are AI-automatable; multi-state complexity, garnishment handling, and agency notice response keep humans. Fraction 0.35.",
+          "plausible_range": "0.25-0.50"
+        },
+        {
+          "role": "Administrative staff",
+          "labor_share_of_total": 0.10,
+          "within_role_automatable_fraction": 0.55,
+          "contribution": 0.055,
+          "rationale": "Scheduling, document collection/chasing, onboarding paperwork, and file organization are strongly automatable via AI workflow tools. Fraction 0.55 leaves 0.45 for client-facing coordination that benefits from human presence.",
+          "plausible_range": "0.40-0.70"
+        }
+      ],
+      "quality": "MED"
+    },
+    "pi_dist": {
+      "value": 0.30,
+      "rationale": "Bookkeeping firms face severe platform threat to client control: (1) Intuit owns the ledger — QuickBooks Live directly competes with independent bookkeepers at $300-700/month with published national pricing; (2) the accountant partner channel is being converted into Intuit distribution, creating platform dependency; (3) no licensure requirement means clients can switch or self-serve at any time; (4) offshore substitution has already deflated pricing once; (5) zero-licensure market makes new entrants trivially easy for any remaining demand. pi_dist = 0.30: very limited true client ownership — the platform that hosts the books has de facto control.",
+      "plausible_range": "0.20-0.45",
+      "sources": [
+        "QuickBooks Live pricing (dancingnumbers.com/quickbooks-live-bookkeeping, 2026): $300-700/month",
+        "Intuit 10-K and investor materials documenting QuickBooks Live competitive positioning"
+      ],
+      "quality": "MED"
+    },
+    "pi_moat": {
+      "value": 0.25,
+      "rationale": "Zero licensure for bookkeeping — anyone may practice. QuickBooks Live and Xero provide a national published price floor/ceiling that prevents margin retention when AI cuts costs. Switching cost is very low: a client's books live in QuickBooks/Xero and are trivially portable. Personal relationship with the owner-bookkeeper is the main moat, but this transfers poorly in an acquisition. The EA credential (enrolled agent) is a partial moat for IRS representation work, but this is the smaller sub-segment. pi_moat = 0.25.",
+      "plausible_range": "0.15-0.40",
+      "sources": [
+        "NACPB / AIPB: no licensure required for bookkeeping (any state)",
+        "QuickBooks Live published pricing as visible price ceiling"
+      ],
+      "quality": "MED"
+    },
+    "t50_years": {
+      "value": 2.0,
+      "derivation": "Current adoption: ~55% of accounting/bookkeeping firms are materially using AI in automatable functions (QuickBooks Intuit Assist and Xero AI categorization are embedded by default in the platforms that host most bookkeepers' work — this is not a deliberate adoption choice but a platform feature rollout). Accounting Today 2026 survey and industry statistics consistently report 60-68% of small accounting firms (1-10 employees) using AI tools. Given 55%+ already past the threshold, t50 is effectively already crossed or 1-2 years away for the tail that hasn't yet engaged embedded AI features. Historical analog: QuickBooks Online itself reached ~50% of eligible US SMBs within ~5 years of meaningful push (2013 launch, ~50% by 2018). AI features embedded into existing subscriptions adopt much faster — closer to 2-3 years from rollout to 50%+ engagement. Central estimate: 2.0 years from now (2028) for the full industry tail to reach 50% material AI use, given most are already using it or have automatic access via their platform subscription.",
+      "plausible_range": "1-4 years",
+      "quality": "MED"
+    },
+    "current_adoption_pct": {
+      "value": 0.55,
+      "source": "Multiple accounting technology surveys 2025-2026 (ReceiptsAI compilation; Accounting Today / Firm of the Future 2026 survey)",
+      "url": "https://receiptsai.com/ai-automation-accounting-statistics-2026",
+      "figure_quoted": "60% of accounting firms now report using some form of AI in their practice; small firms (1-10 employees) 68% adoption rate (2026 accounting AI statistics compilation). 46% of accountants use AI daily (up from 18% in 2023). QuickBooks Intuit Assist and Xero AI categorization are embedded in platforms used by most bookkeeping firms. Calibrated to 55% material adoption for 541219 firms accounting for the smaller sole-prop tail.",
+      "access_date": "2026-07-20",
+      "quality": "MED"
+    },
+    "historical_analogs": {
+      "value": "QuickBooks Online adoption: from ~5% (2013 launch) to ~50% of eligible US small businesses by ~2018 (~5 years). AI features embedded in existing subscriptions adopt faster (1-2 year rollout to 50%+ engagement). Cloud payroll analog: 12 years to ~65% enterprise.",
+      "source": "Intuit investor materials; Precedence Research cloud payroll market; Accounting Today surveys",
+      "url": "https://www.firmofthefuture.com/news/accountant-tech-survey-2026/",
+      "figure_quoted": "2026 Accountant Technology Survey (Firm of the Future): significant majority of accounting firms report AI tool use in 2026; QuickBooks AI and Xero reconciliation AI cited as primary adoption vectors.",
+      "access_date": "2026-07-20",
+      "quality": "MED"
+    },
+    "owners_60plus_pct": {
+      "value": 0.38,
+      "source": "Census Annual Business Survey 2022; Controllers Council / AICPA demographic reporting",
+      "url": "https://controllerscouncil.org/accounting-crisis-cpa-firms-face-75-retirements/",
+      "figure_quoted": "Almost 75% of the CPA workforce met retirement age in 2020 (AICPA). Census ABS 2022: 52.3% of US business owners 55+; 22.8% 65+. Estimated 60+ fraction ~38% (half of 55-64 cohort at ~14.75% + all 65+ at 22.8%). Accounting/bookkeeping owner demographic is well-documented as aging — the Controllers Council cites 75% of CPAs near retirement as evidence of the aging principal class.",
+      "access_date": "2026-07-20",
+      "quality": "ESTIMATE",
+      "succession_shortage_documented": {
+        "value": true,
+        "evidence": "Controllers Council 2025: 75% of CPAs met retirement age by 2020, with succession as an acute documented shortage. Gallup 2024: 78% of small business owners lack a formal succession plan. Project Equity: 2.9M employer firms owned by 55+ owners facing succession pressure. The AICPA and NACPB member surveys consistently document the lack of next-generation succession in small accounting practices."
+      }
+    },
+    "active_consolidators": {
+      "value": 5,
+      "source": "PE accounting consolidator tracking; PrivSource and industry press 2024-2025",
+      "url": "https://thefinancestory.com/private-equity-accounting-roll-ups-hitting-reality-check",
+      "figure_quoted": "PE-backed accounting transactions hit 65 in 2024 and 104 in 2025, driven by platforms like Baker Tilly, Citrin Cooperman, Cherry Bekaert, Aprio, and Marcum — primarily targeting CPA firms (541211). Platforms specifically targeting 541219 bookkeeping/outsourced accounting: Bench (VC-backed), Pilot.com (VC-backed), FinancePal, Decimal (formerly AccountingDept.com, PE-backed), OutsourcePartners International. Counting 5 PE-backed or growth-equity platforms doing add-on acquisitions specifically in the bookkeeping/other-accounting segment (541219) in the last 24 months.",
+      "access_date": "2026-07-20",
+      "quality": "MED"
+    },
+    "buy_mult": {
+      "value": 3.0,
+      "source": "Accounting practice broker data (Naab Consulting, Poe Group Advisors, CT Acquisitions 2025-2026); Auxo Capital advisors",
+      "url": "https://auxocapitaladvisors.com/accounting-firm-ma-valuation-multiples/",
+      "figure_quoted": "Small accounting/bookkeeping practices sell at 0.7x-1.0x gross revenue or 1.8-3.2x SDE for owner-operated firms. Multi-partner CAS/outsourced accounting platforms: 4.5-8.0x normalized EBITDA. For the n_band (100-499 employee, avg EBITDA ~$2.16M): these are institutionalized outsourced accounting firms, not solo bookkeepers — trade closer to 3.0-5.0x EBITDA. Conservative buy_mult = 3.0x EBITDA after EBITDA normalization (adding back market-rate owner comp vs. SDE basis).",
+      "access_date": "2026-07-20",
+      "quality": "MED"
+    },
+    "exit_mult": {
+      "value": 9.0,
+      "source": "CT Acquisitions 2026 PE multiples report; Auxo Capital accounting firm M&A guide 2026",
+      "url": "https://ctacquisitions.com/accounting-firm-business-valuation/",
+      "figure_quoted": "PE platform accounting exits 2025: mid-tier CAS/outsourced accounting 6.5-8.0x EBITDA (Auxo); PE-backed platforms 8-12x EBITDA at exit; headline transactions (Citrin/Blackstone) at ~15x for top-tier CPA platforms. 541219 bookkeeping/outsourced platforms are below CPA firm tier (no licensure moat); exit_mult = 9.0x as mid-point of 6.5-12x range applicable to scalable outsourced accounting with recurring revenue.",
+      "access_date": "2026-07-20",
+      "quality": "MED"
+    },
+    "pricing_structure": {
+      "value": "Monthly fixed fees ($200-1,500/month for SMB bookkeeping) and hourly rates ($25-100/hr) in a zero-licensure market. QuickBooks Live sets a national visible price ceiling at $300-700/month. Offshore substitution has compressed pricing. No cost-plus or percentage-of-value billing; fixed monthly fee is the standard, making AI efficiency savings directly competed away by platform pricing benchmarks.",
+      "source": "QuickBooks Live pricing (Dancing Numbers 2026); bookkeeping market surveys",
+      "url": "https://www.dancingnumbers.com/quickbooks-live-bookkeeping/",
+      "figure_quoted": "QuickBooks Live Full-Service: $300/month (up to $10k monthly expenses), $500/month ($10k-$50k), $700/month (over $50k) plus QBO subscription. This is the effective national price ceiling for independent bookkeeping firms serving comparable SMB clients.",
+      "access_date": "2026-07-20",
+      "quality": "MED"
+    }
+  },
+  "scores": {
+    "V": {
+      "arithmetic": "V_raw = labor_share × ai_replaceable_share = 0.7934 × 0.5575 = 0.44232050; V = 10 × min(1, 0.44232050 / 0.25) = 10 × min(1, 1.76928200) = 10 × 1.0 = 10.0",
+      "score": 10.0
+    },
+    "C": {
+      "arithmetic": "C = 10 × pi_dist × pi_moat = 10 × 0.30 × 0.25 = 10 × 0.075 = 0.75",
+      "score": 0.75
+    },
+    "A": {
+      "arithmetic": "A = min(10, 10 / t50_years) = min(10, 10 / 2.0) = min(10, 5.0) = 5.0",
+      "score": 5.0
+    },
+    "B": {
+      "arithmetic": "TD = clamp(log10(531)/4, 0, 1) = clamp(2.725095/4, 0, 1) = clamp(0.681274, 0, 1) = 0.681274; OW_raw = clamp((0.38 - 0.10)/0.35, 0.1, 0.9) = clamp(0.8, 0.1, 0.9) = 0.8; succession_shortage_documented=true so OW = min(1.0, 0.8 + 0.1) = 0.9; CFD = min(0.9, log10(1+5)/2) = min(0.9, log10(6)/2) = min(0.9, 0.778151249/2) = min(0.9, 0.389075625) = 0.389075625; B = 10 × sqrt(0.681274 × 0.9) / (1 + 0.3 × 0.389075625) = 10 × sqrt(0.613147) / (1 + 0.116722688) = 10 × 0.783037 / 1.116722688 = 7.83037 / 1.116722688 = 7.011917",
+      "score": 7.011917
+    },
+    "M": {
+      "arithmetic": "M = clamp(4 × (exit_mult - buy_mult) / buy_mult, 0, 10) = clamp(4 × (9.0 - 3.0) / 3.0, 0, 10) = clamp(4 × 6.0 / 3.0, 0, 10) = clamp(4 × 2.0, 0, 10) = clamp(8.0, 0, 10) = 8.0",
+      "score": 8.0
+    }
+  },
+  "S": 4.619463,
+  "cross_checks": {
+    "uplift_pp": 44.23,
+    "uplift_vs_A_consistent": "V_raw = 0.44232, so AI could free 44.23pp of revenue. A = 5.0 (>=5). Uplift 44.23pp >> 3pp, so no tension. The combination of very high AI value (V=10, ceiling) and fast adoption (A=5) is consistent: bookkeeping is the industry where AI adoption is fastest and the value most concentrated, because the core product (monthly close/reconciliation) is already being natively automated inside accounting platforms. The high uplift and fast adoption are mutually reinforcing, not contradictory.",
+    "terminal_value": {
+      "class": "MELTING",
+      "justification": "The dominant sub-segment (bookkeeping/write-up) faces product-level replacement, not just cost reduction. Intuit (QuickBooks Live + Intuit Assist AI) and Xero are automating the monthly close, bank reconciliation, and transaction categorization natively inside the platforms that host the clients' books — the seller of the ledger is the automator. AI cuts the cost of producing the close but more importantly is deleting the close as a purchasable external service for standard SMBs. In 5-10 years, the residual demand for a paid human bookkeeper will be confined to: (1) cleanup of genuinely messy books (edge cases, M&A, reconstruction), (2) fractional-controller/advisory for clients needing judgment beyond data categorization, and (3) EA-credentialed IRS representation (a distinct sub-segment). A firm whose core product was the monthly close for standard SMBs cannot survive on those remnants alone. Classify MELTING: the product itself is being replaced, not merely delivered more cheaply."
+    },
+    "no_proxy_confirmed": "V scored from labor-cost replacement analysis of specific bookkeeping functions (categorization, reconciliation, close, billing automation) — benchmarked against QuickBooks/Xero AI automation data and Symmetry/accounting-tech surveys. No reference to PE deal activity or consolidation trends. A scored from current_adoption_pct (accounting tech survey data) and historical analog (QuickBooks Online adoption timeline) — no reference to M&A or deal volume.",
+    "pricing_model_deflation": "Bookkeeping is billed at monthly fixed fees ($200-1,500/mo) benchmarked against QuickBooks Live's published national price points ($300-700/mo). This is a visible deflation ceiling: when AI cuts the hours required to deliver a monthly close, competition from QuickBooks Live and offshore providers forces independent firms to pass savings to clients in lower fees rather than retain as margin. Zero licensure means no barrier prevents clients from switching to the platform directly. Modeled via pi_dist = 0.30 (Intuit/platform holds de facto client control through ledger ownership) and pi_moat = 0.25 (no licensure, trivial switching, visible national price ceiling). Both are depressed to reflect severe deflation pass-through."
+  },
+  "confidence_overall": "MED",
+  "heterogeneous": true,
+  "top_uncertain_inputs": [
+    {
+      "input": "t50_years",
+      "plausible_range": "1-4 years",
+      "score_impact": "A = min(10, 10/t50): at t50=1 yr A=10.0, S~5.4; at t50=4 yrs A=2.5, S~3.8. The 1-4 yr range shifts S from ~3.8 to ~5.4."
+    },
+    {
+      "input": "pi_dist",
+      "plausible_range": "0.20-0.45",
+      "score_impact": "C = 10 × pi_dist × 0.25: at pi_dist=0.20 C=0.50, S~4.3; at pi_dist=0.45 C=1.125, S~5.1. Platform control is the central uncertainty."
+    },
+    {
+      "input": "buy_mult",
+      "plausible_range": "2.0-5.0x EBITDA",
+      "score_impact": "M: at buy=2.0 M=clamp(4×(9-2)/2,0,10)=clamp(14,0,10)=10.0; at buy=5.0 M=clamp(4×4/5,0,10)=3.2. Large range due to sparse comp set for 541219-specific bookkeeping platforms on EBITDA basis."
+    }
+  ],
+  "reviewer_note": "Catch-all code: 541219 covers (1) bookkeeping/write-up services (dominant — ~35,754 of 45,390 firms have <5 employees; these are overwhelmingly sole-prop bookkeepers), (2) billing and invoicing services (~10% of segment by revenue), (3) non-CPA accounting/enrolled agent services (~15%). Score reflects the dominant sub-segment (bookkeeping/write-up) per Core Rule 5. Role-mix warning: provided 4-digit OEWS is CPA-firm dominated (13-2011 Accountants 34.2%) and badly misrepresents this code; bookkeeping clerks and owner-operator bookkeepers dominate the actual wage bill. ai_replaceable_share built from prompt hypothesis structure (bookkeepers 45%, owner-operators 25%, billing 10%, payroll/tax 10%, admin 10%). n_band note: dataset methodology puts the n_band firms in 100-499 and 500+ employee classes — these are not local bookkeeping sole-props but institutionalized outsourced accounting/offshore delivery firms; the acquirable pool is actually much larger if solo practitioners with $1-10M EBITDA were counted (most fall below n_band because average revenue per very-small firm is ~$191K with EBITDA ~$30K). The reported n_band = 531 likely understates the real acquirable count of practices worth acquiring. buy_mult quality is MED given sparse 541219-specific EBITDA comp set; normalized from SDE-basis broker data. terminal_value = MELTING on primary sub-segment (bookkeeping); EA representation sub-segment would score PRESSURED independently. S reflects the combination of very high AI value (ceiling V=10), fast adoption (A=5), very weak capture (C=0.75 is low), good buy/sell spread (M=8), and a large though institutionalized n_band pool (B~7). The low C drags S to ~4.6 despite high V, A, and M — correct, as the fundamental problem is that AI efficiency cannot be retained as margin in a zero-licensure market with published national price competition from the platform that owns the ledger."
+}

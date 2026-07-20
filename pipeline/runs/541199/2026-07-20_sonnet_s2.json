@@ -1,0 +1,297 @@
+{
+  "naics": "541199",
+  "title": "All Other Legal Services",
+  "run_meta": {
+    "model_id": "claude-sonnet-4-6",
+    "run_date": "2026-07-20",
+    "run_id": "fleet-s2-541199",
+    "template_version": "3.0",
+    "prompt_version": "p3-aff6579"
+  },
+  "dataset_inputs": {
+    "labor_share": {
+      "value": 0.5532,
+      "method": "QCEW 2024 private total annual wages at 541199 ($3,939,934,593) x benefits multiplier 1.4294 [ECEC private-industry total comp $46.60/hr / wages $32.60/hr = 1.4294 (March 2026 reference period)] / SUSB 2022 receipts at 541199 ($7,593,656,000). Vintage mismatch: 2024 wages over 2022 receipts, stated. Level: 6-digit. Harmonized to IPS basis ÷1.3407 (median of 65 dual-method codes).",
+      "sources": [
+        "BLS QCEW 2024 annual averages (US000, private)",
+        "BLS ECEC news release (raw/ecec.nr0.htm)",
+        "Census SUSB 2022 (receipts by NAICS)"
+      ],
+      "year": "2024 wages / 2022 receipts",
+      "quality": "MED"
+    },
+    "role_mix": {
+      "oews_level": "4-digit 5411",
+      "occupations": [
+        {
+          "soc": "23-1011",
+          "title": "Lawyers",
+          "emp_share": 0.3717,
+          "wage_share": 0.6215
+        },
+        {
+          "soc": "23-2011",
+          "title": "Paralegals and Legal Assistants",
+          "emp_share": 0.2349,
+          "wage_share": 0.1312
+        },
+        {
+          "soc": "43-6012",
+          "title": "Legal Secretaries and Administrative Assistants",
+          "emp_share": 0.1039,
+          "wage_share": 0.0551
+        },
+        {
+          "soc": "43-9061",
+          "title": "Office Clerks, General",
+          "emp_share": 0.0262,
+          "wage_share": 0.01
+        },
+        {
+          "soc": "43-4171",
+          "title": "Receptionists and Information Clerks",
+          "emp_share": 0.0204,
+          "wage_share": 0.0073
+        },
+        {
+          "soc": "43-3031",
+          "title": "Bookkeeping, Accounting, and Auditing Clerks",
+          "emp_share": 0.0194,
+          "wage_share": 0.0098
+        },
+        {
+          "soc": "43-1011",
+          "title": "First-Line Supervisors of Office and Administrative Support Workers",
+          "emp_share": 0.0188,
+          "wage_share": 0.0132
+        },
+        {
+          "soc": "43-6014",
+          "title": "Secretaries and Administrative Assistants, Except Legal, Medical, and Executive",
+          "emp_share": 0.0185,
+          "wage_share": 0.0077
+        },
+        {
+          "soc": "23-2093",
+          "title": "Title Examiners, Abstractors, and Searchers",
+          "emp_share": 0.0166,
+          "wage_share": 0.0082
+        },
+        {
+          "soc": "11-1021",
+          "title": "General and Operations Managers",
+          "emp_share": 0.0155,
+          "wage_share": 0.0229
+        }
+      ],
+      "quality": "MED"
+    },
+    "n_total": {
+      "value": 4980,
+      "source": "SUSB 2022 (firms, all enterprise sizes)",
+      "year": "2022",
+      "quality": "HIGH"
+    },
+    "n_band": {
+      "value": 174,
+      "derivation": "margin 0.1565 (margins.json[54]: Damodaran Jan 2026: Business & Consumer Services EBITDA/Sales 15.65%); revenue/employee $243,973 (SUSB 2022 receipts/employment at 541199); class <5: 4,123 firms, avg revenue/firm $289,622 (class receipts/firms), implied EBITDA $45,326 -> out of $1-10M band; class 5-9: 452 firms, avg revenue/firm $1,226,542 (class receipts/firms), implied EBITDA $191,954 -> out of $1-10M band; class 10-19: 213 firms, avg revenue/firm $2,658,155 (class receipts/firms), implied EBITDA $416,001 -> out of $1-10M band; class 20-99: 141 firms, avg revenue/firm $7,534,603 (class receipts/firms), implied EBITDA $1,179,165 -> IN $1-10M band; class 100-499: 33 firms, avg revenue/firm $24,876,091 (class receipts/firms), implied EBITDA $3,893,108 -> IN $1-10M band; class 500+: 18 firms, avg revenue/firm $188,648,444 (class receipts/firms), implied EBITDA $29,523,482 -> out of $1-10M band; n_band = 174",
+      "margin_used": 0.1565,
+      "margin_source": "Damodaran Jan 2026: Business & Consumer Services EBITDA/Sales 15.65%",
+      "quality": "ESTIMATE"
+    }
+  },
+  "inputs": {
+    "ai_replaceable_share": {
+      "value": 0.5175,
+      "breakdown_by_role": [
+        {
+          "role": "Owner-operators (doc-prep, process-serving firm owners)",
+          "labor_share_of_total": 0.3,
+          "within_role_automatable_fraction": 0.5,
+          "contribution": 0.15,
+          "rationale": "Heavy SDE component; mix of relationship/dispatch management and hands-on production. The production half (document assembly, filings, affidavits, scheduling) is highly AI-exposed; the client-relationship and dispatch-management half is less so. Hypothesis ~50% of labor in AI-exposed tasks. Plausible range 35-65%.",
+          "plausible_range": "0.35-0.65"
+        },
+        {
+          "role": "Field process servers",
+          "labor_share_of_total": 0.2,
+          "within_role_automatable_fraction": 0.0,
+          "contribution": 0.0,
+          "rationale": "Physical service of process cannot be done by AI — it requires a human to personally deliver legal documents. The relevant existential threat is regulatory (court e-service rule adoption: California CCP §413.30 eff. Jan 1 2026 permits electronic service; LA Superior Court launched eService Nov 2024), not AI. Keeping at 0% AI-automatable per prompt instruction to distinguish AI substitution from regulatory/statutory substitution. Plausible range 0%.",
+          "plausible_range": "0.00"
+        },
+        {
+          "role": "Legal document preparers and independent paralegals",
+          "labor_share_of_total": 0.25,
+          "within_role_automatable_fraction": 0.85,
+          "contribution": 0.2125,
+          "rationale": "Form completion and filing packets are precisely what consumer AI does directly. No licensure protects this niche (UPL enforcement creates the niche but AI challenges UPL boundaries — NCSC Aug 2025 white paper recommends modernizing UPL regulations to embrace AI). LegalZoom and competitors already deliver AI-generated documents at scale; independent preparers face direct consumer AI substitution. Hypothesis ~85% of labor in AI-exposed tasks (residual 15% is intake/client communication and complex curative assembly). Plausible range 70-90%.",
+          "plausible_range": "0.70-0.90"
+        },
+        {
+          "role": "Patent agents and specialty practitioners",
+          "labor_share_of_total": 0.1,
+          "within_role_automatable_fraction": 0.35,
+          "contribution": 0.035,
+          "rationale": "AI drafts patent specifications and claims well (USPTO guidance Apr 2024 permits AI use; GPT-4 and specialized tools like PatentFormer in production). However, USPTO registration, prosecution strategy, amendment strategy and inventorship certification require the registered practitioner. Hypothesis ~35% of labor in AI-exposed tasks (drafting, prior art research, claim charting). Plausible range 25-50%.",
+          "plausible_range": "0.25-0.50"
+        },
+        {
+          "role": "Dispatch and administrative staff",
+          "labor_share_of_total": 0.15,
+          "within_role_automatable_fraction": 0.8,
+          "contribution": 0.12,
+          "rationale": "Job routing, affidavit preparation, status tracking, court filing coordination — already software tasks in process-serving platforms (ABC Legal API platform). AI accelerates further. Hypothesis ~80% automatable. Plausible range 65-90%.",
+          "plausible_range": "0.65-0.90"
+        }
+      ],
+      "quality": "LOW"
+    },
+    "pi_dist": {
+      "value": 0.2,
+      "rationale": "Per-unit flat fees in a zero-licensure (doc-prep) / commodity (process serving) market. (1) Doc-prep: no durable client relationship — each transaction is one-shot consumer demand won by search/ads; consumers can and do go straight to ChatGPT for form help; marketing spend, not a moat. When AI cuts document production cost, competition passes savings directly to clients via lower fees or free AI tools. (2) Process serving: law firms and collections agencies dispatch work increasingly via national tech platforms (ABC Legal, 29K clients, 8K servers); the firm owns no referral relationship independent of the platform. No recurring revenue in dominant segments. pi_dist = 0.20. Plausible range 0.10-0.30.",
+      "plausible_range": "0.10-0.30",
+      "sources": [
+        "Gridiron Capital / ABC Legal press release Aug 2025: https://www.prnewswire.com/news-releases/gridiron-capital-partners-with-abc-legal-services-302529487.html",
+        "NCSC modernizing UPL regulations white paper Aug 2025: https://www.ncsc.org/sites/default/files/media/document/AI_UPL_WhitePaper.pdf",
+        "LegalZoom 2025 annual results: https://investors.legalzoom.com/news-releases/news-release-details/legalzoom-reports-strong-fourth-quarter-and-full-year-2025/"
+      ],
+      "quality": "LOW"
+    },
+    "pi_moat": {
+      "value": 0.2,
+      "rationale": "Barriers are minimal in dominant sub-segments: (1) Legal doc prep — no licensure; UPL technically applies but AI is directly challenging UPL perimeter (state reform efforts active in 2025); consumer AI (ChatGPT, Claude) is a free substitute; no switching cost; no proprietary data; no physical requirement. (2) Process serving — licensed/bonded in some states but low qualification bar; ABC Legal tech platform routes around independent operators; e-service rules (CA SB 85, LA Superior Court eService) may abolish demand by statute for certain matter types. (3) Patent agents — USPTO registration is a real moat but only ~10,000 agents nationwide; not the dominant sub-segment by revenue. Overall moat for the dominant segment (doc prep): very low. pi_moat = 0.20. Plausible range 0.10-0.35.",
+      "plausible_range": "0.10-0.35",
+      "sources": [
+        "NCSC process automation guidance: https://www.ncsc.org/resources-courts/process-automation-guidance-courts",
+        "Countrywide Process state of process serving 2026: https://countrywideprocess.com/blog/the-state-of-process-serving-in-2026-five-statutory-and-operational-changes-reshaping-the-legal-support-industry/",
+        "NCSC UPL white paper Aug 2025: https://www.ncsc.org/sites/default/files/media/document/AI_UPL_WhitePaper.pdf"
+      ],
+      "quality": "LOW"
+    },
+    "t50_years": {
+      "value": 3.0,
+      "derivation": "Current adoption pct estimated at 40% materially in the dominant sub-segment (legal doc prep): large online platforms like LegalZoom have been AI-first since ~2022 (AI document generation deployed; AI appointed CEO June 2024 to accelerate AI pivot; 2025 revenue $756M +11% YoY); independent doc-prep operators are under severe competitive pressure from free AI tools (ChatGPT, Claude). 40% materially adopted reflects platform-segment full adoption + ~20-30% of independents using production AI tools. Gap to 50%: 10pp. Pace: ~5pp/year (aggressive adoption rate driven by existential substitution threat — no licensure barrier slows AI substitution for this sub-segment). 10pp / 5pp per year = 2 years; rounding up to 3 years for the long tail of holdout independents. Historical analog: LegalZoom online doc prep took ~9 years (2001-2010) to reach broad consumer adoption, but AI doc substitution is faster — generative AI crossed from 0% to ~40% usage in legal doc prep in ~3 years (2022-2025). t50 = 3 years (2029). Plausible range: 2-5 years.",
+      "plausible_range": "2-5 years",
+      "quality": "LOW"
+    },
+    "current_adoption_pct": {
+      "value": 0.4,
+      "source": "Qualia/ALTA 2025 AI survey (legal professionals broadly); LegalZoom AI-first pivot 2024-2025; process serving AI adoption data from AiLegalService.com 2025",
+      "url": "https://investors.legalzoom.com/news-releases/news-release-details/legalzoom-reports-strong-fourth-quarter-and-full-year-2025/",
+      "figure_quoted": "LegalZoom 2025 FY revenue $756M +11% YoY with AI-first strategy fully deployed (CEO Jeff Stibel appointed June 2024 to lead AI pivot; automated annual reports/trademark renewals/BOI reporting rolling out). 31% of legal professionals personally using generative AI for work in 2024; 21% of law firms adopted generative AI by early 2025. For the doc-prep sub-segment specifically, large platforms are fully AI-integrated; ESTIMATE 40% of the dominant sub-segment (doc prep and process serving) materially using AI in production workflows.",
+      "access_date": "2026-07-20",
+      "quality": "LOW"
+    },
+    "historical_analogs": {
+      "value": "LegalZoom online document preparation platform: launched ~2001, reached broad consumer adoption (~50% of Americans aware, using) by ~2010 (~9 years). However, AI generation of legal documents is faster: generative AI went from 0% to ~40% adoption in legal doc prep contexts in approximately 3 years (2022-2025). Process serving e-service rule adoption: California CCP §413.30 (electronic service authorization) effective January 1, 2026 — rule change from none to statutory permission in ~2 years of legislative process.",
+      "source": "LegalZoom investor relations; NCSC e-filing technology resources; Countrywide Process 2026 state of industry article",
+      "url": "https://countrywideprocess.com/blog/the-state-of-process-serving-in-2026-five-statutory-and-operational-changes-reshaping-the-legal-support-industry/",
+      "figure_quoted": "California SB 85 amended CCP §413.30 effective January 1, 2026, authorizing courts to direct that summons be served by electronic mail or other electronic technology when traditional methods have failed. LA Superior Court launched eService November 2024. LegalZoom AI-first transformation underway 2024-2025.",
+      "access_date": "2026-07-20",
+      "quality": "MED"
+    },
+    "owners_60plus_pct": {
+      "value": 0.45,
+      "source": "U.S. Census Bureau 2022 Annual Business Survey (ABS); SBA FAQ 2024; general small-business demographics",
+      "url": "https://advocacy.sba.gov/wp-content/uploads/2024/12/Frequently-Asked-Questions-About-Small-Business_2024-508.pdf",
+      "figure_quoted": "Census ABS 2022: 52.3% of business owners are 55 or older — 29.5% are 55 to 64 and 22.8% are 65 and older. For 541199, with 4,123 of 4,980 firms under 5 employees (83%), the population is overwhelmingly micro-owner-operated consistent with broader small-business demographics. ESTIMATE: ~45% of 541199 owners are 60+, interpolating between the 55+ (52.3%) and 65+ (22.8%) cohorts.",
+      "access_date": "2026-07-20",
+      "quality": "LOW",
+      "succession_shortage_documented": {
+        "value": false,
+        "evidence": "No NAPPS-specific succession shortage documentation found (NAPPS website does not publish member age demographics publicly). No industry-specific succession shortage documented for process serving or legal document preparation. General small-business data shows succession planning gaps (Gallup 2025: only 54% have a formal plan) but no code-specific documentation. Succession bonus not applied."
+      }
+    },
+    "active_consolidators": {
+      "value": 2,
+      "source": "PE professional press; ALTA; PrNews 2025",
+      "url": "https://www.prnewswire.com/news-releases/gridiron-capital-partners-with-abc-legal-services-302529487.html",
+      "figure_quoted": "Active PE-backed consolidators in 541199 in last 24 months: (1) ABC Legal Services — Aquiline Capital owned 2019-2025, then acquired by Gridiron Capital August 2025; add-ons included On the Run Legal Solutions (Arizona, June 2025) and Specialized Attorney Services (California, June 2025). (2) LegalZoom — acquired Formation Nation (Inc Authority + Nevada Corporate HQ) February 2025 for ~$64M. No other PE-backed consolidators specifically targeting 541199 identified; ABCLegal is the only platform specifically in process serving. Count = 2.",
+      "access_date": "2026-07-20",
+      "quality": "MED"
+    },
+    "buy_mult": {
+      "value": 3.0,
+      "source": "BizBuySell lower-middle market comps; general legal/professional services micro-firm multiples; AI disruption discount applied",
+      "url": "https://www.bizbuysell.com/learning-center/industry-valuation-multiples/",
+      "figure_quoted": "Small professional services businesses ($1-5M EBITDA) in lower middle market: 3.6x-4.0x EBITDA in Q4 2024 (down from 4.0x in Q4 2023). For 541199 micro-firms (median EBITDA under $200K based on SUSB data), valuation typically on SDE at 2-3x; ESTIMATE 3.0x normalized EBITDA for small single-location doc-prep / process-serving firms, applying a discount vs. broader professional services for AI substitution risk and no licensure moat.",
+      "access_date": "2026-07-20",
+      "quality": "ESTIMATE"
+    },
+    "exit_mult": {
+      "value": 8.0,
+      "source": "ABC Legal / Gridiron Capital acquisition (undisclosed terms but private equity LBO comp); LegalZoom public market EV/EBITDA; process-serving platform comps",
+      "url": "https://peprofessional.com/2025/08/gridiron-capital-acquires-abc-legal-services-expands-focus-on-legal-tech-network-models/",
+      "figure_quoted": "ABC Legal Services (Gridiron Capital acquisition, Aug 2025): financial terms undisclosed. LegalZoom 2025 adj EBITDA $148M+ (FY2024: $148.1M, FY2025 guided higher); market cap ~$800M-1.5B range implying 5-10x adj EBITDA. For PE-backed process-serving tech platforms at exit (ABC Legal: 29K clients, 8K servers, eFiling bundled, tech-enabled), ESTIMATE 8.0x EBITDA reflecting tech-enabled recurring-revenue premium over plain service business. This is above the 3.0x buy multiple for single-location firms, reflecting platform aggregation premium.",
+      "access_date": "2026-07-20",
+      "quality": "ESTIMATE"
+    },
+    "pricing_structure": {
+      "value": "Per-unit flat fees in all segments. (1) Legal doc prep: flat fee per document packet/LLC filing/form ($49-$500 range on LegalZoom; independent preparers $100-$400 per packet). No recurring revenue for one-shot consumer transactions. (2) Process serving: flat fee per serve ($50-$150 typical for standard service; rush/difficult serves higher). No retainer. (3) Patent agents: flat fee per application or hourly ($150-$350/hr); project basis. No cost-plus; no regulated pricing; pure competitive market in all segments. Revenue entirely transaction-based; no recurring subscription for most independents (LegalZoom increasingly subscription but that is the platform, not the NAICS 541199 base).",
+      "source": "LegalZoom public pricing page; NAPPS process serving fee norms (member resources); USPTO patent agent billing norms",
+      "url": "https://napps.org/",
+      "figure_quoted": "Process serving typically billed flat fee per serve; legal document preparation typically flat fee per packet; patent agents flat or hourly per engagement. No regulated pricing; pure competitive market pricing in all segments.",
+      "access_date": "2026-07-20",
+      "quality": "MED"
+    }
+  },
+  "scores": {
+    "V": {
+      "arithmetic": "ai_replaceable_share = (0.30×0.50)+(0.20×0.00)+(0.25×0.85)+(0.10×0.35)+(0.15×0.80) = 0.15+0.00+0.2125+0.035+0.12 = 0.517500. V_raw = 0.5532 × 0.517500 = 0.286281. V = 10 × min(1, 0.286281/0.25) = 10 × min(1, 1.145124) = 10 × 1.0 = 10.000000",
+      "score": 10.0
+    },
+    "C": {
+      "arithmetic": "C = 10 × pi_dist × pi_moat = 10 × 0.20 × 0.20 = 0.400000",
+      "score": 0.4
+    },
+    "A": {
+      "arithmetic": "A = min(10, 10/t50_years) = min(10, 10/3.0) = min(10, 3.333333) = 3.333333",
+      "score": 3.333333
+    },
+    "B": {
+      "arithmetic": "n_band=174; TD = clamp(log10(174)/4, 0, 1) = clamp(2.240549/4, 0, 1) = clamp(0.560137, 0, 1) = 0.560137. owners_60plus_pct=0.45, succession_shortage=false; OW = clamp((0.45-0.10)/0.35, 0.1, 0.9) = clamp(1.0, 0.1, 0.9) = 0.9; no succession bonus. active_consolidators=2; CFD = min(0.9, log10(1+2)/2) = min(0.9, log10(3)/2) = min(0.9, 0.477121/2) = min(0.9, 0.238561) = 0.238561. B = 10 × sqrt(0.560137 × 0.9) / (1 + 0.3 × 0.238561) = 10 × sqrt(0.504123) / (1 + 0.071568) = 10 × 0.710017 / 1.071568 = 6.625958",
+      "score": 6.625958
+    },
+    "M": {
+      "arithmetic": "M = clamp(4 × (exit_mult - buy_mult) / buy_mult, 0, 10) = clamp(4 × (8.0 - 3.0) / 3.0, 0, 10) = clamp(4 × 1.666667, 0, 10) = clamp(6.666667, 0, 10) = 6.666667",
+      "score": 6.666667
+    }
+  },
+  "S": 3.581123,
+  "cross_checks": {
+    "uplift_pp": 28.628,
+    "uplift_vs_A_consistent": "V_raw = 0.286281, which converts to ~28.6 percentage points of revenue freed — well above the 3pp threshold. A = 3.33 (t50 = 3 years; fast adoption). Uplift 28.6pp with A = 3.33: fully consistent and mutually reinforcing. The very high V reflects: (1) high labor_share of 0.5532 (labor-intensive code with high owner-operator content); (2) high ai_replaceable_share of 0.5175 (doc prep is directly AI-substitutable; processing/admin also high). No tension with A.",
+    "terminal_value": {
+      "class": "MELTING",
+      "justification": "Legal document preparation — the dominant sub-segment — is among the most directly AI-substitutable paid services anywhere. The product (form completion and standard filing packets) is precisely what consumer AI delivers for free or near-free. No licensure protects the niche; UPL enforcement creates the market but AI is actively challenging the UPL perimeter (NCSC Aug 2025 white paper recommends accommodating AI under revised UPL rules). When consumer AI matures, the independent doc-prep operator's reason to be paid collapses: the consumer goes directly to ChatGPT/Claude, or to a subsidized AI platform. The two protected slivers of this code are: (1) physical service of process (requires a human body — but exposed to e-service rules by statute, not AI; California CCP §413.30 eff. 2026 authorizes court-directed electronic service; LA Superior Court eService launched 2024); (2) USPTO-registered patent prosecution (real moat but only ~10,000 practitioners, minor share of code revenue). The product itself is being replaced for the dominant sub-segment. Classify MELTING: the independent doc-prep business model is being eliminated by AI and platform substitution, not just made more efficient. Note: process-serving demand is regulated away by statute (separate from AI). The MELTING classification is terminal-value for the acquirable-firm segment (small independent doc-prep), not for the large tech platforms like LegalZoom or ABC Legal that are the platform winners."
+    },
+    "no_proxy_confirmed": "V score derived from hypothesis role structure for the dominant sub-segment (legal document preparation), applying automation fractions to each role's labor content. No reference to PE deal activity or consolidation trends used to set V or A. A (t50=3) derived from: (1) Qualia/ALTA 2025 survey on current AI adoption rates in legal services; (2) LegalZoom's AI-first 2024-2025 pivot as analog for industry pace; (3) historical LegalZoom consumer adoption curve and contrast with faster current AI substitution pace. No M&A evidence used. Confirmed: V and A set independently of deal activity.",
+    "pricing_model_deflation": "All segments use per-unit flat fees in competitive, unregulated markets. No cost-plus, no regulated pricing, no retainer. This is the maximum-deflation pricing structure: when AI cuts the cost of producing a document packet or managing a serve, competitive pressure immediately passes the saving to clients as lower fees or free alternatives (ChatGPT). There is no structural price floor protecting margins. This is fully reflected in pi_dist=0.20 (heavy pass-through; one-shot transactional demand, no durable relationships) and pi_moat=0.20 (no licensure, no switching costs, no proprietary data for dominant sub-segment). The billing mix is 100% per-transaction flat fees — the pure deflation scenario."
+  },
+  "confidence_overall": "LOW",
+  "heterogeneous": true,
+  "top_uncertain_inputs": [
+    {
+      "input": "t50_years",
+      "plausible_range": "2-5 years",
+      "score_impact": "t50=2 → A=5.0 vs t50=5 → A=2.0; S ranges from ~4.0 to ~3.2 holding other inputs fixed. Uncertainty band ±0.4 on S."
+    },
+    {
+      "input": "ai_replaceable_share",
+      "plausible_range": "0.40-0.62 (role hypotheses unverified; OEWS role_mix is law-office dominated at 4-digit and unrepresentative of this catch-all code)",
+      "score_impact": "V is already capped at 10.0 (V_raw=0.286 > 0.25); changes in ai_replaceable_share only matter if it falls below 0.4519 (which would reduce V_raw below 0.25 and break the V=10 cap). At ars=0.40: V_raw=0.2213 → V=8.85, S≈3.38. Significant downside if role hypotheses overstate automation."
+    },
+    {
+      "input": "pi_dist",
+      "plausible_range": "0.10-0.30",
+      "score_impact": "pi_dist=0.10 → C=0.20; pi_dist=0.30 → C=0.60; S ranges from ~3.1 to ~3.9. Moderate spread; critical uncertainty for capture."
+    },
+    {
+      "input": "buy_mult",
+      "plausible_range": "2.0-4.0x EBITDA",
+      "score_impact": "At buy=2.0, exit=8.0: M=clamp(4×6/2,0,10)=min(12,10)=10.0; S≈3.8. At buy=4.0, exit=8.0: M=clamp(4×4/4,0,10)=4.0; S≈3.3. Spread ±0.25 on S."
+    }
+  ],
+  "reviewer_note": "CATCH-ALL CODE: heterogeneous=true per prompt rule. Top-3 revenue sub-segments: (1) Legal document preparation — DOMINANT by revenue (includes LegalZoom-type online operations and independent preparers); (2) Process serving — largest by establishment count, physically required, fragmented; (3) Patent agents and specialty practitioners — minor by revenue, real licensure moat. Scoring is on sub-segment (1) legal document preparation as dominant. ROLE-MIX WARNING: provided OEWS role_mix is 4-digit 5411 law-office dominated (Lawyers 62.15%); completely unrepresentative of this catch-all code. All V breakdown uses hypothesis role structure from prompt. TERMINAL VALUE CLASSIFICATION: MELTING chosen for dominant sub-segment (independent doc-prep) because the product itself is being replaced by AI, not merely the labor. This is a hard call — process serving physically persists but is threatened by e-service statutes (non-AI), and ABC Legal-style platforms survive as the winner. Patent agents have a real moat. But the acquirable-firm segment being scored (independent doc-prep operators, the 141 firms in the $1-10M EBITDA band) faces existential product substitution. MELTING classification will cap verdicts at the build level — reviewer should confirm this is appropriate vs. PRESSURED. S=3.58 reflects high V (labor-intensive, highly automatable) offset by very low C (0.40, reflecting zero-licensure market with no client ownership and maximum AI pass-through). The C score is the binding constraint on this industry's acquirability."
+}

@@ -1,0 +1,290 @@
+{
+  "naics": "541320",
+  "title": "Landscape Architectural Services",
+  "run_meta": {
+    "model_id": "claude-sonnet-4-6",
+    "run_date": "2026-07-20",
+    "run_id": "fleet-s2-541320",
+    "template_version": "3.0",
+    "prompt_version": "p3-aff6579"
+  },
+  "dataset_inputs": {
+    "labor_share": {
+      "value": 0.4888,
+      "method": "QCEW 2024 private total annual wages at 541320 ($2,653,798,071) x benefits multiplier 1.4294 [ECEC private-industry total comp $46.60/hr / wages $32.60/hr = 1.4294 (March 2026 reference period)] / SUSB 2022 receipts at 541320 ($5,788,521,000). Vintage mismatch: 2024 wages over 2022 receipts, stated. Level: 6-digit. Harmonized to IPS basis ÷1.3407 (median of 65 dual-method codes).",
+      "sources": [
+        "BLS QCEW 2024 annual averages (US000, private)",
+        "BLS ECEC news release (raw/ecec.nr0.htm)",
+        "Census SUSB 2022 (receipts by NAICS)"
+      ],
+      "year": "2024 wages / 2022 receipts",
+      "quality": "MED"
+    },
+    "role_mix": {
+      "oews_level": "4-digit 5413",
+      "occupations": [
+        {
+          "soc": "17-2051",
+          "title": "Civil Engineers",
+          "emp_share": 0.1164,
+          "wage_share": 0.128
+        },
+        {
+          "soc": "17-1011",
+          "title": "Architects, Except Landscape and Naval",
+          "emp_share": 0.0564,
+          "wage_share": 0.0582
+        },
+        {
+          "soc": "13-1082",
+          "title": "Project Management Specialists",
+          "emp_share": 0.0551,
+          "wage_share": 0.0646
+        },
+        {
+          "soc": "17-3011",
+          "title": "Architectural and Civil Drafters",
+          "emp_share": 0.0474,
+          "wage_share": 0.0328
+        },
+        {
+          "soc": "11-1021",
+          "title": "General and Operations Managers",
+          "emp_share": 0.0338,
+          "wage_share": 0.0572
+        },
+        {
+          "soc": "17-2141",
+          "title": "Mechanical Engineers",
+          "emp_share": 0.0337,
+          "wage_share": 0.0383
+        },
+        {
+          "soc": "11-9041",
+          "title": "Architectural and Engineering Managers",
+          "emp_share": 0.0321,
+          "wage_share": 0.0553
+        },
+        {
+          "soc": "47-4011",
+          "title": "Construction and Building Inspectors",
+          "emp_share": 0.0256,
+          "wage_share": 0.0205
+        },
+        {
+          "soc": "17-2071",
+          "title": "Electrical Engineers",
+          "emp_share": 0.0254,
+          "wage_share": 0.0299
+        },
+        {
+          "soc": "15-1252",
+          "title": "Software Developers",
+          "emp_share": 0.023,
+          "wage_share": 0.0308
+        }
+      ],
+      "quality": "MED"
+    },
+    "n_total": {
+      "value": 5041,
+      "source": "SUSB 2022 (firms, all enterprise sizes)",
+      "year": "2022",
+      "quality": "HIGH"
+    },
+    "n_band": {
+      "value": 46,
+      "derivation": "margin 0.1565 (margins.json[54]: Damodaran Jan 2026: Business & Consumer Services EBITDA/Sales 15.65%); revenue/employee $206,548 (SUSB 2022 receipts/employment at 541320); class <5: 3,549 firms, avg revenue/firm $379,051 (class receipts/firms), implied EBITDA $59,321 -> out of $1-10M band; class 5-9: 800 firms, avg revenue/firm $1,193,496 (class receipts/firms), implied EBITDA $186,782 -> out of $1-10M band; class 10-19: 390 firms, avg revenue/firm $2,621,638 (class receipts/firms), implied EBITDA $410,286 -> out of $1-10M band; class 20-99: 256 firms, avg revenue/firm $6,121,246 (class receipts/firms), implied EBITDA $957,975 -> out of $1-10M band; class 100-499: 33 firms, avg revenue/firm $23,646,333 (class receipts/firms), implied EBITDA $3,700,651 -> IN $1-10M band; class 500+: 13 firms, avg revenue/firm $9,128,077 (class receipts/firms), implied EBITDA $1,428,544 -> IN $1-10M band; n_band = 46",
+      "margin_used": 0.1565,
+      "margin_source": "Damodaran Jan 2026: Business & Consumer Services EBITDA/Sales 15.65%",
+      "quality": "ESTIMATE"
+    }
+  },
+  "inputs": {
+    "ai_replaceable_share": {
+      "value": 0.375,
+      "breakdown_by_role": [
+        {
+          "role": "Licensed landscape architects + principals",
+          "labor_share_of_total": 0.45,
+          "within_role_automatable_fraction": 0.25,
+          "contribution": 0.1125,
+          "rationale": "Reconstructed for landscape architecture office (the provided 4-digit 5413 OEWS mix omits 17-1012 Landscape Architects from the top-10 entirely — it is engineering-dominated; the signature occupation sits in the unlisted tail). Within a pure LA office, licensed LAs plus principals are ~45% of wages (hypothesis per prompt guidance 40-50%). Stamp, grading/stormwater documents, public-realm approvals, agency coordination, and client relationships stay human. Planting plans, renderings, and specification production are AI-exposed. Automatable fraction ~25%: production drawing phases (~40% of time, ~60% of that automatable) yield ~24%; other phases ~5% → rounded to 25%.",
+          "plausible_range": "0.20-0.30"
+        },
+        {
+          "role": "Designers / drafters (CAD, visualization)",
+          "labor_share_of_total": 0.18,
+          "within_role_automatable_fraction": 0.65,
+          "contribution": 0.117,
+          "rationale": "At 4-digit 5413, 17-3011 Architectural and Civil Drafters are 3.28% of wages; within a pure LA office, design/drafter staff plausibly ~18% (hypothesis). Site-plan production, planting schedules, and renders are directly automatable — generative site-design tools target exactly this. 65% automatable; 35% not automatable covers field-dependent decisions, agency-specific requirements, and licensed-LA judgment overlays.",
+          "plausible_range": "0.55-0.75"
+        },
+        {
+          "role": "Project managers",
+          "labor_share_of_total": 0.10,
+          "within_role_automatable_fraction": 0.30,
+          "contribution": 0.03,
+          "rationale": "At 4-digit 5413, 13-1082 PMs are 6.46% of wages; LA-office hypothesis ~10%. Agency coordination, community meetings, approvals, and construction observation coordination persist as human work. Submittal logs, meeting minutes, change-order tracking, and RFI documentation are automatable. 30% automatable (slightly lower than architecture PMs given more field coordination in LA practice).",
+          "plausible_range": "0.20-0.40"
+        },
+        {
+          "role": "Field / construction observation staff",
+          "labor_share_of_total": 0.10,
+          "within_role_automatable_fraction": 0.05,
+          "contribution": 0.005,
+          "rationale": "At 4-digit 5413, 47-4011 Construction Inspectors 2.05%; LA-office field staff hypothesis ~10%. Physical site presence for construction observation, plant-material approval, irrigation inspection, and punch lists requires human presence and cannot be substantially automated by current AI. Only ~5% automatable (post-visit reporting, punch-list documentation).",
+          "plausible_range": "0.00-0.10"
+        },
+        {
+          "role": "Admin / marketing / proposal staff",
+          "labor_share_of_total": 0.17,
+          "within_role_automatable_fraction": 0.65,
+          "contribution": 0.1105,
+          "rationale": "Not in 5413 top-10 OEWS; estimated ~17% of LA-office wages (hypothesis per prompt ~15%, adjusted up slightly to reach 100% total). RFP responses and proposal packages dominate — highly automatable with current AI writing tools. Administrative scheduling, invoicing, and routine correspondence also automatable. 65% automatable; 35% not automatable reflects client relationship outreach, firm branding, and BD strategy.",
+          "plausible_range": "0.55-0.75"
+        }
+      ],
+      "quality": "MED"
+    },
+    "pi_dist": {
+      "value": 0.45,
+      "rationale": "Sub-consultant economics are central to this code. A material share (estimated 40-50%) of LA firms work as sub-consultants to architects, engineers, or developer teams who hold the prime contract: when AI cuts design-production hours, the prime simply re-scopes or re-bids the LA sub-fee downward, passing AI savings to the client chain rather than letting the LA firm capture margin. Municipal and public-realm projects where the LA holds the prime offer stronger control, but these require firm size and reputation beyond most of the 5,041 firms in this code. Discretionary residential and commercial amenity design (a large share of small-firm revenue) has even weaker client relationship control — landscape contractors offer design-build competition that further commoditizes the LA fee. Score of 0.45 reflects: moderate control in the prime-held institutional segment, weak control in the sub-consultant and discretionary residential segments. Range: 0.35-0.55.",
+      "plausible_range": "0.35-0.55",
+      "sources": [
+        "ASLA 2024 Landscape Architecture Industry Report — firm structure and prime/sub economics",
+        "ASLA field resources on fee structure — asla.org (accessed 2026-07-20)"
+      ],
+      "quality": "MED"
+    },
+    "pi_moat": {
+      "value": 0.45,
+      "rationale": "Most US states (46-47 of 50) operate practice acts requiring a licensed landscape architect for certain regulated work (grading, stormwater, public rights-of-way, entitlement drawings). Only ~3-4 states have title acts (Maine, Massachusetts, and disputed others). This creates a regulatory floor similar to architecture. However, the floor is weaker than architecture for several reasons: (1) Discretionary planting and amenity design — the dominant revenue source for many small LA firms — is broadly accessible to landscape contractors and designers without a license as long as they don't use the title 'landscape architect'; (2) landscape contractor design-build (NALP/561730) is the primary bypass channel, and PE consolidation in that segment (TruGreen, Davey Tree, etc.) is vigorous; (3) AI generative site-design tools can produce planting plans and visualization materials that substitute for the non-regulated design work; (4) LA firm brand is highly principal-dependent at the small-firm scale. The regulated core (stormwater, grading, public procurement) provides a real but limited moat. 0.45 moat reflects a contested and narrowing barrier. Range: 0.35-0.55.",
+      "plausible_range": "0.35-0.55",
+      "sources": [
+        "ASLA state licensure adoption resources — asla.org/resources/library/archives-blog/state-licensure-adoption (accessed 2026-07-20)",
+        "CLARB licensure requirements — clarb.org/licensure/ (accessed 2026-07-20)"
+      ],
+      "quality": "MED"
+    },
+    "t50_years": {
+      "value": 8.0,
+      "derivation": "Current material adoption: ASLA 2024 Digital Technology Survey shows ~40% of respondents cite AI tools as used; IFLA/ASLA/CSLA 2025 global survey reports 43.4% using AI in practice. However, the dominant uses are background research, proposal drafting, and predesign work — not core design production. Material adoption in automatable production functions estimated at ~15% (a subset of the 43% broad adopters who have embedded AI in production workflows). Historical analog: BIM reached ~50% adoption in large AEC firms ~5-6 years from ~10% baseline; small LA firms lagged by 3-5 years further. LA firms are predominantly small (3,549 of 5,041 under 5 employees) with limited IT resources, creating higher inertia relative to architecture. Central estimate: 8 years from 2026 to 50% material adoption (to 2034), 1 year slower than architecture due to smaller firm size and more field-dominant workflow. Plausible range: 6-12 years.",
+      "plausible_range": "6-12 years",
+      "quality": "MED"
+    },
+    "current_adoption_pct": {
+      "value": 0.15,
+      "source": "IFLA / ASLA / CSLA 2025 AI in Landscape Architecture Survey; ASLA 2024 Digital Technology Software Survey",
+      "url": "https://www.iflaworld.com/newsblog/2025-ai-in-landscape-architecture-survey",
+      "figure_quoted": "43.4% of respondents reported using AI in their practice (IFLA/ASLA/CSLA 2025 global survey); ASLA 2024 Digital Technology Survey: ~40% cite AI tools as currently used. Most common uses are background research (50%), proposal drafting (47%), predesign work (41%) — not core production design functions. Material adoption in automatable production functions estimated at 15% (a conservative estimate given that the 43% figure includes chatbot and research tools, not embedded production-workflow adoption).",
+      "access_date": "2026-07-20",
+      "quality": "MED"
+    },
+    "historical_analogs": {
+      "value": "BIM adoption in AEC: large firms from ~43% (2005) to ~96% (2016), reaching ~50% around 2008-2010 (~5-6 years from ~10% to 50%). Small LA firms lag further — reaching 50% would take 3-5 additional years versus large firms. CAD took ~10 years to dominate in the 1980s-1990s.",
+      "source": "ASCE Civil Engineering Source — AEC sector slow AI adoption survey (December 2025); ASLA 2024 Digital Technology Survey context",
+      "url": "https://www.asce.org/publications-and-news/civil-engineering-source/article/2025/12/18/architecture-engineering-construction-sector-slow-to-adapt-ai-survey-shows",
+      "figure_quoted": "Architecture, engineering, construction sector slow to adopt AI (ASCE December 2025); BIM adoption reference: large AEC firms 43% in 2005 to 96% in 2016, with 50% milestone circa 2008-2010",
+      "access_date": "2026-07-20",
+      "quality": "MED"
+    },
+    "owners_60plus_pct": {
+      "value": 0.30,
+      "source": "ASLA 2024 Landscape Architecture Industry Report; ASLA succession planning resources; AIA member age data (proxy for LA profession)",
+      "url": "https://www.asla.org/news-insights/the-field/insights-from-the-2024-asla-digital-technology-software-survey",
+      "figure_quoted": "ASLA 2024 Landscape Architecture Industry Report: 'one in four firms undergo ownership transitions'; 72% of respondents say they do not have a succession plan; baby boomer retirement wave creating demographic pressure across AEC professions. Average AIA member age 54 (proxy). Estimating 30% of LA firm owners over 60 based on: baby boomer demographic wave, average AIA member age 54 implies significant share near or past 60, LA profession has historically older ownership given small-firm founder structures. ESTIMATE.",
+      "access_date": "2026-07-20",
+      "quality": "ESTIMATE",
+      "succession_shortage_documented": {
+        "value": true,
+        "evidence": "ASLA 2024 Landscape Architecture Industry Report documents that 72% of respondents do not have a succession plan, while one in four firms are actively in ownership transition — indicating an active succession shortage. ASLA offers 'What! Retire?' succession guidance courses, and the ASLA 2024 report case study on Mayer/Reed highlights the difficulty of finding and financially qualifying successors. This is a documented succession shortage more severe than architecture (where 84% of large firms have plans)."
+      }
+    },
+    "active_consolidators": {
+      "value": 3,
+      "source": "Morrissey Goodale AEC M&A tracking; Zweig Group AEC M&A reports; businesswire.com Atwell/Terrascape acquisition (February 2025)",
+      "url": "https://www.businesswire.com/news/home/20250204989348/en/Atwell-Acquires-Terrascape-Consulting-Expanding-Resources-and-Expertise-in-the-Southwest",
+      "figure_quoted": "Atwell acquired Terrascape Consulting (landscape architecture and planning, Southwest, February 2025); Kimley-Horn acquired Gamble Design Collaborative (landscape architecture, Tennessee); Bowman acquired Project Design Consultants (civil engineering and landscape architecture). Dedicated landscape-architecture-only PE platforms are essentially absent — LA firms appear primarily as capability bolt-ons within engineering/AEC consolidators. Estimating 3 PE-backed platforms actively doing LA-firm add-ons in the 24-month window.",
+      "access_date": "2026-07-20",
+      "quality": "ESTIMATE"
+    },
+    "buy_mult": {
+      "value": 3.5,
+      "source": "Zweig Group 2025 Valuation Report of AEC Firms; ROG Partners A/E Valuation Study; ValuAdder architecture firm valuation blog",
+      "url": "https://zweiggroup.com/blogs/the-zweig-letter/zweig-group-releases-2025-valuation-report-of-aec-firms-highlighting-industry-growth-and-resilience",
+      "figure_quoted": "Zweig AEC-wide value/EBITDA average 4.28x (2025); small AEC firms without exceptional characteristics see 2-3x EBITDA (ValuAdder); founder-led firms with limited depth command 3.5-5.5x per AEC valuation guides. LA firms are typically smaller, more principal-dependent, and less institutionalized than engineering firms — entry multiple estimated at 3.5x normalized EBITDA (below AEC average of 4.28x). Normalized after market-rate owner/principal compensation.",
+      "access_date": "2026-07-20",
+      "quality": "ESTIMATE"
+    },
+    "exit_mult": {
+      "value": 5.5,
+      "source": "ROG Partners A/E Business Valuation and M&A Transaction Study; Morrissey Goodale AEC M&A data",
+      "url": "https://www.rog-partners.com/inside-the-latest-a/e-business-valuation-and-m-a-transaction-study",
+      "figure_quoted": "Post-IIJA AEC median EBITDA multiple 5.52x (ROG Partners/Morrissey Goodale); upper quartile 7.50x. Landscape architecture platforms (multi-office, $10M+ EBITDA) are rare and typically exit as components of AEC consolidators rather than standalone. Exit multiple estimated at 5.5x — below the AEC median (5.52x) due to: smaller LA firm universe (n_band=46), limited dedicated PE platform competition for LA firms specifically, and lower EBITDA durability in discretionary design segments.",
+      "access_date": "2026-07-20",
+      "quality": "ESTIMATE"
+    },
+    "pricing_structure": {
+      "value": "Predominantly hourly and fixed-fee (lump sum), consistent with broader AEC professional services. Sub-consultant billing common when LA firm is not prime. Percentage of construction cost rarely used. Public/municipal projects often hourly not-to-exceed. Discretionary residential design frequently fixed or hourly.",
+      "source": "ASLA profession resources; AIA fee structure data (proxy for LA billing patterns); ASLA 2024 Landscape Architecture Industry Report",
+      "url": "https://www.asla.org/news-insights/the-field/how-landscape-architects-are-incorporating-artificial-intelligence",
+      "figure_quoted": "LA firms bill primarily hourly or fixed fee; sub-consultant arrangements dominate in multi-disciplinary projects; public procurement typically hourly not-to-exceed. No ASLA-specific fee-structure survey with % breakdowns found for 2024-2025; using AIA data as proxy (93% hourly, 92% fixed fee) with adjustment for LA's higher sub-consultant rate.",
+      "access_date": "2026-07-20",
+      "quality": "MED"
+    }
+  },
+  "scores": {
+    "V": {
+      "arithmetic": "V_raw = labor_share × ai_replaceable_share = 0.4888 × 0.375 = 0.18330; V = 10 × min(1, 0.18330/0.25) = 10 × min(1, 0.73320) = 10 × 0.73320 = 7.332",
+      "score": 7.332
+    },
+    "C": {
+      "arithmetic": "C = 10 × pi_dist × pi_moat = 10 × 0.45 × 0.45 = 2.025",
+      "score": 2.025
+    },
+    "A": {
+      "arithmetic": "A = min(10, 10/t50_years) = min(10, 10/8.0) = min(10, 1.25) = 1.25",
+      "score": 1.25
+    },
+    "B": {
+      "arithmetic": "TD = clamp(log10(46)/4, 0, 1) = clamp(1.662758/4, 0, 1) = clamp(0.415689, 0, 1) = 0.415689; OW_raw = clamp((0.30-0.10)/0.35, 0.1, 0.9) = clamp(0.571429, 0.1, 0.9) = 0.571429; OW = min(1.0, 0.571429+0.1) = 0.671429 [succession bonus applied]; CFD = min(0.9, log10(1+3)/2) = min(0.9, log10(4)/2) = min(0.9, 0.602060/2) = min(0.9, 0.301030) = 0.301030; B = 10 × sqrt(0.415689 × 0.671429) / (1 + 0.3 × 0.301030) = 10 × sqrt(0.279106) / 1.090309 = 10 × 0.528305 / 1.090309 = 4.845458",
+      "score": 4.845458
+    },
+    "M": {
+      "arithmetic": "M = clamp(4 × (exit_mult - buy_mult)/buy_mult, 0, 10) = clamp(4 × (5.5 - 3.5)/3.5, 0, 10) = clamp(4 × 0.571429, 0, 10) = clamp(2.285714, 0, 10) = 2.285714",
+      "score": 2.285714
+    }
+  },
+  "S": 2.901235,
+  "cross_checks": {
+    "uplift_pp": 18.33,
+    "uplift_vs_A_consistent": "V_raw = 18.33% of revenue represents the theoretical maximum labor cost reduction if all automatable tasks are captured as margin. A = 1.25 (t50=8 years) is well below 5, so the cross-check tension flag does not trigger. No inconsistency: slow adoption rate (low A) is consistent with a large theoretical uplift — the savings potential exists but materializes slowly given the small-firm, field-intensive character of landscape architecture.",
+    "terminal_value": {
+      "class": "PRESSURED",
+      "justification": "The regulated core of landscape architecture — grading, stormwater engineering, public-realm entitlement documents, and ADA compliance on public projects — requires a licensed LA in responsible charge in most practice-act states and will not be bypassed by AI alone. This prevents full MELTING. However: (1) The discretionary design product (planting plans, amenity design, visualization) — a large share of small-firm revenue — is highly AI-exposed and also accessible to unlicensed landscape contractors who serve most of the residential and commercial market; (2) Landscape contractor design-build (NALP/561730) is PE-consolidated and growing, directly displacing LA firms in the discretionary segment; (3) AI generative site-design tools can produce planting schedules and renders that substitute for the non-regulated design work; (4) Sub-consultant economics mean LA fee pools are compressed from above by architect/engineer primes. The deciding mechanism: in title-act states (3-4 states), the discretionary product is already unprotected; in practice-act states, the stamp protects only the regulated documents while AI erodes the rest of the fee. Demand for regulated LA services survives; demand for discretionary LA design shrinks materially — PRESSURED."
+    },
+    "no_proxy_confirmed": "V was derived from reconstructed role labor shares (rebuilt for a landscape-architecture office, flagged as hypothesis) multiplied by task-level automatable fractions based on occupation-specific analysis (field staff treated as non-automatable; drafter/design roles treated as highly automatable). A was derived from IFLA/ASLA current adoption data and BIM historical timeline. Neither V nor A incorporated any reference to deal activity, PE platforms, or consolidation trends.",
+    "pricing_model_deflation": "Landscape architecture firms bill primarily hourly or fixed-fee, with a significant sub-consultant tier where the prime (architect or engineer) controls fee levels. Hourly billing automatically passes AI production savings to clients (fewer hours billed). Fixed-fee sub-contracts are renegotiated downward by the prime at each project as AI-enabled competitors reduce their bids. Sub-consultant economics are the structural mechanism by which AI savings flow up the chain rather than being retained by the LA firm. pi_dist = 0.45 reflects this sub-consultant exposure; pi_moat = 0.45 reflects the practice-act regulatory floor offset by the large discretionary design segment that AI and landscape contractors threaten to bypass."
+  },
+  "confidence_overall": "MED",
+  "heterogeneous": false,
+  "top_uncertain_inputs": [
+    {
+      "input": "t50_years",
+      "plausible_range": "6-12 years",
+      "score_impact": "At t50=6: A=1.667, S rises to ~3.14. At t50=12: A=0.833, S falls to ~2.70. The t50 range (6-12 years) moves S by approximately +/-0.22 around the central estimate of 2.90."
+    },
+    {
+      "input": "ai_replaceable_share",
+      "plausible_range": "0.31-0.44 (varies with licensed LA automatable fraction 0.20-0.30 and drafter fraction 0.55-0.75)",
+      "score_impact": "At ars=0.31: V_raw=0.1515, V=6.060, S~2.72. At ars=0.44: V_raw=0.2150, V=8.601, S~3.07. Range of ~0.35 on S."
+    },
+    {
+      "input": "pi_dist",
+      "plausible_range": "0.35-0.55",
+      "score_impact": "At pi_dist=0.35: C=1.575, S~2.63. At pi_dist=0.55: C=2.475, S~3.07. Sub-consultant share is the biggest driver of uncertainty in pi_dist."
+    }
+  ],
+  "reviewer_note": "Role-mix rebuild: The provided 4-digit 5413 OEWS role_mix omits 17-1012 Landscape Architects from the top-10 entirely (the parent 5413 is engineering-dominated). The rebuild for a pure LA office is entirely hypothesis-based (per prompt guidance). Five-role simplification is structurally different from architecture — field/construction observation staff included as a non-automatable role (no parallel in 541310) while interior designers/spec writers excluded. The n_band=46 is very small and the 500+ class shows anomalously lower revenue/firm ($9.1M) than the 100-499 class ($23.6M) — a SUSB data suppression/noise artifact flagged in prompt — this may understate true n_band but is used as provided. Buy and exit multiples are both ESTIMATE quality as no landscape-architecture-specific transaction database was accessible; multiples are set below the Zweig AEC average (4.28x buy, AEC median 5.52x exit) to reflect LA firms' smaller size, higher principal dependence, and limited PE platform competition specifically targeting pure-play LA firms. Active consolidators (3) is conservative estimate — LA firms appear as bolt-ons within AEC consolidators (Atwell, Kimley-Horn, Bowman) rather than targets of dedicated LA PE platforms. Practice-act vs. title-act: confirmed ~46-47 practice-act states with only ~3-4 title-act states remaining, which is stronger than the prompt suggested as a concern — the regulatory floor is broader than feared, but the discretionary design gap (unregulated amenity/planting work) remains the critical exposure."
+}

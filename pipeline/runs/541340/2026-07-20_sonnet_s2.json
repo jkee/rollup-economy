@@ -1,0 +1,297 @@
+{
+  "naics": "541340",
+  "title": "Drafting Services",
+  "run_meta": {
+    "model_id": "claude-sonnet-4-6",
+    "run_date": "2026-07-20",
+    "run_id": "fleet-s2-541340",
+    "template_version": "3.0",
+    "prompt_version": "p3-aff6579"
+  },
+  "dataset_inputs": {
+    "labor_share": {
+      "value": 0.4412,
+      "method": "QCEW 2024 private total annual wages at 541340 ($693,287,501) x benefits multiplier 1.4294 [ECEC private-industry total comp $46.60/hr / wages $32.60/hr = 1.4294 (March 2026 reference period)] / SUSB 2022 receipts at 541340 ($1,675,531,000). Vintage mismatch: 2024 wages over 2022 receipts, stated. Level: 6-digit. Harmonized to IPS basis ÷1.3407 (median of 65 dual-method codes).",
+      "sources": [
+        "BLS QCEW 2024 annual averages (US000, private)",
+        "BLS ECEC news release (raw/ecec.nr0.htm)",
+        "Census SUSB 2022 (receipts by NAICS)"
+      ],
+      "year": "2024 wages / 2022 receipts",
+      "quality": "MED"
+    },
+    "role_mix": {
+      "oews_level": "4-digit 5413",
+      "occupations": [
+        {
+          "soc": "17-2051",
+          "title": "Civil Engineers",
+          "emp_share": 0.1164,
+          "wage_share": 0.128
+        },
+        {
+          "soc": "17-1011",
+          "title": "Architects, Except Landscape and Naval",
+          "emp_share": 0.0564,
+          "wage_share": 0.0582
+        },
+        {
+          "soc": "13-1082",
+          "title": "Project Management Specialists",
+          "emp_share": 0.0551,
+          "wage_share": 0.0646
+        },
+        {
+          "soc": "17-3011",
+          "title": "Architectural and Civil Drafters",
+          "emp_share": 0.0474,
+          "wage_share": 0.0328
+        },
+        {
+          "soc": "11-1021",
+          "title": "General and Operations Managers",
+          "emp_share": 0.0338,
+          "wage_share": 0.0572
+        },
+        {
+          "soc": "17-2141",
+          "title": "Mechanical Engineers",
+          "emp_share": 0.0337,
+          "wage_share": 0.0383
+        },
+        {
+          "soc": "11-9041",
+          "title": "Architectural and Engineering Managers",
+          "emp_share": 0.0321,
+          "wage_share": 0.0553
+        },
+        {
+          "soc": "47-4011",
+          "title": "Construction and Building Inspectors",
+          "emp_share": 0.0256,
+          "wage_share": 0.0205
+        },
+        {
+          "soc": "17-2071",
+          "title": "Electrical Engineers",
+          "emp_share": 0.0254,
+          "wage_share": 0.0299
+        },
+        {
+          "soc": "15-1252",
+          "title": "Software Developers",
+          "emp_share": 0.023,
+          "wage_share": 0.0308
+        }
+      ],
+      "quality": "MED"
+    },
+    "n_total": {
+      "value": 2956,
+      "source": "SUSB 2022 (firms, all enterprise sizes)",
+      "year": "2022",
+      "quality": "HIGH"
+    },
+    "n_band": {
+      "value": 9,
+      "derivation": "margin 0.1565 (margins.json[54]: Damodaran Jan 2026: Business & Consumer Services EBITDA/Sales 15.65%); revenue/employee $182,559 (SUSB 2022 receipts/employment at 541340); class <5: 2,510 firms, avg revenue/firm $232,175 (class receipts/firms), implied EBITDA $36,335 -> out of $1-10M band; class 5-9: 257 firms, avg revenue/firm $967,078 (class receipts/firms), implied EBITDA $151,348 -> out of $1-10M band; class 10-19: 124 firms, avg revenue/firm $2,459,411 (class receipts/firms), implied EBITDA $384,898 -> out of $1-10M band; class 20-99: 47 firms, avg revenue/firm $6,149,234 (class receipts/firms), implied EBITDA $962,355 -> out of $1-10M band; class 100-499: 9 firms, avg revenue/firm $21,641,667 (class receipts/firms), implied EBITDA $3,386,921 -> IN $1-10M band; class 500+: 9 firms, avg revenue/firm $6,164,000 (class receipts/firms), implied EBITDA $964,666 -> out of $1-10M band; n_band = 9",
+      "margin_used": 0.1565,
+      "margin_source": "Damodaran Jan 2026: Business & Consumer Services EBITDA/Sales 15.65%",
+      "quality": "ESTIMATE"
+    }
+  },
+  "inputs": {
+    "ai_replaceable_share": {
+      "value": 0.644,
+      "breakdown_by_role": [
+        {
+          "role": "CAD drafters / BIM technicians (hypothesis: ~60% of wage bill within 541340)",
+          "labor_share_of_total": 0.6,
+          "within_role_automatable_fraction": 0.85,
+          "contribution": 0.51,
+          "rationale": "2D/3D production drafting is the product itself and the single most AI-automatable service in this set. AutoCAD 2025/2026 AI features (Object Detection, BCONVERT, DraftAid) target exactly this work. AI tools claim 30-90% reduction in drawing time for repetitive drafting tasks. The 15% non-automatable residual is client-specific judgment (standard interpretation, unusual conditions), which shrinks further as AI improves. ROLE-MIX WARNING: the provided role_mix is 4-digit 5413 (engineering-dominated; 17-3011 drafters show only 3.28% of wage bill). Within 541340 proper, drafters/BIM technicians are the majority of the wage bill (this is a hypothesis/rebuild per prompt instruction; flagged in reviewer_note).",
+          "plausible_range": "0.70-0.92"
+        },
+        {
+          "role": "Owners / managers (hypothesis: ~17% of wage bill within 541340)",
+          "labor_share_of_total": 0.17,
+          "within_role_automatable_fraction": 0.2,
+          "contribution": 0.034,
+          "rationale": "Client account management (A/E firms and manufacturers) and production oversight automate partially (~20%). Account management, client relationship touches, estimating, and quality judgment persist. Owner compensation is largely SDE outside wages for micro-firms; included in labor_share estimate.",
+          "plausible_range": "0.10-0.30"
+        },
+        {
+          "role": "Checkers / QC and standards staff (hypothesis: ~10% of wage bill within 541340)",
+          "labor_share_of_total": 0.1,
+          "within_role_automatable_fraction": 0.4,
+          "contribution": 0.04,
+          "rationale": "Drawing QA is increasingly automated by model-checking tools (rule-based clash detection, drawing standard compliance). ~40% automatable. However, liability-driven human review of stamped deliverables and client-specific standard interpretation persist because the client's professional stamps the work.",
+          "plausible_range": "0.25-0.55"
+        },
+        {
+          "role": "Field capture technicians (hypothesis: ~5% of wage bill within 541340)",
+          "labor_share_of_total": 0.05,
+          "within_role_automatable_fraction": 0.08,
+          "contribution": 0.004,
+          "rationale": "Physical site presence for laser scanning, as-built measurement, and scan-to-BIM field work is not automatable. AI/drone augmentation speeds processing but the site visit remains required. Only report upload and processing are automatable (~8%). This is the defensible niche in 541340.",
+          "plausible_range": "0.05-0.12"
+        },
+        {
+          "role": "Administrative staff (hypothesis: ~8% of wage bill within 541340)",
+          "labor_share_of_total": 0.08,
+          "within_role_automatable_fraction": 0.7,
+          "contribution": 0.056,
+          "rationale": "Job intake, file transmittal, invoicing, and scheduling are highly automatable (~70%). Micro-firm admin is often owner-handled; residual 30% requires customer judgment.",
+          "plausible_range": "0.55-0.80"
+        }
+      ],
+      "quality": "ESTIMATE"
+    },
+    "pi_dist": {
+      "value": 0.1,
+      "rationale": "Near-complete pass-through. Piece-rate and per-hour pricing against clients (A/E firms and manufacturers) who benchmark against offshore bureaus (India $10-25/hr, Philippines $12-30/hr). The offshore price floor has already demonstrated that when labor costs fall, competitive markets immediately lower per-drawing rates. AI is a second, steeper deflation on the same mechanism. No cost-plus or audited overhead structure exists; no on-call relationship lock-in beyond current-project volume. Clients can insource with generative CAD tools (Autodesk Fusion, AutoCAD 2026 AI) backed by a single internal PE. The firm retains virtually no pricing power from AI efficiency gains.",
+      "plausible_range": "0.05-0.20",
+      "sources": [
+        "Offshore 24/7 / HiTech BIM Services: CAD drafting rates $10-25/hr (India), $12-30/hr (Philippines) - 2024 price cards",
+        "Apollo Technical: AI CAD job market analysis - traditional drafting skills dropped from 50% to 31% of job requirements 2023-2024",
+        "Autodesk AI in Architecture & Engineering - generative CAD tooling enabling client insourcing"
+      ],
+      "quality": "MED"
+    },
+    "pi_moat": {
+      "value": 0.12,
+      "rationale": "Minimal moat. No licensure: work is performed under the client's professional's seal; firm needs no PE of its own. No proprietary data or switching costs beyond current-project familiarity. No physical-presence requirement in the dominant revenue line (production drafting). The scan-to-BIM niche (physical field capture) provides a small moat for ~5% of revenue. Client relationships are purely transactional: A/E firms and manufacturers will defect to internal generative CAD as tooling matures. AI tooling is equally or more available to the client than to the bureau. The plan-stamp bypass pattern (client runs AI, bureau provides nothing of value) is a near-term existential threat, not a long-term risk.",
+      "plausible_range": "0.05-0.20",
+      "sources": [
+        "Prompt guidance: no licensure moat of any kind; work done under clients' professionals' stamps",
+        "BIM Heroes / Apollo Technical: AI replacing repetitive drafting tasks 2024-2026",
+        "Autodesk generative CAD roadmap: neural CAD foundation models for Fusion and Forma announced AU 2025"
+      ],
+      "quality": "MED"
+    },
+    "t50_years": {
+      "value": 4.5,
+      "derivation": "Current material adoption among US-based drafting service firms: ESTIMATE 20% (no primary survey found for 541340 specifically; ADDA data not accessible; energent.ai AutoCAD AI adoption data suggests ~8% firm-level integration of AI into practice; I use 20% as generous estimate acknowledging faster AI penetration in this most-directly-exposed code). Historical analog: BIM adoption in AEC ~7-8 years to 50% (2002-2010); CAD adoption in drafting shops was faster (~5-7 years to 50% in 1980s). AI adoption in 541340 may be slower than the broader A&E trend because these firms are smaller and resource-constrained, but also because the most advanced AI drafting tools are now embeded in client-facing Autodesk software. Many firms will exit rather than adopt. Survivor-only adoption could reach 50% in 3-4 years; accounting for the full current-firm population including late adopters and exiters, 4.5 years. t50 derivation: from ~20% today, need ~30pp more; at the current acceleration rate in A&E (~15pp/year in broader market but slower for this micro-firm segment) => ~3-5 years. Use 4.5 years.",
+      "plausible_range": "2.5-7.0 years",
+      "quality": "ESTIMATE"
+    },
+    "current_adoption_pct": {
+      "value": 0.2,
+      "source": "Energent.ai AutoCAD AI solutions market report 2026; Deltek Clarity 46th Annual A&E Study 2025 (demand-side proxy); Apollo Technical CAD job market analysis 2024",
+      "url": "https://www.energent.ai/use-cases/en/compare/ai-solution-for-autocad",
+      "figure_quoted": "Only 8% of firms currently integrating AI into [AutoCAD] practices, even though 78% want to learn more (Energent.ai 2026). Broader A&E: 53% leveraging AI tools (Deltek 2025). Using 20% as generous estimate for material AI use (actually replacing production labor cost) among US 541340 firms, acknowledging that the 8% figure is for AI-into-practice integration and the 53% A&E figure is for the demand-side clients.",
+      "access_date": "2026-07-20",
+      "quality": "ESTIMATE"
+    },
+    "historical_analogs": {
+      "value": "CAD adoption by drafting firms: ~5-7 years to 50% in 1980s-1990s (drafting shops were early and fast adopters because CAD is their product). BIM adoption in AEC broadly: ~7-8 years to 50% (2002-2010). Offshore outsourcing penetration to A&E firms: ~8-10 years (2000s). Analogs suggest 5-8 year adoption curves for transformative production-displacing technology in this sector.",
+      "source": "VDCI Education BIM evolution history; industry analyst commentary on CAD adoption timeline",
+      "url": "https://vdci.edu/blog/the-evolution-and-adoption-of-bim-software-around-the-world",
+      "figure_quoted": "BIM reached ~50% adoption in AEC approximately 2009-2010 starting from near-zero in 2002-2004 (approx 7-8 years). CAD adoption in drafting was faster as the core product.",
+      "access_date": "2026-07-20",
+      "quality": "MED"
+    },
+    "owners_60plus_pct": {
+      "value": 0.45,
+      "source": "ESTIMATE — no ADDA or 541340-specific owner age data found. ADDA (American Design Drafting Association) data not accessible; trade body appears minimally active. Estimate based on analogy to AEC sector (average AEC CEO age 58, nearly 80% planning transition per Zweig 2024) and that very small drafting bureaus (85% of firms under 10 employees) skew toward older founder-operators.",
+      "url": "",
+      "figure_quoted": "No primary data found for 541340 owner age demographics. ADDA data not accessible. ESTIMATE: 45% based on AEC sector analog (Zweig 2024: average CEO age ~58, 80% of AEC owners planning transition in next decade) and small-firm demographics.",
+      "access_date": "2026-07-20",
+      "quality": "ESTIMATE",
+      "succession_shortage_documented": {
+        "value": false,
+        "evidence": "No succession shortage documentation found for 541340 specifically. ADDA (the only drafting-specific trade body) appears minimally active and no member surveys found. The absence of a functioning trade association for this code is itself a finding about the fragmentation and thin data environment. No primary evidence of documented succession shortage; conservative default of false applied."
+      }
+    },
+    "active_consolidators": {
+      "value": 0,
+      "source": "Morrissey Goodale AE M&A data; BizBuySell / BVR DealStats (no results found); direct search for PE-backed drafting platforms",
+      "url": "https://www.morrisseygoodale.com/resources/ma-update/",
+      "figure_quoted": "No PE-backed platforms found actively acquiring US drafting service bureaus (NAICS 541340) in the last 24 months. The entire n_band is 9 firms; the market is too small, structurally challenged (MELTING terminal class), and lacking the licensing moat that attracts PE to engineering. Morrissey Goodale AE M&A activity is entirely focused on licensed A&E platforms, not drafting bureaus.",
+      "access_date": "2026-07-20",
+      "quality": "MED"
+    },
+    "buy_mult": {
+      "value": 2.5,
+      "source": "ESTIMATE — no dedicated drafting bureau transaction comps found. BVR DealStats and BizBuySell lack 541340-specific comps as predicted by the prompt. Comparable micro-cap service businesses (asset-light, owner-operated, under $3M revenue) typically sell at 2.0x-3.5x SDE or 2.0x-3.0x normalized EBITDA. Distressed pricing likely given structural headwinds. Used 2.5x as central ESTIMATE.",
+      "url": "",
+      "figure_quoted": "No direct comps found. ESTIMATE: 2.5x normalized EBITDA based on micro-cap service business broker market data for asset-light owner-operated firms (ClearlyAcquired, axial.net data: small professional services at 2.5x-4x EBITDA for micro-cap). Normalized per Rule 3: market-rate owner compensation deducted.",
+      "access_date": "2026-07-20",
+      "quality": "ESTIMATE"
+    },
+    "exit_mult": {
+      "value": 4.0,
+      "source": "ESTIMATE — no exit-tier drafting service transactions found. The 100-499 employee class (n_band = 9 firms) has implied EBITDA of ~$3.4M, below the $10M threshold. No platform-size 541340 firm exists in the US data. Used 4.0x as a theoretical strategic acquisition multiple (e.g., an engineering firm buying a drafting capability), representing a modest premium above buy_mult for strategic value only.",
+      "url": "",
+      "figure_quoted": "No exit-size ($10M+ EBITDA) drafting service platforms identified. ESTIMATE: 4.0x EBITDA theoretical strategic multiple, based on the absence of a PE market and the premise that only strategic buyers (engineering firms) would pay a modest premium for a drafting capability add-on. Normalized per Rule 3.",
+      "access_date": "2026-07-20",
+      "quality": "ESTIMATE"
+    },
+    "pricing_structure": {
+      "value": "Per-hour or per-sheet competitive piece rates against clients (A/E firms and manufacturers) who benchmark against offshore bureaus (India $10-25/hr, Philippines $12-30/hr per published offshore rate cards 2024). No cost-plus, no QBS, no audited overhead mechanism — the client's professional stamps the work and the bureau has no licensure of its own. Competitive bidding on each project scope with no relationship lock-in beyond current-project familiarity. AI efficiency gains flow immediately to clients as competitive pricing pressure (same mechanism offshore outsourcing already demonstrated once).",
+      "source": "Offshore 24/7 engineering support services pricing; HiTech BIM Services CAD outsourcing rates; Sourcefit architectural drafting outsourcing rates",
+      "url": "https://www.offshoreph.com/our-services/engineering-and-construction-support/draftsmen/",
+      "figure_quoted": "Offshore CAD drafting rates: India $10-25/hr, Philippines $12-30/hr (2024 published rate cards). No proprietary pricing structure identified for US 541340 firms; competitive hourly/sheet rates are the prevailing model.",
+      "access_date": "2026-07-20",
+      "quality": "MED"
+    }
+  },
+  "scores": {
+    "V": {
+      "arithmetic": "Role-mix rebuilt from hypothesis (4-digit 5413 OEWS inverts 541340 structure per prompt warning); ai_replaceable_share = sum of role contributions = 0.51+0.034+0.04+0.004+0.056 = 0.644; V_raw = labor_share * ai_replaceable_share = 0.4412 * 0.644 = 0.2841328; V = 10 * min(1, 0.2841328 / 0.25) = 10 * min(1, 1.1365312) = 10 * 1.0 = 10.0",
+      "score": 10.0
+    },
+    "C": {
+      "arithmetic": "C = 10 * pi_dist * pi_moat = 10 * 0.10 * 0.12 = 10 * 0.012 = 0.12",
+      "score": 0.12
+    },
+    "A": {
+      "arithmetic": "A = min(10, 10 / t50_years) = min(10, 10 / 4.5) = min(10, 2.22222222) = 2.22222222",
+      "score": 2.22222222
+    },
+    "B": {
+      "arithmetic": "n_band=9; TD = clamp(log10(9)/4, 0, 1) = clamp(0.954243/4, 0, 1) = clamp(0.238561, 0, 1) = 0.238561; owners_60plus_pct=0.45; OW = clamp((0.45-0.10)/0.35, 0.1, 0.9) = clamp(1.0, 0.1, 0.9) = 0.9; succession_shortage_documented=false, no bonus; active_consolidators=0; CFD = min(0.9, log10(1+0)/2) = min(0.9, 0.0/2) = 0.0; B = 10 * sqrt(0.238561 * 0.9) / (1 + 0.3 * 0.0) = 10 * sqrt(0.214705) / 1.0 = 10 * 0.463363 = 4.63363",
+      "score": 4.63363
+    },
+    "M": {
+      "arithmetic": "M = clamp(4 * (exit_mult - buy_mult) / buy_mult, 0, 10) = clamp(4 * (4.0 - 2.5) / 2.5, 0, 10) = clamp(4 * 1.5 / 2.5, 0, 10) = clamp(4 * 0.6, 0, 10) = clamp(2.4, 0, 10) = 2.4",
+      "score": 2.4
+    }
+  },
+  "S": 1.96979,
+  "cross_checks": {
+    "uplift_pp": 28.41328,
+    "uplift_vs_A_consistent": "V_raw = 28.41pp of revenue automatable — above 3pp threshold. A = 2.22 (below 5). No cross-check tension triggered. However, the extremely high V (10.0) combined with very low C (0.12) reflects the core finding: massive AI value is being created by automating the product, but virtually none of it is capturable by the firm (near-complete pass-through to clients and structural displacement of the product itself). The V/C divergence is the key signal here, not A.",
+    "terminal_value": {
+      "class": "MELTING",
+      "justification": "The core product of 541340 — 2D/3D production drafting executed under the client's professional seal — is being replaced, not merely made cheaper. Autodesk's generative CAD roadmap (neural CAD foundation models in Fusion/Forma announced AU 2025, AutoCAD 2026 AI block detection) targets the exact billable task that is this industry's entire revenue base. Unlike 541330 where the PE stamp creates durable demand for a licensed professional, 541340 firms have no stamp of their own. A/E firms and manufacturers can insource AI-drafted drawings with a single internal PE in responsible charge — there is no legal, physical, or relationship barrier preventing this. The scan-to-BIM field capture niche (requiring physical site presence) is the only surviving revenue line; it represents ~5-15% of typical firm revenue and arguably belongs to 541370 (surveying). The deciding mechanism: once Autodesk generative CAD reaches production quality for standard drawing types (2-5 year window), the demand for US domestic drafting bureaus collapses. This is demand-side elimination of the product, not cost reduction."
+    },
+    "no_proxy_confirmed": "V was derived from a hypothesis-rebuilt role mix for 541340 (the provided 4-digit 5413 role_mix was explicitly flagged as inverted and inapplicable per prompt instruction) and task-level AI automation assessment for each role. A was derived from Energent.ai AutoCAD AI adoption data, Deltek Clarity data as demand-side proxy, and BIM/CAD historical analog adoption curves. Neither V nor A referenced PE deal activity, platform counts, consolidation trends, or M&A multiples.",
+    "pricing_model_deflation": "Pure piece-rate/competitive hourly pricing with no cost-plus or overhead-audit structure. The offshore outsourcing market (India/Philippines at $10-30/hr) established the price floor mechanism once already — when labor cost falls, competitive per-drawing rates fall. AI repeats this mechanism with a steeper curve. The firm has no mechanism to retain AI efficiency gains: (1) no audited-cost structure to replace, (2) no switching costs or relationship lock-in, (3) no licensure barrier preventing client insourcing. pi_dist=0.10 (near-complete pass-through) and pi_moat=0.12 (minimal barrier) reflect this. The double-deflation argument: offshore already compressed margins; AI compresses them again and then may eliminate the demand entirely."
+  },
+  "confidence_overall": "LOW",
+  "heterogeneous": false,
+  "top_uncertain_inputs": [
+    {
+      "input": "t50_years",
+      "plausible_range": "2.5-7.0 years",
+      "score_impact": "At t50=2.5: A=4.0, S rises to ~2.37. At t50=7.0: A=1.43, S falls to ~1.73. Given the MELTING classification, faster adoption accelerates the terminal outcome rather than improving acquirability. t50 uncertainty has modest S impact but major terminal-class confidence implications."
+    },
+    {
+      "input": "ai_replaceable_share",
+      "plausible_range": "0.55-0.75",
+      "score_impact": "Driven by the hypothesis role-mix rebuild. At 0.55: V_raw=0.2427, V=9.71, S barely changes (V already near cap). At 0.75: V_raw=0.3309, V=10.0 (still capped). ai_replaceable_share uncertainty has minimal S impact because V is already at maximum; the critical uncertainty is in C (pi_dist, pi_moat) not V."
+    },
+    {
+      "input": "buy_mult",
+      "plausible_range": "1.5-3.5",
+      "score_impact": "At buy_mult=1.5, exit_mult=4.0: M=clamp(4*2.5/1.5,0,10)=clamp(6.67,0,10)=6.67, S rises to ~2.37. At buy_mult=3.5, exit_mult=4.0: M=clamp(4*0.5/3.5,0,10)=clamp(0.571,0,10)=0.571, S falls to ~1.45. M is the second most impactful uncertainty given the illiquid/sparse comp market."
+    },
+    {
+      "input": "pi_dist",
+      "plausible_range": "0.05-0.20",
+      "score_impact": "At pi_dist=0.05: C=0.06, S falls to ~1.76. At pi_dist=0.20: C=0.24, S rises to ~2.21. C drives this band. Even at pi_dist=0.20, S remains below 2.5 — the industry's fundamental problem is that the product is being eliminated, not that the firm lacks capture of AI value."
+    }
+  ],
+  "reviewer_note": "CRITICAL ROLE-MIX WARNING: The provided role_mix is 4-digit 5413 (engineering-dominated; 17-3011 Architectural and Civil Drafters show only 3.28% of wage bill). Within NAICS 541340 proper, drafters/BIM technicians are the majority of the wage bill. The ai_replaceable_share breakdown uses a hypothesis-rebuilt role mix as explicitly instructed by the prompt ('rebuild and flag as hypothesis'). The five hypothetical categories (CAD drafters 60%, owners/mgrs 17%, checkers/QC 10%, field capture 5%, admin 8%) are estimates derived from industry guidance in the prompt and general knowledge of drafting bureau business models. This is the most significant data gap in this record and the reason confidence_overall=LOW. ACQUIRABILITY REALITY CHECK: n_band=9 is the entire 100-499 employee class; the 500+ class shows avg revenue/firm of only $6.2M (likely SUSB suppression artifact per prompt note). With 2,510 firms under 5 employees and 257 in the 5-9 band, the acquirable pool is effectively 9 firms — below the threshold where a meaningful PE roll-up strategy exists. EBITDA normalization: buy_mult and exit_mult are ESTIMATE quality with no primary comp data. The entire M score (2.4) and B score (4.63) are highly uncertain. DEMAND-SIDE NOTE: The 541340 n_band calculation uses the Damodaran Business & Consumer Services margin (15.65%); the actual EBITDA margin for US drafting bureaus competing against offshore may be materially lower, which would further reduce n_band. BOUNDARY NOTE: scan-to-BIM field capture revenue (the defensible niche) may classify under 541370 Surveying and Mapping; any firm pivoting to this model may reclassify out of 541340."
+}

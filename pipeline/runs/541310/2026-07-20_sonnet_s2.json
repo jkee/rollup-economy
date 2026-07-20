@@ -1,0 +1,296 @@
+{
+  "naics": "541310",
+  "title": "Architectural Services",
+  "run_meta": {
+    "model_id": "claude-sonnet-4-6",
+    "run_date": "2026-07-20",
+    "run_id": "fleet-s2-541310",
+    "template_version": "3.0",
+    "prompt_version": "p3-aff6579"
+  },
+  "dataset_inputs": {
+    "labor_share": {
+      "value": 0.4625,
+      "method": "BLS Industry Productivity (IPS) direct: labor compensation (L02) $25,388.4M / sectoral output (T30) $54,890.2M, year 2022",
+      "sources": [
+        "BLS Industry Productivity and Costs flat files (ip.data.1.AllData), measures L02 and T30"
+      ],
+      "year": "2022",
+      "quality": "HIGH"
+    },
+    "role_mix": {
+      "oews_level": "4-digit 5413",
+      "occupations": [
+        {
+          "soc": "17-2051",
+          "title": "Civil Engineers",
+          "emp_share": 0.1164,
+          "wage_share": 0.128
+        },
+        {
+          "soc": "17-1011",
+          "title": "Architects, Except Landscape and Naval",
+          "emp_share": 0.0564,
+          "wage_share": 0.0582
+        },
+        {
+          "soc": "13-1082",
+          "title": "Project Management Specialists",
+          "emp_share": 0.0551,
+          "wage_share": 0.0646
+        },
+        {
+          "soc": "17-3011",
+          "title": "Architectural and Civil Drafters",
+          "emp_share": 0.0474,
+          "wage_share": 0.0328
+        },
+        {
+          "soc": "11-1021",
+          "title": "General and Operations Managers",
+          "emp_share": 0.0338,
+          "wage_share": 0.0572
+        },
+        {
+          "soc": "17-2141",
+          "title": "Mechanical Engineers",
+          "emp_share": 0.0337,
+          "wage_share": 0.0383
+        },
+        {
+          "soc": "11-9041",
+          "title": "Architectural and Engineering Managers",
+          "emp_share": 0.0321,
+          "wage_share": 0.0553
+        },
+        {
+          "soc": "47-4011",
+          "title": "Construction and Building Inspectors",
+          "emp_share": 0.0256,
+          "wage_share": 0.0205
+        },
+        {
+          "soc": "17-2071",
+          "title": "Electrical Engineers",
+          "emp_share": 0.0254,
+          "wage_share": 0.0299
+        },
+        {
+          "soc": "15-1252",
+          "title": "Software Developers",
+          "emp_share": 0.023,
+          "wage_share": 0.0308
+        }
+      ],
+      "quality": "MED"
+    },
+    "n_total": {
+      "value": 21294,
+      "source": "SUSB 2022 (firms, all enterprise sizes)",
+      "year": "2022",
+      "quality": "HIGH"
+    },
+    "n_band": {
+      "value": 1589,
+      "derivation": "margin 0.1565 (margins.json[54]: Damodaran Jan 2026: Business & Consumer Services EBITDA/Sales 15.65%); revenue/employee $263,174 (SUSB 2022 receipts/employment at 541310); class <5: 13,996 firms, avg revenue/firm $377,518 (class receipts/firms), implied EBITDA $59,082 -> out of $1-10M band; class 5-9: 3,719 firms, avg revenue/firm $1,387,500 (class receipts/firms), implied EBITDA $217,144 -> out of $1-10M band; class 10-19: 1,928 firms, avg revenue/firm $3,115,513 (class receipts/firms), implied EBITDA $487,578 -> out of $1-10M band; class 20-99: 1,361 firms, avg revenue/firm $10,632,600 (class receipts/firms), implied EBITDA $1,664,002 -> IN $1-10M band; class 100-499: 228 firms, avg revenue/firm $44,196,899 (class receipts/firms), implied EBITDA $6,916,815 -> IN $1-10M band; class 500+: 62 firms, avg revenue/firm $111,625,710 (class receipts/firms), implied EBITDA $17,469,424 -> out of $1-10M band; n_band = 1,589",
+      "margin_used": 0.1565,
+      "margin_source": "Damodaran Jan 2026: Business & Consumer Services EBITDA/Sales 15.65%",
+      "quality": "ESTIMATE"
+    }
+  },
+  "inputs": {
+    "ai_replaceable_share": {
+      "value": 0.404,
+      "breakdown_by_role": [
+        {
+          "role": "Licensed architects + principals",
+          "labor_share_of_total": 0.40,
+          "within_role_automatable_fraction": 0.25,
+          "contribution": 0.1,
+          "rationale": "Reconstructed for architecture-office mix (not 4-digit 5413 which is engineering-dominated; at the parent 5413 level, 17-1011 Architects are only 5.82% of wages vs. the ~40% that architecture firms actually employ). Licensed architects own stamp, code responsibility, client trust, and design judgment — none automatable. But construction-document production (CD phase, ~40% of fee) is the most automatable work in the firm: AI BIM/permit-set tooling directly targets this. Estimating: SD phase (~15% of hours) ~5% automatable, DD (~20%) ~20% automatable, CDs (~40%) ~65% automatable, CA (~25%) ~5% automatable. Weighted: 0.15*0.05 + 0.20*0.20 + 0.40*0.65 + 0.25*0.05 = 0.0075+0.04+0.26+0.0125 = 0.32; rounded down to 0.25 to be conservative given principal-level work dominance within this role label.",
+          "plausible_range": "0.20-0.30"
+        },
+        {
+          "role": "Architectural drafters / junior designers (CAD/BIM production)",
+          "labor_share_of_total": 0.18,
+          "within_role_automatable_fraction": 0.70,
+          "contribution": 0.126,
+          "rationale": "Reconstructed share: at 4-digit 5413, 17-3011 Architectural and Civil Drafters are 3.28% of wages; within a pure architecture office, drafter/junior designer staff plausibly ~18% (hypothesis per prompt). Construction-document production is the most directly automatable task in architecture: generative BIM and permit-set AI tools target this exactly. 70% automatable — 30% not automatable covers field observations, client-facing markups, and judgment calls that require licensed oversight.",
+          "plausible_range": "0.60-0.80"
+        },
+        {
+          "role": "Project managers / project architects",
+          "labor_share_of_total": 0.10,
+          "within_role_automatable_fraction": 0.35,
+          "contribution": 0.035,
+          "rationale": "At 4-digit 5413, 13-1082 Project Management Specialists are 6.46% of wages; architecture-only hypothesis ~10%. Consultant coordination and construction administration (site visits, submittals, RFIs) persist in the human/relationship half; the paperwork half (meeting minutes, RFI tracking, submittal logs, change order documentation) automates. 35% automatable.",
+          "plausible_range": "0.25-0.45"
+        },
+        {
+          "role": "Management layer (firm principals/operations managers)",
+          "labor_share_of_total": 0.10,
+          "within_role_automatable_fraction": 0.20,
+          "contribution": 0.02,
+          "rationale": "At 4-digit 5413, 11-1021 General and Operations Managers 5.72% + 11-9041 Architectural and Engineering Managers 5.53% = ~11%; architecture-only hypothesis ~10%. Client relationships and firm leadership are not automatable. Internal reporting, scheduling, financial dashboarding, and HR administration automate at ~20% of this role's labor.",
+          "plausible_range": "0.10-0.30"
+        },
+        {
+          "role": "Interior designers / spec writers / visualization staff",
+          "labor_share_of_total": 0.10,
+          "within_role_automatable_fraction": 0.45,
+          "contribution": 0.045,
+          "rationale": "Not in 5413 top-10 OEWS; estimated ~10% of architecture-office wages (hypothesis). Renderings and specification assembly are already AI-commoditized (Midjourney-class generative tools handle visualization; AI spec writers exist). Client taste-making, material selection judgment, and FF&E relationships are not automatable. 45% automatable.",
+          "plausible_range": "0.35-0.55"
+        },
+        {
+          "role": "Admin / marketing / proposal staff",
+          "labor_share_of_total": 0.12,
+          "within_role_automatable_fraction": 0.65,
+          "contribution": 0.078,
+          "rationale": "Not in 5413 top-10; estimated ~12% of architecture-office wages (hypothesis per prompt 12-15%, using 12%). Proposals, qualifications packages, scheduling, invoicing, and bookkeeping are heavily automatable. 65% automatable — 35% not automatable reflects human client outreach, relationship management, and firm branding decisions.",
+          "plausible_range": "0.55-0.75"
+        }
+      ],
+      "quality": "MED"
+    },
+    "pi_dist": {
+      "value": 0.55,
+      "rationale": "Architecture firms typically hold the prime contract in commercial/institutional projects — client relationship is firm-owned but principal-dependent and erodes on leadership departure. Design-build growth (GC as prime) is shifting architecture increasingly to sub-consultant positions, especially in commercial. Hourly and fixed-fee billing (93% of firms use hourly, 92% fixed fee per AIA data) means AI efficiency savings are partially visible: hourly contracts automatically pass savings to clients (faster work = fewer hours billed); fixed-fee contracts capture margin short-term but are renegotiated downward at the next project. Historical CAD/BIM transitions show that eventually productivity gains reduce fee benchmarks. Residential and light-commercial segments (material share of small-firm revenue) have weak client-relationship hold because licensure is not required and clients can easily substitute. Moderate control: 0.55. Range: 0.45-0.65.",
+      "plausible_range": "0.45-0.65",
+      "sources": [
+        "AIA resource center: Charging for services (fee structure data) — aia.org/resource-center/charging-services (accessed 2026-07-20)",
+        "AIA ABI billings data — aia.org (accessed 2026-07-20)"
+      ],
+      "quality": "MED"
+    },
+    "pi_moat": {
+      "value": 0.50,
+      "rationale": "State licensure for non-residential buildings requires a licensed architect in responsible charge in virtually all US jurisdictions — this is a real regulatory floor (practice act, not title act). However: (1) Residential and light-commercial exemptions are broad — the IRC's licensed-professional exemption covers the majority of single-family and small multi-family projects, which form material revenue for small firms; (2) AI tools (TestFit, Architype, Sidewalk Labs Delve class) are advancing toward code-compliant permit-set generation that could reduce the complexity gatekeeping; (3) design-build contractors increasingly commoditize the stamp-plus-CD product at a sub-fee rate; (4) switching costs are modest — clients can re-procure at project start. The licensure floor prevents full commoditization but the ceiling on what the monopoly commands is eroding. 0.50 moat reflects a real but contested barrier.",
+      "plausible_range": "0.40-0.60",
+      "sources": [
+        "NCARB By The Numbers 2025 (licensure demographics) — ncarb.org/sites/default/files/NBTN-2025.pdf (accessed 2026-07-20)",
+        "AIA practice resources on licensure scope — aia.org (accessed 2026-07-20)"
+      ],
+      "quality": "MED"
+    },
+    "t50_years": {
+      "value": 7.0,
+      "derivation": "Current material adoption: AIA March 2025 survey (in collaboration with Deltek/ConstructConnect) shows only 8% of architecture firms have implemented AI into practice; Deltek Clarity 46th Annual A&E Study (May 2025) shows 53% leveraging AI broadly but only 38% reporting measurable returns — the 8% figure is the material-use baseline. Historical analog: BIM adoption in architecture. Large firms went from ~43% BIM use in 2005 to ~96% by 2016 (McGraw-Hill/NBS data), achieving ~50% adoption around 2008-2010 — roughly 5-6 years from 10% to 50%. However, BIM was firm-level infrastructure requiring significant investment; AI tools are subscription-based and lower barrier but face professional inertia, liability concerns, and small-firm resource constraints. Adjusting BIM analog (5-6 years from 10% to 50%) for AI starting lower (8% vs 10%), faster diffusion rate, but offsetting small-firm inertia — central estimate 7 years from 2026 (to 2033). Consistent with A&E sector AI adoption tripling YOY in Deltek 2025 data suggesting acceleration, but small architecture firms historically 3-5 years behind large firms.",
+      "plausible_range": "5-10 years",
+      "quality": "MED"
+    },
+    "current_adoption_pct": {
+      "value": 0.08,
+      "source": "AIA / Deltek / ConstructConnect research on AI in architecture (March 2025)",
+      "url": "https://www.aia.org/aia-architect/article/architects-are-excited-about-potential-ai-concerns-abound",
+      "figure_quoted": "8% of firm leaders have integrated AI into their practices; 20% actively implementing; 6% of individual architects use AI regularly",
+      "access_date": "2026-07-20",
+      "quality": "HIGH"
+    },
+    "historical_analogs": {
+      "value": "BIM adoption in US architecture: large firms from ~43% (2005) to ~96% (2016), reaching ~50% around 2008-2010 (~5-6 years from ~10% to 50%). Small firms lagged 3-5 years further. CAD similarly took ~10 years from ~1982 to domination by ~1992.",
+      "source": "McGraw-Hill Construction / NBS BIM studies; ASCE civil engineering source reporting AEC slow AI adoption (December 2025)",
+      "url": "https://www.asce.org/publications-and-news/civil-engineering-source/article/2025/12/18/architecture-engineering-construction-sector-slow-to-adapt-ai-survey-shows",
+      "figure_quoted": "Large firms showed 96 percent fully engaged in BIM in 2016, more than double the percentage of only 43 percent in 2005 — suggesting 50% milestone was achieved approximately 2008-2010 for large firms",
+      "access_date": "2026-07-20",
+      "quality": "MED"
+    },
+    "owners_60plus_pct": {
+      "value": 0.28,
+      "source": "NCARB By the Numbers 2025; AIA member demographic reporting; secondary: archpaper.com architecture succession coverage (June 2026)",
+      "url": "https://www.ncarb.org/blog/new-data-architect-population-nbtn-2025",
+      "figure_quoted": "Architects over age 65 make up nearly 13% of the total architect pool (NCARB 2025); average AIA member age is 54; baby boomer retirement wave documented as demographic pressure. Estimating 60+ share at ~28% based on: 13% over 65, adding the 60-64 cohort approximately equal to the 65-69 cohort given typical cohort distribution, yielding ~28% ESTIMATE.",
+      "access_date": "2026-07-20",
+      "quality": "ESTIMATE",
+      "succession_shortage_documented": {
+        "value": true,
+        "evidence": "AIA 2024 Firm Survey: 84% of firms with 50+ employees have a transition plan, but a 'dramatic shortage of qualified and interested successors' is documented. Baby boomer retirement wave described as creating urgent succession pressure. Source: archpaper.com (June 2026) citing 'current firm owners and leaders must focus on the more urgent need for future leaders despite a dramatic shortage of qualified and interested successors.'"
+      }
+    },
+    "active_consolidators": {
+      "value": 8,
+      "source": "Morrissey Goodale 2024 M&A Mid-Year Review; Zweig Group AEC M&A tracking; Capstone Partners AEC sector update",
+      "url": "https://www.morrisseygoodale.com/resources/ma-update/",
+      "figure_quoted": "PE-backed buyers accounted for 42% of ~476 US AEC deals in 2024. Active AEC platforms include Verdantas (8 deals 2024), Salas O'Brien, IMEG, SLR, Bowman Consulting, Celnor Group (7 deals each). Signal Hill Equity Partners acquired MM Architects. Estimating 8 PE-backed platforms actively acquiring architecture firm add-ons in 24-month window based on proportion of architecture firms within AEC deal mix and named active platforms.",
+      "access_date": "2026-07-20",
+      "quality": "ESTIMATE"
+    },
+    "buy_mult": {
+      "value": 4.0,
+      "source": "Zweig Group 2025 Valuation Report of AEC Firms; ValuAdder architecture valuation blog; ROG Partners A/E valuation study",
+      "url": "https://zweiggroup.com/blogs/the-zweig-letter/zweig-group-releases-2025-valuation-report-of-aec-firms-highlighting-industry-growth-and-resilience",
+      "figure_quoted": "The value/EBITDA metric rose slightly from 4.23 to 4.28 in the 2025 Zweig report (industry-wide AEC average). Small architecture firms without exceptional characteristics see 2-3x EBITDA; founder-led firms with limited depth command 3.5-5.5x per Auxo Capital AEC guide. Entry multiple for small architecture firm estimated at 4.0x normalized EBITDA (after market-rate owner comp). Note: Zweig quotes these as value/EBITDA which includes owner compensation normalization per report methodology.",
+      "access_date": "2026-07-20",
+      "quality": "MED"
+    },
+    "exit_mult": {
+      "value": 6.5,
+      "source": "ROG Partners A/E Business Valuation and M&A Transaction Study; Morrissey Goodale AEC M&A data; Auxo Capital AEC valuation guide",
+      "url": "https://www.rog-partners.com/inside-the-latest-a/e-business-valuation-and-m-a-transaction-study",
+      "figure_quoted": "Engineering and architecture post-IIJA median EBITDA multiple 5.52x, upper quartile 7.50x (ROG Partners/Morrissey Goodale). Established lower middle-market AEC firms with depth command 5.5-7.5x EBITDA. Platform-level architecture+engineering firms (multi-office, $10M+ EBITDA) estimated at 6.5x — between the 5.52x median and 7.50x upper quartile, reflecting architecture's slightly lower multiple than engineering due to licensure-concentrated risk and thinner margins.",
+      "access_date": "2026-07-20",
+      "quality": "MED"
+    },
+    "pricing_structure": {
+      "value": "93% hourly/fixed-fee mix; 92% use stipulated sum (fixed fee); 28% use percentage of construction cost. AIA B101 now ties fees to owner's budget at contract signing. Construction administration budgeted at 25-30% of fee. Most small firms are hourly or lump-sum.",
+      "source": "AIA resource center on fee structures; AIA charging for services resource (citing 2024 AIA Firm Survey data)",
+      "url": "https://www.aia.org/resource-center/calculating-architects-fee-there-better-way",
+      "figure_quoted": "93% of firms use hourly rates (with or without agreed maximum) and 92% use stipulated sum (fixed fee); 42% use hourly regularly and 50% occasionally; 70% use stipulated sum regularly. Just 28% reported using percentage of construction cost.",
+      "access_date": "2026-07-20",
+      "quality": "HIGH"
+    }
+  },
+  "scores": {
+    "V": {
+      "arithmetic": "V_raw = labor_share × ai_replaceable_share = 0.4625 × 0.404 = 0.18685; V = 10 × min(1, 0.18685/0.25) = 10 × min(1, 0.7474) = 10 × 0.7474 = 7.474",
+      "score": 7.474
+    },
+    "C": {
+      "arithmetic": "C = 10 × pi_dist × pi_moat = 10 × 0.55 × 0.50 = 2.750",
+      "score": 2.75
+    },
+    "A": {
+      "arithmetic": "A = min(10, 10/t50_years) = min(10, 10/7.0) = min(10, 1.42857) = 1.42857",
+      "score": 1.42857
+    },
+    "B": {
+      "arithmetic": "TD = clamp(log10(1589)/4, 0, 1) = clamp(3.201124/4, 0, 1) = clamp(0.800281, 0, 1) = 0.800281; OW_raw = clamp((0.28-0.10)/0.35, 0.1, 0.9) = clamp(0.514286, 0.1, 0.9) = 0.514286; OW = min(1.0, 0.514286+0.1) = 0.614286 [succession bonus applied]; CFD = min(0.9, log10(1+8)/2) = min(0.9, log10(9)/2) = min(0.9, 0.954243/2) = min(0.9, 0.477121) = 0.477121; B = 10 × sqrt(0.800281 × 0.614286) / (1 + 0.3 × 0.477121) = 10 × sqrt(0.491601) / 1.143136 = 10 × 0.701143 / 1.143136 = 6.133501",
+      "score": 6.1335
+    },
+    "M": {
+      "arithmetic": "M = clamp(4 × (exit_mult - buy_mult)/buy_mult, 0, 10) = clamp(4 × (6.5 - 4.0)/4.0, 0, 10) = clamp(4 × 0.625, 0, 10) = clamp(2.500, 0, 10) = 2.500",
+      "score": 2.5
+    }
+  },
+  "S": 3.393808,
+  "cross_checks": {
+    "uplift_pp": 18.685,
+    "uplift_vs_A_consistent": "V_raw = 18.685% of revenue represents the theoretical maximum labor cost reduction if all automatable tasks are captured as margin. A = 1.43 (t50=7 years) is well below 5, so the cross-check tension flag does not trigger. No inconsistency: slow adoption (low A) is consistent with a large theoretical uplift — the uplift is real but slow to materialize.",
+    "terminal_value": {
+      "class": "PRESSURED",
+      "justification": "Licensure requirements (practice acts in most states for non-residential construction) preserve a regulatory floor — licensed architects in responsible charge cannot be eliminated by AI for building-permit submissions in the vast majority of jurisdictions. This prevents MELTING. However, the fee pool is being squeezed from multiple sides: (1) AI is dismantling the value of CD production (the largest fee phase) by automating permit-set generation — this reduces the cost of the output the firm sells without eliminating the requirement for it; (2) design-build growth shifts prime contract to GCs, reducing architect to sub-stamp-provider with fee-taker economics; (3) residential and light-commercial exemptions (material share of small firm revenue) leave significant segments outside the practice-act floor, where AI design-to-permit tools can bypass architects entirely. The decisive mechanism: AI cuts the firm's production cost but clients and design-builders reprice the stamped set downward once production cost visibly drops (BIM precedent). Demand shrinks in dollar terms but does not disappear — PRESSURED."
+    },
+    "no_proxy_confirmed": "V was derived entirely from reconstructed role labor shares (rebuilt for architecture offices, not from deal data) multiplied by task-level automatable fractions based on phase analysis (SD/DD/CD/CA breakdown). A was derived from AIA/Deltek current adoption data and BIM historical timeline — no reference to PE deal volumes, consolidation waves, or M&A trends. Neither V nor A incorporated any deal-activity information.",
+    "pricing_model_deflation": "Architecture billing is 93% hourly/fixed-fee with only 28% using percentage-of-construction-cost (AIA fee structure data). Hourly billing mechanically passes AI savings to clients: faster production = fewer hours billed at the same rate. Fixed-fee contracts provide short-term margin capture but reset downward at next procurement as AI-enabled competitors underbid historical fee benchmarks. BIM precedent confirms eventual deflation: CAD and BIM both led to downward fee pressure once productivity gains became visible and competitor pricing adjusted. This dynamic is reflected in pi_dist = 0.55 (moderate control with erosion risk) and pi_moat = 0.50 (licensure floor with contested ceiling)."
+  },
+  "confidence_overall": "MED",
+  "heterogeneous": false,
+  "top_uncertain_inputs": [
+    {
+      "input": "t50_years",
+      "plausible_range": "5-10 years",
+      "score_impact": "At t50=5: A=2.00, S rises to ~3.86. At t50=10: A=1.00, S falls to ~3.07. The t50 range (5-10 years) moves S by approximately +/-0.4 around the central estimate of 3.39."
+    },
+    {
+      "input": "ai_replaceable_share",
+      "plausible_range": "0.33-0.47 (varies with licensed-architect automatable fraction 0.20-0.30 and drafter fraction 0.60-0.80)",
+      "score_impact": "At ars=0.33: V_raw=0.1527, V=6.107, S~3.18. At ars=0.47: V_raw=0.2174, V=8.695, S~3.57. Range of ~0.4 on S."
+    },
+    {
+      "input": "owners_60plus_pct",
+      "plausible_range": "0.22-0.35 (NCARB shows 13% over 65; estimating 60+ adds ~15pp but with high uncertainty given no direct measure)",
+      "score_impact": "At 0.22: OW_raw=0.343, OW+bonus=0.443 (clamped to 0.443), B=5.50, S~3.28. At 0.35: OW_raw=0.714, OW+bonus=0.814, B=6.71, S~3.47. Moderate impact."
+    }
+  ],
+  "reviewer_note": "Role-mix rebuild: The provided 4-digit 5413 OEWS role_mix is engineering-dominated (Civil Engineers 12.8% of wages; Architects only 5.82%). Within a pure architecture office (541310), architecture-specific occupations dominate — licensed architects + principals ~40%, drafters/junior designers ~18%, PMs ~10%, management ~10%, interior/spec/viz ~10%, admin ~12%. These are hypothesis fractions per prompt guidance, not census-verified. The rebuild materially raises ai_replaceable_share relative to a naive reading of the 4-digit mix. Buy/exit multiples estimated from Zweig AEC-wide average (4.28x) and ROG Partners/Morrissey Goodale post-IIJA median (5.52x) — architecture-specific multiples may differ (potentially lower due to thinner margins and ownership-restriction complexity). Owner-age estimate (28% over 60) is an ESTIMATE derived from NCARB's 13%-over-65 figure plus assumed cohort size for 60-64 — no direct primary source with 60+ cutoff found. PE-backed architecture consolidators (8) is also an estimate; architecture receives fewer dedicated PE platforms than engineering/environmental sub-sectors. Ownership restrictions: several states restrict architecture firm ownership to licensed professionals — this complicates pure PE buyout structures but does not preclude A&E consolidator bolt-ons (Bowman, Verdantas etc. use licensed principals as equity holders)."
+}

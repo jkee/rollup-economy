@@ -1,0 +1,258 @@
+{
+  "naics": "541380",
+  "title": "Testing Laboratories and Services",
+  "run_meta": {
+    "model_id": "claude-sonnet-4-6",
+    "run_date": "2026-07-20",
+    "run_id": "fleet-s2-541380",
+    "template_version": "3.0",
+    "prompt_version": "p3-aff6579"
+  },
+  "dataset_inputs": {
+    "labor_share": {
+      "value": 0.6827,
+      "method": "QCEW 2024 private total annual wages at 541380 ($17,068,820,469) x benefits multiplier 1.4294 [ECEC private-industry total comp $46.60/hr / wages $32.60/hr = 1.4294 (March 2026 reference period)] / SUSB 2022 receipts at 541380 ($26,656,582,000). Vintage mismatch: 2024 wages over 2022 receipts, stated. Level: 6-digit. Harmonized to IPS basis ÷1.3407 (median of 65 dual-method codes).",
+      "sources": [
+        "BLS QCEW 2024 annual averages (US000, private)",
+        "BLS ECEC news release (raw/ecec.nr0.htm)",
+        "Census SUSB 2022 (receipts by NAICS)"
+      ],
+      "year": "2024 wages / 2022 receipts",
+      "quality": "MED"
+    },
+    "role_mix": {
+      "oews_level": "5-digit 54138",
+      "occupations": [
+        {"soc": "51-9061", "title": "Inspectors, Testers, Sorters, Samplers, and Weighers", "emp_share": 0.1283, "wage_share": 0.0919},
+        {"soc": "19-4031", "title": "Chemical Technicians", "emp_share": 0.0639, "wage_share": 0.0433},
+        {"soc": "19-2031", "title": "Chemists", "emp_share": 0.053, "wage_share": 0.0515},
+        {"soc": "11-1021", "title": "General and Operations Managers", "emp_share": 0.041, "wage_share": 0.0787},
+        {"soc": "19-4042", "title": "Environmental Science and Protection Technicians, Including Health", "emp_share": 0.0293, "wage_share": 0.0192},
+        {"soc": "17-2112", "title": "Industrial Engineers", "emp_share": 0.0265, "wage_share": 0.0396},
+        {"soc": "17-3029", "title": "Engineering Technologists and Technicians, Except Drafters, All Other", "emp_share": 0.0262, "wage_share": 0.0234},
+        {"soc": "13-1082", "title": "Project Management Specialists", "emp_share": 0.0219, "wage_share": 0.0263},
+        {"soc": "43-6014", "title": "Secretaries and Administrative Assistants, Except Legal, Medical, and Executive", "emp_share": 0.0217, "wage_share": 0.0135},
+        {"soc": "43-9061", "title": "Office Clerks, General", "emp_share": 0.0211, "wage_share": 0.0129}
+      ],
+      "quality": "MED"
+    },
+    "n_total": {
+      "value": 5226,
+      "source": "SUSB 2022 (firms, all enterprise sizes)",
+      "year": "2022",
+      "quality": "HIGH"
+    },
+    "n_band": {
+      "value": 187,
+      "derivation": "margin 0.1565 (margins.json[54]: Damodaran Jan 2026: Business & Consumer Services EBITDA/Sales 15.65%); revenue/employee $172,295 (SUSB 2022 receipts/employment at 541380); class <5: 2,444 firms, avg revenue/firm $373,954 (class receipts/firms), implied EBITDA $58,524 -> out of $1-10M band; class 5-9: 961 firms, avg revenue/firm $1,076,685 (class receipts/firms), implied EBITDA $168,501 -> out of $1-10M band; class 10-19: 734 firms, avg revenue/firm $2,220,721 (class receipts/firms), implied EBITDA $347,543 -> out of $1-10M band; class 20-99: 749 firms, avg revenue/firm $6,303,646 (class receipts/firms), implied EBITDA $986,521 -> out of $1-10M band; class 100-499: 187 firms, avg revenue/firm $26,036,572 (class receipts/firms), implied EBITDA $4,074,724 -> IN $1-10M band; class 500+: 151 firms, avg revenue/firm $89,322,291 (class receipts/firms), implied EBITDA $13,978,939 -> out of $1-10M band; n_band = 187",
+      "margin_used": 0.1565,
+      "margin_source": "Damodaran Jan 2026: Business & Consumer Services EBITDA/Sales 15.65%",
+      "quality": "ESTIMATE"
+    }
+  },
+  "inputs": {
+    "ai_replaceable_share": {
+      "value": 0.23982,
+      "breakdown_by_role": [
+        {
+          "role": "Bench and field testing staff (physical testers, inspectors, samplers)",
+          "labor_share_of_total": 0.236,
+          "within_role_automatable_fraction": 0.08,
+          "contribution": 0.018880,
+          "rationale": "Physically running tests, collecting samples, operating instruments — core product is a physical act. 51-9061 Inspectors/Testers (wage_share 0.0919) + 19-4042 Env Science & Protection Technicians (0.0192) = 0.1111 from listed OEWS, plus estimated ~0.125 unlisted field/bench techs from the ~0.5997 unlisted remainder (couriers, materials techs, calibration techs, field samplers). Total estimated 0.236. Only data entry, field worksheets, and documentation (~8% of their work) is AI-exposed; physical test execution is not.",
+          "plausible_range": "0.04-0.12"
+        },
+        {
+          "role": "Lab scientists and chemists",
+          "labor_share_of_total": 0.0948,
+          "within_role_automatable_fraction": 0.35,
+          "contribution": 0.033180,
+          "rationale": "19-2031 Chemists (wage_share 0.0515) + 19-4031 Chemical Technicians (0.0433) = 0.0948. Method development, result review, sign-off, and anomaly interpretation persist (ISO 17025 requires qualified technical reviewer). Data reduction, QC flagging, trend analysis, and report narrative drafting automate substantially — estimated 35% of this role's labor.",
+          "plausible_range": "0.25-0.45"
+        },
+        {
+          "role": "Engineering and technical specialists",
+          "labor_share_of_total": 0.063,
+          "within_role_automatable_fraction": 0.30,
+          "contribution": 0.018900,
+          "rationale": "17-2112 Industrial Engineers (0.0396) + 17-3029 Engineering Technologists & Technicians (0.0234) = 0.0630. Test-protocol design, certification engineering judgment, and client-specific specification interpretation persist. Calculation packages, compliance matrices, regulatory cross-references, and report assembly automate — estimated 30% of role.",
+          "plausible_range": "0.20-0.40"
+        },
+        {
+          "role": "Management layer",
+          "labor_share_of_total": 0.1187,
+          "within_role_automatable_fraction": 0.20,
+          "contribution": 0.023740,
+          "rationale": "11-1021 Gen & Ops Managers (0.0787) + estimated lab director/quality manager tail (~0.04 from unlisted remainder, per prompt 3-5% estimate). Total: 0.1187. Client relationships, ISO 17025 technical manager accountability (mandatory human role), and accreditation stewardship persist. Scheduling, capacity planning, internal reporting, and utilization dashboards automate — estimated 20%.",
+          "plausible_range": "0.12-0.28"
+        },
+        {
+          "role": "Project management",
+          "labor_share_of_total": 0.0263,
+          "within_role_automatable_fraction": 0.40,
+          "contribution": 0.010520,
+          "rationale": "13-1082 PM Specialists (0.0263). Sample tracking, chain-of-custody status reporting to clients, and coordination paperwork automate; client-facing escalation and scope negotiation persist. Estimated 40% automatable.",
+          "plausible_range": "0.30-0.55"
+        },
+        {
+          "role": "Admin, clerical, and reporting staff",
+          "labor_share_of_total": 0.1264,
+          "within_role_automatable_fraction": 0.80,
+          "contribution": 0.101120,
+          "rationale": "43-6014 Secretaries/Admin (0.0135) + 43-9061 Office Clerks (0.0129) = 0.0264 listed; plus estimated ~0.10 unlisted admin/customer-service/data-entry tail from the remaining ~0.5997. Total: 0.1264. Sample login, chain-of-custody paperwork, test certificate generation, invoicing, LIMS data entry, and regulatory report formatting are the most directly automatable cost lines. Estimated 80% of this role's labor is in AI-exposed tasks.",
+          "plausible_range": "0.65-0.90"
+        },
+        {
+          "role": "Remaining technical tail (bio techs, materials scientists, calibration techs, other field/bench)",
+          "labor_share_of_total": 0.3348,
+          "within_role_automatable_fraction": 0.10,
+          "contribution": 0.033480,
+          "rationale": "Residual unlisted occupations: 1.0 minus all above role shares (1.0 - 0.236 - 0.0948 - 0.063 - 0.1187 - 0.0263 - 0.1264 = 0.3348). This catch-all includes bio/environmental techs, materials scientists, calibration technicians, couriers/drivers, and other lab-support staff. Per prompt guidance, allocate between physical-testing (~90%) and documentation patterns (~10%). Automatable fraction 10% for the mixed physical/documentation work.",
+          "plausible_range": "0.07-0.15"
+        }
+      ],
+      "quality": "MED"
+    },
+    "pi_dist": {
+      "value": 0.60,
+      "rationale": "Testing labs bill per-test off published fee schedules against accredited, standardized methods (ASTM, EPA, ISO). The fee reflects the accredited method and turnaround, not hours worked. In the short run, AI savings in reporting/admin are retained by the lab — clients do not observe the input cost change and do not renegotiate per-test fees immediately. Over time (~2-3yr bid cycles), large-volume environmental and construction materials contracts see lab-vs-lab competition compress per-test fees as costs fall. Estimated 70% of revenue is accreditation-gated per-test pricing where efficiency is retained; ~20% is project-bid or task-order competitive where savings pass through; ~10% is recurring monitoring where labs may retain margin. Weighted pi_dist = 0.70×0.80 + 0.20×0.25 + 0.10×0.55 = 0.56+0.05+0.055 = 0.665, adjusted down to 0.60 for the reality that even accreditation-gated tests face lab-vs-lab price competition in commodity segments (routine soil, water, asphalt testing) where the nearest cheap accredited lab wins.",
+      "plausible_range": "0.45-0.70",
+      "sources": [
+        "aventis-advisors.com TIC industry guide — per-test/accredited-method pricing discussion — access 2026-07-20",
+        "ENGEO 2024 lab fee schedule PDF (ASTM/EPA per-test pricing structure) — access 2026-07-20",
+        "EY TIC study 2025 (ey.com) — accreditation and pricing dynamics — access 2026-07-20"
+      ],
+      "quality": "MED"
+    },
+    "pi_moat": {
+      "value": 0.65,
+      "rationale": "Strong moat drivers: (1) ISO/IEC 17025 accreditation and regulatory mandates (EPA, DOT, FDA for applicable tests) create mandatory demand for certified labs — clients cannot self-serve with generic AI for regulated compliance testing; (2) physical instruments, sample chain-of-custody, and qualified technical sign-off are legally required; (3) geographic proximity and turnaround time create switching friction for project-based clients; (4) lab-specific test scope accreditation (NELAP for environmental, A2LA/ANAB) means not all labs are interchangeable. Weaker: commodity environmental and routine materials tests (soil compaction, asphalt, water chemistry) have many competing accredited labs in each metro; large-volume contracts are heavily bid-competitive; global majors (Eurofins, SGS) can undercut on price for high-volume routine work. Clients cannot bring most regulated testing in-house with AI. Bypass risk is low for regulated compliance testing; higher for routine QC tests where in-house bench instruments are plausible. Overall: solid moat, stronger than average professional services.",
+      "plausible_range": "0.50-0.75",
+      "sources": [
+        "A2LA/ANAB ISO 17025 accreditation requirements (iso.org) — access 2026-07-20",
+        "aventis-advisors.com TIC complete guide — accreditation gate and switching costs — access 2026-07-20",
+        "mainsights.io TICC platform article — industry structure and barriers — access 2026-07-20"
+      ],
+      "quality": "MED"
+    },
+    "t50_years": {
+      "value": 10.0,
+      "derivation": "Current adoption ~12% of US independent testing labs materially using AI in automatable functions (LIMS automation, AI data reduction, automated report generation). Historical analogs: LIMS adoption went from <10% to >50% in ~10-12 years (1995-2007). Digital QMS adoption similar timeline. Cisco 2024 AI Readiness Index shows <1/3 of organizations feel infrastructure is ready. Small independent labs face higher barriers: capital cost of LIMS upgrades, ISO 17025 validation requirements for automated systems, limited IT staff. Large labs (Eurofins, Element, UES) are already adopting; the 187-firm n_band pool of $1-10M EBITDA independents lags significantly. t50 from today: starting ~12% adoption in 2026, applying 10-12yr LIMS-class analog, the remaining gap (~38 percentage points) closes in roughly 10 years (2036). Use 10.0 years.",
+      "plausible_range": "7-14 years",
+      "quality": "ESTIMATE"
+    },
+    "current_adoption_pct": {
+      "value": 0.12,
+      "source": "Pistoia Alliance Lab of the Future 2024 Global Survey (via cloudlims.com); Cisco 2024 AI Readiness Index; TIC industry AI adoption context from marketsandmarkets.com and EY TIC study 2025",
+      "url": "https://cloudlims.com/is-your-lab-data-ready-for-ai-in-2025-how-a-lims-can-help/",
+      "figure_quoted": "Pistoia Alliance Lab of Future 2024: 'AI use in laboratories increased by 14% over the previous year' (suggests still minority adoption, not majority). Cisco 2024 AI Readiness Index: 'less than a third of organizations believe their current data infrastructure is prepared for AI implementation.' EY TIC study 2025: 'Several (usually larger) TIC players have already started' on AI. TIC market reports note 'slower adoption rate of advanced technologies by small and medium-sized TIC companies.' Estimated 12% of US independent testing labs (~541380 code) materially using AI in reporting, LIMS automation, data reduction.",
+      "access_date": "2026-07-20",
+      "quality": "ESTIMATE"
+    },
+    "historical_analogs": {
+      "value": "10-12 years to 50% adoption",
+      "source": "LIMS market analysis (grandviewresearch.com); industry context from revollims.com and intuitionlabs.ai LIMS guide 2025",
+      "url": "https://revollims.com/next-gen-lims-ai-iot-mobile-transform-labs",
+      "figure_quoted": "LIMS adoption in testing labs progressed from early-adopter phase (mid-1990s) to >50% penetration in medium-large labs by ~2005-2008, roughly a 10-12 year adoption arc. Digital QMS systems followed a similar timeline. AI/ML for lab data reduction is a new layer on top of existing LIMS infrastructure, but ISO 17025 validation requirements add adoption friction beyond what LIMS adoption required.",
+      "access_date": "2026-07-20",
+      "quality": "MED"
+    },
+    "owners_60plus_pct": {
+      "value": 0.35,
+      "source": "Oberlo / Gallup small business owner age demographics 2024; ACIL member demographics not publicly available",
+      "url": "https://www.oberlo.com/statistics/average-age-of-small-business-owners",
+      "figure_quoted": "2024 small business owner demographics: Gen X (39-54) = 47%, Baby Boomers (55-73) = 37% of all small business owners. Of boomers (55-73 in 2024), those 60-73 represent roughly 55-60% of that cohort, implying ~20-22% of all small business owners are 60+. However, independent testing labs are capital-intensive, technically specialized, established businesses — owner base is older-skewing than typical small business. Estimated 35% of independent lab owners are 60+, reflecting the intersection of boomer demographics and the older-than-average ownership profile of technical services businesses.",
+      "access_date": "2026-07-20",
+      "quality": "ESTIMATE",
+      "succession_shortage_documented": {
+        "value": false,
+        "evidence": "ACIL (American Council of Independent Laboratories) does not publicly publish member age demographics or succession shortage documentation. No specific documented succession crisis found in lab sector equivalent to the PLS surveying shortage. General small business succession planning data (Gallup 2024: most small business owners lack a succession plan) applies, but this is not sector-specific documentation of a shortage. Succession shortage not confirmed as documented for this code."
+      }
+    },
+    "active_consolidators": {
+      "value": 6,
+      "source": "BusinessWire; PrivSource; PRNewswire; pehub.com; capstonepartners.com industrial services update",
+      "url": "https://www.businesswire.com/news/home/20260630020706/en/New-Mountain-Capital-Partners-with-SAM-Leading-Geospatial-and-Inspection-Solutions-Company-for-Next-Phase-of-Growth",
+      "figure_quoted": "PE-backed consolidators actively doing testing lab add-ons in 541380-scope industries last 24 months: (1) UES / Universal Engineering Sciences (BDT Capital Partners) — construction materials, geotech testing; acquired Summit Engineering ~150 employees, CTE Inc. Jul 2025; (2) Alliance Technical Group (Morgan Stanley Capital Partners → Blackstone Jan 2026) — environmental/emissions testing; acquired CEMServices Nov 2024, DeNovo, Gas Ops, Environmental 360, ESC Spectrum 2025; (3) Pace Analytical Services (Leonard Green & Partners) — environmental/analytical; acquired 5 labs 2024 (Micron, Patriot, DCM, Quantem, Environmental Services Labs); (4) Element Materials Technology (PE-backed, global platform) — active US add-ons; acquired Analytical Lab Group (ALG); (5) Acuren Corp (post-SPAC, ex-American Securities 2024 @ 9.7x) — industrial inspection + testing; ~40 acquisitions since 2020; (6) Montrose Environmental Group (MEG, public/PE history) — environmental testing; acquired Paragon, Spirit Environmental, Origins Lab 2024. Count = 6.",
+      "access_date": "2026-07-20",
+      "quality": "MED"
+    },
+    "buy_mult": {
+      "value": 7.5,
+      "source": "aventis-advisors.com TIC valuations (public comps); mainsights.io TICC deal database; Capstone Partners industrial services update; search results citing 'small-cap TIC at 8x EBITDA'",
+      "url": "https://www.mainsights.io/articles/testing-inspection-certification-compliance-ticc-platforms-valuation-outcomes-and-consolidation-dynamics",
+      "figure_quoted": "Small-cap TIC acquisitions: 'Transaction multiples for small-caps in the TIC sector have increased to 8x EBITDA' (search result citing Investec/sector report). mainsights.io: GBA Group (2021) at 10.7x but European context. Labs with fossil fuel exposure: '6x-8x'. Independent US testing labs ($1-5M EBITDA): estimated buy-side multiple of 7.5x EBITDA after market-rate owner/technical director compensation normalization. Basis: TIC sector is more technically specialized and defensible than generic services (Capstone: industrial/environmental services commands premium to general middle market 9.8x average). Small US lab add-ons estimated at 7x-8x; 7.5x used as median.",
+      "access_date": "2026-07-20",
+      "quality": "MED"
+    },
+    "exit_mult": {
+      "value": 11.5,
+      "source": "capstonepartners.com (Acuren/NV5 deal 10.9x EV/EBITDA); mainsights.io (Applied Technical Services/SGS at 11.2x); aventis-advisors.com (public TIC median 14.3x Nov 2025); Eurofins 10.5x, Intertek 9.4x",
+      "url": "https://www.capstonepartners.com/insights/article-industrial-environmental-services-market-update/",
+      "figure_quoted": "Platform exits (>$10M EBITDA): Acuren acquisition by Admiral (2024) at 9.7x EV/EBITDA; NV5 Global acquired by Acuren at 10.9x (May 2025); Applied Technical Services acquired by SGS at 11.2x (2025). Public TIC comps: Eurofins 10.5x, Intertek 9.4x. For a US-focused testing lab platform at $10M+ EBITDA: 10x-12x range. Use 11.5x as midpoint, reflecting premium for multi-specialty, geographically distributed platforms with recurring regulatory-compliance revenue.",
+      "access_date": "2026-07-20",
+      "quality": "MED"
+    },
+    "pricing_structure": {
+      "value": "~70% per-test fixed fee off published schedules (accreditation-gated, ASTM/EPA/ISO methods), ~20% project-bid or task-order contract (large construction materials, environmental remediation testing), ~10% recurring/retainer (ongoing industrial emissions monitoring, food production QC)",
+      "source": "ENGEO 2024 lab fee schedule (PDF); Nelson Labs pricing page; Standard Labs coal testing price guide; EY TIC study 2025; aventis-advisors TIC guide",
+      "url": "https://www.engeo.com/wp-content/uploads/2024/06/2024-Summary-of-Lab-Fees-1.pdf",
+      "figure_quoted": "ENGEO 2024 lab fee schedule shows per-test pricing off published schedules (e.g., ASTM method-specific unit prices). Nelson Labs: 'testing performed under ISO/IEC 17025 often costs more than non-accredited testing' — confirming accreditation-gated pricing. Expediting fee = '100% of listed unit rate,' confirming unit-test base pricing. Market: TIC majors use per-test published schedules for most routine testing; large environmental contracts (DOT, EPA compliance) are competitively bid by task order.",
+      "access_date": "2026-07-20",
+      "quality": "MED"
+    }
+  },
+  "scores": {
+    "V": {
+      "arithmetic": "V_raw = labor_share × ai_replaceable_share = 0.6827 × 0.23982 = 0.163725; V = 10 × min(1, 0.163725/0.25) = 10 × 0.654900 = 6.54900",
+      "score": 6.54900
+    },
+    "C": {
+      "arithmetic": "C = 10 × pi_dist × pi_moat = 10 × 0.60 × 0.65 = 3.90000",
+      "score": 3.90000
+    },
+    "A": {
+      "arithmetic": "A = min(10, 10/t50_years) = min(10, 10/10.0) = min(10, 1.000000) = 1.000000",
+      "score": 1.000000
+    },
+    "B": {
+      "arithmetic": "TD = clamp(log10(187)/4, 0, 1) = clamp(2.271755/4, 0, 1) = clamp(0.567939, 0, 1) = 0.567939; OW = clamp((0.35-0.10)/0.35, 0.1, 0.9) = clamp(0.714286, 0.1, 0.9) = 0.714286; succession_shortage=false → no bonus; OW=0.714286; CFD = min(0.9, log10(1+6)/2) = min(0.9, log10(7)/2) = min(0.9, 0.845098/2) = min(0.9, 0.422549) = 0.422549; B = 10 × sqrt(0.567939 × 0.714286) / (1 + 0.3 × 0.422549) = 10 × sqrt(0.405671) / (1 + 0.126765) = 10 × 0.636999 / 1.126765 = 6.36999 / 1.126765 = 5.65310",
+      "score": 5.65310
+    },
+    "M": {
+      "arithmetic": "M = clamp(4 × (exit_mult - buy_mult) / buy_mult, 0, 10) = clamp(4 × (11.5 - 7.5) / 7.5, 0, 10) = clamp(4 × 4.0 / 7.5, 0, 10) = clamp(16.0 / 7.5, 0, 10) = clamp(2.133333, 0, 10) = 2.133333",
+      "score": 2.133333
+    }
+  },
+  "S": 3.14563,
+  "cross_checks": {
+    "uplift_pp": 16.37,
+    "uplift_vs_A_consistent": "V_raw = 0.163725, implying AI could free 16.37 percentage points of revenue as cost savings. A = 1.000 (t50 = 10 years), indicating slow adoption. No tension: uplift is well above 3pp, and the slow A simply means the margin harvest takes a decade to fully materialize. The economic narrative is coherent: the automatable slice (primarily reporting, admin, QC data reduction) is meaningful in a high-labor-cost industry, but the physical testing mandate bounds the upside. Low A reflects rational expectation about small-lab adoption pace given LIMS validation costs and accreditation overhead.",
+    "terminal_value": {
+      "class": "DURABLE",
+      "justification": "Regulation and accreditation mandate physical tests that AI cannot perform — ISO 17025 requires a qualified human technical reviewer to sign off results, and regulatory programs (EPA NELAP, USDA, DOT) mandate accredited lab testing. AI cuts the operator's admin/reporting costs (the ~24% of labor in automatable tasks) rather than replacing the operator's product. The sharp question from the prompt is whether the automation upside is bounded enough to limit the AI premium thesis — it is: with only ~24% of the wage bill in automatable tasks and labor_share 0.68, V_raw is 0.164, a meaningful but not exceptional uplift. Demand is highly durable because regulatory mandates, physical sample requirements, and accreditation gates mean AI cannot route around the lab's core value. This is one of the most demand-durable codes in the professional services sector."
+    },
+    "no_proxy_confirmed": "V was computed from the role-structure breakdown using the actual OEWS 5-digit occupation shares plus estimated unlisted-tail allocations; automatable fractions were justified by the nature of each task (physical testing vs. LIMS data entry, report generation, QC flagging). No M&A deal counts or consolidation trends were referenced for V. A was derived from current adoption estimate (~12%) and historical LIMS/digital-QMS adoption analogs (~10-12 years). No deal activity referenced for A.",
+    "pricing_model_deflation": "Pricing: ~70% per-test fixed fee off published accreditation-gated schedules; ~20% competitive-bid project contracts; ~10% recurring monitoring retainers. Per-test fixed-fee pricing means AI savings in the reporting/admin layer do not flow to clients in the short run — the client pays per accredited test method, not per hour. This is a favorable capture structure. However, in large-volume commodity testing (routine soil, water chemistry, asphalt), lab-vs-lab bid competition eventually compresses per-test fees over bid cycles as all labs reduce costs. This is reflected in pi_dist = 0.60: below the 70% fixed-fee share because even accreditation-gated per-test revenue faces volume discounting and bid pressure in competitive markets. pi_moat = 0.65 reflects the genuine barrier of accreditation but acknowledges that many labs hold the same accreditations in each metro."
+  },
+  "confidence_overall": "MED",
+  "heterogeneous": true,
+  "top_uncertain_inputs": [
+    {
+      "input": "t50_years",
+      "plausible_range": "7-14 years",
+      "score_impact": "At t50=7: A=1.429, S≈3.47; at t50=10: A=1.000, S≈3.15; at t50=14: A=0.714, S≈2.85. Range of S ≈ 2.85-3.47 across plausible t50 range."
+    },
+    {
+      "input": "ai_replaceable_share",
+      "plausible_range": "0.18-0.30",
+      "score_impact": "At ars=0.18: V_raw=0.123, V=4.91, S≈2.96; at ars=0.240: V=6.55, S≈3.15; at ars=0.30: V_raw=0.205, V=8.19, S≈3.35. S range ≈ 2.96-3.35."
+    },
+    {
+      "input": "buy_mult",
+      "plausible_range": "6.0-9.0",
+      "score_impact": "At buy_mult=6.0 (exit=11.5): M=clamp(4×5.5/6,0,10)=3.667, S≈3.39; at buy=7.5: M=2.133, S≈3.15; at buy=9.0: M=clamp(4×2.5/9,0,10)=1.111, S≈2.87. S range ≈ 2.87-3.39."
+    }
+  ],
+  "reviewer_note": "Sub-segment heterogeneity is material: environmental testing, construction materials/geotech, food testing, pharma/bioanalytical, electrical/product-safety, and calibration labs have different accreditation regimes (NELAP vs A2LA vs FDA-registered vs OSHA-recognized), margin profiles (pharma specialty commands premium, routine environmental is commoditized), and consolidation maturity. heterogeneous=true. The score reflects a weighted average tilted toward the dominant sub-segments in the $1-10M EBITDA band: construction materials testing and environmental labs likely dominate n_band=187 given their fragmented structure and proximity to regulated construction/remediation markets. The 20-99 employee class (749 firms, implied EBITDA $987k) sits just below the $1M floor, meaning the practical acquirable pool is larger than n_band alone suggests — sensitivity upward. EBITDA normalization: testing labs are more capex-intensive than other 54 codes (instruments, facilities); EBITDA multiples may flatter labs vs. maintenance-capex-adjusted basis; the buy_mult of 7.5x may be slightly generous if capex burden is high for the acquiree. Medical/diagnostic labs (621511) and R&D labs (5417) excluded from scope — deal comps were checked against scope. The high labor_share (0.6827) does NOT indicate high AI exposure — confirmed: the automatable slice is ~24% of wage bill, giving V_raw=0.164."
+}

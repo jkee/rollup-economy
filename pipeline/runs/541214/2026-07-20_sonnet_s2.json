@@ -1,0 +1,300 @@
+{
+  "naics": "541214",
+  "title": "Payroll Services",
+  "run_meta": {
+    "model_id": "claude-sonnet-4-6",
+    "run_date": "2026-07-20",
+    "run_id": "fleet-s2-541214",
+    "template_version": "3.0",
+    "prompt_version": "p3-aff6579"
+  },
+  "dataset_inputs": {
+    "labor_share": {
+      "value": 0.8625,
+      "method": "QCEW 2024 private total annual wages at 541214 ($22,102,632,622) x benefits multiplier 1.4294 [ECEC private-industry total comp $46.60/hr / wages $32.60/hr = 1.4294 (March 2026 reference period)] / SUSB 2022 receipts at 541214 ($27,322,843,000). Vintage mismatch: 2024 wages over 2022 receipts, stated. Level: 6-digit. Harmonized to IPS basis ÷1.3407 (median of 65 dual-method codes).",
+      "sources": [
+        "BLS QCEW 2024 annual averages (US000, private)",
+        "BLS ECEC news release (raw/ecec.nr0.htm)",
+        "Census SUSB 2022 (receipts by NAICS)"
+      ],
+      "year": "2024 wages / 2022 receipts",
+      "quality": "MED"
+    },
+    "role_mix": {
+      "oews_level": "4-digit 5412",
+      "occupations": [
+        {
+          "soc": "13-2011",
+          "title": "Accountants and Auditors",
+          "emp_share": 0.3139,
+          "wage_share": 0.342
+        },
+        {
+          "soc": "43-3031",
+          "title": "Bookkeeping, Accounting, and Auditing Clerks",
+          "emp_share": 0.0942,
+          "wage_share": 0.0549
+        },
+        {
+          "soc": "13-2082",
+          "title": "Tax Preparers",
+          "emp_share": 0.0635,
+          "wage_share": 0.042
+        },
+        {
+          "soc": "11-3031",
+          "title": "Financial Managers",
+          "emp_share": 0.0474,
+          "wage_share": 0.1032
+        },
+        {
+          "soc": "43-6014",
+          "title": "Secretaries and Administrative Assistants, Except Legal, Medical, and Executive",
+          "emp_share": 0.0365,
+          "wage_share": 0.0202
+        },
+        {
+          "soc": "11-1021",
+          "title": "General and Operations Managers",
+          "emp_share": 0.0297,
+          "wage_share": 0.051
+        },
+        {
+          "soc": "43-9061",
+          "title": "Office Clerks, General",
+          "emp_share": 0.0284,
+          "wage_share": 0.0144
+        },
+        {
+          "soc": "13-1111",
+          "title": "Management Analysts",
+          "emp_share": 0.0278,
+          "wage_share": 0.0424
+        },
+        {
+          "soc": "43-3021",
+          "title": "Billing and Posting Clerks",
+          "emp_share": 0.0246,
+          "wage_share": 0.0129
+        },
+        {
+          "soc": "43-1011",
+          "title": "First-Line Supervisors of Office and Administrative Support Workers",
+          "emp_share": 0.0219,
+          "wage_share": 0.0188
+        }
+      ],
+      "quality": "MED"
+    },
+    "n_total": {
+      "value": 4484,
+      "source": "SUSB 2022 (firms, all enterprise sizes)",
+      "year": "2022",
+      "quality": "HIGH"
+    },
+    "n_band": {
+      "value": 297,
+      "derivation": "margin 0.1565 (margins.json[54]: Damodaran Jan 2026: Business & Consumer Services EBITDA/Sales 15.65%); revenue/employee $98,054 (SUSB 2022 receipts/employment at 541214); class <5: 2,110 firms, avg revenue/firm $581,493 (class receipts/firms), implied EBITDA $91,004 -> out of $1-10M band; class 5-9: 662 firms, avg revenue/firm $919,816 (class receipts/firms), implied EBITDA $143,951 -> out of $1-10M band; class 10-19: 480 firms, avg revenue/firm $1,588,508 (class receipts/firms), implied EBITDA $248,602 -> out of $1-10M band; class 20-99: 741 firms, avg revenue/firm $4,599,022 (class receipts/firms), implied EBITDA $719,747 -> out of $1-10M band; class 100-499: 297 firms, avg revenue/firm $13,560,636 (class receipts/firms), implied EBITDA $2,122,240 -> IN $1-10M band; class 500+: 194 firms, avg revenue/firm $89,119,103 (class receipts/firms), implied EBITDA $13,947,140 -> out of $1-10M band; n_band = 297",
+      "margin_used": 0.1565,
+      "margin_source": "Damodaran Jan 2026: Business & Consumer Services EBITDA/Sales 15.65%",
+      "quality": "ESTIMATE"
+    }
+  },
+  "inputs": {
+    "ai_replaceable_share": {
+      "value": 0.3925,
+      "breakdown_by_role": [
+        {
+          "role": "Payroll processing specialists / payroll and timekeeping clerks",
+          "labor_share_of_total": 0.40,
+          "within_role_automatable_fraction": 0.65,
+          "contribution": 0.26,
+          "rationale": "Core AI/RPA territory: data entry, exception flagging, tax-notice research, off-cycle runs, and W-2 generation are well within current AI capability. Symmetry 2026 survey confirms 35% of payroll orgs already use AI for data entry/error detection; already shrinking head count per client at ADP/Paychex. Fraction 0.65 leaves 0.35 for multi-state garnishment adjudication, agency notice resolution, and client-liaison exception handling that requires human judgment.",
+          "plausible_range": "0.55-0.75"
+        },
+        {
+          "role": "Customer service / client support representatives",
+          "labor_share_of_total": 0.175,
+          "within_role_automatable_fraction": 0.35,
+          "contribution": 0.06125,
+          "rationale": "Tier-1 inquiries (pay stub questions, portal logins, standard deduction queries) automatable via AI chat. Escalations involving money movement, tax-agency notices, and garnishments keep humans; only partial automation credit. 0.35 reflects ~1/3 of interactions being tier-1.",
+          "plausible_range": "0.25-0.50"
+        },
+        {
+          "role": "Sales and channel representatives",
+          "labor_share_of_total": 0.125,
+          "within_role_automatable_fraction": 0.05,
+          "contribution": 0.00625,
+          "rationale": "Accountant-referral channel and direct SMB sales are relationship-driven; near-zero AI replaceability. AI may assist with CRM qualification but the sales relationship is irreplaceable.",
+          "plausible_range": "0.02-0.10"
+        },
+        {
+          "role": "Implementation / onboarding specialists",
+          "labor_share_of_total": 0.10,
+          "within_role_automatable_fraction": 0.30,
+          "contribution": 0.03,
+          "rationale": "Data migration and form setup increasingly tool-assisted; guided onboarding wizards reduce human hours. Complex multi-state setup, garnishment enrollment, and prior-period corrections persist. Fraction 0.30 reflects the tool-assisted portion.",
+          "plausible_range": "0.20-0.45"
+        },
+        {
+          "role": "Software developers / IT operations",
+          "labor_share_of_total": 0.10,
+          "within_role_automatable_fraction": 0.20,
+          "contribution": 0.02,
+          "rationale": "AI-augmented coding (Copilot-class tools) and monitoring automation save time but do not eliminate the role. Independent bureaus have minimal dev staff; platform players dominate. Small automatable fraction for documentation, test generation, and monitoring alerts.",
+          "plausible_range": "0.10-0.30"
+        },
+        {
+          "role": "Management and compliance oversight",
+          "labor_share_of_total": 0.10,
+          "within_role_automatable_fraction": 0.15,
+          "contribution": 0.015,
+          "rationale": "Tax-remittance compliance sign-off, NACHA money-movement authorization, and client relationships are not automatable. Small fraction (0.15) for AI-assisted reporting, anomaly detection, and regulatory-change summarization.",
+          "plausible_range": "0.08-0.25"
+        }
+      ],
+      "quality": "MED"
+    },
+    "pi_dist": {
+      "value": 0.45,
+      "rationale": "Independent bureaus nominally own the client relationship, but the accountant-referral channel (which controls the SMB payroll decision for many small firms) increasingly routes to Intuit/Gusto partner programs, reducing bureau power. Embedded fintech (Square Payroll, Gusto at POS/banking) owns the banking relationship and undercuts PEPM. Switching costs exist (tax IDs, direct-deposit routing, prior-period records) but are lower than CPA firm switching costs. PEPM pricing is subject to deflationary pressure from platform competitors publishing visible prices. pi_dist set at 0.45: bureaus own some clients but share the relationship with upstream accountant channel and embedded platforms.",
+      "plausible_range": "0.35-0.60",
+      "sources": [
+        "Paychex/ADP PEPM pricing data (lifthcm.com/article/adp-vs-paychex-vs-gusto-comparison, 2025)",
+        "Gusto partner program structure (documented in payroll market analyses)"
+      ],
+      "quality": "MED"
+    },
+    "pi_moat": {
+      "value": 0.40,
+      "rationale": "IRS reporting-agent status, NACHA money-movement credentials, state tax-remittance accounts, and multi-year client data create real switching costs. However: (1) no client-side licensure requirement (any employer can move payroll at fiscal-year-end), (2) platform oligopoly (ADP/Paychex) competes on price and scale advantages independent bureaus cannot match, (3) embedded fintech platforms own the banking relationship for SMBs and can add payroll at near-zero marginal cost, (4) client-funds float income unavailable to independents is a structural disadvantage. Moat is moderate-low: regulatory barriers prevent easy new entry but do not prevent client migration to large platforms.",
+      "plausible_range": "0.30-0.55",
+      "sources": [
+        "IRS reporting-agent program documentation",
+        "NACHA ACH origination rules (structural barrier)",
+        "ADP/Paychex scale discussion in industry analyses"
+      ],
+      "quality": "MED"
+    },
+    "t50_years": {
+      "value": 4.0,
+      "derivation": "Current adoption baseline: Symmetry June 2026 survey (300 payroll/compliance professionals): 78% already using or piloting AI — but this pool skews heavily toward software vendors and large-firm payroll teams. For independent payroll bureaus (the acquirable pool, n=4,484), adoption is significantly lower; PayrollOrg projects 50% AI adoption for payroll organizations by end-of-2025 broadly. Accounting for small-bureau lag, I estimate ~35% of firms in 541214 are materially using AI (data entry automation, error detection) as of July 2026, consistent with Census AI use data showing <20% of firms with <5 employees. Cloud payroll adoption analog: from 2009 (~5% cloud) to 2021 (~55% cloud) was ~12 years to cross 50%. AI is moving ~2-3x faster than cloud adoption due to API accessibility and lower capital cost. From 35% baseline, reaching 50% requires ~15pp gain. At observed AI adoption acceleration (historical cloud: ~4pp/yr; AI: ~8-10pp/yr), the 50% threshold is ~1.5-2 years away on optimistic scenario, ~5-6 years on small-bureau conservative scenario. Central estimate: 4 years (2030) to account for the long tail of small independent bureaus.",
+      "plausible_range": "2-7 years",
+      "quality": "MED"
+    },
+    "current_adoption_pct": {
+      "value": 0.35,
+      "source": "Symmetry / PayrollOrg surveys (2025-2026), calibrated to independent bureau segment",
+      "url": "https://www.symmetry.com/payroll-tax-insights/ai-in-payroll-statistics",
+      "figure_quoted": "78% of payroll and compliance teams are already living with AI in some form (Symmetry June 2026 survey, 300 professionals). PayrollOrg 2025 projects ~50% payroll org adoption by end-2025. Calibrated down to ~35% for small independent bureaus given Census data showing <20% of <5-employee firms use AI and the acquirable pool is predominantly small.",
+      "access_date": "2026-07-20",
+      "quality": "MED"
+    },
+    "historical_analogs": {
+      "value": "Cloud payroll adoption: ~12 years from ~5% (2009) to ~65% enterprise (2023); AI adoption moving ~2-3x faster per observed data",
+      "source": "Precedence Research cloud payroll market report; Census AI use data 2026",
+      "url": "https://www.precedenceresearch.com/cloud-based-payroll-software-market",
+      "figure_quoted": "65% of enterprises adopted cloud payroll by end of 2023 (Precedence Research); cloud payroll CAGR 11.8% 2024-2025",
+      "access_date": "2026-07-20",
+      "quality": "MED"
+    },
+    "owners_60plus_pct": {
+      "value": 0.38,
+      "source": "Census Annual Business Survey 2022; Federal Reserve Small Business Credit Survey 2025",
+      "url": "https://project-equity.org/news/employee-ownership-insider/business-owner-statistics-exit-planning/",
+      "figure_quoted": "52.3% of US business owners are 55 or older (2022 ABS): 29.5% in 55-64 cohort, 22.8% age 65+. Estimating 60+ as half of 55-64 cohort (14.75%) plus all 65+ (22.8%) = ~37.55%, rounded to 0.38. No payroll-bureau-specific owner-age data available.",
+      "access_date": "2026-07-20",
+      "quality": "ESTIMATE",
+      "succession_shortage_documented": {
+        "value": true,
+        "evidence": "Gallup 2024: 78% of small business owners lack a formal succession plan. Fed Minneapolis 2023: boomer owners hanging on past retirement age. Fed SBCS 2025: 62% of owners have seen retirement timelines accelerate. Project Equity: 2.9M employer firms owned by 55+ owners face succession pressure."
+      }
+    },
+    "active_consolidators": {
+      "value": 5,
+      "source": "Press releases and PrivSource deal tracking; industry news 2024-2025",
+      "url": "https://www.privsource.com/acquisitions/deal/payroll-growth-partners-acquires-school-payroll-services-and-integrates-it-into-the-paybridge-family-RGSaal",
+      "figure_quoted": "MPAY/Payentry: 3 acquisitions in 2024 (Payroll Resource Group Apr, Southland Data Processing Jul, Web Payroll & Tax Solutions Oct) + CPS merger 2026. ConnectPay: 27 acquisitions since 2017 (4-7/yr). Payroll Growth Partners: active 2022-present. Paper Trails: acquired Local Economy Payroll. Paybridge: acquired School Payroll Services (via Payroll Growth Partners). Counting MPAY, ConnectPay, Payroll Growth Partners, Paper Trails, Paybridge as 5 distinct active PE-backed/growth-equity consolidators doing add-ons in the last 24 months.",
+      "access_date": "2026-07-20",
+      "quality": "MED"
+    },
+    "buy_mult": {
+      "value": 4.0,
+      "source": "BizBuySell service business multiples; accounting/payroll practice broker data; ConnectPay acquisition model",
+      "url": "https://www.bizbuysell.com/learning-center/industry-valuation-multiples/",
+      "figure_quoted": "BizBuySell 2024: median SDE multiple all industries 2.57x; service businesses 2.0-3.3x SDE. Accounting/tax practices: 3.5-5.5x SDE for mid-size. Converting SDE to EBITDA (add back market-rate owner comp ~$80K): for a small bureau with $300K SDE, implied EBITDA ~$220K; the EBITDA multiple is higher than SDE multiple. For the 100-499 employee class (the n_band: avg EBITDA ~$2.1M), acquirers pay 4-6x EBITDA based on recurring payroll revenue (PEPM base = subscription-like). Conservative buy_mult = 4.0x EBITDA after normalization.",
+      "access_date": "2026-07-20",
+      "quality": "MED"
+    },
+    "exit_mult": {
+      "value": 10.0,
+      "source": "Alight payroll & professional services sale (H.I.G. Capital 2024); HCM sector M&A analysis",
+      "url": "https://www.alight.com/about/newsroom/alight-announces-agreement-to-sell-payroll-and-professional-services-business",
+      "figure_quoted": "Alight sold payroll & professional services segment to H.I.G. Capital affiliate for up to $1.2B, valued at approximately 10x estimated 2023 adjusted EBITDA. Raymond James HCM report: pure-play HCM shops 6-8x EBITDA, financially-integrated HCM 10-14x. Business services platform median 10.7x (mid-2026). Payroll platforms with $10M+ EBITDA and recurring PEPM revenue command 8-12x. Central estimate: 10.0x.",
+      "access_date": "2026-07-20",
+      "quality": "MED"
+    },
+    "pricing_structure": {
+      "value": "Per-employee-per-month (PEPM) plus per-run fees; subscription-like recurring revenue model. ADP small-business: $79/mo base + ~$4 PEPM; Workforce Now $19-28 PEPM. Independent bureaus typically price at $20-40 PEPM with per-run and year-end fees. Small bureaus also earn ancillary revenue from workers comp, HR modules, and tax filing services.",
+      "source": "FindHR/ADP pricing guide 2025; liftHCM comparison 2025",
+      "url": "https://findhrsoftware.com/resources/how-much-is-adp-payroll",
+      "figure_quoted": "ADP RUN starts at $79/month + $4 PEPM for small businesses (1-49 employees); ADP Workforce Now $19-28/employee/month. Platform competition sets effective price ceilings for independents.",
+      "access_date": "2026-07-20",
+      "quality": "MED"
+    }
+  },
+  "scores": {
+    "V": {
+      "arithmetic": "V_raw = labor_share × ai_replaceable_share = 0.8625 × 0.3925 = 0.33853125; V = 10 × min(1, 0.33853125 / 0.25) = 10 × min(1, 1.35412500) = 10 × 1.0 = 10.0",
+      "score": 10.0
+    },
+    "C": {
+      "arithmetic": "C = 10 × pi_dist × pi_moat = 10 × 0.45 × 0.40 = 10 × 0.18 = 1.8",
+      "score": 1.8
+    },
+    "A": {
+      "arithmetic": "A = min(10, 10 / t50_years) = min(10, 10 / 4.0) = min(10, 2.5) = 2.5",
+      "score": 2.5
+    },
+    "B": {
+      "arithmetic": "TD = clamp(log10(297)/4, 0, 1) = clamp(2.472756449/4, 0, 1) = clamp(0.618189112, 0, 1) = 0.618189112; OW_raw = clamp((0.38 - 0.10)/0.35, 0.1, 0.9) = clamp(0.28/0.35, 0.1, 0.9) = clamp(0.8, 0.1, 0.9) = 0.8; succession_shortage_documented=true so OW = min(1.0, 0.8 + 0.1) = 0.9; CFD = min(0.9, log10(1+5)/2) = min(0.9, log10(6)/2) = min(0.9, 0.778151249/2) = min(0.9, 0.389075625) = 0.389075625; B = 10 × sqrt(0.618189112 × 0.9) / (1 + 0.3 × 0.389075625) = 10 × sqrt(0.556370201) / (1 + 0.116722688) = 10 × 0.745902273 / 1.116722688 = 7.45902273 / 1.116722688 = 6.679173",
+      "score": 6.679173
+    },
+    "M": {
+      "arithmetic": "M = clamp(4 × (exit_mult - buy_mult) / buy_mult, 0, 10) = clamp(4 × (10.0 - 4.0) / 4.0, 0, 10) = clamp(4 × 6.0 / 4.0, 0, 10) = clamp(4 × 1.5, 0, 10) = clamp(6.0, 0, 10) = 6.0",
+      "score": 6.0
+    }
+  },
+  "S": 4.479374,
+  "cross_checks": {
+    "uplift_pp": 33.85,
+    "uplift_vs_A_consistent": "V_raw = 0.33853, so AI could free 33.85pp of revenue as labor cost. EBITDA uplift = 33.85pp (treating freed labor as direct margin improvement on revenue basis). A = 2.5 (< 5), so the uplift < 3pp tension rule does not apply here. The uplift is very large (33.85pp) and A is low (2.5 = t50 of 4 years), which is consistent: the industry has large AI value potential but moderate-slow adoption speed for the long tail of independent small bureaus.",
+    "terminal_value": {
+      "class": "PRESSURED",
+      "justification": "Payroll intermediaries face two structural pressures: (1) AI cuts the bureau's internal processing cost but does NOT eliminate the reason for a paid intermediary — IRS reporting-agent status, NACHA money-movement authorization, state tax-remittance accounts, garnishment liability, and multi-state compliance complexity preserve a real compliance and custody function that AI cannot directly replace. (2) However, the platform oligopoly (ADP/Paychex with float income) and embedded fintech (Gusto, Square, banking-embedded payroll) are the primary beneficiaries, not the acquirable independent bureau. AI agents filing directly with IRS/state systems would require NACHA and money-transmission compliance that independents would still be needed to provide — but the economics may concentrate further at platforms. Terminal verdict: PRESSURED. Independent payroll bureaus' demand shrinks as clients migrate to embedded platforms and platform consolidation, but does not go to zero because multi-state complexity, garnishment, and compliance-agent liability still require a paid intermediary. Distinguish: AI cutting a bureau's processing cost (likely, saves labor) vs. AI dissolving the bureau's role (less likely in 5-10 years given regulatory structure). Demand persists but shifts to oligopoly.",
+      "justification_full": "PRESSURED: compliance custody and multi-state complexity preserve the intermediary role but economics concentrate at ADP/Paychex/embedded platforms rather than acquirable independent bureaus."
+    },
+    "no_proxy_confirmed": "V scored from labor-cost replacement analysis of specific occupational functions (payroll clerks, CS reps, implementation staff) — no reference to deal activity. A scored from PayrollOrg/Symmetry AI adoption surveys and cloud-payroll historical analog — no reference to PE consolidation or M&A trends.",
+    "pricing_model_deflation": "Payroll is billed PEPM (subscription-like), which is in principle deflation-resistant per unit. However: (1) competitive platforms (Gusto ~$6/employee, embedded payroll often bundled at near-zero) publish visible price points that cap what independents can charge; (2) when AI cuts processing labor, competitive pressure from these platform price points forces independents to pass savings to clients rather than keep as margin; (3) this is modeled via pi_dist = 0.45 (shared client control with upstream accountant channel and embedded platforms) and pi_moat = 0.40 (switching costs exist but insufficient to hold pricing premium vs. platforms). Both inputs are depressed from their theoretical maximum to reflect the deflationary pass-through mechanism."
+  },
+  "confidence_overall": "MED",
+  "heterogeneous": false,
+  "top_uncertain_inputs": [
+    {
+      "input": "t50_years",
+      "plausible_range": "2-7 years",
+      "score_impact": "A = min(10, 10/t50): at t50=2 yrs A=5.0, S~5.5; at t50=7 yrs A=1.43, S~3.8. The 2-7 yr range shifts S from ~3.8 to ~5.5."
+    },
+    {
+      "input": "pi_dist",
+      "plausible_range": "0.35-0.60",
+      "score_impact": "C = 10 × pi_dist × pi_moat: at pi_dist=0.35 C=1.4, at pi_dist=0.60 C=2.4. Shifts S from ~4.2 to ~4.8."
+    },
+    {
+      "input": "buy_mult",
+      "plausible_range": "3.0-6.0x EBITDA",
+      "score_impact": "M = clamp(4×(10-buy)/buy, 0, 10): at buy=3.0 M=9.33→capped 10; at buy=6.0 M=2.67. Shifts S from ~5.0 (if buy=3) to ~4.0 (if buy=6). Significant uncertainty — no direct payroll-bureau EBITDA comp set found."
+    }
+  ],
+  "reviewer_note": "Role-mix warning: the dataset's 4-digit 5412 OEWS mix is CPA-firm dominated (13-2011 Accountants 34.2% of wages) and omits the signature occupation of 541214 (43-3051 Payroll and Timekeeping Clerks, not in the top-10). ai_replaceable_share was built from the prompt's hypothesis role structure (payroll processing specialists 40%, CS 17.5%, sales 12.5%, implementation 10%, IT 10%, management 10% of wage bill) rather than the inapplicable 4-digit OEWS. Labor_share = 0.8625 is extremely high partly due to vintage mismatch (2024 wages over 2022 receipts) and partly because bureau revenue nets out pass-through client funds; V = 10 (ceiling) reflects this — treat with caution. n_band = 297 (100-499 employee class only) understates the acquirable pool if smaller firms with EBITDA in band exist — the dataset methodology puts them out of band but real broker data may disagree. buy_mult ESTIMATE quality due to absence of direct payroll-bureau EBITDA comp set; converting from SDE-basis broker data. terminal_value = PRESSURED: the intermediary role survives AI but economics concentrate at ADP/Paychex/embedded platforms rather than the acquirable independent bureau pool."
+}

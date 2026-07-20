@@ -1,0 +1,337 @@
+{
+  "naics": "541370",
+  "title": "Surveying and Mapping (except Geophysical) Services",
+  "run_meta": {
+    "model_id": "claude-sonnet-4-6",
+    "run_date": "2026-07-20",
+    "run_id": "fleet-s1-541370",
+    "template_version": "3.0",
+    "prompt_version": "p3-aff6579"
+  },
+  "dataset_inputs": {
+    "labor_share": {
+      "value": 0.5135,
+      "method": "QCEW 2024 private total annual wages at 541370 ($4,275,045,767) x benefits multiplier 1.4294 [ECEC private-industry total comp $46.60/hr / wages $32.60/hr = 1.4294 (March 2026 reference period)] / SUSB 2022 receipts at 541370 ($8,875,752,000). Vintage mismatch: 2024 wages over 2022 receipts, stated. Level: 6-digit. Harmonized to IPS basis ÷1.3407 (median of 65 dual-method codes).",
+      "sources": ["BLS QCEW 2024 annual averages (US000, private)", "BLS ECEC news release (raw/ecec.nr0.htm)", "Census SUSB 2022 (receipts by NAICS)"],
+      "year": "2024 wages / 2022 receipts",
+      "quality": "MED"
+    },
+    "role_mix": {
+      "oews_level": "4-digit 5413",
+      "occupations": [
+        {"soc": "17-2051", "title": "Civil Engineers", "emp_share": 0.1164, "wage_share": 0.128},
+        {"soc": "17-1011", "title": "Architects, Except Landscape and Naval", "emp_share": 0.0564, "wage_share": 0.0582},
+        {"soc": "13-1082", "title": "Project Management Specialists", "emp_share": 0.0551, "wage_share": 0.0646},
+        {"soc": "17-3011", "title": "Architectural and Civil Drafters", "emp_share": 0.0474, "wage_share": 0.0328},
+        {"soc": "11-1021", "title": "General and Operations Managers", "emp_share": 0.0338, "wage_share": 0.0572},
+        {"soc": "17-2141", "title": "Mechanical Engineers", "emp_share": 0.0337, "wage_share": 0.0383},
+        {"soc": "11-9041", "title": "Architectural and Engineering Managers", "emp_share": 0.0321, "wage_share": 0.0553},
+        {"soc": "47-4011", "title": "Construction and Building Inspectors", "emp_share": 0.0256, "wage_share": 0.0205},
+        {"soc": "17-2071", "title": "Electrical Engineers", "emp_share": 0.0254, "wage_share": 0.0299},
+        {"soc": "15-1252", "title": "Software Developers", "emp_share": 0.023, "wage_share": 0.0308}
+      ],
+      "quality": "MED"
+    },
+    "n_total": {"value": 6927, "source": "SUSB 2022 (firms, all enterprise sizes)", "year": "2022", "quality": "HIGH"},
+    "n_band": {
+      "value": 119,
+      "derivation": "margin 0.1565; class <5: 4,125 firms, avg revenue/firm $264,017, implied EBITDA $41,319 -> out; class 5-9: 1,456 firms, avg revenue/firm $810,381, implied EBITDA $126,825 -> out; class 10-19: 758 firms, avg revenue/firm $1,761,821, implied EBITDA $275,725 -> out; class 20-99: 469 firms, avg revenue/firm $5,603,267, implied EBITDA $876,911 -> out; class 100-499: 76 firms, avg revenue/firm $16,153,224, implied EBITDA $2,527,980 -> IN; class 500+: 43 firms, avg revenue/firm $32,923,953, implied EBITDA $5,152,599 -> IN; n_band = 119",
+      "margin_used": 0.1565,
+      "margin_source": "Damodaran Jan 2026: Business & Consumer Services EBITDA/Sales 15.65%",
+      "quality": "ESTIMATE"
+    }
+  },
+  "inputs": {
+    "role_mix_rebuild": {
+      "note": "4-digit OEWS contaminated by 541330/541310 (civil engineers/architects dominant). Rebuilt to 6-digit surveying workforce using prompt specification.",
+      "roles": [
+        {
+          "name": "Licensed professional surveyors (PLS)",
+          "wage_share": 0.22,
+          "auto_fraction": 0.30,
+          "fraction_rationale": "PLS stamp and physical boundary work not automatable; deed research, legal descriptions, plat computations (~30-35% of PLS time) partially automatable by AI deed-research tools",
+          "contribution": 0.066
+        },
+        {
+          "name": "Survey field crews/technicians",
+          "wage_share": 0.30,
+          "auto_fraction": 0.05,
+          "fraction_rationale": "Physical field work — traversing, monument setting, GPS collection — not automatable; marginal automation of data logging",
+          "contribution": 0.015
+        },
+        {
+          "name": "Office processing (CAD, plat drafting, photogrammetric processing)",
+          "wage_share": 0.13,
+          "auto_fraction": 0.80,
+          "fraction_rationale": "AI point-cloud classification, automated CAD drafting, photogrammetric pipeline automation highly applicable; residual human QA/legal review remains",
+          "contribution": 0.104
+        },
+        {
+          "name": "Management and project management",
+          "wage_share": 0.15,
+          "auto_fraction": 0.20,
+          "fraction_rationale": "Provided wage shares: GenOpsMgr 0.0572 + AEMgr 0.0553 + ProjMgmt 0.0646 = 0.1771; rounded to 0.15 per spec; partial automation of scheduling/invoicing/reporting",
+          "contribution": 0.03
+        },
+        {
+          "name": "Engineers/architects (contamination residual at true 6-digit)",
+          "wage_share": 0.05,
+          "auto_fraction": 0.20,
+          "fraction_rationale": "4-digit data showed 0.2544 wage share for engineers/architects; at true 6-digit ~5% represents genuine engineering staff in multidisciplinary surveying firms; partial automation",
+          "contribution": 0.01
+        },
+        {
+          "name": "Admin/back office",
+          "wage_share": 0.10,
+          "auto_fraction": 0.75,
+          "fraction_rationale": "Invoicing, scheduling, client communication, billing — high AI automation applicability",
+          "contribution": 0.075
+        }
+      ],
+      "total_wage_share_in_rebuild": 0.95,
+      "note_on_residual": "0.05 unallocated; the rebuild covers the dominant segments; unallocated portion immaterial to result"
+    },
+    "ai_replaceable_share": {
+      "value": 0.3,
+      "computation": "0.22*0.30 + 0.30*0.05 + 0.13*0.80 + 0.15*0.20 + 0.05*0.20 + 0.10*0.75 = 0.066 + 0.015 + 0.104 + 0.030 + 0.010 + 0.075 = 0.300",
+      "quality": "ESTIMATE"
+    },
+    "pi_dist": {
+      "value": 0.5,
+      "rationale": "Boundary and ALTA surveys (est. ~50-55% of revenue) are typically fixed-fee — when AI reduces office processing hours, margin accrues to the firm. Construction staking and DOT/government work (~30-40% of revenue) are often unit-price or competitive-bid — AI savings compete away via lower bids. Municipal/developer accounts have firm-level relationships but PLS stamp is personal. Midpoint 0.50 reflects balanced split between capture and competition.",
+      "quality": "ESTIMATE"
+    },
+    "pi_moat": {
+      "value": 0.5,
+      "rationale": "PLS licensure creates strong moat for boundary/plat work (personal stamp, legal liability, county records expertise, physical monument knowledge). But the unlicensed half — aerial mapping, lidar scanning, photogrammetric services — has no licensure barrier and is commoditizing via drone+AI platforms from non-traditional entrants. Overall moat moderate at 0.50.",
+      "quality": "ESTIMATE"
+    },
+    "current_adoption_pct": {
+      "value": 0.15,
+      "quality": "ESTIMATE",
+      "rationale": "No direct NSPS or Zweig Group survey found specifying % of surveying firms materially using AI for office processing. Proxy evidence: lidarvisor.com (2026) states industry is shifting 'from pilot deployments to scaled commercial infrastructure' as of 2026; AI point-cloud classification widely available (LP360, Trimble, Leica) but penetration among the ~6,900 surveying firms dominated by small shops (<20 employees, 97% of firms) is low. Construction broad drone adoption reached 67% but physical drones != AI office processing. Best estimate: ~15% of surveying firms have materially deployed AI replacing office processing hours as of 2025.",
+      "sources": ["https://lidarvisor.com/future-of-lidar-trends-2025-beyond/", "https://www.factmr.com/report/drone-surveying-market"]
+    },
+    "historical_analogs": {
+      "gps_rtk_analog": {
+        "intro_year": 1993,
+        "50pct_adoption_year": "mid-2000s (~2005-2007)",
+        "years_to_50pct": 12,
+        "source": "History of RTK series (amerisurv.com 2021): RTK prototype 1993, smaller firms adopted in 2000s as costs fell; widespread by mid-2000s",
+        "url": "https://amerisurv.com/2021/04/18/history-of-rtk-part-1-a-really-tough-problem-to-solve/"
+      },
+      "drone_analog": {
+        "intro_year": 2015,
+        "50pct_adoption_year": "~2022",
+        "years_to_50pct": 7,
+        "source": "67% of construction companies now rely on drones for site surveying (factmr.com); broad commercial availability ~2015",
+        "url": "https://www.factmr.com/report/drone-surveying-market"
+      },
+      "analog_chosen": "drone (7-8 years) as AI is software-first with low capex barrier, more similar to drone than GPS hardware"
+    },
+    "t50": {
+      "value": 9,
+      "derivation": "Step 1: current_adoption_pct = 0.15 (ESTIMATE, 2025). Step 2: Drone analog: from ~10% to 50% adoption took ~7 years (2015->2022). Step 3: AI office processing at ~15% in 2025 — approximately 1 year into the analog adoption curve from ~10%, implying ~6 remaining years on drone pace. Step 4: Friction adjustment +2 years: surveying has non-standardized county deed formats, PLS liability exposure requiring human QA, and small-firm tech adoption lag (97% of firms <20 employees with limited IT budget). Step 5: t50 = 6 + 2 + 1 (base year alignment) = 9 years from 2026 => ~2035.",
+      "quality": "ESTIMATE"
+    },
+    "owners_60plus_pct": {
+      "value": 0.45,
+      "evidence": "Average age of licensed land surveyor ~57-60 (NSPS-cited per landsurveyorsunited.com and amerisurv.com 2023). Firm owners/principals are systematically older than average workforce. With average ~58 and right-skewed age distribution in aging profession, ~45% of firm owners/principals estimated at 60+.",
+      "sources": [
+        "https://landsurveyorsunited.com/articles/vanishing-lines-confronting-the-surveying-workforce-shortage",
+        "https://amerisurv.com/2023/02/09/bad-backsights-the-topic-that-dare-not-speak-its-name/"
+      ],
+      "quality": "ESTIMATE"
+    },
+    "succession_shortage_documented": {
+      "value": true,
+      "evidence": "\"For every new surveyor entering the field, two or three are preparing to retire\" (NSPS-cited data per landsurveyorsunited.com). Average age of licensed land surveyor \"hovers around 58\" (amerisurv.com, citing NSPS and state licensing board data, 2023). Only 14% of currently licensed land surveyors are under age 34 (zippia.com demographics).",
+      "sources": [
+        "https://landsurveyorsunited.com/articles/vanishing-lines-confronting-the-surveying-workforce-shortage",
+        "https://amerisurv.com/2023/02/09/bad-backsights-the-topic-that-dare-not-speak-its-name/",
+        "https://www.zippia.com/land-surveyor-jobs/demographics/"
+      ]
+    },
+    "active_consolidators": {
+      "value": 3,
+      "firms": [
+        {
+          "name": "NV5 Global (NVEE)",
+          "type": "Public AE consolidator, geospatial focus",
+          "evidence": "49+ total acquisitions (Tracxn); active acquirer 2024; merged with Acuren (TIC services) for $2B combined revenue Aug 2025",
+          "sources": ["https://tracxn.com/d/acquisitions/acquisitions-by-nv5/__Se_u7fpasm0X6_ZZLCaPFdRp8_kPaia4mQT-Slfi68Q", "https://www.businesswire.com/news/home/20250515498193/en/Acuren-Corporation-and-NV5-Global-Inc.-Announce-Merger-with-$2-Billion-Combined-Revenue"]
+        },
+        {
+          "name": "Bowman Consulting Group (BWMN)",
+          "type": "Public AE consolidator",
+          "evidence": "Active acquirer; acquired Nevada land surveying firm 2024",
+          "sources": ["https://www.investing.com/news/company-news/bowman-consulting-acquires-nevada-land-surveying-firm-93CH-4655512"]
+        },
+        {
+          "name": "Atlas Technical Consultants",
+          "type": "PE-backed AE/geospatial consolidator",
+          "evidence": "PE-backed serial acquirer in AE/geospatial space; noted in industry sources as active consolidator",
+          "sources": ["https://www.csemag.com/nine-engineering-firms-leading-in-firm-acquisition/"]
+        }
+      ],
+      "quality": "MED"
+    },
+    "buy_mult": {
+      "value": 5.0,
+      "rationale": "Small AE/engineering firms (below $75M revenue): median EBITDA multiple 5.52x, lower quartile 4.99x per ROG+Partners A/E Business Valuation and M&A Transaction Study (post-IIJA period). Small surveying firms ($16M revenue, 100-499 employees) fall at/below median due to key-man risk (PLS stamp concentration), geographic concentration, limited management depth. Use lower quartile anchor 4.99x rounded to 5.0x.",
+      "sources": ["https://www.rog-partners.com/inside-the-latest-a/e-business-valuation-and-m-a-transaction-study"],
+      "quality": "MED"
+    },
+    "exit_mult": {
+      "value": 15.385,
+      "computation": "(14.97 + 15.80) / 2",
+      "components": [
+        {"firm": "NV5 Global (NVEE)", "ev_ebitda": 14.97, "source": "https://stockanalysis.com/stocks/nvee/statistics/", "ttm_ebitda": 115.6, "ev": 1730},
+        {"firm": "Bowman Consulting (BWMN)", "ev_ebitda": 15.80, "source": "SEC Form 8-K FY2024 / market data", "adj_ebitda_guidance_midpoint": 60.5, "market_cap": 513}
+      ],
+      "rationale": "NV5 and Bowman are the two publicly-traded pure-play AE/geospatial consolidators most directly comparable to the surveying platform exit. Average of 14.97x and 15.80x = 15.385x.",
+      "quality": "MED"
+    },
+    "pricing_structure": {
+      "finding": "Mixed: boundary/ALTA surveys predominantly fixed-fee; construction staking per-visit fixed or unit-price; DOT/government work competitive-bid unit-price. Residential boundary: $500-$1,000 fixed fee per acre (homeguide.com). Construction staking: $500-$1,500 per visit (fixed per engagement). Large-parcel: $70-$140/acre (unit price). DOT: low-bid competitive.",
+      "fixed_fee_est_pct": 0.55,
+      "unit_price_est_pct": 0.45,
+      "sources": ["https://homeguide.com/costs/land-survey-cost", "https://cardinalsurveying.com/boundary-survey-cost/", "https://www.costowl.com/home-improvement/other/other-hire-land-surveyor-construction-survey/"]
+    }
+  },
+  "scores": {
+    "V": {
+      "value": 6.162,
+      "arithmetic": {
+        "V_raw": {
+          "value": 0.15405,
+          "formula": "labor_share * ai_replaceable_share = 0.5135 * 0.30000",
+          "components": {"labor_share": 0.5135, "ai_replaceable_share": 0.3}
+        },
+        "V_formula": "10 * min(1, V_raw / 0.25) = 10 * min(1, 0.15405 / 0.25) = 10 * 0.61620 = 6.16200"
+      }
+    },
+    "C": {
+      "value": 2.5,
+      "arithmetic": {
+        "formula": "10 * pi_dist * pi_moat = 10 * 0.50 * 0.50 = 2.50000",
+        "components": {"pi_dist": 0.5, "pi_moat": 0.5}
+      }
+    },
+    "A": {
+      "value": 1.111111111111111,
+      "arithmetic": {
+        "formula": "min(10, 10 / t50) = min(10, 10 / 9) = 1.111111...",
+        "components": {"t50": 9}
+      }
+    },
+    "B": {
+      "value": 6.606732,
+      "arithmetic": {
+        "TD": {
+          "value": 0.518887,
+          "formula": "clamp(log10(119) / 4, 0, 1) = clamp(2.075547 / 4, 0, 1) = clamp(0.518887, 0, 1) = 0.518887",
+          "log10_119": 2.075547
+        },
+        "OW": {
+          "value": 1.0,
+          "OW_raw": 1.0,
+          "formula_OW_raw": "(owners_60plus_pct - 0.10) / 0.35 = (0.45 - 0.10) / 0.35 = 0.35 / 0.35 = 1.000000",
+          "OW_clamped": 0.9,
+          "succession_bonus": 0.1,
+          "formula": "clamp(1.000000, 0.1, 0.9) + 0.1 [succession] = 0.9 + 0.1 = 1.0; cap at 1.0 => 1.0"
+        },
+        "CFD": {
+          "value": 0.301030,
+          "formula": "min(0.9, log10(1 + 3) / 2) = min(0.9, log10(4) / 2) = min(0.9, 0.602060 / 2) = min(0.9, 0.301030) = 0.301030"
+        },
+        "B_formula": "10 * sqrt(TD * OW) / (1 + 0.3 * CFD) = 10 * sqrt(0.518887 * 1.0) / (1 + 0.3 * 0.301030) = 10 * 0.720338 / 1.090309 = 6.606732"
+      }
+    },
+    "M": {
+      "value": 8.308,
+      "arithmetic": {
+        "M_raw": {
+          "value": 8.308,
+          "formula": "4 * (exit_mult - buy_mult) / buy_mult = 4 * (15.385 - 5.0) / 5.0 = 4 * 10.385 / 5.0 = 4 * 2.077 = 8.308"
+        },
+        "M_formula": "clamp(8.308, 0, 10) = 8.308000"
+      }
+    }
+  },
+  "S": 3.9317010,
+  "S_arithmetic": "(V * C * A * B * M)^(1/5) = (6.16200 * 2.50000 * 1.11111 * 6.60673 * 8.30800)^(1/5) = 939.512085^(1/5) = 3.931701",
+  "cross_checks": {
+    "check1_uplift": {
+      "uplift_pp": 15.405,
+      "formula": "V_raw * 100 = 0.15405 * 100 = 15.405",
+      "tension": false,
+      "note": "A = 1.111 (slow adoption, t50=9); uplift = 15.4pp is well above 3pp threshold. No tension to explain."
+    },
+    "check2_terminal_class": {
+      "class": "PRESSURED",
+      "justification": "The PLS-stamped boundary/plat segment (~52% of wage bill: PLS 22% + field crews 30%) is DURABLE — AI cannot replace the physical stamp, monument setting, or legal liability chain. Demand for boundary surveys is tied to real estate transactions and infrastructure projects, not to headcount. However, the office processing segment (13% of wages, 80% automatable) faces direct margin compression as AI point-cloud, deed-research, and CAD drafting tools spread. Unlicensed aerial mapping/lidar (~portion of office processing and engineering residual) is commoditizing via drone+AI platforms from non-traditional entrants. Per-firm revenue will not collapse (field work and stamp demand are sticky), but per-dollar revenue will require fewer office staff. Terminal classification: PRESSURED — durable revenue base, pressured margin structure."
+    },
+    "check3_no_proxy_audit": {
+      "V_uses_deal_activity": false,
+      "A_uses_deal_activity": false,
+      "V_derivation": "labor_share from QCEW/ECEC/SUSB (labor economics data) x ai_replaceable_share from role-mix rebuild with specified automation fractions (tech capability assessment)",
+      "A_derivation": "t50 from current_adoption_pct (LiDAR/AI industry trend sources) and historical_analogs (GPS RTK and drone adoption timelines from surveying history sources)",
+      "result": "PASS"
+    },
+    "check4_pricing_deflation": {
+      "mechanism": "Fixed-fee boundary surveys: when AI reduces office processing hours per project, savings accrue directly to firm margin (not passed to client who was quoted fixed price). Unit-price/competitive-bid (DOT, construction staking, large infrastructure): competing firms bid lower using AI-enabled efficiency, causing savings to compete away. pi_dist=0.50 encodes this 50/50 split. pi_moat=0.50 encodes that the licensed half (boundary) has durable competitive separation while the unlicensed mapping/staking half faces commoditization pressure where margin is competed away. C = 10 * 0.50 * 0.50 = 2.50 reflects that only ~25% of potential AI margin improvement survives to EBITDA after pricing competition and moat leakage."
+    }
+  },
+  "confidence_overall": "MED",
+  "heterogeneous": false,
+  "top_uncertain_inputs": [
+    {
+      "input": "current_adoption_pct",
+      "value": 0.15,
+      "quality": "ESTIMATE",
+      "reason": "No direct NSPS or Zweig Group survey found giving % of surveying firms materially using AI for office processing. Estimate built from proxies (LiDAR market trends, drone adoption data). A 2x error here (0.08 or 0.30) would shift t50 by ~2-3 years, changing A from 1.11 to ~0.91-1.43."
+    },
+    {
+      "input": "t50",
+      "value": 9,
+      "quality": "ESTIMATE",
+      "reason": "Derived from analog reasoning (drone adoption: 7yr; GPS: 12yr) plus friction adjustment. Range of 6-12 plausible. At t50=6, A=1.67; at t50=12, A=0.83. Drives A directly."
+    },
+    {
+      "input": "owners_60plus_pct",
+      "value": 0.45,
+      "quality": "ESTIMATE",
+      "reason": "Inferred from average PLS age ~58 (NSPS-cited). No direct survey of firm principal age distribution found. Range 0.35-0.55 plausible. At 0.35: OW_raw=0.714, OW_clamped=0.714, OW=0.814; at 0.55: OW_raw=1.286, clamped=0.9, OW=1.0 (same as current due to cap). OW already at cap due to succession bonus, so upper end of range does not change B."
+    },
+    {
+      "input": "ai_replaceable_share",
+      "value": 0.3,
+      "quality": "ESTIMATE",
+      "reason": "Role-mix rebuild is a prompt-hypothesis construct, not from direct OEWS data at 6-digit. The automation fractions (especially PLS 0.30 and office processing 0.80) involve judgment. Range of ai_replaceable_share: 0.23-0.37. At 0.23: V_raw=0.118, V=4.73; at 0.37: V_raw=0.190, V=7.62."
+    },
+    {
+      "input": "active_consolidators",
+      "value": 3,
+      "quality": "MED",
+      "reason": "Could include more PE-backed platforms (e.g., infrastructure-focused PE firms acquiring surveying businesses not captured by web search due to private deal opacity). Range 2-5 plausible. At 4: CFD=0.349, B=6.538; at 5: CFD=0.389, B=6.479. Impact on B is modest."
+    }
+  ],
+  "reviewer_note": "Role-mix rebuild is the highest-leverage assumption: the 0.30 auto_fraction for PLS (deed research/plat computation portion only) and 0.80 for office processing drive most of V. These are reasonable but not sourced from time-motion studies. The industry is genuinely bifurcated — licensed boundary work is durable-EBITDA while unlicensed aerial/mapping work is commoditizing — which is reflected in the PRESSURED terminal class and mid-range C=2.50. M=8.31 is high but grounded in the real NV5/Bowman platform multiples (~15x) vs small-firm acquisition multiples (~5x). The slow A=1.11 (t50=9 years) reflects that the median surveying firm is a sub-10-employee shop with limited IT adoption budget and a 58-year-old principal who will retire before investing in AI. Recommend: seek a Zweig Group or NSPS 2024-2025 technology survey to replace the current_adoption_pct ESTIMATE; also seek a direct age-of-principal survey from NSPS to tighten OW.",
+  "sources_used": [
+    {"topic": "LiDAR AI adoption trends", "url": "https://lidarvisor.com/future-of-lidar-trends-2025-beyond/"},
+    {"topic": "Drone surveying market / construction adoption", "url": "https://www.factmr.com/report/drone-surveying-market"},
+    {"topic": "RTK GPS history in surveying", "url": "https://amerisurv.com/2021/04/18/history-of-rtk-part-1-a-really-tough-problem-to-solve/"},
+    {"topic": "Surveyor workforce shortage and demographics", "url": "https://landsurveyorsunited.com/articles/vanishing-lines-confronting-the-surveying-workforce-shortage"},
+    {"topic": "Surveyor average age, NSPS citation", "url": "https://amerisurv.com/2023/02/09/bad-backsights-the-topic-that-dare-not-speak-its-name/"},
+    {"topic": "Land surveyor age demographics", "url": "https://www.zippia.com/land-surveyor-jobs/demographics/"},
+    {"topic": "NV5 acquisitions list", "url": "https://tracxn.com/d/acquisitions/acquisitions-by-nv5/__Se_u7fpasm0X6_ZZLCaPFdRp8_kPaia4mQT-Slfi68Q"},
+    {"topic": "NV5-Acuren merger $2B combined revenue", "url": "https://www.businesswire.com/news/home/20250515498193/en/Acuren-Corporation-and-NV5-Global-Inc.-Announce-Merger-with-$2-Billion-Combined-Revenue"},
+    {"topic": "Bowman acquires Nevada surveying firm 2024", "url": "https://www.investing.com/news/company-news/bowman-consulting-acquires-nevada-land-surveying-firm-93CH-4655512"},
+    {"topic": "AE firm EBITDA multiples (ROG+Partners study)", "url": "https://www.rog-partners.com/inside-the-latest-a/e-business-valuation-and-m-a-transaction-study"},
+    {"topic": "NV5 EV/EBITDA multiple (14.97x)", "url": "https://stockanalysis.com/stocks/nvee/statistics/"},
+    {"topic": "Bowman EV/EBITDA ~15.80x", "url": "https://www.sec.gov/Archives/edgar/data/1847590/000162828024045806/exhibit991-bwmnq324earning.htm"},
+    {"topic": "Surveying billing structure (boundary fixed fee)", "url": "https://homeguide.com/costs/land-survey-cost"},
+    {"topic": "Construction staking costs", "url": "https://www.costowl.com/home-improvement/other/other-hire-land-surveyor-construction-survey/"}
+  ]
+}

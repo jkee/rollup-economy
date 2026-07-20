@@ -1,0 +1,276 @@
+{
+  "naics": "541120",
+  "title": "Offices of Notaries",
+  "run_meta": {
+    "model_id": "claude-sonnet-4-6",
+    "run_date": "2026-07-20",
+    "run_id": "fleet-s2-541120",
+    "template_version": "3.0",
+    "prompt_version": "p3-aff6579"
+  },
+  "dataset_inputs": {
+    "labor_share": {
+      "value": 0.4487,
+      "method": "QCEW 2024 private total annual wages at 5411 ($158,392,472,386) x benefits multiplier 1.4294 [ECEC private-industry total comp $46.60/hr / wages $32.60/hr = 1.4294 (March 2026 reference period)] / SUSB 2022 receipts at 5411 ($376,347,774,000). Vintage mismatch: 2024 wages over 2022 receipts, stated. Level: ancestor 5411. Harmonized to IPS basis ÷1.3407 (median of 65 dual-method codes).",
+      "sources": [
+        "BLS QCEW 2024 annual averages (US000, private)",
+        "BLS ECEC news release (raw/ecec.nr0.htm)",
+        "Census SUSB 2022 (receipts by NAICS)"
+      ],
+      "year": "2024 wages / 2022 receipts",
+      "quality": "LOW"
+    },
+    "role_mix": {
+      "oews_level": "4-digit 5411",
+      "occupations": [
+        {
+          "soc": "23-1011",
+          "title": "Lawyers",
+          "emp_share": 0.3717,
+          "wage_share": 0.6215
+        },
+        {
+          "soc": "23-2011",
+          "title": "Paralegals and Legal Assistants",
+          "emp_share": 0.2349,
+          "wage_share": 0.1312
+        },
+        {
+          "soc": "43-6012",
+          "title": "Legal Secretaries and Administrative Assistants",
+          "emp_share": 0.1039,
+          "wage_share": 0.0551
+        },
+        {
+          "soc": "43-9061",
+          "title": "Office Clerks, General",
+          "emp_share": 0.0262,
+          "wage_share": 0.01
+        },
+        {
+          "soc": "43-4171",
+          "title": "Receptionists and Information Clerks",
+          "emp_share": 0.0204,
+          "wage_share": 0.0073
+        },
+        {
+          "soc": "43-3031",
+          "title": "Bookkeeping, Accounting, and Auditing Clerks",
+          "emp_share": 0.0194,
+          "wage_share": 0.0098
+        },
+        {
+          "soc": "43-1011",
+          "title": "First-Line Supervisors of Office and Administrative Support Workers",
+          "emp_share": 0.0188,
+          "wage_share": 0.0132
+        },
+        {
+          "soc": "43-6014",
+          "title": "Secretaries and Administrative Assistants, Except Legal, Medical, and Executive",
+          "emp_share": 0.0185,
+          "wage_share": 0.0077
+        },
+        {
+          "soc": "23-2093",
+          "title": "Title Examiners, Abstractors, and Searchers",
+          "emp_share": 0.0166,
+          "wage_share": 0.0082
+        },
+        {
+          "soc": "11-1021",
+          "title": "General and Operations Managers",
+          "emp_share": 0.0155,
+          "wage_share": 0.0229
+        }
+      ],
+      "quality": "MED"
+    },
+    "n_total": {
+      "value": 0,
+      "source": "no SUSB or QCEW series found",
+      "year": "",
+      "quality": "ESTIMATE"
+    },
+    "n_band": {
+      "value": 0,
+      "derivation": "Research-gap exception: n_band null in dataset; researched per prompt instructions. Derivation chain: (1) Total notary firm population: Commercial NAICS data (naics.com, siccode.com) indicates ~2,896 active 'Offices of Notaries' firms in the US — consistent with the SUSB gap (no official series, but commercial data available). (2) Revenue ceiling per firm: NNA 2023 Notary Survey shows full-time signing agents earn $45K-$100K gross; a multi-notary office with 5 notaries × $80K gross = $400K revenue/firm. Even a generous ceiling of $500K/firm average. (3) EBITDA threshold: Using Damodaran 15.65% margin, $1M EBITDA requires $6.39M revenue. For a notary office at $150/signing (direct title relationship rate), $6.39M requires 42,600 signings/year = 118 signings/day — implausible for a traditional office. A firm with 50 active signing agents each doing 3 signings/day at $150 = 150 signings/day × $150 × 250 days = $5.625M revenue → $880K EBITDA — still under $1M. (4) Upper bound check: Using ~2,896 total firms × $400K avg revenue = $1.16B total industry revenue × 15.65% = $181M total industry EBITDA ÷ 2,896 firms = $62K avg EBITDA per firm — all far below the $1M floor. (5) Conclusion: n_band = 0. Plausible range: 0-5 if a handful of large hybrid signing-services firms are miscoded at 541120 rather than their correct code (541191 title abstract/settlement or 519xxx tech platforms). Pure notary offices cannot plausibly reach $1M normalized EBITDA under current statutory fee caps and platform economics.",
+      "margin_used": 0.1565,
+      "margin_source": "Damodaran Jan 2026: Business & Consumer Services EBITDA/Sales 15.65%",
+      "quality": "ESTIMATE"
+    }
+  },
+  "inputs": {
+    "ai_replaceable_share": {
+      "value": 0.38,
+      "breakdown_by_role": [
+        {
+          "role": "Commissioned notaries and signing agents (owners and staff)",
+          "labor_share_of_total": 0.70,
+          "within_role_automatable_fraction": 0.30,
+          "contribution": 0.21,
+          "rationale": "The statutory witnessing act — physical presence or live audio-video presence (RON) of a commissioned human — is the core product and cannot be performed by AI under any current state law. RON platforms (Snapdocs, Proof, NotaryCam) handle scheduling, ID verification workflow, and document preparation automatically, but a commissioned notary must still be present for the session. Tasks that automate: appointment scheduling, document pre-check, journal entry, confirmation messaging (~30% of time). Tasks that do not automate: the witnessing act itself, travel to signer location (for in-person), in-person ID verification, and any physical handling of documents. The 0.30 fraction reflects the workflow-surrounding tasks only. Note: the provided 4-digit 5411 OEWS role_mix (lawyer-dominated) is explicitly inapplicable to notary offices per the prompt; this hypothetical role structure is used instead, per prompt guidance.",
+          "plausible_range": "0.20-0.40"
+        },
+        {
+          "role": "Scheduling, intake, and administrative staff",
+          "labor_share_of_total": 0.20,
+          "within_role_automatable_fraction": 0.80,
+          "contribution": 0.16,
+          "rationale": "Order intake, appointment routing, confirmations, status tracking, and invoicing are near-fully automatable. Signing platforms (Snapdocs-style) already automate this layer at scale — the market has already largely automated it. Administrative staff are a shrinking cost center in notary offices as platform routing replaces human dispatchers. 0.80 reflects the high automation exposure already demonstrated by platform economics.",
+          "plausible_range": "0.70-0.90"
+        },
+        {
+          "role": "Courier and document logistics",
+          "labor_share_of_total": 0.10,
+          "within_role_automatable_fraction": 0.10,
+          "contribution": 0.01,
+          "rationale": "Physical transport of wet-ink documents to counties, courts, or title companies for recording cannot be automated by AI. This role is shrinking independently as e-recording displaces wet-ink delivery (most counties now accept e-recording). The small residual (wet-ink recording requirements in some jurisdictions, original document delivery) is physical and cannot be automated. 0.10 reflects the narrow AI exposure in a predominantly physical task.",
+          "plausible_range": "0.05-0.15"
+        }
+      ],
+      "quality": "LOW"
+    },
+    "pi_dist": {
+      "value": 0.10,
+      "rationale": "Title companies and lenders route signings through signing platforms (Snapdocs: 140,000+ notaries, 37,000+ title branches). The individual notary office is interchangeable gig labor — the platform owns the client relationship. Per-act fees are set either by statute (CA: $15/signature, TX: $6/act, FL: $10/acknowledgment — NNA 2026 fee schedule) or by the title company/platform ($75-$250/signing, set by buyer). When AI or RON automation cuts the cost per signing, the savings accrue entirely to the platform/title company, not to the notary office. There is no mechanism for a notary office to hold effective price: fee caps are statutory, and gig-platform economics commoditize signing labor. The only sliver of client ownership is repeat relationships with local real estate agents or title branches who call the same notary — extremely limited. pi_dist = 0.10 reflects near-total platform and statutory capture of the economics.",
+      "plausible_range": "0.05-0.20",
+      "sources": [
+        "NNA 2026 notary fee schedule: California $15/signature, Texas $6/act, Florida $10/acknowledgment — statutory caps",
+        "Snapdocs: '140K+ qualified notaries, 37K+ title branches' — platform intermediation documented",
+        "Notary signing agent income: $75-$250/signing set by title company or platform (NNA, Glassdoor)"
+      ],
+      "quality": "MED"
+    },
+    "pi_moat": {
+      "value": 0.15,
+      "rationale": "The commission certificate is the only credential required and is easily obtained (a few hours of training, a small fee, and a background check in most states; renewed every 4 years). No proprietary data, no meaningful switching costs for clients (a different notary is a phone call away), no physical plant requirement. The real bypass threat: end customers increasingly use RON platforms (Proof/Notarize, NotaryCam) directly, paying $15-$35 per session, bypassing the notary 'office' entirely and contracting directly with a commissioned notary on-platform. For consumer notarizations (estate docs, powers of attorney), LegalZoom and similar services bundle notarization. For loan signings, title companies have pre-qualified notary rosters through platforms; there is no firm-level moat beyond being on the platform's approved list. 0.15 reflects almost no moat — slightly above 0 only because a local established notary office may have a few direct title-company relationships that provide a thin recurring revenue stream.",
+      "plausible_range": "0.05-0.25",
+      "sources": [
+        "NNA: 45 states with permanent RON laws as of 2025 — makes bypass trivial",
+        "RON consumer platform pricing: $15-$35/session direct to consumer (Proof, Notarize)",
+        "Snapdocs routing model: platform selects from pool, individual notary has no client ownership"
+      ],
+      "quality": "MED"
+    },
+    "t50_years": {
+      "value": 4.0,
+      "derivation": "current_adoption_pct = 15% (ESTIMATE: material AI adoption in scheduling, intake, document prep among notary offices; no direct survey data; estimate based on gig-economy tech adoption baseline — most signing agents use platforms but few use AI tools specifically). Historical analog: RON platform adoption among active signing agents went from ~0% (pre-2019) to ~60% in 3 years (2019-2022), driven by necessity (COVID) and clear economic incentive. AI tool adoption in back-office/intake lacks that forcing function but has clear ROI. From 15% to 50% = 35pp gap. At the 3-year RON analog pace this would be 35/60 × 3 = 1.75 years (too fast; RON had a COVID forcing function). At a more typical SMB tech-adoption pace (6pp/year for non-mandated tools), 35/6 = 5.8 years. Blending: t50 ≈ 4.0 years. Range: 3-6 years.",
+      "plausible_range": "3-6 years",
+      "quality": "ESTIMATE"
+    },
+    "current_adoption_pct": {
+      "value": 0.15,
+      "source": "ESTIMATE — no direct survey of AI adoption in NAICS 541120 notary offices exists. Based on: NNA 2023 Notary Survey showing technology orientation of the signing-agent pool; Snapdocs/Proof platform adoption (60%+ of active signing agents use a digital platform for order management, which includes automated scheduling and intake — counted as material AI adoption for scheduling functions)",
+      "url": "https://www.nationalnotary.org/notary-bulletin/blog/2024/02/2023-notary-survey-results-in-a-slow-market-notaries-stay-strong-by-diversifying-their-businesses",
+      "figure_quoted": "NNA 2023 survey: notaries diversifying businesses; Snapdocs network: 140,000+ qualified notaries using digital platform for order routing (per Snapdocs.com). Interpreted as ~15% of 'offices of notaries' (the formal firm subset, not all commissioned notaries) using AI tools materially in automatable functions beyond basic platform scheduling.",
+      "access_date": "2026-07-20",
+      "quality": "ESTIMATE"
+    },
+    "historical_analogs": {
+      "value": "3 years (RON platform adoption among signing agents, 2019-2022: ~0% to 60%); 4-5 years (general mobile-workforce app adoption for non-mandated tools)",
+      "source": "ALTA Digital Closing Survey historical; NNA census data on platform adoption; general SMB technology adoption literature",
+      "url": "https://www.alta.org/blog/post/alta-survey-digital-closings-increase-but-barriers-slow-adoption",
+      "figure_quoted": "ALTA survey: digital closings reached 10% of all transactions by 2022-2023 (up from 2.2% fully digital in 2021). NNA 2022 census: new generation of notaries drawn to gig economy and digital platforms, suggesting rapid platform adoption in 2019-2022 period. Blended analog: 3-5 years for technology adoption in the signing-agent segment.",
+      "access_date": "2026-07-20",
+      "quality": "MED"
+    },
+    "owners_60plus_pct": {
+      "value": 0.35,
+      "source": "ESTIMATE — NNA 2022 census noted a 'new generation of notaries' who are younger, often college-educated, and drawn to the gig economy, suggesting younger demographics in the broader notary pool. However, established 'offices of notaries' firms (the small subset that constitutes NAICS 541120) are likely older-owned legacy businesses. No direct age data exists for this sub-population.",
+      "url": "https://www.nationalnotary.org/notary-bulletin/blog/2022/08/2022-nna-notary-census-part-1-a-new-generation-of-notaries",
+      "figure_quoted": "NNA 2022 census Part 1: 'A new generation of Notaries' — described as younger, college-educated, gig-economy entrants. Implies overall notary population is skewing younger. For the legacy established-firm owners of 541120, estimating 35% are 60+ by analogy to other micro-business service industries, acknowledging the new generation dilutes the average downward.",
+      "access_date": "2026-07-20",
+      "quality": "ESTIMATE",
+      "succession_shortage_documented": {
+        "value": false,
+        "evidence": "No documented succession shortage for notary offices in any published NNA, ALTA, or industry source. Unlike law firms or accounting practices, notary commissions transfer easily (re-commissioning takes days), so there is no succession crisis — the 'business' of a notary office has near-zero transferable enterprise value and disappears when the owner retires rather than being sold."
+      }
+    },
+    "active_consolidators": {
+      "value": 0,
+      "source": "Review of PE/M&A sources for notary office consolidation: no PE-backed platforms actively doing add-on acquisitions in pure NAICS 541120 in last 24 months. a360inc acquisition of Notary Hub (December 2025) is a technology/signing-services acquisition, not a notary office roll-up.",
+      "url": "https://themortgagepoint.com/2025/12/17/a360inc-enhances-notarization-services-with-new-acquisition/",
+      "figure_quoted": "a360inc acquired Notary Hub in December 2025 to enhance digital signing capabilities — this is a technology platform acquisition, not a traditional notary office roll-up. No other PE-backed consolidators identified targeting NAICS 541120 establishments.",
+      "access_date": "2026-07-20",
+      "quality": "MED"
+    },
+    "buy_mult": {
+      "value": 2.0,
+      "source": "ESTIMATE — BizBuySell and DealStats confirm near-empty comp set for notary offices. No tracked arms-length market exists. If a notary office were sold, it would be a book of relationships for 0.5-1.0x annual revenue. At $200-400K revenue and 15.65% EBITDA margin ($31-63K EBITDA), a 2x EBITDA multiple implies $62-126K sale price — consistent with observed micro-business service sales. The absence of an M&A market is itself the finding.",
+      "url": "https://www.bizbuysell.com/learning-center/valuation-benchmarks/law-firm/",
+      "figure_quoted": "BizBuySell law firm and legal services section: no distinct notary office comp set listed. General micro-business service valuations: 1.5-2.5x SDE/EBITDA for lifestyle businesses with low transferability. 2.0x used as midpoint for the near-absent market, acknowledging this is highly uncertain.",
+      "access_date": "2026-07-20",
+      "quality": "ESTIMATE"
+    },
+    "exit_mult": {
+      "value": 2.5,
+      "source": "ESTIMATE — No $10M+ EBITDA platforms exist in pure 541120 (n_band = 0). Exit multiple is notional: if a scaled signing-services technology platform were ever built from 541120-classified establishments, it would command similar multiples to other thin-moat gig-labor platforms (2.0-3.0x EBITDA). Using 2.5x as a notional exit comparable.",
+      "url": "https://www.bizbuysell.com/learning-center/valuation-benchmarks/law-firm/",
+      "figure_quoted": "No exit transactions found for notary office platforms. 2.5x EBITDA used as a notional comparable based on thin-moat gig-platform exits in adjacent services industries (no direct comp exists).",
+      "access_date": "2026-07-20",
+      "quality": "ESTIMATE"
+    },
+    "pricing_structure": {
+      "value": "Per-act statutory fee caps dominate: California $15/signature, Texas $6/act, Florida $10/acknowledgment (NNA 2026 fee schedule). For loan signing work (the main revenue driver), signing agent fees are set by title companies and platforms at $75-$250/signing. RON consumer platforms pay $15-$35/session. No operator pricing power: per-act fees are statutory ceilings, and signing-agent fees are set by the buying platform/title company. The pricing model is piece-rate (per-act or per-signing), with absolute price caps set by regulation or by the intermediary. AI efficiency in back-office does not translate to operator margin — the per-signing fee is fixed regardless of internal efficiency.",
+      "source": "NNA 2026 Notary Fees by State; Snapdocs, Proof platform documentation; notary income guides (Glassdoor, Notary Training School)",
+      "url": "https://www.nationalnotary.org/knowledge-center/about-notaries/notary-fees-by-state",
+      "figure_quoted": "NNA 2026 fee schedule: California $15/signature, Texas $6/act, Florida $10/acknowledgment. Signing agent earnings: $75-$125 through signing services, $150-$250 with direct title company relationships (NNA income guide). RON consumer: $15-$35/session.",
+      "access_date": "2026-07-20",
+      "quality": "MED"
+    }
+  },
+  "scores": {
+    "V": {
+      "arithmetic": "ai_replaceable_share = sum of contributions = 0.21000 + 0.16000 + 0.01000 = 0.38000; V_raw = labor_share × ai_replaceable_share = 0.4487 × 0.38000 = 0.170506; V = 10 × min(1, 0.170506 / 0.25) = 10 × 0.682024 = 6.82024",
+      "score": 6.82024
+    },
+    "C": {
+      "arithmetic": "C = 10 × pi_dist × pi_moat = 10 × 0.10 × 0.15 = 0.15000",
+      "score": 0.15
+    },
+    "A": {
+      "arithmetic": "A = min(10, 10 / t50_years) = min(10, 10 / 4.0) = min(10, 2.5) = 2.50000",
+      "score": 2.5
+    },
+    "B": {
+      "arithmetic": "n_band = 0 → TD = 0.0 (formula: if n_band < 1 then TD = 0.0); OW = clamp((0.35 - 0.10) / 0.35, 0.1, 0.9) = clamp(0.714286, 0.1, 0.9) = 0.714286; succession_shortage_documented = false → no bonus; CFD = min(0.9, log10(1+0) / 2) = min(0.9, 0.0 / 2) = min(0.9, 0.0) = 0.0; B = 10 × sqrt(0.0 × 0.714286) / (1 + 0.3 × 0.0) = 10 × sqrt(0.0) / 1.0 = 10 × 0.0 / 1.0 = 0.00000",
+      "score": 0.0
+    },
+    "M": {
+      "arithmetic": "M = clamp(4 × (exit_mult - buy_mult) / buy_mult, 0, 10) = clamp(4 × (2.5 - 2.0) / 2.0, 0, 10) = clamp(4 × 0.25, 0, 10) = clamp(1.0, 0, 10) = 1.00000",
+      "score": 1.0
+    }
+  },
+  "S": 0.0,
+  "cross_checks": {
+    "uplift_pp": 17.0506,
+    "uplift_vs_A_consistent": "uplift_pp = 17.05pp (V_raw × 100), which is well above the 3pp floor. A = 2.5 (t50 = 4 years). No tension in the uplift-vs-A relationship: V is high because the back-office tasks around notarization are AI-automatable, but S = 0 because B = 0 (no acquirable target market exists at $1-10M EBITDA). The high V and moderate A are consistent with each other; S = 0 is driven entirely by B = 0 from n_band = 0, which is correct given the derivation showing no pure notary offices clear the $1M EBITDA threshold.",
+    "terminal_value": {
+      "class": "MELTING",
+      "justification": "The product of an office-of-notaries firm is the statutory witnessing act, sold as a service. Two layers of melting: (1) RON platforms (Proof, Snapdocs, NotaryCam) have already absorbed the scheduling, routing, and document-prep layer — the 'office' is being replaced by platform infrastructure; individual notaries are gig workers on a platform, not business operators. (2) The deeper terminal question: if legislatures accept cryptographic identity verification without a human witness — already being piloted (NIST digital identity standards, eNotarization initiatives beyond RON) — the entire statutory requirement for a commissioned human could disappear. Even if the human requirement persists, the platform layer captures the economics, leaving the 'office' as a zero-margin piece-rate labor supplier. The product (the firm's ability to sell a bundled notarization service with client ownership and pricing power) is being replaced, not just compressed. MELTING."
+    },
+    "no_proxy_confirmed": "V was derived from the hypothetical notary-specific role breakdown (commissioned notaries, admin staff, courier), not from deal activity. The 0.30 automatable fraction for commissioned notaries was grounded in analysis of specific tasks (scheduling, journaling, document prep) vs. the statutory witnessing act. A was derived from the RON adoption historical analog and estimated current AI adoption among notary offices, not from consolidation trends.",
+    "pricing_model_deflation": "Billing is piece-rate with statutory caps (CA $15/signature, TX $6/act, FL $10/acknowledgment — NNA 2026) and platform-set signing fees ($75-$250/signing set by title companies/platforms). When AI cuts the cost of delivering a signing — faster scheduling, automated document prep — the operator cannot charge more per signing (statutorily capped) and the platform does not share the savings. All AI efficiency flows to the platform/title company (lower procurement cost) or the borrower (faster closing), not to the notary office. pi_dist = 0.10 and pi_moat = 0.15 both reflect this: the notary office has near-zero pricing power and near-zero moat, making C = 0.15 — the minimum meaningful non-zero value consistent with the fact that a few direct client relationships persist."
+  },
+  "confidence_overall": "LOW",
+  "heterogeneous": false,
+  "top_uncertain_inputs": [
+    {
+      "input": "t50_years",
+      "plausible_range": "3-6 years",
+      "score_impact": "A = min(10, 10/t50): at 3 years A=3.33; at 4 years A=2.50; at 6 years A=1.67. With B=0, S=0 regardless of A value. t50 is moot for S given n_band=0, but recorded per mandatory rule."
+    },
+    {
+      "input": "n_band",
+      "plausible_range": "0-5 firms",
+      "score_impact": "n_band = 0 drives B = 0 and S = 0. If n_band were 5 (the extreme high end of the plausible range, representing a handful of miscoded hybrid firms): TD = log10(5)/4 = 0.174; B = 10 × sqrt(0.174 × 0.714) / (1 + 0) = 10 × 0.353 = 3.53; S = (6.82 × 0.15 × 2.5 × 3.53 × 1.0)^0.2 = (9.05)^0.2 = 1.55. The difference between n_band = 0 (S=0) and n_band = 5 (S≈1.55) is the largest single uncertainty in this record. Correct answer is almost certainly 0."
+    },
+    {
+      "input": "buy_mult",
+      "plausible_range": "1.0-3.0x EBITDA",
+      "score_impact": "With B=0 and S=0, M variability has no effect on S. M = clamp(4×(2.5-buy)/buy, 0, 10): at buy=1.0 M=6.0; at buy=2.0 M=1.0; at buy=3.0 M=0.0. All moot given B=0."
+    }
+  ],
+  "reviewer_note": "DATA-SPARSE CODE — near-complete absence of government statistical data confirmed. n_total = 0 in SUSB; labor_share uses ancestor 5411 (lawyer-dominated); role_mix (4-digit 5411) is explicitly described in the prompt as 'unusable for this code.' The hypothetical role breakdown (commissioned notaries 70%, admin 20%, courier 10%) is used for breakdown_by_role per prompt guidance; wage_share values are prompt-provided hypotheses, not OEWS data. RESEARCH GAP RESOLUTION: n_band derived via full chain (see dataset_inputs.n_band.derivation) — n_band = 0 is the honest result. No pure NAICS 541120 establishment can plausibly generate $1M normalized EBITDA under statutory fee caps and platform economics. The score S = 0 is the correct mechanical output of B = 0 from n_band = 0 — this is not a rounding error or a formula misapplication. MELTING terminal class: reflects the two-layer displacement — RON platforms replacing the 'office' layer and potential future legislative elimination of the human-witnessing requirement. EBITDA NORMALIZATION NOTE: buy_mult and exit_mult are notional/estimated because essentially no arms-length transaction market exists; they are recorded for schema completeness but are noted as ESTIMATE quality. The industry exists (commissions are real, signings happen) but there are no acquirable firms in the $1-10M EBITDA band — which is the correct answer for a roll-up screen. HETEROGENEOUS: false — the code is narrow and specific; the dominant sub-segment is loan-signing (real estate/mortgage), with consumer notarizations (estate docs, POA) as secondary. Both have the same economics (statutory caps, platform intermediation)."
+}

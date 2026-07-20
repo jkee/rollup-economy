@@ -1,0 +1,250 @@
+{
+  "naics": "541370",
+  "title": "Surveying and Mapping (except Geophysical) Services",
+  "run_meta": {
+    "model_id": "claude-sonnet-4-6",
+    "run_date": "2026-07-20",
+    "run_id": "fleet-s2-541370",
+    "template_version": "3.0",
+    "prompt_version": "p3-aff6579"
+  },
+  "dataset_inputs": {
+    "labor_share": {
+      "value": 0.5135,
+      "method": "QCEW 2024 private total annual wages at 541370 ($4,275,045,767) x benefits multiplier 1.4294 [ECEC private-industry total comp $46.60/hr / wages $32.60/hr = 1.4294 (March 2026 reference period)] / SUSB 2022 receipts at 541370 ($8,875,752,000). Vintage mismatch: 2024 wages over 2022 receipts, stated. Level: 6-digit. Harmonized to IPS basis ÷1.3407 (median of 65 dual-method codes).",
+      "sources": [
+        "BLS QCEW 2024 annual averages (US000, private)",
+        "BLS ECEC news release (raw/ecec.nr0.htm)",
+        "Census SUSB 2022 (receipts by NAICS)"
+      ],
+      "year": "2024 wages / 2022 receipts",
+      "quality": "MED"
+    },
+    "role_mix": {
+      "oews_level": "4-digit 5413",
+      "occupations": [
+        {"soc": "17-2051", "title": "Civil Engineers", "emp_share": 0.1164, "wage_share": 0.128},
+        {"soc": "17-1011", "title": "Architects, Except Landscape and Naval", "emp_share": 0.0564, "wage_share": 0.0582},
+        {"soc": "13-1082", "title": "Project Management Specialists", "emp_share": 0.0551, "wage_share": 0.0646},
+        {"soc": "17-3011", "title": "Architectural and Civil Drafters", "emp_share": 0.0474, "wage_share": 0.0328},
+        {"soc": "11-1021", "title": "General and Operations Managers", "emp_share": 0.0338, "wage_share": 0.0572},
+        {"soc": "17-2141", "title": "Mechanical Engineers", "emp_share": 0.0337, "wage_share": 0.0383},
+        {"soc": "11-9041", "title": "Architectural and Engineering Managers", "emp_share": 0.0321, "wage_share": 0.0553},
+        {"soc": "47-4011", "title": "Construction and Building Inspectors", "emp_share": 0.0256, "wage_share": 0.0205},
+        {"soc": "17-2071", "title": "Electrical Engineers", "emp_share": 0.0254, "wage_share": 0.0299},
+        {"soc": "15-1252", "title": "Software Developers", "emp_share": 0.023, "wage_share": 0.0308}
+      ],
+      "quality": "MED"
+    },
+    "n_total": {
+      "value": 6927,
+      "source": "SUSB 2022 (firms, all enterprise sizes)",
+      "year": "2022",
+      "quality": "HIGH"
+    },
+    "n_band": {
+      "value": 119,
+      "derivation": "margin 0.1565 (margins.json[54]: Damodaran Jan 2026: Business & Consumer Services EBITDA/Sales 15.65%); revenue/employee $161,963 (SUSB 2022 receipts/employment at 541370); class <5: 4,125 firms, avg revenue/firm $264,017 (class receipts/firms), implied EBITDA $41,319 -> out of $1-10M band; class 5-9: 1,456 firms, avg revenue/firm $810,381 (class receipts/firms), implied EBITDA $126,825 -> out of $1-10M band; class 10-19: 758 firms, avg revenue/firm $1,761,821 (class receipts/firms), implied EBITDA $275,725 -> out of $1-10M band; class 20-99: 469 firms, avg revenue/firm $5,603,267 (class receipts/firms), implied EBITDA $876,911 -> out of $1-10M band; class 100-499: 76 firms, avg revenue/firm $16,153,224 (class receipts/firms), implied EBITDA $2,527,980 -> IN $1-10M band; class 500+: 43 firms, avg revenue/firm $32,923,953 (class receipts/firms), implied EBITDA $5,152,599 -> IN $1-10M band; n_band = 119",
+      "margin_used": 0.1565,
+      "margin_source": "Damodaran Jan 2026: Business & Consumer Services EBITDA/Sales 15.65%",
+      "quality": "ESTIMATE"
+    }
+  },
+  "inputs": {
+    "ai_replaceable_share": {
+      "value": 0.285,
+      "breakdown_by_role": [
+        {
+          "role": "Licensed Professional Surveyors (PLS)",
+          "labor_share_of_total": 0.22,
+          "within_role_automatable_fraction": 0.15,
+          "contribution": 0.033,
+          "rationale": "PLS stamp on boundary surveys and legal descriptions is a statutory monopoly and physically non-automatable. But deed research, legal-description drafting, plat computation, and coordinate geometry are substantially AI-exposed. Estimated ~15% of PLS labor cost is in tasks AI can substantially do today. Role-mix 4-digit OEWS does not list 17-1022 Surveyors in top-10 (contamination from 541330); estimated 22% wage-bill share for licensed surveyors at 6-digit level per prompt guidance.",
+          "plausible_range": "0.10-0.25"
+        },
+        {
+          "role": "Field crews and survey technicians",
+          "labor_share_of_total": 0.30,
+          "within_role_automatable_fraction": 0.05,
+          "contribution": 0.015,
+          "rationale": "Physical occupation of the ground — monument recovery, instrument setup, construction staking, GNSS control — is not automatable by LLM-class AI. GNSS and robotic total stations already compressed 3-person to 1-2-person crews; marginal further compression from AI is small. Automatable slice is field data entry and report upload only. 17-3031 Surveying & Mapping Technicians absent from top-10 4-digit OEWS; estimated 30% wage share at 6-digit per prompt.",
+          "plausible_range": "0.02-0.10"
+        },
+        {
+          "role": "Office processing (CAD, plat drafting, point-cloud, photogrammetry)",
+          "labor_share_of_total": 0.15,
+          "within_role_automatable_fraction": 0.70,
+          "contribution": 0.105,
+          "rationale": "Point-cloud classification, feature extraction, plat drafting, deed plotting, and drawing production are the most directly automatable cost lines. AI tools (e.g., DeedPlotter AI endorsed by NSPS) are already addressing deed research and legal description generation. 17-3011 Architectural & Civil Drafters is 3.3% of 4-digit wage bill; adding cartographers and processing techs yields ~15% at 6-digit. 70% of this role's work is in AI-exposed tasks.",
+          "plausible_range": "0.55-0.80"
+        },
+        {
+          "role": "Management and project management",
+          "labor_share_of_total": 0.15,
+          "within_role_automatable_fraction": 0.20,
+          "contribution": 0.030,
+          "rationale": "Client relationships with developers, title companies, DOTs persist. Proposal generation, scheduling, coordination paperwork, and progress reporting are automatable. 11-1021 Gen & Ops Mgrs (5.7%) + 11-9041 A&E Mgrs (5.5%) + 13-1082 PM Specialists (6.5%) sum to 17.7% at 4-digit; at 6-digit likely ~15% after removing engineer-firm contamination. Only ~20% of management labor is in tasks AI can substantially do.",
+          "plausible_range": "0.10-0.30"
+        },
+        {
+          "role": "Admin and back office",
+          "labor_share_of_total": 0.12,
+          "within_role_automatable_fraction": 0.80,
+          "contribution": 0.096,
+          "rationale": "Research requests, invoicing, client intake, records management, scheduling — near-fully automatable. Estimated 12% of wage bill from unlisted admin/clerical tail. 80% of this role is in AI-exposed tasks; the remaining 20% is judgment-intensive client contact.",
+          "plausible_range": "0.65-0.90"
+        },
+        {
+          "role": "Residual/reallocated (contamination from 4-digit engineer occupations)",
+          "labor_share_of_total": 0.06,
+          "within_role_automatable_fraction": 0.10,
+          "contribution": 0.006,
+          "rationale": "Civil engineers (12.8%), Architects (5.8%), Mechanical engineers (3.8%), Electrical engineers (3.0%) dominate the 4-digit OEWS top-10 but are primarily contamination from 541330/541310 firms in the 4-digit cell. True share at 6-digit surveying firms is minimal (<8%). Assigned 6% residual wage share, treating as mixed technical support with low automatable fraction since survey firms employ few design engineers.",
+          "plausible_range": "0.05-0.15"
+        }
+      ],
+      "quality": "MED"
+    },
+    "pi_dist": {
+      "value": 0.55,
+      "rationale": "Boundary and ALTA surveys are sold as fixed fees per job — the PLS stamp and liability set the fee, not hours, so AI-driven compression of office hours flows to the firm as margin rather than price reduction in approximately 60% of revenue (developer/title/municipal repeat accounts). Construction staking and DOT work (~30%) are unit-price or low-bid markets where efficiency gains are competed away. Aerial/mapping work (~10%) is increasingly commoditized by drone operators and software. Weighted capture: ~0.60×0.90 + 0.30×0.30 + 0.10×0.20 = 0.54+0.09+0.02 = 0.55. Client relationships are firm-owned for developer/title repeat accounts but PLS-stamp portability risk exists for small founder-owned practices.",
+      "plausible_range": "0.40-0.65",
+      "sources": [
+        "cq-business-management-software.com: fixed-fee surveying project pricing with 25% profit margin line item — access 2026-07-20",
+        "ctacquisitions.com/how-to-sell-an-engineering-firm: surveying firm pricing and margin discussion — access 2026-07-20",
+        "NSPS prompt guidance on boundary survey pricing structure"
+      ],
+      "quality": "MED"
+    },
+    "pi_moat": {
+      "value": 0.60,
+      "rationale": "Strong moat: State statutes reserve boundary determination and plat certification to a licensed PLS in responsible charge — this is a hard licensure gate that AI cannot circumvent. Physical monument recovery and ground occupation are required for boundary surveys; no AI bypass. Switching costs moderate: title companies and developers have preferred surveyors with county records knowledge. Weaker elements: aerial/mapping work (perhaps 20-30% of industry revenue) has no PLS licensure requirement in many uses and is rapidly commoditizing via drone operators and SaaS point-cloud processing. Local competitive markets for boundary surveys compress margins on repeat volume. The specific risk flagged in prompt — 'one PLS stamping AI-produced surveys at scale' — compresses per-firm revenue rather than eliminating demand. Overall moat is real but partial.",
+      "plausible_range": "0.45-0.70",
+      "sources": [
+        "NSPS prompt guidance on statutory PLS requirements for boundary surveys",
+        "projectgeospatial.org: GeoAI revolution noting mapping commoditization — access 2026-07-20",
+        "landsurveyorsunited.com: vanishing lines workforce article — access 2026-07-20"
+      ],
+      "quality": "MED"
+    },
+    "t50_years": {
+      "value": 9.5,
+      "derivation": "Current adoption ~15% of firms materially using AI in office/processing functions (ESTIMATE basis: larger geospatial firms and aerial mapping firms are early adopters; boundary-survey-only small firms lag). Historical analogs: drone/UAV adoption in surveying went from ~5% (2014) to ~50% (2022) in ~8 years. GPS/GNSS adoption went from ~5% (1993) to ~50% (2005) in ~12 years. CAD adoption ~12 years. Average of drone-class analog (~8yr) and hardware-class analogs (~12yr) weighted toward software (easier than hardware): ~9-10 years. But two-thirds of the 9-year period has elapsed from initial AI tool availability (~2023), so from today (2026) with 15% base, remaining time to 50% ≈ 9.5 years (slow adoption among the large tail of aging small firms, license-workflow integration requirements). Plausible range: 7-13 years.",
+      "plausible_range": "7-13 years",
+      "quality": "ESTIMATE"
+    },
+    "current_adoption_pct": {
+      "value": 0.15,
+      "source": "Project Geospatial / MAPPS context; NSPS DeedPlotter AI endorsement; geoweeknews.com surveying 2025 trends article",
+      "url": "https://projectgeospatial.org/geospatial-frontiers/the-geoai-revolution-charting-the-2030-geospatial-workforce-landscape",
+      "figure_quoted": "'dozens if not hundreds of firms across the ecosystem now embedding AI into their workflows' (Project Geospatial 2025); NSPS has endorsed DeedPlotter AI for deed research automation, indicating emerging but minority adoption; estimated 15% of ~6,927 firms materially using AI in office/processing functions",
+      "access_date": "2026-07-20",
+      "quality": "ESTIMATE"
+    },
+    "historical_analogs": {
+      "value": "8-12 years to 50% adoption",
+      "source": "Land survey equipment market analysis; GPS World; geoweeknews.com; nottinghillsurveyors.com equipment market 2026",
+      "url": "https://nottinghillsurveyors.com/blog/navigating-the-2026-land-survey-equipment-boom-total-stations-gps-and-laser-scanners-reviewed",
+      "figure_quoted": "GPS/GNSS went from advanced to 'standard tools in every surveyor's arsenal' — adoption characterized as a 12-15 year transition for hardware tools. Drone/UAV adoption estimated 7-8 years to majority usage. Software/AI tools trend faster than hardware but integration with licensed workflows adds friction.",
+      "access_date": "2026-07-20",
+      "quality": "MED"
+    },
+    "owners_60plus_pct": {
+      "value": 0.45,
+      "source": "NSPS / state PLS boards via landsurveyorsunited.com; Zweig Group 2024 Valuation Report of AEC Firms",
+      "url": "https://landsurveyorsunited.com/articles/vanishing-lines-confronting-the-surveying-workforce-shortage",
+      "figure_quoted": "'The average age of a licensed land surveyor in the U.S. hovers around 58'; 'for every new surveyor entering the field, two or three are preparing to retire' (NSPS/state boards cited in landsurveyorsunited.com, accessed 2026-07-20). Zweig Group 2024: 'nearly 80% of firm owners looking to transition in the next decade.' With average PLS age 58 and wide retirement wave, ~45% of survey firm owners estimated to be 60+.",
+      "access_date": "2026-07-20",
+      "quality": "ESTIMATE",
+      "succession_shortage_documented": {
+        "value": true,
+        "evidence": "NSPS and state licensing boards document: average PLS age ~58; for every new entrant 2-3 are retiring; Young Surveyors Network expanding to address pipeline gap; NCEES 2024 Squared report discusses licensure trends. Succession shortage is widely documented in the profession."
+      }
+    },
+    "active_consolidators": {
+      "value": 4,
+      "source": "Tracxn; PrivSource; BusinessWire; Bowman Consulting investor materials; SAM Companies press releases",
+      "url": "https://www.businesswire.com/news/home/20260630020706/en/New-Mountain-Capital-Partners-with-SAM-Leading-Geospatial-and-Inspection-Solutions-Company-for-Next-Phase-of-Growth",
+      "figure_quoted": "Active consolidators in surveying/geospatial add-on acquisitions last 24 months: (1) SAM Companies (PE: New Mountain Capital since Jul 2024, previously Peak Rock Capital) — multiple 2024-2025 acquisitions including MTX Surveying, Doucet Survey, S. Nelson & Associates, Inland Geodetics; (2) Bowman Consulting (BWMN, public platform) — acquired MTX Surveying, High Mesa, Surdex, Smithlandsurvey; (3) NV5 Global (public platform) — acquired CRS Survey PLLC Mar 2025, GIS Solutions; (4) Woolpert (private, PE-backed) — acquired Dawood Jul 2025 including surveyors/geospatial. Count = 4 active platforms doing add-ons specifically in surveying/mapping last 24 months.",
+      "access_date": "2026-07-20",
+      "quality": "MED"
+    },
+    "buy_mult": {
+      "value": 5.5,
+      "source": "ctacquisitions.com engineering firm multiples 2026; Zweig Group 2024 Valuation Report; auxocapitaladvisors.com AEC M&A",
+      "url": "https://ctacquisitions.com/how-to-sell-an-engineering-firm/",
+      "figure_quoted": "Single-office regional engineering/surveying firms ($1-3M EBITDA): '5x-7x EBITDA'; Zweig Group 2024: value/EBITDA ratio 4.23x for median AEC firm ($965k EBITDA, 38 FTE). Median buy multiple for small surveying firm add-ons ($1-5M EBITDA) estimated at 5.5x EBITDA after normalizing for owner compensation (EBITDA basis, market-rate PLS salary imputed). Note: Zweig's 4.23x reflects book-value-based internal transactions; external PE-backed add-ons typically 5x-6x.",
+      "access_date": "2026-07-20",
+      "quality": "MED"
+    },
+    "exit_mult": {
+      "value": 8.5,
+      "source": "ctacquisitions.com engineering firm multiples 2026; Bowman Consulting LTM EV/EBITDA per SEC filing/Seeking Alpha",
+      "url": "https://ctacquisitions.com/how-to-sell-an-engineering-firm/",
+      "figure_quoted": "Mid-size multi-state engineering platforms ($8-25M EBITDA): '8x-11x EBITDA'. Bowman Consulting (BWMN) trades at 8.4x LTM EV/Adjusted EBITDA (as of May 2025, per search results citing SEC filing). For $10M+ EBITDA surveying/geospatial platforms with multi-state presence and DOT/infrastructure exposure: 8x-9x range, using 8.5x as midpoint.",
+      "access_date": "2026-07-20",
+      "quality": "MED"
+    },
+    "pricing_structure": {
+      "value": "~60% fixed-fee per project (boundary/ALTA surveys, developer accounts), ~30% unit-price or T&M (construction staking, DOT, low-bid public work), ~10% cost-plus or per-acre (large aerial/lidar mapping projects, government contracts)",
+      "source": "cq-business-management-software.com surveying pricing guide; ctacquisitions.com surveying firm discussion; NSPS prompt capture questions",
+      "url": "https://www.cq-business-management-software.com/blog/how-to-price-surveying-projects/",
+      "figure_quoted": "Three primary methods: fixed project fee ('best for well-defined projects'), hourly rate ('best for smaller or variable projects'), per-acre/per-lot ('best for large land development projects'). Worked examples show fixed fees with 25% profit margin built in. Boundary surveys typically fixed fee; DOT/construction staking typically T&M or unit price.",
+      "access_date": "2026-07-20",
+      "quality": "MED"
+    }
+  },
+  "scores": {
+    "V": {
+      "arithmetic": "V_raw = labor_share × ai_replaceable_share = 0.5135 × 0.285 = 0.1463475; V = 10 × min(1, 0.1463475/0.25) = 10 × 0.585390 = 5.85390",
+      "score": 5.85390
+    },
+    "C": {
+      "arithmetic": "C = 10 × pi_dist × pi_moat = 10 × 0.55 × 0.60 = 3.30000",
+      "score": 3.30000
+    },
+    "A": {
+      "arithmetic": "A = min(10, 10/t50_years) = min(10, 10/9.5) = min(10, 1.052631578...) = 1.052631578",
+      "score": 1.052631578
+    },
+    "B": {
+      "arithmetic": "TD = clamp(log10(119)/4, 0, 1) = clamp(2.075547/4, 0, 1) = clamp(0.518887, 0, 1) = 0.518887; OW = clamp((0.45-0.10)/0.35, 0.1, 0.9) = clamp(1.0, 0.1, 0.9) = 0.9; succession_shortage=true → OW = min(1.0, 0.9+0.1) = 1.0; CFD = min(0.9, log10(1+4)/2) = min(0.9, log10(5)/2) = min(0.9, 0.698970/2) = min(0.9, 0.349485) = 0.349485; B = 10 × sqrt(0.518887 × 1.0) / (1 + 0.3 × 0.349485) = 10 × 0.720338 / (1 + 0.104846) = 7.20338 / 1.104846 = 6.51926",
+      "score": 6.51926
+    },
+    "M": {
+      "arithmetic": "M = clamp(4 × (exit_mult - buy_mult) / buy_mult, 0, 10) = clamp(4 × (8.5 - 5.5) / 5.5, 0, 10) = clamp(4 × 3.0 / 5.5, 0, 10) = clamp(12.0 / 5.5, 0, 10) = clamp(2.181818, 0, 10) = 2.181818",
+      "score": 2.181818
+    }
+  },
+  "S": 3.10556,
+  "cross_checks": {
+    "uplift_pp": 14.63,
+    "uplift_vs_A_consistent": "V_raw = 0.1463475, implying AI could free 14.63 percentage points of revenue as cost savings — well above the 3pp threshold. A = 1.053 (< 5), reflecting a slow 9.5-year adoption timeline for the majority of firms. No tension: high uplift is consistent with slow adoption — the value pool is large but the pace of realization is slow due to aging workforce, license-workflow integration requirements, and the small-firm tail. The combination of high V and low A is economically coherent: the opportunity is real but the industry moves slowly.",
+    "terminal_value": {
+      "class": "PRESSURED",
+      "justification": "Boundary surveying with PLS stamp survives mature AI because it is a statutory license plus a physical act (monument recovery, ground occupation). However, the office half of every boundary job (deed research, plat computation, legal description drafting) collapses in cost, and in fixed-fee markets this compression flows to firm margin rather than product elimination. The aerial/mapping half of the code (~20-30% of industry revenue) lacks the licensure lock and is already being commoditized by drone operators and SaaS point-cloud processing — this segment faces MELTING-style pressure. Aggregate terminal value is PRESSURED: demand per licensed PLS survives AI but revenue per firm shrinks as one PLS stamps more work, small firms consolidate into platforms, and the unlicensed mapping segment competes on software not labor. Demand does not collapse (regulation mandates the product) but per-firm economics compress materially."
+    },
+    "no_proxy_confirmed": "V was computed from a rebuilt role structure using prompt guidance on the actual 6-digit occupation mix, with automatable fractions justified by the nature of each task (deed research, plat drafting, point-cloud processing vs. ground occupation, PLS judgment). No M&A deal activity or consolidation trends were referenced for V. A was derived from current adoption estimate (~15%) and historical technology analogs (GPS: 12-15yr, drone: 7-8yr) — no deal activity referenced.",
+    "pricing_model_deflation": "Pricing mix: ~60% fixed-fee boundary/ALTA surveys (AI efficiency retained as firm margin — fee reflects PLS stamp and liability, not hours); ~30% unit-price or T&M construction staking and DOT work (efficiency competed away in bid markets); ~10% per-acre/cost-plus aerial mapping (efficiency largely passed to clients in competitive drone-operator market). Net effect: roughly 60% of revenue has potential for margin retention, 40% flows to clients. This is reflected in pi_dist = 0.55: slightly below the 60% fixed-fee share because even in fixed-fee markets, repeat-volume clients on developer accounts can renegotiate over time, and local competition still constrains pricing power."
+  },
+  "confidence_overall": "MED",
+  "heterogeneous": false,
+  "top_uncertain_inputs": [
+    {
+      "input": "t50_years",
+      "plausible_range": "7-13 years",
+      "score_impact": "At t50=7: A=1.429, S≈3.31; at t50=9.5: A=1.053, S≈3.11; at t50=13: A=0.769, S≈2.84. Range of S ≈ 2.84-3.31 across plausible t50 range."
+    },
+    {
+      "input": "ai_replaceable_share",
+      "plausible_range": "0.22-0.35",
+      "score_impact": "At ars=0.22: V_raw=0.113, V=4.52, S≈2.89; at ars=0.285: V=5.85, S≈3.11; at ars=0.35: V_raw=0.180, V=7.19, S≈3.33. S range ≈ 2.89-3.33."
+    },
+    {
+      "input": "owners_60plus_pct",
+      "plausible_range": "0.35-0.55",
+      "score_impact": "OW is already capped at 1.0 with succession bonus at 0.45; any value ≥ 0.45 yields OW=1.0 with bonus. Below 0.35 (OW=0.9+0.1=1.0 still at 0.35). Only if pct < ~0.25 (OW<0.9 without bonus) would B change materially. Given documented evidence, uncertainty in OW is low given the cap."
+    }
+  ],
+  "reviewer_note": "Role-mix reconstruction was necessary: the 4-digit 5413 OEWS data is heavily contaminated by civil engineers, architects, and mechanical/electrical engineers from 541330/541310 firms that dominate the 4-digit cell. Actual 6-digit survey firms employ few design engineers. The six rebuilt roles follow prompt guidance directly. n_band=119 means the acquirable target universe is thin (76+43 firms in the 100-499 and 500+ size classes); the prompt notes these may already be AE-platform subsidiaries — this would reduce the effective independent-firm count further, overstating B somewhat. Aerial/mapping (non-boundary) segment likely represents ~20-30% of industry revenue; this segment lacks the licensure lock and is rapidly commoditizing, making terminal classification PRESSURED rather than DURABLE for the code as a whole. The drone/lidar pricing collapse analog (from the prompt) is already built into the low pi_dist and pi_moat for the mapping portion. buy_mult normalized to EBITDA after market-rate PLS owner compensation; the Zweig 4.23x figure reflects internal AEC firm transactions at book value, not arm's-length PE add-on acquisitions, so 5.5x is used as the arm's-length PE add-on estimate."
+}

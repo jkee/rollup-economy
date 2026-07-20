@@ -1,0 +1,298 @@
+{
+  "naics": "541360",
+  "title": "Geophysical Surveying and Mapping Services",
+  "run_meta": {
+    "model_id": "claude-sonnet-4-6",
+    "run_date": "2026-07-20",
+    "run_id": "fleet-s2-541360",
+    "template_version": "3.0",
+    "prompt_version": "p3-aff6579"
+  },
+  "dataset_inputs": {
+    "labor_share": {
+      "value": 0.7817,
+      "method": "QCEW 2024 private total annual wages at 541360 ($1,461,125,114) x benefits multiplier 1.4294 [ECEC private-industry total comp $46.60/hr / wages $32.60/hr = 1.4294 (March 2026 reference period)] / SUSB 2022 receipts at 541360 ($1,992,974,000). Vintage mismatch: 2024 wages over 2022 receipts, stated. Level: 6-digit. Harmonized to IPS basis ÷1.3407 (median of 65 dual-method codes).",
+      "sources": [
+        "BLS QCEW 2024 annual averages (US000, private)",
+        "BLS ECEC news release (raw/ecec.nr0.htm)",
+        "Census SUSB 2022 (receipts by NAICS)"
+      ],
+      "year": "2024 wages / 2022 receipts",
+      "quality": "MED"
+    },
+    "role_mix": {
+      "oews_level": "4-digit 5413",
+      "occupations": [
+        {
+          "soc": "17-2051",
+          "title": "Civil Engineers",
+          "emp_share": 0.1164,
+          "wage_share": 0.128
+        },
+        {
+          "soc": "17-1011",
+          "title": "Architects, Except Landscape and Naval",
+          "emp_share": 0.0564,
+          "wage_share": 0.0582
+        },
+        {
+          "soc": "13-1082",
+          "title": "Project Management Specialists",
+          "emp_share": 0.0551,
+          "wage_share": 0.0646
+        },
+        {
+          "soc": "17-3011",
+          "title": "Architectural and Civil Drafters",
+          "emp_share": 0.0474,
+          "wage_share": 0.0328
+        },
+        {
+          "soc": "11-1021",
+          "title": "General and Operations Managers",
+          "emp_share": 0.0338,
+          "wage_share": 0.0572
+        },
+        {
+          "soc": "17-2141",
+          "title": "Mechanical Engineers",
+          "emp_share": 0.0337,
+          "wage_share": 0.0383
+        },
+        {
+          "soc": "11-9041",
+          "title": "Architectural and Engineering Managers",
+          "emp_share": 0.0321,
+          "wage_share": 0.0553
+        },
+        {
+          "soc": "47-4011",
+          "title": "Construction and Building Inspectors",
+          "emp_share": 0.0256,
+          "wage_share": 0.0205
+        },
+        {
+          "soc": "17-2071",
+          "title": "Electrical Engineers",
+          "emp_share": 0.0254,
+          "wage_share": 0.0299
+        },
+        {
+          "soc": "15-1252",
+          "title": "Software Developers",
+          "emp_share": 0.023,
+          "wage_share": 0.0308
+        }
+      ],
+      "quality": "MED"
+    },
+    "n_total": {
+      "value": 968,
+      "source": "SUSB 2022 (firms, all enterprise sizes)",
+      "year": "2022",
+      "quality": "HIGH"
+    },
+    "n_band": {
+      "value": 78,
+      "derivation": "margin 0.1565 (margins.json[54]: Damodaran Jan 2026: Business & Consumer Services EBITDA/Sales 15.65%); revenue/employee $274,931 (SUSB 2022 receipts/employment at 541360); class <5: 726 firms, avg revenue/firm $284,807 (class receipts/firms), implied EBITDA $44,572 -> out of $1-10M band; class 5-9: 99 firms, avg revenue/firm $1,215,010 (class receipts/firms), implied EBITDA $190,149 -> out of $1-10M band; class 10-19: 65 firms, avg revenue/firm $2,396,492 (class receipts/firms), implied EBITDA $375,051 -> out of $1-10M band; class 20-99: 45 firms, avg revenue/firm $6,642,467 (class receipts/firms), implied EBITDA $1,039,546 -> IN $1-10M band; class 100-499: 17 firms, avg revenue/firm $39,378,118 (class receipts/firms), implied EBITDA $6,162,675 -> IN $1-10M band; class 500+: 16 firms, avg revenue/firm $33,862,938 (class receipts/firms), implied EBITDA $5,299,550 -> IN $1-10M band; n_band = 78",
+      "margin_used": 0.1565,
+      "margin_source": "Damodaran Jan 2026: Business & Consumer Services EBITDA/Sales 15.65%",
+      "quality": "ESTIMATE"
+    }
+  },
+  "inputs": {
+    "ai_replaceable_share": {
+      "value": 0.2885,
+      "breakdown_by_role": [
+        {
+          "role": "Geoscientists and geophysicists (interpretation, QC, survey design)",
+          "labor_share_of_total": 0.27,
+          "within_role_automatable_fraction": 0.30,
+          "contribution": 0.081,
+          "rationale": "Hypothesis per prompt: ~20-30% of wage bill (midpoint 27%). Seismic interpretation, velocity model building, anomaly picking, and report writing are heavily ML-assisted and AI-exposed per SEG/EAGE 2024-2025 literature. However, survey design judgment, client-facing interpretation calls, and professional sign-off are human-requiring. The within-role automatable fraction of 0.30 reflects that roughly a third of geoscientist hours are in tasks AI can substantially do today (data QC, narrative generation, parameter optimization), while the majority involves professional judgment and client interaction.",
+          "plausible_range": "0.054 to 0.135 (0.20 to 0.50 within-role fraction × 0.27 wage share)"
+        },
+        {
+          "role": "Field acquisition crews and equipment operators",
+          "labor_share_of_total": 0.25,
+          "within_role_automatable_fraction": 0.05,
+          "contribution": 0.0125,
+          "rationale": "Hypothesis: ~20-30% of wage bill (midpoint 25%). Physical data acquisition — land crews, marine streamers, airborne gravity/magnetics, drone magnetometry — cannot be automated by AI. Autonomous nodes and drones augment but crews, permitting, and logistics remain physical work. 0.05 within-role fraction reflects a small sliver of administrative/reporting tasks within field roles.",
+          "plausible_range": "0.005 to 0.025 (0.02 to 0.10 within-role × 0.25 wage share)"
+        },
+        {
+          "role": "Data processing and imaging staff",
+          "labor_share_of_total": 0.13,
+          "within_role_automatable_fraction": 0.80,
+          "contribution": 0.104,
+          "rationale": "Hypothesis: ~10-15% of wage bill (midpoint 13%). Denoising, migration, stacking, and QC pipelines are already algorithmic. AI collapses the remaining manual parameter-tuning and QC labor per SEG/EAGE 2025 proceedings. This is the most directly automatable cost line. 0.80 within-role fraction reflects near-full automation feasibility for data processing tasks.",
+          "plausible_range": "0.078 to 0.117 (0.60 to 0.90 within-role × 0.13 wage share)"
+        },
+        {
+          "role": "Management layer (General & Operations Managers + A&E Managers)",
+          "labor_share_of_total": 0.11,
+          "within_role_automatable_fraction": 0.20,
+          "contribution": 0.022,
+          "rationale": "Per role_mix: 11-1021 General and Operations Managers 5.72% + 11-9041 Architectural and Engineering Managers 5.53% = 11.25% wage share (rounded to 0.11). Client relationships with oil & gas/mining/infrastructure buyers and crew management persist as human tasks. Internal reporting, bidding paperwork, and resourcing automate. 0.20 within-role fraction reflects minority automation potential.",
+          "plausible_range": "0.011 to 0.033 (0.10 to 0.30 within-role × 0.11 wage share)"
+        },
+        {
+          "role": "Project management specialists",
+          "labor_share_of_total": 0.06,
+          "within_role_automatable_fraction": 0.40,
+          "contribution": 0.024,
+          "rationale": "Per role_mix: 13-1082 Project Management Specialists 6.46% wage share (rounded to 0.06 for clean allocation). Permitting packages, HSE documentation, crew scheduling, and client reporting automate substantially per prompt guidance. Field coordination and claims judgment persist. 0.40 within-role fraction reflects significant but partial automation potential.",
+          "plausible_range": "0.012 to 0.036 (0.20 to 0.60 within-role × 0.06 wage share)"
+        },
+        {
+          "role": "Residual: 4-digit contamination engineering roles and admin/back office",
+          "labor_share_of_total": 0.18,
+          "within_role_automatable_fraction": 0.25,
+          "contribution": 0.045,
+          "rationale": "Residual 0.18 wage share (1.00 - 0.27 - 0.25 - 0.13 - 0.11 - 0.06) covers two components: (1) the 4-digit OEWS-contamination engineering roles (civil engineers, architects, mechanical/electrical engineers, architectural drafters, construction inspectors) which are artifacts of the 4-digit cell and have low real presence at 6-digit, estimated ~8-10% wage share with modest automation; (2) admin/back office (invoicing, data delivery logistics, proposal and contract admin) estimated ~8-10% wage share with high automation. Blended 0.25 within-role fraction reflects the mixed composition.",
+          "plausible_range": "0.018 to 0.063 (0.10 to 0.35 within-role × 0.18 wage share)"
+        }
+      ],
+      "quality": "LOW"
+    },
+    "pi_dist": {
+      "value": 0.30,
+      "rationale": "Geophysical work is sold via competitive project bids to sophisticated oil & gas, mining, and infrastructure procurement departments with professional procurement functions. When AI cuts processing and interpretation hours, buyers' competitive bid processes reprice the work quickly — sophisticated buyers observe falling unit costs and renegotiate future bids. The multi-client data-library model (TGS-style) could retain value via IP licensing, but small 541360 firms mostly lack library assets and compete on execution price. Senior geophysicists' credibility is personal and portable — client relationships do not reside at the firm level. Oil majors already run in-house ML tooling. pi_dist=0.30 reflects very limited client-relationship ownership and severe competitive bid pricing pressure that channels AI efficiency gains to clients.",
+      "plausible_range": "0.20 to 0.40",
+      "sources": [
+        "TGS-PGS merger materials 2024: competitive dynamics in seismic data markets",
+        "SEG/EAGE 2024-2025: AI tools proliferating in interpretation — client-facing commoditization"
+      ],
+      "quality": "MED"
+    },
+    "pi_moat": {
+      "value": 0.35,
+      "rationale": "Physical acquisition work (crews, vessels, drones, permitting) creates a meaningful barrier: you need capital equipment and field logistics expertise AI cannot replicate. Some state geoscientist licensure (~40 states) provides modest regulatory gate for sign-off roles. However: (1) the interpretation layer (highest AI exposure) has no regulatory protection; (2) oil majors and miners can increasingly insource interpretation given AI tools; (3) no proprietary data library moat for small firms; (4) switching costs are low — clients re-bid projects regularly; (5) competitive bid environment. Physical-presence requirement for field acquisition is the primary moat; interpretation moat is eroding rapidly. pi_moat=0.35 balances the field-crew moat against the weak interpretation moat.",
+      "plausible_range": "0.25 to 0.50",
+      "sources": [
+        "EnerGeo Alliance (IAGC) industry context: capital equipment requirements for field acquisition",
+        "EAGE 86th Annual Conference 2025: seismic foundation models expanding AI interpretation capabilities"
+      ],
+      "quality": "MED"
+    },
+    "t50_years": {
+      "value": 5.5,
+      "derivation": "Current adoption: Estimated 20% of small 541360 firms materially using AI in automatable functions (defined as ML-integrated processing/interpretation workflows). Evidence: SEG/EAGE 2024-2025 show AI seismic interpretation commercially deployed at large firms (TGS, Viridien, SLB) but small private firms lag due to compute infrastructure requirements and O&G capex conservatism. Historical analog: 3D seismic processing adoption in the 1990s-2000s took ~8-10 years for small firms to reach 50% after the technology was commercially available at large firms. AI/ML tools are faster (cloud-accessible, software-plugin) but small geophysical firms are O&G dependent and conservative adopters. Starting from 20% today, crossing 50% estimated 5-6 years from now; using 5.5 as central estimate.",
+      "plausible_range": "4 to 8 years",
+      "quality": "LOW"
+    },
+    "current_adoption_pct": {
+      "value": 0.20,
+      "source": "SEG (Society of Exploration Geophysicists) and EAGE publications; PatSnap AI seismic technology landscape",
+      "url": "https://www.patsnap.com/resources/blog/articles/ai-seismic-interpretation-technology-landscape-2026/",
+      "figure_quoted": "Machine-learning applications in seismic exploration are growing faster than applications in other industry fields, with ML algorithms being implemented for almost all steps involved in seismic processing and interpretation workflow — mainly for automation, processing time reduction, and efficiency",
+      "access_date": "2026-07-20",
+      "quality": "LOW"
+    },
+    "historical_analogs": {
+      "value": "8-10 years for small geophysical firms to reach 50% on 3D seismic processing adoption (1990s-2000s); cloud-based AI tools are faster but energy-sector conservatism applies",
+      "source": "SEG/GeoScienceWorld: Machine learning for seismic exploration review",
+      "url": "https://pubs.geoscienceworld.org/seg/geophysics/article/89/1/WA157/629087/Machine-learning-for-seismic-exploration-Where-are",
+      "figure_quoted": "Machine-learning applications in seismic exploration are growing faster than applications in other industry fields — the 2024-2025 period marked by foundation-model adaptation pushing seismic-facies interpretation toward higher efficiency",
+      "access_date": "2026-07-20",
+      "quality": "MED"
+    },
+    "owners_60plus_pct": {
+      "value": 0.35,
+      "source": "SBA Office of Advocacy Business Ownership Demographics; geoscience workforce aging data (ESTIMATE — no 541360-specific survey found)",
+      "url": "https://advocacy.sba.gov/wp-content/uploads/2021/03/Business-Ownership-Demographics-Fact-Sheet.pdf",
+      "figure_quoted": "ESTIMATE: No 541360-specific owner age survey found. Applying SBA small-business analog (~35% of professional services firm owners 55-60+) adjusted for energy-services workforce aging (geophysicists trend older given 1990s-2000s industry peak employment). Estimated 35% of small geophysical firm owners are 60+.",
+      "access_date": "2026-07-20",
+      "quality": "ESTIMATE",
+      "succession_shortage_documented": {
+        "value": false,
+        "evidence": "No documented succession shortage survey found for NAICS 541360 specifically. Texas Board of Professional Geoscientists and SEG member demographics were suggested sources but no specific age data published. The geoscience workforce is aging (SEG membership data discussed informally) but no formal succession shortage study for small geophysical firms was located. Succession shortage not documented."
+      }
+    },
+    "active_consolidators": {
+      "value": 0,
+      "source": "Tracxn, industry news search, TGS/PGS merger documentation",
+      "url": "https://tracxn.com/d/acquisitions/acquisitions-by-surveying-and-mapping/__FFHcX24CuwEkH6PmRn0lxNCmgf0gIBmmcrM3gpI6Rlc",
+      "figure_quoted": "No PE-backed platform identified as actively doing add-on acquisitions in NAICS 541360 specifically in the last 24 months. TGS-PGS merger (completed July 2024) is large-cap public company consolidation, not a PE roll-up of small firms. Environmental/geotechnical roll-ups (Terracon, etc.) target adjacent codes (541330, 541620).",
+      "access_date": "2026-07-20",
+      "quality": "LOW"
+    },
+    "buy_mult": {
+      "value": 3.0,
+      "source": "Galata Acquisition Corp. merger proxy SEC filing FY2023; geophysical company EV/EBITDA comps",
+      "url": "https://www.sec.gov/Archives/edgar/data/1852767/000110465923027454/tm2225848-6_f4a.htm",
+      "figure_quoted": "For geophysical and seismic companies, EV/EBITDA multiples ranged from 2.9x to 7.3x (median 3.4x, mean 4.2x) for estimated 2023 EBITDA. Small private firm discount applied: using 3.0x for small-firm buy_mult.",
+      "access_date": "2026-07-20",
+      "quality": "MED"
+    },
+    "exit_mult": {
+      "value": 5.5,
+      "source": "Energy services M&A multiples; geophysical sector data; EBITDA multiple benchmarks 2024-2025",
+      "url": "https://ibinterviewquestions.com/guides/valuation-investment-banking/current-ma-multiples-across-sectors-2025-2026",
+      "figure_quoted": "Energy and Materials sector trades at lowest multiples (~7.4-8.9x broadly); geophysical/energy services specifically at 2.9-7.3x (median 3.4x) for public comps 2023. At platform scale ($10M+ EBITDA), strategic premium applies; using 5.5x for exit_mult reflecting a geophysical platform sale to oil-major or strategic acquirer.",
+      "access_date": "2026-07-20",
+      "quality": "LOW"
+    },
+    "pricing_structure": {
+      "value": "Competitive day-rate and project-bid pricing (~80-90% of revenue); some multi-client data licensing (minimal for small firms). Day-rate for field crews; project-bid for interpretation and processing assignments. No retainer or cost-plus model dominant.",
+      "source": "EnerGeo Alliance industry context; First Research industry profile for NAICS 541360",
+      "url": "https://www.firstresearch.com/Industry-Research/Geophysical-Surveying-and-Mapping-Services.html",
+      "figure_quoted": "Geophysical Surveying and Mapping Services: competitive project bids to oil and gas, mining and infrastructure clients with professional procurement",
+      "access_date": "2026-07-20",
+      "quality": "MED"
+    }
+  },
+  "scores": {
+    "V": {
+      "arithmetic": "ai_replaceable_share=0.2885 (breakdown: geoscientists 0.27×0.30=0.081 + field crews 0.25×0.05=0.0125 + data processing 0.13×0.80=0.104 + management 0.11×0.20=0.022 + project mgmt 0.06×0.40=0.024 + residual 0.18×0.25=0.045 = 0.2885). V_raw=0.7817×0.2885=0.22552045. V=10×min(1,0.22552045/0.25)=10×0.9020818=9.020818",
+      "score": 9.020818
+    },
+    "C": {
+      "arithmetic": "C=10×pi_dist×pi_moat=10×0.30×0.35=10×0.105=1.05",
+      "score": 1.05
+    },
+    "A": {
+      "arithmetic": "A=min(10,10/t50_years)=min(10,10/5.5)=min(10,1.818182)=1.818182",
+      "score": 1.818182
+    },
+    "B": {
+      "arithmetic": "n_band=78. TD=clamp(log10(78)/4,0,1)=clamp(1.892095/4,0,1)=clamp(0.473024,0,1)=0.473024. owners_60plus_pct=0.35; OW=clamp((0.35-0.10)/0.35,0.1,0.9)=clamp(0.714286,0.1,0.9)=0.714286; succession_shortage_documented=false → no bonus. active_consolidators=0; CFD=min(0.9,log10(1)/2)=min(0.9,0/2)=0.0. B=10×sqrt(0.473024×0.714286)/(1+0.3×0.0)=10×sqrt(0.337874)/1.0=10×0.581270=5.812698",
+      "score": 5.812698
+    },
+    "M": {
+      "arithmetic": "M=clamp(4×(exit_mult-buy_mult)/buy_mult,0,10)=clamp(4×(5.5-3.0)/3.0,0,10)=clamp(4×2.5/3.0,0,10)=clamp(4×0.833333,0,10)=clamp(3.333333,0,10)=3.333333",
+      "score": 3.333333
+    }
+  },
+  "S": 3.197,
+  "cross_checks": {
+    "uplift_pp": 22.55,
+    "uplift_vs_A_consistent": "V_raw=0.22552 → 22.55pp EBITDA uplift. A=1.82 (well below 5). No cross-check tension: uplift_pp=22.55 is well above 3pp and A is below 5, so the check is satisfied. Note the high labor_share (0.7817) drives a large V_raw, but C is very low (1.05), reflecting that clients capture most of that efficiency rather than the firm retaining it as margin.",
+    "terminal_value": {
+      "class": "PRESSURED",
+      "justification": "Field acquisition (crews, vessels, drones, permitting) is the physical-presence work that AI cannot replace and represents the DURABLE core of this code's service. However, the processing and interpretation layer — which constitutes meaningful revenue for most 541360 firms — is being replaced by AI embedded in client in-house tools and data-library platforms (TGS, Viridien). Oil majors and miners increasingly insource interpretation using ML tooling; the TGS-PGS merger creates a data library where interpretation is a software function. Small 541360 firms whose revenue skews toward interpretation face structural revenue erosion. The overall verdict is PRESSURED: demand for field acquisition persists (physical work cannot be automated), but the interpretation revenue component shrinks as clients bring it in-house. The demand for the service bundle survives but shifts in composition toward the field-acquisition portion, which has lower margins."
+    },
+    "no_proxy_confirmed": "V was computed from a rebuilt role-mix based on actual 541360 occupational structure (geoscientists, field crews, data processors, management) per prompt guidance. The within-role automatable fractions were derived from SEG/EAGE AI adoption literature (technology capability evidence) and not from any deal activity or consolidation trend. A was derived from estimated current adoption (20%) and the 3D seismic historical adoption analog — both direct technology-diffusion evidence unrelated to M&A.",
+    "pricing_model_deflation": "Billing is competitive day-rate and project-bid pricing (~80-90% of revenue). When AI cuts processing and interpretation hours, competitive bid repricing passes efficiency gains to clients — this is the opposite of margin retention. The mechanism: buyers re-bid projects at lower prices as the market learns that AI reduces labor inputs. Unlike flat-fee structures, day-rate/project-bid pricing directly links price to labor cost, and sophisticated oil & gas procurement enforces competitive discipline. This is fully reflected in pi_dist=0.30 (very limited client control) and pi_moat=0.35 (weak pricing moat). The small multi-client data library exception does not apply to most small 541360 firms."
+  },
+  "confidence_overall": "LOW",
+  "heterogeneous": false,
+  "top_uncertain_inputs": [
+    {
+      "input": "t50_years",
+      "plausible_range": "4 to 8 years",
+      "score_impact": "At t50=4: A=2.5, S≈3.52. At t50=8: A=1.25, S≈2.92. Central t50=5.5 → S≈3.20. Range S: ~2.92-3.52."
+    },
+    {
+      "input": "ai_replaceable_share",
+      "plausible_range": "0.20 to 0.38 (role_mix rebuild from 4-digit artifact introduces high uncertainty)",
+      "score_impact": "At ARS=0.20: V_raw=0.1563, V=6.25, S≈2.89. At ARS=0.38: V_raw=0.2970, V=10.0, S≈3.42."
+    },
+    {
+      "input": "pi_dist",
+      "plausible_range": "0.20 to 0.40",
+      "score_impact": "At pi_dist=0.20: C=0.70, S≈2.78. At pi_dist=0.40: C=1.40, S≈3.55."
+    }
+  ],
+  "reviewer_note": "Role-mix data gap applied per prompt: the 4-digit 5413 OEWS role_mix is dominated by civil engineers and architects — 4-digit artifacts with minimal real presence at the 541360 level. Role structure fully rebuilt around geoscientists, field crews, data processors, management, and project management per prompt guidance. All shares are hypothesis; ai_replaceable_share quality=LOW accordingly. Cyclicality warning: SUSB 2022 receipts are from a cyclical-recovery year post-2020 collapse; 2022 E&P capex was elevated. Labor_share of 0.7817 is high, potentially reflecting labor-heavy revenue in a recovery year; normalize caution noted but value used as given. Size-class oddity noted: 500+ employee class shows lower avg revenue per firm ($33.9M) than 100-499 class ($39.4M) — consistent with prompt warning about multinationals whose US-classified receipts are fraction of global operations. n_band=78 concentrated in 20-99 class (45 firms); 100-499 and 500+ classes add 33 more but are unusual. Buy_mult from geophysical public company comps (3.4x median 2023 EBITDA, reduced to 3.0x for small private firm discount). Exit_mult (5.5x) is speculative given lack of PE roll-up comps in this specific code — marked LOW quality. The TGS/PGS merger is not a useful small-firm comparable (multi-client library and ocean-bottom node business, not the small-firm acquisition market)."
+}
