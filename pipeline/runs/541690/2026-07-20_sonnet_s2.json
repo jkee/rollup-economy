@@ -1,0 +1,324 @@
+{
+  "naics": "541690",
+  "title": "Other Scientific and Technical Consulting Services",
+  "run_meta": {
+    "model_id": "claude-sonnet-4-6",
+    "run_date": "2026-07-20",
+    "run_id": "fleet-s2-541690",
+    "template_version": "3.0",
+    "prompt_version": "p3-aff6579"
+  },
+  "dataset_inputs": {
+    "labor_share": {
+      "value": 0.615,
+      "method": "QCEW 2024 private total annual wages at 541690 ($26,055,464,336) x benefits multiplier 1.4294 [ECEC private-industry total comp $46.60/hr / wages $32.60/hr = 1.4294 (March 2026 reference period)] / SUSB 2022 receipts at 541690 ($45,167,979,000). Vintage mismatch: 2024 wages over 2022 receipts, stated. Level: 6-digit. Harmonized to IPS basis ÷1.3407 (median of 65 dual-method codes).",
+      "sources": [
+        "BLS QCEW 2024 annual averages (US000, private)",
+        "BLS ECEC news release (raw/ecec.nr0.htm)",
+        "Census SUSB 2022 (receipts by NAICS)"
+      ],
+      "year": "2024 wages / 2022 receipts",
+      "quality": "MED"
+    },
+    "role_mix": {
+      "oews_level": "4-digit 5416",
+      "occupations": [
+        {
+          "soc": "13-1111",
+          "title": "Management Analysts",
+          "emp_share": 0.1235,
+          "wage_share": 0.1548
+        },
+        {
+          "soc": "11-1021",
+          "title": "General and Operations Managers",
+          "emp_share": 0.0783,
+          "wage_share": 0.1353
+        },
+        {
+          "soc": "13-1161",
+          "title": "Market Research Analysts and Marketing Specialists",
+          "emp_share": 0.0516,
+          "wage_share": 0.0412
+        },
+        {
+          "soc": "41-3091",
+          "title": "Sales Representatives of Services, Except Advertising, Insurance, Financial Services, and Travel",
+          "emp_share": 0.0428,
+          "wage_share": 0.0363
+        },
+        {
+          "soc": "13-1082",
+          "title": "Project Management Specialists",
+          "emp_share": 0.0384,
+          "wage_share": 0.0418
+        },
+        {
+          "soc": "43-4051",
+          "title": "Customer Service Representatives",
+          "emp_share": 0.0332,
+          "wage_share": 0.0143
+        },
+        {
+          "soc": "13-1199",
+          "title": "Business Operations Specialists, All Other",
+          "emp_share": 0.0297,
+          "wage_share": 0.0294
+        },
+        {
+          "soc": "15-1252",
+          "title": "Software Developers",
+          "emp_share": 0.027,
+          "wage_share": 0.0348
+        },
+        {
+          "soc": "13-2011",
+          "title": "Accountants and Auditors",
+          "emp_share": 0.0233,
+          "wage_share": 0.0222
+        },
+        {
+          "soc": "13-1071",
+          "title": "Human Resources Specialists",
+          "emp_share": 0.0207,
+          "wage_share": 0.0172
+        }
+      ],
+      "quality": "MED"
+    },
+    "n_total": {
+      "value": 26288,
+      "source": "SUSB 2022 (firms, all enterprise sizes)",
+      "year": "2022",
+      "quality": "HIGH"
+    },
+    "n_band": {
+      "value": 1139,
+      "derivation": "margin 0.1565 (margins.json[54]: Damodaran Jan 2026: Business & Consumer Services EBITDA/Sales 15.65%); revenue/employee $280,662 (SUSB 2022 receipts/employment at 541690); class <5: 21,931 firms, avg revenue/firm $392,629 (class receipts/firms), implied EBITDA $61,446 -> out of $1-10M band; class 5-9: 1,982 firms, avg revenue/firm $1,624,294 (class receipts/firms), implied EBITDA $254,202 -> out of $1-10M band; class 10-19: 1,074 firms, avg revenue/firm $3,555,412 (class receipts/firms), implied EBITDA $556,422 -> out of $1-10M band; class 20-99: 892 firms, avg revenue/firm $9,179,598 (class receipts/firms), implied EBITDA $1,436,607 -> IN $1-10M band; class 100-499: 247 firms, avg revenue/firm $38,382,737 (class receipts/firms), implied EBITDA $6,006,898 -> IN $1-10M band; class 500+: 162 firms, avg revenue/firm $73,152,086 (class receipts/firms), implied EBITDA $11,448,302 -> out of $1-10M band; n_band = 1,139",
+      "margin_used": 0.1565,
+      "margin_source": "Damodaran Jan 2026: Business & Consumer Services EBITDA/Sales 15.65%",
+      "quality": "ESTIMATE"
+    }
+  },
+  "inputs": {
+    "ai_replaceable_share": {
+      "value": 0.381,
+      "breakdown_by_role": [
+        {
+          "role": "Technical consultants and analysts (energy engineers, economists, scientists)",
+          "labor_share_of_total": 0.40,
+          "within_role_automatable_fraction": 0.45,
+          "contribution": 0.18,
+          "rationale": "Dominant sub-segment is energy consulting. Load forecasting, energy audit report writing, regulatory filing preparation, benchmarking analysis, and compliance documentation are heavily AI-exposed (45% of task time). Expert testimony, field site inspection, utility negotiation, and client-specific project economics persist. The 4-digit proxy understates this role (Management Analysts capture only a fraction); real 541690 firms are staffed by energy engineers, economists, agronomists, safety professionals. Within-role fraction of 0.45 reflects the analytical/documentation majority of energy consulting work.",
+          "plausible_range": "0.30-0.55"
+        },
+        {
+          "role": "Owners and management",
+          "labor_share_of_total": 0.17,
+          "within_role_automatable_fraction": 0.15,
+          "contribution": 0.0255,
+          "rationale": "21,931 of 26,288 firms have <5 employees — substantially owner-operator practices where expert reputation IS the product. Client relationships, project origination, and regulatory/legal testimony cannot be automated. Internal scheduling, reporting, and administrative oversight (~15%) automate.",
+          "plausible_range": "0.10-0.20"
+        },
+        {
+          "role": "Project management specialists",
+          "labor_share_of_total": 0.04,
+          "within_role_automatable_fraction": 0.30,
+          "contribution": 0.012,
+          "rationale": "Deliverable tracking, schedule reporting, and budget paperwork (~30%) automate; client/utility agency coordination and scope negotiation persist.",
+          "plausible_range": "0.20-0.40"
+        },
+        {
+          "role": "Sales and client service",
+          "labor_share_of_total": 0.05,
+          "within_role_automatable_fraction": 0.20,
+          "contribution": 0.01,
+          "rationale": "Proposal production and RFP response drafting (~20%) automate; expert-referral selling to utilities, industrial clients, and government agencies does not.",
+          "plausible_range": "0.10-0.30"
+        },
+        {
+          "role": "Software, data and modeling staff",
+          "labor_share_of_total": 0.06,
+          "within_role_automatable_fraction": 0.35,
+          "contribution": 0.021,
+          "rationale": "Energy modeling (EnergyPlus, eQUEST, load forecasting tools) is AI-augmented but requires domain configuration; standard tooling maintenance (~35%) automates. Custom model development for proprietary data platforms persists.",
+          "plausible_range": "0.20-0.50"
+        },
+        {
+          "role": "Back office and admin",
+          "labor_share_of_total": 0.14,
+          "within_role_automatable_fraction": 0.70,
+          "contribution": 0.098,
+          "rationale": "Invoicing, scheduling, document production, and standard HR are directly automatable (~70%). Complex project cost tracking with shared-savings calculation requires judgment.",
+          "plausible_range": "0.55-0.80"
+        },
+        {
+          "role": "Field-based specialists (site inspectors, safety auditors, crop scouts)",
+          "labor_share_of_total": 0.07,
+          "within_role_automatable_fraction": 0.05,
+          "contribution": 0.0035,
+          "rationale": "Physical presence required for site energy audits, safety inspections, and field scouting. Sensor and drone augmentation assists but does not replace. Only log-filing and basic reporting (~5%) automate.",
+          "plausible_range": "0.02-0.08"
+        },
+        {
+          "role": "Market research and sales support",
+          "labor_share_of_total": 0.04,
+          "within_role_automatable_fraction": 0.40,
+          "contribution": 0.016,
+          "rationale": "Market analysis, competitive benchmarking, and standardized proposal templates (~40%) are directly AI-automatable. Sector-specific client intelligence and relationship management persist.",
+          "plausible_range": "0.25-0.55"
+        },
+        {
+          "role": "Accountants and HR",
+          "labor_share_of_total": 0.03,
+          "within_role_automatable_fraction": 0.50,
+          "contribution": 0.015,
+          "rationale": "Standard accounting, payroll, and benefits administration (~50%) are substantially automatable. Complex project cost allocation for shared-savings and performance contracts requires oversight.",
+          "plausible_range": "0.35-0.65"
+        }
+      ],
+      "quality": "MED"
+    },
+    "pi_dist": {
+      "value": 0.45,
+      "rationale": "For the dominant sub-segment (energy consulting), billing mechanisms include: (1) Shared-savings/performance contracts (~30%): firm retains a negotiated share of documented savings — AI that increases savings-identification accuracy actually expands the capture base, partially moat-friendly; (2) Project fees for audits and assessments (~35%): hourly or fixed-fee, where AI cutting analysis hours creates rescoping risk and competitive bid pressure; (3) Proprietary data subscription/retainer services (~20%): sticky recurring revenue where AI enhances the product; (4) Utility program cost-plus or incentive contracts (~15%): savings pass to utility clients under program rules. Net pi_dist=0.45 is slightly higher than environmental consulting because the shared-savings mechanism and proprietary data subscriptions create genuine capture pathways. Key person risk is high (owner IS the expert), meaning relationships survive firm acquisition imperfectly.",
+      "plausible_range": "0.35-0.55",
+      "sources": [
+        "ctacquisitions.com consulting firm exit guide 2026",
+        "Privsource PE-backed consulting acquirers data",
+        "Capstone Partners EHS/AEC market update"
+      ],
+      "quality": "MED"
+    },
+    "pi_moat": {
+      "value": 0.40,
+      "rationale": "Moat sources: (1) CEM (Certified Energy Manager) and PE credentials required for some utility program work; (2) Proprietary load models and historical utility billing data create switching costs for recurring clients; (3) Physical field presence for site audits and safety inspections; (4) Expert reputation in litigation/regulatory testimony contexts (economic consulting sub-segment). Countervailing forces: generic AI can perform energy audits from utility data increasingly well without a dedicated consulting firm; the plan-stamp pattern (solo credentialed expert + AI tooling) is a real bypass risk; economic consulting is extremely key-person, making acquisition value capture difficult (PI moat is the individual, not the firm); agricultural consulting has minimal formal licensure. Overall moat is moderate — meaningful for established recurring-client energy advisory but modest for project-based analytical work where AI substitution risk is high.",
+      "plausible_range": "0.30-0.50",
+      "sources": [
+        "Association of Energy Engineers CEM certification requirements",
+        "ctacquisitions.com energy consulting M&A overview",
+        "IBISWorld energy utility consulting market commentary"
+      ],
+      "quality": "MED"
+    },
+    "t50_years": {
+      "value": 7.0,
+      "derivation": "current_adoption_pct = 0.22 (professional/scientific/technical services ~33% overall per Census BTOS Nov 2025-Jan 2026; energy consulting discount to ~22% reflecting 83% of 541690 firms with <5 employees, but energy consulting is more data-intensive and tech-forward than environmental, so smaller discount than 541620). Gap to 50% = 28 percentage points. Energy consulting has more AI-native workflows (load forecasting software, energy modeling tools already widely used), tech-forward utility clients, and no regulatory sign-off barrier equivalent to environmental EP requirement. Historical analog: energy modeling software (EnergyPlus, eQUEST) reached widespread use in ~8-10 years from introduction (early 2000s to ~2010-2012); AI diffusion is faster. Estimated adoption pace: ~4-5 pp/year from current base. At 4pp/yr: 28/4 = 7 years. Plausible range: if AI tools for energy analysis are quickly accepted by utilities (5-6 years); if small-firm inertia and expert-reputation models dominate (9-12 years).",
+      "plausible_range": "5-12 years",
+      "quality": "MED"
+    },
+    "current_adoption_pct": {
+      "value": 0.22,
+      "source": "Census Bureau Business Trends and Outlook Survey (BTOS) May 2026; SBA Research Spotlight AI in Business: Small Firms Closing In (September 2025)",
+      "url": "https://www.census.gov/library/stories/2026/05/ai-use-businesses.html",
+      "figure_quoted": "Professional, scientific, and technical services sector ~33% AI use as of late 2025-early 2026 (any business function). Small firms (<20 employees): below 20% per census data. Energy consulting is more data-forward than average for the sector, so 22% estimated (above small-firm average of ~17-20% but below large-firm sector rate) to reflect the analytical/modeling nature of work.",
+      "access_date": "2026-07-20",
+      "quality": "MED"
+    },
+    "historical_analogs": {
+      "value": "8-10 years (energy modeling software EnergyPlus/eQUEST to widespread professional adoption, early 2000s to ~2010-2012)",
+      "source": "Association of Energy Engineers; ESRI GIS enterprise technology evolution; Engineering Management Institute AEC technology adoption",
+      "url": "https://engineeringmanagementinstitute.org/aect-070-exploring-era-tech-adoption-and-innovation-aec/",
+      "figure_quoted": "Energy consulting/AEC sector technology adoption historically spans 8-12 years from early-adopter to majority use. Energy modeling tools introduced in late 1990s-early 2000s reached widespread professional use by approximately 2010-2012. AI diffusion is faster due to lower capital cost and SaaS delivery.",
+      "access_date": "2026-07-20",
+      "quality": "LOW"
+    },
+    "owners_60plus_pct": {
+      "value": 0.37,
+      "source": "McKinsey Institute for Economic Mobility — The Great Ownership Transfer; Gallup Pathways to Wealth Survey 2025; small business ownership demographics",
+      "url": "https://newsroom.firstcitizens.com/M-A-Sector-Spotlight-Energy-2025-Outlook",
+      "figure_quoted": "Boomers (ages 60-78) make up 37% of small business owners (multiple sources). More than half of small business owners are already 55 or older. The Gallup 2025 survey found 27% of employer firms with owners aged 55+ are unsure of long-term plan or intend to close. Applied to 541690 where 83% of 26,288 firms have <5 employees, consistent with Boomer-owner demographic.",
+      "access_date": "2026-07-20",
+      "quality": "MED",
+      "succession_shortage_documented": {
+        "value": true,
+        "evidence": "Gallup Pathways to Wealth Survey 2025: 27% of employer firms with owners 55+ are unsure of plan or will close. U.S. Bank survey 2025: 62% of small-business owners find succession planning overwhelming. Exit Planning Institute: only 54% of small business owners have a formal succession plan despite 85% wanting to create transferable value. Documented succession shortage for small professional services firms consistent with 541690's 83% sub-5-employee composition."
+      }
+    },
+    "active_consolidators": {
+      "value": 6,
+      "source": "Privsource PE-backed consulting acquirers; CT Acquisitions consulting firm PE buyer data; Capstone Partners EHS/AEC Market Update",
+      "url": "https://www.privsource.com/acquisitions/private-equity-backed-acquisitions/consulting",
+      "figure_quoted": "Active PE-backed platforms doing add-ons in energy/scientific/technical consulting in last 24 months: Legence (Blackstone, 23+ acquisitions including LORD Green Strategies 2025, Bowers Group 2025), SLR Consulting (Ares Management), Arcadia (acquired ENGIE Impact 2026, RPD Energy 2025), E Source (Align Capital Partners, acquired ILLUME Advising 2025), Guidehouse (Bain Capital, energy utility advisory), Berkeley Research Group (TowerBrook Capital 2025, economic/technical consulting). Count = 6. Note: many 541690 sub-segments (agricultural consulting, safety consulting) have less active PE consolidation than energy/economic advisory.",
+      "access_date": "2026-07-20",
+      "quality": "MED"
+    },
+    "buy_mult": {
+      "value": 8.0,
+      "source": "CT Acquisitions consulting firm exit guide 2026; ClearlyAcquired valuation multiples for professional services",
+      "url": "https://ctacquisitions.com/prepare-your-business-for-sale/consulting-firm-exit/",
+      "figure_quoted": "Specialty/technical consulting firms ($1M-$3M EBITDA): 7x-9x EBITDA. Firms in $3M-$5M EBITDA range: 8x-11x. Energy consulting commands premium over generalist management consulting (7x generalist vs 8x+ specialty). Median buy multiple for 541690-type firms in $1-10M EBITDA band: approximately 8x. EBITDA normalization note: small firms in this code are predominantly SDE — owner compensation (often $150-300k for solo practitioner) must be added back and replaced with market-rate operator salary before applying multiple.",
+      "access_date": "2026-07-20",
+      "quality": "MED"
+    },
+    "exit_mult": {
+      "value": 10.0,
+      "source": "CT Acquisitions consulting firm exit guide 2026; disclosed transaction data from Capstone Partners",
+      "url": "https://ctacquisitions.com/prepare-your-business-for-sale/consulting-firm-exit/",
+      "figure_quoted": "Specialty/technical consulting platforms ($5M-$10M+ EBITDA): 9x-13x EBITDA. WSP/Power Engineers: ~11x. Platform exits for energy advisory firms with recurring utility contracts and proprietary data platforms: 9-12x range, midpoint 10x. Add-on acquisitions into platforms trade 1-3x lower than platform multiples per CT Acquisitions framework. Bain Capital/Guidehouse at $5B in 2023 implies ~15x+ at platform tier; smaller exits cluster 9-11x.",
+      "access_date": "2026-07-20",
+      "quality": "MED"
+    },
+    "pricing_structure": {
+      "value": "~30% shared-savings/performance contracts (firm retains negotiated fraction of documented energy savings); ~35% project fees for energy audits and assessments (hourly or fixed-fee); ~20% subscription/retainer data and advisory services (proprietary load forecasting, utility program tracking); ~15% cost-plus utility program contracts",
+      "source": "IBISWorld Energy & Utility Consulting Services US analysis; CT Acquisitions energy consulting overview; Guidehouse/Legence service line descriptions",
+      "url": "https://www.ibisworld.com/united-states/industry/energy-utility-consulting-services/6132/",
+      "figure_quoted": "Energy consulting billing mix: shared-savings (where AI that improves identification benefits operator), project fees (rescoping risk), and recurring data services (sticky). IBISWorld: Energy & Utility Consulting US market $7.1B in 2024 with 4,419 businesses. Dominant revenue model varies by sub-segment: energy auditors are often fixed-fee/performance; utility program evaluators are often cost-plus; economic consultants are hourly retainer.",
+      "access_date": "2026-07-20",
+      "quality": "MED"
+    }
+  },
+  "scores": {
+    "V": {
+      "arithmetic": "V_raw = labor_share × ai_replaceable_share = 0.615 × 0.381 = 0.234315; V = 10 × min(1, 0.234315 / 0.25) = 10 × 0.93726 = 9.3726",
+      "score": 9.3726
+    },
+    "C": {
+      "arithmetic": "C = 10 × pi_dist × pi_moat = 10 × 0.45 × 0.40 = 1.8",
+      "score": 1.8
+    },
+    "A": {
+      "arithmetic": "A = min(10, 10 / t50_years) = min(10, 10 / 7.0) = 1.4285714285714286",
+      "score": 1.4285714285714286
+    },
+    "B": {
+      "arithmetic": "TD = clamp(log10(1139) / 4, 0, 1) = clamp(3.05652.../4, 0, 1) = clamp(0.76413..., 0, 1) = 0.76413093; OW_pre = clamp((0.37 - 0.10) / 0.35, 0.1, 0.9) = clamp(0.77142..., 0.1, 0.9) = 0.77142857; OW = min(1.0, 0.77142857 + 0.1) = 0.87142857 (succession bonus applied); CFD = min(0.9, log10(1+6) / 2) = min(0.9, log10(7)/2) = min(0.9, 0.42254902) = 0.42254902; sqrt(TD × OW) = sqrt(0.76413093 × 0.87142857) = sqrt(0.66588553) = 0.81601809; 1 + 0.3 × CFD = 1 + 0.3 × 0.42254902 = 1 + 0.12676471 = 1.12676471; B = 10 × 0.81601809 / 1.12676471 = 7.24213394",
+      "score": 7.242133935515472
+    },
+    "M": {
+      "arithmetic": "M = clamp(4 × (exit_mult - buy_mult) / buy_mult, 0, 10) = clamp(4 × (10.0 - 8.0) / 8.0, 0, 10) = clamp(4 × 0.25, 0, 10) = clamp(1.0, 0, 10) = 1.0",
+      "score": 1.0
+    }
+  },
+  "S": 2.807891,
+  "cross_checks": {
+    "uplift_pp": 23.4315,
+    "uplift_vs_A_consistent": "V_raw = 23.43pp EBITDA uplift potential. A = 1.43 (slow-moderate adoption, t50=7 years). Uplift is well above 3pp with no tension. High V reflects labor_share=0.615 (well above average, consistent with this being a knowledge-intensive services industry) and substantial ai_replaceable_share=0.381 in analytical/documentation-heavy energy consulting. A is constrained by small-firm inertia (83% of firms <5 employees) despite energy consulting's tech-forward character. Consistent.",
+    "terminal_value": {
+      "class": "PRESSURED",
+      "justification": "For the dominant sub-segment (energy consulting): the mechanism keeping paid demand alive under mature AI is a combination of (1) regulatory/utility program requirements for certified energy auditors (CEM), some state building code compliance certifications, and utility incentive program administrator credentials — partial statutory anchor; (2) physical field presence for site audits, equipment inspection, and sensor installation; (3) proprietary client relationship data and utility account access. However: the analytical core of energy consulting — load forecasting, energy modeling, savings calculations, compliance reporting — is directly substitutable by AI given client-supplied utility data. The plan-stamp risk is high: a solo CEM with AI tooling can replace a 5-person energy audit firm for most commercial audit engagements. The broader 541690 code spans sub-segments with varying durability: economic consulting faces MELTING risk for routine analysis (AI replaces the analytical product, not just the cost) while retaining expert-testimony demand; agricultural consulting retains field-scouting demand; safety consulting retains physical inspection demand. Scored PRESSURED overall: regulatory and physical-presence anchors prevent full melting, but the analytical majority of the dominant sub-segment (energy consulting) faces significant AI substitution of the product itself, not just production efficiency."
+    },
+    "no_proxy_confirmed": "V justified from a rebuilt role-mix based on the dominant sub-segment (energy consulting) workforce, not the 4-digit 5416 OEWS proxy which is dominated by Management Analysts (a sibling-code artifact). The ai_replaceable_share breakdown was constructed from the actual energy consulting role structure: energy engineers/economists as the core technical layer, field specialists as the physical-presence anchor, and back office as the highest-automatable-fraction layer. A was derived from Census BTOS professional services adoption data (adjusted for small-firm dominance) and energy modeling software historical adoption timeline — no reference to PE deal activity or consolidation trends.",
+    "pricing_model_deflation": "Billing mix for energy consulting (dominant sub-segment): ~30% shared-savings/performance (AI improving savings identification partially benefits the operator); ~35% project fees (hourly/fixed — rescoping risk where AI savings go to clients via lower competitive bids); ~20% subscription/retainer data services (sticky, AI enhances the product value); ~15% utility program cost-plus (savings flow to utility/program administrator). Net: pi_dist=0.45 reflects the mixed billing structure — better capture than environmental consulting (where all three mechanisms push savings to clients) because shared-savings and proprietary data subscriptions create genuine retention pathways. pi_moat=0.40 reflects moderate credential/physical-presence barriers, discounted by the high analytical substitutability risk from generic AI for energy audits."
+  },
+  "confidence_overall": "MED",
+  "heterogeneous": true,
+  "top_uncertain_inputs": [
+    {
+      "input": "t50_years",
+      "plausible_range": "5-12 years",
+      "score_impact": "At t50=5: A=2.0, S≈3.13; at t50=7: A=1.43, S≈2.81; at t50=12: A=0.833, S≈2.43. Range: approximately ±0.35 on S."
+    },
+    {
+      "input": "ai_replaceable_share",
+      "plausible_range": "0.28-0.46",
+      "score_impact": "At ars=0.28 (V=6.89): S≈2.52; at ars=0.46 (V≥10, capped): S≈2.97. Range: ~±0.35 on S. The dominant sub-segment choice (energy consulting vs. economic consulting) materially changes the within-role automatable fraction: economic consulting would have higher automatable fraction but different capture dynamics."
+    },
+    {
+      "input": "pi_dist",
+      "plausible_range": "0.35-0.55",
+      "score_impact": "At pi_dist=0.35: C=1.40, S≈2.64; at pi_dist=0.55: C=2.20, S≈3.00. Range: ~±0.18 on S."
+    }
+  ],
+  "reviewer_note": "CATCH-ALL CODE: 541690 is 'Other Scientific and Technical Consulting' — a residual code spanning energy consulting, economic consulting, agricultural/agronomic consulting, safety consulting, and miscellaneous scientific advisory. heterogeneous=true is set per core rule 5. Top-3 revenue sub-segments by hypothesis (no definitive Census breakdown at 6-digit level): (1) Energy consulting — IBISWorld tracks 'Energy & Utility Consulting' at $7.1B in the US in 2024, 4,419 firms; (2) Economic/quantitative consulting — spans litigation support, regulatory economics, and macro advisory (firms like Analysis Group, NERA, Charles River partially in this code); (3) Safety consulting (EHS) — a growing segment with significant PE interest (multiple active consolidators). Scoring was performed on energy consulting as the dominant single identifiable sub-segment by revenue and firm count within 541690. The 4-digit OEWS proxy (dominated by Management Analysts at 15.5% wage share) was discarded in favor of an energy-consulting-specific role reconstruction, per prompt instruction. Role-mix caveat: the 83% sub-5-employee composition means the code is substantially owner-operator expert practitioners — key-person risk is extreme and multiples embed earn-outs that are not captured in this record's nominal buy_mult/exit_mult. If the record were scored on economic consulting (higher analytical substitutability but smaller statutory demand) the terminal class might shift to MELTING. The labor_share of 0.615 is notably high — consistent with the knowledge-intensive, human-capital-intensive nature of this catch-all; revenue per employee of $280,662 (from dataset derivation) is high, suggesting the labor_share figure reflects both employee compensation and imputed owner compensation for the many sole practitioners. EBITDA normalization: for firms in the $1-10M band, the provided Damodaran-basis margin of 15.65% is applied; real owner-operator firms likely show higher pre-owner-comp margins but true EBITDA after market-rate replacement is closer to the stated margin."
+}

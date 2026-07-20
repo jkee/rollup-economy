@@ -1,0 +1,300 @@
+{
+  "naics": "541490",
+  "title": "Other Specialized Design Services",
+  "run_meta": {
+    "model_id": "claude-sonnet-4-6",
+    "run_date": "2026-07-20",
+    "run_id": "fleet-s2-541490",
+    "template_version": "3.0",
+    "prompt_version": "p3-aff6579"
+  },
+  "dataset_inputs": {
+    "labor_share": {
+      "value": 0.5889,
+      "method": "QCEW 2024 private total annual wages at 541490 ($2,027,827,545) x benefits multiplier 1.4294 [ECEC private-industry total comp $46.60/hr / wages $32.60/hr = 1.4294 (March 2026 reference period)] / SUSB 2022 receipts at 541490 ($3,671,109,000). Vintage mismatch: 2024 wages over 2022 receipts, stated. Level: 6-digit. Harmonized to IPS basis ÷1.3407 (median of 65 dual-method codes).",
+      "sources": [
+        "BLS QCEW 2024 annual averages (US000, private)",
+        "BLS ECEC news release (raw/ecec.nr0.htm)",
+        "Census SUSB 2022 (receipts by NAICS)"
+      ],
+      "year": "2024 wages / 2022 receipts",
+      "quality": "MED"
+    },
+    "role_mix": {
+      "oews_level": "4-digit 5414",
+      "occupations": [
+        {
+          "soc": "27-1025",
+          "title": "Interior Designers",
+          "emp_share": 0.1905,
+          "wage_share": 0.1841
+        },
+        {
+          "soc": "27-1024",
+          "title": "Graphic Designers",
+          "emp_share": 0.1622,
+          "wage_share": 0.1538
+        },
+        {
+          "soc": "11-1021",
+          "title": "General and Operations Managers",
+          "emp_share": 0.0696,
+          "wage_share": 0.1238
+        },
+        {
+          "soc": "41-3091",
+          "title": "Sales Representatives of Services, Except Advertising, Insurance, Financial Services, and Travel",
+          "emp_share": 0.0323,
+          "wage_share": 0.0374
+        },
+        {
+          "soc": "13-1082",
+          "title": "Project Management Specialists",
+          "emp_share": 0.0297,
+          "wage_share": 0.0347
+        },
+        {
+          "soc": "43-9061",
+          "title": "Office Clerks, General",
+          "emp_share": 0.0284,
+          "wage_share": 0.0178
+        },
+        {
+          "soc": "53-7062",
+          "title": "Laborers and Freight, Stock, and Material Movers, Hand",
+          "emp_share": 0.0201,
+          "wage_share": 0.0122
+        },
+        {
+          "soc": "13-1161",
+          "title": "Market Research Analysts and Marketing Specialists",
+          "emp_share": 0.0199,
+          "wage_share": 0.0199
+        },
+        {
+          "soc": "43-6014",
+          "title": "Secretaries and Administrative Assistants, Except Legal, Medical, and Executive",
+          "emp_share": 0.0194,
+          "wage_share": 0.0128
+        },
+        {
+          "soc": "27-1011",
+          "title": "Art Directors",
+          "emp_share": 0.019,
+          "wage_share": 0.0296
+        }
+      ],
+      "quality": "MED"
+    },
+    "n_total": {
+      "value": 3386,
+      "source": "SUSB 2022 (firms, all enterprise sizes)",
+      "year": "2022",
+      "quality": "HIGH"
+    },
+    "n_band": {
+      "value": 82,
+      "derivation": "margin 0.1565 (margins.json[54]: Damodaran Jan 2026: Business & Consumer Services EBITDA/Sales 15.65%); revenue/employee $308,134 (SUSB 2022 receipts/employment at 541490); class <5: 2,871 firms, avg revenue/firm $385,018 (class receipts/firms), implied EBITDA $60,255 -> out of $1-10M band; class 5-9: 302 firms, avg revenue/firm $1,501,623 (class receipts/firms), implied EBITDA $235,004 -> out of $1-10M band; class 10-19: 131 firms, avg revenue/firm $3,384,664 (class receipts/firms), implied EBITDA $529,700 -> out of $1-10M band; class 20-99: 57 firms, avg revenue/firm $12,240,281 (class receipts/firms), implied EBITDA $1,915,604 -> IN $1-10M band; class 100-499: 16 firms, avg revenue/firm $43,541,688 (class receipts/firms), implied EBITDA $6,814,274 -> IN $1-10M band; class 500+: 9 firms, avg revenue/firm $30,497,444 (class receipts/firms), implied EBITDA $4,772,850 -> IN $1-10M band; n_band = 82",
+      "margin_used": 0.1565,
+      "margin_source": "Damodaran Jan 2026: Business & Consumer Services EBITDA/Sales 15.65%",
+      "quality": "ESTIMATE"
+    }
+  },
+  "inputs": {
+    "ai_replaceable_share": {
+      "value": 0.4055,
+      "breakdown_by_role": [
+        {
+          "role": "Specialized designers (fashion, jewelry, textile, footwear, costume)",
+          "labor_share_of_total": 0.40,
+          "within_role_automatable_fraction": 0.40,
+          "contribution": 0.16,
+          "rationale": "Dominant sub-segment is fashion design services. At 6-digit 541490, the code's core occupation (27-1022 Fashion Designers and equivalent specialty SOCs) is absent from the 4-digit OEWS top-10, which is contaminated by interior (18.41%) and graphic (15.38%) designer shares. Per prompt guidance, specialized designers are estimated at ~40% of the wage bill. Automatable fraction 40%: sketching, colorways, pattern variants, CAD iterations, tech-pack generation, and digital renderings are substantially AI-addressable (generative fashion/jewelry design tools: Style3D, AiDA, Adobe Firefly for fashion). Non-automatable: physical sampling, fit sessions, materials sourcing and evaluation, trend judgment, and — critically — named-designer brand cachet that is the primary value proposition for the most sticky clients. Lower than graphic design (65%) because physical workflow inertia is real and the taste/reputation moat is somewhat stronger in fashion than in pure production graphic design.",
+          "plausible_range": "0.30-0.55 (lower if physical sampling inertia dominates; upper if generative tools fully commoditize design documentation)"
+        },
+        {
+          "role": "Owners / Management",
+          "labor_share_of_total": 0.135,
+          "within_role_automatable_fraction": 0.20,
+          "contribution": 0.027,
+          "rationale": "Owners and management ~13.5% of wage bill. In founder-branded studios, the owner IS the brand and the client relationship — the key-person risk is maximal. 20% automatable fraction captures only back-office management tasks (scheduling, financial reporting, internal coordination) that yield to AI tools.",
+          "plausible_range": "0.15-0.25"
+        },
+        {
+          "role": "Sales / Client and licensing relationships",
+          "labor_share_of_total": 0.07,
+          "within_role_automatable_fraction": 0.25,
+          "contribution": 0.0175,
+          "rationale": "Sales and client/licensing relationship staff ~7% of wage bill. Brand/licensing relationships with apparel houses, manufacturers, and retailers persist — these are personal relationships that walk with the named designer. Lookbook production, pitch decks, and proposal materials automate. 25% fraction reflects the automatable documentation side.",
+          "plausible_range": "0.15-0.35"
+        },
+        {
+          "role": "Production coordination and project management",
+          "labor_share_of_total": 0.07,
+          "within_role_automatable_fraction": 0.55,
+          "contribution": 0.0385,
+          "rationale": "Technical pack handoff, vendor follow-up and sample tracking automate substantially; factory-facing physical QC and fit coordination do not. 55% automatable fraction reflects the document-handling and scheduling components of production coordination.",
+          "plausible_range": "0.40-0.70"
+        },
+        {
+          "role": "Sample-making and physical production staff",
+          "labor_share_of_total": 0.10,
+          "within_role_automatable_fraction": 0.05,
+          "contribution": 0.005,
+          "rationale": "Physical sample construction, fittings, exhibit/float fabrication, and pattern-cutting are not AI-replaceable. 5% automatable fraction captures only the administrative/documentation aspects. This role group provides the most durable non-AI-replaceable value in the code.",
+          "plausible_range": "0.03-0.10"
+        },
+        {
+          "role": "Admin / Unallocated tail",
+          "labor_share_of_total": 0.225,
+          "within_role_automatable_fraction": 0.70,
+          "contribution": 0.1575,
+          "rationale": "Studio admin, invoicing, logistics paperwork, junior production documentation: near-fully automatable. 70% fraction; residual 25% is client-facing communication and physical studio tasks. The 4-digit OEWS shows office clerks, secretaries, and laborers/material movers in this segment — the laborers share is non-automatable physical work, slightly discounting the blended fraction from the higher graphic design rate.",
+          "plausible_range": "0.60-0.80"
+        }
+      ],
+      "quality": "LOW"
+    },
+    "pi_dist": {
+      "value": 0.25,
+      "rationale": "Client relationship control is weaker than graphic design in a key respect: the named designer's relationships are personal and do not survive acquisition. An acquirer of a fashion design studio retains the fee book but loses the client relationships when the founder departs — these follow the individual, not the firm. Billing is primarily per-collection (fixed fee) and day-rate, meaning AI-driven hour reductions flow directly to clients as reduced scopes. Fashion apparel brands and manufacturers are sophisticated buyers who reprice based on hours when AI compresses time. Per-collection fee compression is already documented (retailers reducing buy budgets per IBIS World 2024). pi_dist = 0.25 reflects marginally stronger relationship stickiness than graphic design (25% vs 30%) because fashion relationships are longer-duration seasonal partnerships, partially offset by the named-designer portability issue.",
+      "plausible_range": "0.15-0.35",
+      "sources": [
+        "https://ftbec.textiles.ncsu.edu/generative-ai-in-2024-adoption-trends-and-major-use-cases-in-the-fashion-industry/",
+        "https://www.ibisworld.com/united-states/market-research-reports/fashion-designers-industry/",
+        "https://masterofcode.com/blog/generative-ai-in-fashion"
+      ],
+      "quality": "LOW"
+    },
+    "pi_moat": {
+      "value": 0.18,
+      "rationale": "No licensure required for fashion design services (unlike architecture or engineering). Switching costs are low for most clients — apparel brands change design consultants at season end. The primary moat is named-designer brand cachet, which is maximally portable: it resides in the individual, not the firm. Physical sample-making and exhibit/float sub-segments have higher switching costs (physical inertia, specialized skills, long lead times), but these sub-segments are small relative to fashion design fees. AI tools (Style3D AI, AiDA, Midjourney for fashion) are actively competing for tech pack generation, colorway creation, and design rendering — the core of what design service firms sell. Value: 0.18 (slightly lower than graphic design's 0.20 because key-person portability is even more severe in fashion).",
+      "plausible_range": "0.12-0.28",
+      "sources": [
+        "https://www.stytrix.com/blog/generative-ai-fashion-design-complete-guide-2026",
+        "https://smartdev.com/ai-use-cases-in-fashion/",
+        "https://masterofcode.com/blog/generative-ai-in-fashion"
+      ],
+      "quality": "LOW"
+    },
+    "t50_years": {
+      "value": 5.0,
+      "derivation": "Current adoption baseline: McKinsey/BoF State of Fashion 2026 indicates 35% of fashion executives using generative AI for image creation; masterofcode.com cites 28% of industry players integrating AI into creative design processes. These figures primarily reflect large brands, not independent design service firms. Independent studio adoption lags: estimated 25% materially using AI among 541490 firms as of mid-2025. Historical analog: fashion CAD software (introduced 1980s) took ~10-15 years to reach majority firm adoption due to physical workflow inertia; digital pattern grading (~2000s) took ~8-12 years. Generative AI for fashion design (sketching, colorways, tech packs) became capable ~2023. With physical production creating inertia and slower tool maturation vs. graphic design: from 25% current adoption, reaching 50% requires ~5 years (2031). Slower than graphic design (3.5 yr estimate) due to: (a) physical sampling inertia, (b) fashion design's more personal/relationship-based workflow, (c) AI tools for fashion still maturing vs. more mature graphic design AI.",
+      "plausible_range": "3.0-8.0 years (lower if AI tech pack and design automation accelerates; upper if physical workflow inertia persists)",
+      "quality": "MED"
+    },
+    "current_adoption_pct": {
+      "value": 0.25,
+      "source": "McKinsey/Business of Fashion State of Fashion 2026 report; masterofcode.com Generative AI in Fashion 2026 review",
+      "url": "https://masterofcode.com/blog/generative-ai-in-fashion",
+      "figure_quoted": "28% of fashion industry players integrating AI into creative design processes (masterofcode 2026); 35% of fashion executives using generative AI for image creation (McKinsey/BoF 2026). These primarily reflect large brands. Independent design service firms estimated at ~25% material adoption, lagging large-brand averages.",
+      "access_date": "2026-07-20",
+      "quality": "LOW"
+    },
+    "historical_analogs": {
+      "value": "8-12 years to 50% adoption for prior fashion design workflow technology transitions (CAD, digital pattern software)",
+      "source": "Design software history records: fashion CAD integration began 1980s, became mainstream by late 1990s/early 2000s; Novedge fashion design software history",
+      "url": "https://novedge.com/blogs/design-news/design-software-history-the-evolution-of-design-software-in-transforming-the-fashion-industry-from-cad-to-ai-and-sustainable-practices",
+      "figure_quoted": "CAD technology integration in fashion dates to 1980s with mainstream adoption achieved in late 1990s/early 2000s (~10-15 year transition); digital pattern software similarly took ~8-12 years to achieve majority firm adoption",
+      "access_date": "2026-07-20",
+      "quality": "MED"
+    },
+    "owners_60plus_pct": {
+      "value": 0.25,
+      "source": "General small business owner age data via Guidant Financial/Oberlo 2024; adjusted downward for fashion design industry youth skew",
+      "url": "https://www.oberlo.com/statistics/average-age-of-small-business-owners",
+      "figure_quoted": "37% of small business owners are aged 55-73 (Baby Boomers) per 2024 Guidant Financial data. Fashion design industry is somewhat younger-skewing given NYC/LA creative industry culture. No design-specific age data found for 541490. ESTIMATE: 25% aged 60+ (below general small business average of ~28% for 60+ cohort, discounted for fashion's younger demographic tendency).",
+      "access_date": "2026-07-20",
+      "quality": "ESTIMATE",
+      "succession_shortage_documented": {
+        "value": false,
+        "evidence": "No succession shortage documentation found specifically for NAICS 541490 or fashion/jewelry/specialized design services firms. CFDA does not publish member age or succession data. No independent design services succession shortage is documented in any accessible source. Prompt guidance states: 'No dedicated owner-demographic source known for this code — expect to fall back on general small-business proxies.' succession_shortage_documented set false: absence of specific documentation."
+      }
+    },
+    "active_consolidators": {
+      "value": 0,
+      "source": "Fashion Law M&A tracker; Lincoln International Fashion Apparel Quarterly Review Q2 2025; FE International Agency M&A 2026",
+      "url": "https://www.thefashionlaw.com/a-running-timeline-of-fashion-and-luxury-mergers-acquisitions/",
+      "figure_quoted": "No PE-backed platform specifically rolling up independent fashion/jewelry/textile/specialized design service firms at NAICS 541490 level identified. PE fashion activity targets brand IP (Authentic Brands Group, WHP Global acquiring brand licenses) not design services firms. Key-person portability makes roll-up structurally very difficult — the named designer's relationships and taste are the primary asset and they walk with the individual.",
+      "access_date": "2026-07-20",
+      "quality": "LOW"
+    },
+    "buy_mult": {
+      "value": 3.5,
+      "source": "FE International Agency M&A 2026; Peak Business Valuation advertising agency multiples; general lower-middle-market services M&A proxies",
+      "url": "https://www.feinternational.com/blog/agency-marketing-ma-consolidation-ai-exit-opportunities",
+      "figure_quoted": "FE International: agencies under $1M EBITDA at 3-5x. No specific fashion/specialized design services comps identified. Applied 3.5x (lower end of small agency range) reflecting: (1) high key-person risk — named-designer value portability substantially discounts firm value; (2) absence of a roll-up market providing competitive bid tension; (3) MELTING terminal value dynamic for the design-documentation portion of revenue. ESTIMATE.",
+      "access_date": "2026-07-20",
+      "quality": "ESTIMATE"
+    },
+    "exit_mult": {
+      "value": 6.0,
+      "source": "FE International Agency M&A 2026; fashion/apparel M&A Lincoln International Q2 2025; creative agency platform exit data",
+      "url": "https://www.feinternational.com/blog/agency-marketing-ma-consolidation-ai-exit-opportunities",
+      "figure_quoted": "FE International: agencies above $5M EBITDA at 8-12x. Lincoln International Fashion Apparel Q2 2025: median LTM EV/EBITDA for fashion brands 9.1x-9.8x — but these are product brands, not design services firms. Design services platforms lack the brand IP, product revenue, or recurring licensed royalty streams that justify brand-level multiples. Conservative platform exit for a scaled specialized design services firm: 6.0x, reflecting: (1) no documented exit comp for pure design services platform; (2) heavy discount for key-person risk at scale; (3) MELTING terminal risk. ESTIMATE.",
+      "access_date": "2026-07-20",
+      "quality": "ESTIMATE"
+    },
+    "pricing_structure": {
+      "value": "Primarily per-collection/project (~60%) and day-rate/hourly (~30%) with minority royalty/licensing (~10%); fees benchmarked to expected design hours",
+      "source": "Freelance fashion designer rate surveys (Moda-Moxie, Upwork, Successful Fashion Designer); creative services market research",
+      "url": "https://www.moda-moxie.com/post/how-to-calculate-your-freelance-rate-for-fashion-designers-free-template",
+      "figure_quoted": "Fashion designers bill by hour ($50-200/hr), day ($384 avg), or per collection (variable). Tech packs $50-2,000 per piece. Per-collection and day-rate models are dominant for independent studios; royalty/licensing is minority. Average day rate $384, hourly ~$64 globally.",
+      "access_date": "2026-07-20",
+      "quality": "MED"
+    }
+  },
+  "scores": {
+    "V": {
+      "arithmetic": "V_raw = labor_share × ai_replaceable_share = 0.5889 × 0.4055 = 0.238799. V = 10 × min(1, 0.238799 / 0.25) = 10 × min(1, 0.955195) = 10 × 0.955195 = 9.551958",
+      "score": 9.551958
+    },
+    "C": {
+      "arithmetic": "C = 10 × pi_dist × pi_moat = 10 × 0.25 × 0.18 = 0.45",
+      "score": 0.45
+    },
+    "A": {
+      "arithmetic": "A = min(10, 10 / t50_years) = min(10, 10 / 5.0) = min(10, 2.0) = 2.0",
+      "score": 2.0
+    },
+    "B": {
+      "arithmetic": "TD = clamp(log10(82) / 4, 0, 1) = clamp(1.913814 / 4, 0, 1) = clamp(0.478453, 0, 1) = 0.478453. OW = clamp((0.25 - 0.10) / 0.35, 0.1, 0.9) = clamp(0.428571, 0.1, 0.9) = 0.428571. succession_shortage_documented = false, no +0.1 bonus. CFD = min(0.9, log10(1 + 0) / 2) = min(0.9, 0.0 / 2) = 0.0. B = 10 × sqrt(0.478453 × 0.428571) / (1 + 0.3 × 0.0) = 10 × sqrt(0.205051) / 1.0 = 10 × 0.452826 = 4.528261",
+      "score": 4.528261
+    },
+    "M": {
+      "arithmetic": "M = clamp(4 × (exit_mult - buy_mult) / buy_mult, 0, 10) = clamp(4 × (6.0 - 3.5) / 3.5, 0, 10) = clamp(4 × 0.714286, 0, 10) = clamp(2.857143, 0, 10) = 2.857143",
+      "score": 2.857143
+    }
+  },
+  "S": 2.565900,
+  "cross_checks": {
+    "uplift_pp": 23.8799,
+    "uplift_vs_A_consistent": "Uplift of 23.88pp is well above the 3pp threshold. A = 2.0 (t50 = 5.0 years) is below 5, so no cross-check tension flag applies. V_raw = 0.2388 is just below the 0.25 anchor so V = 9.55 (not max-out). The high V reflects substantial labor share (58.9%) and meaningful automatable fraction (40.55%), primarily driven by the admin tail (15.75pp) and the specialized designer automation slice (16pp). The moderate uplift is consistent with the MELTING classification for the design-documentation revenue stream, partially offset by the physical sample-making component that cannot be automated and anchors some durable demand.",
+    "terminal_value": {
+      "class": "MELTING",
+      "justification": "Sub-segment analysis required (catch-all code): (1) Fashion design services (dominant ~60% of 541490 revenue): The deliverable — sketches, colorways, tech packs, CAD patterns, digital renderings — is exactly what generative AI tools now produce. McKinsey estimates AI can reduce design iteration time by 40-60%; tools like Style3D AI, AiDA, and Adobe Firefly are directly competing for the billable design documentation that constitutes ~60% of fashion design service fees. The surviving paid demand is the named-designer taste brand and physical sampling expertise. For the 82 acquirable firms in the $1-10M EBITDA band, most are not named-designer anchor firms — they are mid-sized design service operations whose commodity tech-pack and colorway work is being directly replaced. MELTING for this sub-segment. (2) Jewelry design services (secondary ~15%): Similar product-replacement dynamic. AI tools (generative jewelry design, 3D rendering) are commoditizing the digital design deliverable. Physical samples persist but constitute a small fraction of fee revenue. MELTING for digital design; PRESSURED for physical prototype work. (3) Exhibit/float design (niche ~10%): The product is a physical object — float fabrication, exhibit construction. AI cuts design documentation but not the fabrication. PRESSURED or DURABLE for this sub-segment. (4) Textile/print design (~15%): Print patterns and colorway generation are among the most AI-automatable design tasks (demonstrated by firms like Stitch Fix AI, Pattern AI). MELTING. Blended verdict: MELTING dominates the code's revenue base. The physical sample-making and exhibit/float fabrication niches survive but are insufficient to pull the overall verdict to PRESSURED, given the dominant fashion design sub-segment is clearly in product-replacement territory."
+    },
+    "no_proxy_confirmed": "V was justified by occupation-level automatable fraction estimates based on task analysis of fashion/specialized designer roles (tech packs, colorways, digital renderings — established AI capability per Style3D, AiDA, McKinsey research) and the fashion industry AI adoption data from McKinsey/BoF and masterofcode. A was derived from current adoption percentage (~25% firm-level) and historical analog timelines for fashion CAD software (8-12 years). Neither V nor A made reference to PE deal activity, consolidation waves, or M&A trends.",
+    "pricing_model_deflation": "Specialized design services firms bill primarily per-collection/project (~60%) and day-rate/hourly (~30%) with a minority royalty share (~10%). Both per-collection and day-rate models directly transmit AI efficiency to clients: when AI reduces hours to generate tech packs, colorways, and digital renderings, apparel brand clients reduce the scope of commissioned work (fewer paid design days per season, or reduced per-piece tech pack fees as competition from AI tools intensifies). The mechanism is documented: apparel brands in 2024 'trimmed buy budgets and delayed designer collaborations' per IBIS World fashion designers market report. This deflation channel is reflected in pi_dist = 0.25 (clients capture efficiency gains through scope reduction) and pi_moat = 0.18 (no licensure, key-person value is not retained by the firm, AI directly substitutes for design documentation)."
+  },
+  "confidence_overall": "LOW",
+  "heterogeneous": true,
+  "top_uncertain_inputs": [
+    {
+      "input": "t50_years",
+      "plausible_range": "3.0-8.0 years",
+      "score_impact": "At t50=3.0: A=3.333, S=(9.552×0.45×3.333×4.528×2.857)^0.2 = (185.4)^0.2 ≈ 2.86. At t50=8.0: A=1.25, S=(9.552×0.45×1.25×4.528×2.857)^0.2 = (69.5)^0.2 ≈ 2.31. Range ±0.28 S-units around central 2.57."
+    },
+    {
+      "input": "buy_mult",
+      "plausible_range": "2.5-5.0 (very thin comps for pure design services firms)",
+      "score_impact": "At buy=2.5, exit=6.0: M=clamp(4*(6.0-2.5)/2.5,0,10)=5.6, S=(9.552×0.45×2.0×4.528×5.6)^0.2=(217.7)^0.2≈2.96. At buy=5.0, exit=6.0: M=clamp(4*(6.0-5.0)/5.0,0,10)=0.8, S=(9.552×0.45×2.0×4.528×0.8)^0.2=(31.1)^0.2≈1.99. M is highly sensitive to buy_mult given thin comp set."
+    },
+    {
+      "input": "pi_moat",
+      "plausible_range": "0.12-0.28",
+      "score_impact": "At pi_moat=0.12: C=10×0.25×0.12=0.30, S=(9.552×0.30×2.0×4.528×2.857)^0.2=(74.2)^0.2≈2.38. At pi_moat=0.28: C=10×0.25×0.28=0.70, S=(9.552×0.70×2.0×4.528×2.857)^0.2=(172.9)^0.2≈2.80. Range ±0.21 S-units."
+    }
+  ],
+  "reviewer_note": "CATCH-ALL CODE — heterogeneous: true. Top-3 revenue sub-segments scored against dominant sub-segment (fashion design services): (1) Fashion design services — dominant by revenue (NYC/LA concentration), MELTING terminal value; (2) Jewelry design services — secondary, similar MELTING dynamic for digital design work; (3) Textile/print design services — third, also MELTING. The exhibit/float fabrication niche (physical deliverable, PRESSURED/DURABLE) is too small to shift the dominant sub-segment verdict. Role mix rebase required: the 4-digit OEWS role_mix is contaminated by interior designer (18.41%) and graphic designer (15.38%) shares belonging to sibling codes 541410/541430. The code's actual core occupations (27-1022 Fashion Designers, jewelry/textile specialty SOCs) are absent from the OEWS top-10. Role shares rebuilt from prompt guidance as hypotheses — flagged LOW quality throughout. No specific PE-backed consolidator targeting 541490 firms was identified; active_consolidators=0 is the research finding, not an assumption. buy_mult and exit_mult are ESTIMATE quality due to complete absence of transaction comps specifically for independent fashion/specialized design services firms — the only available analogues are marketing agency data and fashion brand (product company) M&A, neither of which directly applies. M score is particularly uncertain. confidence_overall = LOW, reflecting: (1) role_mix is a hypothesis rebuilt from contaminated 4-digit data; (2) no direct M&A comps; (3) no design-specific owner age data; (4) catch-all code heterogeneity. S = 2.57 is near the low range of the scoring distribution, consistent with a MELTING terminal value, near-zero consolidation activity, and weak value-capture despite high V."
+}

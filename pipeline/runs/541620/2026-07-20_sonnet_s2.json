@@ -1,0 +1,334 @@
+{
+  "naics": "541620",
+  "title": "Environmental Consulting Services",
+  "run_meta": {
+    "model_id": "claude-sonnet-4-6",
+    "run_date": "2026-07-20",
+    "run_id": "fleet-s2-541620",
+    "template_version": "3.0",
+    "prompt_version": "p3-aff6579"
+  },
+  "dataset_inputs": {
+    "labor_share": {
+      "value": 0.4557,
+      "method": "QCEW 2024 private total annual wages at 541620 ($9,743,109,286) x benefits multiplier 1.4294 [ECEC private-industry total comp $46.60/hr / wages $32.60/hr = 1.4294 (March 2026 reference period)] / SUSB 2022 receipts at 541620 ($22,793,926,000). Vintage mismatch: 2024 wages over 2022 receipts, stated. Level: 6-digit. Harmonized to IPS basis ÷1.3407 (median of 65 dual-method codes).",
+      "sources": [
+        "BLS QCEW 2024 annual averages (US000, private)",
+        "BLS ECEC news release (raw/ecec.nr0.htm)",
+        "Census SUSB 2022 (receipts by NAICS)"
+      ],
+      "year": "2024 wages / 2022 receipts",
+      "quality": "MED"
+    },
+    "role_mix": {
+      "oews_level": "4-digit 5416",
+      "occupations": [
+        {
+          "soc": "13-1111",
+          "title": "Management Analysts",
+          "emp_share": 0.1235,
+          "wage_share": 0.1548
+        },
+        {
+          "soc": "11-1021",
+          "title": "General and Operations Managers",
+          "emp_share": 0.0783,
+          "wage_share": 0.1353
+        },
+        {
+          "soc": "13-1161",
+          "title": "Market Research Analysts and Marketing Specialists",
+          "emp_share": 0.0516,
+          "wage_share": 0.0412
+        },
+        {
+          "soc": "41-3091",
+          "title": "Sales Representatives of Services, Except Advertising, Insurance, Financial Services, and Travel",
+          "emp_share": 0.0428,
+          "wage_share": 0.0363
+        },
+        {
+          "soc": "13-1082",
+          "title": "Project Management Specialists",
+          "emp_share": 0.0384,
+          "wage_share": 0.0418
+        },
+        {
+          "soc": "43-4051",
+          "title": "Customer Service Representatives",
+          "emp_share": 0.0332,
+          "wage_share": 0.0143
+        },
+        {
+          "soc": "13-1199",
+          "title": "Business Operations Specialists, All Other",
+          "emp_share": 0.0297,
+          "wage_share": 0.0294
+        },
+        {
+          "soc": "15-1252",
+          "title": "Software Developers",
+          "emp_share": 0.027,
+          "wage_share": 0.0348
+        },
+        {
+          "soc": "13-2011",
+          "title": "Accountants and Auditors",
+          "emp_share": 0.0233,
+          "wage_share": 0.0222
+        },
+        {
+          "soc": "13-1071",
+          "title": "Human Resources Specialists",
+          "emp_share": 0.0207,
+          "wage_share": 0.0172
+        }
+      ],
+      "quality": "MED"
+    },
+    "n_total": {
+      "value": 8369,
+      "source": "SUSB 2022 (firms, all enterprise sizes)",
+      "year": "2022",
+      "quality": "HIGH"
+    },
+    "n_band": {
+      "value": 764,
+      "derivation": "margin 0.1565 (margins.json[54]: Damodaran Jan 2026: Business & Consumer Services EBITDA/Sales 15.65%); revenue/employee $237,012 (SUSB 2022 receipts/employment at 541620); class <5: 5,655 firms, avg revenue/firm $366,869 (class receipts/firms), implied EBITDA $57,415 -> out of $1-10M band; class 5-9: 1,132 firms, avg revenue/firm $1,312,107 (class receipts/firms), implied EBITDA $205,345 -> out of $1-10M band; class 10-19: 731 firms, avg revenue/firm $2,656,194 (class receipts/firms), implied EBITDA $415,694 -> out of $1-10M band; class 20-99: 613 firms, avg revenue/firm $8,002,701 (class receipts/firms), implied EBITDA $1,252,423 -> IN $1-10M band; class 100-499: 151 firms, avg revenue/firm $34,041,159 (class receipts/firms), implied EBITDA $5,327,441 -> IN $1-10M band; class 500+: 87 firms, avg revenue/firm $83,292,287 (class receipts/firms), implied EBITDA $13,035,243 -> out of $1-10M band; n_band = 764",
+      "margin_used": 0.1565,
+      "margin_source": "Damodaran Jan 2026: Business & Consumer Services EBITDA/Sales 15.65%",
+      "quality": "ESTIMATE"
+    }
+  },
+  "inputs": {
+    "ai_replaceable_share": {
+      "value": 0.3495,
+      "breakdown_by_role": [
+        {
+          "role": "Environmental scientists, geologists and engineers",
+          "labor_share_of_total": 0.35,
+          "within_role_automatable_fraction": 0.38,
+          "contribution": 0.133,
+          "rationale": "Phase I ESA report writing, regulatory database searches, permit application drafting and monitoring-report production are heavily AI-exposed (estimated 38% of task time); site reconnaissance, sampling oversight, agency negotiation and professional sign-off (PG/PE where required by ASTM E1527-21 / AAI rule) are not automatable. This role dominates real 541620 firms but does not appear in the 4-digit OEWS proxy top-10.",
+          "plausible_range": "0.25-0.45"
+        },
+        {
+          "role": "Field and sampling technicians",
+          "labor_share_of_total": 0.12,
+          "within_role_automatable_fraction": 0.05,
+          "contribution": 0.006,
+          "rationale": "Physical presence for drilling oversight, sampling, monitoring well work, and site walks cannot be automated. Sensor and drone augmentation assists but does not replace. Only admin/log-filing slice (5%) is automatable.",
+          "plausible_range": "0.02-0.08"
+        },
+        {
+          "role": "Owners, principals and management",
+          "labor_share_of_total": 0.15,
+          "within_role_automatable_fraction": 0.15,
+          "contribution": 0.0225,
+          "rationale": "Client and regulator relationships persist; expert judgment and accountability required. Internal reporting, scheduling, and back-office oversight (~15%) automate. Substantial owner-operator comp in the 5,655 firms with <5 employees.",
+          "plausible_range": "0.10-0.20"
+        },
+        {
+          "role": "Project management specialists",
+          "labor_share_of_total": 0.05,
+          "within_role_automatable_fraction": 0.30,
+          "contribution": 0.015,
+          "rationale": "Deliverable tracking, subcontractor coordination paperwork, and budget reporting (~30%) automate via PM software and AI; agency and client coordination, schedule negotiations, and field-team oversight persist.",
+          "plausible_range": "0.20-0.40"
+        },
+        {
+          "role": "GIS, data and reporting staff",
+          "labor_share_of_total": 0.05,
+          "within_role_automatable_fraction": 0.75,
+          "contribution": 0.0375,
+          "rationale": "Data reduction, mapping production (standard layers, report figures), and compliance-report assembly are directly automatable with AI/GIS tools. Residual 25% involves custom interpretation, client-specific judgment, and regulatory agency negotiation.",
+          "plausible_range": "0.55-0.85"
+        },
+        {
+          "role": "Back office and admin",
+          "labor_share_of_total": 0.12,
+          "within_role_automatable_fraction": 0.70,
+          "contribution": 0.084,
+          "rationale": "T&M billing admin (time entry, invoice generation, markup tracking), proposal production, and document control are directly automatable. Residual 30% involves judgment calls on disputed charges, subcontractor relations, and client service.",
+          "plausible_range": "0.55-0.80"
+        },
+        {
+          "role": "Consulting and analyst overlay (proxy artifact)",
+          "labor_share_of_total": 0.05,
+          "within_role_automatable_fraction": 0.35,
+          "contribution": 0.0175,
+          "rationale": "The 4-digit 5416 proxy shows Management Analysts at 15.5% wage share — largely an artifact of sibling 5416 codes. Only ~5% of 541620 wage bill represents real ESG/compliance advisory staff at larger firms. Report drafting and disclosure writing automate at 35%; bespoke advisory and regulatory strategy persist.",
+          "plausible_range": "0.25-0.45"
+        },
+        {
+          "role": "Sales and client service",
+          "labor_share_of_total": 0.04,
+          "within_role_automatable_fraction": 0.20,
+          "contribution": 0.008,
+          "rationale": "Proposal production and RFP response drafting (~20%) automate; expert-referral selling, relationship maintenance with lenders and developers, and MSA negotiations do not.",
+          "plausible_range": "0.10-0.30"
+        },
+        {
+          "role": "Software developers",
+          "labor_share_of_total": 0.03,
+          "within_role_automatable_fraction": 0.20,
+          "contribution": 0.006,
+          "rationale": "Internal tooling, field data app maintenance. AI-assisted coding for routine tasks (~20%); custom environmental data platform work persists.",
+          "plausible_range": "0.10-0.35"
+        },
+        {
+          "role": "Accountants and HR",
+          "labor_share_of_total": 0.04,
+          "within_role_automatable_fraction": 0.50,
+          "contribution": 0.02,
+          "rationale": "Standard accounting (payroll, AP/AR), benefits administration, and onboarding paperwork are substantially automatable (~50%). Complex multi-project cost accounting with subcontractor cost-plus tracking requires judgment.",
+          "plausible_range": "0.35-0.65"
+        }
+      ],
+      "quality": "MED"
+    },
+    "pi_dist": {
+      "value": 0.38,
+      "rationale": "Three billing mechanisms create different capture dynamics: (1) T&M (~45% of revenue): when AI cuts report-writing or analysis hours, clients can rescope the engagement or the next bid competition reflects lower hours — savings flow to clients; (2) Fixed-fee Phase I ESA (~35%): commodity work priced at $2,500-$5,500 with competitive lender vendor lists — AI savings go to clients via lower competitive bids, not to operators; (3) Cost-plus federal/public contracts (~20%): audited overhead clawback passes AI-driven labor savings to contracting agencies. The firm-level MSA for lender Phase I programs creates some switching-cost stickiness (vendor lists), but pricing is still shopped. Net pi_dist = 0.38 reflects majority of billing flowing client-wards under AI.",
+      "plausible_range": "0.30-0.50",
+      "sources": [
+        "ASTM E1527-21 Phase I ESA standard (fixed-fee commodity framing)",
+        "ctacquisitions.com environmental consulting M&A overview",
+        "PricingLink.com Phase I ESA pricing structure",
+        "lightboxre.com environmental consulting AI commentary"
+      ],
+      "quality": "MED"
+    },
+    "pi_moat": {
+      "value": 0.45,
+      "rationale": "Moat sources: (1) Licensed credential requirement — ASTM E1527-21 / 40 CFR 312 AAI rule requires a qualified 'environmental professional' (defined credential) to sign Phase I ESAs; AI cannot sign, but a single solo EP can (plan-stamp bypass is realistic, not theoretical); (2) Physical field presence for sampling, reconnaissance, and monitoring well work creates irreducible human requirement; (3) Liability chain — firm holds E&O insurance and is the named defendant in CERCLA litigation, creating switching costs and brand stickiness; (4) Partially offsetting: most Phase I work is lender-driven commodity at competitive pricing with little proprietary data moat; federal deregulatory push (2025-2026 NEPA enforcement rollbacks) threatens some statutory demand base; clients cannot fully bypass but can direct-hire a single EP. Net: meaningful but not high moat.",
+      "plausible_range": "0.35-0.60",
+      "sources": [
+        "EPA All Appropriate Inquiries rule 40 CFR 312",
+        "ASTM E1527-21 standard (environmental professional definition)",
+        "SCS Engineers blog on Phase I ESA liability",
+        "lightboxre.com commentary on AI and environmental consulting"
+      ],
+      "quality": "MED"
+    },
+    "t50_years": {
+      "value": 8.0,
+      "derivation": "current_adoption_pct = 0.18 (professional/technical services ~33% overall per Census BTOS Nov 2025-Jan 2026, discounted to ~18% for environmental consulting given small-firm dominance — 68% of firms have <10 employees — and regulatory/liability friction on AI-assisted work products). Gap to 50% = 32 percentage points. Historical analog: GIS adoption in environmental/AE consulting took ~10-12 years from early-adopter to majority (~50%) usage across the industry (late 1990s to ~2008-2010). AI diffusion is faster due to lower capital cost and broader tool availability. Environmental-specific friction (regulatory acceptance of AI-assisted deliverables, liability chain for EP sign-off, small-firm inertia) moderates pace. Estimated adoption pace: ~4 pp/year from current base. 32 pp / 4 pp/yr = 8 years. Plausible range: if friction low and AI tools accepted for regulatory deliverables, 5-6 years; if regulatory friction high and small-firm inertia dominates, 10-12 years.",
+      "plausible_range": "5-12 years",
+      "quality": "MED"
+    },
+    "current_adoption_pct": {
+      "value": 0.18,
+      "source": "Census Bureau Business Trends and Outlook Survey (BTOS) + Census library story May 2026",
+      "url": "https://www.census.gov/library/stories/2026/05/ai-use-businesses.html",
+      "figure_quoted": "Professional, scientific, and technical services sector: ~33% AI use as of late 2025-early 2026 (any business function). Small firms (<20 employees): below 20%. Environmental consulting discount applied to ~18% given 68% of 541620 firms have <10 employees and regulatory friction on AI-assisted deliverables.",
+      "access_date": "2026-07-20",
+      "quality": "MED"
+    },
+    "historical_analogs": {
+      "value": "10 years (GIS adoption in AEC/environmental consulting, late 1990s to ~2008-2010)",
+      "source": "Esri — How GIS Became the Enterprise Technology It Is Today; EMI AEC Technology Adoption Podcast",
+      "url": "https://www.esri.com/about/newsroom/publications/wherenext/gis-enterprise-technology-evolution",
+      "figure_quoted": "GIS evolved from specialized technical tool to widespread enterprise use across AEC and environmental consulting over approximately 10-12 years; by 2000s was used across engineering, urban planning, and environmental functions broadly.",
+      "access_date": "2026-07-20",
+      "quality": "LOW"
+    },
+    "owners_60plus_pct": {
+      "value": 0.30,
+      "source": "Zweig Group 2025 AEC Leadership survey summary; Russell Reynolds Associates engineering services succession analysis 2024",
+      "url": "https://www.russellreynolds.com/en/insights/articles/why-engineering-services-firms-need-effective-succession-planning-more-than-ever",
+      "figure_quoted": "A little more than 30% of all firms have a managing principal age 60 or older (Zweig Group data cited in search results). Russell Reynolds analysis of 7 major global engineering services firms (n=242 executives): ~35% of ExCo members and ~30% of EVPs aged 60+.",
+      "access_date": "2026-07-20",
+      "quality": "MED",
+      "succession_shortage_documented": {
+        "value": true,
+        "evidence": "Russell Reynolds (2024): only 39% of construction/engineering/infrastructure leaders describe their organizations as 'proactive' in succession planning; 67% of firms cite talent acquisition and retention as top concern (2025 AEC Inspire Report). Zweig Group: majority of principals prefer internal transition but internal successor shortfall is documented across AEC."
+      }
+    },
+    "active_consolidators": {
+      "value": 8,
+      "source": "Capstone Partners EHS Market Update Sept 2025; Auxo Capital AEC M&A activity; Privsource PE environmental services; Morrissey Goodale M&A commentary",
+      "url": "https://www.capstonepartners.com/insights/article-ehs-market-update/",
+      "figure_quoted": "Active PE-backed environmental consulting platforms doing add-ons in last 24 months: Verdantas (Sterling, 14+ acquisitions since May 2024), ERM (KKR, multiple 2024-2025 acquisitions including NewFields 2025), Montrose Environmental (public, 6 acquisitions in 2024), Kleinfelder (Lindsay Goldberg, Veenstra & Kimm 2025), True Environmental (Halle Capital, Sundance acquisition), Geosyntec (Blackstone), RSK Group (Ares, 200+ portfolio), Aventia (Bernhard Capital, Habitat Management 2025). Count = 8.",
+      "access_date": "2026-07-20",
+      "quality": "MED"
+    },
+    "buy_mult": {
+      "value": 6.0,
+      "source": "CT Acquisitions — How to Sell an Engineering Firm: 2026 Multiples; Morrissey Goodale AE M&A database commentary",
+      "url": "https://ctacquisitions.com/how-to-sell-an-engineering-firm/",
+      "figure_quoted": "Single-office regional environmental/engineering firms ($1-3M EBITDA): 5x-7x EBITDA. Small multi-office diversified ($3-8M EBITDA): 6x-9x EBITDA. Median for target $1-10M EBITDA band: approximately 6x EBITDA.",
+      "access_date": "2026-07-20",
+      "quality": "MED"
+    },
+    "exit_mult": {
+      "value": 9.0,
+      "source": "CT Acquisitions — How to Sell an Engineering Firm: 2026 Multiples; Morrissey Goodale median EBITDA multiple commentary",
+      "url": "https://ctacquisitions.com/how-to-sell-an-engineering-firm/",
+      "figure_quoted": "Mid-size multi-state environmental/engineering platforms ($8-25M EBITDA): 8x-11x EBITDA. Morrissey Goodale: MEP and environmental sector median ~7x with top-tier reaching 7.5x for all AE deals; premium environmental platforms (water, infrastructure alignment) command 8-11x. Platform exit at $10M+ EBITDA: midpoint 9x used.",
+      "access_date": "2026-07-20",
+      "quality": "MED"
+    },
+    "pricing_structure": {
+      "value": "~35% fixed-fee Phase I ESA (commodity, $2,500-$5,500 per engagement); ~45% T&M monitoring/remediation/engineering oversight (hourly rate schedules, rescoped when hours drop); ~20% cost-plus federal/public (EPA, DoD, DOT environmental contracts with audited overhead)",
+      "source": "PricingLink.com Phase I ESA pricing; GeoForward Phase I ESA cost; SCS Engineers blog; CT Acquisitions environmental services overview",
+      "url": "https://pricinglink.com/knowledge-base/environmental-engineering-consulting/how-much-charge-phase-i-esa/",
+      "figure_quoted": "Most Phase I ESA projects priced between $4,200 and $5,500 on a fixed-fee basis. Phase I ESA scope under ASTM E1527-21 is well-defined and ideally suited for fixed-fee. T&M dominates monitoring, remediation oversight, and longer-duration regulatory compliance work. Federal EPA/DoD/DOT environmental work runs on cost-plus contracts with audited overhead.",
+      "access_date": "2026-07-20",
+      "quality": "MED"
+    }
+  },
+  "scores": {
+    "V": {
+      "arithmetic": "V_raw = labor_share × ai_replaceable_share = 0.4557 × 0.3495 = 0.15926715; V = 10 × min(1, 0.15926715 / 0.25) = 10 × 0.6370686 = 6.370686",
+      "score": 6.370686
+    },
+    "C": {
+      "arithmetic": "C = 10 × pi_dist × pi_moat = 10 × 0.38 × 0.45 = 1.71",
+      "score": 1.71
+    },
+    "A": {
+      "arithmetic": "A = min(10, 10 / t50_years) = min(10, 10 / 8.0) = 1.25",
+      "score": 1.25
+    },
+    "B": {
+      "arithmetic": "TD = clamp(log10(764) / 4, 0, 1) = clamp(2.88309.../4, 0, 1) = clamp(0.72077..., 0, 1) = 0.72077334; OW_pre = clamp((0.30 - 0.10) / 0.35, 0.1, 0.9) = clamp(0.57142..., 0.1, 0.9) = 0.57142857; OW = min(1.0, 0.57142857 + 0.1) = 0.67142857 (succession bonus applied); CFD = min(0.9, log10(1+8) / 2) = min(0.9, log10(9)/2) = min(0.9, 0.47712125) = 0.47712125; sqrt(TD × OW) = sqrt(0.72077334 × 0.67142857) = sqrt(0.48394781) = 0.69566358; 1 + 0.3 × CFD = 1 + 0.3 × 0.47712125 = 1 + 0.14313638 = 1.14313638; B = 10 × 0.69566358 / 1.14313638 = 6.08556942",
+      "score": 6.08556942
+    },
+    "M": {
+      "arithmetic": "M = clamp(4 × (exit_mult - buy_mult) / buy_mult, 0, 10) = clamp(4 × (9.0 - 6.0) / 6.0, 0, 10) = clamp(4 × 0.5, 0, 10) = clamp(2.0, 0, 10) = 2.0",
+      "score": 2.0
+    }
+  },
+  "S": 2.778975,
+  "cross_checks": {
+    "uplift_pp": 15.926715,
+    "uplift_vs_A_consistent": "V_raw = 15.93pp EBITDA uplift potential. A = 1.25 (slow adoption, t50=8 years). Uplift is well above 3pp so no tension with A; the low A score reflects real friction (regulatory acceptance, small-firm inertia, EP sign-off requirements) that also reduces near-term revenue capture even though the underlying labor substitution potential is substantial. Consistent.",
+    "terminal_value": {
+      "class": "PRESSURED",
+      "justification": "Demand is substantially statutory: CERCLA liability defenses require AAI/Phase I ESAs by a qualified environmental professional (40 CFR 312), permits and consent decrees mandate monitoring and reporting, and sampling is a physical act. AI cuts the operator's cost of producing Phase I reports and monitoring documentation but does not eliminate the statutory requirement for an EP sign-off — the regulatory mechanism persists. However: (1) AI enables the plan-stamp pattern (solo EP + AI replaces a multi-person firm for commodity Phase I work), compressing the market toward sole practitioners and away from mid-size firms; (2) The 2025-2026 federal deregulatory push (NEPA enforcement rollbacks, reduced EPA enforcement activity) shrinks the discretionary advisory portion of demand (ESG reporting, voluntary assessments) and may narrow statutory demand over 5-10 years; (3) CRE transaction volumes (Phase I ESA demand driver) remain depressed vs. 2021-2022 peaks. Demand PRESSURED: statutory core survives AI but competitive structure shifts toward AI-augmented sole practitioners, and deregulation creates demand headwinds in the advisory slice."
+    },
+    "no_proxy_confirmed": "V justified from a rebuilt role-mix based on actual 541620 workforce (environmental scientists/engineers, field techs, GIS staff) — not from the 4-digit 5416 OEWS proxy which is dominated by management analysts (an artifact of sibling codes). A was derived from Census BTOS professional services adoption data (discounted for small-firm dominance in 541620) and GIS-adoption historical analog — no reference to PE deal activity or consolidation trends.",
+    "pricing_model_deflation": "Billing mix: ~35% fixed-fee Phase I ESA (commodity, competitive lender vendor lists — AI savings go to clients via lower competitive bids), ~45% T&M monitoring/remediation (hourly rate schedules — rescoping passes AI hour-savings to clients), ~20% cost-plus federal (audited overhead clawback). All three mechanisms pass majority of AI efficiency gains to clients rather than to operators as margin. This is reflected in pi_dist = 0.38 (below midpoint) — the firm owns the client relationship via liability chain and EP credentials but cannot retain AI-generated margin under prevailing billing structures. pi_moat = 0.45 captures the credential/physical-presence barrier without overstating price retention."
+  },
+  "confidence_overall": "MED",
+  "heterogeneous": false,
+  "top_uncertain_inputs": [
+    {
+      "input": "t50_years",
+      "plausible_range": "5-12 years",
+      "score_impact": "At t50=5: A=2.0, S≈3.11; at t50=8: A=1.25, S≈2.78; at t50=12: A=0.833, S≈2.46. Range: approximately ±0.33 on S, significant for borderline verdicts."
+    },
+    {
+      "input": "pi_dist",
+      "plausible_range": "0.30-0.50",
+      "score_impact": "At pi_dist=0.30: C=1.35, S≈2.60; at pi_dist=0.50: C=2.25, S≈2.99. Range: ~±0.20 on S."
+    },
+    {
+      "input": "ai_replaceable_share",
+      "plausible_range": "0.25-0.42",
+      "score_impact": "At ars=0.25 (V=4.56): S≈2.56; at ars=0.42 (V=7.65): S≈2.96. Range: ~±0.20 on S. Depends heavily on within-role fraction for environmental scientists which is the largest role and most contested."
+    }
+  ],
+  "reviewer_note": "Role-mix caveat is severe and intentionally corrected: the provided dataset role_mix is the 4-digit 5416 OEWS proxy dominated by Management Analysts (15.5% wage share) — this is an artifact of sibling codes (541611, 541618, 541690) and badly misrepresents real 541620 firms. The V breakdown was rebuilt from scratch using actual 541620 occupational structure (environmental scientists/geologists/engineers as the dominant professional core, field techs as second-largest labor block, GIS/data and back-office as automatable tail). The Management Analyst proxy wage share (15.5%) was redistributed across the real workforce categories with only a small slice (~5%) attributed to real ESG/compliance advisory staff at larger firms. Pricing-model deflation is the dominant C constraint: all three billing mechanisms (fixed-fee Phase I, T&M, cost-plus federal) pass AI-generated efficiency gains to clients rather than operators, keeping C low despite a meaningful moat from EP credential requirements and liability chain. The plan-stamp risk (solo EP + AI bypassing mid-size firms on commodity Phase I work) is real and was incorporated in pi_moat. Federal deregulatory tailwinds (NEPA/EPA rollbacks in 2025-2026) reduce the discretionary advisory slice of demand; captured in PRESSURED terminal class. Multiples sourced from ctacquisitions.com 2026 data which covers the relevant size range; M=2.0 reflects a real but modest arbitrage in a consolidating market (buy at 6x, exit at 9x)."
+}

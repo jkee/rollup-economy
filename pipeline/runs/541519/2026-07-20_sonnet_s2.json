@@ -1,0 +1,288 @@
+{
+  "naics": "541519",
+  "title": "Other Computer Related Services",
+  "run_meta": {
+    "model_id": "claude-sonnet-4-6",
+    "run_date": "2026-07-20",
+    "run_id": "fleet-s2-541519",
+    "template_version": "3.0",
+    "prompt_version": "p3-aff6579"
+  },
+  "dataset_inputs": {
+    "labor_share": {
+      "value": 0.4958,
+      "method": "QCEW 2024 private total annual wages at 541519 ($19,543,540,823) x benefits multiplier 1.4294 [ECEC private-industry total comp $46.60/hr / wages $32.60/hr = 1.4294 (March 2026 reference period)] / SUSB 2022 receipts at 541519 ($42,029,844,000). Vintage mismatch: 2024 wages over 2022 receipts, stated. Level: 6-digit. Harmonized to IPS basis ÷1.3407 (median of 65 dual-method codes).",
+      "sources": [
+        "BLS QCEW 2024 annual averages (US000, private)",
+        "BLS ECEC news release (raw/ecec.nr0.htm)",
+        "Census SUSB 2022 (receipts by NAICS)"
+      ],
+      "year": "2024 wages / 2022 receipts",
+      "quality": "MED"
+    },
+    "role_mix": {
+      "oews_level": "4-digit 5415",
+      "occupations": [
+        {"soc": "15-1252", "title": "Software Developers", "emp_share": 0.2091, "wage_share": 0.2386},
+        {"soc": "15-1232", "title": "Computer User Support Specialists", "emp_share": 0.0633, "wage_share": 0.033},
+        {"soc": "11-3021", "title": "Computer and Information Systems Managers", "emp_share": 0.0533, "wage_share": 0.0827},
+        {"soc": "15-1211", "title": "Computer Systems Analysts", "emp_share": 0.0481, "wage_share": 0.0455},
+        {"soc": "41-3091", "title": "Sales Representatives of Services, Except Advertising, Insurance, Financial Services, and Travel", "emp_share": 0.0475, "wage_share": 0.043},
+        {"soc": "11-1021", "title": "General and Operations Managers", "emp_share": 0.0351, "wage_share": 0.0518},
+        {"soc": "15-1299", "title": "Computer Occupations, All Other", "emp_share": 0.0315, "wage_share": 0.0314},
+        {"soc": "13-1082", "title": "Project Management Specialists", "emp_share": 0.029, "wage_share": 0.0304},
+        {"soc": "13-1111", "title": "Management Analysts", "emp_share": 0.0268, "wage_share": 0.0273},
+        {"soc": "15-1253", "title": "Software Quality Assurance Analysts and Testers", "emp_share": 0.0251, "wage_share": 0.0222}
+      ],
+      "quality": "MED"
+    },
+    "n_total": {
+      "value": 10650,
+      "source": "SUSB 2022 (firms, all enterprise sizes)",
+      "year": "2022",
+      "quality": "HIGH"
+    },
+    "n_band": {
+      "value": 705,
+      "derivation": "margin 0.1565 (margins.json[54]: Damodaran Jan 2026: Business & Consumer Services EBITDA/Sales 15.65%); revenue/employee $279,051 (SUSB 2022 receipts/employment at 541519); class <5: 8,483 firms, avg revenue/firm $429,327 (class receipts/firms), implied EBITDA $67,190 -> out of $1-10M band; class 5-9: 841 firms, avg revenue/firm $1,781,555 (class receipts/firms), implied EBITDA $278,813 -> out of $1-10M band; class 10-19: 505 firms, avg revenue/firm $3,678,558 (class receipts/firms), implied EBITDA $575,694 -> out of $1-10M band; class 20-99: 526 firms, avg revenue/firm $10,815,287 (class receipts/firms), implied EBITDA $1,692,592 -> IN $1-10M band; class 100-499: 179 firms, avg revenue/firm $40,627,151 (class receipts/firms), implied EBITDA $6,358,149 -> IN $1-10M band; class 500+: 116 firms, avg revenue/firm $190,265,517 (class receipts/firms), implied EBITDA $29,776,553 -> out of $1-10M band; n_band = 705",
+      "margin_used": 0.1565,
+      "margin_source": "Damodaran Jan 2026: Business & Consumer Services EBITDA/Sales 15.65%",
+      "quality": "ESTIMATE"
+    }
+  },
+  "inputs": {
+    "ai_replaceable_share": {
+      "value": 0.333198,
+      "breakdown_by_role": [
+        {
+          "role": "Deployment/installation engineers (15-1252 mapped to dominant sub-segment)",
+          "labor_share_of_total": 0.2386,
+          "within_role_automatable_fraction": 0.45,
+          "contribution": 0.10737,
+          "rationale": "In 541519 dominant sub-segment (general IT installation/support shops), this SOC proxies deployment and installation engineers rather than product developers. Installation scripting, configuration templates, migration runbooks, and DR plan documentation automate heavily. On-site hardware handling, client-specific recovery orchestration judgment, and physical deployment persist. 45% reflects higher automation potential than 541513 (installation documentation and scripting are more directly automatable than ongoing operations monitoring judgment).",
+          "plausible_range": "0.35-0.60"
+        },
+        {
+          "role": "Computer User Support Specialists (15-1232)",
+          "labor_share_of_total": 0.033,
+          "within_role_automatable_fraction": 0.60,
+          "contribution": 0.01980,
+          "rationale": "Install support, troubleshooting, and ticket work — directly AI-automatable via chatbots, auto-resolution, and diagnostic tools. Physical/on-site dispatch persists. 60% reflects high automation potential for remote/digital support, offset by on-site slice.",
+          "plausible_range": "0.45-0.70"
+        },
+        {
+          "role": "Computer and Information Systems Managers (11-3021)",
+          "labor_share_of_total": 0.0827,
+          "within_role_automatable_fraction": 0.20,
+          "contribution": 0.016540,
+          "rationale": "Project management and client relationship management. Rollout coordination and status reporting automate; client escalation and ongoing relationship management persist. 20% reflects the fundamentally relational nature of this role in a project-oriented shop.",
+          "plausible_range": "0.10-0.30"
+        },
+        {
+          "role": "Computer Systems Analysts (15-1211)",
+          "labor_share_of_total": 0.0455,
+          "within_role_automatable_fraction": 0.40,
+          "contribution": 0.01820,
+          "rationale": "Assessments, DR/continuity plans, and audit documentation automate substantially using AI document generation and structured templates. Client governance and sign-off interaction persists. Higher than 541513 because documentation work dominates over ongoing operational analysis.",
+          "plausible_range": "0.30-0.55"
+        },
+        {
+          "role": "Sales Representatives (41-3091)",
+          "labor_share_of_total": 0.043,
+          "within_role_automatable_fraction": 0.20,
+          "contribution": 0.00860,
+          "rationale": "Owner-held recurring client relationships persist; quoting and proposal generation for project work automates. Slightly higher than 541513 because project quotes are more templatable than long-cycle outsourcing-contract negotiations.",
+          "plausible_range": "0.10-0.30"
+        },
+        {
+          "role": "General and Operations Managers (11-1021)",
+          "labor_share_of_total": 0.0518,
+          "within_role_automatable_fraction": 0.15,
+          "contribution": 0.007770,
+          "rationale": "Company management: internal reporting and operations automate marginally; strategic decisions and client relationships do not.",
+          "plausible_range": "0.10-0.20"
+        },
+        {
+          "role": "Computer Occupations All Other (15-1299)",
+          "labor_share_of_total": 0.0314,
+          "within_role_automatable_fraction": 0.45,
+          "contribution": 0.014130,
+          "rationale": "Mixed deployment and installation roles; scripting, configuration automation, and diagnostic tools substantially automate this mixed bucket. 45% reflects installation/deployment focus in this residual code.",
+          "plausible_range": "0.30-0.60"
+        },
+        {
+          "role": "Project Management Specialists (13-1082)",
+          "labor_share_of_total": 0.0304,
+          "within_role_automatable_fraction": 0.35,
+          "contribution": 0.010640,
+          "rationale": "Rollout coordination, status reporting, and milestone tracking automate via project management tools with AI. Client escalation and scope-change management persist.",
+          "plausible_range": "0.25-0.45"
+        },
+        {
+          "role": "Management Analysts (13-1111)",
+          "labor_share_of_total": 0.0273,
+          "within_role_automatable_fraction": 0.40,
+          "contribution": 0.010920,
+          "rationale": "DR/BCP assessments, continuity plan writing, and audit documentation are primary activities here; these are substantially automatable with AI document generation. Client governance interaction persists.",
+          "plausible_range": "0.30-0.55"
+        },
+        {
+          "role": "Software QA Analysts and Testers (15-1253)",
+          "labor_share_of_total": 0.0222,
+          "within_role_automatable_fraction": 0.40,
+          "contribution": 0.008880,
+          "rationale": "Automated testing and validation tools are mature; substantial portion of QA/testing work is automatable. Edge cases and novel failure modes require human judgment.",
+          "plausible_range": "0.30-0.55"
+        },
+        {
+          "role": "Unallocated tail (field/bench technicians, admin, installation staff, remainder)",
+          "labor_share_of_total": 0.3941,
+          "within_role_automatable_fraction": 0.28,
+          "contribution": 0.110348,
+          "rationale": "Remainder covers field technicians (physical hardware installation/repair — not automatable), bench technicians, administrative staff (back-office automates), and installation/deployment support staff. 28% reflects that field tech work is largely non-automatable but admin and documentation portions are, and some bench/remote technicians work on automatable tasks.",
+          "plausible_range": "0.18-0.38"
+        }
+      ],
+      "quality": "MED"
+    },
+    "pi_dist": {
+      "value": 0.40,
+      "rationale": "Dominant sub-segment (installation/support/project shops) bills primarily on T&M (~40%) and per-incident break-fix (~25%). Under T&M billing, when AI cuts engineer hours, competitive requoting passes savings directly to the client — the invoice reflects actual hours. Break-fix per-incident is inherently deflationary as automation enables faster resolution at the same price. The recurring retainer slice (~20%) provides some margin protection. Client relationships are weaker than in outsourcing contracts (projects are rebid; break-fix is on-demand). pi_dist=0.40 reflects moderate client-relationship control (recurring retainer clients create some continuity) substantially deflated by the project/T&M billing mix.",
+      "plausible_range": "0.30-0.50",
+      "sources": [
+        "Breakwater M&A MSP IT Services Valuation Multiples 2026 (https://www.breakwaterma.com/blog/msp-it-services-valuation-multiples-2026): T&M and project-based revenue commands lowest multiple vs. MRR",
+        "Kaseya 2024 MSP Benchmark Survey: recurring vs. project revenue dynamics (https://www.kaseya.com/resource/2024-msp-benchmark-survey-report/)"
+      ],
+      "quality": "MED"
+    },
+    "pi_moat": {
+      "value": 0.35,
+      "rationale": "Weak moat in the dominant sub-segment. Software installation services face the structural threat of zero-touch deployment (MDM, Autopilot, SaaS self-installation) that eliminates the service regardless of AI. DR planning services migrate to platform-native DRaaS features (AWS Backup, Azure Site Recovery, Veeam) that commoditize traditional paid planning engagements. Generic AI further accelerates client self-service: AI-powered deployment tools and runbook generators reduce dependence on IT services firms for installation and configuration. Switching costs are minimal for project-based relationships (clients rebid). Durable niche exists only in compliance-driven DR attestation for regulated industries — this portion is PRESSURED, not MELTING, but is small. pi_moat=0.35 acknowledges minimal switching costs and structural product displacement, offset by residual compliance/audit value.",
+      "plausible_range": "0.25-0.45",
+      "sources": [
+        "BetterCloud Zero-Touch Automation Guide 2026 (https://www.bettercloud.com/monitor/guide-zero-touch-automation/): 42% of automation leaders say 51-75% of help desk tickets could be automated",
+        "MarketsandMarkets DRaaS Market: DRaaS projected $46B by 2032, displacing paid human DR planning (https://www.marketsandmarkets.com/PressReleases/recovery-as-a-service.asp)"
+      ],
+      "quality": "MED"
+    },
+    "t50_years": {
+      "value": 8.0,
+      "derivation": "current_adoption_pct=0.18 (18% of 541519-type small IT service firms materially using AI in delivery). This population lags full MSPs (which show ~33% AI adoption intent in Kaseya 2024 benchmark) due to smaller size and lower capital for tooling. Historical analog: cloud/SaaS adoption in small IT shops took ~10 years from ~10% (2012) to ~50% penetration (2022). Remaining gap from 18% to 50% is 32pp vs. prior cycle's ~40pp over 10 years. Proportional: 32/40 × 10 = 8 years from today. t50 = 8 years (2034).",
+      "plausible_range": "5-12 years",
+      "quality": "ESTIMATE"
+    },
+    "current_adoption_pct": {
+      "value": 0.18,
+      "source": "Kaseya 2024 MSP Benchmark Survey (proxy for 541519-adjacent IT service firms); Kaseya agentic AI for MSPs 2025 reporting",
+      "url": "https://www.kaseya.com/press-release/kaseyas-2024-msp-benchmark-report-finds-that-cybersecurity-is-a-top-revenue-driver-for-three-quarters-of-managed-service-providers/",
+      "figure_quoted": "33% of MSP respondents predicted they'll use AI to streamline tedious IT tasks; 85% say automation is a must-have. 37% said implementing AI/ML will be challenging. Current material adoption (vs. stated intent) estimated at 18% for the 541519 project/installation-heavy population, lagging true MSPs.",
+      "access_date": "2026-07-20",
+      "quality": "MED"
+    },
+    "historical_analogs": {
+      "value": "Cloud/SaaS adoption in small IT services firms: approximately 10 years from ~10% material penetration (2012) to ~50% of IT shops managing majority of client workloads via cloud-native tools (2022). Zero-touch MDM adoption in SMB IT shops followed a similar 8-10 year cycle.",
+      "source": "Zippia Cloud Adoption Statistics 2026; BetterCloud Zero-Touch Automation Report",
+      "url": "https://www.zippia.com/advice/cloud-adoption-statistics/",
+      "figure_quoted": "33% of enterprises were running over 50% of their workloads in the cloud as of 2021, up from near-zero in 2012; BetterCloud: 42% of automation leaders say 51-75% of help desk tickets could be automated, indicating material automation in leading firms.",
+      "access_date": "2026-07-20",
+      "quality": "MED"
+    },
+    "owners_60plus_pct": {
+      "value": 0.38,
+      "source": "U.S. Census Bureau ABS 2022 (via aggregated reporting); U.S. Bank Small Business Survey 2025; Oberlo Small Business Statistics 2024",
+      "url": "https://ir.usbank.com/news-events/news/news-details/2025/U-S--Bank-Small-Business-Survey-Finds-More-Than-One-Third-of-Gen-Z-and-Millennial-Owners-Plan-to-Acquire-a-Business-From-a-Retiring-Owner--But-Many-Older-Owners-Arent-Ready/default.aspx",
+      "figure_quoted": "U.S. Census ABS 2022: 52.3% of business owners age 55+, 22.8% age 65+. Interpolated 60+ estimate ~35% broadly. NAICS 541519 is dominated by micro-firms (8,483 firms in <5 employee class) with owner-operator structure, pushing the age distribution older than average. Using 38% for this heavily owner-operated code.",
+      "access_date": "2026-07-20",
+      "quality": "ESTIMATE",
+      "succession_shortage_documented": {
+        "value": false,
+        "evidence": "ABS 2022 and U.S. Bank 2025 survey document that 85% of small business owners say they intend to pass on the business but only 54% have formal succession plans (Gallup). However, no IT-specific or 541519-specific succession shortage study was found. The general small business succession gap is documented but not IT-specific; using false for the machine-readable flag."
+      }
+    },
+    "active_consolidators": {
+      "value": 8,
+      "source": "CT Acquisitions Private Equity MSP 2026 Guide; Solganick Technology Services M&A updates 2024-2025; Kaseya/ConnectWise ecosystem coverage",
+      "url": "https://ctacquisitions.com/guides/private-equity-msp-2026/",
+      "figure_quoted": "7 actively acquiring PE-backed MSP platforms documented (Evergreen Services Group, New Charter Technologies, Ntiva, Integris, Coretelligent, Magna5, Thrive Networks) plus additional platforms. 267 MSP deals in 2025, 72% PE-backed. Firms from 541519 appear in same deal pools as 541512 per Solganick/CT Acquisitions coverage. Using 8 as count of active platforms likely to acquire from this adjacent pool.",
+      "access_date": "2026-07-20",
+      "quality": "ESTIMATE"
+    },
+    "buy_mult": {
+      "value": 4.5,
+      "source": "Breakwater M&A MSP IT Services Valuation Multiples 2026; CT Acquisitions IT Managed Services M&A Multiples Report 2026",
+      "url": "https://www.breakwaterma.com/blog/msp-it-services-valuation-multiples-2026",
+      "figure_quoted": "Owner-operated MSP (50-70% MRR): 4x-5.5x EBITDA. Project/break-fix-heavy firms command lower multiples. CT Acquisitions: sub-$5M EBITDA firms at 3.5x-5x. Using 4.5x for 541519 firms reflecting project/resale-heavy revenue mix commanding discount to full-MRR MSPs.",
+      "access_date": "2026-07-20",
+      "quality": "MED"
+    },
+    "exit_mult": {
+      "value": 9.0,
+      "source": "Breakwater M&A MSP IT Services Valuation Multiples 2026; Aventis Advisors IT Services Valuation Multiples 2015-2024; CT Acquisitions MSP PE Guide 2026",
+      "url": "https://www.breakwaterma.com/blog/msp-it-services-valuation-multiples-2026",
+      "figure_quoted": "Platform-ready MSP with $3M+ EBITDA and scalable NOC/SOC: 7x-10x+. Aventis: $50-100M deal size 11.5x; $20-50M 10.5x. For 541519-type platforms with residual project/resale mix (lower MRR quality), exit multiple conservative at 9.0x reflecting structural headwinds (zero-touch displacement of installation, DRaaS displacing DR planning) and lower MRR quality vs. pure MSPs.",
+      "access_date": "2026-07-20",
+      "quality": "MED"
+    },
+    "pricing_structure": {
+      "value": "Dominant sub-segment billing: T&M project installation/deployment (~40%), break-fix per-incident (~25%), recurring managed services retainer where present (~20%), hardware/software resale with services bundle (~15%). T&M and break-fix together represent ~65% of revenue, directly passing AI efficiency savings to clients via competitive requoting or faster resolution at the same rate.",
+      "source": "Breakwater M&A blog 2026; Kaseya 2024 MSP Benchmark Survey; Channel Dive MSP Pricing Guide 2026",
+      "url": "https://www.breakwaterma.com/blog/msp-it-services-valuation-multiples-2026",
+      "figure_quoted": "Breakwater: 'An MSP with 80% MRR will command a meaningfully higher multiple than one with 40% MRR and 60% project work.' Kaseya benchmark: recurring revenue 82% of total MSP income for mature MSPs (2023). 541519 firms skew toward project/installation-heavy mix vs. mature MSPs. MSP project margins 13% Q4 2024 vs. 46% for recurring managed services.",
+      "access_date": "2026-07-20",
+      "quality": "MED"
+    }
+  },
+  "scores": {
+    "V": {
+      "arithmetic": "V_raw = labor_share × ai_replaceable_share = 0.4958 × 0.333198 = 0.165199; V = 10 × min(1, 0.165199/0.25) = 10 × 0.660796 = 6.60796",
+      "score": 6.60796
+    },
+    "C": {
+      "arithmetic": "C = 10 × pi_dist × pi_moat = 10 × 0.40 × 0.35 = 1.40",
+      "score": 1.40
+    },
+    "A": {
+      "arithmetic": "A = min(10, 10/t50_years) = min(10, 10/8.0) = min(10, 1.25) = 1.25",
+      "score": 1.25
+    },
+    "B": {
+      "arithmetic": "n_band=705; TD=clamp(log10(705)/4,0,1)=clamp(2.848200/4,0,1)=clamp(0.712050,0,1)=0.712050; owners_60plus_pct=0.38; OW=clamp((0.38-0.10)/0.35,0.1,0.9)=clamp(0.800000,0.1,0.9)=0.800000; succession_shortage_documented=false so no +0.1; active_consolidators=8; CFD=min(0.9,log10(9)/2)=min(0.9,0.954243/2)=min(0.9,0.477121)=0.477121; B=10×sqrt(0.712050×0.800000)/(1+0.3×0.477121)=10×sqrt(0.569640)/1.143136=10×0.754745/1.143136=6.60263",
+      "score": 6.60263
+    },
+    "M": {
+      "arithmetic": "M = clamp(4×(exit_mult-buy_mult)/buy_mult, 0, 10) = clamp(4×(9.0-4.5)/4.5, 0, 10) = clamp(4×1.000000, 0, 10) = clamp(4.000000, 0, 10) = 4.000000",
+      "score": 4.000000
+    }
+  },
+  "S": 3.14033,
+  "cross_checks": {
+    "uplift_pp": 16.5199,
+    "uplift_vs_A_consistent": "V_raw=0.165199 implies 16.52pp EBITDA uplift. A=1.25 (t50=8 years, slow adoption). Uplift of 16.52pp >> 3pp threshold, so no tension: this is consistent with a code that has substantial AI-automatable content but slow adoption pace among small owner-operated shops. The large uplift potential is credible given the high labor share (0.4958) and significant automatable fraction in installation/documentation/support roles.",
+    "terminal_value": {
+      "class": "MELTING",
+      "justification": "Per-sub-segment analysis: (1) Installation/deployment services (dominant sub-segment): the service is being structurally displaced by zero-touch deployment (MDM/Autopilot/SaaS self-installation), which requires no AI — the product itself is disappearing as software vendors automate deployment. AI accelerates this trend by enabling AI-powered deployment configuration tools. (2) Disaster recovery planning services: migrating to platform-native DRaaS (AWS Backup, Azure Site Recovery, Veeam), which commoditize traditional paid human planning engagements; the DRaaS market is growing at 16% CAGR precisely because the platform replaces the human planner. (3) Residual compliance-driven DR attestation: this portion is PRESSURED but small relative to the two melting segments. The dominant revenue of the code is in services whose underlying demand is being eliminated by structural technology shifts independent of AI. AI is not the operator's productivity tool here; it is (along with zero-touch tools) the client's bypass mechanism."
+    },
+    "no_proxy_confirmed": "V was computed from OEWS wage-share breakdown × within-role automatable fractions grounded in zero-touch deployment evidence (BetterCloud, MDM penetration data), AI service-desk automation benchmarks (Kaseya), and DRaaS platform displacement evidence. A was derived from current_adoption_pct=0.18 (Kaseya MSP benchmark proxy) and historical cloud/SaaS adoption cycle analog. Neither V nor A referenced PE deal activity, MSP consolidation transaction volumes, or M&A trends.",
+    "pricing_model_deflation": "Billing mix: ~40% T&M project installation, ~25% break-fix per-incident, ~20% recurring managed services retainer, ~15% resale+services bundle. T&M billing passes AI efficiency savings directly: when a deployment engineer takes half the time due to AI-assisted scripting, the invoice is half the amount under competitive requoting. Break-fix is inherently deflationary (faster resolution = same or lower per-incident revenue). Only the recurring retainer slice (~20%) retains efficiency gains as margin. This high-deflationary billing mix is reflected in pi_dist=0.40 (moderate client control, heavily deflated by T&M/break-fix billing structure) and pi_moat=0.35 (weak structural moat given product displacement by zero-touch tools and DRaaS platforms)."
+  },
+  "confidence_overall": "MED",
+  "heterogeneous": true,
+  "top_uncertain_inputs": [
+    {
+      "input": "t50_years",
+      "plausible_range": "5-12 years",
+      "score_impact": "A = 10/t50: at t50=5, A=2.00; at t50=12, A=0.833. S varies from ~3.45 (t50=5) to ~2.87 (t50=12), a range of ~0.58 S units."
+    },
+    {
+      "input": "pi_moat",
+      "plausible_range": "0.25-0.45",
+      "score_impact": "C = 10×0.40×pi_moat: at pi_moat=0.25, C=1.00; at pi_moat=0.45, C=1.80. S varies from ~2.88 (pi_moat=0.25) to ~3.38 (pi_moat=0.45), a range of ~0.50 S units."
+    },
+    {
+      "input": "ai_replaceable_share",
+      "plausible_range": "0.27-0.40",
+      "score_impact": "V_raw = 0.4958×ars: at ars=0.27, V=5.35; at ars=0.40, V=7.93. S varies from ~2.97 (ars=0.27) to ~3.37 (ars=0.40), a range of ~0.40 S units."
+    }
+  ],
+  "reviewer_note": "NAICS 541519 is a residual catch-all code scored on its dominant sub-segment: general small IT services shops (MSP-adjacent, installation/support/resale-blended). This heterogeneous classification means the scoring may not represent firms in the disaster-recovery-focused or compliance-attestation sub-segments, which likely have higher pi_moat and different terminal value (PRESSURED rather than MELTING). The OEWS role_mix is at 4-digit 5415 level; for 541519, the 'Software Developers' bucket likely proxies installation/deployment engineers, which is consistent with how it was treated in the within-role fraction assignment. The n_band=705 figure (526 firms in 20-99 class + 179 in 100-499 class) likely overstates the truly acquirable-on-MSP-terms subset: PE roll-up buyers screen on MRR quality, and most 541519 firms are project/resale-heavy. The active_consolidators=8 is an estimate reflecting that 541519 firms appear in the same MSP deal pool as 541512, but may not be primary targets. buy_mult=4.5x and exit_mult=9.0x are calibrated from MSP/IT services data broadly; actual 541519 multiples for project-heavy firms are likely at the lower end (4.0x-4.5x buy) with exit multiples constrained by structural headwinds. The 2022 receipts vintage predates both AI service-desk tooling mainstreaming and DRaaS commoditization — the addressable base for paid installation and DR planning services is likely already contracting from the 2022 baseline. Labor_share=0.4958 signals meaningful pass-through (hardware/software resale) in receipts; the true labor-intensive service revenue base is smaller, which may cause V_raw to overstate the actual automatable labor-revenue fraction if resale/pass-through revenue is a large share."
+}

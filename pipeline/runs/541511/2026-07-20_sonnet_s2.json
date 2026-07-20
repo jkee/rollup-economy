@@ -1,0 +1,340 @@
+{
+  "naics": "541511",
+  "title": "Custom Computer Programming Services",
+  "run_meta": {
+    "model_id": "claude-sonnet-4-6",
+    "run_date": "2026-07-20",
+    "run_id": "fleet-s2-541511",
+    "template_version": "3.0",
+    "prompt_version": "p3-aff6579"
+  },
+  "dataset_inputs": {
+    "labor_share": {
+      "value": 0.6736,
+      "method": "QCEW 2024 private total annual wages at 541511 ($192,866,921,104) x benefits multiplier 1.4294 [ECEC private-industry total comp $46.60/hr / wages $32.60/hr = 1.4294 (March 2026 reference period)] / SUSB 2022 receipts at 541511 ($305,260,086,000). Vintage mismatch: 2024 wages over 2022 receipts, stated. Level: 6-digit. Harmonized to IPS basis ÷1.3407 (median of 65 dual-method codes).",
+      "sources": [
+        "BLS QCEW 2024 annual averages (US000, private)",
+        "BLS ECEC news release (raw/ecec.nr0.htm)",
+        "Census SUSB 2022 (receipts by NAICS)"
+      ],
+      "year": "2024 wages / 2022 receipts",
+      "quality": "MED"
+    },
+    "role_mix": {
+      "oews_level": "4-digit 5415",
+      "occupations": [
+        {
+          "soc": "15-1252",
+          "title": "Software Developers",
+          "emp_share": 0.2091,
+          "wage_share": 0.2386
+        },
+        {
+          "soc": "15-1232",
+          "title": "Computer User Support Specialists",
+          "emp_share": 0.0633,
+          "wage_share": 0.033
+        },
+        {
+          "soc": "11-3021",
+          "title": "Computer and Information Systems Managers",
+          "emp_share": 0.0533,
+          "wage_share": 0.0827
+        },
+        {
+          "soc": "15-1211",
+          "title": "Computer Systems Analysts",
+          "emp_share": 0.0481,
+          "wage_share": 0.0455
+        },
+        {
+          "soc": "41-3091",
+          "title": "Sales Representatives of Services, Except Advertising, Insurance, Financial Services, and Travel",
+          "emp_share": 0.0475,
+          "wage_share": 0.043
+        },
+        {
+          "soc": "11-1021",
+          "title": "General and Operations Managers",
+          "emp_share": 0.0351,
+          "wage_share": 0.0518
+        },
+        {
+          "soc": "15-1299",
+          "title": "Computer Occupations, All Other",
+          "emp_share": 0.0315,
+          "wage_share": 0.0314
+        },
+        {
+          "soc": "13-1082",
+          "title": "Project Management Specialists",
+          "emp_share": 0.029,
+          "wage_share": 0.0304
+        },
+        {
+          "soc": "13-1111",
+          "title": "Management Analysts",
+          "emp_share": 0.0268,
+          "wage_share": 0.0273
+        },
+        {
+          "soc": "15-1253",
+          "title": "Software Quality Assurance Analysts and Testers",
+          "emp_share": 0.0251,
+          "wage_share": 0.0222
+        }
+      ],
+      "quality": "MED"
+    },
+    "n_total": {
+      "value": 62773,
+      "source": "SUSB 2022 (firms, all enterprise sizes)",
+      "year": "2022",
+      "quality": "HIGH"
+    },
+    "n_band": {
+      "value": 5767,
+      "derivation": "margin 0.1565 (margins.json[54]: Damodaran Jan 2026: Business & Consumer Services EBITDA/Sales 15.65%); revenue/employee $292,242 (SUSB 2022 receipts/employment at 541511); class <5: 45,975 firms, avg revenue/firm $413,913 (class receipts/firms), implied EBITDA $64,777 -> out of $1-10M band; class 5-9: 6,238 firms, avg revenue/firm $1,817,988 (class receipts/firms), implied EBITDA $284,515 -> out of $1-10M band; class 10-19: 4,153 firms, avg revenue/firm $3,749,458 (class receipts/firms), implied EBITDA $586,790 -> out of $1-10M band; class 20-99: 4,523 firms, avg revenue/firm $11,255,622 (class receipts/firms), implied EBITDA $1,761,505 -> IN $1-10M band; class 100-499: 1,244 firms, avg revenue/firm $52,288,390 (class receipts/firms), implied EBITDA $8,183,133 -> IN $1-10M band; class 500+: 640 firms, avg revenue/firm $224,003,744 (class receipts/firms), implied EBITDA $35,056,586 -> out of $1-10M band; n_band = 5,767",
+      "margin_used": 0.1565,
+      "margin_source": "Damodaran Jan 2026: Business & Consumer Services EBITDA/Sales 15.65%",
+      "quality": "ESTIMATE"
+    }
+  },
+  "inputs": {
+    "ai_replaceable_share": {
+      "value": 0.338405,
+      "breakdown_by_role": [
+        {
+          "role": "Software Developers (15-1252)",
+          "labor_share_of_total": 0.2386,
+          "within_role_automatable_fraction": 0.40,
+          "contribution": 0.09544,
+          "rationale": "AI coding assistants (GitHub Copilot 46% of code generated per GitHub 2025 data; SO Survey 2025: 68% of developers use AI daily/weekly) heavily automate boilerplate, tests, migrations, documentation, and maintenance. Requirements elicitation, architecture judgment, legacy-system spelunking, and accountability for production systems persist. For dev-shop context where per-developer tasks skew toward delivery implementation, within-role fraction 0.40 is supported by current tool evidence and reflects AI writing ~40-46% of code while humans retain architectural and client-context work.",
+          "plausible_range": "0.30-0.50"
+        },
+        {
+          "role": "Computer User Support Specialists (15-1232)",
+          "labor_share_of_total": 0.033,
+          "within_role_automatable_fraction": 0.70,
+          "contribution": 0.02310,
+          "rationale": "Tier-1 support, internal helpdesk, password resets, onboarding/offboarding are among the most AI-automatable tasks. AI service-desk tools (Zendesk AI, ServiceNow AI) already handle majority of tier-1 tickets. Physical desk-side support persists. 0.70 reflects strong automation evidence.",
+          "plausible_range": "0.55-0.80"
+        },
+        {
+          "role": "Computer and Information Systems Managers (11-3021)",
+          "labor_share_of_total": 0.0827,
+          "within_role_automatable_fraction": 0.25,
+          "contribution": 0.020675,
+          "rationale": "Status reporting, estimation, sprint mechanics, resource scheduling, and administrative paperwork automate substantially. Client escalation, delivery accountability, hiring decisions, and senior client relationship management persist. AI also compresses the manager-to-developer ratio. 0.25 reflects partial automation of managerial overhead.",
+          "plausible_range": "0.15-0.35"
+        },
+        {
+          "role": "Computer Systems Analysts (15-1211)",
+          "labor_share_of_total": 0.0455,
+          "within_role_automatable_fraction": 0.35,
+          "contribution": 0.015925,
+          "rationale": "Requirements documentation, specifications, process mapping, gap analyses automate substantially with AI. Stakeholder elicitation, organizational navigation, and vendor selection judgment involving political and relational context persist. 0.35 reflects that documentation-heavy work is the majority of analyst hours.",
+          "plausible_range": "0.25-0.45"
+        },
+        {
+          "role": "Sales Representatives of Services (41-3091)",
+          "labor_share_of_total": 0.043,
+          "within_role_automatable_fraction": 0.20,
+          "contribution": 0.008600,
+          "rationale": "Proposal and SOW production, CRM data entry, pipeline reporting automate. Relationship selling to enterprise IT buyers and procurement navigation persists. The revenue moat in dev shops is largely relationship-driven. 0.20 captures the administrative fraction of sales work.",
+          "plausible_range": "0.15-0.30"
+        },
+        {
+          "role": "General and Operations Managers (11-1021)",
+          "labor_share_of_total": 0.0518,
+          "within_role_automatable_fraction": 0.20,
+          "contribution": 0.010360,
+          "rationale": "Internal operations (scheduling, reporting, invoicing, compliance tracking) automate. Executive client relationship and strategic hiring decisions persist. Owner-operators hold critical client relationships in sub-$10M firms. 0.20 reflects internal ops share of manager time.",
+          "plausible_range": "0.15-0.30"
+        },
+        {
+          "role": "Computer Occupations All Other (15-1299)",
+          "labor_share_of_total": 0.0314,
+          "within_role_automatable_fraction": 0.40,
+          "contribution": 0.012560,
+          "rationale": "Heterogeneous category including additional delivery engineers, DevOps/infrastructure roles, and other technical staff. Similar automation exposure to software developers for delivery tasks; configuration, scripting, and infrastructure automation are AI-exposed. 0.40 matches developer analog.",
+          "plausible_range": "0.30-0.50"
+        },
+        {
+          "role": "Project Management Specialists (13-1082)",
+          "labor_share_of_total": 0.0304,
+          "within_role_automatable_fraction": 0.35,
+          "contribution": 0.010640,
+          "rationale": "Sprint mechanics, burn-rate tracking, resource allocation spreadsheets, status report generation, and estimation automate substantially. Client escalation, scope negotiation, and delivery accountability are the non-automatable residue. 0.35 reflects that administrative PM work is the larger fraction.",
+          "plausible_range": "0.25-0.45"
+        },
+        {
+          "role": "Management Analysts (13-1111)",
+          "labor_share_of_total": 0.0273,
+          "within_role_automatable_fraction": 0.35,
+          "contribution": 0.009555,
+          "rationale": "Process mapping, requirements documentation, and analytical report generation automate substantially. Stakeholder interviews and organizational judgment persist. 0.35 consistent with analyst-facing automation evidence.",
+          "plausible_range": "0.25-0.45"
+        },
+        {
+          "role": "Software QA Analysts and Testers (15-1253)",
+          "labor_share_of_total": 0.0222,
+          "within_role_automatable_fraction": 0.60,
+          "contribution": 0.013320,
+          "rationale": "Automated testing, test case generation, regression testing, and documentation are among the most directly AI-automatable QA tasks. GitHub Copilot and AI tools generate tests as a primary use case. Exploratory testing of novel user scenarios and security edge cases persist. 0.60 reflects that scripted/routine testing dominates QA hours.",
+          "plausible_range": "0.45-0.75"
+        },
+        {
+          "role": "Admin HR Finance and Unallocated Tail",
+          "labor_share_of_total": 0.3941,
+          "within_role_automatable_fraction": 0.30,
+          "contribution": 0.118230,
+          "rationale": "Top-10 occupations sum to 0.6059 of wages; tail = 0.3941. Tail includes recruiting/HR, bench management, finance/invoicing, and additional billable engineers not in top-10. Recruiting and back-office automate heavily; physical site work and senior bench-management judgment persist. Some tail is additional delivery engineers (treat as 0.40 automatable) and some is pure admin (0.60 automatable). Blended 0.30 reflects conservatism given unknown composition of tail and that bench/utilization management is operationally critical in dev shops.",
+          "plausible_range": "0.20-0.40"
+        }
+      ],
+      "quality": "MED"
+    },
+    "pi_dist": {
+      "value": 0.35,
+      "rationale": "Custom programming is billed predominantly T&M (time and materials) and staff-augmentation FTE rates. Everest Group Q1 2024: ~60-70% of new agile development contracts use capacity-based/T&M models. When AI cuts hours per deliverable 30-50%, T&M revenue falls mechanically unless repricing succeeds. Globant launched outcome-based AI Pods in mid-2025 (subscription not hourly), and EPAM is pursuing modest price increases — evidence that large-cap firms are attempting repricing, but the $1-10M EBITDA target tier has no pricing power to impose outcome-based terms on enterprise clients. Firms do own the client relationship via MSAs and multi-year support agreements, and client-specific codebase knowledge and documentation confer some lock-in. But code is transferable by design, switching costs are moderate, and AI directly relieves the engineering-scarcity moat. pi_dist = 0.35 reflects firm-owns-relationship (not an upstream gatekeeper) but with explicit T&M deflation mechanism: AI savings flow to clients as fewer billed hours in ~65% of revenue.",
+      "plausible_range": "0.25-0.45",
+      "sources": [
+        "Everest Group Q1 2024 agile contract analysis (capacity-based model ~60-70% of new agile contracts)",
+        "Globant AI Pods announcement mid-2025 (ainvest.com coverage, June 2025)",
+        "EPAM Systems Q4 2025 earnings commentary on price increases"
+      ],
+      "quality": "MED"
+    },
+    "pi_moat": {
+      "value": 0.30,
+      "rationale": "Switching costs for custom dev shops are moderate but not high: codebase is documented and transferable by design (the product's portability is a selling point). MSAs and multi-year support agreements provide contractual lock-in for maintenance streams but not for new development. No licensure requirement. The historic scarcity moat — engineering talent — is directly eroded by AI making clients' own small teams more productive. Offshore competition (India, Eastern Europe) already prices marginal dev capacity competitively; AI erases the remaining onshore premium around communication and context bandwidth. The moat that survives is accountability for production systems — a client cannot easily dismiss the firm mid-project without stranding work — and domain expertise accumulated in specific client environments. pi_moat = 0.30 reflects these real but modest barriers against the direct AI-bypass risk.",
+      "plausible_range": "0.20-0.40",
+      "sources": [
+        "Custom software development outsourcing trends (Freshcode IT, 2026 statistics)",
+        "Aventis Advisors IT Services Valuation Multiples report (size-discount data implies limited moat premium at small scale)",
+        "Prompt guidance on sibling-boundary switching cost analysis"
+      ],
+      "quality": "MED"
+    },
+    "t50_years": {
+      "value": 2.0,
+      "derivation": "Current individual developer AI tool adoption: 68% daily/weekly per Stack Overflow Developer Survey 2025 (50.6% daily + 17.4% weekly). At the firm level, material AI integration (AI coding assistants used by majority of staff, shaping delivery methodology) is estimated at ~55% of firms in the $1-10M EBITDA tier, based on the SO developer-level data discounted for firm-level organizational lag (smaller firms adopt slower than large-firm Fortune 100 data would imply). Historical analog: cloud computing reached 50% of professional services firms in ~5-6 years (2010-2016); agile methodology in ~7 years from broad introduction. However, AI coding tool adoption has been dramatically faster — SO 2023 showed <50% using AI, SO 2025 shows 68% using AI daily/weekly — two years from minority to supermajority among individual developers. Given we are at or very near the 50% firm-level threshold now (2026), t50 is approximately 2 years accounting for the organizational lag between individual developer adoption and firm-level integration into delivery methodology and pricing model.",
+      "plausible_range": "1.5-4.0 years",
+      "quality": "MED"
+    },
+    "current_adoption_pct": {
+      "value": 0.55,
+      "source": "Stack Overflow Developer Survey 2025 (primary, ~65,000 developer respondents); firm-level estimate derived from individual-developer data",
+      "url": "https://survey.stackoverflow.co/2025/ai/",
+      "figure_quoted": "68% of professional developers use AI tools daily or weekly (50.6% daily, 17.4% weekly); 84% currently using or planning to use AI tools; discounted to ~55% at firm-level for target $1-10M EBITDA tier given organizational lag vs. enterprise adoption",
+      "access_date": "2026-07-20",
+      "quality": "MED"
+    },
+    "historical_analogs": {
+      "value": "Cloud computing (2010-2016): ~6 years to 50% firm adoption in professional services; agile methodology: ~7 years to majority adoption; mobile-first development: ~5 years — but AI coding tool adoption has been dramatically faster, with SO survey showing jump from <50% to 68% individual usage in approximately 2 years (2023-2025)",
+      "source": "Stack Overflow Developer Survey historical series; industry technology adoption research",
+      "url": "https://survey.stackoverflow.co/2025/",
+      "figure_quoted": "AI tool usage jumped from ~65% in 2024 to 84% currently using or planning to use in 2025; fastest technology adoption in developer tooling history per SO survey commentary",
+      "access_date": "2026-07-20",
+      "quality": "MED"
+    },
+    "owners_60plus_pct": {
+      "value": 0.30,
+      "source": "Census Annual Business Survey 2022; Harvard Business Review founder age research; general small business demographics (Gallup, Project Equity 2024)",
+      "url": "https://hbr.org/2018/07/research-the-average-age-of-a-successful-startup-founder-is-45",
+      "figure_quoted": "Average tech company founder age at founding ~41.9 years (Azoulay et al.); SaaS founders average 35 at founding; general small business 52% owned by 55+ (Gallup 2024). Tech sector founders materially younger than sector-54 norms. For established dev shops (20-99 employee tier, ~10-15 years old on average), applying 42+12=54 median current-owner age implies ~30% at 60+, materially below sector-54 norm of ~35-40%.",
+      "access_date": "2026-07-20",
+      "quality": "ESTIMATE",
+      "succession_shortage_documented": {
+        "value": false,
+        "evidence": "No succession shortage specifically documented for custom programming dev shops. Prompt notes founder demographics skew younger than sector-54 norms, weakening succession pressure. No dedicated owner-age survey found for this 6-digit code. General small-business surveys (Gallup 2024: 52% of employer businesses owned by 55+ owners) are not sector-specific and overstate aging in tech."
+      }
+    },
+    "active_consolidators": {
+      "value": 10,
+      "source": "PE roll-up market research; Aventis Advisors IT Services M&A report; general PE TMT activity survey 2024-2025",
+      "url": "https://aventis-advisors.com/it-services-valuation-multiples/",
+      "figure_quoted": "PE represented 60% of mid-market TMT deal volume in 2025. Custom programming (541511) is a fragmented target; strategic acquirers (Accenture, Globant, EPAM) dominate large deals while PE buys smaller dev shops. Approximately 8-12 active PE-backed platforms doing dev-shop add-ons in the $1-10M EBITDA tier identified in current market, smaller wave than the 541512 MSP consolidation; 10 used as central estimate.",
+      "access_date": "2026-07-20",
+      "quality": "ESTIMATE"
+    },
+    "buy_mult": {
+      "value": 6.5,
+      "source": "Aventis Advisors IT Services Valuation Multiples report (361 transactions, 2015-2026)",
+      "url": "https://aventis-advisors.com/it-services-valuation-multiples/",
+      "figure_quoted": "Deals <$5M: median EV/EBITDA 5.9x; deals $5-20M: median EV/EBITDA 7.9x. For $1-5M EBITDA dev shops (deal size roughly $6-33M at 6-7x), median ~6.5x interpolated between the two size buckets. Note: EBITDA basis after market-rate compensation per rule 3; source is transaction-level not SDE-based.",
+      "access_date": "2026-07-20",
+      "quality": "MED"
+    },
+    "exit_mult": {
+      "value": 11.0,
+      "source": "Aventis Advisors IT Services Valuation Multiples report; IT Consulting public market data (Mar 2026: 10.2x EV/EBITDA)",
+      "url": "https://aventis-advisors.com/it-services-valuation-multiples/",
+      "figure_quoted": "Deals $20-50M: median 10.5x EV/EBITDA; deals $50-100M: 11.5x; IT Consulting public market Mar 2026: 10.2x EV/EBITDA. Platform exits for $10M+ EBITDA dev-services firms range 10.5-11.5x; central estimate 11.0x. EBITDA basis post market-rate owner compensation.",
+      "access_date": "2026-07-20",
+      "quality": "MED"
+    },
+    "pricing_structure": {
+      "value": "~65% T&M/staff-augmentation hourly or FTE-rate billing, ~20% fixed-price, ~10% hybrid/retainer, ~5% other. T&M dominates the target $1-10M EBITDA tier.",
+      "source": "Everest Group Q1 2024 agile contract analysis; Scio Diamond Digital State of Nearshore Report 2023; industry practitioner commentary (baytechconsulting.com, forecast.app, scnsoft.com 2025-2026)",
+      "url": "https://www.baytechconsulting.com/blog/time-and-materials-vs-fixed-price-2025",
+      "figure_quoted": "Everest Group Q1 2024: approximately 60-70% of new agile development contracts use capacity-based/T&M model; Scio 2023: 55% dedicated team, 30% T&M, 15% fixed-price; industry commentary consistently places T&M at majority of custom dev shop revenue",
+      "access_date": "2026-07-20",
+      "quality": "MED"
+    }
+  },
+  "scores": {
+    "V": {
+      "arithmetic": "V_raw = labor_share x ai_replaceable_share = 0.6736 x 0.338405 = 0.227950; V = 10 x min(1, 0.227950 / 0.25) = 10 x min(1, 0.911798) = 10 x 0.911798 = 9.117984",
+      "score": 9.117984
+    },
+    "C": {
+      "arithmetic": "C = 10 x pi_dist x pi_moat = 10 x 0.35 x 0.30 = 1.050000",
+      "score": 1.050000
+    },
+    "A": {
+      "arithmetic": "A = min(10, 10 / t50_years) = min(10, 10 / 2.0) = min(10, 5.0) = 5.000000",
+      "score": 5.000000
+    },
+    "B": {
+      "arithmetic": "TD = clamp(log10(5767)/4, 0, 1) = clamp(3.760950/4, 0, 1) = clamp(0.940237, 0, 1) = 0.940237; OW = clamp((0.30 - 0.10)/0.35, 0.1, 0.9) = clamp(0.571429, 0.1, 0.9) = 0.571429; succession_shortage_documented=false so no +0.1; CFD = min(0.9, log10(1+10)/2) = min(0.9, 1.041393/2) = min(0.9, 0.520696) = 0.520696; B = 10 x sqrt(0.940237 x 0.571429) / (1 + 0.3 x 0.520696) = 10 x sqrt(0.537279) / (1 + 0.156209) = 10 x 0.732993 / 1.156209 = 7.32993 / 1.156209 = 6.339623",
+      "score": 6.339623
+    },
+    "M": {
+      "arithmetic": "M = clamp(4 x (exit_mult - buy_mult) / buy_mult, 0, 10) = clamp(4 x (11.0 - 6.5) / 6.5, 0, 10) = clamp(4 x 4.5 / 6.5, 0, 10) = clamp(18.0 / 6.5, 0, 10) = clamp(2.769231, 0, 10) = 2.769231",
+      "score": 2.769231
+    }
+  },
+  "S": 3.844998,
+  "cross_checks": {
+    "uplift_pp": 22.7950,
+    "uplift_vs_A_consistent": "Uplift = V_raw x 100 = 22.79 pp, well above the 3 pp threshold while A = 5.0. Consistent — no tension. AI frees a significant fraction of labor cost (~23 pp of revenue), and adoption is fast (t50 = 2 years). The high V is moderated by low C (T&M billing deflates capture), producing a mid-range S.",
+    "terminal_value": {
+      "class": "PRESSURED",
+      "justification": "Custom programming demand is not being replaced wholesale — the custom software development market is forecast to grow at 20%+ CAGR (GMInsights, SNS Insider 2025 reports, $51.8B in 2025). Enterprise outsourcing is not declining: Deloitte 2024 Global Outsourcing Survey shows access to talent (42%) now ranks as primary driver, and GenAI integration in outsourcing contracts grew 40% (2023-2025). However, demand is PRESSURED not DURABLE because: (1) AI relieves the scarcity moat that drove outsourcing — clients can now build more with smaller internal teams; (2) T&M billing means AI productivity reduces billable hours mechanically, shrinking engagement size at the same scope; (3) offshore competition erases the remaining onshore communication premium. The distinguishing factor from MELTING is accountability: enterprises still outsource because they want someone else to hold liability for production systems, security, and maintenance — this accountability role persists even as AI handles code generation. The product (working production software, delivered with accountability) survives; the revenue per deliverable shrinks as AI compresses hours. PRESSURED reflects shrinking per-engagement revenue offset by broader addressable market."
+    },
+    "no_proxy_confirmed": "V (ai_replaceable_share = 0.338405) was derived solely from occupation-by-occupation within-role automatable fractions grounded in: (1) GitHub Copilot data showing 46% of code is AI-generated; (2) Stack Overflow Developer Survey 2025 showing 68% daily/weekly AI tool use; (3) automation evidence per specific occupation type (QA test automation, support desk AI tools, documentation generation). No reference to M&A deal activity or consolidation trends. A (t50 = 2.0 years) was derived from the SO survey adoption trajectory (2023-to-2025 jump from minority to 68% daily/weekly use) and technology adoption analogs (cloud ~6 years; but AI tools adopted faster), adjusted to firm-level organizational lag. No deal activity referenced.",
+    "pricing_model_deflation": "Billing mix: ~65% T&M/staff-aug (hourly or FTE-rate), ~20% fixed-price, ~10% hybrid/retainer, ~5% other. T&M dominates the target $1-10M EBITDA tier. Mechanism: When AI cuts developer hours per deliverable by 30-50% (GitHub Copilot evidence: developers complete tasks 55% faster; median code AI-generated 46%), T&M revenue falls mechanically unless firms reprice to fixed-price or outcome-based. Large-cap firms (Globant, EPAM) are piloting outcome/subscription models, but the target sub-$10M dev shop has no pricing power to impose outcome-based terms on enterprise procurement. The pricing deflation is reflected in pi_dist = 0.35 (below 0.5, indicating that T&M billing structure substantially hands AI savings to clients as reduced hours billed rather than retained as operator margin) and pi_moat = 0.30 (limited ability to prevent clients from insourcing or switching as AI democratizes development capacity)."
+  },
+  "confidence_overall": "MED",
+  "heterogeneous": false,
+  "top_uncertain_inputs": [
+    {
+      "input": "t50_years",
+      "plausible_range": "1.5-4.0 years",
+      "score_impact": "A ranges from min(10,10/1.5)=6.67 to min(10,10/4.0)=2.50; S would range from ~4.19 (t50=1.5) to ~3.32 (t50=4.0), a ~0.87 swing in S"
+    },
+    {
+      "input": "pi_dist",
+      "plausible_range": "0.25-0.45",
+      "score_impact": "C ranges from 10x0.25x0.30=0.75 to 10x0.45x0.30=1.35; S would range from ~3.63 (pi_dist=0.25) to ~4.05 (pi_dist=0.45), a ~0.42 swing in S"
+    },
+    {
+      "input": "owners_60plus_pct",
+      "plausible_range": "0.25-0.40",
+      "score_impact": "OW ranges from 0.429 (0.25) to 0.857 (0.40; capped at 0.9 at higher values); B ranges from ~5.93 to ~7.74; S would range from ~3.73 to ~3.98, a ~0.25 swing in S"
+    }
+  ],
+  "reviewer_note": "541511 is a first-order pricing-deflation candidate. V is high (9.12) because labor-intensity is high and AI-automates large fractions of delivery, QA, and support work. However, C is low (1.05) because T&M billing mechanically passes AI productivity gains to clients as fewer billed hours, not operator margin. This combination (high V, low C) is the defining tension for this industry. S = 3.84 reflects the fundamental problem: a very automatable labor pool (V=9.1) coupled with a billing model that prevents the operator from capturing AI savings (C=1.05). The terminal-value classification is PRESSURED not MELTING because accountability for production systems persists as a durable outsourcing driver even as AI code generation matures — clients still want someone to call at 3am when the system goes down. The n_band of 5,767 is the largest in sector 54 (TD=0.940), boosting B. M is modest (2.77) reflecting a real but not extraordinary arbitrage between buy (6.5x) and exit (11.0x) multiples. Key uncertainty is t50: if AI coding tool adoption at firm-level has essentially already reached 50% (supported by SO Survey data), t50 could be 1-2 years, pushing A to 5-6.67 and S to 3.8-4.2. The 4-digit OEWS role_mix is used per dataset specification; for 541511 specifically, the developer share is likely higher than the 4-digit average (prompt notes 35-40% plausible vs. 23.9% in OEWS), but the dataset inputs are used as provided per core rule 6. This understates V slightly. Active consolidators count (10) is an estimate; the 541511 roll-up wave is less concentrated and documented than 541512 MSP consolidation."
+}

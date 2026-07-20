@@ -1,0 +1,300 @@
+{
+  "naics": "541430",
+  "title": "Graphic Design Services",
+  "run_meta": {
+    "model_id": "claude-sonnet-4-6",
+    "run_date": "2026-07-20",
+    "run_id": "fleet-s2-541430",
+    "template_version": "3.0",
+    "prompt_version": "p3-aff6579"
+  },
+  "dataset_inputs": {
+    "labor_share": {
+      "value": 0.5567,
+      "method": "QCEW 2024 private total annual wages at 541430 ($5,155,227,877) x benefits multiplier 1.4294 [ECEC private-industry total comp $46.60/hr / wages $32.60/hr = 1.4294 (March 2026 reference period)] / SUSB 2022 receipts at 541430 ($9,873,226,000). Vintage mismatch: 2024 wages over 2022 receipts, stated. Level: 6-digit. Harmonized to IPS basis ÷1.3407 (median of 65 dual-method codes).",
+      "sources": [
+        "BLS QCEW 2024 annual averages (US000, private)",
+        "BLS ECEC news release (raw/ecec.nr0.htm)",
+        "Census SUSB 2022 (receipts by NAICS)"
+      ],
+      "year": "2024 wages / 2022 receipts",
+      "quality": "MED"
+    },
+    "role_mix": {
+      "oews_level": "4-digit 5414",
+      "occupations": [
+        {
+          "soc": "27-1025",
+          "title": "Interior Designers",
+          "emp_share": 0.1905,
+          "wage_share": 0.1841
+        },
+        {
+          "soc": "27-1024",
+          "title": "Graphic Designers",
+          "emp_share": 0.1622,
+          "wage_share": 0.1538
+        },
+        {
+          "soc": "11-1021",
+          "title": "General and Operations Managers",
+          "emp_share": 0.0696,
+          "wage_share": 0.1238
+        },
+        {
+          "soc": "41-3091",
+          "title": "Sales Representatives of Services, Except Advertising, Insurance, Financial Services, and Travel",
+          "emp_share": 0.0323,
+          "wage_share": 0.0374
+        },
+        {
+          "soc": "13-1082",
+          "title": "Project Management Specialists",
+          "emp_share": 0.0297,
+          "wage_share": 0.0347
+        },
+        {
+          "soc": "43-9061",
+          "title": "Office Clerks, General",
+          "emp_share": 0.0284,
+          "wage_share": 0.0178
+        },
+        {
+          "soc": "53-7062",
+          "title": "Laborers and Freight, Stock, and Material Movers, Hand",
+          "emp_share": 0.0201,
+          "wage_share": 0.0122
+        },
+        {
+          "soc": "13-1161",
+          "title": "Market Research Analysts and Marketing Specialists",
+          "emp_share": 0.0199,
+          "wage_share": 0.0199
+        },
+        {
+          "soc": "43-6014",
+          "title": "Secretaries and Administrative Assistants, Except Legal, Medical, and Executive",
+          "emp_share": 0.0194,
+          "wage_share": 0.0128
+        },
+        {
+          "soc": "27-1011",
+          "title": "Art Directors",
+          "emp_share": 0.019,
+          "wage_share": 0.0296
+        }
+      ],
+      "quality": "MED"
+    },
+    "n_total": {
+      "value": 15801,
+      "source": "SUSB 2022 (firms, all enterprise sizes)",
+      "year": "2022",
+      "quality": "HIGH"
+    },
+    "n_band": {
+      "value": 370,
+      "derivation": "margin 0.1565 (margins.json[54]: Damodaran Jan 2026: Business & Consumer Services EBITDA/Sales 15.65%); revenue/employee $191,989 (SUSB 2022 receipts/employment at 541430); class <5: 13,359 firms, avg revenue/firm $259,220 (class receipts/firms), implied EBITDA $40,568 -> out of $1-10M band; class 5-9: 1,416 firms, avg revenue/firm $1,112,405 (class receipts/firms), implied EBITDA $174,091 -> out of $1-10M band; class 10-19: 656 firms, avg revenue/firm $2,308,331 (class receipts/firms), implied EBITDA $361,254 -> out of $1-10M band; class 20-99: 318 firms, avg revenue/firm $7,449,481 (class receipts/firms), implied EBITDA $1,165,844 -> IN $1-10M band; class 100-499: 30 firms, avg revenue/firm $18,280,067 (class receipts/firms), implied EBITDA $2,860,830 -> IN $1-10M band; class 500+: 22 firms, avg revenue/firm $18,342,682 (class receipts/firms), implied EBITDA $2,870,630 -> IN $1-10M band; n_band = 370",
+      "margin_used": 0.1565,
+      "margin_source": "Damodaran Jan 2026: Business & Consumer Services EBITDA/Sales 15.65%",
+      "quality": "ESTIMATE"
+    }
+  },
+  "inputs": {
+    "ai_replaceable_share": {
+      "value": 0.547,
+      "breakdown_by_role": [
+        {
+          "role": "Graphic Designers (production)",
+          "labor_share_of_total": 0.40,
+          "within_role_automatable_fraction": 0.65,
+          "contribution": 0.26,
+          "rationale": "At 6-digit 541430, graphic designers represent ~40% of the wage bill (scaled up from 15.4% at 4-digit 5414, removing interior designer contamination). Layout, asset production, resizing/versioning, packaging mechanicals, presentation and template work are substantially automatable by current generative tools (Firefly, Midjourney, Canvas AI). The persisting slice is client taste arbitration and brand-system judgment, mostly at senior/art-director level. Fraction reflects ~35% of work truly immune (client judgment, novel concept direction) leaving 65% as substantially AI-addressable production work.",
+          "plausible_range": "0.55-0.75 (upper if product-replacement thesis dominates; lower if taste-arbitration slice is larger)"
+        },
+        {
+          "role": "Art Directors / Creative Leads",
+          "labor_share_of_total": 0.065,
+          "within_role_automatable_fraction": 0.30,
+          "contribution": 0.0195,
+          "rationale": "Art directors represent ~6.5% of the wage bill at 6-digit (scaled from 3.0% at 4-digit). Concept direction, brand stewardship, and client creative relationships persist; comping, deck assembly, and iteration rounds automate. 30% automatable fraction reflects the administrative and production coordination aspects of the role.",
+          "plausible_range": "0.20-0.40"
+        },
+        {
+          "role": "Owners / Management",
+          "labor_share_of_total": 0.13,
+          "within_role_automatable_fraction": 0.20,
+          "contribution": 0.026,
+          "rationale": "Owners and management ~13% of wage bill. In small studios the owner IS the senior client relationship; this is the key-person non-automatable core. Internal ops, admin, and financial reporting automate. 20% automatable fraction captures only the back-office management tasks.",
+          "plausible_range": "0.15-0.30"
+        },
+        {
+          "role": "Sales, Marketing, Account Management",
+          "labor_share_of_total": 0.11,
+          "within_role_automatable_fraction": 0.30,
+          "contribution": 0.033,
+          "rationale": "Sales and account staff ~11% of wage bill. Proposal and content production automates; relationship account management persists but represents the portable asset that walks when a creative director leaves. 30% fraction reflects the pitch-creation and marketing-materials production tasks.",
+          "plausible_range": "0.20-0.45"
+        },
+        {
+          "role": "Project Management / Traffic",
+          "labor_share_of_total": 0.04,
+          "within_role_automatable_fraction": 0.75,
+          "contribution": 0.03,
+          "rationale": "Traffic coordination, timelines, asset delivery, versioning admin: near-fully automatable by project management AI tools. 75% fraction; residual 25% is client-facing communication that persists.",
+          "plausible_range": "0.60-0.85"
+        },
+        {
+          "role": "Admin / Unallocated tail",
+          "labor_share_of_total": 0.255,
+          "within_role_automatable_fraction": 0.70,
+          "contribution": 0.1785,
+          "rationale": "Admin, bookkeeping, junior production, and the unlisted wage tail (~25.5% of wage bill). Bookkeeping, studio admin, invoicing, and junior design production work are near-fully automatable. Small residual for physical tasks (equipment maintenance, supply handling) and client-facing reception. Note: the 53-7062 Laborers share at 4-digit (1.22% wage) is non-automatable physical work; this tail bundle blends it with automatable admin. 70% blended fraction is a modest discount to reflect the physical tail.",
+          "plausible_range": "0.60-0.80"
+        }
+      ],
+      "quality": "LOW"
+    },
+    "pi_dist": {
+      "value": 0.30,
+      "rationale": "Graphic design studios have weak client-relationship control. The industry is unlicensed, has near-zero switching costs, and competes against a global freelance marketplace (Upwork, Fiverr) and increasingly against direct AI tools (Canva AI, Adobe Firefly) used by clients themselves. The primary billing model is project-based or hourly (~75% of revenue), meaning AI efficiency directly compresses fees through competitive pressure rather than flowing to operator margin. The retainer segment (~25%) is stickier but small. SMB clients — the bread-and-butter of these studios — are increasingly capable of self-serving with AI. The firm 'owns' the client in the narrow sense of having a relationship, but the economic power sits with the client who can reprice or leave at project completion.",
+      "plausible_range": "0.20-0.40",
+      "sources": [
+        "https://www.creativeagencybook.com/blog/best-pricing-models-for-creative-services",
+        "https://elements.envato.com/learn/ai-trend-report",
+        "https://www.axial.net/forum/digital-marketing-agency-valuation-multiples/"
+      ],
+      "quality": "LOW"
+    },
+    "pi_moat": {
+      "value": 0.20,
+      "rationale": "Minimal barrier to entry or switching. No licensure required, no physical act mandated, no statute protecting the fee. The deliverable (logos, layouts, assets) is exactly what generative AI now produces. Switching costs are near zero: clients change studios at project end. The only durable moat segments are (a) enterprise brand governance for large named accounts with multi-year retainers, and (b) creative directors with personal reputation/taste brands — neither of which accrues to the studio as an acquirable asset. Generic AI tools (Canva, Firefly, Midjourney) are directly competing for the SMB client base. Fiverr buyer count dropped 10% in 2024 suggesting platform substitution is already occurring.",
+      "plausible_range": "0.12-0.30",
+      "sources": [
+        "https://elements.envato.com/learn/ai-trend-report",
+        "https://medium.com/illumination/upwork-vs-fiverr-vs-toptal-ai-freelancer-platform-revenue-reality-2025-f475e7c675fb",
+        "https://gitnux.org/ai-in-the-graphic-design-industry-statistics/"
+      ],
+      "quality": "LOW"
+    },
+    "t50_years": {
+      "value": 3.5,
+      "derivation": "Current adoption baseline: Envato 2026 State of AI in Creative Work (surveyed 2025) finds 40% of graphic designers use AI daily; gitnux.org cites 35% of design agencies had integrated AI software by mid-2024. Blended firm-level estimate: ~35% of studios materially using AI as of mid-2025. Historical analog: desktop publishing transition (PageMaker 1985 → industry-dominant by 1992) took ~7 years to reach majority firm adoption; Adobe Creative Suite vs QuarkXPress transition (2003→2007) took ~4 years for a 50% handover. Generative AI tools became broadly accessible 2022-2023. At 35% current adoption and historical analog speed of 6-8 pp/year for the firm-level laggard tail, reaching 50% requires ~2-3 more years (2028-2029). Central estimate: 3.5 years from 2026.",
+      "plausible_range": "2.0-5.0 years (lower if AI tool adoption accelerates via platform bundling; upper if small-studio inertia and client resistance slow uptake)",
+      "quality": "MED"
+    },
+    "current_adoption_pct": {
+      "value": 0.35,
+      "source": "Envato 'Beyond Adoption: State of AI in Creative Work 2026' (1,780 respondents surveyed 2025); gitnux.org 'AI In The Graphic Design Industry Statistics 2026'",
+      "url": "https://elements.envato.com/learn/ai-trend-report",
+      "figure_quoted": "40% of graphic designers use AI on a daily basis (Envato 2026); 35% of design agencies had integrated AI software by mid-2024 (gitnux). Firm-level blended estimate: 35%.",
+      "access_date": "2026-07-20",
+      "quality": "MED"
+    },
+    "historical_analogs": {
+      "value": "4-7 years to 50% adoption for prior design-workflow technology transitions",
+      "source": "Design software history records: desktop publishing transition 1985-1992; Adobe CS vs QuarkXPress 2003-2007",
+      "url": "https://novedge.com/blogs/design-news/design-software-history-aldus-pagemaker-revolutionizing-design-with-desktop-publishing-in-the-1980s",
+      "figure_quoted": "Desktop publishing emerged 1985, dominated by 1992 (~7 years); Adobe CS displaced QuarkXPress market leadership ~2003-2007 (~4 years)",
+      "access_date": "2026-07-20",
+      "quality": "MED"
+    },
+    "owners_60plus_pct": {
+      "value": 0.28,
+      "source": "Guidant Financial Small Business Trends 2024 via Oberlo; Census Bureau ABS general small business age data",
+      "url": "https://www.oberlo.com/statistics/average-age-of-small-business-owners",
+      "figure_quoted": "37% of small business owners are aged 55-73 (Baby Boomers) in 2024. No design-specific breakdown. Estimated 28% aged 60+ based on age distribution within the 55-73 cohort.",
+      "access_date": "2026-07-20",
+      "quality": "ESTIMATE",
+      "succession_shortage_documented": {
+        "value": false,
+        "evidence": "No design-industry-specific succession shortage documentation found. General small business data (Gallup 2024) shows only 54% of owners aged 55+ have a succession plan, but this is not documented specifically for graphic design studios. No AIGA Design Census age/succession data post-2019 was accessible. succession_shortage_documented set false: absence of specific evidence, not evidence of absence."
+      }
+    },
+    "active_consolidators": {
+      "value": 1,
+      "source": "FE International Agency M&A 2026; Jahani and Associates Independent Creative Agencies M&A report; Target Report November 2025",
+      "url": "https://www.feinternational.com/blog/agency-marketing-ma-consolidation-ai-exit-opportunities",
+      "figure_quoted": "No named PE-backed platform specifically rolling up graphic design studios at 6-digit 541430 level identified. Marketing services PE roll-ups (performance marketing, analytics) are active but target different profiles. One marginally relevant consolidator estimated (marketing holding companies occasionally acquiring design studios as bolt-ons). RoyerComm Prism in commercial printing not in scope.",
+      "access_date": "2026-07-20",
+      "quality": "LOW"
+    },
+    "buy_mult": {
+      "value": 4.5,
+      "source": "Peak Business Valuation 'Advertising Agency Valuation Multiples'; First Page Sage 'Marketing Agency EBITDA Multiples 2025'; FE International Agency M&A 2026",
+      "url": "https://peakbusinessvaluation.com/advertising-agency-valuation-multiples/",
+      "figure_quoted": "Peak Business Valuation: EBITDA multiples for advertising agencies 3.21x-4.30x. First Page Sage: $1-3M EBITDA agencies trade at 4.5x-5.5x; FE International: small agencies under $1M at 3-5x, mid-market $1-5M at 5-8x. Graphic design studios (project-heavy, not retainer-led) at lower end of creative agency range. Applied 4.5x as midpoint for project-dominant design studios in the $1-10M EBITDA band after EBITDA normalization for owner comp.",
+      "access_date": "2026-07-20",
+      "quality": "MED"
+    },
+    "exit_mult": {
+      "value": 7.5,
+      "source": "FE International Agency M&A 2026; First Page Sage Marketing Agency Valuation 2025; agencies.co Definitive Guide 2026",
+      "url": "https://www.feinternational.com/blog/agency-marketing-ma-consolidation-ai-exit-opportunities",
+      "figure_quoted": "FE International: agencies above $5M EBITDA at 8-12x; median North America/Europe marketing services EV/EBITDA reached 10.1x in 2026. Graphic design platforms at lower end vs. performance marketing; retainer-heavy agencies at 5-7x premium vs. project-heavy. Applied 7.5x as conservative exit for a scaled graphic design platform with $10M+ EBITDA, reflecting lower retainer share and AI risk discount vs. data-driven marketing peers.",
+      "access_date": "2026-07-20",
+      "quality": "MED"
+    },
+    "pricing_structure": {
+      "value": "Primarily project-based (~50%) and hourly (~25%) with minority retainer (~25%); fees benchmarked to expected hours",
+      "source": "Creative Agency Book pricing models guide; DesignRush graphic design pricing; Morgan Overholt freelance graphic design rate guide 2024",
+      "url": "https://www.creativeagencybook.com/blog/best-pricing-models-for-creative-services",
+      "figure_quoted": "Graphic design billing: project-based flat fee and hourly are dominant; retainer model exists but is minority for small studios. Per-project fees for logos $300-2,500, websites $600-30,000; hourly $30-250/hr. Retainer pricing $500-10,000+/month but not the majority of small-studio revenue.",
+      "access_date": "2026-07-20",
+      "quality": "MED"
+    }
+  },
+  "scores": {
+    "V": {
+      "arithmetic": "V_raw = labor_share × ai_replaceable_share = 0.5567 × 0.547 = 0.304515. V = 10 × min(1, 0.304515 / 0.25) = 10 × min(1, 1.21806) = 10 × 1.0 = 10.0",
+      "score": 10.0
+    },
+    "C": {
+      "arithmetic": "C = 10 × pi_dist × pi_moat = 10 × 0.30 × 0.20 = 0.60",
+      "score": 0.6
+    },
+    "A": {
+      "arithmetic": "A = min(10, 10 / t50_years) = min(10, 10 / 3.5) = min(10, 2.857143) = 2.857143",
+      "score": 2.857143
+    },
+    "B": {
+      "arithmetic": "TD = clamp(log10(370) / 4, 0, 1) = clamp(2.568202 / 4, 0, 1) = 0.642050. OW = clamp((0.28 - 0.10) / 0.35, 0.1, 0.9) = clamp(0.514286, 0.1, 0.9) = 0.514286. succession_shortage_documented = false, no +0.1 bonus. CFD = min(0.9, log10(1 + 1) / 2) = min(0.9, 0.301030 / 2) = min(0.9, 0.150515) = 0.150515. B = 10 × sqrt(0.642050 × 0.514286) / (1 + 0.3 × 0.150515) = 10 × sqrt(0.330197) / 1.045155 = 10 × 0.574627 / 1.045155 = 5.498020",
+      "score": 5.498020
+    },
+    "M": {
+      "arithmetic": "M = clamp(4 × (exit_mult - buy_mult) / buy_mult, 0, 10) = clamp(4 × (7.5 - 4.5) / 4.5, 0, 10) = clamp(4 × 0.666667, 0, 10) = clamp(2.666667, 0, 10) = 2.666667",
+      "score": 2.666667
+    }
+  },
+  "S": 3.020311,
+  "cross_checks": {
+    "uplift_pp": 30.4515,
+    "uplift_vs_A_consistent": "Uplift of 30.5pp is well above the 3pp threshold. A = 2.86 (t50 = 3.5 years) is below 5, so the cross-check tension flag does not apply. High V_raw reflects the high labor share and high automatable fraction in a production-heavy industry where the deliverable itself is what AI generates. The large uplift is consistent with the MELTING terminal value classification — the issue is not whether AI can save costs, but whether the client base will pay for the service at all once AI tools are freely embedded in design platforms.",
+    "terminal_value": {
+      "class": "MELTING",
+      "justification": "Graphic design is the clearest product-replacement case: the deliverable (logos, layouts, assets, presentations) is precisely what generative AI tools now produce. The relevant distinction is: (1) AI cutting the operator's costs — partially true, saves production hours; (2) AI replacing the operator's product — this is the dominant dynamic. SMB clients (the majority of 541430 revenue) are already self-serving via Canva AI, Adobe Firefly, and Midjourney at near-zero marginal cost. The surviving paid demand sits in two narrow niches: enterprise brand governance (ongoing retainer relationships with Fortune 500 clients) and taste-arbitration by named creative directors with personal reputations. Neither of these survival segments is acquirable at roll-up scale — the enterprise accounts are in much larger agencies (outside the $1-10M EBITDA band) and the named-designer value is maximally portable. For the 370 acquirable studios in the $1-10M EBITDA band (20-99 employee class), the bread-and-butter is exactly the commodity SMB production work that AI most directly replaces. Demand is not merely pressured — the product itself is being generated by competitors (AI tools) at near-zero cost. Sub-segment by billing: project-based (~50% of revenue) is most exposed; hourly (~25%) is directly compressed by AI efficiency; retainer (~25%) partially survives but only for clients who have stable ongoing brand needs and prefer outsourcing brand governance. MELTING classification is warranted for the core of this code."
+    },
+    "no_proxy_confirmed": "V was justified by occupation-level automatable fraction estimates based on task analysis of graphic designer roles (layout, asset production, versioning — established AI capability) and the Envato/Adobe Firefly adoption data showing 40-45% daily AI use among designers. A was derived from current adoption percentage (~35% firm-level) and historical analog timelines for design software transitions (4-7 years). Neither V nor A made reference to PE deal activity, consolidation waves, or M&A trends.",
+    "pricing_model_deflation": "Graphic design studios bill primarily on project-based flat fee (~50%) and hourly rates (~25%), with minority retainer (~25%). Both project and hourly models directly transmit AI efficiency to clients as lower fees: project fees are benchmarked to expected hours; competitors (freelancers, offshore, AI tools) reprice instantly. The mechanism is fast and direct — zero licensure or regulatory protection allows the global freelance marketplace to function as the price-setter. This deflation risk is captured in pi_dist = 0.30 (client owns economic power, competition is global and frictionless) and pi_moat = 0.20 (no licensure, zero switching costs, AI directly substitutes for the product). The retainer minority provides limited protection only for long-standing brand clients with high switching costs from institutional knowledge."
+  },
+  "confidence_overall": "MED",
+  "heterogeneous": false,
+  "top_uncertain_inputs": [
+    {
+      "input": "t50_years",
+      "plausible_range": "2.0-5.0 years",
+      "score_impact": "At t50=2.0: A=5.0, S=(10.0×0.6×5.0×5.498×2.667)^0.2 = (439.8)^0.2 ≈ 3.51. At t50=5.0: A=2.0, S=(10.0×0.6×2.0×5.498×2.667)^0.2 = (175.9)^0.2 ≈ 2.79. Range ±0.4 S-units around central 3.02."
+    },
+    {
+      "input": "pi_dist",
+      "plausible_range": "0.20-0.40",
+      "score_impact": "At pi_dist=0.20: C=0.40, S=(10.0×0.40×2.857×5.498×2.667)^0.2 = (167.6)^0.2 ≈ 2.73. At pi_dist=0.40: C=0.80, S=(10.0×0.80×2.857×5.498×2.667)^0.2 = (335.1)^0.2 ≈ 3.23. Range ±0.25 S-units."
+    },
+    {
+      "input": "pi_moat",
+      "plausible_range": "0.12-0.30",
+      "score_impact": "At pi_moat=0.12: C=0.36, S≈2.60. At pi_moat=0.30: C=0.90, S≈3.34. Range ±0.37 S-units; moat uncertainty compounds with pi_dist uncertainty."
+    }
+  ],
+  "reviewer_note": "Role mix rebase: The provided 4-digit OEWS role_mix (5414 level) is contaminated by the interior designer share (27-1025: 18.41% of wage bill) which belongs to sibling code 541410. Per prompt guidance, the 6-digit 541430 role structure was rebuilt using the prompt's suggested 6-digit estimates (graphic designers ~40%, art directors ~6.5%, owners/management ~13%, sales/account ~11%, project management ~4%, admin/tail ~25.5%), not the raw 4-digit OEWS ratios. This is flagged as LOW quality due to the hypothesis nature of the remapping. Terminal value warning: The MELTING classification is the analytically correct finding for this code. V=10.0 (V_raw=0.305, well above the 0.25 anchor) reflects that AI is genuinely capable of executing the majority of billable work in this code. However, the low C (0.60) correctly discounts this: the savings flow to clients, not operators, because there is no licensure, no switching cost, and AI tools are now embedded in the client's own design software. The combination of high V and very low C reflects the product-replacement dynamic: high automation potential, almost no ability for the operator to capture value from it. S=3.02 is in the low-to-mid range, consistent with a MELTING industry with thin value-capture. No specific PE-backed graphic design studio consolidator platform was identified for the $1-10M EBITDA band; active_consolidators=1 is a conservative estimate of marginally relevant marketing holding company activity. Multiples sourced from marketing agency data (closest available proxy); pure graphic design studio comps are sparse."
+}

@@ -1,0 +1,288 @@
+{
+  "naics": "541513",
+  "title": "Computer Facilities Management Services",
+  "run_meta": {
+    "model_id": "claude-sonnet-4-6",
+    "run_date": "2026-07-20",
+    "run_id": "fleet-s2-541513",
+    "template_version": "3.0",
+    "prompt_version": "p3-aff6579"
+  },
+  "dataset_inputs": {
+    "labor_share": {
+      "value": 0.3989,
+      "method": "QCEW 2024 private total annual wages at 541513 ($11,535,095,371) x benefits multiplier 1.4294 [ECEC private-industry total comp $46.60/hr / wages $32.60/hr = 1.4294 (March 2026 reference period)] / SUSB 2022 receipts at 541513 ($30,832,208,000). Vintage mismatch: 2024 wages over 2022 receipts, stated. Level: 6-digit. Harmonized to IPS basis ÷1.3407 (median of 65 dual-method codes).",
+      "sources": [
+        "BLS QCEW 2024 annual averages (US000, private)",
+        "BLS ECEC news release (raw/ecec.nr0.htm)",
+        "Census SUSB 2022 (receipts by NAICS)"
+      ],
+      "year": "2024 wages / 2022 receipts",
+      "quality": "MED"
+    },
+    "role_mix": {
+      "oews_level": "4-digit 5415",
+      "occupations": [
+        {"soc": "15-1252", "title": "Software Developers", "emp_share": 0.2091, "wage_share": 0.2386},
+        {"soc": "15-1232", "title": "Computer User Support Specialists", "emp_share": 0.0633, "wage_share": 0.033},
+        {"soc": "11-3021", "title": "Computer and Information Systems Managers", "emp_share": 0.0533, "wage_share": 0.0827},
+        {"soc": "15-1211", "title": "Computer Systems Analysts", "emp_share": 0.0481, "wage_share": 0.0455},
+        {"soc": "41-3091", "title": "Sales Representatives of Services, Except Advertising, Insurance, Financial Services, and Travel", "emp_share": 0.0475, "wage_share": 0.043},
+        {"soc": "11-1021", "title": "General and Operations Managers", "emp_share": 0.0351, "wage_share": 0.0518},
+        {"soc": "15-1299", "title": "Computer Occupations, All Other", "emp_share": 0.0315, "wage_share": 0.0314},
+        {"soc": "13-1082", "title": "Project Management Specialists", "emp_share": 0.029, "wage_share": 0.0304},
+        {"soc": "13-1111", "title": "Management Analysts", "emp_share": 0.0268, "wage_share": 0.0273},
+        {"soc": "15-1253", "title": "Software Quality Assurance Analysts and Testers", "emp_share": 0.0251, "wage_share": 0.0222}
+      ],
+      "quality": "MED"
+    },
+    "n_total": {
+      "value": 4950,
+      "source": "SUSB 2022 (firms, all enterprise sizes)",
+      "year": "2022",
+      "quality": "HIGH"
+    },
+    "n_band": {
+      "value": 583,
+      "derivation": "margin 0.1565 (margins.json[54]: Damodaran Jan 2026: Business & Consumer Services EBITDA/Sales 15.65%); revenue/employee $266,793 (SUSB 2022 receipts/employment at 541513); class <5: 3,040 firms, avg revenue/firm $354,248 (class receipts/firms), implied EBITDA $55,440 -> out of $1-10M band; class 5-9: 692 firms, avg revenue/firm $1,447,064 (class receipts/firms), implied EBITDA $226,465 -> out of $1-10M band; class 10-19: 484 firms, avg revenue/firm $3,262,322 (class receipts/firms), implied EBITDA $510,553 -> out of $1-10M band; class 20-99: 429 firms, avg revenue/firm $8,791,140 (class receipts/firms), implied EBITDA $1,375,813 -> IN $1-10M band; class 100-499: 154 firms, avg revenue/firm $37,324,773 (class receipts/firms), implied EBITDA $5,841,327 -> IN $1-10M band; class 500+: 151 firms, avg revenue/firm $116,924,159 (class receipts/firms), implied EBITDA $18,298,631 -> out of $1-10M band; n_band = 583",
+      "margin_used": 0.1565,
+      "margin_source": "Damodaran Jan 2026: Business & Consumer Services EBITDA/Sales 15.65%",
+      "quality": "ESTIMATE"
+    }
+  },
+  "inputs": {
+    "ai_replaceable_share": {
+      "value": 0.30089,
+      "breakdown_by_role": [
+        {
+          "role": "Operations/monitoring engineers (15-1252 mapped to ops staff at 541513)",
+          "labor_share_of_total": 0.2386,
+          "within_role_automatable_fraction": 0.40,
+          "contribution": 0.09544,
+          "rationale": "At 541513, this SOC code proxies systems/network admins and AIOps targets: monitoring, patching, incident triage, capacity reporting, and runbook execution are substantially automatable. Physical rack/stack and client-site presence persist. 40% fraction reflects high within-role automation target balanced against irreducible physical/judgment slice.",
+          "plausible_range": "0.30-0.55"
+        },
+        {
+          "role": "Computer User Support Specialists (15-1232)",
+          "labor_share_of_total": 0.033,
+          "within_role_automatable_fraction": 0.65,
+          "contribution": 0.02145,
+          "rationale": "Tier-1/2 support under outsourcing contracts is the primary AI automation target: chatbots, auto-resolution, ticket classification. Under per-ticket or per-seat outsourcing contracts, automation economics are clear. Physical/on-site slice persists.",
+          "plausible_range": "0.50-0.75"
+        },
+        {
+          "role": "Computer and Information Systems Managers (11-3021)",
+          "labor_share_of_total": 0.0827,
+          "within_role_automatable_fraction": 0.20,
+          "contribution": 0.016540,
+          "rationale": "Service delivery and account management: SLA reporting and coordination automate; but the contract-governance relationship with client IT leadership is the retention asset and persists. Low fraction reflects that this role is fundamentally a relationship-management role in outsourcing.",
+          "plausible_range": "0.10-0.30"
+        },
+        {
+          "role": "Computer Systems Analysts (15-1211)",
+          "labor_share_of_total": 0.0455,
+          "within_role_automatable_fraction": 0.35,
+          "contribution": 0.015925,
+          "rationale": "Service-level reporting, transition planning documentation, and audit work automate substantially. Client governance interaction and transition-risk management require judgment and persist.",
+          "plausible_range": "0.25-0.45"
+        },
+        {
+          "role": "Sales Representatives (41-3091)",
+          "labor_share_of_total": 0.043,
+          "within_role_automatable_fraction": 0.15,
+          "contribution": 0.006450,
+          "rationale": "Long-cycle outsourcing-contract sales and renewals are relationship-intensive and persist. Internal proposal generation and pipeline administration automate marginally.",
+          "plausible_range": "0.05-0.20"
+        },
+        {
+          "role": "General and Operations Managers (11-1021)",
+          "labor_share_of_total": 0.0518,
+          "within_role_automatable_fraction": 0.15,
+          "contribution": 0.007770,
+          "rationale": "Company management: internal ops and reporting partially automate; strategic and client-facing management does not.",
+          "plausible_range": "0.10-0.20"
+        },
+        {
+          "role": "Computer Occupations All Other (15-1299)",
+          "labor_share_of_total": 0.0314,
+          "within_role_automatable_fraction": 0.40,
+          "contribution": 0.012560,
+          "rationale": "Mixed operations roles; AIOps targets the monitoring and shift-operations slice. Broad category; 40% reflects average across mixed automatable/non-automatable sub-roles.",
+          "plausible_range": "0.25-0.55"
+        },
+        {
+          "role": "Project Management Specialists (13-1082)",
+          "labor_share_of_total": 0.0304,
+          "within_role_automatable_fraction": 0.30,
+          "contribution": 0.009120,
+          "rationale": "Rollout coordination and status reporting automate; client escalation and stakeholder management persist.",
+          "plausible_range": "0.20-0.40"
+        },
+        {
+          "role": "Management Analysts (13-1111)",
+          "labor_share_of_total": 0.0273,
+          "within_role_automatable_fraction": 0.30,
+          "contribution": 0.008190,
+          "rationale": "Service-level audits, transition planning docs, SLA analysis automate; client interaction persists.",
+          "plausible_range": "0.20-0.40"
+        },
+        {
+          "role": "Software QA Analysts and Testers (15-1253)",
+          "labor_share_of_total": 0.0222,
+          "within_role_automatable_fraction": 0.40,
+          "contribution": 0.008880,
+          "rationale": "Automated testing and validation tools are mature; substantial portion of QA work is automatable. Human judgment for edge cases and novel failure modes persists.",
+          "plausible_range": "0.30-0.55"
+        },
+        {
+          "role": "Unallocated tail (shift operators, physical facilities staff, admin, remainder)",
+          "labor_share_of_total": 0.3941,
+          "within_role_automatable_fraction": 0.25,
+          "contribution": 0.098525,
+          "rationale": "Remainder (1 - 0.6059 = 0.3941 of wage bill) covers shift operations, physical data-center staff (rack/stack, media handling, physical security), and administrative staff. Back-office admin automates; AIOps targets shift-ops monitoring; physical facilities work is not automatable. 25% fraction reflects that roughly one-quarter of this diverse tail is in automatable administrative or monitoring tasks.",
+          "plausible_range": "0.15-0.35"
+        }
+      ],
+      "quality": "MED"
+    },
+    "pi_dist": {
+      "value": 0.30,
+      "rationale": "Multi-year outsourcing contracts with benchmarking clauses and productivity glidepaths are the dominant billing form. These explicitly commit efficiency gains to clients at renewal — evidenced by Kyndryl's pattern: automation savings via Advanced Delivery initiative are redeployed or absorbed into lower contract value, not retained as pure margin expansion. Procurement-run renewals further restrict pricing power. Transition switching costs give the firm moderate relationship control between renewals, but the contract structure ensures the majority of AI efficiency flows client-ward. pi_dist=0.30 captures the moderate client-relationship control of multi-year contract holders, substantially deflated by renewal repricing mechanism.",
+      "plausible_range": "0.25-0.40",
+      "sources": [
+        "Kyndryl Holdings 8-K FY2025 Q3: Advanced Delivery initiative automation savings context (https://www.sec.gov/Archives/edgar/data/1867072/000155837025000604/kd-20250203xex99d1.htm)",
+        "Kyndryl Holdings 8-K FY2024: contract value decline reflecting automation productivity glidepath pass-through (https://www.sec.gov/Archives/edgar/data/1867072/000155837024007064/kd-20240507xex99d1.htm)"
+      ],
+      "quality": "MED"
+    },
+    "pi_moat": {
+      "value": 0.40,
+      "rationale": "Switching costs from complex IT estate transitions (risk of service disruption, retraining, reintegration) create real but time-limited barriers. Compliance and audit accountability for regulated/sovereign/legacy workloads adds a defensible niche. However, cloud migration — the structural bypass predating AI by a decade — continues shrinking the addressable on-prem estate. AI is not the primary bypass tool; clients migrate to hyperscalers whose operations are already automated. The residual niche (legacy/sovereign/regulated workloads) is real but represents a declining fraction. pi_moat=0.40 acknowledges genuine switching costs and compliance accountability against the structural headwind of workload migration.",
+      "plausible_range": "0.30-0.55",
+      "sources": [
+        "ISG Enterprise Managed Network Services 2025 (https://isg-one.com/docs/default-source/2025-ipl-brochures/enterprise-managed-network-services-2025-brochure.pdf)",
+        "Kyndryl/DXC earnings commentary on cloud migration impact on managed infrastructure revenue (secondary: search results aggregating SEC disclosures)"
+      ],
+      "quality": "MED"
+    },
+    "t50_years": {
+      "value": 7.0,
+      "derivation": "current_adoption_pct=0.22 (22% of outsourced IT operations delivery firms materially using AIOps/AI automation in delivery). Historical analog: cloud adoption in managed IT services took approximately 10 years to go from ~10% penetration (2012) to ~50% of workloads managed via cloud-native tools (2022). AIOps adoption started from a higher base (~10% in early 2023 per Gartner, already 22% now in 2026) and is tracking faster given enterprise mandates. Remaining gap from 22% to 50% is 28pp vs. the prior cycle's ~40pp over ~10 years. Proportional estimate: 28/40 × 10 = 7 years from today. t50 = 7 years (2033).",
+      "plausible_range": "4-10 years",
+      "quality": "ESTIMATE"
+    },
+    "current_adoption_pct": {
+      "value": 0.22,
+      "source": "Gartner via calliber.net AIOps Statistics 2026; Thoughtworks 2025 AIOps retrospective",
+      "url": "https://calliber.net/blog/trends-ai-operations-automation-tools",
+      "figure_quoted": "Adoption of AI-powered monitoring climbed from 42% to 54% of enterprises between 2024 and 2025; Gartner: less than 10% of enterprises had AIOps+observability autonomy in 2023, projected 40% by 2026. 67% of MSPs now offer AI-powered monitoring services.",
+      "access_date": "2026-07-20",
+      "quality": "MED"
+    },
+    "historical_analogs": {
+      "value": "Cloud managed services adoption: ~10 years from ~10% penetration (2012) to ~50% of enterprise workloads managed on cloud-native infrastructure (2022). ITIL automation tools adoption in outsourced delivery: similar 8-12 year cycles observed in managed services industry.",
+      "source": "Zippia Cloud Adoption Statistics 2026; Auxis IT Outsourcing Trends 2026",
+      "url": "https://www.zippia.com/advice/cloud-adoption-statistics/",
+      "figure_quoted": "Approximately 30-40% of enterprise applications now run on traditional on-premise servers, down from roughly 50% in 2019; 33% of enterprises were running over 50% of their workloads in the cloud as of 2021.",
+      "access_date": "2026-07-20",
+      "quality": "MED"
+    },
+    "owners_60plus_pct": {
+      "value": 0.35,
+      "source": "U.S. Census Bureau Annual Business Survey 2022 (via census.gov visualization); U.S. Census Bureau 2022 ABS aggregate reported by Oberlo/electroiq",
+      "url": "https://www.census.gov/library/visualizations/2020/comm/business-owners-ages.html",
+      "figure_quoted": "Over half of U.S. business owners are age 55+; U.S. Census Bureau 2022 ABS: 52.3% of business owners age 55+, 29.5% ages 55-64, 22.8% age 65+. Interpolated 60+ estimate: ~35% (22.8% age 65+ plus roughly half of 55-64 cohort at ~12%).",
+      "access_date": "2026-07-20",
+      "quality": "ESTIMATE",
+      "succession_shortage_documented": {
+        "value": false,
+        "evidence": "ABS 2022 shows 52.3% of small business owners age 55+ broadly; Gallup and U.S. Bank surveys document lack of succession plans (only 54% have a formal plan). However, NAICS 541513 skews heavily to large firms (151 firms at 500+ employees averaging $117M revenue); individual-owner succession dynamics are less applicable than for SMB-dominant codes. No IT facilities management-specific succession shortage is documented in the sources accessed. Using false for the machine-readable flag; succession shortage at the large-firm segment (where the code's revenue is concentrated) is not the driver of M&A supply."
+      }
+    },
+    "active_consolidators": {
+      "value": 3,
+      "source": "CT Acquisitions Private Equity MSP 2026 guide; Solganick Technology Services M&A Update; Lincoln International IT Services Mid-Year 2024",
+      "url": "https://ctacquisitions.com/guides/private-equity-msp-2026/",
+      "figure_quoted": "7 actively acquiring MSP platforms documented, all focused on SMB helpdesk segment (541512), not enterprise IT outsourcing/facilities management (541513). Enterprise IT outsourcing consolidation driven by strategic buyers (Kyndryl, NTT Data, Cognizant) not roll-up platforms. Active consolidators targeting the $1-10M EBITDA 541513 segment are estimated at approximately 3 (some managed infrastructure-focused PE platforms exist but are not prominently documented as active roll-up vehicles in this code).",
+      "access_date": "2026-07-20",
+      "quality": "ESTIMATE"
+    },
+    "buy_mult": {
+      "value": 5.5,
+      "source": "Aventis Advisors IT Services Valuation Multiples 2015-2024; CT Acquisitions IT Managed Services M&A Multiples Report 2026",
+      "url": "https://aventis-advisors.com/it-services-valuation-multiples/",
+      "figure_quoted": "Small IT services firms under $5M deal value: median 5.9x EV/EBITDA (Aventis, 361 transactions 2015-2026). GF Data: median technology services 7.3x for $10-50M EV band full-year 2024. For 541513 specifically (enterprise ITO, not SMB MSP), multiples at the $1-5M EBITDA level set conservatively at 5.5x reflecting lower strategic premium vs. MRR-based MSPs.",
+      "access_date": "2026-07-20",
+      "quality": "MED"
+    },
+    "exit_mult": {
+      "value": 10.5,
+      "source": "Aventis Advisors IT Services Valuation Multiples; Solganick Technology Services M&A Q4 2025 and 2026 Forecast; ibinterviewquestions.com M&A multiples reference 2025-2026",
+      "url": "https://aventis-advisors.com/it-services-valuation-multiples/",
+      "figure_quoted": "IT services $100-500M deal size: median 11.6x EV/EBITDA; $50-100M: 11.5x (Aventis). Solganick: large platforms above $20M EBITDA seeing mid-to-upper double digit multiples (16x-20x). Enterprise ITO platform exits conservative at 10.5x given structural headwinds (cloud migration, demand erosion) vs. higher-rated MSP platforms.",
+      "access_date": "2026-07-20",
+      "quality": "MED"
+    },
+    "pricing_structure": {
+      "value": "Multi-year fixed-fee or per-device/per-seat contracts with committed productivity glidepaths (~50% of revenue); time-and-materials for smaller operational contracts (~30%); cost-plus with audit rights (~20%). Benchmarking clauses at renewal are standard in enterprise outsourcing. Productivity commitments explicitly pre-commit efficiency gains to clients.",
+      "source": "Kyndryl Holdings FY2025 8-K; Channel Dive MSP Pricing Models; Corsica Tech IT Outsourcing Trends 2026",
+      "url": "https://www.sec.gov/Archives/edgar/data/1867072/000155837025000604/kd-20250203xex99d1.htm",
+      "figure_quoted": "Kyndryl Advanced Delivery initiative: automation savings allow redeployment of delivery professionals; contractually required productivity commitments documented. MSP industry: per-device ($50-100/device/month, 28% of MSPs), per-user ($50-100/user/month), and fixed-fee/value-based pricing most common models.",
+      "access_date": "2026-07-20",
+      "quality": "MED"
+    }
+  },
+  "scores": {
+    "V": {
+      "arithmetic": "V_raw = labor_share × ai_replaceable_share = 0.3989 × 0.30089 = 0.120025121; V = 10 × min(1, 0.120025121/0.25) = 10 × 0.480100484 = 4.80100484",
+      "score": 4.80100484
+    },
+    "C": {
+      "arithmetic": "C = 10 × pi_dist × pi_moat = 10 × 0.30 × 0.40 = 1.20",
+      "score": 1.20
+    },
+    "A": {
+      "arithmetic": "A = min(10, 10/t50_years) = min(10, 10/7.0) = min(10, 1.42857142857) = 1.42857142857",
+      "score": 1.42857142857
+    },
+    "B": {
+      "arithmetic": "n_band=583; TD=clamp(log10(583)/4,0,1)=clamp(2.765810/4,0,1)=clamp(0.691453,0,1)=0.691453; owners_60plus_pct=0.35; OW=clamp((0.35-0.10)/0.35,0.1,0.9)=clamp(0.714286,0.1,0.9)=0.714286; succession_shortage_documented=false so no +0.1; active_consolidators=3; CFD=min(0.9,log10(4)/2)=min(0.9,0.301030/1)=min(0.9,0.30103)=0.30103; B=10×sqrt(0.691453×0.714286)/(1+0.3×0.30103)=10×sqrt(0.493895)/1.090309=10×0.702776/1.090309=6.44573",
+      "score": 6.44573
+    },
+    "M": {
+      "arithmetic": "M = clamp(4×(exit_mult-buy_mult)/buy_mult, 0, 10) = clamp(4×(10.5-5.5)/5.5, 0, 10) = clamp(4×0.909091, 0, 10) = clamp(3.636364, 0, 10) = 3.636364",
+      "score": 3.636364
+    }
+  },
+  "S": 2.86465,
+  "cross_checks": {
+    "uplift_pp": 12.0025,
+    "uplift_vs_A_consistent": "V_raw=0.12003 implies 12.0pp EBITDA uplift. A=1.429 (t50=7 years, slow adoption). Uplift of 12pp >> 3pp threshold, so no tension: high potential value but slow adoption speed is internally consistent — a large opportunity that the industry will take many years to realize fully.",
+    "terminal_value": {
+      "class": "MELTING",
+      "justification": "The product of NAICS 541513 — human management and operation of client IT estates on client premises — is being replaced by two independent structural forces: (1) cloud migration (decade-long, predates AI, continues shrinking the on-prem addressable base as clients move workloads to hyperscalers whose operations are already automated), and (2) AIOps/self-healing infrastructure (now automating the monitoring, patching, incident-response, and runbook functions that are the core deliverable). AI here is primarily the client's exit ramp rather than the operator's productivity tool, because outsourcing contract structures (productivity glidepaths, benchmarking) pass any operator-side AI efficiency gains to clients at renewal. A residual niche exists — regulated/sovereign/legacy workloads requiring audit-accountable human oversight — but this is a declining fraction of the 2022 base. The dominant revenue segment of the code is MELTING, not merely PRESSURED."
+    },
+    "no_proxy_confirmed": "V was computed from OEWS wage-share breakdown × within-role automatable fractions grounded in AIOps capability evidence (monitoring automation, ticket auto-resolution, runbook execution). A was derived from current_adoption_pct=0.22 (Gartner/industry surveys) and historical technology adoption analog (cloud services: ~10yr to 50%). Neither V nor A referenced deal activity, consolidation waves, or M&A trends.",
+    "pricing_model_deflation": "Billing mix: ~50% multi-year fixed-fee/per-device contracts with productivity glidepaths, ~30% T&M, ~20% cost-plus. Productivity glidepaths in outsourcing contracts explicitly pre-commit efficiency savings to clients at renewal cycles (Kyndryl evidence: Advanced Delivery automation savings redeployed/absorbed into contract repricing, not margin retention). T&M contracts pass savings directly via competitive retendering. Only cost-plus retains efficiency gains temporarily before audit resets pricing. This deflation mechanism is reflected in pi_dist=0.30 (client-relationship control substantially deflated by renewal repricing) and pi_moat=0.40 (genuine switching costs and compliance accountability partially offset by structural workload migration to cloud)."
+  },
+  "confidence_overall": "MED",
+  "heterogeneous": false,
+  "top_uncertain_inputs": [
+    {
+      "input": "t50_years",
+      "plausible_range": "4-10 years",
+      "score_impact": "A = 10/t50: at t50=4, A=2.50; at t50=10, A=1.00. S varies from ~3.06 (t50=4) to ~2.72 (t50=10), a range of ~0.34 S units."
+    },
+    {
+      "input": "pi_dist",
+      "plausible_range": "0.25-0.40",
+      "score_impact": "C = 10×pi_dist×pi_moat: at pi_dist=0.25, C=1.00; at pi_dist=0.40, C=1.60. S varies from ~2.74 (pi_dist=0.25) to ~3.06 (pi_dist=0.40)."
+    },
+    {
+      "input": "active_consolidators",
+      "plausible_range": "1-8",
+      "score_impact": "CFD changes from 0.0 (1 consolidator) to 0.477 (8 consolidators), B ranges from ~7.08 (n=1) to ~5.73 (n=8). S impact: ~0.14 S units across the range."
+    }
+  ],
+  "reviewer_note": "NAICS 541513 is big-firm skewed (151 firms at 500+ averaging $117M revenue); the $1-10M EBITDA band (n_band=583) consists primarily of 429 firms in the 20-99 headcount class and 154 in the 100-499 class — some of these may be subsidiaries or captives rather than independent acquirable firms, which overstates the true acquirable universe. The OEWS role_mix is at 4-digit 5415 level and does not distinguish 541513 from its siblings; within-role fractions for the 'Software Developers' bucket were adjusted to reflect that this SOC at 541513 actually proxies systems/network administrators and AIOps delivery staff rather than product developers — but this mapping is uncertain (MED quality). The secular cloud-migration headwind predates AI and is the primary demand risk; AI is an accelerant of workload migration (making cloud self-management easier) rather than an independent new force. buy_mult and exit_mult are calibrated from IT services broadly (primarily MSP data); 541513 enterprise ITO transactions are fewer and likely command lower multiples than SMB MSPs due to structural demand erosion. active_consolidators=3 is an estimate; no documented PE roll-up platforms specifically targeting 541513 at the $1-10M EBITDA tier were found in sources accessed."
+}

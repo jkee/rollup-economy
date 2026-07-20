@@ -1,0 +1,340 @@
+{
+  "naics": "541618",
+  "title": "Other Management Consulting Services",
+  "run_meta": {
+    "model_id": "claude-sonnet-4-6",
+    "run_date": "2026-07-20",
+    "run_id": "fleet-s2-541618",
+    "template_version": "3.0",
+    "prompt_version": "p3-aff6579"
+  },
+  "dataset_inputs": {
+    "labor_share": {
+      "value": 1.3991,
+      "method": "QCEW 2024 private total annual wages at 541618 ($14,897,754,779) x benefits multiplier 1.4294 [ECEC private-industry total comp $46.60/hr / wages $32.60/hr = 1.4294 (March 2026 reference period)] / SUSB 2022 receipts at 541618 ($11,352,826,000). Vintage mismatch: 2024 wages over 2022 receipts, stated. Level: 6-digit. Harmonized to IPS basis ÷1.3407 (median of 65 dual-method codes).",
+      "sources": [
+        "BLS QCEW 2024 annual averages (US000, private)",
+        "BLS ECEC news release (raw/ecec.nr0.htm)",
+        "Census SUSB 2022 (receipts by NAICS)"
+      ],
+      "year": "2024 wages / 2022 receipts",
+      "quality": "MED"
+    },
+    "role_mix": {
+      "oews_level": "4-digit 5416",
+      "occupations": [
+        {
+          "soc": "13-1111",
+          "title": "Management Analysts",
+          "emp_share": 0.1235,
+          "wage_share": 0.1548
+        },
+        {
+          "soc": "11-1021",
+          "title": "General and Operations Managers",
+          "emp_share": 0.0783,
+          "wage_share": 0.1353
+        },
+        {
+          "soc": "13-1161",
+          "title": "Market Research Analysts and Marketing Specialists",
+          "emp_share": 0.0516,
+          "wage_share": 0.0412
+        },
+        {
+          "soc": "41-3091",
+          "title": "Sales Representatives of Services, Except Advertising, Insurance, Financial Services, and Travel",
+          "emp_share": 0.0428,
+          "wage_share": 0.0363
+        },
+        {
+          "soc": "13-1082",
+          "title": "Project Management Specialists",
+          "emp_share": 0.0384,
+          "wage_share": 0.0418
+        },
+        {
+          "soc": "43-4051",
+          "title": "Customer Service Representatives",
+          "emp_share": 0.0332,
+          "wage_share": 0.0143
+        },
+        {
+          "soc": "13-1199",
+          "title": "Business Operations Specialists, All Other",
+          "emp_share": 0.0297,
+          "wage_share": 0.0294
+        },
+        {
+          "soc": "15-1252",
+          "title": "Software Developers",
+          "emp_share": 0.027,
+          "wage_share": 0.0348
+        },
+        {
+          "soc": "13-2011",
+          "title": "Accountants and Auditors",
+          "emp_share": 0.0233,
+          "wage_share": 0.0222
+        },
+        {
+          "soc": "13-1071",
+          "title": "Human Resources Specialists",
+          "emp_share": 0.0207,
+          "wage_share": 0.0172
+        }
+      ],
+      "quality": "MED"
+    },
+    "n_total": {
+      "value": 12746,
+      "source": "SUSB 2022 (firms, all enterprise sizes)",
+      "year": "2022",
+      "quality": "HIGH"
+    },
+    "n_band": {
+      "value": 256,
+      "derivation": "margin 0.1565 (margins.json[54]: Damodaran Jan 2026: Business & Consumer Services EBITDA/Sales 15.65%); revenue/employee $247,727 (SUSB 2022 receipts/employment at 541618); class <5: 11,518 firms, avg revenue/firm $353,982 (class receipts/firms), implied EBITDA $55,398 -> out of $1-10M band; class 5-9: 661 firms, avg revenue/firm $1,508,079 (class receipts/firms), implied EBITDA $236,014 -> out of $1-10M band; class 10-19: 283 firms, avg revenue/firm $3,159,795 (class receipts/firms), implied EBITDA $494,508 -> out of $1-10M band; class 20-99: 216 firms, avg revenue/firm $9,167,644 (class receipts/firms), implied EBITDA $1,434,736 -> IN $1-10M band; class 100-499: 40 firms, avg revenue/firm $28,072,600 (class receipts/firms), implied EBITDA $4,393,362 -> IN $1-10M band; class 500+: 28 firms, avg revenue/firm $81,481,750 (class receipts/firms), implied EBITDA $12,751,894 -> out of $1-10M band; n_band = 256",
+      "margin_used": 0.1565,
+      "margin_source": "Damodaran Jan 2026: Business & Consumer Services EBITDA/Sales 15.65%",
+      "quality": "ESTIMATE"
+    }
+  },
+  "inputs": {
+    "ai_replaceable_share": {
+      "value": 0.367235,
+      "breakdown_by_role": [
+        {
+          "role": "Management Analysts (13-1111)",
+          "labor_share_of_total": 0.1548,
+          "within_role_automatable_fraction": 0.55,
+          "contribution": 0.085140,
+          "rationale": "For the dominant TEM sub-segment, management analysts primarily conduct invoice review, tariff benchmarking, billing error identification, and carrier rate analysis — all heavily AI-exposed. AI can now scan telecom/utility invoices in seconds vs. 18+ minutes manually (Socium 2026 data: AI-driven TEM increased invoice accuracy by 29%). Client negotiation with carriers and strategic recommendation persist as non-automatable. 0.55 reflects that audit/analysis tasks constitute the majority of this role in TEM firms.",
+          "plausible_range": "0.40-0.65"
+        },
+        {
+          "role": "General and Operations Managers (11-1021)",
+          "labor_share_of_total": 0.1353,
+          "within_role_automatable_fraction": 0.15,
+          "contribution": 0.020295,
+          "rationale": "Client relationship management with CFOs and IT directors, firm leadership, and business development persist. Internal coordination and reporting automate partially. For 90% owner-operator firms in 541618, the manager IS the client relationship — very low automation fraction. 0.15 captures only the internal reporting sliver.",
+          "plausible_range": "0.10-0.20"
+        },
+        {
+          "role": "Market Research Analysts and Marketing Specialists (13-1161)",
+          "labor_share_of_total": 0.0412,
+          "within_role_automatable_fraction": 0.55,
+          "contribution": 0.022660,
+          "rationale": "For TEM/expense management firms, these roles conduct tariff benchmarking, market rate comparisons, vendor analysis, and pricing studies — all highly AI-automatable with current tools. Client presentation work persists. 0.55 reflects majority-analytical role content in TEM context.",
+          "plausible_range": "0.40-0.65"
+        },
+        {
+          "role": "Sales Representatives of Services (41-3091)",
+          "labor_share_of_total": 0.0363,
+          "within_role_automatable_fraction": 0.20,
+          "contribution": 0.007260,
+          "rationale": "RFP and proposal production automates. Relationship selling to enterprise procurement and IT leadership does not. 0.20 reflects only the documentation component.",
+          "plausible_range": "0.10-0.30"
+        },
+        {
+          "role": "Project Management Specialists (13-1082)",
+          "labor_share_of_total": 0.0418,
+          "within_role_automatable_fraction": 0.35,
+          "contribution": 0.014630,
+          "rationale": "Ongoing expense management program tracking, reporting, and audit scheduling automate. Client coordination on implementations and exception escalations persist. 0.35 reflects the reporting and tracking slice.",
+          "plausible_range": "0.25-0.45"
+        },
+        {
+          "role": "Customer Service Representatives (43-4051)",
+          "labor_share_of_total": 0.0143,
+          "within_role_automatable_fraction": 0.65,
+          "contribution": 0.009295,
+          "rationale": "In TEM/expense audit context, CSR-coded roles handle client inquiry routing, data entry, and invoice processing — largely clerical and highly automatable. AI processes invoices and resolves routine errors without human touchpoint. 0.65 reflects high routine-task content.",
+          "plausible_range": "0.50-0.75"
+        },
+        {
+          "role": "Business Operations Specialists All Other (13-1199)",
+          "labor_share_of_total": 0.0294,
+          "within_role_automatable_fraction": 0.50,
+          "contribution": 0.014700,
+          "rationale": "Catch-all role with heavy analytical content in TEM firms (operations analysts reviewing spend data, process documenters, business analysts). Data analysis and documentation automate substantially with current AI. Judgment on carrier contract interpretation persists. 0.50 reflects majority-analytical role.",
+          "plausible_range": "0.35-0.60"
+        },
+        {
+          "role": "Software Developers (15-1252)",
+          "labor_share_of_total": 0.0348,
+          "within_role_automatable_fraction": 0.30,
+          "contribution": 0.010440,
+          "rationale": "TEM firms operate internal tooling for invoice processing and reporting. AI copilots augment code production. Architecture and integration work persist. 0.30 reflects AI augmentation of routine development tasks.",
+          "plausible_range": "0.20-0.40"
+        },
+        {
+          "role": "Accountants and Auditors (13-2011)",
+          "labor_share_of_total": 0.0222,
+          "within_role_automatable_fraction": 0.55,
+          "contribution": 0.012210,
+          "rationale": "Invoice reconciliation, spend reporting, and financial audit of vendor bills are core to TEM delivery — highly automatable with AI (error detection, reconciliation). Judgment on disputes and contract interpretation persist. 0.55 reflects majority-routine content for this role in expense management.",
+          "plausible_range": "0.40-0.65"
+        },
+        {
+          "role": "Human Resources Specialists (13-1071)",
+          "labor_share_of_total": 0.0172,
+          "within_role_automatable_fraction": 0.30,
+          "contribution": 0.005160,
+          "rationale": "Compliance documentation and HR administration automate. Employee relations judgment persists. 0.30 standard for HR in small professional services firms.",
+          "plausible_range": "0.20-0.40"
+        },
+        {
+          "role": "Remaining long tail (TEM audit staff, utility expense analysts, site-selection analysts, other)",
+          "labor_share_of_total": 0.4727,
+          "within_role_automatable_fraction": 0.35,
+          "contribution": 0.165445,
+          "rationale": "For 541618, the tail includes telecom/utility expense auditors, site selection analysts, and other specialty niche consultants. Higher automatable fraction than logistics consulting tail (less physical presence required). Invoice auditing and benchmarking analysis are highly AI-exposed; negotiation and site assessment persist. 0.35 reflects majority analytical/clerical work with some judgment-dependent tasks.",
+          "plausible_range": "0.25-0.45"
+        }
+      ],
+      "quality": "MED"
+    },
+    "pi_dist": {
+      "value": 0.55,
+      "rationale": "Dominant TEM sub-segment skews capture-friendly. Contingency/gainshare pricing is prevalent in TEM (firm keeps a share of savings identified — AI reducing audit labor costs increases margin under this model). Estimates from industry sources suggest 40-50% of TEM revenue is contingency-priced. Multi-year recurring audit contracts give TEM firms firm-level client relationships (less principal-portable than pure advisory). For the remaining ~50-60% on subscription or T&M billing, some deflation risk exists. Blended pi_dist = 0.55, above midpoint because the dominant TEM sub-segment's contingency model is capture-friendly and contracts are recurring. Plausible range 0.40-0.65.",
+      "plausible_range": "0.40-0.65",
+      "sources": [
+        "SSI contingency invoice audits: ssui.com/contingency-parcel-freight-invoice-audits/",
+        "Socium AI in TEM 2026: sociumit.com/resources/blog/ai-telecom-expense-management-2026",
+        "Tellennium TEM guide: tellennium.com/your-guide-to-telecom-expense-management/"
+      ],
+      "quality": "LOW"
+    },
+    "pi_moat": {
+      "value": 0.30,
+      "rationale": "The key bypass risk: AI embedded in enterprise TEM platforms (Calero, Tangoe, Brightfin, Sage) allows large enterprises to manage telecom/utility invoices without a consulting intermediary. The TEM consulting product IS the intelligent processing of invoices and tariffs to find errors — when AI does this at the client's ERP, the product is replaced. Small 541618 firms (90% <5 employees) have minimal proprietary data moats. Moat components: (1) proprietary tariff/rate benchmark databases — real but being productized into SaaS platforms; (2) carrier relationship expertise and negotiation leverage — not AI-substitutable but a narrow slice; (3) switching costs from multi-year recurring contracts — provides retention but not barrier to initial bypass. pi_moat = 0.30 reflects weak-to-moderate barriers with significant bypass risk.",
+      "plausible_range": "0.20-0.45",
+      "sources": [
+        "Calero/MDSL/Mobi TEM consolidation 2024-2025: bcmone.com/blog/top-telecom-expense-management-companies/",
+        "Socium TEM guide 2026: sociumit.com/telecom-expense-management",
+        "Tangoe AI module launch 2024 (29% invoice accuracy increase): sociumit.com/resources/blog/ai-telecom-expense-management-2026"
+      ],
+      "quality": "LOW"
+    },
+    "t50_years": {
+      "value": 3.5,
+      "derivation": "Current adoption baseline: Federal Reserve FEDS Notes (April 2026) using Census BTOS data: professional, scientific, and technical services (NAICS 54) AI adoption ~33% as of late 2025. For 541618 specifically (TEM-dominant), AI adoption is likely ahead of the NAICS 54 average — AI in invoice processing launched commercially 2023-2024 (Tangoe AI module 2024, 15 major TEM vendors launched AI platforms 2023-2025 per market reports). Estimate current adoption among 541618 firms at ~35%. To reach 50%: need ~15pp more. BTOS shows NAICS 54 sector is the fastest-adopting non-tech sector; growth pace of ~5-8pp/year suggests 50% threshold crossed in 2-3 years. Using t50 = 3.5 years (January 2030) to reflect that small micro-firm majority in 541618 (90% <5 employees) lags larger firm adoption.",
+      "plausible_range": "2.5-5.0 years",
+      "quality": "MED"
+    },
+    "current_adoption_pct": {
+      "value": 0.33,
+      "source": "Federal Reserve FEDS Notes — Monitoring AI Adoption in the US Economy (April 2026), citing Census BTOS data",
+      "url": "https://www.federalreserve.gov/econres/notes/feds-notes/monitoring-ai-adoption-in-the-u-s-economy-20260403.html",
+      "figure_quoted": "Professional, scientific, and technical services stand out in terms of levels of adoption, at about 33 percent as of late 2025",
+      "access_date": "2026-07-20",
+      "quality": "MED"
+    },
+    "historical_analogs": {
+      "value": "7-10 years to 50% adoption (cloud/SaaS tools in professional services); TEM specifically saw rapid AI platform adoption 2023-2025 suggesting faster than average technology adoption cycle for this sub-segment",
+      "source": "Federal Reserve FEDS Notes April 2026; Socium TEM market growth blog 2026; MHI/Deloitte 2025 Annual Industry Report on technology adoption lags",
+      "url": "https://www.federalreserve.gov/econres/notes/feds-notes/monitoring-ai-adoption-in-the-u-s-economy-20260403.html",
+      "figure_quoted": "Adoption jumped 47 percent (10.6 percentage points) between survey methodologies in professional services; AI-driven TEM adoption increased by 36% in 2024 alone",
+      "access_date": "2026-07-20",
+      "quality": "MED"
+    },
+    "owners_60plus_pct": {
+      "value": 0.37,
+      "source": "Gallup Pathways to Wealth Survey 2025; McKinsey Great Ownership Transfer 2026; Oberlo Small Business Statistics 2024",
+      "url": "https://news.gallup.com/poll/657362/small-business-owners-lack-succession-plan.aspx",
+      "figure_quoted": "Boomers (ages 60-78 as of 2025) make up 37% of small business owners; more than half of all small-business owners are over 55, up from roughly 30 percent in 2002; one in four small-business owners is 65 or older",
+      "access_date": "2026-07-20",
+      "quality": "MED",
+      "succession_shortage_documented": {
+        "value": true,
+        "evidence": "Gallup 2025: 27% of employer firms with 55+ owners unsure of long-term plan or intend to close permanently. McKinsey 2026: approximately 6M small businesses will exit ownership over the next decade. Chase 2026 Local Snapshot survey: most small business owners are not prepared for succession, lack fully developed plans. This is acute for 541618 where 90% of firms have <5 employees and the entire firm value may reside in the owner's carrier relationships and expertise."
+      }
+    },
+    "active_consolidators": {
+      "value": 3,
+      "source": "Calero Software M&A activity 2024-2025; TEM market consolidation reports; PEmarketplace deal announcements; CT Acquisitions consulting firm roll-up data 2026",
+      "url": "https://www.bcmone.com/blog/top-telecom-expense-management-companies/",
+      "figure_quoted": "Calero Software acquired MDSL (April 2024) and Mobi Wireless Management (2025); TEM market has seen a wave of mergers and acquisitions. However, these are primarily software/platform consolidations rather than PE roll-ups of small consulting firms. Estimated 2-4 PE-backed platforms actively adding small 541618 consulting firms as add-ons in the last 24 months.",
+      "access_date": "2026-07-20",
+      "quality": "LOW"
+    },
+    "buy_mult": {
+      "value": 4.5,
+      "source": "BizBuySell Insight Report 2025; First Page Sage Consulting Multiples 2025; GF Data Middle Market Valuations 2025; CT Acquisitions consulting firm exit guide 2026",
+      "url": "https://ctacquisitions.com/prepare-your-business-for-sale/consulting-firm-exit/",
+      "figure_quoted": "BizBuySell 2025: average SDE multiple 2.61x across all small businesses. For micro consulting firms at $1-3M EBITDA after owner-comp normalization, more general management consulting trades lower than specialty; applying owner-dependence discount and normalization yields 4-5x EBITDA. CT Acquisitions: below $2M EBITDA is the add-on entry band at 3-5x. Using 4.5x EBITDA as midpoint for small 541618 firms.",
+      "access_date": "2026-07-20",
+      "quality": "LOW"
+    },
+    "exit_mult": {
+      "value": 8.0,
+      "source": "GF Data Middle Market M&A Valuations 2025; First Page Sage Consulting Multiples 2025; CT Acquisitions PE roll-up exit data 2026",
+      "url": "https://www.capstonepartners.com/insights/report-capstone-partners-middle-market-mergers-and-acquisitions-valuations-index/",
+      "figure_quoted": "GF Data business services median 7.4x in 2025. PE roll-up exit from $5-10M EBITDA platform: CT Acquisitions documents EBITDA multiple expansion from 5-7x at entry to 10-12x at exit; using 8.0x for a specialized management consulting platform with recurring expense-management revenue, reflecting GF Data median plus modest recurring-revenue premium but discounting for TEM's AI disruption risk.",
+      "access_date": "2026-07-20",
+      "quality": "LOW"
+    },
+    "pricing_structure": {
+      "value": "TEM dominant sub-segment: ~40-50% contingency/gainshare (share of savings identified); ~30-40% subscription/managed-service (recurring flat fee or per-invoice); ~15-20% T&M/project advisory. Other sub-segments (site selection, utility management): primarily project-fee or retainer.",
+      "source": "SSI contingency audit model; Socium TEM market guide 2026; Tellennium TEM guide; TEM market intelligence report GlobeNewswire 2025",
+      "url": "https://ssui.com/contingency-parcel-freight-invoice-audits/",
+      "figure_quoted": "Managed services account for 42.6% of TEM market share in 2025; contingency-based billing standard in expense audit (providers receive percentage of recoverable savings); cloud-native SaaS delivery models account for over 65% of implementations in 2024",
+      "access_date": "2026-07-20",
+      "quality": "MED"
+    }
+  },
+  "scores": {
+    "V": {
+      "arithmetic": "V_raw = labor_share × ai_replaceable_share = 1.3991 × 0.367235 = 0.51379849; V = 10 × min(1, 0.51379849 / 0.25) = 10 × min(1, 2.05519396) = 10 × 1.0 = 10.00000000. NOTE: V_raw > 1.0 is an arithmetic artifact of the flagged labor_share anomaly (1.3991 economically impossible). V hits ceiling. See reviewer_note.",
+      "score": 10.00000000
+    },
+    "C": {
+      "arithmetic": "C = 10 × pi_dist × pi_moat = 10 × 0.55 × 0.30 = 1.65000000",
+      "score": 1.65000000
+    },
+    "A": {
+      "arithmetic": "A = min(10, 10 / t50_years) = min(10, 10 / 3.5) = min(10, 2.85714286) = 2.85714286",
+      "score": 2.85714286
+    },
+    "B": {
+      "arithmetic": "TD = clamp(log10(256)/4, 0, 1) = clamp(2.40823997/4, 0, 1) = 0.60205999; OW = clamp((0.37-0.10)/0.35, 0.1, 0.9) = clamp(0.77142857, 0.1, 0.9) = 0.77142857; succession_shortage_documented=true → OW = min(1.0, 0.77142857+0.1) = 0.87142857; CFD = min(0.9, log10(1+3)/2) = min(0.9, 0.60205999/2) = 0.30103000; B = 10 × sqrt(0.60205999 × 0.87142857) / (1 + 0.3 × 0.30103000) = 10 × sqrt(0.52465228) / 1.09030900 = 10 × 0.72432885 / 1.09030900 = 6.64333549",
+      "score": 6.64333549
+    },
+    "M": {
+      "arithmetic": "M = clamp(4 × (exit_mult - buy_mult) / buy_mult, 0, 10) = clamp(4 × (8.0 - 4.5) / 4.5, 0, 10) = clamp(4 × 3.5 / 4.5, 0, 10) = clamp(3.11111111, 0, 10) = 3.11111111",
+      "score": 3.11111111
+    }
+  },
+  "S": 3.96044076,
+  "cross_checks": {
+    "uplift_pp": 51.379849,
+    "uplift_vs_A_consistent": "uplift_pp = 51.38pp is an artifact of the labor_share anomaly (1.3991 > 1.0 is economically impossible). True economically-implied uplift using a plausible labor_share of ~0.55 (sibling codes average) would be: 0.55 × 0.367235 × 100 = 20.2pp. A = 2.86 (< 5). No tension flag triggered (A < 5 regardless of uplift figure). The stored uplift_pp of 51.38 is flagged as anomalous in reviewer_note — it is not an economic estimate but the mechanical product of the formula applied to a flagged input.",
+    "terminal_value": {
+      "class": "MELTING",
+      "justification": "For the dominant TEM sub-segment: the product IS the intelligent processing of telecom/utility/SaaS invoices to identify billing errors and optimization opportunities — precisely what AI does natively. As AI becomes embedded in enterprise ERP and TEM platforms (Calero, Tangoe, Brightfin, Sage), large enterprises self-serve the savings identification that TEM consultants previously provided. The mechanism that kept paid demand alive was the information-processing labor clients did not want to spend; AI eliminates that reason to hire a consultant. Carrier negotiation persists as a human-agency component, but it is a small fraction of TEM revenue and is being productized into procurement platforms. The product itself is being replaced, not just the operator's cost of delivery. MELTING classification justified. (For the site selection and utility management sub-segments, PRESSURED would apply — those sub-segments have judgment and relationship components; but MELTING applies to the dominant TEM segment.)"
+    },
+    "no_proxy_confirmed": "V confirmed without proxy: ai_replaceable_share derived from role-by-role task automation assessment based on AI capabilities in invoice auditing, benchmarking, and analysis — no reference to deal activity or M&A trends. A confirmed without proxy: t50 derived from BTOS adoption data (33% professional services adoption per Federal Reserve analysis) and TEM-specific AI platform launch data — no reference to consolidation or PE activity.",
+    "pricing_model_deflation": "For TEM dominant sub-segment: contingency/gainshare model (~40-50% of revenue) is capture-FRIENDLY — AI reducing audit labor cost expands margins because the fee is a percentage of savings found, not hours spent. This is the opposite of deflation and is reflected in pi_dist = 0.55 (above midpoint). However, subscription/managed-service billing (~30-40%) faces bypass risk as enterprise AI eliminates the need for third-party TEM vendors entirely — this is not fee deflation but product substitution, reflected in pi_moat = 0.30. The mixed model means AI creates both a near-term margin opportunity (contingency slice) and a long-term bypass threat (full product replacement by embedded AI)."
+  },
+  "confidence_overall": "LOW",
+  "heterogeneous": true,
+  "top_uncertain_inputs": [
+    {
+      "input": "t50_years",
+      "plausible_range": "2.5-5.0 years",
+      "score_impact": "At t50=2.5: A=4.0, S rises to ~4.31. At t50=5.0: A=2.0, S falls to ~3.67. t50 drives A from 2.0 to 4.0 across the plausible range, moving S by ~0.64 — the largest single-input swing for well-identified inputs."
+    },
+    {
+      "input": "labor_share (dataset anomaly)",
+      "plausible_range": "0.46-0.63 (sibling 5416x codes range; 1.3991 is flagged impossible)",
+      "score_impact": "V is capped at 10.0 due to the anomaly — any labor_share that yields V_raw > 0.25 produces V=10.0 (which any plausible labor_share × ai_replaceable_share would too at 0.55-0.63 range × 0.37 = 0.20-0.23, borderline). If true labor_share were 0.46 (minimum sibling): V_raw = 0.46 × 0.367235 = 0.169, V = 6.76, S drops to ~3.60. The anomaly causes V to be overstated vs. plausible economics; S is meaningfully sensitive to this. Reported with flag: ESTIMATE-HEAVY risk from anomaly."
+    },
+    {
+      "input": "pi_moat",
+      "plausible_range": "0.20-0.45",
+      "score_impact": "At pi_moat=0.20: C=1.10, S falls to ~3.64. At pi_moat=0.45: C=2.475, S rises to ~4.34. TEM bypass trajectory is the key uncertainty — if enterprise AI platform adoption accelerates, pi_moat collapses to 0.15-0.20; if carrier complexity keeps specialists employed, pi_moat holds at 0.35-0.40."
+    }
+  ],
+  "reviewer_note": "541618 IS a catch-all code (heterogeneous=true). Top-3 sub-segments: (1) DOMINANT — Telecom/Technology Expense Management (TEM): contingency-fee invoice audit and ongoing cost optimization for enterprise telecom, SaaS, and cloud spend; firms include Tangoe, Calero, Tellennium and thousands of small TEM consultancies. (2) Utility expense management/optimization consulting: analogous to TEM for energy and utility bills. (3) Site selection and other specialty niches: site-selection advisors (incentive negotiation with municipalities), government-relations management consulting, and other residual niche advisory services excluded from 541611-541614. Scoring is performed for the DOMINANT TEM sub-segment. FLAGGED ANOMALY: labor_share=1.3991 is economically impossible (wages exceed receipts by 40%) and signals a QCEW/SUSB classification mismatch on this residual code. QCEW wages ($14.9B) appear to capture employment from a broader swath of management consulting than SUSB receipts ($11.4B) recorded in 2022; the 2024 vs 2022 vintage mismatch amplifies this — significant reclassification of firms between 541618 and siblings (541611, 541619) likely occurred. Rule 6 requires using the provided value as given; the formula mechanically produces V=10 (capped) regardless of ai_replaceable_share, because V_raw=1.3991×0.367235=0.514 exceeds the 0.25 anchor. If the true labor_share is ~0.55 (sibling average), V_raw≈0.202, V≈8.07, S≈3.78 — still a meaningful number but not 10.0. This V=10 is an artifact, not an economic signal. The confidence_overall is set to LOW primarily due to this anomaly and the catch-all code heterogeneity. Role_mix uses 4-digit 5416 proxy; 541618's true dominant TEM role mix likely has more auditors and clerical invoice processors than the 5416 average, which would increase ai_replaceable_share if measured directly. The terminal value of MELTING for the dominant TEM segment reflects the genuine risk that AI embedded in enterprise platforms replaces the consulting product — the reviewer should weigh this against the PRESSURED classification that might apply if the site selection and utility management sub-segments are larger than estimated."
+}
