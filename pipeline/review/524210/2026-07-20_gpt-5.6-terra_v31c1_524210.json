@@ -1,0 +1,74 @@
+{
+  "naics": "524210",
+  "run_id": "2026-07-20_gpt-5.6-terra_v31c1_524210",
+  "review_meta": {
+    "model_id": "gpt-5.6-sol",
+    "review_date": "2026-07-20",
+    "prompt_version": "validator-3.1"
+  },
+  "verdict": "wrong",
+  "checks": {
+    "sources_exist": {
+      "pass": true,
+      "note": "All four URL-bearing citation occurrences returned live source content, including the PDF and the duplicate First Connect URL occurrence."
+    },
+    "figures_match_sources": {
+      "pass": true,
+      "note": "Each figure_quoted is a verbatim substring of its live source and is supported in context; the separate defects concern scope completeness and the transformations from those source facts to score inputs."
+    },
+    "judgment_inputs_plausible": {
+      "pass": false,
+      "note": "The seven declared ESTIMATE inputs are candidly labeled and ranged, but pi_dist is an additional judgment presented as DERIVED without a reproducible bridge, current adoption does not bridge agent/day-to-day use to material firm adoption, and the exit multiple is not normalized to the required unit."
+    },
+    "rubric_consistent": {
+      "pass": false,
+      "note": "Identity, v3.1 finalizer invariants, exact deterministic dataset injection, roles, residual, arithmetic, and the t50 boundary pass. The record is only 0.0748 above the conditional cut, while score-affecting provenance, multiple-normalization, W-2/1099 sensitivity, and catch-all-boundary requirements remain unresolved."
+    },
+    "cross_checks_honest": {
+      "pass": true,
+      "note": "The uplift narrative defers the numeric uplift to Python, terminal value separates operator savings from product replacement, deal evidence is excluded from V/A, and pricing pressure is mapped explicitly into pi_dist and pi_moat."
+    }
+  },
+  "source_audits": [
+    {
+      "input_path": "inputs.active_consolidators.citations[0].url",
+      "url": "https://optisins.com/wp/wp-content/uploads/2026/01/Year-End-2025-MA-Report-2.pdf",
+      "resolves": true,
+      "claim_supported": true,
+      "note": "The live OPTIS January 2026 North American agent-and-broker report states on page 5 that 95 firms announced acquisitions in 2025 versus 104 in 2024. The record correctly limits this to unique acquisition-announcing firms and discloses that it is not a US target-band census."
+    },
+    {
+      "input_path": "inputs.current_adoption_pct.citations[0].url",
+      "url": "https://www.globenewswire.com/news-release/2026/06/25/3317588/0/en/first-connect-study-reveals-carrier-agent-friction-falling-by-up-to-50-as-insurance-industry-reaches-adoption-tipping-point.html",
+      "resolves": true,
+      "claim_supported": true,
+      "note": "The live June 25, 2026 release states verbatim that only 35% of agents currently use AI in day-to-day operations; later text restates 35% as agencies. It also states the sample was 238 independent agencies and 44 carrier/MGA partners. The atomic quote is supported, but it does not by itself establish material firm adoption across NAICS 524210."
+    },
+    {
+      "input_path": "inputs.exit_mult.citations[0].url",
+      "url": "https://www.marshberry.com/resource/waypoint/focused-insights-clock-speed-and-the-landscape-of-risk/",
+      "resolves": true,
+      "claim_supported": true,
+      "note": "The live MarshBerry page states verbatim that private platform firms averaged around 14x EBITDA for base purchase price at closing and near 19x with an earn-out over the past three years. The record's scope discloses the platform/target-band mismatch, but does not state an explicit geography, publication date, or the source unit limitation as completely as the v3.1 scope contract requires."
+    },
+    {
+      "input_path": "inputs.pi_dist.citations[0].url",
+      "url": "https://www.globenewswire.com/news-release/2026/06/25/3317588/0/en/first-connect-study-reveals-carrier-agent-friction-falling-by-up-to-50-as-insurance-industry-reaches-adoption-tipping-point.html",
+      "resolves": true,
+      "claim_supported": true,
+      "note": "The live release states verbatim that direct-to-consumer competition was the single biggest factor affecting the agent distribution channel and rose from 37% to 43% year over year. This supports only the quoted channel-pressure background fact, not the selected 0.65 savings-retention value."
+    }
+  ],
+  "reasons": [
+    "inputs.pi_dist.provenance_type and inputs.pi_dist.derivation: the record explicitly says the source does not measure savings capture and then assigns 0.65 as judgment, so the value is not DERIVED by a complete, reproducible bridge from the cited 37%-to-43% channel-pressure fact. Correct by classifying the selected value as ESTIMATE and treating the citation only as background evidence, or provide a reproducible derivation that actually maps the source fact to 0.65.",
+    "inputs.current_adoption_pct.derivation: carrying 35% over unchanged from agents using AI in day-to-day operations to US firms materially using AI in automatable functions is not a complete derivation, and calling it conservative does not establish the direction of the mismatch. Correct by using and scoping the source's agency-level wording and explicitly bridging day-to-day use to the material-use definition, or derive a firm/material-use proxy with stated conversion assumptions.",
+    "inputs.exit_mult.derivation and inputs.exit_mult.citations[0].scope: the 14x source fact is base purchase price divided by EBITDA for private platform firms, while the selected score input is presented as EV/EBITDA after market-rate owner compensation without an EV bridge or EBITDA/owner-comp normalization. The scope also omits an explicit geography and publication-date/unit statement. Correct by supplying the complete normalization and full source scope, or label the normalized exit value as an estimate rather than implying the cited 14x establishes the required unit.",
+    "reviewer_note: the record flags that W-2 labor share may omit 1099 producers or owner distributions and lowers confidence, but it does not show the sensitivity required by frozen rule 8. Correct by keeping the deterministic labor_share unchanged while quantifying at least one plausible 1099/owner-labor scenario and its effect on V or V_raw.",
+    "reviewer_note and heterogeneous: the catch-all disclosure lists several models but does not identify the top three revenue subsegments or clearly rank them before scoring the dominant one, as frozen rule 9 requires. Correct by naming the top three revenue subsegments, identifying which one is dominant and scored, and disclosing the evidence or uncertainty behind that boundary."
+  ],
+  "flags_reviewed": [
+    "LOW_CONFIDENCE",
+    "BORDERLINE: |S - conditional cut 4.00| = 0.0748",
+    "ESTIMATE_HEAVY: 7 inputs with provenance_type ESTIMATE (ai_replaceable_share, buy_mult, historical_analogs, owners_60plus_pct, pi_moat, pricing_structure, t50_years)"
+  ]
+}

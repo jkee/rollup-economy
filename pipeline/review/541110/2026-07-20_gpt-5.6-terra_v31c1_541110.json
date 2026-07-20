@@ -1,0 +1,77 @@
+{
+  "naics": "541110",
+  "run_id": "2026-07-20_gpt-5.6-terra_v31c1_541110",
+  "review_meta": {
+    "model_id": "gpt-5.6-sol",
+    "review_date": "2026-07-20",
+    "prompt_version": "validator-3.1"
+  },
+  "verdict": "wrong",
+  "checks": {
+    "sources_exist": {
+      "pass": true,
+      "note": "All five URL-bearing citation occurrences resolve to substantive live pages."
+    },
+    "figures_match_sources": {
+      "pass": true,
+      "note": "The two Clio quotations and the ABA Model Rule 5.4 quotation appear verbatim and in context; the records candidly state their population and NAICS-fit limitations."
+    },
+    "judgment_inputs_plausible": {
+      "pass": false,
+      "note": "Most estimates are candid and bounded, but pi_moat assigns operating-demand protection from a source that establishes only fee-sharing and ownership-structure restrictions."
+    },
+    "rubric_consistent": {
+      "pass": false,
+      "note": "The Rule 5.4 ownership constraint is used to raise pi_moat and therefore C even though ownership/deal constraints belong in B/M, not operating savings capture."
+    },
+    "cross_checks_honest": {
+      "pass": false,
+      "note": "cross_checks.no_proxy_confirmed says ownership constraints are used only in B/M, but inputs.pi_moat explicitly uses Rule 5.4 ownership and fee-sharing restrictions in C."
+    }
+  },
+  "source_audits": [
+    {
+      "input_path": "inputs.current_adoption_pct.citations[0].url",
+      "url": "https://www.clio.com/about/press/clios-2025-legal-trends-for-mid-sized-law-firm-report/",
+      "resolves": true,
+      "claim_supported": true,
+      "note": "The live Clio page states that AI adoption among mid-sized firms reached 93% and that over half use AI widely or universally; surrounding text also exposes the materially lower extensive-adoption figure for smaller firms, consistent with the record's proxy caveat and LOW evidence quality."
+    },
+    {
+      "input_path": "inputs.pi_dist.citations[0].url",
+      "url": "https://www.clio.com/uk/blog/solo-small-law-firms-highlights-2025-legal-trends/",
+      "resolves": true,
+      "claim_supported": true,
+      "note": "The live Clio UK page states verbatim that 75% of solos and 65% of small firms use fixed-fee billing models while 84% use hourly rates; the page is a segment/geography proxy as disclosed."
+    },
+    {
+      "input_path": "inputs.pi_moat.citations[0].url",
+      "url": "https://www.americanbar.org/groups/professional_responsibility/publications/model_rules_of_professional_conduct/rule_5_4_professional_independence_of_a_lawyer/?fq=%28id%3A%5C%2Fcontent%2Faba-cms-dotorg%2Fen%2Fgroups%2Fprofessional_responsibility%2F%2A%29&start=0&wt=json",
+      "resolves": true,
+      "claim_supported": true,
+      "note": "The ABA page states the quoted fee-sharing prohibition and nonlawyer-partnership prohibition. The atomic source fact is supported, although its score use as pi_moat is a separate rubric defect."
+    },
+    {
+      "input_path": "inputs.pricing_structure.citations[0].url",
+      "url": "https://www.clio.com/uk/blog/solo-small-law-firms-highlights-2025-legal-trends/",
+      "resolves": true,
+      "claim_supported": true,
+      "note": "The live page supports the quoted coexistence of widespread hourly and fixed-fee billing for solo and small firms; the record does not misstate it as a NAICS-wide revenue weighting."
+    },
+    {
+      "input_path": "inputs.t50_years.citations[0].url",
+      "url": "https://www.clio.com/about/press/clios-2025-legal-trends-for-mid-sized-law-firm-report/",
+      "resolves": true,
+      "claim_supported": true,
+      "note": "The live page contains the quoted 93% adoption and over-half widely-or-universally statement. Given the visibly selected 0.51 material-adoption proxy, the v3.1 t50=0 boundary is applied consistently."
+    }
+  ],
+  "reasons": [
+    "inputs.pi_moat.derivation uses ABA Model Rule 5.4's nonlawyer fee-sharing and ownership restrictions to credit a 'human-lawyer service boundary' and set pi_moat=0.45, but the cited rule does not establish a paid-demand boundary or savings-retention mechanism. Correct the rerun by supporting pi_moat with evidence and reasoning about who retains AI cost savings or durable paid end demand, while keeping ownership/deal constraints in B/M.",
+    "cross_checks.no_proxy_confirmed says ownership constraints are used only in B/M, but inputs.pi_moat.rationale and inputs.pi_moat.derivation use those constraints in C. Correct the rerun so the cross-check accurately describes the actual factor evidence and the frozen separation between operating capture and deal constraints."
+  ],
+  "flags_reviewed": [
+    "LOW_CONFIDENCE",
+    "ESTIMATE_HEAVY: 6 inputs with provenance_type ESTIMATE (active_consolidators, ai_replaceable_share, buy_mult, exit_mult, historical_analogs, owners_60plus_pct)"
+  ]
+}

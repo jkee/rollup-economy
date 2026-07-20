@@ -1,0 +1,94 @@
+{
+  "naics": "541613",
+  "run_id": "2026-07-20_gpt-5.6-terra_v31c1_541613",
+  "review_meta": {
+    "model_id": "gpt-5.6-sol",
+    "review_date": "2026-07-20",
+    "prompt_version": "validator-3.1"
+  },
+  "verdict": "wrong",
+  "checks": {
+    "sources_exist": {
+      "pass": true,
+      "note": "All seven URL-bearing citation occurrences resolve across five unique live sources, including the 64-page CMO Survey PDF."
+    },
+    "figures_match_sources": {
+      "pass": false,
+      "note": "The underlying figures and events appear in the fetched sources, but four figure_quoted fields splice noncontiguous text with ellipses rather than quote a verbatim contiguous source passage, and several scope fields omit required source geography."
+    },
+    "judgment_inputs_plausible": {
+      "pass": false,
+      "note": "The role and capture estimates are candid, but the US current-adoption derivation relies on a Gartner survey whose published geography is not stated and the active-consolidator value counts two adjacent agency transactions without establishing that both acquirers are active NAICS 541613 consolidators."
+    },
+    "rubric_consistent": {
+      "pass": false,
+      "note": "Template/finalizer identity, deterministic dataset equality, supplied role identity, residual share, EBITDA normalization, t50 boundary and formula structure pass, but active_consolidators is labeled DIRECT even though its value is a cross-source count and qualification judgment that affects B."
+    },
+    "cross_checks_honest": {
+      "pass": true,
+      "note": "The narratives candidly separate operator savings from product replacement, keep deal evidence out of V/A, map renewal and bid deflation into pi_dist/pi_moat, disclose adjacent-source contamination, and acknowledge the 4-digit role-mix and estimate-heavy uncertainty."
+    }
+  },
+  "source_audits": [
+    {
+      "input_path": "inputs.active_consolidators.citations[0].url",
+      "url": "https://marketbridge.com/marketbridge-acquires-april-six/",
+      "resolves": true,
+      "claim_supported": true,
+      "note": "The live January 2, 2025 release states verbatim that Marketbridge announced its acquisition of April Six and identifies the buyer as an integrated growth-consulting and marketing firm and the target as a specialist agency with UK and US operations."
+    },
+    {
+      "input_path": "inputs.active_consolidators.citations[1].url",
+      "url": "https://www.goprimer.com/blog/primer-joins-klimt-inc",
+      "resolves": true,
+      "claim_supported": false,
+      "note": "The live page states that Primer was acquired by Klimt& Inc. on September 4, 2025, but figure_quoted inserts an ellipsis that is not present in the source and the scope omits the Austin, Texas geography. The page describes an agency/holding-company transaction, not a NAICS 541613 consolidator census."
+    },
+    {
+      "input_path": "inputs.current_adoption_pct.citations[0].url",
+      "url": "https://www.gartner.com/en/newsroom/press-releases/2025-02-18-gartner-survey-reveals-over-a-quarter-of-marketing-organizations-have-limited-or-no-adoption-of-genai-for-marketing-campaigns",
+      "resolves": true,
+      "claim_supported": false,
+      "note": "The 27% quotation and July-September 2024 sample of 418 marketing leaders are present verbatim, but neither the source nor the citation scope states the survey geography. The required geography mismatch to the US target is therefore unaddressed."
+    },
+    {
+      "input_path": "inputs.current_adoption_pct.citations[1].url",
+      "url": "https://www.gartner.com/en/newsroom/press-releases/2025-02-18-gartner-survey-reveals-over-a-quarter-of-marketing-organizations-have-limited-or-no-adoption-of-genai-for-marketing-campaigns",
+      "resolves": true,
+      "claim_supported": false,
+      "note": "The page reports 77% creative-development use and 48% strategy-development use among adopters, but figure_quoted splices two noncontiguous clauses with an ellipsis and capitalization change rather than quoting verbatim. The scope also omits source geography."
+    },
+    {
+      "input_path": "inputs.historical_analogs.citations[0].url",
+      "url": "https://cmosurvey.org/wp-content/uploads/2025/03/The_CMO_Survey-Highlights_and_Insights_Report-2025.pdf",
+      "resolves": true,
+      "claim_supported": false,
+      "note": "The PDF states on page 43 that generative-AI use in marketing increased 116% and visually shows 7.0% for Spring 2024 and 15.1% for 2025, but figure_quoted uses inserted ellipses to combine a heading and chart labels rather than a verbatim contiguous passage. The scope also omits that the sample was 281 respondents from for-profit US companies."
+    },
+    {
+      "input_path": "inputs.pricing_structure.citations[0].url",
+      "url": "https://www.bizbuysell.com/marketing-and-advertising-businesses-for-sale/",
+      "resolves": true,
+      "claim_supported": false,
+      "note": "The live page describes recurring retainers, project fees and performance arrangements, but figure_quoted inserts an ellipsis not present in the source sentence. The scope identifies the broad adjacent category but omits geography, listing-snapshot date and the displayed 90-business population."
+    },
+    {
+      "input_path": "inputs.t50_years.citations[0].url",
+      "url": "https://www.gartner.com/en/newsroom/press-releases/2025-02-18-gartner-survey-reveals-over-a-quarter-of-marketing-organizations-have-limited-or-no-adoption-of-genai-for-marketing-campaigns",
+      "resolves": true,
+      "claim_supported": false,
+      "note": "The 27% quote, sample size and field dates are supported, but source geography is not reported and the citation scope fails to say that geography is unknown relative to the US NAICS target. Because this proxy controls the t50=0 boundary, the omission is material."
+    }
+  ],
+  "reasons": [
+    "inputs.active_consolidators.provenance_type, inputs.active_consolidators.value and inputs.active_consolidators.derivation: the value 2 is not directly stated by either citation; it is a count assembled across two announcements plus a judgment that two acquirers of agency-heavy targets qualify as active consolidators for NAICS 541613. Change the provenance to DERIVED or ESTIMATE as appropriate and provide a reproducible qualification rule showing repeat-acquirer status and target service mix within the industry boundary before using the count.",
+    "inputs.current_adoption_pct.derivation and inputs.t50_years.derivation: Gartner's public release does not state survey geography, yet the derivation maps the result to US NAICS 541613 and crosses the score-critical 50% boundary without a geographic adjustment or evidence. Establish the source geography and incorporate that mismatch explicitly, or use geographically matched evidence; then retain the v3.1 t50 boundary logic for whatever supported adoption value results.",
+    "inputs.active_consolidators.citations[1].figure_quoted, inputs.current_adoption_pct.citations[1].figure_quoted, inputs.historical_analogs.citations[0].figure_quoted and inputs.pricing_structure.citations[0].figure_quoted: each field inserts ellipses to splice source fragments and is therefore not verbatim. Replace each with an exact contiguous short quotation from the opened source, using separate atomic citations where two noncontiguous facts are needed.",
+    "inputs.current_adoption_pct.citations[0].scope, inputs.current_adoption_pct.citations[1].scope, inputs.t50_years.citations[0].scope, inputs.historical_analogs.citations[0].scope, inputs.active_consolidators.citations[1].scope and inputs.pricing_structure.citations[0].scope: these scope envelopes omit required source-geography information; the CMO and BizBuySell scopes also omit available population or listing-snapshot details. State geography explicitly, including 'not reported' when necessary, and include population, unit, date and target-industry mismatch for every occurrence.",
+    "inputs.pricing_structure.value and inputs.pricing_structure.provenance_type: the DIRECT value adds the inference that the adjacent fee mix creates a channel for AI savings to be renegotiated, but BizBuySell states only the fee structures and does not state that AI repricing conclusion. Restrict the DIRECT value to the cited fee-model fact, or classify the interpretation as DERIVED and supply the complete bridge from the adjacent pricing fact to the NAICS 541613 deflation mechanism."
+  ],
+  "flags_reviewed": [
+    "LOW_CONFIDENCE",
+    "ESTIMATE_HEAVY: 6 inputs with provenance_type ESTIMATE (ai_replaceable_share, buy_mult, exit_mult, owners_60plus_pct, pi_dist, pi_moat)"
+  ]
+}
