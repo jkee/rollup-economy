@@ -1,0 +1,95 @@
+{
+  "naics": "541511",
+  "run_id": "fleet-s2-541511",
+  "review_meta": {
+    "model_id": "Sol",
+    "review_date": "2026-07-20",
+    "prompt_version": "validator-3.0"
+  },
+  "verdict": "wrong",
+  "checks": {
+    "sources_exist": {
+      "pass": true,
+      "note": "All five distinct URLs underlying the seven canonical citation occurrences resolved to the cited pages with accessible content."
+    },
+    "figures_match_sources": {
+      "pass": false,
+      "note": "Stack Overflow supports 50.6% daily plus 17.4% weekly AI use among professional developers and 84% using or planning; Aventis supports broad IT-services deal-size multiples; Baytech supports the mechanics of T&M billing. The citations do not establish 55% material firm-level adoption, the historical 65%-to-84% claim, 30% owners age 60+, ten active dev-shop platforms, a 65/20/10/5 billing mix, or multiples segmented to the required EBITDA scopes."
+    },
+    "judgment_inputs_plausible": {
+      "pass": false,
+      "note": "Within-role fractions and capture/moat values are bounded and directionally plausible against developer-productivity and T&M evidence. But current_adoption_pct is declared as 55% while t50_years is defined as two future years until 50% adoption; if the selected current firm-level value already exceeds 50%, a positive two-year t50 is logically impossible. The run conflates individual tool use, firm-level integration, and the threshold event."
+    },
+    "rubric_consistent": {
+      "pass": false,
+      "note": "Deterministic dataset inputs match exactly and the pricing-deflation mechanism follows the frozen prompt. The t50/current-adoption contradiction makes A rubric-inconsistent, and B/M depend on unsupported scope conversions. ARITH_DELTA_WITHIN_TOL on B, M, S, and V is not disqualifying by itself because arithmetic is independently checked, but it does not cure the researched-input defects."
+    },
+    "cross_checks_honest": {
+      "pass": false,
+      "note": "All four mandatory fields exist and the terminal/capture discussion directly confronts T&M deflation. However, no_proxy_confirmed repeats the contradictory claim that a 55%-currently-adopted industry still takes two years to reach 50%, and pricing_model_deflation presents the unsourced 65% revenue share as established. Terminal justification also introduces exact market-growth and outsourcing percentages without auditable citations in the record."
+    }
+  },
+  "source_audits": [
+    {
+      "input_path": "inputs.active_consolidators.url",
+      "url": "https://aventis-advisors.com/it-services-valuation-multiples/",
+      "resolves": true,
+      "claim_supported": false,
+      "note": "Aventis reports that over 15% of its broad IT-services sample since 2015 involved PE/VC and says several PE-backed ecosystem platforms remain active. It does not report 60% of 2025 mid-market TMT volume, identify eight to twelve qualifying custom-programming platforms, or establish the selected count of ten."
+    },
+    {
+      "input_path": "inputs.buy_mult.url",
+      "url": "https://aventis-advisors.com/it-services-valuation-multiples/",
+      "resolves": true,
+      "claim_supported": false,
+      "note": "The page supports 5.9x median EV/EBITDA for deal value below $5M and 7.9x for $5M-$20M deal value. These are transaction-value buckets across mixed IT services, not $1M-$10M EBITDA custom-programming targets; the interpolation to 6.5x conflates deal value with EBITDA scope and does not isolate staff-augmentation versus custom-development books."
+    },
+    {
+      "input_path": "inputs.current_adoption_pct.url",
+      "url": "https://survey.stackoverflow.co/2025/ai/",
+      "resolves": true,
+      "claim_supported": false,
+      "note": "Stack Overflow reports 50.6% daily and 17.4% weekly AI-tool use among professional-developer respondents, plus 84% of all respondents using or planning. It does not measure the share of US NAICS 541511 firms where a majority of staff materially integrate AI into delivery, so the selected 55% firm-level input is unsupported."
+    },
+    {
+      "input_path": "inputs.exit_mult.url",
+      "url": "https://aventis-advisors.com/it-services-valuation-multiples/",
+      "resolves": true,
+      "claim_supported": false,
+      "note": "Aventis supports 10.5x and 11.5x medians for broad IT-services transactions with $20M-$50M and $50M-$100M deal values, and about 9.8x for public software development in March 2026. Deal value is not EBITDA; those buckets do not establish the multiple for $10M+ EBITDA custom-development platforms, so the asserted 10.5x-11.5x platform range and selected 11.0x have a scope/unit mismatch."
+    },
+    {
+      "input_path": "inputs.historical_analogs.url",
+      "url": "https://survey.stackoverflow.co/2025/",
+      "resolves": true,
+      "claim_supported": false,
+      "note": "The 2025 survey page says 84% use or plan to use AI, up from 76% the prior year. It does not support the quoted 65% in 2024, call this the fastest developer-tool adoption in history, or document the cloud, agile, and mobile 50%-adoption timelines asserted in the input."
+    },
+    {
+      "input_path": "inputs.owners_60plus_pct.url",
+      "url": "https://hbr.org/2018/07/research-the-average-age-of-a-successful-startup-founder-is-45",
+      "resolves": true,
+      "claim_supported": false,
+      "note": "The accessible HBR page identifies the result that the average successful startup founder is 45. It does not support the combined claims of 41.9 for tech founders, 35 for SaaS founders, 52% general-business ownership age 55+, ten-to-fifteen-year dev-shop age, or the selected 30% age-60-plus estimate."
+    },
+    {
+      "input_path": "inputs.pricing_structure.url",
+      "url": "https://www.baytechconsulting.com/blog/time-and-materials-vs-fixed-price-2025",
+      "resolves": true,
+      "claim_supported": false,
+      "note": "Baytech explains T&M versus fixed price, calls T&M a default for many modern projects, and explicitly says clients receive savings when work takes less time. It contains no Everest 60%-70% statistic, no Scio 55/30/15 split, and no evidence for the selected 65% T&M, 20% fixed, 10% hybrid/retainer, 5% other revenue mix."
+    }
+  ],
+  "reasons": [
+    "At inputs.current_adoption_pct.value and inputs.t50_years.value, the run says 55% of firms are already materially adopted but also says it will take two years from today to reach 50%. Re-run with one consistently defined firm-level adoption measure and set t50 from that current position using the rubric's future-time definition.",
+    "At inputs.current_adoption_pct.url (https://survey.stackoverflow.co/2025/ai/), person-level developer use is converted to 55% firm-level material integration without a sample frame or derivation. Re-run with firm-level evidence for NAICS 541511 or a transparent conversion that distinguishes any use from majority-staff delivery integration.",
+    "At inputs.historical_analogs.url (https://survey.stackoverflow.co/2025/), the source reports 84% using/planning versus 76% last year, not the quoted 65%-to-84% trajectory, and provides none of the cloud/agile/mobile analog timelines. Re-run with exact historical series and measurable 50%-adoption milestones.",
+    "At inputs.pricing_structure.url (https://www.baytechconsulting.com/blog/time-and-materials-vs-fixed-price-2025), the page supports the T&M savings mechanism but not the 65/20/10/5 revenue mix or quoted third-party contract shares. Re-run with an accessible source for the billing distribution or explicitly mark and derive an estimate.",
+    "At inputs.active_consolidators.url (https://aventis-advisors.com/it-services-valuation-multiples/), the broad report does not identify ten active PE-backed custom-programming platforms doing qualifying add-ons in the last 24 months. Re-run with named platforms, dated add-ons, and boundaries excluding MSPs/system integrators.",
+    "At inputs.buy_mult.url and inputs.exit_mult.url (https://aventis-advisors.com/it-services-valuation-multiples/), the record treats transaction deal-value buckets as if they were target EBITDA buckets and applies mixed IT-services data to custom programming without revenue-model segmentation. Re-run using correctly scoped EBITDA-size comps and separate staff augmentation, custom development, and managed-services exposure.",
+    "At inputs.owners_60plus_pct.url (https://hbr.org/2018/07/research-the-average-age-of-a-successful-startup-founder-is-45), startup age-at-founding evidence does not establish current owner ages in mature custom-programming firms or the selected 30% age-60-plus share. Re-run with owner-age data or a fully documented cohort-aging estimate tied to the target firm population."
+  ],
+  "flags_reviewed": [
+    "ARITH_DELTA_WITHIN_TOL: nonzero stored-vs-recomputed deltas on B, M, S, V"
+  ]
+}

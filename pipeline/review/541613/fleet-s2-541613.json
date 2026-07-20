@@ -1,0 +1,96 @@
+{
+  "naics": "541613",
+  "run_id": "fleet-s2-541613",
+  "review_meta": {
+    "model_id": "Sol",
+    "review_date": "2026-07-20",
+    "prompt_version": "validator-3.0"
+  },
+  "verdict": "wrong",
+  "checks": {
+    "sources_exist": {
+      "pass": true,
+      "note": "All seven canonical HTTP(S) citation occurrences resolve to identifiable pages."
+    },
+    "figures_match_sources": {
+      "pass": false,
+      "note": "The pages support broad practitioner AI use and agency multiple ranges, but not the exact score inputs for NAICS 541613. Firm-level material adoption, the historical analog, owner-age scope, consolidator count, exact target/platform multiples and revenue-weighted billing shares all fail contextual support."
+    },
+    "judgment_inputs_plausible": {
+      "pass": false,
+      "note": "All judgment inputs are bounded and rationalized, but 47.27% of wage share is assumed to be a creative/content-heavy tail at 0.55 automatable without a six-digit occupational allocation. t50_years=2 treats individual marketers' any-use rate as firm-level material adoption while simultaneously saying activity share will not reach 50% for two to three years. pi_dist/pi_moat depend on uncited fee-deflation and bypass claims."
+    },
+    "rubric_consistent": {
+      "pass": false,
+      "note": "Identity and deterministic dataset inputs match, and formulas follow the frozen rubric. However, broad advertising-agency ranges are imported into marketing consulting despite the prompt's boundary warning, M inputs are profile estimates rather than actual paid exact-industry multiples, and the succession bonus uses a general owner/advisor shortage. ARITH_DELTA_WITHIN_TOL: nonzero stored-vs-recomputed deltas on B, S, V is reviewed and is not independently disqualifying because Stage 4 found the deltas within tolerance."
+    },
+    "cross_checks_honest": {
+      "pass": false,
+      "note": "The cross-checks are explicit but overstate the evidence. The terminal check asserts agency-revenue decline, job losses and consultant-quality client substitution without auditable citations in the record and conflates advertising agencies with 541613. The pricing check presents a 60%/30%/10% mix and industry-wide fee deflation that the cited generic pricing page does not establish."
+    }
+  },
+  "source_audits": [
+    {
+      "input_path": "inputs.active_consolidators.url",
+      "url": "https://www.investorideas.com/news/2026/main/01152-private-equity-buying-marketing-agencies-2026-ai-ma.asp",
+      "resolves": true,
+      "claim_supported": false,
+      "note": "The third-party guest post describes several agency investments and tuck-ins, but contains no 42.4% first-half-2025 PE share and does not identify eight qualifying PE-backed platforms actively buying NAICS 541613 marketing consultancies."
+    },
+    {
+      "input_path": "inputs.buy_mult.url",
+      "url": "https://ctacquisitions.com/guides/marketing-agency-business-valuation/",
+      "resolves": true,
+      "claim_supported": false,
+      "note": "The guide gives agency profile ranges of 2-4x EBITDA for project-only generalists and 4-6x for mixed-retainer firms. It does not report a 4.0x median actually paid for small marketing-consulting firms or show that the scored 541613 target mix matches an agency tier."
+    },
+    {
+      "input_path": "inputs.current_adoption_pct.url",
+      "url": "https://blog.hubspot.com/marketing/state-of-ai-report",
+      "resolves": true,
+      "claim_supported": false,
+      "note": "HubSpot reports 66% of more than 1,000 global marketing and advertising professionals use AI in their roles. It does not show 74% U.S. adoption, does not measure firms, and does not establish 65% material deployment across automatable functions by U.S. marketing consultancies."
+    },
+    {
+      "input_path": "inputs.exit_mult.url",
+      "url": "https://ctacquisitions.com/guides/marketing-agency-business-valuation/",
+      "resolves": true,
+      "claim_supported": false,
+      "note": "The guide gives 6-9x for retainer-heavy agencies and 7-12x for specialty agencies, with an 8-12x holding-company add-on illustration. It does not contain the quoted 8.1-10.7x $5-10 million EBITDA tier or establish 9.0x for $10 million-plus EBITDA NAICS 541613 platforms."
+    },
+    {
+      "input_path": "inputs.historical_analogs.url",
+      "url": "https://hbr.org/2013/11/the-pace-of-technology-adoption-is-speeding-up",
+      "resolves": true,
+      "claim_supported": false,
+      "note": "The 2013 HBR article addresses broad consumer technology diffusion. It does not mention marketing automation or support a 2010-2018 path to 50% mid-market adoption, nor the claimed 5-8 year marketing-tool interval."
+    },
+    {
+      "input_path": "inputs.owners_60plus_pct.url",
+      "url": "https://ctacquisitions.com/guides/boomer-business-succession-wave-report-2024-2030/",
+      "resolves": true,
+      "claim_supported": false,
+      "note": "The secondary page supports all-industry ABS age bins and a general transition-advisor shortage; interpolation gives about 37.5% age 60-plus. It provides no marketing-consulting owner-age or industry-specific succession-shortage evidence, yet the value is marked MED and drives an OW bonus."
+    },
+    {
+      "input_path": "inputs.pricing_structure.url",
+      "url": "https://nmsconsulting.com/consulting-fees-and-pricing-in-2026/",
+      "resolves": true,
+      "claim_supported": false,
+      "note": "The page defines hourly, fixed-fee, retainer, project and outcome-based consulting models. It does not rank project and retainer as dominant for marketing consulting or quantify a 60% project, 30% retainer, 10% value/performance mix."
+    }
+  ],
+  "reasons": [
+    "At inputs.current_adoption_pct.url (https://blog.hubspot.com/marketing/state-of-ai-report), individual global practitioner use is treated as 65% material firm adoption in U.S. 541613. Supply a firm-level material-use measure or a transparent fallback chain that distinguishes any tool use from production-scale deployment.",
+    "At inputs.historical_analogs.url (https://hbr.org/2013/11/the-pace-of-technology-adoption-is-speeding-up), the asserted 5-8 year marketing-automation analog is absent. Re-run t50_years from documented marketing-technology adoption endpoints and the corrected current-adoption input.",
+    "At inputs.ai_replaceable_share.breakdown_by_role[10], nearly half the wage bill is asserted to be dominated by writers/designers/content roles and assigned a 0.55 fraction without six-digit occupational evidence. Build a supportable tail composition and apply separate task fractions before recomputing the input.",
+    "At inputs.active_consolidators.url (https://www.investorideas.com/news/2026/main/01152-private-equity-buying-marketing-agencies-2026-ai-ma.asp), a narrative guest post does not support eight active marketing-consulting consolidators. Name each PE-backed platform and qualifying recent 541613 add-on, excluding pure advertising-agency deals.",
+    "At inputs.buy_mult.url and inputs.exit_mult.url (https://ctacquisitions.com/guides/marketing-agency-business-valuation/), broad agency profile ranges are converted to 4.0x and 9.0x exact-industry score inputs without transaction medians or boundary analysis. Supply normalized paid multiples for marketing-consulting targets and $10 million-plus EBITDA platforms.",
+    "At inputs.pricing_structure.url (https://nmsconsulting.com/consulting-fees-and-pricing-in-2026/), generic model definitions are converted into unsupported 60%/30%/10% revenue shares that drive pi_dist. Supply representative revenue-weighted billing evidence and direct evidence of fee compression versus engagement-volume loss.",
+    "At inputs.owners_60plus_pct.url (https://ctacquisitions.com/guides/boomer-business-succession-wave-report-2024-2030/), all-industry age and transition-advisor data is treated as MED 541613 evidence and triggers the succession bonus. Use a marketing/professional-services proxy with candid quality and an applicable shortage finding.",
+    "At cross_checks.terminal_value.justification and inputs.pi_moat.rationale, uncited advertising-agency revenue/job claims are used to classify marketing consulting as MELTING. Supply auditable 541613-comparable demand, fee, insourcing and engagement-volume evidence and separate consulting from advertising/media execution before reassessing the terminal class."
+  ],
+  "flags_reviewed": [
+    "ARITH_DELTA_WITHIN_TOL: nonzero stored-vs-recomputed deltas on B, S, V"
+  ]
+}

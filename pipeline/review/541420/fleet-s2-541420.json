@@ -1,0 +1,97 @@
+{
+  "naics": "541420",
+  "run_id": "fleet-s2-541420",
+  "review_meta": {
+    "model_id": "Sol",
+    "review_date": "2026-07-20",
+    "prompt_version": "validator-3.0"
+  },
+  "verdict": "wrong",
+  "checks": {
+    "sources_exist": {
+      "pass": false,
+      "note": "Six distinct URLs were opened for seven canonical citation occurrences. The Dan Cumberland Labs historical-analog URL returned an internal error and no cited article content; all other URLs resolved to substantive pages."
+    },
+    "figures_match_sources": {
+      "pass": false,
+      "note": "The ROG page supports A/E-study figures of 257 transactions, 3.35x lower quartile, 5.30x median, and 5.91x mean, while Design1st supports three billing models and a $100-$450 hourly range. However, the cited pages do not establish industrial-design buy/exit multiples, the asserted 55/35/10 revenue mix, 52.3% of employer businesses owned by people 55+, 2.34x faster diffusion, or zero current PE-backed consolidators. Autodesk is a global cross-industry survey and does not establish 30% material adoption in NAICS 541420."
+    },
+    "judgment_inputs_plausible": {
+      "pass": false,
+      "note": "Declared values are bounded and rationales are concrete, but the role judgment relabels the deterministic 27-1025 Interior Designers occupation as industrial/product designers even though the prompt requires within-role judgments using the supplied role mix. That changes a 0.1841 wage-share contribution on an unsupported occupational premise. t50=4.0 also depends on the inaccessible 2.34x analog. LOW_CONFIDENCE and the three ESTIMATE inputs are appropriately disclosed but do not cure the score-affecting evidence gaps."
+    },
+    "rubric_consistent": {
+      "pass": false,
+      "note": "Dataset inputs match the supplied deterministic dataset exactly and ranges/terminal class follow the frozen rubric, but M and B rely on unsupported NAICS-specific fallbacks: 3.50x buy, 5.50x exit, 30% owners 60+, and zero active consolidators. The ARITH_DELTA_WITHIN_TOL flag is not itself disqualifying because the orchestrator separately checks arithmetic, but the underlying researched inputs remain unresolved."
+    },
+    "cross_checks_honest": {
+      "pass": true,
+      "note": "All four mandatory cross-checks are answered candidly. The record discloses the labor-share artifact, distinguishes PRESSURED demand from cost cutting, confirms no deal proxy in V/A, and explicitly carries hourly/fixed-fee deflation into pi_dist and pi_moat."
+    }
+  },
+  "source_audits": [
+    {
+      "input_path": "inputs.active_consolidators.url",
+      "url": "https://medium.com/@teaque.lenahan/how-to-consume-a-frog-opportunities-and-challenges-of-integrating-design-firms-into-global-742a88f71043",
+      "resolves": true,
+      "claim_supported": false,
+      "note": "The 2023 article identifies historic strategic acquisitions including McKinsey/Lunar, Accenture/Fjord, and frog's owners and characterizes design acquisitions as human-capital/capability deals. It does not survey 2024-2025 PE-backed platforms and cannot establish the score-affecting count of zero active consolidators."
+    },
+    {
+      "input_path": "inputs.buy_mult.url",
+      "url": "https://www.rog-partners.com/inside-the-latest-a/e-business-valuation-and-m-a-transaction-study",
+      "resolves": true,
+      "claim_supported": false,
+      "note": "ROG reports 257 architecture, engineering, and environmental-consulting transactions and a 3.35x all-firms lower-quartile EV/EBITDA multiple. It does not cover NAICS 541420 industrial-design firms, identify small/single-location deal size, support the additional 3.0x-5.0x consulting range, or establish the selected 3.50x buy multiple."
+    },
+    {
+      "input_path": "inputs.current_adoption_pct.url",
+      "url": "https://adsknews.autodesk.com/en/pressrelease/2024-state-of-design-and-make-report-from-autodesk-finds-growing-confidence-in-resilience-optimism-toward-ai/",
+      "resolves": true,
+      "claim_supported": false,
+      "note": "Autodesk describes 5,399 respondents across 18 countries and multiple design-and-make sectors and says more than half were approaching or had achieved an AI-incorporation goal. It does not measure material AI use by US NAICS 541420 firms, support the separate 54% weekly-designer-use assertion, or establish the selected 30% adoption input."
+    },
+    {
+      "input_path": "inputs.exit_mult.url",
+      "url": "https://www.rog-partners.com/inside-the-latest-a/e-business-valuation-and-m-a-transaction-study",
+      "resolves": true,
+      "claim_supported": false,
+      "note": "The page supports 5.30x median and 5.91x mean EV/EBITDA for its mixed A/E transaction database. It neither isolates $10M+ EBITDA platforms nor industrial-design transactions, so it does not establish a 5.50x NAICS 541420 platform exit multiple."
+    },
+    {
+      "input_path": "inputs.historical_analogs.url",
+      "url": "https://dancumberlandlabs.com/blog/ai-adoption-curve/",
+      "resolves": false,
+      "claim_supported": false,
+      "note": "Opening the exact cited URL produced an internal error with no accessible article content. Searches did not surface the claimed 2.34x diffusion figure at that URL; the citation therefore cannot support the analog or the derived four-year t50."
+    },
+    {
+      "input_path": "inputs.owners_60plus_pct.url",
+      "url": "https://project-equity.org/news/employee-ownership-insider/business-owner-statistics-exit-planning/",
+      "resolves": true,
+      "claim_supported": false,
+      "note": "The Project Equity page says 2.9 million US businesses are owned by people aged 55+ and presents general exit-planning statistics. It does not state that 52.3% of employer businesses are owned by people 55+, does not measure age 60+, and provides no industrial-design-specific basis for the selected 30%."
+    },
+    {
+      "input_path": "inputs.pricing_structure.url",
+      "url": "https://design1st.com/how-product-design-firms-charge/",
+      "resolves": true,
+      "claim_supported": false,
+      "note": "Design1st supports flat fee, fee-for-service, and reduced-fee-plus-equity/royalty models and quotes $100-$450 hourly rates. It provides no revenue-share survey, retainer share, or 12-24 month rebid cycle, so it does not establish the score-affecting 55/35/10 billing mix used in pi_dist."
+    }
+  ],
+  "reasons": [
+    "At inputs.historical_analogs.url (https://dancumberlandlabs.com/blog/ai-adoption-curve/), the exact source is inaccessible and no cited content establishes the 2.34x diffusion figure used to derive inputs.t50_years.value=4.0. Re-run with an accessible primary or credible industry source that documents the analog, population, and timing chain.",
+    "At inputs.owners_60plus_pct.url (https://project-equity.org/news/employee-ownership-insider/business-owner-statistics-exit-planning/), the page does not contain the quoted 52.3% employer-business statistic and does not measure owners age 60+ in NAICS 541420. Re-run with an auditable age-60-plus industry estimate and explicit derivation from the cited population.",
+    "At inputs.buy_mult.url and inputs.exit_mult.url (https://www.rog-partners.com/inside-the-latest-a/e-business-valuation-and-m-a-transaction-study), the source is a mixed A/E database with no industrial-design, small-target, or $10M+ platform segmentation. Re-run with transaction evidence matched to the required industry and size scopes, or a fully documented comparable-industry normalization chain.",
+    "At inputs.pricing_structure.url (https://design1st.com/how-product-design-firms-charge/), the source names pricing models but does not support the asserted 55% fixed-fee, 35% hourly, 10% retainer mix or rebid timing that drives inputs.pi_dist. Re-run with sourced revenue shares or an explicit, independently supported estimate chain.",
+    "At inputs.ai_replaceable_share.breakdown_by_role[0], the record reinterprets supplied occupation 27-1025 Interior Designers as industrial/product designers and assigns its 0.1841 wage share a 0.40 automatable fraction. Re-run using the supplied occupation as identified, or provide an auditable crosswalk/alternate role dataset authorized by the prompt before applying industrial-designer tasks.",
+    "At inputs.active_consolidators.url (https://medium.com/@teaque.lenahan/how-to-consume-a-frog-opportunities-and-challenges-of-integrating-design-firms-into-global-742a88f71043), a 2023 narrative about historic strategic acquisitions cannot establish zero PE-backed add-on platforms in the last 24 months. Re-run with a documented current buyer search or transaction database evidence supporting the count.",
+    "At inputs.current_adoption_pct.url (https://adsknews.autodesk.com/en/pressrelease/2024-state-of-design-and-make-report-from-autodesk-finds-growing-confidence-in-resilience-optimism-toward-ai/), a global, multi-sector sentiment survey does not establish 30% material AI adoption among US NAICS 541420 firms and does not support the separately quoted 54% weekly-use figure. Re-run with a source and adjustment chain matched to material firm-level use and the target population."
+  ],
+  "flags_reviewed": [
+    "LOW_CONFIDENCE",
+    "ESTIMATE_HEAVY: 3 inputs with quality ESTIMATE (buy_mult, exit_mult, owners_60plus_pct)",
+    "ARITH_DELTA_WITHIN_TOL: nonzero stored-vs-recomputed deltas on B, M, S"
+  ]
+}

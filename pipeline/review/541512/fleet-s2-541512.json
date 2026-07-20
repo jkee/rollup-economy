@@ -1,0 +1,97 @@
+{
+  "naics": "541512",
+  "run_id": "fleet-s2-541512",
+  "review_meta": {
+    "model_id": "Sol",
+    "review_date": "2026-07-20",
+    "prompt_version": "validator-3.0"
+  },
+  "verdict": "wrong",
+  "checks": {
+    "sources_exist": {
+      "pass": false,
+      "note": "Four distinct source pages resolve, but the JFS Partners owner/succession URL returns an internal error. The Kaseya URL resolves only to a download landing page rather than exposing the report figures cited by the run."
+    },
+    "figures_match_sources": {
+      "pass": false,
+      "note": "CT Acquisitions supports 169 MSP deals in 2025, 69% PE involvement, and seven named active platforms; Aventis publishes implied MSP multiples by transaction deal size; Pharallax publishes small-MSP recurring-revenue benchmarks. The sources do not establish 15 active consolidators, the selected EBITDA-scoped buy/exit multiples, 35% material firm adoption, the historical RMM/PSA trajectory, 40% owners age 60+, a documented succession shortage, or the full pricing mix and trend figures."
+    },
+    "judgment_inputs_plausible": {
+      "pass": false,
+      "note": "The three-year t50 and bounded role-level fractions are directionally plausible, but the empirical base is not adequate for the score-affecting judgments. Current adoption and historical analogs rely on an inaccessible report body; 15 consolidators is extrapolated from seven named platforms; and founder age or sale intent is treated as proof of an internal-successor shortage. The terminal-value judgment also asserts regulatory accountability and durable channel positioning without direct cited support."
+    },
+    "rubric_consistent": {
+      "pass": false,
+      "note": "Deterministic dataset inputs match exactly, but B receives the documented-succession-shortage uplift even though the cited record does not document a shortage of internal successors. M applies deal-value buckets as EBITDA buckets and applies MSP recurring-revenue benchmarks to the broader blended 541512 target pool without adequate segmentation. ARITH_DELTA_WITHIN_TOL on A, B, S, and V is not disqualifying by itself, but it does not cure these input and rubric defects."
+    },
+    "cross_checks_honest": {
+      "pass": false,
+      "note": "All four mandatory cross-check fields are present, but they repeat unsupported claims as established evidence. no_proxy_confirmed relies on exact Kaseya figures not visible on the cited landing page, pricing_model_deflation repeats unsupported billing shares, and terminal_value treats M&A activity as evidence of durable end demand while also introducing uncited legal-accountability and platform-channel assertions."
+    }
+  },
+  "source_audits": [
+    {
+      "input_path": "inputs.active_consolidators.url",
+      "url": "https://ctacquisitions.com/guides/private-equity-msp-2026/",
+      "resolves": true,
+      "claim_supported": false,
+      "note": "CT Acquisitions reports 169 MSP transactions in 2025, PE involvement in 69%, and seven verified active platforms: Evergreen, New Charter, Ntiva, Coretelligent, Thrive, Integris, and Magna5. It does not identify or substantiate the selected count of 15 qualifying active consolidators."
+    },
+    {
+      "input_path": "inputs.buy_mult.url",
+      "url": "https://aventis-advisors.com/msp-valuation-multiples/",
+      "resolves": true,
+      "claim_supported": false,
+      "note": "Aventis explicitly presents implied MSP multiples by transaction deal size: 5.2x below $5M and 6.8x for $5M-$20M. Those are not $1M-$10M EBITDA buckets, and the page does not establish a 5.5x median for the run's blended target tier."
+    },
+    {
+      "input_path": "inputs.current_adoption_pct.url",
+      "url": "https://www.kaseya.com/resource/2025-msp-benchmark-report/",
+      "resolves": true,
+      "claim_supported": false,
+      "note": "The accessible Kaseya page is a report landing/download page stating that nearly 1,000 MSPs were surveyed and listing AI and automation as a report topic. It does not expose the quoted 30% tedious-task figure, the 25% material-change figure, or evidence for the selected 35% firm-level material-adoption input."
+    },
+    {
+      "input_path": "inputs.exit_mult.url",
+      "url": "https://aventis-advisors.com/msp-valuation-multiples/",
+      "resolves": true,
+      "claim_supported": false,
+      "note": "The 11.2x figure is an implied MSP benchmark for transactions above $500M in deal value, derived from public MSP references and size discounts. It is not evidence for an 11.0x exit multiple at $10M-plus EBITDA, and it does not segment the broader NAICS 541512 pool by recurring-revenue quality."
+    },
+    {
+      "input_path": "inputs.historical_analogs.url",
+      "url": "https://www.kaseya.com/resource/2025-msp-benchmark-report/",
+      "resolves": true,
+      "claim_supported": false,
+      "note": "The accessible landing page contains no 2008-2016 RMM adoption series, no below-20%-to-above-80% trajectory, and no parallel PSA adoption timeline. A report title and topic list do not support the historical analog used to select t50."
+    },
+    {
+      "input_path": "inputs.owners_60plus_pct.url",
+      "url": "https://www.jfs-partners.com/post/msp-m-a-2026-why-the-window-is-still-wide-open-and-how-long-it-will-last",
+      "resolves": false,
+      "claim_supported": false,
+      "note": "The exact cited URL returns an internal error and cannot be audited. In any event, the run's quoted founder-age, firm-age, and five-year sale-intent observations would not by themselves measure a 40% age-60-plus share or document a shortage of internal successors."
+    },
+    {
+      "input_path": "inputs.pricing_structure.url",
+      "url": "https://pharallax.ai/guides/msp-revenue-benchmarks-2026/",
+      "resolves": true,
+      "claim_supported": false,
+      "note": "Pharallax gives 65%-78% MRR as a target, 78%-90% as best-in-class, and 25%-40% project/break-fix revenue for small 5-to-10-person, $600K-$2M MSPs. It does not support the run's 82% total-income figure, project-margin decline from 23% to 12.9%, per-seat decline from 21% to 15%, or a 65%-82% MRR share for the required EBITDA target tier."
+    }
+  ],
+  "reasons": [
+    "At inputs.owners_60plus_pct.url (https://www.jfs-partners.com/post/msp-m-a-2026-why-the-window-is-still-wide-open-and-how-long-it-will-last), the exact page is inaccessible, so inputs.owners_60plus_pct.value=0.40 cannot be audited. Replace it with accessible MSP-owner age data or a transparent cohort estimate tied to the target population.",
+    "At inputs.succession_shortage_documented.value, the run assigns true based on founder age, firm age, and sale intent, none of which demonstrates that firms lack internal successors. Supply direct, accessible evidence of an internal-successor shortage or set the field false and remove the B uplift.",
+    "At inputs.active_consolidators.url (https://ctacquisitions.com/guides/private-equity-msp-2026/), the source names seven qualifying active platforms rather than 15. Identify the additional qualifying platforms with dated add-on evidence under the stated activity rule or use the documented count.",
+    "At inputs.current_adoption_pct.url (https://www.kaseya.com/resource/2025-msp-benchmark-report/), the accessible page exposes no exact AI-adoption results and cannot support the 35% firm-level material-adoption estimate. Cite an accessible report table or primary survey measuring the rubric's material-use threshold.",
+    "At inputs.historical_analogs.url (https://www.kaseya.com/resource/2025-msp-benchmark-report/), the accessible page contains none of the asserted RMM or PSA adoption trajectory. Replace it with a dated adoption series and an explicit calculation of the comparable 50%-adoption milestone.",
+    "At inputs.buy_mult.url (https://aventis-advisors.com/msp-valuation-multiples/), the run treats transaction deal-value buckets as $1M-$10M EBITDA buckets. Re-run with transaction multiples segmented by target EBITDA and recurring-revenue quality for the covered 541512 business mix.",
+    "At inputs.exit_mult.url (https://aventis-advisors.com/msp-valuation-multiples/), the cited 11.2x benchmark belongs to deals above $500M in transaction value, not platforms above $10M EBITDA. Use correctly scoped platform-exit comps and distinguish MRR-heavy MSPs from project, resale, and other systems-design revenue.",
+    "At inputs.pricing_structure.url (https://pharallax.ai/guides/msp-revenue-benchmarks-2026/), the source is scoped to small MSPs and does not support several quoted trend figures or the selected 65%-82% MRR share for the target tier. Source the recurring, project, resale, and break-fix shares for relevant EBITDA-sized firms and label any remaining conversion as an estimate.",
+    "At inputs.terminal_value and cross_checks.terminal_value_justification, the run asserts that cyber-insurance, CMMC, and HIPAA require an accountable MSP and that vendors will preserve the channel, while also using acquisition activity as demand evidence. Cite direct regulatory/customer-accountability and platform-channel evidence; do not use M&A activity as a proxy for durable end demand."
+  ],
+  "flags_reviewed": [
+    "ARITH_DELTA_WITHIN_TOL: nonzero stored-vs-recomputed deltas on A, B, S, V"
+  ]
+}

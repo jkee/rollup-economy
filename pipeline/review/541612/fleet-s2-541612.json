@@ -1,0 +1,96 @@
+{
+  "naics": "541612",
+  "run_id": "fleet-s2-541612",
+  "review_meta": {
+    "model_id": "Sol",
+    "review_date": "2026-07-20",
+    "prompt_version": "validator-3.0"
+  },
+  "verdict": "wrong",
+  "checks": {
+    "sources_exist": {
+      "pass": false,
+      "note": "Six cited pages resolve, but inputs.active_consolidators.url returns HTTP 403 and its content is inaccessible. An inaccessible source fails the full-source audit."
+    },
+    "figures_match_sources": {
+      "pass": false,
+      "note": "The accessible pages support selected broad facts, but none establishes its exact score input for NAICS 541612: the 35% operator adoption, 8-10 year HRIS analog, 37% industry owner age, 5.0x buy multiple, 8.0x exit multiple, or revenue-weighted pricing mix are unsupported."
+    },
+    "judgment_inputs_plausible": {
+      "pass": false,
+      "note": "The within-role fractions and pi values are bounded and have concrete prose, but nearly half of wage share is assigned a 0.40 automatable fraction based on an unevidenced mixture of actuaries, compensation analysts and administration. t50_years=4 rests on a client-HR survey rather than HR-consulting operator adoption and an unrelated CRM fact. pi_dist and pi_moat also rely on unsupported protected/open revenue shares."
+    },
+    "rubric_consistent": {
+      "pass": false,
+      "note": "Identity and all non-null deterministic dataset inputs match exactly, and the stored formulas follow the frozen rubric. However, B and M use all-industry owner demographics, broad business/consulting ranges and brokerage-adjacent activity without exact fee-based HR-consulting evidence. ARITH_DELTA_WITHIN_TOL: nonzero stored-vs-recomputed deltas on B, S, V is explicitly reviewed and is not independently disqualifying because Stage 4 found the drift within tolerance."
+    },
+    "cross_checks_honest": {
+      "pass": false,
+      "note": "The checks are explicit and the no-proxy statement is directionally candid, but it calls V grounded in SHRM adoption even though no role fraction is tied to SHRM, treats 35% as operator adoption, and asserts unsupported 35-40% protected revenue, 60-65% open advisory revenue and detailed billing shares. Legal privilege also does not attach automatically to work performed by an HR consultant."
+    }
+  },
+  "source_audits": [
+    {
+      "input_path": "inputs.active_consolidators.url",
+      "url": "https://tracxn.com/d/acquisitions/acquisitions-by-onedigital/__1CsHfgiZWYzwj2XK5kh8NCJYIdliV491T7tJ-EvNi3o",
+      "resolves": false,
+      "claim_supported": false,
+      "note": "The exact URL returns HTTP 403. Its inaccessible content cannot verify 66 OneDigital acquisitions or four PE-backed platforms actively adding fee-based NAICS 541612 firms."
+    },
+    {
+      "input_path": "inputs.buy_mult.url",
+      "url": "https://www.caldergr.com/q2-2025-market-update/",
+      "resolves": true,
+      "claim_supported": false,
+      "note": "Calder reports broad services EBITDA figures of 4.26x for $1-2 million EV and 4.23x for $2-5 million EV, plus 4.6x across all $5-10 million EV deals. It does not report the quoted 5.7x H1 business-services add-on average or a 5.0x normalized HR-consulting median."
+    },
+    {
+      "input_path": "inputs.current_adoption_pct.url",
+      "url": "https://futurefactors.ai/ai-in-hr-2026-shrm-report/",
+      "resolves": true,
+      "claim_supported": false,
+      "note": "This secondary summary says 54% of organizations have no AI in HR, 92% of CHROs expect more integration, and top use cases are recruiting/HR technology. It does not show 39% adoption or 26% weekly use, and it measures client HR functions, not material use by HR-consulting firms; the run's 35% is unsupported."
+    },
+    {
+      "input_path": "inputs.exit_mult.url",
+      "url": "https://ctacquisitions.com/consulting-business-valuation/",
+      "resolves": true,
+      "claim_supported": false,
+      "note": "The page gives broad normalized consulting ranges, including 6-8x+ for services-SaaS hybrids with over 30% recurring software/data revenue. It contains no HR-consulting transaction set, no cited 7.8x GF Data figure, and no evidence that a representative $10 million-plus EBITDA 541612 platform has the data mix needed to support 8.0x."
+    },
+    {
+      "input_path": "inputs.historical_analogs.url",
+      "url": "https://www.zippia.com/advice/crm-statistics/",
+      "resolves": true,
+      "claim_supported": false,
+      "note": "Zippia says 65% of companies adopt CRM within five years of company launch and 73% of CRM users have moved to cloud solutions. It does not establish an 8-10 year cloud-HRIS adoption path or a 50% milestone among professional-services firms."
+    },
+    {
+      "input_path": "inputs.owners_60plus_pct.url",
+      "url": "https://ctacquisitions.com/guides/boomer-business-succession-wave-report-2024-2030/",
+      "resolves": true,
+      "claim_supported": false,
+      "note": "The secondary page supports all-industry 2022 ABS age bins and general transition-advisor scarcity; interpolation yields roughly 37.5% age 60-plus. It provides no HR-consulting owner-age evidence, yet the input is marked MED and directly drives both OW and a succession bonus for this code."
+    },
+    {
+      "input_path": "inputs.pricing_structure.url",
+      "url": "https://getmorehrclients.com/blog/how-to-price-hr-consulting-services/",
+      "resolves": true,
+      "claim_supported": false,
+      "note": "The informal survey supports model ordering (hourly, then retainer, then fixed-price project) and a secondary $96.19-$188.57 hourly range. It does not quantify revenue shares of 50% projects, 30-35% retainers, 10-15% plan fees and 5-10% data subscriptions."
+    }
+  ],
+  "reasons": [
+    "At inputs.active_consolidators.url (https://tracxn.com/d/acquisitions/acquisitions-by-onedigital/__1CsHfgiZWYzwj2XK5kh8NCJYIdliV491T7tJ-EvNi3o), the cited source is inaccessible and cannot verify four active fee-based HR-consulting consolidators. Re-run with accessible evidence naming each PE-backed platform and qualifying recent 541612 add-ons.",
+    "At inputs.current_adoption_pct.url (https://futurefactors.ai/ai-in-hr-2026-shrm-report/), client HR-function data is converted to an unsupported 35% adoption rate for HR-consulting operators, and two quoted figures are absent. Supply primary, operator-relevant material-adoption evidence or a transparent cited fallback chain.",
+    "At inputs.historical_analogs.url (https://www.zippia.com/advice/crm-statistics/), a CRM adoption fact does not establish the asserted 8-10 year cloud-HRIS path. Re-run t50_years from dated comparable HR-technology endpoints and the corrected current-adoption input.",
+    "At inputs.ai_replaceable_share.breakdown_by_role[10], the 47.27% unlisted tail receives a 0.40 automatable fraction from an unspecified blend that dominates V. Provide an evidence-based occupational allocation for compensation analysts, actuaries, benefits technicians and administration before setting their separate task fractions.",
+    "At inputs.buy_mult.url (https://www.caldergr.com/q2-2025-market-update/) and inputs.exit_mult.url (https://ctacquisitions.com/consulting-business-valuation/), broad ranges are converted to 5.0x and 8.0x without actual HR-consulting target/platform evidence. Supply normalized exact-industry transactions or credible comparables segmented by data-product and recurring-revenue mix.",
+    "At inputs.pricing_structure.url (https://getmorehrclients.com/blog/how-to-price-hr-consulting-services/), pricing-model popularity is converted into unsupported revenue shares that drive pi_dist and the pricing cross-check. Supply representative revenue-weighted mix evidence for $1-10 million EBITDA HR consultancies.",
+    "At inputs.owners_60plus_pct.url (https://ctacquisitions.com/guides/boomer-business-succession-wave-report-2024-2030/), an all-industry proxy is treated as MED-quality 541612 evidence and a general advisor shortage triggers the succession bonus. Re-run with an industry/professional-services proxy whose scope and quality are candidly stated and whose shortage evidence applies to HR-consulting sellers.",
+    "At inputs.pi_moat.rationale and cross_checks.terminal_value.justification, the protected/open revenue split and automatic legal-privilege claim are unsupported. Supply evidence for the code's credentialed/data-product revenue share and distinguish attorney-directed privileged analyses from ordinary consultant work before reassessing the terminal classification."
+  ],
+  "flags_reviewed": [
+    "ARITH_DELTA_WITHIN_TOL: nonzero stored-vs-recomputed deltas on B, S, V"
+  ]
+}
