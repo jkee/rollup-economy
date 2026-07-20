@@ -1,0 +1,95 @@
+{
+  "naics": "531210",
+  "run_id": "fleet-s2-531210",
+  "review_meta": {
+    "model_id": "Sol",
+    "review_date": "2026-07-20",
+    "prompt_version": "validator-3.0"
+  },
+  "verdict": "wrong",
+  "checks": {
+    "sources_exist": {
+      "pass": true,
+      "note": "All seven canonical URL occurrences resolve to accessible pages, including the valuation URL audited separately for buy_mult and exit_mult."
+    },
+    "figures_match_sources": {
+      "pass": false,
+      "note": "The NAR AI source supports 20% daily use and the valuation page supports broad regional/platform ranges. The historical-analog page supplies only current 79% eSignature adoption, not the claimed timeline or CRM figure; the NAR member-profile page does not expose the quoted 44% age-60+ figure; the consolidation article does not establish eight active PE-backed consolidators; and HousingWire does not support the claimed commission split/pass-through mix."
+    },
+    "judgment_inputs_plausible": {
+      "pass": false,
+      "note": "pi_dist=0.35, pi_moat=0.40, and PRESSURED terminal value candidly recognize agent portability and portal gatekeeping. But t50_years=5 relies on an unsupported historical analog, and the unlisted 37.82% wage tail is assigned 40% automation based on an unevidenced composition despite acknowledged 3-digit contamination. LOW_CONFIDENCE is explicitly reviewed and correctly signals these weaknesses, but it does not cure them."
+    },
+    "rubric_consistent": {
+      "pass": false,
+      "note": "The deterministic dataset objects match exactly and PE evidence is confined to B/M. However, OW uses 44% of all REALTORS as if it were the share of brokerage owners aged 60+, and applies a succession bonus based on narrative about industry dissolution rather than a sourced broker-owner succession-shortage measure. The buy_mult rationale also calls 3.0x the midpoint of 2.5x-4.0x, whose midpoint is 3.25x. ARITH_DELTA_WITHIN_TOL: nonzero stored-vs-recomputed deltas on B, M, S, V is explicitly reviewed; within-tolerance arithmetic differences are not the basis of the verdict."
+    },
+    "cross_checks_honest": {
+      "pass": true,
+      "note": "All four mandatory cross-checks are present and candid about the 1099 pass-through structural mismatch, the small W-2 cost base, commission compression, licensing, and agent portability. Their quantitative premises require correction, but the narratives do not conceal the central risks."
+    }
+  },
+  "source_audits": [
+    {
+      "input_path": "inputs.active_consolidators.url",
+      "url": "https://www.inman.com/2026/05/19/real-estate-brokerage-consolidation-compass-real-exp-mergers/",
+      "resolves": true,
+      "claim_supported": false,
+      "note": "Inman documents major consolidation involving Rocket/Redfin, Compass/Anywhere, eXp/NextHome, Real/REMAX, Howard Hanna, and other regional deals. It neither counts eight active consolidators nor identifies an eight-member set of PE-backed platforms; several named actors are public strategics or private family firms rather than PE-backed roll-up platforms."
+    },
+    {
+      "input_path": "inputs.buy_mult.url",
+      "url": "https://ctacquisitions.com/real-estate-brokerage-business-valuation/",
+      "resolves": true,
+      "claim_supported": false,
+      "note": "The page gives 2.5x-4.0x EBITDA for multi-office independent regionals and 3.0x-5.0x for multi-office franchises, with company-specific underwriting factors. It does not establish 3.0x as the median actually paid for the $1M-$10M EBITDA band, and 3.0x is not the midpoint of 2.5x-4.0x."
+    },
+    {
+      "input_path": "inputs.current_adoption_pct.url",
+      "url": "https://www.nar.realtor/newsroom/realtors-embrace-ai-digital-tools-to-enhance-client-service-nar-survey-finds",
+      "resolves": true,
+      "claim_supported": true,
+      "note": "NAR reports that 20% of surveyed agents use AI daily, 22% weekly, 27% a few times a month, and 32% have not used AI in their business. Treating daily use as the declared material-use threshold is transparent and directly supported."
+    },
+    {
+      "input_path": "inputs.exit_mult.url",
+      "url": "https://ctacquisitions.com/real-estate-brokerage-business-valuation/",
+      "resolves": true,
+      "claim_supported": true,
+      "note": "The page reports 4.0x-6.0x EBITDA for multi-office institutional platforms with $1M-$25M+ EBITDA and identifies strategic/platform buyers. A 5.0x central exit input is supported by that stated tier range, subject to the page being practitioner rather than transaction-cohort evidence."
+    },
+    {
+      "input_path": "inputs.historical_analogs.url",
+      "url": "https://www.nar.realtor/research-and-statistics/research-reports/realtor-technology-survey",
+      "resolves": true,
+      "claim_supported": false,
+      "note": "The accessible NAR page reports current eSignature adoption of 79%. It does not report CRM adoption of 72.5%, prior adoption levels six to eight years earlier, or an 8-11 year trajectory to roughly 50%, so it cannot support the declared historical analog or the faster-AI conversion."
+    },
+    {
+      "input_path": "inputs.owners_60plus_pct.url",
+      "url": "https://www.nar.realtor/research-and-statistics/research-reports/highlights-from-the-nar-member-profile",
+      "resolves": true,
+      "claim_supported": false,
+      "note": "The cited NAR landing page resolves but its accessible content does not display the quoted 44% age-60+ share, 35% prior-year share, median age 57, or 11% under-40 figure. More importantly, the cited population is REALTORS generally, not owners/principals of brokerage firms, which is the OW input's required population."
+    },
+    {
+      "input_path": "inputs.pricing_structure.url",
+      "url": "https://www.housingwire.com/articles/real-estate-agent-commission-rates-nar-settlement-clever/",
+      "resolves": true,
+      "claim_supported": false,
+      "note": "HousingWire reports Clever's 5.44% average total commission, split 2.77% listing and 2.67% buyer, and separate Anywhere rates of 2.41% for franchises and 2.35% for broker owners. It does not report that 70%-90% of GCI passes to 1099 agents, that brokerages retain 10%-30% company dollar, or the record's quoted 2.40% versus 2.37% Q1 comparison."
+    }
+  ],
+  "reasons": [
+    "inputs.owners_60plus_pct.url (https://www.nar.realtor/research-and-statistics/research-reports/highlights-from-the-nar-member-profile) does not expose the quoted 44% figure and concerns REALTORS generally, not owners/principals of brokerage firms. Re-run with broker-owner age and succession evidence matching the OW population before applying the succession bonus.",
+    "inputs.active_consolidators.url (https://www.inman.com/2026/05/19/real-estate-brokerage-consolidation-compass-real-exp-mergers/) documents several strategic mergers but does not support eight active PE-backed roll-up platforms. Re-run with a named, criterion-consistent inventory of PE-backed firms actively acquiring this exact brokerage segment in the required window.",
+    "inputs.historical_analogs.url (https://www.nar.realtor/research-and-statistics/research-reports/realtor-technology-survey) provides current eSignature adoption only, not the asserted CRM figure or 8-11 year adoption path. Re-run with dated NAR survey editions or another directly comparable series and derive t50_years from the documented time axis.",
+    "inputs.pricing_structure.url (https://www.housingwire.com/articles/real-estate-agent-commission-rates-nar-settlement-clever/) does not support the 70%-90% agent pass-through and 10%-30% company-dollar shares used in pi_dist and the pricing cross-check, and its commission figures differ from the record's quotation. Re-run with brokerage financial/split evidence that reports the retained-company-dollar distribution and post-settlement commission scope.",
+    "inputs.buy_mult.url (https://ctacquisitions.com/real-estate-brokerage-business-valuation/) provides a 2.5x-4.0x regional range but not a 3.0x observed median, and 3.0x is not that range's midpoint. Re-run with size-matched transaction evidence for the actual entry median and normalize EBITDA after agent splits and owner-produced GCI.",
+    "inputs.ai_replaceable_share.breakdown_by_role[10] assigns 40% automation to an unlisted 37.82% wage tail described as marketing, IT, HR, and transaction coordinators even though the record acknowledges continued 3-digit property-management contamination. Re-run with an evidenced 531210-specific decomposition or a defensible contamination adjustment; do not let an unidentified residual supply most of the AI-replaceable share."
+  ],
+  "flags_reviewed": [
+    "LOW_CONFIDENCE",
+    "ARITH_DELTA_WITHIN_TOL: nonzero stored-vs-recomputed deltas on B, M, S, V"
+  ]
+}

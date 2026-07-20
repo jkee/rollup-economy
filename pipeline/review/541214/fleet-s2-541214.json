@@ -1,0 +1,95 @@
+{
+  "naics": "541214",
+  "run_id": "fleet-s2-541214",
+  "review_meta": {
+    "model_id": "Sol",
+    "review_date": "2026-07-20",
+    "prompt_version": "validator-3.0"
+  },
+  "verdict": "wrong",
+  "checks": {
+    "sources_exist": {
+      "pass": true,
+      "note": "All seven canonical HTTP(S) citations resolve to the named pages; the Symmetry article was discoverable through the site's indexed payroll-insights listing even though direct extraction returned an internal error."
+    },
+    "figures_match_sources": {
+      "pass": false,
+      "note": "Only the Alight transaction multiple and the ADP pricing examples are directly supported. The cited pages do not establish the 35% independent-bureau adoption value, the 12-year/65% cloud analog, the 38% owner-age input, five distinct active consolidators, or a 4.0x payroll-bureau EBITDA buy multiple."
+    },
+    "judgment_inputs_plausible": {
+      "pass": false,
+      "note": "pi_dist and pi_moat are bounded and directionally reasoned, but t50_years rests on an unsupported 35% small-bureau baseline and unsupported historical adoption path. The ai_replaceable_share decomposition replaces the supplied 5412 OEWS role mix with an invented six-role payroll mix, making the resulting V judgment unauditable under the prompt."
+    },
+    "rubric_consistent": {
+      "pass": false,
+      "note": "The frozen prompt requires within-role fractions using the provided role_mix. The run instead assigns a new payroll-specific role distribution totaling 100%, and score-driving B and M inputs rely on citations that do not support their figures. The ARITH_DELTA_WITHIN_TOL flag is acknowledged: the nonzero B and S stored-versus-recomputed deltas are within the orchestrator's tolerance, but that does not cure the source and rubric failures."
+    },
+    "cross_checks_honest": {
+      "pass": false,
+      "note": "The terminal-value, no-proxy, and pricing-deflation discussions are candid, but the uplift check presents 33.85 percentage points as a direct EBITDA uplift despite the prompt's warning that the 0.8625 labor share is distorted and despite deriving ai_replaceable_share from a substituted role mix. The no-proxy statement also says A is based on surveys and an analog whose score-driving values are not supported by the cited pages."
+    }
+  },
+  "source_audits": [
+    {
+      "input_path": "inputs.active_consolidators.url",
+      "url": "https://www.privsource.com/acquisitions/deal/payroll-growth-partners-acquires-school-payroll-services-and-integrates-it-into-the-paybridge-family-RGSaal",
+      "resolves": true,
+      "claim_supported": false,
+      "note": "The page documents one January 2024 add-on: Payroll Growth Partners acquired School Payroll Services and integrated it into PayBridge. It does not document MPAY, ConnectPay, Paper Trails, five active consolidators in the last 24 months, or support counting PGP and its PayBridge platform as distinct consolidators."
+    },
+    {
+      "input_path": "inputs.buy_mult.url",
+      "url": "https://www.bizbuysell.com/learning-center/industry-valuation-multiples/",
+      "resolves": true,
+      "claim_supported": false,
+      "note": "BizBuySell reports trailing-five-year main-street SDE multiples: service businesses average 2.61x and accounting/tax practices 2.27x. It does not provide payroll-bureau EV/EBITDA transactions, the claimed 3.5-5.5x accounting SDE range, a 4-6x payroll EBITDA range, or the asserted SDE-to-EBITDA normalization."
+    },
+    {
+      "input_path": "inputs.current_adoption_pct.url",
+      "url": "https://www.symmetry.com/payroll-tax-insights/ai-in-payroll-statistics",
+      "resolves": true,
+      "claim_supported": false,
+      "note": "The indexed Symmetry material supports that 78% of a survey of 300 payroll/HR professionals reported using or piloting AI. It does not establish material AI adoption by 35% of US independent payroll bureaus, the cited PayrollOrg projection, or the claimed Census under-20% statistic used to calibrate the score-driving value."
+    },
+    {
+      "input_path": "inputs.exit_mult.url",
+      "url": "https://www.alight.com/about/newsroom/alight-announces-agreement-to-sell-payroll-and-professional-services-business",
+      "resolves": true,
+      "claim_supported": true,
+      "note": "Alight's March 20, 2024 release states consideration up to $1.2 billion and approximately 10x estimated 2023 adjusted EBITDA for the Payroll & Professional Services business. That directly supports the central 10.0x transaction benchmark, though not the additional uncited Raymond James and mid-2026 ranges."
+    },
+    {
+      "input_path": "inputs.historical_analogs.url",
+      "url": "https://www.precedenceresearch.com/cloud-based-payroll-software-market",
+      "resolves": true,
+      "claim_supported": false,
+      "note": "The current report gives global market size and an 8.80% forecast CAGR for 2026-2035. It contains neither 65% enterprise cloud-payroll adoption by 2023, an 11.8% 2024-2025 CAGR, nor evidence of a 2009-to-2023 adoption path or AI moving two to three times faster."
+    },
+    {
+      "input_path": "inputs.owners_60plus_pct.url",
+      "url": "https://project-equity.org/news/employee-ownership-insider/business-owner-statistics-exit-planning/",
+      "resolves": true,
+      "claim_supported": false,
+      "note": "The page says 2.9 million US businesses are owned by people aged 55 or older and discusses succession planning. It does not report 52.3% of owners aged 55+, the 29.5% age-55-64 and 22.8% age-65+ shares, or validate the half-of-55-64 interpolation to a 38% age-60+ payroll-bureau input. It also says 78% lacked a formal transition team, not that 78% lacked a formal succession plan."
+    },
+    {
+      "input_path": "inputs.pricing_structure.url",
+      "url": "https://findhrsoftware.com/resources/how-much-is-adp-payroll",
+      "resolves": true,
+      "claim_supported": false,
+      "note": "The page supports third-party estimates of about $79/month plus $4 per employee for ADP RUN and $19-$28 PEPM for Workforce Now, with explicit disclaimers. It does not support the input's asserted $20-$40 PEPM pricing for independent bureaus, ancillary-revenue mix, or a general independent-bureau billing mix."
+    }
+  ],
+  "reasons": [
+    "At inputs.ai_replaceable_share.breakdown_by_role, the run replaces the supplied dataset_inputs.role_mix with an invented payroll-specific six-role distribution, despite the prompt requiring within-role fractions using the provided role mix. Re-run using the supplied occupations or provide a prompt-authorized, auditable reconciliation rather than substituting a new mix.",
+    "At inputs.current_adoption_pct.url (https://www.symmetry.com/payroll-tax-insights/ai-in-payroll-statistics), the cited survey supports 78% of 300 payroll/HR professionals using or piloting AI, not a 35% material-adoption rate among US independent payroll bureaus. Re-run with a source that measures the target population and material-use definition, or mark and justify a complete ESTIMATE chain with auditable sources.",
+    "At inputs.historical_analogs.url (https://www.precedenceresearch.com/cloud-based-payroll-software-market), the cited report does not contain the claimed 65% enterprise adoption, 11.8% CAGR, 12-year adoption path, or two-to-three-times AI acceleration. Replace it with directly comparable adoption-level evidence before deriving inputs.t50_years.",
+    "At inputs.owners_60plus_pct.url (https://project-equity.org/news/employee-ownership-insider/business-owner-statistics-exit-planning/), the page does not provide the age-cohort percentages used to calculate 0.38 and the succession evidence misstates lacking a transition team as lacking a succession plan. Re-run with the underlying ABS age table and correctly scoped succession evidence.",
+    "At inputs.active_consolidators.url (https://www.privsource.com/acquisitions/deal/payroll-growth-partners-acquires-school-payroll-services-and-integrates-it-into-the-paybridge-family-RGSaal), the page supports only one PGP/PayBridge add-on and cannot substantiate five distinct active PE-backed consolidators; PGP and PayBridge are also treated as separate counts despite the cited platform relationship. Supply deal evidence for each distinct platform within the exact 24-month window.",
+    "At inputs.buy_mult.url (https://www.bizbuysell.com/learning-center/industry-valuation-multiples/), the source reports SDE multiples for main-street businesses and does not support 4.0x payroll-bureau EV/EBITDA or the stated normalization. Re-run with payroll-bureau transaction EV/EBITDA evidence or a transparent, source-supported normalization from comparable target-size deals.",
+    "At inputs.pricing_structure.url (https://findhrsoftware.com/resources/how-much-is-adp-payroll), the citation supports third-party ADP price examples but not independent-bureau $20-$40 PEPM pricing or revenue mix. Add target-industry bureau pricing and billing-mix evidence before using the pricing model to justify pi_dist, pi_moat, and the deflation cross-check."
+  ],
+  "flags_reviewed": [
+    "ARITH_DELTA_WITHIN_TOL: nonzero stored-vs-recomputed deltas on B, S"
+  ]
+}

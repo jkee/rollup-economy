@@ -1,0 +1,96 @@
+{
+  "naics": "541120",
+  "run_id": "fleet-s2-541120",
+  "review_meta": {
+    "model_id": "Sol",
+    "review_date": "2026-07-20",
+    "prompt_version": "validator-3.0"
+  },
+  "verdict": "wrong",
+  "checks": {
+    "sources_exist": {
+      "pass": true,
+      "note": "All seven canonical HTTP(S) occurrences resolve to accessible pages at the cited publishers."
+    },
+    "figures_match_sources": {
+      "pass": false,
+      "note": "The NNA survey does not report 15% material AI adoption or a 140,000-notary network; ALTA reports digital-closing metrics for title/settlement companies, not 0%-to-60% RON adoption among signing agents; the NNA age survey is for all notaries rather than owners of 541120 firms; the BizBuySell page reports law/legal-services SDE multiples rather than notary-office EBITDA transactions; and the fee page now lists Texas at $10, not $6."
+    },
+    "judgment_inputs_plausible": {
+      "pass": false,
+      "note": "The within-role fractions and pi_dist/pi_moat are bounded and have concrete rationales, but t50_years=4 rests on unsupported current_adoption_pct and historical_analogs figures. The assigned LOW_CONFIDENCE and ESTIMATE_HEAVY flags therefore remain unresolved."
+    },
+    "rubric_consistent": {
+      "pass": false,
+      "note": "The non-null deterministic dataset inputs match, but dataset_inputs.n_band is a null-fallback whose exact 2,896-firm population and revenue assumptions cite only source names in prose, with no auditable URL chain. The MELTING terminal class also depends on speculative future elimination of the commissioned-human requirement even though the record itself says current in-person and RON law requires a human notary."
+    },
+    "cross_checks_honest": {
+      "pass": false,
+      "note": "Uplift and no-proxy answers agree with the declared inputs, but the terminal-value answer overstates replacement of the legally required witnessing product, and the pricing-deflation answer repeats unsupported signing-agent and RON fee ranges while misquoting the current Texas statutory fee."
+    }
+  },
+  "source_audits": [
+    {
+      "input_path": "inputs.active_consolidators.url",
+      "url": "https://themortgagepoint.com/2025/12/17/a360inc-enhances-notarization-services-with-new-acquisition/",
+      "resolves": true,
+      "claim_supported": false,
+      "note": "The article confirms a360inc bought Notary Hub and describes Notary Hub as a digital notarization/signing platform, but it cannot establish the score-affecting exhaustive claim that zero PE-backed consolidators target pure 541120 or that no other consolidators exist."
+    },
+    {
+      "input_path": "inputs.buy_mult.url",
+      "url": "https://www.bizbuysell.com/learning-center/valuation-benchmarks/law-firm/",
+      "resolves": true,
+      "claim_supported": false,
+      "note": "The page covers law firms and some legal-support businesses and reports 2021-2025 seller-discretionary-earnings multiples (1.50-2.26 quartile range; 1.96 average), not arms-length notary-office EV/EBITDA or the claimed 1.5-2.5x EBITDA range."
+    },
+    {
+      "input_path": "inputs.current_adoption_pct.url",
+      "url": "https://www.nationalnotary.org/notary-bulletin/blog/2024/02/2023-notary-survey-results-in-a-slow-market-notaries-stay-strong-by-diversifying-their-businesses",
+      "resolves": true,
+      "claim_supported": false,
+      "note": "The survey article discusses diversification and gives anecdotes about using Snapdocs and other marketing directories; it does not measure AI use, support 15% material AI adoption among 541120 firms, report 60% platform use, or report a 140,000-notary Snapdocs network."
+    },
+    {
+      "input_path": "inputs.exit_mult.url",
+      "url": "https://www.bizbuysell.com/learning-center/valuation-benchmarks/law-firm/",
+      "resolves": true,
+      "claim_supported": false,
+      "note": "The page contains small law/legal-services sales valued on seller discretionary earnings and revenue; it supplies no $10M+ EBITDA notary-platform exit comp and no basis for the notional 2.5x EV/EBITDA value."
+    },
+    {
+      "input_path": "inputs.historical_analogs.url",
+      "url": "https://www.alta.org/blog/post/alta-survey-digital-closings-increase-but-barriers-slow-adoption",
+      "resolves": true,
+      "claim_supported": false,
+      "note": "ALTA reports that fully digital or hybrid closings were 10% of transactions in 2022 versus 7% in 2021, that fully digital closings were 2.5% versus 2.2%, and that 61% of surveyed title/settlement companies offered some digital or remote closing. It does not show RON platform adoption among signing agents rising from about 0% to 60% during 2019-2022 or a 3-year adoption analog."
+    },
+    {
+      "input_path": "inputs.owners_60plus_pct.url",
+      "url": "https://www.nationalnotary.org/notary-bulletin/blog/2022/08/2022-nna-notary-census-part-1-a-new-generation-of-notaries",
+      "resolves": true,
+      "claim_supported": false,
+      "note": "The article supports that the overall notary population is becoming younger (32.8% age 56+ in 2022 and 27.4% age 35 or younger), but it does not measure owners of NAICS 541120 establishments or support the score-affecting estimate that 35% of those owners are age 60+."
+    },
+    {
+      "input_path": "inputs.pricing_structure.url",
+      "url": "https://www.nationalnotary.org/knowledge-center/about-notaries/notary-fees-by-state",
+      "resolves": true,
+      "claim_supported": false,
+      "note": "The current 2026 schedule supports California $15 and Florida $10 maximum act fees, but lists Texas at $10 for a first signature rather than the record's $6. It does not support the cited $75-$250 signing-agent or $15-$35 RON-consumer ranges."
+    }
+  ],
+  "reasons": [
+    "Re-run inputs.current_adoption_pct with a URL to an industry-specific survey that measures material AI use by 541120 firms; the cited NNA URL does not support 15%, 60% platform use, or the claimed 140,000-notary network.",
+    "Re-run inputs.historical_analogs and inputs.t50_years using a comparable adoption series with consistent population and metric; https://www.alta.org/blog/post/alta-survey-digital-closings-increase-but-barriers-slow-adoption measures title/settlement-company offerings and transaction mix, not 0%-to-60% RON adoption among signing agents.",
+    "Re-run dataset_inputs.n_band with HTTP(S) citations for each score-affecting fallback premise, especially the claimed 2,896 firms and $45K-$100K gross revenue evidence; source names without URLs do not form the complete auditable research chain required for a null dataset fallback.",
+    "Re-run inputs.buy_mult and inputs.exit_mult with notary-office transaction evidence stated in EV/EBITDA, or a clearly sourced and normalized comparable; https://www.bizbuysell.com/learning-center/valuation-benchmarks/law-firm/ reports law/legal-services seller-discretionary-earnings multiples and no $10M+ notary-platform exit.",
+    "Correct inputs.pricing_structure and its cross-check from the current cited schedule: https://www.nationalnotary.org/knowledge-center/about-notaries/notary-fees-by-state lists Texas at $10 for the first signature, not $6, and separately source the signing-agent and RON fee ranges.",
+    "Re-run inputs.owners_60plus_pct with evidence for owners of 541120 firms, not the overall commissioned-notary population, and support inputs.active_consolidators.value=0 with a documented exhaustive market search rather than a single acquisition article.",
+    "Reassess cross_checks.terminal_value.class against current statutory human-in-the-loop requirements; the present MELTING justification relies on an uncited hypothetical legislative removal of the commissioned-human witnessing act."
+  ],
+  "flags_reviewed": [
+    "LOW_CONFIDENCE",
+    "ESTIMATE_HEAVY: 5 inputs with quality ESTIMATE (buy_mult, current_adoption_pct, exit_mult, owners_60plus_pct, t50_years)"
+  ]
+}

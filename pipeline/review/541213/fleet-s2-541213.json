@@ -1,0 +1,96 @@
+{
+  "naics": "541213",
+  "run_id": "fleet-s2-541213",
+  "review_meta": {
+    "model_id": "Sol",
+    "review_date": "2026-07-20",
+    "prompt_version": "validator-3.0"
+  },
+  "verdict": "wrong",
+  "checks": {
+    "sources_exist": {
+      "pass": true,
+      "note": "All seven canonical URL occurrences resolved to readable pages."
+    },
+    "figures_match_sources": {
+      "pass": false,
+      "note": "The cited pages do not support the active-consolidator count, the target-band 3.5x buy multiple, 30% current adoption, the stated H&R Block comparable, the preparer-software analog, 30% owner age estimate, or the quoted pricing and revenue-mix figures."
+    },
+    "judgment_inputs_plausible": {
+      "pass": false,
+      "note": "The prompt-authorized hypothetical role structure and task-level automation fractions are clearly flagged LOW and are directionally plausible, but score-sensitive t50_years, pi_dist, owners_60plus_pct, buy_mult, and exit_mult depend on population shifts, unsupported conversions, or unevidenced premiums."
+    },
+    "rubric_consistent": {
+      "pass": false,
+      "note": "All four deterministic dataset inputs match exactly, and the ARITH_DELTA_WITHIN_TOL flag on B, M, and S reflects benign stored precision. However, the adoption, owner-age, consolidation, and multiple inputs do not satisfy the rubric's industry-population and normalized-EBITDA evidence requirements."
+    },
+    "cross_checks_honest": {
+      "pass": false,
+      "note": "The uplift and MELTING discussions identify real structural risks, but the pricing-model deflation cross-check presents an unsupported 70-75% preparation-fee and 25-30% refund-product revenue split as fact, and the no-proxy discussion relies on an unsupported 30% current-adoption estimate."
+    }
+  },
+  "source_audits": [
+    {
+      "input_path": "inputs.active_consolidators.url",
+      "url": "https://www.bizbuysell.com/learning-center/valuation-benchmarks/accounting-cpa-tax-practice/",
+      "resolves": true,
+      "claim_supported": false,
+      "note": "The page provides transaction and valuation benchmarks for a mixed population of accounting, CPA, and tax practices, primarily independent small businesses. It does not name H&R Block, Jackson Hewitt, or Liberty Tax as active acquirers or support a count of three active consolidators in NAICS 541213."
+    },
+    {
+      "input_path": "inputs.buy_mult.url",
+      "url": "https://ctacquisitions.com/tax-preparation-business-valuation/",
+      "resolves": true,
+      "claim_supported": false,
+      "note": "The page supports 0.75-1.1x revenue or 2.5-4x SDE for seasonal storefronts and 4-7x EBITDA for established multi-preparer practices above $1M EBITDA. It does not support the asserted 20-25% normalized EBITDA margin, the conversion from 0.9x revenue or BizBuySell SDE to normalized EBITDA, or a 3.5x central multiple for the record's $1M-$10M EBITDA target band."
+    },
+    {
+      "input_path": "inputs.current_adoption_pct.url",
+      "url": "https://www.wolterskluwer.com/en/news/wolters-kluwer-releases-its-2025-future-ready-accountant-report",
+      "resolves": true,
+      "claim_supported": false,
+      "note": "The release reports global tax-and-accounting-firm AI adoption rising from 9% to 41%, with 35% using AI daily. It does not report that 40% of North American firms use AI-driven tax research, quantify franchise-store embedded use, or support the downward adjustment to 30% material adoption for NAICS 541213."
+    },
+    {
+      "input_path": "inputs.exit_mult.url",
+      "url": "https://multiples.vc/public-comps/handr-block-valuation-multiples",
+      "resolves": true,
+      "claim_supported": false,
+      "note": "The page reports H&R Block at 6.5x LTM EV/EBITDA, $6.5B enterprise value, and $1.0B EBITDA as of March 5, 2026. This contradicts the quoted approximately 3.5-4x EBITDA, $3.5B market cap, and $976M EBITDA, and it does not support a 6.0x private multi-unit platform exit multiple or the asserted premium."
+    },
+    {
+      "input_path": "inputs.historical_analogs.url",
+      "url": "https://www.e-file.com/help/history-of.php",
+      "resolves": true,
+      "claim_supported": false,
+      "note": "The page supports the 1986 e-file pilot, crossing 50% of returns in 2005, and 2009 legislation requiring professionals preparing ten or more returns to e-file. It does not support tax-preparation software reaching 50% preparer use in 10-12 years or becoming widespread in 2005-2010, which is the organic analog used to justify t50_years."
+    },
+    {
+      "input_path": "inputs.owners_60plus_pct.url",
+      "url": "https://gitnux.org/tax-preparation-industry-statistics/",
+      "resolves": true,
+      "claim_supported": false,
+      "note": "The compilation states that preparers aged 45-64 are 52% of the workforce and average experience is 12 years, but it gives no owner-age distribution and cannot support the estimate that 30% of NAICS 541213 owners are age 60 or older. Its citations are report-level rather than mapped to the age claim."
+    },
+    {
+      "input_path": "inputs.pricing_structure.url",
+      "url": "https://www.natptax.com/news-insights/blog/how-much-do-tax-professionals-charge-in-2025-insights-from-natp-s-fee-study/",
+      "resolves": true,
+      "claim_supported": false,
+      "note": "The public NATP article says nearly half use a minimum fee plus complexity or value adjustments and that 83% raise fees every one to two years, usually by 6-10%. It does not disclose the quoted $236, $185, $162, or 45.7% figures; the 70-75% preparation-fee and 25-30% refund-product revenue split; January-April seasonality; or IRS Direct File's 2026 status."
+    }
+  ],
+  "reasons": [
+    "Replace inputs.active_consolidators with sources documenting current acquisition activity by each counted buyer in NAICS 541213; the BizBuySell benchmark page does not name or count the three asserted consolidators.",
+    "Re-run inputs.buy_mult from target-band normalized EBITDA evidence. CT Acquisitions reports 4-7x EBITDA above $1M EBITDA, while the record's 3.5x conversion depends on an uncited 20-25% margin and an unsupported SDE-to-EBITDA adjustment.",
+    "Re-run inputs.current_adoption_pct and inputs.t50_years using evidence specific to tax-preparation firms and material use in automatable preparation workflows; Wolters Kluwer reports 41% global tax-and-accounting-firm AI adoption, not the claimed 40% North American tax-research use or adjusted 30% for 541213.",
+    "Correct inputs.exit_mult and its comparable facts. The cited page reports H&R Block at 6.5x EV/EBITDA, $6.5B EV, and $1.0B EBITDA, and it provides no evidence for a private-platform premium or a 6.0x exit assumption.",
+    "Replace the unsupported organic tax-software analog with a sourced preparer-use adoption series, or derive t50_years only from the cited 1986-2005 e-file trajectory while explicitly treating its return-level population and mandate effects.",
+    "Replace inputs.owners_60plus_pct with an owner-specific age source or mark the B input as unauditable; a 45-64 preparer-workforce share does not establish that 30% of business owners are age 60 or older.",
+    "Source the fee levels, preparation-fee/refund-product revenue mix, seasonality, and Direct File status used in inputs.pricing_structure, inputs.pi_dist, and cross_checks.pricing_model_deflation; the cited public NATP article contains none of those figures."
+  ],
+  "flags_reviewed": [
+    "LOW_CONFIDENCE",
+    "ARITH_DELTA_WITHIN_TOL: nonzero stored-vs-recomputed deltas on B, M, S"
+  ]
+}

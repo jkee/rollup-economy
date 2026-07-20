@@ -1,0 +1,96 @@
+{
+  "naics": "523940",
+  "run_id": "fleet-s2-523940",
+  "review_meta": {
+    "model_id": "Sol",
+    "review_date": "2026-07-20",
+    "prompt_version": "validator-3.0"
+  },
+  "verdict": "wrong",
+  "checks": {
+    "sources_exist": {
+      "pass": false,
+      "note": "Four distinct cited pages resolve, but the exact CT Acquisitions URL repeated at inputs.active_consolidators.url, inputs.buy_mult.url, and inputs.exit_mult.url did not resolve to an accessible source. The researched n_band null fallback also contains no HTTP(S) citation to audit its IAA/COMPLY, fee-rate, margin, or AUM-band assertions."
+    },
+    "figures_match_sources": {
+      "pass": false,
+      "note": "The accessible Schwab AI source supports 63% any use, about one in ten fully integrated, and 82% individual experimentation, but not the scored 20% material-adoption value. The historical-analog page contains no 2012-to-2019 robo series; Cerulli reports advisors expected to retire, not owners aged 60+; and the Schwab benchmarking page does not show the cited 1%, 0.85%, subscription-share, or billing-mix figures. The unresolved CT URL cannot support the consolidator or multiple inputs."
+    },
+    "judgment_inputs_plausible": {
+      "pass": false,
+      "note": "The role fractions are bounded and broadly plausible, and the PRESSURED terminal framing is reasonable. However, t50_years=6 depends on an unsupported 20% starting point and unsupported seven-year robo analog, while pi_dist=0.60 depends on a quantitatively unsupported billing mix. LOW_CONFIDENCE is explicitly reviewed and confirms that these score-driving judgments lack adequate support rather than providing an acceptance exception."
+    },
+    "rubric_consistent": {
+      "pass": false,
+      "note": "dataset_inputs.n_total is non-null in the provided dataset but is not copied exactly: the run appends 'and includes state-registered micro-RIAs' to the supplied source chain. The null n_band fallback is marked ESTIMATE and shows arithmetic, but provides no auditable URL for its sourced counts and rates, so the fallback research chain is not verifiable. ARITH_DELTA_WITHIN_TOL: nonzero stored-vs-recomputed deltas on B, S, V is explicitly reviewed; those small arithmetic differences are within the orchestrator tolerance and are not the basis of this failure."
+    },
+    "cross_checks_honest": {
+      "pass": true,
+      "note": "All four mandatory cross-checks are answered and the record candidly acknowledges fee compression, advisor portability, heterogeneous-code contamination, a PRESSURED terminal class, and the LOW confidence. The narratives are internally candid even though their cited quantitative foundations fail source verification."
+    }
+  },
+  "source_audits": [
+    {
+      "input_path": "inputs.active_consolidators.url",
+      "url": "https://ctacquisitions.com/guides/ria-wealth-management-ma-multiples-2026/",
+      "resolves": false,
+      "claim_supported": false,
+      "note": "The exact cited URL did not open to an accessible source and did not appear as a retrievable result in exact-URL searches. Other CT Acquisitions RIA pages exist, but they are not the cited page and cannot substitute for this occurrence or verify the stated count of 20 active PE-backed platforms."
+    },
+    {
+      "input_path": "inputs.buy_mult.url",
+      "url": "https://ctacquisitions.com/guides/ria-wealth-management-ma-multiples-2026/",
+      "resolves": false,
+      "claim_supported": false,
+      "note": "The exact cited URL did not resolve to accessible content. Search results and third-party pages mention similar ranges, but acceptance requires the cited source itself; it therefore does not substantiate 7.5x as the median actually paid for the specified entry tier or the stated owner-compensation normalization."
+    },
+    {
+      "input_path": "inputs.current_adoption_pct.url",
+      "url": "https://pressroom.aboutschwab.com/press-releases/press-release/2026/Schwab-Study-Reveals-RIA-AI-Adoption-More-Than-Doubles---But-Most-Firms-Still-in-Early-Stages/default.aspx",
+      "resolves": true,
+      "claim_supported": false,
+      "note": "Schwab reports 63% using AI in some capacity, only about one in ten of users fully integrating it, and 82% of users relying on generative AI mainly through individual experimentation, from 533 Schwab-custodied advisors. It does not report 20% material or embedded firm adoption; that score-driving interpolation is neither directly observed nor marked ESTIMATE."
+    },
+    {
+      "input_path": "inputs.exit_mult.url",
+      "url": "https://ctacquisitions.com/guides/ria-wealth-management-ma-multiples-2026/",
+      "resolves": false,
+      "claim_supported": false,
+      "note": "The exact cited URL did not resolve to accessible content, so it cannot verify the quoted 11.0x-16.0x and 13.0x-18.0x bands, an 11.6x 2025 median, or 13.5x as the relevant $10M+ EBITDA platform exit input."
+    },
+    {
+      "input_path": "inputs.historical_analogs.url",
+      "url": "https://www.aboutschwab.com/advisor-ai-in-action-2026",
+      "resolves": true,
+      "claim_supported": false,
+      "note": "This is Schwab's 2026 RIA AI study page. It reports 63% AI use and describes early-stage administrative uses, but contains no robo-advisor or digital-advice adoption series from below 5% in 2012 to about 50% in 2019. It therefore does not support the seven-year historical analog."
+    },
+    {
+      "input_path": "inputs.owners_60plus_pct.url",
+      "url": "https://www.cerulli.com/press-releases/40-of-advisory-assets-will-transition-in-10-years-according-to-cerulli",
+      "resolves": true,
+      "claim_supported": false,
+      "note": "Cerulli's 2022 release reports that 37% of financial advisors are expected to retire within ten years and that one in four in that cohort is unsure of a succession plan. It does not report that 37% of RIA owners or principals are currently age 60+, and a retirement expectation is not an age-60+ ownership measure."
+    },
+    {
+      "input_path": "inputs.pricing_structure.url",
+      "url": "https://advisorservices.schwab.com/insights-hub/perspectives/ria-benchmarking-study-2025",
+      "resolves": true,
+      "claim_supported": false,
+      "note": "The accessible benchmarking article describes 1,288 participating Schwab-custodied RIA firms and says the study covers products and pricing, but it does not publish the record's approximately 1% AUM fee, 0.85% blended rate, 15%-20% subscription offering share, $200-$500 monthly pricing, or overall billing/revenue mix."
+    }
+  ],
+  "reasons": [
+    "dataset_inputs.n_total does not exactly match pipeline/datasets/derived/523940.json: the run changes the supplied source string by adding 'and includes state-registered micro-RIAs.' Re-run by copying every non-null deterministic dataset object and chain exactly.",
+    "dataset_inputs.n_band is an authorized null fallback, but its 5,000-firm derivation cites IAA/COMPLY counts, fee rates, and margins without any HTTP(S) URL in the fallback chain. Re-run with direct auditable URLs for the AUM-band counts, fee-rate conversion, and operating-margin assumptions, preserving ESTIMATE quality and a complete AUM-to-revenue-to-EBITDA-to-count chain.",
+    "inputs.active_consolidators.url, inputs.buy_mult.url, and inputs.exit_mult.url all cite https://ctacquisitions.com/guides/ria-wealth-management-ma-multiples-2026/, which did not resolve to accessible content. Re-run with live, directly auditable tracker or transaction sources supporting the exact active-buyer count and normalized entry/exit tiers.",
+    "inputs.current_adoption_pct.url (https://pressroom.aboutschwab.com/press-releases/press-release/2026/Schwab-Study-Reveals-RIA-AI-Adoption-More-Than-Doubles---But-Most-Firms-Still-in-Early-Stages/default.aspx) reports 63% any use and about one in ten of users fully integrating AI, not 20% material firm adoption. Re-run using a directly observed material-adoption measure, or mark and justify a transparent ESTIMATE with the population and conversion method.",
+    "inputs.historical_analogs.url (https://www.aboutschwab.com/advisor-ai-in-action-2026) contains no 2012-to-2019 robo/digital-advice adoption trajectory. Re-run with a dated, scoped comparable-technology series that directly supports the analog used to derive t50_years.",
+    "inputs.owners_60plus_pct.url (https://www.cerulli.com/press-releases/40-of-advisory-assets-will-transition-in-10-years-according-to-cerulli) measures advisors expected to retire within ten years, not RIA owners aged 60+. Re-run with owner/principal age evidence or a clearly labeled and defensible conversion that matches the OW population.",
+    "inputs.pricing_structure.url (https://advisorservices.schwab.com/insights-hub/perspectives/ria-benchmarking-study-2025) does not publish the claimed fee levels or revenue shares. Re-run with direct evidence for the AUM-fee and retainer/subscription mix used to justify pi_dist and the pricing-deflation cross-check."
+  ],
+  "flags_reviewed": [
+    "LOW_CONFIDENCE",
+    "ARITH_DELTA_WITHIN_TOL: nonzero stored-vs-recomputed deltas on B, S, V"
+  ]
+}

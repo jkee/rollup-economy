@@ -1,0 +1,96 @@
+{
+  "naics": "541211",
+  "run_id": "fleet-s2-541211",
+  "review_meta": {
+    "model_id": "Sol",
+    "review_date": "2026-07-20",
+    "prompt_version": "validator-3.0"
+  },
+  "verdict": "wrong",
+  "checks": {
+    "sources_exist": {
+      "pass": false,
+      "note": "Six of seven canonical URLs returned accessible content, but the CPA Journal owner-age page yielded zero readable lines and is not auditable under the validator standard."
+    },
+    "figures_match_sources": {
+      "pass": false,
+      "note": "Thomson Reuters reports 21% adoption for tax firms, not tax/audit/accounting firms as a whole; Accounting Today gives no Citrin valuation or EBITDA multiple; E-file.com does not support the cloud-accounting analog; and SmartVault does not report a 54% fixed-fee/46% hourly firm mix."
+    },
+    "judgment_inputs_plausible": {
+      "pass": false,
+      "note": "The bounded role fractions and CPA licensure rationale are broadly plausible, but t50_years=5 applies tax-firm adoption to all CPA offices, pi_dist=0.55 depends on an unsupported billing mix, and the age/succession inputs cannot be verified. These inputs are score-affecting in a record only 0.016 above the conditional cut, so the BORDERLINE flag remains unresolved."
+    },
+    "rubric_consistent": {
+      "pass": false,
+      "note": "All deterministic dataset inputs match exactly, and the ARITH_DELTA_WITHIN_TOL flag on B and S is a benign stored-precision matter. However, adoption timing and capture do not meet the rubric's population and pricing-evidence requirements, while the succession bonus is based on uncited or inaccessible claims."
+    },
+    "cross_checks_honest": {
+      "pass": false,
+      "note": "Uplift, terminal value, and no-proxy discussions are internally coherent, but pricing-model deflation presents the unsupported 54% fixed/46% hourly mix as fact, and the raw record contains duplicate terminal_value.justification keys, leaving only the last one effective in standard JSON parsing."
+    }
+  },
+  "source_audits": [
+    {
+      "input_path": "inputs.active_consolidators.url",
+      "url": "https://cpatrendlines.com/2026/02/16/cornerstone-pe-deal-tracker-pe-update-alan-whitman-plants-a-flag-in-the-private-equity-landscape-2020-2026/",
+      "resolves": true,
+      "claim_supported": true,
+      "note": "The tracker reports more than 50 PE sponsors active since 2024, names repeat sponsor-backed platforms and transaction counts, and documents numerous 2025-2026 add-ons, supporting that at least 18 active consolidators is a defensible conservative count."
+    },
+    {
+      "input_path": "inputs.buy_mult.url",
+      "url": "https://ctacquisitions.com/accounting-firm-business-valuation/",
+      "resolves": true,
+      "claim_supported": true,
+      "note": "The page explicitly reports 4-7x normalized EBITDA for PE-platform accounting deals and 4.5-5.5x for $1M-$3M EBITDA tuck-ins, supporting the central 5.0x normalized buy multiple for the target band."
+    },
+    {
+      "input_path": "inputs.current_adoption_pct.url",
+      "url": "https://www.thomsonreuters.com/en/press-releases/2025/april/from-incubation-to-integration-generative-ai-adoption-nearly-doubles-as-professional-services-reach-crossroads",
+      "resolves": true,
+      "claim_supported": false,
+      "note": "The source says enterprise GenAI adoption among tax firms rose from 8% in 2024 to 21% in 2025. It does not report 21% for tax, audit and accounting firms collectively or establish the share of all NAICS 541211 firms materially using AI."
+    },
+    {
+      "input_path": "inputs.exit_mult.url",
+      "url": "https://www.accountingtoday.com/news/eisneramper-completes-continuation-vehicle-with-towerbrook-capital",
+      "resolves": true,
+      "claim_supported": false,
+      "note": "The article concerns EisnerAmper's TowerBrook continuation vehicle and notes Blackstone's majority investment in Citrin Cooperman, but it gives no $2.0B enterprise value, EBITDA, 15x or 11x multiple, or 8-12x platform-exit range."
+    },
+    {
+      "input_path": "inputs.historical_analogs.url",
+      "url": "https://www.e-file.com/help/history-of.php",
+      "resolves": true,
+      "claim_supported": false,
+      "note": "The page supports an IRS e-file pilot in 1986 and crossing 50% of returns in 2005. It does not support the asserted 10-12-year tax-software or cloud-accounting adoption analog, QuickBooks Online reaching about 50% accountant use by 2015-2016, or CPA-firm adoption specifically."
+    },
+    {
+      "input_path": "inputs.owners_60plus_pct.url",
+      "url": "https://www.cpajournal.com/2024/01/23/state-of-the-profession-3/",
+      "resolves": false,
+      "claim_supported": false,
+      "note": "The page returned no readable content, so the firm-size age percentages, the 25% central estimate, and the claimed documented succession shortage could not be verified."
+    },
+    {
+      "input_path": "inputs.pricing_structure.url",
+      "url": "https://www.smartvault.com/resources/smartpath-ultimate-guide-to-pricing-for-cpas-in-2025/",
+      "resolves": true,
+      "claim_supported": false,
+      "note": "The guide supports that 79% of firms moved away from hourly bookkeeping and discusses fixed, value, and subscription pricing. It does not report that 54% of firms predominantly use fixed fees, that this rose from 50% in 2024, or that the remaining 46% of total CPA-firm fees are hourly or hours-anchored."
+    }
+  ],
+  "reasons": [
+    "Re-run inputs.current_adoption_pct and inputs.t50_years using a source whose population covers CPA offices and whose metric is material firm use across tax, audit, and accounting; the cited Thomson Reuters page reports 21% only for tax firms.",
+    "Replace inputs.exit_mult with a disclosed $10M+ EBITDA accounting-platform transaction or a directly evidenced comparable; https://www.accountingtoday.com/news/eisneramper-completes-continuation-vehicle-with-towerbrook-capital contains none of the quoted enterprise values or multiples.",
+    "Re-run inputs.historical_analogs with citations for the organic tax-software/cloud-accounting series or restrict the derivation to the supported 1986-2005 IRS e-file series while acknowledging its mandate and transaction-level population.",
+    "Replace inputs.owners_60plus_pct and the succession_shortage_documented evidence with accessible, industry-specific citations for both the age percentages and shortage; the CPA Journal page was not readable and the bonus materially affects B.",
+    "Source the 54% fixed-fee/46% hourly-or-anchored billing mix used in inputs.pi_dist, inputs.pricing_structure, and cross_checks.pricing_model_deflation; SmartVault supports a bookkeeping shift but not the all-firm revenue split.",
+    "Reassess the BORDERLINE result after correcting the score-affecting adoption, owner/succession, exit-multiple, and pricing inputs; do not rely on the current S=4.01627 while these inputs remain unsupported.",
+    "Emit only one cross_checks.terminal_value.justification key in the re-run so the intended terminal analysis is unambiguous under standard JSON parsing."
+  ],
+  "flags_reviewed": [
+    "BORDERLINE: |S - conditional cut 4.00| = 0.0160",
+    "ARITH_DELTA_WITHIN_TOL: nonzero stored-vs-recomputed deltas on B, S"
+  ]
+}
