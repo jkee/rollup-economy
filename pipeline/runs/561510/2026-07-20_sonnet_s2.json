@@ -1,0 +1,288 @@
+{
+  "naics": "561510",
+  "title": "Travel Agencies",
+  "run_meta": {
+    "model_id": "claude-sonnet-4-6",
+    "run_date": "2026-07-20",
+    "run_id": "fleet-s2-561510",
+    "template_version": "3.0",
+    "prompt_version": "p3-aff6579"
+  },
+  "dataset_inputs": {
+    "labor_share": {
+      "value": 0.2099,
+      "method": "BLS Industry Productivity (IPS) direct: labor compensation (L02) $7,729.2M / sectoral output (T30) $36,821.3M, year 2022",
+      "sources": [
+        "BLS Industry Productivity and Costs flat files (ip.data.1.AllData), measures L02 and T30"
+      ],
+      "year": "2022",
+      "quality": "HIGH"
+    },
+    "role_mix": {
+      "oews_level": "4-digit 5615",
+      "occupations": [
+        {"soc": "41-3041", "title": "Travel Agents", "emp_share": 0.245, "wage_share": 0.1977},
+        {"soc": "43-4181", "title": "Reservation and Transportation Ticket Agents and Travel Clerks", "emp_share": 0.0962, "wage_share": 0.0633},
+        {"soc": "43-4051", "title": "Customer Service Representatives", "emp_share": 0.0705, "wage_share": 0.0494},
+        {"soc": "11-1021", "title": "General and Operations Managers", "emp_share": 0.0514, "wage_share": 0.0998},
+        {"soc": "39-7010", "title": "Tour and Travel Guides", "emp_share": 0.0395, "wage_share": 0.0296},
+        {"soc": "41-3091", "title": "Sales Representatives of Services, Except Advertising, Insurance, Financial Services, and Travel", "emp_share": 0.0391, "wage_share": 0.0455},
+        {"soc": "13-1161", "title": "Market Research Analysts and Marketing Specialists", "emp_share": 0.0285, "wage_share": 0.0393},
+        {"soc": "15-1252", "title": "Software Developers", "emp_share": 0.026, "wage_share": 0.057},
+        {"soc": "43-1011", "title": "First-Line Supervisors of Office and Administrative Support Workers", "emp_share": 0.0256, "wage_share": 0.0283},
+        {"soc": "43-9061", "title": "Office Clerks, General", "emp_share": 0.0168, "wage_share": 0.0114}
+      ],
+      "quality": "MED"
+    },
+    "n_total": {
+      "value": 7476,
+      "source": "SUSB 2022 (firms, all enterprise sizes)",
+      "year": "2022",
+      "quality": "HIGH"
+    },
+    "n_band": {
+      "value": 250,
+      "derivation": "margin 0.1565 (margins.json[56]: Damodaran Jan 2026: Business & Consumer Services EBITDA/Sales 15.65%); revenue/employee $458,147 (SUSB 2022 receipts/employment at 561510); class <5: 6,236 firms, avg revenue/firm $469,518 (class receipts/firms), implied EBITDA $73,480 -> out of $1-10M band; class 5-9: 689 firms, avg revenue/firm $2,063,269 (class receipts/firms), implied EBITDA $322,902 -> out of $1-10M band; class 10-19: 253 firms, avg revenue/firm $4,174,640 (class receipts/firms), implied EBITDA $653,331 -> out of $1-10M band; class 20-99: 202 firms, avg revenue/firm $8,264,381 (class receipts/firms), implied EBITDA $1,293,376 -> IN $1-10M band; class 100-499: 48 firms, avg revenue/firm $34,659,729 (class receipts/firms), implied EBITDA $5,424,248 -> IN $1-10M band; class 500+: 48 firms, avg revenue/firm $558,919,417 (class receipts/firms), implied EBITDA $87,470,889 -> out of $1-10M band; n_band = 250",
+      "margin_used": 0.1565,
+      "margin_source": "Damodaran Jan 2026: Business & Consumer Services EBITDA/Sales 15.65%",
+      "quality": "ESTIMATE"
+    }
+  },
+  "inputs": {
+    "ai_replaceable_share": {
+      "value": 0.46717200000000003,
+      "breakdown_by_role": [
+        {
+          "role": "Travel Agents (41-3041)",
+          "labor_share_of_total": 0.1977,
+          "within_role_automatable_fraction": 0.40,
+          "contribution": 0.07908,
+          "rationale": "Transactional portion — fare/rate search, booking execution, rebooking, disruption handling — is squarely within current AI capability (~40% of task time). The persistent slice is trusted-advisor curation for complex/luxury/group trips and supplier-relationship leverage. Many leisure advisors are 1099 ICs; the automatable transactional tasks are the ones most at risk of consumer AI bypass. Split: 40% automatable, 60% advisory/relationship/judgment.",
+          "plausible_range": "0.30-0.50"
+        },
+        {
+          "role": "Reservation and Transportation Ticket Agents and Travel Clerks (43-4181)",
+          "labor_share_of_total": 0.0633,
+          "within_role_automatable_fraction": 0.80,
+          "contribution": 0.05064,
+          "rationale": "Fulfillment and servicing work — queue management, ticketing, schedule changes — is the most directly automatable line. Large TMCs are already deploying AI for this. Small residual for complex exception handling requiring human judgment.",
+          "plausible_range": "0.70-0.90"
+        },
+        {
+          "role": "Customer Service Representatives (43-4051)",
+          "labor_share_of_total": 0.0494,
+          "within_role_automatable_fraction": 0.75,
+          "contribution": 0.03705,
+          "rationale": "Inbound call handling, status queries, standard change requests — heavily automatable by AI voice/chat agents already deployed in the sector. Complex complaint resolution and duty-of-care situations require human judgment (~25%).",
+          "plausible_range": "0.65-0.85"
+        },
+        {
+          "role": "General and Operations Managers (11-1021)",
+          "labor_share_of_total": 0.0998,
+          "within_role_automatable_fraction": 0.25,
+          "contribution": 0.02495,
+          "rationale": "Supplier negotiations, client account management, and staff oversight persist as human work. Ops reporting, performance dashboards, commission reconciliation tracking automate. 25% reflects the automatable reporting/analytics slice.",
+          "plausible_range": "0.15-0.35"
+        },
+        {
+          "role": "Tour and Travel Guides (39-7010)",
+          "labor_share_of_total": 0.0296,
+          "within_role_automatable_fraction": 0.02,
+          "contribution": 0.0005920000000000001,
+          "rationale": "Physical, in-person guiding on tours is not AI-replaceable. A 2% token fraction for documentation/preparation tasks that might be AI-assisted.",
+          "plausible_range": "0.00-0.05"
+        },
+        {
+          "role": "Sales Representatives of Services (41-3091)",
+          "labor_share_of_total": 0.0455,
+          "within_role_automatable_fraction": 0.30,
+          "contribution": 0.013649999999999999,
+          "rationale": "Corporate-account selling is relationship work requiring human presence. Lead handling, proposal drafting, and follow-up automate. Marketing content generation automatable. 30% captures the automatable pipeline/content slice.",
+          "plausible_range": "0.20-0.45"
+        },
+        {
+          "role": "Market Research Analysts and Marketing Specialists (13-1161)",
+          "labor_share_of_total": 0.0393,
+          "within_role_automatable_fraction": 0.50,
+          "contribution": 0.01965,
+          "rationale": "Marketing content, campaign analytics, and competitive research automate substantially. Strategic planning and novel insight generation less so. 50% is balanced given the mid-range automation potential of this role.",
+          "plausible_range": "0.35-0.65"
+        },
+        {
+          "role": "Software Developers (15-1252)",
+          "labor_share_of_total": 0.057,
+          "within_role_automatable_fraction": 0.25,
+          "contribution": 0.01425,
+          "rationale": "AI-assisted coding accelerates developer productivity but does not replace core engineering judgment for platform architecture. 25% reflects productivity augmentation. Note: this wage_share is concentrated in OTA/TMC platform tier, not small-agency band — reviewer note flags the heterogeneity.",
+          "plausible_range": "0.15-0.35"
+        },
+        {
+          "role": "First-Line Supervisors of Office Workers (43-1011)",
+          "labor_share_of_total": 0.0283,
+          "within_role_automatable_fraction": 0.35,
+          "contribution": 0.009904999999999999,
+          "rationale": "Office coordination, scheduling, and workflow tracking partially automate; people management and exception handling persist. 35% for the automatable administrative coordination portion.",
+          "plausible_range": "0.20-0.45"
+        },
+        {
+          "role": "Office Clerks General (43-9061)",
+          "labor_share_of_total": 0.0114,
+          "within_role_automatable_fraction": 0.80,
+          "contribution": 0.009120000000000001,
+          "rationale": "Invoicing, commission tracking/reconciliation (notoriously manual in host agencies), document handling — near-fully automatable. 80% with 20% residual for exception handling and non-routine correspondence.",
+          "plausible_range": "0.70-0.90"
+        },
+        {
+          "role": "Remainder/unlisted roles (admin back-office tail)",
+          "labor_share_of_total": 0.3787,
+          "within_role_automatable_fraction": 0.55,
+          "contribution": 0.20828500000000003,
+          "rationale": "The unlisted 37.87% of wage bill is the administrative back-office tail including commission reconciliation, invoicing, document management, and mixed support roles not individually named in OEWS data at this level. The prompt indicates this is predominantly admin/back-office. 55% automatable reflects a blended rate: high for pure admin, lower for any miscellaneous professional roles in the tail.",
+          "plausible_range": "0.40-0.65"
+        }
+      ],
+      "quality": "MED"
+    },
+    "pi_dist": {
+      "value": 0.40,
+      "rationale": "Mixed client ownership picture. At the $1-10M band (mid-size TMCs, host agencies, niche specialists): (1) Corporate TMC clients have moderate firm-level ownership via duty-of-care contracts, policy compliance and expense management integration; (2) Leisure clients are personal to the advisor, especially for 1099 ICs who can re-affiliate freely — the client book does not transfer cleanly in an acquisition; (3) GDS, ARC/IATA accreditation, and consortia (Virtuoso, Signature, Ensemble) hold the negotiated commission tiers that give value, but these aggregate at the host-agency level not the individual buyer. Revenue is mostly supplier-commission (not cost-plus billed), so AI labor savings accrue to the operator margin rather than being passed through as price reductions — this somewhat supports pi_dist. The 0.40 reflects meaningful but incomplete firm-level client control, reduced by advisor churn risk and bypass threat from consumer AI booking tools.",
+      "plausible_range": "0.30-0.55",
+      "sources": [
+        "Host Agency Reviews 2024 Independent Travel Advisor Research Report — 71% of ICs report travel as primary income; client-book portability discussed",
+        "GBTA AI in Corporate Travel survey, March 2026 — duty-of-care compliance as TMC retention driver",
+        "Travel Weekly industry coverage — 1099 IC re-affiliation and agency acquisition client retention"
+      ],
+      "quality": "MED"
+    },
+    "pi_moat": {
+      "value": 0.40,
+      "rationale": "Barrier strength is moderate. ARC/IATA accreditation provides legitimate entry barrier and confers GDS access and supplier commission eligibility. Consortia membership (Virtuoso, Signature, Ensemble) creates differentiated commission tiers (15-20% vs standard 10-12% on cruise/hotel). Switching costs exist in corporate managed travel (duty-of-care, reporting integration, policy enforcement). However: (1) the industry has already been partially melted once by OTAs — the commodity transactional tier is gone; (2) Phocuswright reports 56% of U.S. travelers now use AI for trip planning, with 39% using GenAI for at least one trip in 2024 — the consumer bypass risk is real and growing; (3) on the corporate side, AI travel management tools (Navan, TravelPerk) are themselves displacing traditional TMCs at the SMB end. The 0.40 reflects genuine but limited moat in the advisory specialty/corporate compliance niches vs the broader transactional exposure.",
+      "plausible_range": "0.30-0.55",
+      "sources": [
+        "Phocuswright AI in travel research 2024-2026 — 39% of U.S. travelers used GenAI for at least one trip in 2024; 56% in past 12 months as of 2026",
+        "Host Agency Reviews commission rate data 2024 — cruise 10-16% base, consortia preferred 15-20%",
+        "GBTA March 2026 — corporate duty-of-care as retention driver"
+      ],
+      "quality": "MED"
+    },
+    "t50_years": {
+      "value": 6.0,
+      "derivation": "Current adoption: ~15% of firms in the n_band materially using AI in automatable functions (conservative given GBTA finding that 58% of corporate travel buyers say AI has had 'little or no impact' as of March 2026, and Phocuswright finding that AI awareness is high at 86% among advisors but adoption remains limited). Historical analog: GDS/online booking diffusion — internet bookings exceeded GDS for the first time in 2006, from approximately 5% in 1998, a ~8-10 year curve to 50%+ adoption. AI adoption in services is tracking faster given lower deployment costs and SaaS availability, roughly 60-70% of the analog pace. Derivation: from 15% today (2026) to 50% target, with AI-era diffusion curve compressing the GDS analog from ~8 years to ~6 years. This is consistent with AI tools for scheduling, rebooking, and customer handling already being deployed at large TMCs — the lag at the small-agency level (~6 years from 50% floor) reflects the heterogeneity and slow-follower tail characteristic of small-business adoption. t50 = 6.0 years (2026 to 2032).",
+      "plausible_range": "4-9 years",
+      "quality": "MED"
+    },
+    "current_adoption_pct": {
+      "value": 0.15,
+      "source": "GBTA AI in Corporate Travel Research, March 2026; Phocuswright AI adoption in travel 2024-2026",
+      "url": "https://www.businesstravelexecutive.com/news/gbta-research-shows-gaps-in-ai-adoption/",
+      "figure_quoted": "58% of travel buyers say AI has had little or no impact on their programs to date (GBTA March 2026); 86% AI awareness among travel advisors but adoption remains limited (Phocuswright)",
+      "access_date": "2026-07-20",
+      "quality": "MED"
+    },
+    "historical_analogs": {
+      "value": "GDS/online booking technology: internet bookings exceeded GDS volumes by 2006, from ~5% in 1998 — approximately 8-10 years to 50%+ adoption in the travel intermediary channel",
+      "source": "AltexSoft History of Flight Booking; Phocuswire Brief History of Travel Technology",
+      "url": "https://www.altexsoft.com/blog/history-of-flight-booking-crss-gds-distribution-travel-agencies-and-online-reservations/",
+      "figure_quoted": "In 2006, the volume of internet reservations exceeded GDS reservations for the first time; internet bookings were 5% of U.S. airline tickets in 1998",
+      "access_date": "2026-07-20",
+      "quality": "MED"
+    },
+    "owners_60plus_pct": {
+      "value": 0.35,
+      "source": "Travel Weekly Travel Industry Survey 2023; Host Agency Reviews Independent Travel Advisor Research Report 2024",
+      "url": "https://www.travelweekly.com/Industry-Survey-2023",
+      "figure_quoted": "57% of travel advisors surveyed are older than 55 (Travel Weekly 2023 Industry Survey); median advisor age dropped to 55 in 2024 from 60 previously (HAR 2024 Report)",
+      "access_date": "2026-07-20",
+      "quality": "MED",
+      "succession_shortage_documented": {
+        "value": false,
+        "evidence": "Travel Weekly 2023 survey documents an aging advisor workforce (57% over 55) but no formal succession shortage for the agency-owner tier is documented in ASTA or Travel Weekly primary research. The industry narrative notes aging owners but lacks a specific documented succession gap for the $1-10M agency band."
+      }
+    },
+    "active_consolidators": {
+      "value": 3,
+      "source": "Business Travel News M&A coverage 2024-2025; Skift M&A tracker 2025",
+      "url": "https://www.businesstravelnews.com/What-to-Watch/2025/Business-Travel-MA-Poised-to-Double-in-2025",
+      "figure_quoted": "Notable 2025 acquisitions: Direct Travel acquiring ATPI, Globespan acquiring Key Travel US, Trip.Biz acquiring Key Travel EMEA, Amex GBT completing CWT acquisition. Large-cap strategic acquisitions dominate; PE add-on activity in the $1-10M EBITDA host/mid-TMC band is limited.",
+      "access_date": "2026-07-20",
+      "quality": "LOW"
+    },
+    "buy_mult": {
+      "value": 3.5,
+      "source": "Peak Business Valuation travel agency multiples; Tupelo SMB travel agency valuation guide",
+      "url": "https://peakbusinessvaluation.com/valuation-multiples-for-a-travel-agency/",
+      "figure_quoted": "Travel agencies transact at an EBITDA multiple between 3.35x and 4.11x; median buy multiple approximately 3.97x for established agencies",
+      "access_date": "2026-07-20",
+      "quality": "MED"
+    },
+    "exit_mult": {
+      "value": 6.5,
+      "source": "Business Travel News 2025 M&A market intelligence; FE International agency valuation guide",
+      "url": "https://www.businesstravelnews.com/What-to-Watch/2025/Business-Travel-MA-Poised-to-Double-in-2025",
+      "figure_quoted": "TMC sellers looking for 5x to 7x EBITDA (traditional) to 5x-8x EBITDA (B2B tech-enabled travel management). Mid-point of 6.5x used for $10M+ EBITDA platform exits in the managed travel segment.",
+      "access_date": "2026-07-20",
+      "quality": "MED"
+    },
+    "pricing_structure": {
+      "value": "Primarily supplier-paid commissions (~70-80% of net revenue): cruise lines 10-16% of commissionable fare (preferred consortia 15-20%), hotels 8-15%, tour operators 10-20%, airlines near-zero base (replaced by per-ticket service fees $40-$60 domestic, $60+ international). Client-facing service fees for planning/consulting (~20-30% of revenue for advisors charging fees). Over 50% of advisors now charge service fees directly.",
+      "source": "Host Agency Reviews Travel Agent Commission Guide 2024; Host Agency Reviews Independent Advisor Research 2024",
+      "url": "https://hostagencyreviews.com/blog/travel-agent-commissions",
+      "figure_quoted": "Cruise commissions 10-16% base, 15-20% through preferred partnerships; hotel 8-15%; air non-commissionable with $40-$60 service fees. More than half of travel advisors now charge service fees; hosted advisors charging fees earned 42% higher income on average.",
+      "access_date": "2026-07-20",
+      "quality": "MED"
+    }
+  },
+  "scores": {
+    "V": {
+      "arithmetic": "ai_replaceable_share=0.46717200000000003 (sum of 11 role contributions: TravelAgents 0.07908 + ReservationTicketAgents 0.05064 + CSR 0.03705 + OpsManagers 0.02495 + TravelGuides 0.0005920000000000001 + SalesReps 0.013649999999999999 + MarketResearch 0.01965 + SoftwareDev 0.01425 + OfficeSupvr 0.009904999999999999 + OfficeClerk 0.009120000000000001 + Remainder 0.20828500000000003); V_raw=0.2099*0.46717200000000003=0.09805940280000001; V=10*min(1,0.09805940280000001/0.25)=10*0.39223761120000004=3.9223761120000007",
+      "score": 3.9223761120000007
+    },
+    "C": {
+      "arithmetic": "C=10*pi_dist*pi_moat=10*0.40*0.40=1.6",
+      "score": 1.6
+    },
+    "A": {
+      "arithmetic": "A=min(10,10/t50_years)=min(10,10/6.0)=1.6666666666666667",
+      "score": 1.6666666666666667
+    },
+    "B": {
+      "arithmetic": "n_band=250; TD=clamp(log10(250)/4,0,1)=clamp(2.3979400086720375/4,0,1)=0.5994850021680094; owners_60plus_pct=0.35; OW=clamp((0.35-0.10)/0.35,0.1,0.9)=clamp(0.7142857142857143,0.1,0.9)=0.7142857142857143; succession_shortage_documented=false so no +0.1; active_consolidators=3; CFD=min(0.9,log10(4)/2)=min(0.9,0.3010299956639812)=0.3010299956639812; B=10*sqrt(0.5994850021680094*0.7142857142857143)/(1+0.3*0.3010299956639812)=10*sqrt(0.42820357297715)/(1+0.09030899869919436)=10*0.6543728696838413/1.0903089986991943=6.001717465635857",
+      "score": 6.001717465635857
+    },
+    "M": {
+      "arithmetic": "M=clamp(4*(exit_mult-buy_mult)/buy_mult,0,10)=clamp(4*(6.5-3.5)/3.5,0,10)=clamp(4*0.8571428571428571,0,10)=clamp(3.4285714285714284,0,10)=3.4285714285714284",
+      "score": 3.4285714285714284
+    }
+  },
+  "S": 2.9280692465765514,
+  "cross_checks": {
+    "uplift_pp": 9.805940280000002,
+    "uplift_vs_A_consistent": "uplift_pp=9.81pp is well above the 3pp floor; A=1.667 (slow adoption, t50=6 years) is below 5, so no cross-check tension. The pairing of meaningful AI labor value with slow small-agency adoption is internally consistent: large TMCs are already deploying AI but the n_band target (250 mid-size firms) lags by years.",
+    "terminal_value": {
+      "class": "PRESSURED",
+      "justification": "The 561510 product is under structural pressure but not in full melt. (1) AI CUTS OPERATOR COSTS: automating back-office, rebooking, and customer service tasks directly reduces labor costs and improves margin on unchanged commissions — this is real and bounded, worth ~10pp of revenue. (2) AI THREATENS THE PRODUCT: consumer AI trip planners (Phocuswright: 56% of U.S. travelers used AI for at least one trip in the past 12 months) increasingly substitute for transactional agency services. Supplier commissions on the transactional side are at risk of following the air-commission zero-out precedent — once AI booking agents can acquire customers directly, cruise lines and hotel chains have incentive to reduce or eliminate intermediary commissions. The corporate segment is more DURABLE because duty-of-care compliance, policy enforcement, negotiated rates, and expense management integration create structural demand that AI booking alone cannot satisfy. The leisure complexity-niche (luxury, group, cruise specialists) is similarly more durable. Net classification: PRESSURED — demand for the advisory/compliance function persists but the transactional volume and associated commission revenue are under multi-year structural decline. Not MELTING because the compliance and complexity niches are genuinely durable; not DURABLE because supplier commission structures face the air-precedent dynamic and consumer AI bypass is measurably accelerating."
+    },
+    "no_proxy_confirmed": "V was set from the OEWS role wage_shares and declared within-role automatable fractions based on task analysis of what AI can currently do (booking execution, queue management, invoicing, rebooking). A was set from Phocuswright and GBTA survey data on current AI adoption rates and from the GDS/online-booking historical analog. No deal activity or consolidation trends were referenced when setting V or A.",
+    "pricing_model_deflation": "Revenue is predominantly supplier-paid commission (cruise 10-16%, hotel 8-15%, tour operators 10-20%) plus client service fees. This is NOT a cost-plus or hourly billing model — AI efficiency gains from automating back-office and fulfillment labor accrue to the operator as margin improvement, not as automatic price reductions passed to clients. However, this favorable structure is offset by an indirect competitive mechanism: AI booking tools allow supplier bypass, potentially eroding the commission base itself. pi_dist=0.40 reflects incomplete firm-level client control (IC advisor churn, consumer bypass risk); pi_moat=0.40 reflects genuine but limited barriers (ARC/IATA accreditation, consortia access, corporate compliance) against growing direct-booking and AI-planning substitution."
+  },
+  "confidence_overall": "MED",
+  "heterogeneous": true,
+  "top_uncertain_inputs": [
+    {
+      "input": "t50_years",
+      "plausible_range": "4-9 years",
+      "score_impact": "At t50=4: A=2.5 vs A=1.667 at t50=6; S rises from 2.93 to approximately 3.35. At t50=9: A=1.111; S falls to approximately 2.56. The t50 range spans roughly ±0.4 in S."
+    },
+    {
+      "input": "pi_dist",
+      "plausible_range": "0.30-0.55",
+      "score_impact": "pi_dist=0.30 gives C=1.2 vs C=1.6 at 0.40; S falls from 2.93 to approximately 2.69. pi_dist=0.55 gives C=2.2; S rises to approximately 3.18. Range of approximately ±0.25 in S."
+    },
+    {
+      "input": "active_consolidators",
+      "plausible_range": "2-6",
+      "score_impact": "At consolidators=2: CFD=0.239, B=6.08, S approximately 2.94. At consolidators=6: CFD=0.423, B=5.65, S approximately 2.87. Impact is modest given CFD enters via a dampening formula."
+    }
+  ],
+  "reviewer_note": "Severe heterogeneity confirmed: NAICS 561510 spans mega-OTAs (48 firms averaging $559M revenue dominating the $35.6B receipts) down to 6,236 micro leisure agencies under $500K revenue. The n_band=250 target (20-99 and 100-499 employee classes) is mid-size TMCs, host-agency networks, and niche leisure specialists — scored here, not Expedia-tier nor solo advisor. The OEWS 15-1252 Software Developer wage_share of 5.7% is concentrated in the OTA/TMC-platform tier and is not representative of the small-agency band; this inflates the remainder calculation slightly. The gross-vs-net revenue trap (agencies reporting gross bookings vs net commission) applies to the SUSB receipts data — the Damodaran 15.65% EBITDA margin may overstate or understate actual margins for the commission-intermediary model; acknowledged but dataset used as given. COVID distortion (2022 IPS labor_share on partial recovery): the 0.2099 labor_share may be atypically low or high vs steady-state; noted."
+}

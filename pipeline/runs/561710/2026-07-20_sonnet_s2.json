@@ -1,0 +1,290 @@
+{
+  "naics": "561710",
+  "title": "Exterminating and Pest Control Services",
+  "run_meta": {
+    "model_id": "claude-sonnet-4-6",
+    "run_date": "2026-07-20",
+    "run_id": "fleet-s2-561710",
+    "template_version": "3.0",
+    "prompt_version": "p3-aff6579"
+  },
+  "dataset_inputs": {
+    "labor_share": {
+      "value": 0.475,
+      "method": "QCEW 2024 private total annual wages at 561710 ($8,715,666,468) x benefits multiplier 1.4294 [ECEC private-industry total comp $46.60/hr / wages $32.60/hr = 1.4294 (March 2026 reference period)] / SUSB 2022 receipts at 561710 ($19,563,962,000). Vintage mismatch: 2024 wages over 2022 receipts, stated. Level: 6-digit. Harmonized to IPS basis ÷1.3407 (median of 65 dual-method codes).",
+      "sources": [
+        "BLS QCEW 2024 annual averages (US000, private)",
+        "BLS ECEC news release (raw/ecec.nr0.htm)",
+        "Census SUSB 2022 (receipts by NAICS)"
+      ],
+      "year": "2024 wages / 2022 receipts",
+      "quality": "MED"
+    },
+    "role_mix": {
+      "oews_level": "5-digit 56171",
+      "occupations": [
+        {"soc": "37-2021", "title": "Pest Control Workers", "emp_share": 0.6033, "wage_share": 0.5474},
+        {"soc": "43-9061", "title": "Office Clerks, General", "emp_share": 0.0721, "wage_share": 0.0621},
+        {"soc": "11-1021", "title": "General and Operations Managers", "emp_share": 0.0574, "wage_share": 0.116},
+        {"soc": "41-3091", "title": "Sales Representatives of Services, Except Advertising, Insurance, Financial Services, and Travel", "emp_share": 0.0554, "wage_share": 0.0647},
+        {"soc": "37-1011", "title": "First-Line Supervisors of Housekeeping and Janitorial Workers", "emp_share": 0.0358, "wage_share": 0.0449},
+        {"soc": "43-4051", "title": "Customer Service Representatives", "emp_share": 0.0354, "wage_share": 0.0286},
+        {"soc": "43-6014", "title": "Secretaries and Administrative Assistants, Except Legal, Medical, and Executive", "emp_share": 0.0245, "wage_share": 0.0204},
+        {"soc": "37-3012", "title": "Pesticide Handlers, Sprayers, and Applicators, Vegetation", "emp_share": 0.0202, "wage_share": 0.0179},
+        {"soc": "43-1011", "title": "First-Line Supervisors of Office and Administrative Support Workers", "emp_share": 0.0175, "wage_share": 0.0206},
+        {"soc": "43-3031", "title": "Bookkeeping, Accounting, and Auditing Clerks", "emp_share": 0.0124, "wage_share": 0.0123}
+      ],
+      "quality": "MED"
+    },
+    "n_total": {
+      "value": 13603,
+      "source": "SUSB 2022 (firms, all enterprise sizes)",
+      "year": "2022",
+      "quality": "HIGH"
+    },
+    "n_band": {
+      "value": 70,
+      "derivation": "margin 0.1565 (margins.json[56]: Damodaran Jan 2026: Business & Consumer Services EBITDA/Sales 15.65%); revenue/employee $139,825 (SUSB 2022 receipts/employment at 561710); class <5: 8,882 firms, avg revenue/firm $236,662 (class receipts/firms), implied EBITDA $37,038 -> out of $1-10M band; class 5-9: 2,491 firms, avg revenue/firm $736,951 (class receipts/firms), implied EBITDA $115,333 -> out of $1-10M band; class 10-19: 1,373 firms, avg revenue/firm $1,587,316 (class receipts/firms), implied EBITDA $248,415 -> out of $1-10M band; class 20-99: 766 firms, avg revenue/firm $4,665,939 (class receipts/firms), implied EBITDA $730,219 -> out of $1-10M band; class 100-499: 70 firms, avg revenue/firm $21,941,586 (class receipts/firms), implied EBITDA $3,433,858 -> IN $1-10M band; class 500+: 21 firms, avg revenue/firm $396,989,381 (class receipts/firms), implied EBITDA $62,128,838 -> out of $1-10M band; n_band = 70",
+      "margin_used": 0.1565,
+      "margin_source": "Damodaran Jan 2026: Business & Consumer Services EBITDA/Sales 15.65%",
+      "quality": "ESTIMATE"
+    }
+  },
+  "inputs": {
+    "ai_replaceable_share": {
+      "value": 0.23240000000000002,
+      "breakdown_by_role": [
+        {
+          "role": "Pest Control Workers (37-2021)",
+          "labor_share_of_total": 0.5474,
+          "within_role_automatable_fraction": 0.05,
+          "contribution": 0.027370000000000002,
+          "rationale": "State-licensed applicators physically treating structures — the core product cannot be AI-replaced. Route optimization AI can reduce drive time (5-15% savings) but does not eliminate the visit. Smart traps and remote monitoring reduce visit frequency on some commercial accounts (demand compression, not labor substitution). The 5% automatable fraction captures service documentation, digital service record entry, and smart-trap monitoring reporting tasks that AI tools can assist.",
+          "plausible_range": "0.03-0.08"
+        },
+        {
+          "role": "Office Clerks General (43-9061)",
+          "labor_share_of_total": 0.0621,
+          "within_role_automatable_fraction": 0.85,
+          "contribution": 0.052785,
+          "rationale": "Scheduling, dispatch coordination, billing, renewal processing, and records management — the automatable core. AI scheduling agents and CRM automation (FieldRoutes, PestPac, WorkWave AI features) already handle the majority of these tasks. Small residual for exception handling and non-routine customer interaction.",
+          "plausible_range": "0.75-0.92"
+        },
+        {
+          "role": "General and Operations Managers (11-1021)",
+          "labor_share_of_total": 0.116,
+          "within_role_automatable_fraction": 0.30,
+          "contribution": 0.0348,
+          "rationale": "Multi-branch reporting, routing analytics, pricing model analysis, and performance dashboards automate; local hiring decisions, commercial account relationship management, and regulatory compliance oversight persist as human work. 30% reflects the analytics and reporting slice.",
+          "plausible_range": "0.20-0.40"
+        },
+        {
+          "role": "Sales Representatives of Services (41-3091)",
+          "labor_share_of_total": 0.0647,
+          "within_role_automatable_fraction": 0.35,
+          "contribution": 0.022644999999999995,
+          "rationale": "Termite WDO inspection-based selling and door-to-door residential canvassing remain human. Lead handling, automated follow-up, proposal generation, and quote automation are AI-applicable. 35% for the automatable pipeline/quote/follow-up portion.",
+          "plausible_range": "0.25-0.50"
+        },
+        {
+          "role": "First-Line Supervisors of Housekeeping and Janitorial Workers (37-1011)",
+          "labor_share_of_total": 0.0449,
+          "within_role_automatable_fraction": 0.10,
+          "contribution": 0.00449,
+          "rationale": "Route supervisors and field training roles — physical oversight and technician coaching are not AI-replaceable. AI route optimization and service quality dashboards may modestly widen the span of control, automating reporting aspects. 10% for the documentation and reporting component.",
+          "plausible_range": "0.05-0.15"
+        },
+        {
+          "role": "Customer Service Representatives (43-4051)",
+          "labor_share_of_total": 0.0286,
+          "within_role_automatable_fraction": 0.80,
+          "contribution": 0.02288,
+          "rationale": "Inbound call handling for scheduling, renewal reminders, and standard service inquiries is highly automatable by AI phone/chat agents. PCT and FieldRoutes surveys confirm AI phone agents are being actively adopted for this function. Residual 20% for complex complaints, cancellation handling, and situations requiring empathy and judgment.",
+          "plausible_range": "0.70-0.90"
+        },
+        {
+          "role": "Secretaries and Administrative Assistants (43-6014)",
+          "labor_share_of_total": 0.0204,
+          "within_role_automatable_fraction": 0.80,
+          "contribution": 0.01632,
+          "rationale": "Scheduling, record-keeping, correspondence, and document management — near-fully automatable. 80% with 20% residual for non-routine correspondence and tasks requiring local judgment.",
+          "plausible_range": "0.70-0.90"
+        },
+        {
+          "role": "Pesticide Handlers Sprayers Vegetation (37-3012)",
+          "labor_share_of_total": 0.0179,
+          "within_role_automatable_fraction": 0.05,
+          "contribution": 0.000895,
+          "rationale": "Physical application of pesticides to vegetation — licensed applicator work, not AI-replaceable. 5% token for record-keeping and application documentation tasks.",
+          "plausible_range": "0.00-0.08"
+        },
+        {
+          "role": "First-Line Supervisors of Office and Admin Support (43-1011)",
+          "labor_share_of_total": 0.0206,
+          "within_role_automatable_fraction": 0.35,
+          "contribution": 0.007209999999999999,
+          "rationale": "Office workflow coordination and queue management partially automate; staff supervision and exception handling persist. 35% for the automatable administrative coordination aspects.",
+          "plausible_range": "0.20-0.50"
+        },
+        {
+          "role": "Bookkeeping Accounting Auditing Clerks (43-3031)",
+          "labor_share_of_total": 0.0123,
+          "within_role_automatable_fraction": 0.85,
+          "contribution": 0.010454999999999999,
+          "rationale": "Billing, AR/AP, payroll processing, and reconciliation — highly automatable by AI accounting tools. Termite retreat/repair guarantee liability reserves require judgment but are a small fraction. 85% automatable.",
+          "plausible_range": "0.75-0.92"
+        },
+        {
+          "role": "Remainder/unlisted roles",
+          "labor_share_of_total": 0.06510000000000005,
+          "within_role_automatable_fraction": 0.50,
+          "contribution": 0.03255000000000002,
+          "rationale": "The 6.51% unlisted tail is a miscellaneous mix of support roles not individually classified in the OEWS data at 5-digit level. 50% automatable is a neutral blended assumption for an unspecified mix.",
+          "plausible_range": "0.30-0.65"
+        }
+      ],
+      "quality": "MED"
+    },
+    "pi_dist": {
+      "value": 0.70,
+      "rationale": "Pest control operators have strong client-relationship ownership at the firm level: (1) Recurring residential accounts attach to the brand/phone number and transfer well in acquisitions — this is the documented driver of pest control roll-up economics; (2) Pricing is set locally by the operator with no upstream payer, auditor, or fee schedule — AI efficiency gains accrue to the operator as margin improvement, not passed through as client price reductions; (3) Commercial contracts for food processing, healthcare, and hospitality require named compliance relationships but these transfer with the business in structured acquisitions. The 0.70 reflects genuinely firm-controlled customer relationships with moderate risk from Google Local Services Ads and national brand advertising competing on customer acquisition at the residential low end.",
+      "plausible_range": "0.60-0.80",
+      "sources": [
+        "CT Acquisitions pest control M&A and valuation guides 2025-2026 — recurring residential accounts transfer well in acquisitions",
+        "FieldRoutes 2025 State of Pest Industry Report — pricing model and recurring plan mix",
+        "The Pest Control Broker valuation guide — commercial account ownership and transfer characteristics"
+      ],
+      "quality": "MED"
+    },
+    "pi_moat": {
+      "value": 0.65,
+      "rationale": "Meaningful but not exceptional barriers: (1) State applicator licensing restricts new entrant technician supply and creates regulatory compliance overhead; (2) Route density — the geographic clustering of recurring accounts creates a natural local monopoly dynamic in dense routes; (3) Switching costs on residential recurring: once a customer is on a quarterly plan with a service history, they rarely switch absent service failure; (4) Commercial duty-of-care: healthcare and food-service facilities require documented compliance history. Offsets: (a) Google Local Services Ads and large national brands (Orkin/Rollins, Terminix) are pricing aggressively on customer acquisition, compressing local operator margins on new accounts; (b) DIY-plus-AI diagnosis is a nascent but real low-end threat at the residential market; (c) Smart trap/remote monitoring could reduce visit frequency on commercial accounts — reducing revenue per account. Net: 0.65 reflects a genuinely moaty local-services business with identifiable disruptors at the margin.",
+      "plausible_range": "0.55-0.75",
+      "sources": [
+        "CT Acquisitions pest control valuation — route density as margin driver",
+        "FieldRoutes AI adoption in pest control — smart traps and remote monitoring",
+        "PCT Top 100 coverage — national brand pricing competition"
+      ],
+      "quality": "MED"
+    },
+    "t50_years": {
+      "value": 5.0,
+      "derivation": "Current adoption: ~20% of operators materially using AI in automatable back-office/scheduling/phone functions (FieldRoutes/Thrive April 2025 survey: 27% using AI in any form; conservative adjustment to 20% for 'material use in automatable functions' specifically, excluding marketing-only use). Historical analog: pest control routing/scheduling software adoption — PestPac/FieldRoutes grew from niche to majority adoption in approximately 8-10 years (2010-2018). AI tools are simpler to deploy as SaaS with no hardware requirement, and the industry is demonstrating faster uptake than prior software (18% to 27% in one year per FieldRoutes data). Derivation: from 20% now (2026) to 50% target with adoption accelerating faster than prior software analog — using 5 years (2026 to 2031). The faster pace relative to the 8-year routing software analog reflects the low marginal cost of AI phone agents and scheduling tools, the documented commercial pressure from large acquirers running AI-optimized operations (signaling to targets), and the 27-35% adoption growth rate observed 2024-2026. t50 = 5.0 years.",
+      "plausible_range": "3-8 years",
+      "quality": "MED"
+    },
+    "current_adoption_pct": {
+      "value": 0.20,
+      "source": "FieldRoutes / Thrive Analytics 2025 State of the Pest Industry Report (survey of 1,025 pest control company leaders, April 2025)",
+      "url": "https://www.fieldroutes.com/blog/pest-control-industry-insights-report",
+      "figure_quoted": "27% of pest control companies are using AI in 2025, up from 18% in 2024 (Thrive Analytics survey of 1,025 pest control leaders). Conservative downward adjustment to 20% for material use specifically in back-office/scheduling/phone automation functions.",
+      "access_date": "2026-07-20",
+      "quality": "MED"
+    },
+    "historical_analogs": {
+      "value": "Pest control routing and scheduling software (PestPac, FieldRoutes/PestRoutes) adoption: approximately 8-10 years from early-adopter phase (~2010) to majority operator use (~2018-2020); PestPac currently serves more than 60% of PCT Top 100.",
+      "source": "PestPac by WorkWave platform data; FieldRoutes/ServiceTitan acquisition history; PCT Top 100 coverage",
+      "url": "https://www.pestpac.com/",
+      "figure_quoted": "PestPac serves more than 60% of the top 100 pest control businesses (current); AI adoption grew from 18% to 27% in a single year (2024-2025 FieldRoutes survey)",
+      "access_date": "2026-07-20",
+      "quality": "MED"
+    },
+    "owners_60plus_pct": {
+      "value": 0.42,
+      "source": "PCT magazine survey (reader survey, ~70 respondents); Exit Planning Institute cross-industry data; NPMA 2023 Business Profile Study (596 responses, full demographic detail not publicly accessible)",
+      "url": "https://www.pctonline.com/news/top-one-hundred-entertaining-an-exit/",
+      "figure_quoted": "In a recent PCT survey, one in two pest control business owners said they've been approached to sell their business; Exit Planning Institute reports over half of Baby Boomer business owners plan to exit within a few years. Pest control industry commentary consistently highlights aging family-owned operators (founded 1970s-1990s) as primary acquisition targets.",
+      "access_date": "2026-07-20",
+      "quality": "ESTIMATE",
+      "succession_shortage_documented": {
+        "value": true,
+        "evidence": "PCT survey: 1 in 2 pest control owners have been approached to sell; majority approached by PE firms. NPMA commentary and Potomac/CT Acquisitions broker analysis consistently identifies aging Baby Boomer ownership as a primary succession driver. The high and accelerating M&A deal volume (97 transactions in 2024, up 27.6% YoY) is partly attributable to succession-motivated owner exits. Succession shortage documented by pattern of evidence across PCT, NPMA, and sell-side advisors."
+      }
+    },
+    "active_consolidators": {
+      "value": 12,
+      "source": "CT Acquisitions 2026 Pest Control PE Roll-Up Tracker; Capstone Partners Pest Control Sector Update (cited in CT Acquisitions)",
+      "url": "https://ctacquisitions.com/pest-control-pe-rollup-tracker-2026/",
+      "figure_quoted": "12 primary PE-backed platforms actively acquiring: Anticimex (EQT), Aptive (Goldman Sachs AM), Hawx (Aurora Capital), ProGuard (Trivest), Greenix (Gridiron Capital), Certus (Imperial Capital+LMI), Rockit Pest (Halle Capital), PestCo Holdings (Thompson Street), AXN Growth Partners (Shore Capital), Barefoot (Incline Equity), plus additional platforms. Certus: 7 disclosed acquisitions in 2024 (most active); Rockit and PestCo: 6 each; AXN and Barefoot: 5 each.",
+      "access_date": "2026-07-20",
+      "quality": "MED"
+    },
+    "buy_mult": {
+      "value": 6.0,
+      "source": "Breakwater M&A pest control valuation multiples 2026; CT Acquisitions pest control valuation guide 2026",
+      "url": "https://www.breakwaterma.com/blog/pest-control-company-valuation-multiples-2026",
+      "figure_quoted": "Residential pest control $500K-$2M EBITDA: 5.7x-6.9x EBITDA; mid-market $1-3M EBITDA: 5x-7x; 6x-7.5x for documented 70-85% recurring businesses. n_band target (100-499 employee class, avg ~$3.4M EBITDA) is in the 5.5-6.5x range; 6.0x used as median.",
+      "access_date": "2026-07-20",
+      "quality": "MED"
+    },
+    "exit_mult": {
+      "value": 10.5,
+      "source": "CT Acquisitions pest control valuation guide; Breakwater M&A 2026; thedealsheet.co pest control deep dive",
+      "url": "https://ctacquisitions.com/guides/pest-control-business-valuation/",
+      "figure_quoted": "Larger pest operators $3M-$10M EBITDA close at 9-12x; platform-quality operators with 80%+ recurring revenue reach 7x-10x in PE roll-up transactions; Rollins strategic premium 12-18x on transformational deals excluded. 10.5x used as conservative platform exit for $10M+ EBITDA tier.",
+      "access_date": "2026-07-20",
+      "quality": "MED"
+    },
+    "pricing_structure": {
+      "value": "Recurring per-visit or annual subscription plans for residential (~$300-$600/year per account); annual service contracts for commercial (priced per site per month); one-time termite treatment plus annual bond/renewal fee. Revenue mix: ~65-70% residential recurring, ~20-25% commercial contract, ~5-10% termite/one-time. Pricing set locally by operator with no external payer or auditor. AI efficiency savings accrue to operator margin, not passed to customers via fee reduction.",
+      "source": "FieldRoutes pest control profitability guide; CT Acquisitions recurring revenue analysis; PCT State of Industry coverage",
+      "url": "https://www.fieldroutes.com/blog/how-profitable-is-pest-control-business",
+      "figure_quoted": "Recurring revenue share is the primary valuation driver; operators with 80%+ recurring contracts command 7.5-10x vs 4-5x for low-recurring operators. Residential plans typically $300-$600/year; commercial contracts billed monthly or quarterly per site.",
+      "access_date": "2026-07-20",
+      "quality": "MED"
+    }
+  },
+  "scores": {
+    "V": {
+      "arithmetic": "ai_replaceable_share=0.23240000000000002 (sum of 11 role contributions: PestControlWorkers 0.027370000000000002 + OfficeClerk 0.052785 + OpsManagers 0.0348 + SalesReps 0.022644999999999995 + FieldSupvr 0.00449 + CSR 0.02288 + Secretaries 0.01632 + PesticideHandlers 0.000895 + OfficeSupervisors 0.007209999999999999 + BookkeepingClerks 0.010454999999999999 + Remainder 0.03255000000000002); V_raw=0.475*0.23240000000000002=0.11039; V=10*min(1,0.11039/0.25)=10*0.44156=4.4156",
+      "score": 4.4156
+    },
+    "C": {
+      "arithmetic": "C=10*pi_dist*pi_moat=10*0.70*0.65=4.55",
+      "score": 4.55
+    },
+    "A": {
+      "arithmetic": "A=min(10,10/t50_years)=min(10,10/5.0)=2.0",
+      "score": 2.0
+    },
+    "B": {
+      "arithmetic": "n_band=70; TD=clamp(log10(70)/4,0,1)=clamp(1.8450980400142568/4,0,1)=clamp(0.46127451000356423,0,1)=0.46127451000356423; owners_60plus_pct=0.42; OW_pre=clamp((0.42-0.10)/0.35,0.1,0.9)=clamp(0.9142857142857143,0.1,0.9)=0.9; succession_shortage_documented=true so OW=min(1.0,0.9+0.1)=1.0; active_consolidators=12; CFD=min(0.9,log10(13)/2)=min(0.9,1.1139433523068367/2)=min(0.9,0.5569716761534184)=0.5569716761534184; B=10*sqrt(0.46127451000356423*1.0)/(1+0.3*0.5569716761534184)=10*0.6791719088624049/(1+0.16709150284602553)=10*0.6791719088624049/1.1670915028460255=5.81935459197827",
+      "score": 5.81935459197827
+    },
+    "M": {
+      "arithmetic": "M=clamp(4*(exit_mult-buy_mult)/buy_mult,0,10)=clamp(4*(10.5-6.0)/6.0,0,10)=clamp(4*0.75,0,10)=clamp(3.0,0,10)=3.0",
+      "score": 3.0
+    }
+  },
+  "S": 3.708561099617347,
+  "cross_checks": {
+    "uplift_pp": 11.039,
+    "uplift_vs_A_consistent": "uplift_pp=11.04pp substantially exceeds the 3pp floor. A=2.0 (t50=5 years) is below 5, so no cross-check tension. The combination makes sense: high labor_share (0.475) produces meaningful uplift even though only ~23% of labor is automatable, and slow-to-mid adoption pace (A=2.0) is appropriate given the industry's demonstrated but still early AI adoption trajectory.",
+    "terminal_value": {
+      "class": "DURABLE",
+      "justification": "The pest control product is DURABLE under mature AI. The value proposition — a licensed technician physically treating a structure to eliminate or prevent pest infestation — is not substitutable by AI. AI cannot spray a termiticide or place a bait station; mature AI does not perform the service visit. The automatable surface is bounded to the ~30-35% of wage bill in office, scheduling, sales support, and management reporting around the route. The two edge-case threats identified in the prompt are (1) smart-trap/remote-monitoring reducing visit frequency on commercial accounts and (2) DIY-plus-AI at the residential low end — both are nascent and quantitatively small relative to current revenue, with no documented revenue-per-account erosion yet in industry surveys. The DURABLE classification is supported by the physical, licensed, regulatory-compliance nature of the core service. This is explicitly distinguished from AI cutting operator overhead (real, bounded, captured in V) vs. AI replacing the paid visit (not occurring and not anticipated at scale in the foreseeable horizon)."
+    },
+    "no_proxy_confirmed": "V was set from the OEWS role wage_shares and declared within-role automatable fractions based on task analysis of what AI can currently do (scheduling, billing, phone handling, route optimization reporting, bookkeeping). The 0.05 fraction for pest control workers reflects route optimization and documentation assistance only, not visit elimination. A was set from the FieldRoutes/Thrive Analytics 2025 survey on current AI adoption rates and from the pest control routing software historical analog. No deal activity, consolidation trends, or M&A volume data were referenced when setting V or A.",
+    "pricing_model_deflation": "Pest control is priced as a recurring subscription or service contract, set locally by the operator with no external payer, auditor, or fee schedule above the firm. This is not a cost-plus or hourly model — when AI cuts back-office and routing costs, the savings accrue to the operator as EBITDA margin improvement, not as automatic price reductions to clients. Competitive pressure from national brands (Orkin, Terminix, Anticimex franchises) and Google Local Services Ads operates on customer acquisition pricing for new accounts, not on the cost pass-through mechanism. This operator-favorable structure is reflected in the high pi_dist=0.70; pi_moat=0.65 reflects the genuine barriers alongside the real competitive threats at the new-customer acquisition stage."
+  },
+  "confidence_overall": "MED",
+  "heterogeneous": false,
+  "top_uncertain_inputs": [
+    {
+      "input": "t50_years",
+      "plausible_range": "3-8 years",
+      "score_impact": "At t50=3: A=3.333, S rises from 3.71 to approximately 4.16. At t50=8: A=1.25, S falls to approximately 3.27. Range of approximately ±0.45 in S across the plausible t50 range."
+    },
+    {
+      "input": "owners_60plus_pct",
+      "plausible_range": "0.35-0.52",
+      "score_impact": "At owners_60plus_pct=0.35: OW_pre=0.714, +0.1 succession=0.814, B changes moderately. At 0.52: OW_pre already hits 1.2, capped at 0.9+0.1=1.0. With succession bonus already at cap (1.0) for most of the range, OW impact on B is limited above 0.42. Primary uncertainty is in the ESTIMATE quality of the input, not score sensitivity."
+    },
+    {
+      "input": "buy_mult",
+      "plausible_range": "5.0-7.0",
+      "score_impact": "At buy_mult=5.0 with exit_mult=10.5: M=clamp(4*5.5/5.0,0,10)=4.4, S rises to approximately 3.94. At buy_mult=7.0: M=clamp(4*3.5/7.0,0,10)=2.0, S falls to approximately 3.38. Range of approximately ±0.3 in S."
+    }
+  ],
+  "reviewer_note": "n_band sensitivity acknowledged per prompt: the 15.65% generic Damodaran margin puts only the 100-499 class (70 firms, avg $3.4M EBITDA) in the $1-10M band. However, well-run pest operators commonly run 20-25%+ EBITDA margins (per CT Acquisitions and FieldRoutes data). At 20% margin, the 20-99 class (766 firms, avg $4.7M revenue) enters the band at approximately $940K EBITDA — borderline in. n_band=70 is therefore treated as a conservative floor; actual addressable roll-up target count is plausibly 2-5x higher. This undercounts B slightly. Termite/WDO retreat-and-repair guarantee liabilities are long-tail obligations requiring QoE reserve — not captured in the simple EBITDA margin used for n_band calculation; noted for acquirer due diligence. Vegetation/lawn pest boundary with 561730 exists but the dominant segment of 561710 is structural pest control and termite work, which drives the economics scored here."
+}

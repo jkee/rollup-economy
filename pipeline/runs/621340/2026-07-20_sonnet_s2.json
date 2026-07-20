@@ -1,0 +1,285 @@
+{
+  "naics": "621340",
+  "title": "Offices of Physical, Occupational and Speech Therapists, and Audiologists",
+  "run_meta": {
+    "model_id": "claude-sonnet-4-6",
+    "run_date": "2026-07-20",
+    "run_id": "fleet-s2-621340",
+    "template_version": "3.0",
+    "prompt_version": "p3-aff6579"
+  },
+  "dataset_inputs": {
+    "labor_share": {
+      "value": 0.6007,
+      "method": "QCEW 2024 private total annual wages at 621340 ($25,528,793,330) x benefits multiplier 1.4294 [ECEC private-industry total comp $46.60/hr / wages $32.60/hr = 1.4294 (March 2026 reference period)] / SUSB 2022 receipts at 621340 ($45,314,241,000). Vintage mismatch: 2024 wages over 2022 receipts, stated. Level: 6-digit. Harmonized to IPS basis ÷1.3407 (median of 65 dual-method codes).",
+      "source": "BLS QCEW 2024 annual averages (US000, private); BLS ECEC news release (raw/ecec.nr0.htm); Census SUSB 2022 (receipts by NAICS)"
+    },
+    "role_mix": {
+      "oews_level": "5-digit 62134",
+      "occupations": [
+        {"soc": "29-1123", "title": "Physical Therapists", "emp_share": 0.1849, "wage_share": 0.2429},
+        {"soc": "31-2021", "title": "Physical Therapist Assistants", "emp_share": 0.1019, "wage_share": 0.0877},
+        {"soc": "29-1127", "title": "Speech-Language Pathologists", "emp_share": 0.0978, "wage_share": 0.1359},
+        {"soc": "29-1122", "title": "Occupational Therapists", "emp_share": 0.088, "wage_share": 0.1173},
+        {"soc": "31-2022", "title": "Physical Therapist Aides", "emp_share": 0.0607, "wage_share": 0.0277},
+        {"soc": "43-6013", "title": "Medical Secretaries and Administrative Assistants", "emp_share": 0.0499, "wage_share": 0.0279},
+        {"soc": "31-2011", "title": "Occupational Therapy Assistants", "emp_share": 0.0403, "wage_share": 0.0373},
+        {"soc": "11-9111", "title": "Medical and Health Services Managers", "emp_share": 0.033, "wage_share": 0.0476},
+        {"soc": "43-4171", "title": "Receptionists and Information Clerks", "emp_share": 0.0315, "wage_share": 0.0163},
+        {"soc": "43-9061", "title": "Office Clerks, General", "emp_share": 0.0246, "wage_share": 0.0141}
+      ],
+      "quality": "MED"
+    },
+    "n_total": {
+      "value": 31687,
+      "source": "SUSB 2022 (firms, all enterprise sizes)"
+    },
+    "n_band": {
+      "value": 821,
+      "derivation": "margin 0.1580 (margins.json[62]: Damodaran Jan 2026: Hospitals/Healthcare Facilities EBITDA/Sales 15.80% (closest named bucket for provider economics; public support-services bucket at 3.87% reflects a different business model)); revenue/employee $97,549 (SUSB 2022 receipts/employment at 621340); class <5: 19,498 firms, avg revenue/firm $219,208 (class receipts/firms), implied EBITDA $34,635 -> out of $1-10M band; class 5-9: 5,169 firms, avg revenue/firm $664,181 (class receipts/firms), implied EBITDA $104,941 -> out of $1-10M band; class 10-19: 3,624 firms, avg revenue/firm $1,193,863 (class receipts/firms), implied EBITDA $188,630 -> out of $1-10M band; class 20-99: 2,575 firms, avg revenue/firm $3,111,227 (class receipts/firms), implied EBITDA $491,574 -> out of $1-10M band; class 100-499: 460 firms, avg revenue/firm $13,045,304 (class receipts/firms), implied EBITDA $2,061,158 -> IN $1-10M band; class 500+: 361 firms, avg revenue/firm $53,374,413 (class receipts/firms), implied EBITDA $8,433,157 -> IN $1-10M band; n_band = 821"
+    }
+  },
+  "inputs": {
+    "ai_replaceable_share": {
+      "value": 0.133777,
+      "breakdown_by_role": [
+        {
+          "role": "Physical Therapists (29-1123)",
+          "labor_share_of_total": 0.2429,
+          "within_role_automatable_fraction": 0.07,
+          "contribution": 0.017003,
+          "rationale": "Licensed hands-on care; billing unit IS therapist time in 15-min CPT units — replacing clinical labor destroys the billed product. Only documentation time is AI-automatable: AI scribes reclaim ~7% of this role's labor hours from note-writing, which converts to throughput (more visits per day) not headcount reduction. Within-role fraction capped at documentation share of therapist workday (~30-40 min/day out of ~8hr shift = ~6-8%).",
+          "plausible_range": "0.04-0.10"
+        },
+        {
+          "role": "Physical Therapist Assistants (31-2021)",
+          "labor_share_of_total": 0.0877,
+          "within_role_automatable_fraction": 0.04,
+          "contribution": 0.003508,
+          "rationale": "Same hands-on structure as PTs but with smaller documentation burden relative to their scope; Medicare 85% modifier already constrains their economics independently of AI.",
+          "plausible_range": "0.02-0.07"
+        },
+        {
+          "role": "Speech-Language Pathologists (29-1127)",
+          "labor_share_of_total": 0.1359,
+          "within_role_automatable_fraction": 0.07,
+          "contribution": 0.009513,
+          "rationale": "Licensed clinical time billed per session; teletherapy shifted some delivery online but remains human-delivered. Documentation AI applicable at same ~7% fraction as PT. Teletherapy channel (school-based SLP) may have slightly higher AI-scribing uptake but clinical delivery remains human.",
+          "plausible_range": "0.04-0.10"
+        },
+        {
+          "role": "Occupational Therapists (29-1122)",
+          "labor_share_of_total": 0.1173,
+          "within_role_automatable_fraction": 0.07,
+          "contribution": 0.008211,
+          "rationale": "Hands-on functional rehabilitation; same billing structure as PT. Documentation automation is the only AI-surface inside this role.",
+          "plausible_range": "0.04-0.10"
+        },
+        {
+          "role": "Physical Therapist Aides (31-2022)",
+          "labor_share_of_total": 0.0277,
+          "within_role_automatable_fraction": 0.25,
+          "contribution": 0.006925,
+          "rationale": "Room setup, equipment turnover, scheduling support — these non-clinical functions are partially absorbable by AI-assisted scheduling, self-serve check-in, and automated room/equipment tracking. Cannot eliminate the role (physical presence required) but can reduce per-clinic headcount.",
+          "plausible_range": "0.15-0.35"
+        },
+        {
+          "role": "Medical Secretaries and Administrative Assistants (43-6013)",
+          "labor_share_of_total": 0.0279,
+          "within_role_automatable_fraction": 0.70,
+          "contribution": 0.019530,
+          "rationale": "Core AI surface: scheduling, insurance eligibility verification, prior authorization paperwork, patient communication. Prior-auth automation is directly relevant given MA plans' heavy therapy utilization management. 30% residual for human judgment in complex authorization escalations and referring-physician relationship tasks.",
+          "plausible_range": "0.55-0.80"
+        },
+        {
+          "role": "Occupational Therapy Assistants (31-2011)",
+          "labor_share_of_total": 0.0373,
+          "within_role_automatable_fraction": 0.04,
+          "contribution": 0.001492,
+          "rationale": "Hands-on clinical extenders performing physical therapeutic activities under OT supervision. Very small AI-automatable slice (documentation notes only).",
+          "plausible_range": "0.02-0.07"
+        },
+        {
+          "role": "Medical and Health Services Managers (11-9111)",
+          "labor_share_of_total": 0.0476,
+          "within_role_automatable_fraction": 0.20,
+          "contribution": 0.009520,
+          "rationale": "Compliance reporting, revenue-cycle analytics, scheduling oversight — these automate materially (~20%). Referral-relationship management, strategic decisions, staff oversight persist as human work.",
+          "plausible_range": "0.12-0.30"
+        },
+        {
+          "role": "Receptionists and Information Clerks (43-4171)",
+          "labor_share_of_total": 0.0163,
+          "within_role_automatable_fraction": 0.70,
+          "contribution": 0.011410,
+          "rationale": "Scheduling calls, appointment reminders, patient intake, insurance confirmation — heavily AI-automatable via conversational AI and scheduling bots. 30% residual for in-person greeting and complex patient navigation.",
+          "plausible_range": "0.55-0.80"
+        },
+        {
+          "role": "Office Clerks, General (43-9061)",
+          "labor_share_of_total": 0.0141,
+          "within_role_automatable_fraction": 0.70,
+          "contribution": 0.009870,
+          "rationale": "Billing, claims submission, denial management, coding review — strong AI surface. Denial management AI is already commercially deployed in rehab billing.",
+          "plausible_range": "0.55-0.80"
+        },
+        {
+          "role": "Remainder / long tail (unlisted OEWS occupations)",
+          "labor_share_of_total": 0.2453,
+          "within_role_automatable_fraction": 0.15,
+          "contribution": 0.036795,
+          "rationale": "Long tail includes athletic trainers, exercise physiologists, marketing staff, HR/recruiting — mixed clinical-adjacent and admin roles. ~15% automatable on average (marketing analytics, recruiting screening, HR paperwork). Physical/clinical roles dominate this tail and are not automatable.",
+          "plausible_range": "0.08-0.22"
+        }
+      ],
+      "quality": "MED"
+    },
+    "pi_dist": {
+      "value": 0.35,
+      "rationale": "Therapy revenue is billed on a per-procedure/timed-CPT basis set by CMS fee schedule and commercial payer contracts — operators cannot convert AI efficiency gains directly into price increases. Patient flow is gated by physician referral networks, health-system narrow networks, and MA plan preferred-provider lists rather than direct patient choice. Direct-access patients (who choose their clinic) represent a minority of volume. Clinic-level brand and relationship continuity provide partial protection, but payer-side mechanisms and referral gatekeeping significantly constrain how much of the AI value flows to the operator rather than the payer (via rate-rebasing) or the referral gatekeeper.",
+      "plausible_range": "0.25-0.45",
+      "sources": [
+        "CMS Physician Fee Schedule final rule 2025 (conversion factor -2.83% to $32.35 for 2025, fifth consecutive annual cut)",
+        "APTA article 2025-11-18: CMS finalizes fee schedule pay bump for first time in 5 years",
+        "CMS PDGM behavioral adjustment mechanism (documented payer clawback of measured efficiency gains)"
+      ],
+      "quality": "MED"
+    },
+    "pi_moat": {
+      "value": 0.45,
+      "rationale": "Physical licensure (PT, OT, SLP, AuD) creates real barriers: only licensed professionals may deliver and bill for services. Physical presence in clinic space is required; generic AI cannot substitute. Patient-therapist relationships create meaningful switching costs. However: entry into outpatient rehab is accessible (lease clinical space, hire licensed staff, obtain Medicare provider number — no CON required in most states); the profession produces ~14,000 new PT graduates/year keeping supply flowing; Hinge Health and Sword Health (digital MSK platforms) represent a genuine substitution threat for low-acuity chronic pain visits sold through employers/payers. Moat is real but moderate.",
+      "plausible_range": "0.35-0.55",
+      "sources": [
+        "State PT licensure requirements (all 50 states require PT license for service delivery and billing)",
+        "Hinge Health IPO prospectus and utilization data: 6.8x more outpatient visits in control vs. Hinge group (2024 Medicare cost study)",
+        "CT Acquisitions M&A guide 2026: entry barriers analysis"
+      ],
+      "quality": "MED"
+    },
+    "t50_years": {
+      "value": 4.0,
+      "derivation": "current_adoption_pct = 0.33 (Prompt Health 2025 survey: ~1/3 of 550 practices use automation tools materially; ~2/3 use AI for documentation specifically as of late 2025). Historical analog: EHR/EMR adoption in small specialty practices went from ~5% (2009) to ~50% (2017) in ~8 years. AI documentation is moving faster — from ~5% (2022) to ~33% (late 2025) in ~3 years, implying ~9.3 percentage points per year. From 33% to 50% = 17pp ÷ 9.3pp/yr = ~1.8 years from late 2025, or roughly mid-2027. However, the Raintree survey conflates pilots/intentions with material deployment; Prompt Health's more conservative 1/3 estimate likely better captures clinics where AI is workflow-integrated (not just occasionally used). Adjusting for laggard tail and workflow integration vs. pilot: t50 = 4 years from today (mid-2026 to mid-2030). Small independent clinics (the majority of n_band) adopt more slowly than larger groups. Range 2-7 years.",
+      "plausible_range": "2-7 years",
+      "quality": "MED"
+    },
+    "current_adoption_pct": {
+      "value": 0.33,
+      "source": "Prompt Health 2026 Practice Growth Index (2025 Prompt Practice Growth Survey, n=550 practice leaders/clinicians/admin across PT/OT/SLP)",
+      "url": "https://www.prompthealth.com/blog/rehab-therapy-industry-report",
+      "figure_quoted": "Only about 1 in 3 practices have adopted automation tools like digital intake, smart scheduling, or automated billing; about two-thirds of practices use AI for documentation",
+      "access_date": "2026-07-20",
+      "quality": "MED"
+    },
+    "historical_analogs": {
+      "value": "8 years (EHR/EMR adoption in small specialty outpatient practices, ~2009-2017); AI documentation moving faster (~3 years from 5% to 33%)",
+      "source": "ONC National Trends in Hospital and Physician Adoption of Electronic Health Records; Aptarro EHR adoption statistics",
+      "url": "https://healthit.gov/data/quickstats/national-trends-hospital-and-physician-adoption-electronic-health-records/",
+      "figure_quoted": "Office-based physician EHR adoption rose from ~34% (2011) to ~87% (2019); small specialty practices lagged by 3-5 years; PT practices reached ~86% EMR adoption",
+      "access_date": "2026-07-20",
+      "quality": "MED"
+    },
+    "owners_60plus_pct": {
+      "value": 0.30,
+      "source": "APTA Workforce Analysis 2020 and microsimulation study PMC11879330; Tupelo SMB PT clinic overview",
+      "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC11879330/",
+      "figure_quoted": "In 2019 approximately 49% of physical therapists were between ages 50-64 compared to 32% in 2010; roughly 60% of physical therapists aged 50 will retire by age 65; nearly half of all PTs are age 50 or older. Private practice owners skew older than the overall PT workforce.",
+      "access_date": "2026-07-20",
+      "quality": "ESTIMATE",
+      "succession_shortage_documented": {
+        "value": true,
+        "evidence": "APTA 2024 report documents 16,000 PT/year projected shortfall through 2030; 13% of outpatient PT positions open; 69% of private outpatient practice respondents perceive local shortage; Tupelo SMB blog notes many 'baby boomer clinic owners lack formal succession structures' and clinics remain 'highly owner-dependent'"
+      }
+    },
+    "active_consolidators": {
+      "value": 6,
+      "source": "CT Acquisitions Physical Therapy M&A Multiples Report 2026; Scope Research PT M&A trends 2025; PE Hub; Ankura Q3 2025 healthcare transactions review",
+      "url": "https://ctacquisitions.com/guides/physical-therapy-ma-multiples-2026/",
+      "figure_quoted": "Five PE-backed platforms with active acquisition programs in 2025-Q2 2026: Confluent Health (Partners Group), Ivy Rehab Network (Waud Capital), Athletico (BDT Capital), Upstream Rehabilitation (Revelstoke), PT Solutions (Lindsay Goldberg); plus H2 Health (Revelstoke) as sixth active consolidator",
+      "access_date": "2026-07-20",
+      "quality": "MED"
+    },
+    "buy_mult": {
+      "value": 6.5,
+      "source": "CT Acquisitions Physical Therapy M&A Multiples Report 2026",
+      "url": "https://ctacquisitions.com/guides/physical-therapy-ma-multiples-2026/",
+      "figure_quoted": "$1M to $3M adjusted EBITDA range: 5.5x to 8.0x adjusted EBITDA (classic lower middle market PE tuck-in targets); median used = 6.75x rounded to 6.5x for conservatism. EBITDA basis per rule 3; small-clinic EBITDA basis confirmed as source explicitly uses adjusted EBITDA not SDE for this band.",
+      "access_date": "2026-07-20",
+      "quality": "MED"
+    },
+    "exit_mult": {
+      "value": 12.0,
+      "source": "CT Acquisitions Physical Therapy M&A Multiples Report 2026; USPH Metro Physical & Aquatic Therapy acquisition Oct 2024 (BusinessWire)",
+      "url": "https://www.businesswire.com/news/home/20241007361665/en/U.S.-Physical-Therapy-Announces-Acquisition-of-50-Clinic-Physical-Therapy-Management-Services-Organization",
+      "figure_quoted": "Platform-scale ($10M+ EBITDA): 10.0x to 14.0x adjusted EBITDA. USPH acquired 50% of Metro PT (50 clinics, $12M EBITDA) for $76.5M implying $153M EV = 12.75x EBITDA. Used 12.0x as conservative platform multiple.",
+      "access_date": "2026-07-20",
+      "quality": "MED"
+    },
+    "pricing_structure": {
+      "value": "Per-procedure/per-visit billing via Medicare Part B fee schedule (timed CPT codes, 8-minute rule, ~40-50% of revenue for typical band-size clinic), commercial insurer per-visit case rates (~30-40%), workers' compensation fee schedules (~5-10%), and cash/direct-pay (~5-10%). No retainer or value-based pricing dominant.",
+      "source": "CMS Physician Fee Schedule; APTA reimbursement guidance; SPRY PT reimbursement overview 2025",
+      "url": "https://www.sprypt.com/blog/medicare-physical-therapy-reimbursement",
+      "figure_quoted": "Therapy thresholds 2025 set at $2,330 for combined PT/SLP services; CMS conversion factor $32.35 for 2025 (-2.83% from 2024's $33.29); fifth consecutive annual conversion factor cut",
+      "access_date": "2026-07-20",
+      "quality": "MED"
+    }
+  },
+  "scores": {
+    "V": {
+      "arithmetic": "V_raw = labor_share × ai_replaceable_share = 0.6007 × 0.133777 = 0.080360; V = 10 × min(1, 0.080360 / 0.25) = 10 × min(1, 0.321440) = 10 × 0.321440 = 3.21440",
+      "score": 3.21440
+    },
+    "C": {
+      "arithmetic": "C = 10 × pi_dist × pi_moat = 10 × 0.35 × 0.45 = 10 × 0.1575 = 1.57500",
+      "score": 1.57500
+    },
+    "A": {
+      "arithmetic": "A = min(10, 10 / t50_years) = min(10, 10 / 4.0) = min(10, 2.50000) = 2.50000",
+      "score": 2.50000
+    },
+    "B": {
+      "arithmetic": "n_band=821; TD = clamp(log10(821)/4, 0, 1) = clamp(2.914343/4, 0, 1) = clamp(0.728586, 0, 1) = 0.728586; owners_60plus_pct=0.30; OW_base = clamp((0.30-0.10)/0.35, 0.1, 0.9) = clamp(0.200/0.35, 0.1, 0.9) = clamp(0.571429, 0.1, 0.9) = 0.571429; succession_shortage_documented=true so OW = min(0.571429+0.1, 1.0) = min(0.671429, 1.0) = 0.671429; active_consolidators=6; CFD = min(0.9, log10(1+6)/2) = min(0.9, log10(7)/2) = min(0.9, 0.845098/2) = min(0.9, 0.422549) = 0.422549; TD×OW = 0.728586×0.671429 = 0.489108; sqrt(0.489108) = 0.699363; denominator = 1+0.3×0.422549 = 1+0.126765 = 1.126765; B = 10×0.699363/1.126765 = 6.993630/1.126765 = 6.20684",
+      "score": 6.20684
+    },
+    "M": {
+      "arithmetic": "M = clamp(4×(exit_mult - buy_mult)/buy_mult, 0, 10) = clamp(4×(12.0-6.5)/6.5, 0, 10) = clamp(4×5.5/6.5, 0, 10) = clamp(4×0.846154, 0, 10) = clamp(3.384615, 0, 10) = 3.384615",
+      "score": 3.384615
+    }
+  },
+  "S": 3.05449,
+  "cross_checks": {
+    "uplift_pp": 8.036,
+    "uplift_vs_A_consistent": "V_raw = 8.036pp of revenue. EBITDA margin is 15.80%, so AI uplift represents 50.9% of current EBITDA — substantial but concentrated in the non-clinical admin/documentation fringe (~10-15% of revenue) and therapist throughput gain. A = 2.50 (t50=4 years, moderate pace). With slow adoption, the uplift is real but arrives gradually; no inconsistency — a low-A score with moderate-V is coherent when structural barriers (owner inertia, small-clinic cash constraints, workflow disruption) slow deployment.",
+    "terminal_value": {
+      "class": "PRESSURED",
+      "justification": "Demand: licensed hands-on rehabilitation for MSK, neurological, and pediatric conditions is durable — aging demographics expand the addressable population and physical presence cannot be AI-replaced in the clinical core. DURABLE demand signal. However, two mechanisms pressure operator margins: (1) Payer rate-setting — CMS conversion-factor has been cut five consecutive years (cumulative ~10% real decline) and MA plans impose prior-auth and visit caps; AI-driven documentation efficiency manifests as throughput gains that payers can capture in the next rate cycle by reducing allowed visits or tightening authorization. (2) Digital MSK substitution — Hinge Health's 2024 Medicare cost study shows 6.8x more outpatient visits in control group vs. Hinge users, signaling that employer/payer-sold digital programs are diverting a measurable share of low-acuity chronic LBP visits away from clinics. This is additive use in some cases but substitutive for employers managing utilization. Net assessment: clinical demand DURABLE, operator economics PRESSURED by rate-cycle clawback and digital substitution at the low-acuity margin. Classify PRESSURED.",
+      "justification": "Demand for licensed in-person therapy is durable (aging demographics, physical-presence requirement). But CMS conversion-factor cuts (5 consecutive annual reductions through 2025) and MA prior-auth systematically transfer efficiency gains to payers. Hinge Health's 2024 Medicare utilization study shows 6.8x more outpatient visits in control vs. Hinge users — measurable visit diversion at low-acuity MSK margin. AI throughput gains (documentation time reclaimed → more visits) likely get partially absorbed in next rate rebasing cycle. Terminal value PRESSURED: demand survives but operator margins are structurally squeezed by payer rate-setting and digital substitution at the periphery."
+    },
+    "no_proxy_confirmed": "V (3.214) derived from labor_share (BLS/Census dataset input) × ai_replaceable_share (0.1338, computed from OEWS role-mix fractions and declared within-role automatable fractions based on task analysis of documentation time, scheduling, and billing functions). No reference to PT M&A deal activity, PE consolidation volume, or add-on counts in V or A. A (2.50) derived from t50=4 years, which was estimated from current_adoption_pct (Prompt Health survey) and historical EMR analog — no consolidation evidence used.",
+    "pricing_model_deflation": "Billing is predominantly per-procedure/per-visit via government and commercial fee schedules (not cost-plus or hourly rate-pass-through). In principle, operators keep AI-driven margin improvement within rate cycles — AI documentation savings flow to the clinic, not to payers, until the next fee-schedule update. However, CMS demonstrably resets rates to recapture measured efficiency (as documented in PT fee-schedule trajectory and analogous to PDGM behavioral adjustments in home health). This prospective-but-capped structure is reflected in pi_dist=0.35: the operator captures value in the near term but structural rate-rebasing limits long-run retention. MA plans' utilization management (prior auth, visit caps) is a second deflation mechanism. pi_moat=0.45 reflects that licensure and physical-presence requirements protect against direct bypass but do not prevent payer-side value capture."
+  },
+  "confidence_overall": "MED",
+  "heterogeneous": true,
+  "top_uncertain_inputs": [
+    {
+      "input": "t50_years",
+      "plausible_range": "2-7 years",
+      "score_impact": "At t50=2: A=5.0, S≈4.2; at t50=7: A=1.43, S≈2.6. t50 is the highest-leverage single input — a 5-year range in t50 spans nearly 2 full composite-score points."
+    },
+    {
+      "input": "ai_replaceable_share",
+      "plausible_range": "0.09-0.18",
+      "score_impact": "At 0.09: V_raw=0.054, V=2.16, S≈2.8; at 0.18: V_raw=0.108, V=4.32, S≈3.3. The billing-unit trap constrains the upper bound — clinical roles cannot be replaced without destroying revenue."
+    },
+    {
+      "input": "owners_60plus_pct",
+      "plausible_range": "0.22-0.40",
+      "score_impact": "At 0.22: OW_base=0.343+0.1=0.443, B≈5.5; at 0.40: OW_base=0.857+0.1=0.9(capped), B≈6.8. B changes by ~1.3 points across this range, S changes ~0.3 points."
+    },
+    {
+      "input": "buy_mult",
+      "plausible_range": "5.0-8.0",
+      "score_impact": "At buy=5.0, exit=12: M=clamp(4×7/5,0,10)=5.6; at buy=8.0, exit=12: M=clamp(4×4/8,0,10)=2.0. S shifts from ~2.8 to ~3.5 depending on buy multiple."
+    }
+  ],
+  "reviewer_note": "Heterogeneity: NAICS 621340 spans outpatient ortho PT (dominant sub-segment by clinic count and revenue), pediatric speech/language (school contracts, Medicaid), OT hand therapy, and audiology (hearing-aid retail margin). n_band 821 = 460 firms (class 100-499) + 361 firms (class 500+). Dominant sub-segment scored: outpatient musculoskeletal/neurological PT (largest revenue share). Audiology notably differs — hearing-aid sales carry retail margins and a product-revenue model distinct from the time-based therapy model; if the 361 class-500+ firms skew toward audiology chains, V would be understated for PT and overstated for audiology. Billing-unit trap applied: within-role automatable fraction for licensed clinical roles (PT, OT, SLP, PTA, OTA) capped at documentation-time fraction (~4-7%), not at administrative-work share, because reducing licensed-therapist clinical hours reduces billable CPT units. Digital MSK substitution (Hinge Health IPO May 2025; 6.8x outpatient-visit differential in 2024 Medicare cost study) is a growing threat to low-acuity chronic LBP volume that is not captured in current revenue figures but represents a headwind to long-run V realization. USPH Metro acquisition at 12.75x EBITDA for a 50-clinic MSO (Oct 2024) serves as primary exit multiple anchor."
+}

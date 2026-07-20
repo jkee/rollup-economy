@@ -1,0 +1,286 @@
+{
+  "naics": "621610",
+  "title": "Home Health Care Services",
+  "run_meta": {
+    "model_id": "claude-sonnet-4-6",
+    "run_date": "2026-07-20",
+    "run_id": "fleet-s2-621610",
+    "template_version": "3.0",
+    "prompt_version": "p3-aff6579"
+  },
+  "dataset_inputs": {
+    "labor_share": {
+      "value": 0.6718,
+      "method": "QCEW 2024 private total annual wages at 621610 ($71,424,773,339) x benefits multiplier 1.4294 [ECEC private-industry total comp $46.60/hr / wages $32.60/hr = 1.4294 (March 2026 reference period)] / SUSB 2022 receipts at 621610 ($113,350,417,000). Vintage mismatch: 2024 wages over 2022 receipts, stated. Level: 6-digit. Harmonized to IPS basis ÷1.3407 (median of 65 dual-method codes).",
+      "source": "BLS QCEW 2024 annual averages (US000, private); BLS ECEC news release (raw/ecec.nr0.htm); Census SUSB 2022 (receipts by NAICS)"
+    },
+    "role_mix": {
+      "oews_level": "4-digit 6216",
+      "occupations": [
+        {"soc": "31-1120", "title": "Home Health and Personal Care Aides", "emp_share": 0.6009, "wage_share": 0.4021},
+        {"soc": "29-1141", "title": "Registered Nurses", "emp_share": 0.1095, "wage_share": 0.1958},
+        {"soc": "29-2061", "title": "Licensed Practical and Licensed Vocational Nurses", "emp_share": 0.0449, "wage_share": 0.0573},
+        {"soc": "31-1131", "title": "Nursing Assistants", "emp_share": 0.0448, "wage_share": 0.0337},
+        {"soc": "29-1123", "title": "Physical Therapists", "emp_share": 0.0171, "wage_share": 0.0393},
+        {"soc": "11-9111", "title": "Medical and Health Services Managers", "emp_share": 0.0161, "wage_share": 0.0360},
+        {"soc": "21-1022", "title": "Healthcare Social Workers", "emp_share": 0.0145, "wage_share": 0.0222},
+        {"soc": "43-9061", "title": "Office Clerks, General", "emp_share": 0.0127, "wage_share": 0.0108},
+        {"soc": "43-6013", "title": "Medical Secretaries and Administrative Assistants", "emp_share": 0.0105, "wage_share": 0.0097},
+        {"soc": "29-1122", "title": "Occupational Therapists", "emp_share": 0.0076, "wage_share": 0.0165}
+      ],
+      "quality": "MED"
+    },
+    "n_total": {
+      "value": 28198,
+      "source": "SUSB 2022 (firms, all enterprise sizes)"
+    },
+    "n_band": {
+      "value": 1983,
+      "derivation": "margin 0.1580 (margins.json[62]: Damodaran Jan 2026: Hospitals/Healthcare Facilities EBITDA/Sales 15.80% (closest named bucket for provider economics; public support-services bucket at 3.87% reflects a different business model)); revenue/employee $72,294 (SUSB 2022 receipts/employment at 621610); class <5: 11,187 firms, avg revenue/firm $242,470 (class receipts/firms), implied EBITDA $38,310 -> out of $1-10M band; class 5-9: 3,386 firms, avg revenue/firm $660,235 (class receipts/firms), implied EBITDA $104,317 -> out of $1-10M band; class 10-19: 3,828 firms, avg revenue/firm $1,118,957 (class receipts/firms), implied EBITDA $176,795 -> out of $1-10M band; class 20-99: 7,049 firms, avg revenue/firm $2,771,668 (class receipts/firms), implied EBITDA $437,923 -> out of $1-10M band; class 100-499: 1,983 firms, avg revenue/firm $10,545,427 (class receipts/firms), implied EBITDA $1,666,177 -> IN $1-10M band; class 500+: 765 firms, avg revenue/firm $83,228,652 (class receipts/firms), implied EBITDA $13,150,127 -> out of $1-10M band; n_band = 1,983"
+    }
+  },
+  "inputs": {
+    "ai_replaceable_share": {
+      "value": 0.084687,
+      "breakdown_by_role": [
+        {
+          "role": "Home Health and Personal Care Aides (31-1120)",
+          "labor_share_of_total": 0.4021,
+          "within_role_automatable_fraction": 0.00,
+          "contribution": 0.000000,
+          "rationale": "The product itself — bathing, transfers, meal prep, companionship in the client's home. Mature AI cannot replace physical in-home care. Sensor/remote-monitoring technology may trim visit frequency at the margin but the binding constraint is aide supply (79% annual turnover), not productivity. Setting fraction to 0.00 per billing-unit trap analog: replacing aide time destroys the billed service.",
+          "plausible_range": "0.00-0.02"
+        },
+        {
+          "role": "Registered Nurses (29-1141)",
+          "labor_share_of_total": 0.1958,
+          "within_role_automatable_fraction": 0.15,
+          "contribution": 0.029370,
+          "rationale": "Skilled home visits are physical and cannot be AI-replaced. However, a substantial share of RN time is OASIS assessments, care-plan documentation, and coding-adjacent paperwork — AI documentation tools (NLP-assisted OASIS completion, automated care-plan drafting) are commercially deployed in home health EMRs. Estimate ~15% of RN labor hours is documentation-intensive work current AI can substantially reduce. The visit itself persists.",
+          "plausible_range": "0.08-0.22"
+        },
+        {
+          "role": "Licensed Practical and Licensed Vocational Nurses (29-2061)",
+          "labor_share_of_total": 0.0573,
+          "within_role_automatable_fraction": 0.05,
+          "contribution": 0.002865,
+          "rationale": "Hands-on clinical support in the home; smaller documentation component than RNs. Narrow AI surface for charting support only.",
+          "plausible_range": "0.02-0.10"
+        },
+        {
+          "role": "Nursing Assistants (31-1131)",
+          "labor_share_of_total": 0.0337,
+          "within_role_automatable_fraction": 0.02,
+          "contribution": 0.000674,
+          "rationale": "Hands-on personal care tasks in the home; minimal AI-automatable component. Fraction reflects only de minimis charting/check-in flows.",
+          "plausible_range": "0.00-0.05"
+        },
+        {
+          "role": "Physical Therapists (29-1123)",
+          "labor_share_of_total": 0.0393,
+          "within_role_automatable_fraction": 0.07,
+          "contribution": 0.002751,
+          "rationale": "Home-visit PT: licensed hands-on rehabilitation. Only documentation automatable (~7% of role labor hours). PDGM removed therapy-volume incentives in 2020 — visit counts already fell for payment-policy reasons; do not attribute that trend to AI.",
+          "plausible_range": "0.04-0.10"
+        },
+        {
+          "role": "Medical and Health Services Managers (11-9111)",
+          "labor_share_of_total": 0.0360,
+          "within_role_automatable_fraction": 0.25,
+          "contribution": 0.009000,
+          "rationale": "QA review, scheduling oversight, utilization reporting, compliance monitoring — these functions automate substantially with AI analytics tools. Family communication and clinical escalation decisions persist as human work. Scheduling in home health is operationally complex (distributed workforce matching to patient geography/needs) — AI scheduling is a real but partial automation.",
+          "plausible_range": "0.15-0.35"
+        },
+        {
+          "role": "Healthcare Social Workers (21-1022)",
+          "labor_share_of_total": 0.0222,
+          "within_role_automatable_fraction": 0.15,
+          "contribution": 0.003330,
+          "rationale": "Utilization management documentation, discharge planning coordination, benefits navigation — partially automatable. Patient counseling and clinical escalation judgment persist as human work.",
+          "plausible_range": "0.08-0.22"
+        },
+        {
+          "role": "Office Clerks, General (43-9061)",
+          "labor_share_of_total": 0.0108,
+          "within_role_automatable_fraction": 0.70,
+          "contribution": 0.007560,
+          "rationale": "Billing, claims submission, EVV compliance reporting, denial management — core AI surface. AI coding tools and EVV automation are directly deployable.",
+          "plausible_range": "0.55-0.80"
+        },
+        {
+          "role": "Medical Secretaries and Administrative Assistants (43-6013)",
+          "labor_share_of_total": 0.0097,
+          "within_role_automatable_fraction": 0.70,
+          "contribution": 0.006790,
+          "rationale": "Intake/referral processing, eligibility checks, scheduling coordination, payer authorizations — high AI surface. The EVV compliance layer and prior-auth for MA plans add documented administrative burden addressable by AI.",
+          "plausible_range": "0.55-0.80"
+        },
+        {
+          "role": "Occupational Therapists (29-1122)",
+          "labor_share_of_total": 0.0165,
+          "within_role_automatable_fraction": 0.07,
+          "contribution": 0.001155,
+          "rationale": "Home-visit OT: licensed hands-on care; only documentation automatable at the same ~7% fraction as home-visit PT.",
+          "plausible_range": "0.04-0.10"
+        },
+        {
+          "role": "Remainder / long tail (unlisted OEWS occupations)",
+          "labor_share_of_total": 0.1766,
+          "within_role_automatable_fraction": 0.12,
+          "contribution": 0.021192,
+          "rationale": "HR/recruiting staff, marketing liaisons, chaplains/hospice-adjacent roles, IT support. AI-assisted recruiting/retention tooling is a real lever given 79% annual aide turnover — screening, onboarding automation, shift-fill matching. Hospital-liaison marketing persists as relationship work. Blend estimated at 12% automatable.",
+          "plausible_range": "0.06-0.18"
+        }
+      ],
+      "quality": "MED"
+    },
+    "pi_dist": {
+      "value": 0.30,
+      "rationale": "Revenue flows via government and negotiated rates, not operator-set prices. Under Medicare PDGM (prospective 30-day episodes), agencies keep efficiency gains within a cycle but CMS behavioral-adjustment cuts (-3.925% in 2023, -2.890% in 2024, -1.975% in 2025, -1.023% in 2026) are an explicitly documented recurring mechanism transferring measured savings to payers. Medicaid HCBS rates are state-set; several states have wage-pass-through laws (NY wage parity) that convert labor-cost efficiency directly into mandated wage floors, further constraining margin retention. MA negotiated per-visit rates reprice annually with no guaranteed efficiency pass-through. Referral flow owned by hospital discharge planners, ACO networks, and MA preferred-network lists — agencies cannot build durable direct consumer relationships independent of these gatekeepers. pi_dist = 0.30: meaningful structural value destruction at the payer and gatekeeper layers.",
+      "plausible_range": "0.20-0.40",
+      "sources": [
+        "CMS CY2025 Home Health PPS Final Rule (CMS-1803-F): permanent behavioral adjustment -1.975% for 2025",
+        "CMS CY2026 Federal Register (2025-21767): permanent adjustment -1.023% for 2026",
+        "Applied Policy: CMS Finalizes Payment Cuts for Home Health Agencies for CY 2025",
+        "MedPAC July 2024 Data Book: home health payments persistently exceed costs; MedPAC recommends cuts"
+      ],
+      "quality": "MED"
+    },
+    "pi_moat": {
+      "value": 0.40,
+      "rationale": "Medicare-certified HHA requires CMS certification and state licensure; several high-population states (NY, IL, FL) have licensure moratoria or CON requirements restricting new entrants in the Medicare-certified skilled care segment — real barrier for the dominant n_band sub-segment. Physical presence in the home is required; generic AI cannot bypass the agency. However: non-medical personal care (substantial portion of 621610) has low entry barriers in most states. Aide workforce supply is the operational constraint — 79% annual turnover means the asset base is fragile and hard to protect. Referral-network lock-in creates switching costs for discharge planners but reprice via MA contracting. No proprietary data moat. Overall: moderate barrier from Medicare certification and state moratoria, offset by personal-care low barriers and workforce fragility.",
+      "plausible_range": "0.30-0.50",
+      "sources": [
+        "CMS Home Health Agency certification requirements",
+        "State CON/licensure moratorium states: NY, IL, FL (documented in industry M&A guides)",
+        "Activated Insights 2025 Benchmarking Report: caregiver turnover 75-79% annually",
+        "myEZCare 2026 Home Care Industry Report: 79% annual aide turnover"
+      ],
+      "quality": "MED"
+    },
+    "t50_years": {
+      "value": 8.0,
+      "derivation": "current_adoption_pct = 0.11 (11% of home care agencies running AI in full production per HHCN 2025 research; 24% have made any AI investment). Historical analog: EVV (Electronic Visit Verification) adopted by states over 5-6 years following 21st Century Cures Act 2016 mandate (2017-2023); voluntary EMR adoption in home health took ~10 years from ~5% (2010) to ~50% (2020). AI adoption in home health is voluntary and faces higher integration complexity than EVV (OASIS workflows, distributed workforce scheduling) plus cost barriers for thin-margin agencies. From 11% in 2026, reaching 50% requires 39pp more adoption. If voluntary adoption proceeds at ~5pp/year (faster than EMR given AI vendor push but slower than EVV mandate), 39pp / 5pp/yr = 7.8 years, rounded to 8 years. Range 5-12 years depending on whether AI EMR integration reaches price-competitive thresholds for small agencies.",
+      "plausible_range": "5-12 years",
+      "quality": "MED"
+    },
+    "current_adoption_pct": {
+      "value": 0.11,
+      "source": "Home Health Care News (HHCN) 2025 research cited in myEZCare 2026 Home Care Industry Report; also: myEZCare survey of home care agencies 2025-2026",
+      "url": "https://www.myezcare.com/2026-home-care-industry-report-workforce-ai-adoption-growth-trends/",
+      "figure_quoted": "Only 11% of home care agencies are running AI systems in full production; fewer than one in four home care agencies have made any AI-specific investment; only 19% of home care providers consider themselves early adopters for AI",
+      "access_date": "2026-07-20",
+      "quality": "MED"
+    },
+    "historical_analogs": {
+      "value": "EVV mandate: 5-6 years forced adoption (2017-2023); voluntary EMR in home health: ~10 years from <5% to ~50% (2010-2020); AI estimated at 8 years from early traction to 50% material adoption",
+      "source": "CMS 21st Century Cures Act EVV implementation timeline; ONC EHR adoption statistics",
+      "url": "https://www.cms.gov/medicare/payment/prospective-payment-systems/home-health",
+      "figure_quoted": "EVV required by January 1, 2020 (skilled) and January 1, 2023 (personal care) under 21st Century Cures Act; achieved near-universal adoption within those deadlines under state mandate",
+      "access_date": "2026-07-20",
+      "quality": "MED"
+    },
+    "owners_60plus_pct": {
+      "value": 0.38,
+      "source": "Vertess Healthcare M&A advisory blog (How Much Is Your Home Health Care Business Worth 2026); Watermark Advisors commentary on home care ownership demographics",
+      "url": "https://vertess.com/blog/how-much-your-home-health-care-business-worth-2026",
+      "figure_quoted": "One estimate shows that 60% of home healthcare company owners are over the age of 55; an aging base of independent home health agency owners is contributing to ongoing consolidation; Baby Boomers now aged 60-78 years old, selling their businesses has become one of the few viable options",
+      "access_date": "2026-07-20",
+      "quality": "ESTIMATE",
+      "succession_shortage_documented": {
+        "value": true,
+        "evidence": "60% of home health agency owners are over age 55 (Vertess 2026); Mertz Taggart documents active seller wave among aging independent owners; aide staffing shortage (79% annual turnover, HCAOA 2024: staffing shortages top concern for 3+ consecutive years) makes succession operationally complex — no ready owner-operators to step in; Mertz Taggart Q1 2026 report notes 32 active PE platforms absorbing owner exits"
+      }
+    },
+    "active_consolidators": {
+      "value": 10,
+      "source": "CT Acquisitions Home Health PE Roll-Up Tracker 2026; Mertz Taggart Q1 2026 home-based care industry report; Ankura Q3 2025 healthcare transactions review",
+      "url": "https://ctacquisitions.com/guides/home-health-pe-rollup-tracker-2026/",
+      "figure_quoted": "32 active US platforms across home health/home care/hospice; key home-health specific consolidators doing add-ons: BrightSpring (KKR), Aveanna, Pennant, Choice Health at Home (Trive Capital), Addus Homecare, Help at Home, HarmonyCares, Apria, Amedisys (UnitedHealth/Optum), Agape Care. Count of 10 for home health specific active acquirers.",
+      "access_date": "2026-07-20",
+      "quality": "MED"
+    },
+    "buy_mult": {
+      "value": 6.5,
+      "source": "CT Acquisitions Home Health PE Roll-Up Tracker 2026; Scope Research Home Health Valuation Multiples 2025; Mertz Taggart home health M&A commentary",
+      "url": "https://www.scoperesearch.co/post/home-health-valuation-multiples-and-m-a-trends-2025",
+      "figure_quoted": "Mid-size HHA ($2M-$8M EBITDA): 7x-10x EBITDA; Small single-branch (<$5M revenue): 3x-6x EBITDA; personal care non-medical: 3x-5x EBITDA. For 621610 band-size targets (n_band firms in 100-499 employee class, ~$10.5M avg revenue, ~$1.66M avg EBITDA per n_band derivation) blending Medicare-certified and personal care: median buy multiple 6.5x on EBITDA basis. Medicaid-heavy agencies receive 5-15% multiple discount; normalized per rule 3 to adjusted EBITDA basis.",
+      "access_date": "2026-07-20",
+      "quality": "MED"
+    },
+    "exit_mult": {
+      "value": 10.5,
+      "source": "CT Acquisitions Home Health PE Roll-Up Tracker 2026; Scope Research; Mertz Taggart on Enhabit acquisition; public transaction data",
+      "url": "https://ctacquisitions.com/guides/home-health-pe-rollup-tracker-2026/",
+      "figure_quoted": "Scaled multi-state HHA platforms: 9x-12x+ EBITDA. Enhabit take-private (Kinderhook) closed at approximately 10.2x EBITDA on approximately $108M EBITDA. Platform-scale Medicare-certified home health: 9-12x EBITDA range; used 10.5x as conservative midpoint for skilled home health exits.",
+      "access_date": "2026-07-20",
+      "quality": "MED"
+    },
+    "pricing_structure": {
+      "value": "Medicare PDGM prospective 30-day episode payments (~40-50% of band-size agency revenue); Medicaid HCBS hourly rates (~25-30%); Medicare Advantage negotiated per-visit rates (~10-15%); private-pay hourly (~5-10%). No retainer or value-based pricing dominant among band-size agencies.",
+      "source": "CMS PDGM home health payment system; Mertz Taggart payer mix analysis; Statista home health spending by payer 2023",
+      "url": "https://www.cms.gov/newsroom/fact-sheets/calendar-year-cy-2025-home-health-prospective-payment-system-final-rule-fact-sheet-cms-1803-f",
+      "figure_quoted": "CY2025 national standardized 30-day period payment rate approximately $1,928; CY2023 rate was $2,010.69 vs estimated cost $1,527.23 (32% excess); MedPAC documents 'more than a decade' of payments exceeding costs followed by recurring behavioral-adjustment cuts",
+      "access_date": "2026-07-20",
+      "quality": "MED"
+    }
+  },
+  "scores": {
+    "V": {
+      "arithmetic": "V_raw = labor_share × ai_replaceable_share = 0.6718 × 0.084687 = 0.056883; V = 10 × min(1, 0.056883 / 0.25) = 10 × min(1, 0.227532) = 10 × 0.227532 = 2.27532",
+      "score": 2.27532
+    },
+    "C": {
+      "arithmetic": "C = 10 × pi_dist × pi_moat = 10 × 0.30 × 0.40 = 10 × 0.1200 = 1.20000",
+      "score": 1.20000
+    },
+    "A": {
+      "arithmetic": "A = min(10, 10 / t50_years) = min(10, 10 / 8.0) = min(10, 1.25000) = 1.25000",
+      "score": 1.25000
+    },
+    "B": {
+      "arithmetic": "n_band=1983; TD = clamp(log10(1983)/4, 0, 1) = clamp(3.297290/4, 0, 1) = clamp(0.824323, 0, 1) = 0.824323; owners_60plus_pct=0.38; OW_base = clamp((0.38-0.10)/0.35, 0.1, 0.9) = clamp(0.28/0.35, 0.1, 0.9) = clamp(0.800000, 0.1, 0.9) = 0.800000; succession_shortage_documented=true so OW = min(0.800000+0.1, 1.0) = min(0.900000, 1.0) = 0.900000; active_consolidators=10; CFD = min(0.9, log10(1+10)/2) = min(0.9, log10(11)/2) = min(0.9, 1.041393/2) = min(0.9, 0.520697) = 0.520697; TD×OW = 0.824323×0.900000 = 0.741891; sqrt(0.741891) = 0.861331; denominator = 1+0.3×0.520697 = 1+0.156209 = 1.156209; B = 10×0.861331/1.156209 = 8.613310/1.156209 = 7.44958",
+      "score": 7.44958
+    },
+    "M": {
+      "arithmetic": "M = clamp(4×(exit_mult - buy_mult)/buy_mult, 0, 10) = clamp(4×(10.5-6.5)/6.5, 0, 10) = clamp(4×4.0/6.5, 0, 10) = clamp(16.0/6.5, 0, 10) = clamp(2.461538, 0, 10) = 2.461538",
+      "score": 2.461538
+    }
+  },
+  "S": 2.28713,
+  "cross_checks": {
+    "uplift_pp": 5.688,
+    "uplift_vs_A_consistent": "V_raw = 5.688pp of revenue. With A = 1.25 (t50 = 8 years, very slow adoption), the combination is internally consistent: a modest AI surface (concentrated in the ~8.5% of revenue represented by automatable admin/documentation functions) arriving very slowly in a cost-constrained industry with high operational friction (79% aide turnover, complex EVV/OASIS integration). No uplift-vs-A inconsistency flag.",
+    "terminal_value": {
+      "class": "PRESSURED",
+      "justification": "Medicare-certified skilled home health: Demand DURABLE (aging demographics, 10,000 baby boomers/day reaching 65, Medicare entitlement). But CMS PDGM behavioral-adjustment cuts (-3.925% 2023, -2.890% 2024, -1.975% 2025, -1.023% 2026) are a documented recurring mechanism that explicitly reclaims measured provider efficiency as payment reductions — MedPAC documents persistent payment-above-cost and recommends cuts as policy. Any AI-driven documentation or scheduling savings materialize as margin within the rate cycle, then get clawed back at the next annual rule. Medicaid HCBS: State-set hourly rates; NY wage-parity laws and similar statutes in multiple states convert labor-cost savings directly to mandated wage floors — efficiency captured by workers, not operators. Private-pay: Operators retain value; client relationship is direct; but this is a minority of band-size agency revenue (~5-10%). MA substitution: MA penetration in Medicare rising steadily; MA pays less than FFS and reprices annually through network contracts. Net classification: PRESSURED — demand is demographically locked-in and expanding, but the operator's ability to retain AI-efficiency gains is structurally limited by recurring payer rate-setting, wage pass-through mandates, and MA penetration trends."
+    },
+    "no_proxy_confirmed": "V (2.275) derived from labor_share (BLS/Census dataset input) × ai_replaceable_share (0.0847, computed from OEWS role-mix fractions and declared within-role automatable fractions based on documentation-time, scheduling, and billing task analysis). No reference to home health M&A deal activity, PE consolidation count, or Mertz Taggart deal volume in V or A. A (1.25) derived from t50=8 years estimated from current_adoption_pct (HHCN/myEZCare 2025-2026 survey: 11% in full production) and historical EVV/EMR analog — no consolidation evidence used.",
+    "pricing_model_deflation": "Billing is predominantly prospective (Medicare PDGM 30-day episodes) and government-rate-set (Medicaid hourly), not cost-plus or fee-for-time. Under prospective payment, operators nominally keep efficiency gains until the next rate cycle — but CMS PDGM behavioral-adjustment cuts are explicitly designed to recapture any efficiency the system measures as excess payment. This is a documented, recurring, mechanical clawback distinct from the cost-plus deflation in professional-services billing; it operates through annual rulemaking rather than contract renegotiation. Result: AI efficiency in home health is a temporary spread between rate cycles that systematically migrates to payers, not a durable margin expansion. This mechanism drives pi_dist = 0.30 — lower than typical ambulatory care because the clawback is institutionalized and already demonstrated across four consecutive annual payment cuts. pi_moat = 0.40 reflects Medicare licensure barriers offset by personal-care low entry and workforce fragility."
+  },
+  "confidence_overall": "MED",
+  "heterogeneous": true,
+  "top_uncertain_inputs": [
+    {
+      "input": "t50_years",
+      "plausible_range": "5-12 years",
+      "score_impact": "At t50=5: A=2.0, S≈2.8; at t50=12: A=0.833, S≈1.9. Adoption speed is the highest-leverage input — a 7-year range in t50 spans nearly 0.9 composite-score points in this low-V context."
+    },
+    {
+      "input": "ai_replaceable_share",
+      "plausible_range": "0.06-0.12",
+      "score_impact": "At 0.06: V_raw=0.040, V=1.613, S≈2.1; at 0.12: V_raw=0.081, V=3.218, S≈2.6. The aide-labor billing-unit trap caps the upper bound — 40% of the wage bill is the product itself and zero of that is automatable."
+    },
+    {
+      "input": "owners_60plus_pct",
+      "plausible_range": "0.30-0.48",
+      "score_impact": "At 0.30: OW_base=0.571+0.1=0.671, B≈6.8; at 0.48: OW_base=capped 0.9+0.1 still capped at 1.0, B≈8.5. B changes by ~1.7 points across range, S changes ~0.2 points."
+    },
+    {
+      "input": "buy_mult",
+      "plausible_range": "5.0-8.0",
+      "score_impact": "At buy=5.0, exit=10.5: M=clamp(4×5.5/5,0,10)=4.4; at buy=8.0, exit=10.5: M=clamp(4×2.5/8,0,10)=1.25. S shifts from ~2.7 to ~2.0 depending on buy multiple assumption."
+    }
+  ],
+  "reviewer_note": "Heterogeneity trap: 621610 blends (1) Medicare-certified skilled home health (RN/PT/OT home visits, OASIS-based, PDGM episodic payment — highest margin, highest licensure barrier), (2) Medicaid HCBS personal care (aide-heavy, hourly rate, wage pass-through, low margins), and (3) private-duty non-medical home care (hourly private pay, minimal regulation, highest pi_dist). n_band 1,983 = class 100-499 firms only (class 500+ EBITDA implies $13.15M — out of band). Band-size target is the ~$10.5M revenue / ~$1.66M EBITDA class — these firms are most likely Medicare-certified skilled agencies or large mixed agencies, not pure private-duty. Dominant sub-segment scored: Medicare-certified skilled home health blended with personal care (reflects the 621610 n_band population). Scored heterogeneous=true. PDGM behavioral adjustment clawback mechanism treated as a primary constraint on C (pi_dist=0.30) — this is the most important structural feature distinguishing 621610 from other healthcare codes. MedPAC July 2024 DataBook confirms payments exceeded costs by ~32% in 2023 and CMS has a statutory instruction to recapture these through behavioral adjustments. The revenue-deflation mechanism is institutionalized, not hypothetical. Aide turnover (75-79% per Activated Insights 2025) represents the largest operational cost center and the highest AI-opportunity area (scheduling, recruiting, retention), but the wage-pass-through constraint in Medicaid states limits margin capture even where AI reduces turnover costs."
+}

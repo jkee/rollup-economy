@@ -53,11 +53,11 @@ Sequencing has two deliberate inversions: the build/check script (Phase 2) is bu
 
 ## Phase 4 — Pilot: sector 54 + golden set (Stages 3 + 5) · ~1–2 days incl. iteration
 
-- [ ] 4.1 Runner: API batch, Sonnet-class + web search, 1 run per code → `pipeline/runs/`; automatic retry on schema-validation failure
-- [ ] 4.2 Golden-set runs with the **best model** → `pipeline/golden/`; Sonnet runs of the same codes alongside as the fleet-quality benchmark
-- [ ] 4.3 Validator prompt (best model as critic, P10): sources real & contain quoted figures; judgment inputs plausible, within rubric, consistent with comparable industries; cross-checks honest → `pipeline/review/<naics>.json` (`accepted` / `wrong` + reasons)
-- [ ] 4.4 `wrong` records re-run with critique attached (back to 4.1)
-- [ ] 4.5 Judge pilot vs frozen pass criteria:
+- [x] 4.1 Fleet runs done via in-session agents (not API batch — deferred to Phase 6): 63/63 codes validated (schema + arithmetic recompute), verdicts 7 conditional / 27 pass / 29 kill / 0 green, 20 borderline. **Incident log:** first wave (3-codes-per-agent briefs) collapsed into delegation cascades + a platform outage → 0 usable records; fixed with single-author 2-code briefs + mandatory real-validator self-check loop → 63/63 clean ("s2" runs). Lesson encoded for Phase 6: one API call per code, validator-in-the-loop
+- [x] 4.2 Golden-set runs (20, Fable) in `pipeline/golden/` — separation PASS (`golden_analysis.py`); all 20 codes also have Sonnet fleet runs as the benchmark. Observed: tight cross-model agreement on structure/mechanisms; divergence concentrated in t50 and multiples; 2 terminal-class boundary disagreements (541930 translation, 561492 court reporting) + payer-clawback C-vs-T ambiguity (healthcare codes) — template clarification candidates
+- [ ] 4.3 **DEFERRED by decision 2026-07-20** — validator pass not run (it is ~50% of Phase-4 cost, Fable × 83 records). Open decision when resumed: full-Fable on all 83 vs risk-tiered depth (Fable for conditional/borderline/LOW-conf/golden ≈ 30 records; Sonnet pre-screen with escalation for deep-kill rest)
+- [ ] 4.4 `wrong` records re-run with critique attached (blocked on 4.3)
+- [ ] 4.5 Judge pilot vs frozen pass criteria (partially done: golden separation PASS, zero arithmetic mismatches across all 83 records; acceptance-rate criterion blocked on 4.3):
   - golden set separates: known winners above known melters; melters caught by the T gate
   - zero arithmetic mismatches in the build
   - acceptance rate and source-quality distribution within the frozen targets

@@ -1,0 +1,312 @@
+{
+  "naics": "561492",
+  "title": "Court Reporting and Stenotype Services",
+  "run_meta": {
+    "model_id": "claude-sonnet-4-6",
+    "run_date": "2026-07-20",
+    "run_id": "fleet-s2-561492",
+    "template_version": "3.0",
+    "prompt_version": "p3-aff6579"
+  },
+  "dataset_inputs": {
+    "labor_share": {
+      "value": 0.2728,
+      "method": "QCEW 2024 private total annual wages at 561492 ($800,378,213) x benefits multiplier 1.4294 [ECEC private-industry total comp $46.60/hr / wages $32.60/hr = 1.4294 (March 2026 reference period)] / SUSB 2022 receipts at 561492 ($3,128,565,000). Vintage mismatch: 2024 wages over 2022 receipts, stated. Level: 6-digit. Harmonized to IPS basis ÷1.3407 (median of 65 dual-method codes).",
+      "sources": [
+        "BLS QCEW 2024 annual averages (US000, private)",
+        "BLS ECEC news release (raw/ecec.nr0.htm)",
+        "Census SUSB 2022 (receipts by NAICS)"
+      ],
+      "year": "2024 wages / 2022 receipts",
+      "quality": "MED"
+    },
+    "role_mix": {
+      "oews_level": "4-digit 5614",
+      "occupations": [
+        {
+          "soc": "43-4051",
+          "title": "Customer Service Representatives",
+          "emp_share": 0.3409,
+          "wage_share": 0.2589
+        },
+        {
+          "soc": "41-9041",
+          "title": "Telemarketers",
+          "emp_share": 0.0668,
+          "wage_share": 0.0442
+        },
+        {
+          "soc": "43-3011",
+          "title": "Bill and Account Collectors",
+          "emp_share": 0.0603,
+          "wage_share": 0.0485
+        },
+        {
+          "soc": "43-1011",
+          "title": "First-Line Supervisors of Office and Administrative Support Workers",
+          "emp_share": 0.0461,
+          "wage_share": 0.0548
+        },
+        {
+          "soc": "41-3091",
+          "title": "Sales Representatives of Services, Except Advertising, Insurance, Financial Services, and Travel",
+          "emp_share": 0.0328,
+          "wage_share": 0.0404
+        },
+        {
+          "soc": "11-1021",
+          "title": "General and Operations Managers",
+          "emp_share": 0.0321,
+          "wage_share": 0.0753
+        },
+        {
+          "soc": "41-2021",
+          "title": "Counter and Rental Clerks",
+          "emp_share": 0.023,
+          "wage_share": 0.0174
+        },
+        {
+          "soc": "31-9094",
+          "title": "Medical Transcriptionists",
+          "emp_share": 0.0207,
+          "wage_share": 0.0125
+        },
+        {
+          "soc": "43-9051",
+          "title": "Mail Clerks and Mail Machine Operators, Except Postal Service",
+          "emp_share": 0.0198,
+          "wage_share": 0.0147
+        },
+        {
+          "soc": "15-1232",
+          "title": "Computer User Support Specialists",
+          "emp_share": 0.0177,
+          "wage_share": 0.0162
+        }
+      ],
+      "quality": "MED"
+    },
+    "n_total": {
+      "value": 3004,
+      "source": "SUSB 2022 (firms, all enterprise sizes)",
+      "year": "2022",
+      "quality": "HIGH"
+    },
+    "n_band": {
+      "value": 60,
+      "derivation": "margin 0.1565 (margins.json[56]: Damodaran Jan 2026: Business & Consumer Services EBITDA/Sales 15.65%); revenue/employee $242,882 (SUSB 2022 receipts/employment at 561492); class <5: 2,701 firms, avg revenue/firm $234,096 (class receipts/firms), implied EBITDA $36,636 -> out of $1-10M band; class 5-9: 164 firms, avg revenue/firm $1,455,720 (class receipts/firms), implied EBITDA $227,820 -> out of $1-10M band; class 10-19: 72 firms, avg revenue/firm $2,802,000 (class receipts/firms), implied EBITDA $438,513 -> out of $1-10M band; class 20-99: 51 firms, avg revenue/firm $7,039,745 (class receipts/firms), implied EBITDA $1,101,720 -> IN $1-10M band; class 100-499: 9 firms, avg revenue/firm $46,248,556 (class receipts/firms), implied EBITDA $7,237,899 -> IN $1-10M band; class 500+: 7 firms, avg revenue/firm $182,932,429 (class receipts/firms), implied EBITDA $28,628,925 -> out of $1-10M band; n_band = 60",
+      "margin_used": 0.1565,
+      "margin_source": "Damodaran Jan 2026: Business & Consumer Services EBITDA/Sales 15.65%",
+      "quality": "ESTIMATE"
+    }
+  },
+  "inputs": {
+    "ai_replaceable_share": {
+      "value": 0.5355,
+      "breakdown_by_role": [
+        {
+          "role": "Court reporters / stenographers (23-2011 — absent from 4-digit proxy; rebuilt as ~40% of W-2 wage bill; note large 1099 freelance population outside W-2 capture)",
+          "labor_share_of_total": 0.40,
+          "within_role_automatable_fraction": 0.40,
+          "contribution": 0.16,
+          "rationale": "ASR (Whisper-class models, Rev AI, etc.) now produces near-human-accuracy draft transcripts at <$0.30/min vs $3.50-7.00/page for human reporters. The production/transcription component (~40% of reporter labor) is substantially automatable. However, the officer-of-the-court function — administering oath, certifying the record, appearing as officer, carrying chain-of-custody liability — requires a licensed human in the vast majority of jurisdictions. 47 states permit digital recording but most still require a certified human officer at the deposition. California AB 1189 (2025-2026) is pending to allow certified digital recorders. Only Iowa, Idaho, New Hampshire historically required stenographic recording; most states allow digital. The automation fraction of 0.40 reflects: transcription draft production (fully automatable) minus the non-automatable certification/attendance function. At full AI maturity, the paid human role compresses to a thin certification wrapper.",
+          "plausible_range": "0.25-0.55 (low: regulatory framework keeps human reporters required in most states; high: if AI achieves officer-of-the-court certification via statute, could approach 0.55)"
+        },
+        {
+          "role": "Transcriptionists / scopists / proofreaders (31-9094 Medical Transcriptionists in 4-digit proxy understates; rebuilt as ~12% of W-2 wage bill)",
+          "labor_share_of_total": 0.12,
+          "within_role_automatable_fraction": 0.85,
+          "contribution": 0.102,
+          "rationale": "Cleaning ASR drafts into certified transcripts is exactly what current AI does best. UZH/Cambridge 2022 study showed hybrid AI+human model at 98.5% accuracy. Human review compresses to a QA pass for exceptions, legal formatting, and certification. 85% automatable — the 15% residual is final certification review and edge-case corrections for accents, technical terminology, and multi-speaker disambiguation.",
+          "plausible_range": "0.75-0.95"
+        },
+        {
+          "role": "Scheduling / calendar / production coordination (proxy 43-4051 CSR at 25.9% overstates via contact-center contamination; rebuilt as ~20% of W-2 wage bill for 561492 coordination staff)",
+          "labor_share_of_total": 0.20,
+          "within_role_automatable_fraction": 0.80,
+          "contribution": 0.16,
+          "rationale": "Job scheduling, reporter assignment, transcript production tracking, exhibit management, and delivery logistics are routine coordination functions. Modern court reporting platforms (Veritext's proprietary portal, Lexitas technology stack) already automate significant portions. 80% automatable — the 20% residual is exception handling, reporter relationship management, and last-minute coverage coordination.",
+          "plausible_range": "0.65-0.90"
+        },
+        {
+          "role": "Management / sales (11-1021 General and Operations Managers + 41-3091 Sales Representatives; proxy shares used as starting point, scaled to ~15% for 561492)",
+          "labor_share_of_total": 0.15,
+          "within_role_automatable_fraction": 0.30,
+          "contribution": 0.045,
+          "rationale": "Law-firm relationship management and litigation-support selling are primarily relationship/judgment work. Proposal generation, CRM updates, invoicing, and reporting automate. 30% automatable reflects the operational/administrative component.",
+          "plausible_range": "0.20-0.40"
+        },
+        {
+          "role": "Captioning / CART realtime staff (23-2011 subset — captioners; rebuilt as ~8% of W-2 wage bill; this code also includes ADA-driven CART services)",
+          "labor_share_of_total": 0.08,
+          "within_role_automatable_fraction": 0.45,
+          "contribution": 0.036,
+          "rationale": "ASR captioning already substitutes at the low end — education, webinars, internal corporate meetings. Legal/broadcast realtime captioning and CART for ADA compliance holds longer due to accuracy requirements, liability, and real-time correction needs. ADA demand is growing (positive for this sub-segment). 45% automatable: the batch/education end is near-fully automated; the legal/broadcast realtime end persists with human oversight.",
+          "plausible_range": "0.30-0.60"
+        },
+        {
+          "role": "Other admin / residual (IT, billing, clerical — remaining ~5% of W-2 wage bill)",
+          "labor_share_of_total": 0.05,
+          "within_role_automatable_fraction": 0.65,
+          "contribution": 0.0325,
+          "rationale": "Billing, accounts receivable, IT support, and general administrative functions. Near-fully automatable for routine tasks; 35% residual for exceptions and vendor management.",
+          "plausible_range": "0.50-0.80"
+        }
+      ],
+      "quality": "MED"
+    },
+    "pi_dist": {
+      "value": 0.40,
+      "rationale": "Court reporting agencies own the law firm's preferred-vendor slot and scheduling calendar — more durable than BPO contact centers because: (1) agencies assign reporters and handle all scheduling, eliminating client coordination burden; (2) relationships are long-standing, especially with mid-size law firms that use a consistent preferred agency; (3) transcript delivery integration with law firm case management systems creates switching friction. However: (a) certified reporters can take law-firm relationships directly when they leave an agency (reporter mobility limits pi_dist); (b) per-page pricing means AI-driven cost compression flows to clients or competitors if a digital agency bids lower page rates; (c) remote deposition platforms (Zoom-integrated ASR with certified digital reporter) allow some bypass; (d) large law firms consolidate vendor lists to national providers (Veritext, Lexitas) in competitive national-account pricing. pi_dist = 0.40: meaningful relationship ownership but constrained by reporter mobility and page-rate competition.",
+      "plausible_range": "0.30-0.55 (low: reporter mobility and digital bypass risk; high: sticky preferred-agency calendars in smaller law firm markets)",
+      "sources": [
+        "Jackimwoods.com: Insights on Court Reporting Acquisitions 2023-2025 (https://www.jackimwoods.com/tag/court-reporting/)",
+        "TranscribeLegal AI: Legal Transcription Pricing Guide 2026 (https://transcribelegal.ai/legal-transcription-pricing-guide.html)",
+        "Esquire Deposition Solutions: Digital Reporter Service Rules by State 2025"
+      ],
+      "quality": "MED"
+    },
+    "pi_moat": {
+      "value": 0.35,
+      "rationale": "Meaningful but shrinking moat. State CSR licensing requirements provide genuine regulatory barrier: in most states, only a licensed court reporter (or certified digital reporter) can certify a deposition transcript. HIPAA and data-security certifications add compliance moat for medical malpractice and health litigation work. Agency scheduling systems and reporter networks create network-effect moat in local markets (you need a reporter available in the right location). However: (a) 47 states now permit digital reporting as of 2025 — the moat is draining as certification expands to digital reporters (AAERT pathway); (b) remote deposition platforms reduce geography-based moat; (c) clients can bypass agencies entirely in many states by using a notarized recording with ASR transcript; (d) the stenographer shortage itself is accelerating rule changes (California AB 1189 pending). pi_moat = 0.35: genuine regulatory-certification moat stronger than contact centers, but actively eroding as statutes adapt to shortage.",
+      "plausible_range": "0.25-0.50 (low: rapid rule evolution and digital certification expansion; high: core CSR licensing persists in major jurisdictions)",
+      "sources": [
+        "Lexology: Georgia digital reporter law 2026 effective date (https://www.lexology.com/library/detail.aspx?g=f6633c46-a8ab-4bc4-95c6-98a0ccca081f)",
+        "Esquire Deposition Solutions: Digital Reporter Rules by State 2025",
+        "Stenoimperium: Why Digital Recorders Are Not Court Reporters in California (https://stenoimperium.com/2025/07/21/why-digital-recorders-are-not-court-reporters-and-why-that-matters-in-california/)",
+        "NCRA / AAERT: Certification pathway documentation"
+      ],
+      "quality": "MED"
+    },
+    "t50_years": {
+      "value": 3.0,
+      "derivation": "current_adoption_pct = 0.35 (estimated 35% of agencies materially using AI in transcription production workflows — large national agencies (Veritext, Lexitas, Magna) already using AI-assisted transcription; many smaller agencies using commercial ASR tools (Sonix, Rev.ai, Verbit)); historical_analog: CAT (Computer-Aided Transcription) software adoption in court reporting: stenotype to digital CAT became standard from late 1990s to early 2000s (~10-year window from introduction to majority use). Voice recognition (Dragon NaturallySpeaking in legal context) also ~10 years to broad adoption. AI is moving faster because: (1) the stenographer shortage makes AI adoption existential for capacity — agencies cannot source enough human reporters; (2) AI transcription cost ($0.15-0.30/min) vs. human reporter cost ($3.50-7.00/page) is overwhelmingly compelling; (3) competitive pressure from digital-first entrants (Verbit, digital agencies) is visible in the market. Derivation: from 35% current to 50% target = 15pp gap. At CAT-analog pace (10 years for 30pp gap), this would be 5 years. But given stronger market forces (shortage + cost), compressing to 3 years. t50 = 3 years (2026→2029).",
+      "plausible_range": "2-5 years (low: shortage pressure plus cost economics accelerate; high: regulatory requirements slow AI-only workflows; larger gap if AI certification rules stall)",
+      "quality": "MED"
+    },
+    "current_adoption_pct": {
+      "value": 0.35,
+      "source": "AAERT 2025 Court Reporting Industry Trends Report summary; Rev.com court reporter shortage analysis; Verbit digital reporting industry reports",
+      "url": "https://aaert.org/industry-report/",
+      "figure_quoted": "Digital court reporting growing as reliable solution to stenographer shortage; large national agencies (Veritext, Lexitas, Magna) and digital-first platforms (Verbit, Stenograph AI tools) materially using AI in transcription; AAERT reports growing digital reporter certification; workforce declined 21% over last decade; fewer than 300 new reporters enter annually vs 1,000 retirements",
+      "access_date": "2026-07-20",
+      "quality": "ESTIMATE"
+    },
+    "historical_analogs": {
+      "value": "10 years (CAT software adoption in court reporting, late 1980s introduction to ~50% majority use by late 1990s; voice recognition for transcription, similar 10-year adoption window)",
+      "source": "NCRA historical reporting / NCRA Court Reporting Industry Outlook (Ducker Report 2013-14); general CAT software adoption history",
+      "url": "https://www.vernoncourtreporters.com/court-reporting-industry-outlook-report-ncra-ducker-report/",
+      "figure_quoted": "Ducker Report (2013-14, NCRA-commissioned) established historical reporter workforce trends; CAT (Computer-Aided Transcription) became the industry standard by the early 2000s — approximately 10-year transition from minority to majority adoption from late-1980s introduction",
+      "access_date": "2026-07-20",
+      "quality": "MED"
+    },
+    "owners_60plus_pct": {
+      "value": 0.55,
+      "source": "Jackimwoods.com Court Reporting M&A Insights; NCRA workforce data; speechmatics court reporter shortage analysis 2024",
+      "url": "https://www.jackimwoods.com/category/court-reporting-industry/",
+      "figure_quoted": "Most owners of court reporting firms are in their late 50s or older and are beginning to think about retirement (jackimwoods.com); 81% of stenographers are over 50 years old, average age 56 (NCRA/AAERT 2025 data); more than 70% of the workforce is age 45 or older (US Legal Support blog)",
+      "access_date": "2026-07-20",
+      "quality": "MED",
+      "succession_shortage_documented": {
+        "value": true,
+        "evidence": "Succession shortage is extensively documented for this industry: NCRA and AAERT report fewer than 300 new reporters entering the field annually vs. 1,000+ retiring each year; 74% plummet in stenography school enrollment; nearly half of stenography programs closed. Jackimwoods.com (court reporting M&A specialist) explicitly states most firm owners are in late 50s or older, creating a double succession problem: owner cannot find a buyer from within the profession because the talent pipeline is exhausted. The AAERT 2025 Industry Trends Report confirms the workforce crisis creates urgent succession pressure for firm owners. California alone reported 72% of hearings had no verbatim record due to reporter shortage."
+      }
+    },
+    "active_consolidators": {
+      "value": 4,
+      "source": "Stenoimperium Era of Aggregation article Aug 2025; jackimwoods.com Court Reporting Acquisitions 2025; PE Hub / Harris Williams deal announcements",
+      "url": "https://stenoimperium.com/2025/08/06/the-era-of-aggregation-lexitas-veritext-magna-and-others-consolidating-the-court-reporting-industry/",
+      "figure_quoted": "Veritext (Leonard Green + CVC Capital Partners) — 6 acquisitions in 2025 alone, 40+ total over tracked period; Lexitas (PE-backed) — 28 acquisitions total, active 2024-2025; Magna Legal Services (CIVC Partners PE) — 3 acquisitions in 2025; US Legal Support (PE-backed) — 6+ transactions in tracked period. At least 4 PE-backed platforms actively making add-on acquisitions in court reporting specifically in last 24 months.",
+      "access_date": "2026-07-20",
+      "quality": "MED"
+    },
+    "buy_mult": {
+      "value": 5.0,
+      "source": "Jackimwoods.com Court Reporting Acquisitions Insights 2025; court reporting valuation multiples by EBITDA range",
+      "url": "https://www.jackimwoods.com/category/court-reporting-industry/",
+      "figure_quoted": "Court reporting agency EBITDA multiples by size: $500K-$1M at 3.0-5.0x; $1M+ at 4.0-6.0x EBITDA. For n_band firms (EBITDA $1.1M-$7.2M), median buy-side multiple estimated at 5.0x — midpoint of $1M+ range, reflecting AI uncertainty discount from higher historical multiples.",
+      "access_date": "2026-07-20",
+      "quality": "MED"
+    },
+    "exit_mult": {
+      "value": 8.0,
+      "source": "Veritext CVC Capital Partners investment (Harris Williams); PE platform exit comp analysis for legal services BPO with national scale and technology investment",
+      "url": "https://www.harriswilliams.com/transactions/business-services-veritext-receives-investment-from-cvc",
+      "figure_quoted": "Veritext received significant investment from CVC Capital Partners (no multiple disclosed); comparable PE-backed legal services platforms with compliance certifications and technology differentiation trade at 8-12x EBITDA at exit. Applied 8.0x as conservative exit estimate given AI headwinds for the broader platform category, consistent with the lower end of comparable legal services BPO exit range.",
+      "access_date": "2026-07-20",
+      "quality": "MED"
+    },
+    "pricing_structure": {
+      "value": "Per-page ($3.50-7.00/page for original transcript, $0.50-2.00/page for copies); appearance fee ($250-500/half-day, $400-800/full-day); expedited delivery surcharge (50-100%); per-minute AI transcription ($0.15-0.30/min). Official/court work subject to Judicial Conference maximum rates (caps upside). Commercial deposition market sets market pricing. AI transcription dramatically cheaper (~$0.15-0.30/min vs $3.50-7.00/page equivalent) — cost floor collapsing but agencies cannot reduce per-page rates immediately due to sticky law-firm billing relationships.",
+      "source": "TranscribeLegal AI Legal Transcription Pricing Guide 2026; CourtScribes Certified Court Reporter Cost Guide 2026; McCorkle Depositions pricing guide",
+      "url": "https://transcribelegal.ai/legal-transcription-pricing-guide.html",
+      "figure_quoted": "Court reporters charge $3.50-$7.00 per page for original transcripts; AI transcription $0.15-$0.30 per minute; AI-assisted court reporting can reduce per-page costs 40-60%; a firm transcribing 10 depositions per month could spend $5,000+ with court reporters or under $150 with AI transcription",
+      "access_date": "2026-07-20",
+      "quality": "MED"
+    }
+  },
+  "scores": {
+    "V": {
+      "arithmetic": "ai_replaceable_share = sum(contributions) = 0.160000+0.102000+0.160000+0.045000+0.036000+0.032500 = 0.535500; V_raw = labor_share * ai_replaceable_share = 0.2728 * 0.535500 = 0.146084; V = 10 * min(1, 0.146084/0.25) = 10 * min(1, 0.584338) = 10 * 0.584338 = 5.843376",
+      "score": 5.843376
+    },
+    "C": {
+      "arithmetic": "C = 10 * pi_dist * pi_moat = 10 * 0.40 * 0.35 = 1.40",
+      "score": 1.40
+    },
+    "A": {
+      "arithmetic": "t50_years = 3.0; A = min(10, 10/3.0) = min(10, 3.333333...) = 3.333333...",
+      "score": 3.333333333333333
+    },
+    "B": {
+      "arithmetic": "n_band=60; TD=clamp(log10(60)/4,0,1)=clamp(1.778151/4,0,1)=clamp(0.444538,0,1)=0.444538; owners_60plus_pct=0.55; OW_base=clamp((0.55-0.10)/0.35,0.1,0.9)=clamp(1.285714,0.1,0.9)=0.9; succession_shortage_documented=true so OW=min(1.0,0.9+0.1)=1.0; active_consolidators=4; CFD=min(0.9,log10(1+4)/2)=min(0.9,log10(5)/2)=min(0.9,0.698970/2)=min(0.9,0.349485)=0.349485; B=10*sqrt(0.444538*1.0)/(1+0.3*0.349485)=10*sqrt(0.444538)/1.104846=10*0.666737/1.104846=6.66737/1.104846=6.034580",
+      "score": 6.034580
+    },
+    "M": {
+      "arithmetic": "M = clamp(4*(exit_mult - buy_mult)/buy_mult, 0, 10) = clamp(4*(8.0-5.0)/5.0, 0, 10) = clamp(4*3.0/5.0, 0, 10) = clamp(12.0/5.0, 0, 10) = clamp(2.40, 0, 10) = 2.40",
+      "score": 2.40
+    }
+  },
+  "S": 3.30590,
+  "cross_checks": {
+    "uplift_pp": 14.61,
+    "uplift_vs_A_consistent": "V_raw = 0.14608, representing 14.61 percentage points of revenue freed. A = 3.33 (below 5). Cross-check 1 condition is 'uplift < 3pp while A >= 5' — does NOT trigger (uplift is 14.61pp, well above 3pp; A is below 5). Consistent: moderate V with moderate A reflects an industry where AI automation is real but constrained by regulatory certification requirements and a labor_share of only 0.2728 (agencies are intermediaries; 1099 freelance reporters outside the W-2 base further reduces the measured labor exposure). No revision needed.",
+    "terminal_value": {
+      "class": "PRESSURED",
+      "justification": "The paid product is a certified verbatim record of a legal proceeding. Mature ASR produces the verbatim text at near-zero marginal cost. What remains purchasable: (1) the oath-administration function (officer of the court), (2) the certification and chain-of-custody liability, (3) realtime delivery where rules demand stenographic speed. State CSR statutes keep a paid human certifier in the loop in the near term: as of 2025, 47 states permit digital recording but most still require a certified officer. The certification wrapper is shrinking but surviving: agencies transition from staffing stenographers to staffing certified digital reporters (AAERT pathway) who administer oaths and certify AI-produced transcripts. The key distinction: this is the agency cutting its transcription costs (margin story) more than the product being replaced — the per-page revenue line persists for depositions even as the production cost collapses. Some melt in sub-segments: low-end captioning (education, webinars) is fully displaced by ASR. Realtime legal captioning (ADA-driven CART) is growing. Deposition transcripts: per-page rates under compression from digital-first competitors but not disappearing. Rule changes (California AB 1189 allowing certified digital recorders) accelerate margin compression but do not eliminate the agency role. Classified PRESSURED: demand for the certified legal record survives AI maturity, but the economics compress substantially as production costs collapse and per-page rates face competitive downward pressure. Terminal demand is real but at lower margin and lower per-unit price.",
+      "justification": "The paid product is a certified verbatim record of a legal proceeding. Mature ASR produces the verbatim text at near-zero marginal cost. What remains purchasable is the certification, chain-of-custody, and oath-administration by a licensed officer. 47 states permit digital recording but most require a certified officer present. Agencies transition from staffing stenographers to staffing certified digital reporters who certify AI-produced transcripts — the agency's production cost collapses (margin story) while the per-page revenue line compresses from digital competition. Some sub-segments melt (low-end captioning), others grow (ADA-driven CART). Deposition transcript demand persists through legal proceedings, insulated from direct AI bypass by court rules requiring certified records. Classified PRESSURED: the certified legal record product survives AI maturity but at compressed margins and per-unit price; not MELTING (unlike contact centers, the product requires a human in the certification chain per most state statutes)."
+    },
+    "no_proxy_confirmed": "V was computed from a rebuilt 561492-specific role structure, explicitly noted as replacing the 4-digit 5614 proxy (which is dominated by contact-center occupations absent from 561492). The 23-2011 Court Reporters and Simultaneous Captioners occupation — the production core of 561492 — does not appear in the top-10 of the 4-digit proxy at all. Automatable fractions were set based on: ASR accuracy evidence (UZH/Cambridge 2022, 98.5% with AI+human hybrid), state-by-state digital reporting rules (Esquire March 2025 state-by-state guide), and industry structure evidence on the agency intermediary model. A (t50=3 years) was derived from current_adoption_pct (35% material use estimate from AAERT/industry evidence) and CAT-software historical analog (10-year window), adjusted downward for workforce-shortage pressure. No PE deal activity or consolidation evidence was used for V or A.",
+    "pricing_model_deflation": "Court reporting agencies bill per-page for transcripts ($3.50-7.00/page original) and per appearance/half-day for reporter attendance ($250-500/half-day). When AI collapses production cost to <$0.30/min equivalent, the spread between AI cost and per-page billing rate initially accrues as margin to the agency or to digital-first competitors. However: (1) competitive digital agencies (Verbit, AAERT-certified digital reporter services) bid lower page rates, pressuring incumbent agencies to reduce; (2) law firms with purchasing power demand rate reductions as AI becomes visible in the market; (3) statutory rate schedules (Judicial Conference caps for official court work) prevent price increases but allow competitive discounting. Unlike contact centers (where AI eliminates billed volume entirely), court reporting agencies benefit from both cost reduction (AI transcription) and per-page revenue persistence (legal proceedings don't disappear). pi_dist=0.40 captures moderate agency control of client flow; pi_moat=0.35 captures regulatory certification barriers that protect the per-page revenue line from full digital bypass. Pricing-model deflation is real but less severe than contact centers: page rates are under pressure from below (digital competitors), not eliminated from above (the legal proceedings requiring certified records continue)."
+  },
+  "confidence_overall": "MED",
+  "heterogeneous": false,
+  "top_uncertain_inputs": [
+    {
+      "input": "t50_years",
+      "plausible_range": "2-5 years",
+      "score_impact": "t50=2 gives A=5.00, S~3.87; t50=5 gives A=2.00, S~2.90. Range of S: ~2.9-3.9. Central estimate S=3.31 at t50=3."
+    },
+    {
+      "input": "ai_replaceable_share (reporter_automatable_fraction)",
+      "plausible_range": "reporter fraction 0.25-0.55 → total ai_replaceable_share ~0.46-0.62; V ranges ~4.99-6.69",
+      "score_impact": "V=4.99 gives S~3.11; V=6.69 gives S~3.51. Meaningful but not decisive — regulatory certification requirement sets a floor on non-automatable reporter fraction."
+    },
+    {
+      "input": "owners_60plus_pct",
+      "plausible_range": "0.45-0.65 (both yield OW=0.9 before succession bonus; only affects whether succession bonus triggers)",
+      "score_impact": "Succession bonus already triggered (true) so only the clamped OW of 1.0 matters. No score impact within this range since the clamp binds at 0.9 and the bonus brings it to 1.0 regardless."
+    },
+    {
+      "input": "pi_dist",
+      "plausible_range": "0.30-0.55",
+      "score_impact": "pi_dist=0.30 gives C=1.05, S~3.09; pi_dist=0.55 gives C=1.925, S~3.61. Range ~3.1-3.6."
+    },
+    {
+      "input": "exit_mult",
+      "plausible_range": "7.0-11.0x EBITDA for platform exit",
+      "score_impact": "exit=7.0 gives M=clamp(4*2.0/5.0,0,10)=1.60, S~3.03; exit=11.0 gives M=clamp(4*6.0/5.0,0,10)=4.80, S~3.77."
+    }
+  ],
+  "reviewer_note": "Role mix rebuilt entirely from 4-digit 5614 proxy: the dominant production occupation (23-2011 Court Reporters and Simultaneous Captioners) is absent from the proxy top-10 entirely because the proxy is dominated by contact-center codes. The rebuilt structure uses prompt-provided hypotheses for role shares (40% reporters, 12% transcriptionists, 20% scheduling/coordination, 15% management/sales, 8% captioners, 5% residual). The critical caveat: labor_share=0.2728 captures only W-2 workers. A large fraction of court reporters are 1099 freelancers paid per-page/per-appearance through agencies. The agency P&L is an intermediary spread on freelance production — automating transcription changes the freelancer's income before the agency sees margin impact. This means the true labor exposure of 561492 agencies to AI is higher than V_raw=0.1461 suggests (1099 freelance payout is effectively a cost-of-goods, not captured in W-2 labor_share). V = 5.84 likely understates true AI value capture opportunity for the agency. B is low (n_band=60 is a very small target universe) but OW=1.0 and active PE consolidation (Veritext/CVC/Leonard Green, Lexitas PE-backed, Magna/CIVC, US Legal Support) drive respectable B=6.03. S=3.31 reflects a mid-tier opportunity: genuine AI automation value, meaningful succession-driven seller motivation, active consolidation, but constrained by small target universe (n_band=60), moderate capture (C=1.40), and moderate adoption speed (A=3.33)."
+}

@@ -8,14 +8,16 @@ deep-dive disagree and someone should look (V3_PRODUCT.md §7.4).
 | NAICS | Deep-dive verdict | Stance | Expected v3 verdicts | Built v3 verdict | Status |
 |---|---|---|---|---|---|
 | 485991 NEMT — Non-Emergency Medical Transportation | PASS | negative | pass, kill | — | no v3 run yet |
-| 524210 Independent P&C Insurance Brokerage | STRONG (enter) | positive | strong | — | no v3 run yet |
+| 524210 Independent P&C Insurance Brokerage | STRONG (enter) | positive | strong | conditional | **DIVERGES** |
 | 531311 Residential Property Management | HELL-YES (enter) | positive | hell_yes, strong | — | no v3 run yet |
-| 541219 Fractional CFO & Bookkeeping | HELL-YES (enter) | positive | hell_yes, strong | — | no v3 run yet |
-| 541511 Custom Computer Programming | HELL-YES (enter) | positive | hell_yes, strong | — | no v3 run yet |
-| 541940 Veterinary Services | STRONG (enter) | positive | strong | — | no v3 run yet |
+| 541219 Fractional CFO & Bookkeeping | HELL-YES (enter) | positive | hell_yes, strong | kill | **DIVERGES** |
+| 541511 Custom Computer Programming | HELL-YES (enter) | positive | hell_yes, strong | pass | **DIVERGES** |
+| 541940 Veterinary Services | STRONG (enter) | positive | strong | kill | **DIVERGES** |
 | 561312 Executive Search Services | STRONG (enter) | positive | strong | — | no v3 run yet |
-| 621610 Home Health Care Services | CONDITIONAL (high-bar entry) | mixed | conditional, pass | — | no v3 run yet |
+| 621610 Home Health Care Services | CONDITIONAL (high-bar entry) | mixed | conditional, pass | kill | **DIVERGES** |
 
-**Summary:** 8 deep-dives · 0 consistent · 0 divergent · 8 without a v3 run yet.
+**Summary:** 8 deep-dives · 0 consistent · 5 divergent · 3 without a v3 run yet.
 
-Built codes without a deep-dive (not reconciled): 541330
+Divergent codes: 524210, 541219, 541511, 541940, 621610
+
+Built codes without a deep-dive (not reconciled): 238220, 523940, 531210, 541110, 541120, 541191, 541199, 541211, 541213, 541214, 541310, 541320, 541330, 541340, 541350, 541360, 541370, 541380, 541410, 541420, 541430, 541490, 541512, 541513, 541519, 541611, 541612, 541613, 541614, 541618, 541620, 541690, 541713, 541714, 541715, 541720, 541810, 541820, 541830, 541840, 541850, 541860, 541870, 541890, 541910, 541921, 541922, 541930, 541990, 561422, 561492, 561510, 561710, 561730, 621210, 621340, 811192, 812210

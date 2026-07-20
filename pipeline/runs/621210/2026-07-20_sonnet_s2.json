@@ -1,0 +1,339 @@
+{
+  "naics": "621210",
+  "title": "Offices of Dentists",
+  "run_meta": {
+    "model_id": "claude-sonnet-4-6",
+    "run_date": "2026-07-20",
+    "run_id": "fleet-s2-621210",
+    "template_version": "3.0",
+    "prompt_version": "p3-aff6579"
+  },
+  "dataset_inputs": {
+    "labor_share": {
+      "value": 0.4536,
+      "method": "QCEW 2024 private total annual wages at 621210 ($68,162,032,616) x benefits multiplier 1.4294 [ECEC private-industry total comp $46.60/hr / wages $32.60/hr = 1.4294 (March 2026 reference period)] / SUSB 2022 receipts at 621210 ($160,195,607,000). Vintage mismatch: 2024 wages over 2022 receipts, stated. Level: 6-digit. Harmonized to IPS basis ÷1.3407 (median of 65 dual-method codes).",
+      "sources": [
+        "BLS QCEW 2024 annual averages (US000, private)",
+        "BLS ECEC news release (raw/ecec.nr0.htm)",
+        "Census SUSB 2022 (receipts by NAICS)"
+      ],
+      "year": "2024 wages / 2022 receipts",
+      "quality": "MED"
+    },
+    "role_mix": {
+      "oews_level": "4-digit 6212",
+      "occupations": [
+        {
+          "soc": "31-9091",
+          "title": "Dental Assistants",
+          "emp_share": 0.3306,
+          "wage_share": 0.2095
+        },
+        {
+          "soc": "29-1292",
+          "title": "Dental Hygienists",
+          "emp_share": 0.1997,
+          "wage_share": 0.2447
+        },
+        {
+          "soc": "43-6013",
+          "title": "Medical Secretaries and Administrative Assistants",
+          "emp_share": 0.1,
+          "wage_share": 0.0631
+        },
+        {
+          "soc": "29-1021",
+          "title": "Dentists, General",
+          "emp_share": 0.0983,
+          "wage_share": 0.2526
+        },
+        {
+          "soc": "43-4171",
+          "title": "Receptionists and Information Clerks",
+          "emp_share": 0.0785,
+          "wage_share": 0.0455
+        },
+        {
+          "soc": "43-1011",
+          "title": "First-Line Supervisors of Office and Administrative Support Workers",
+          "emp_share": 0.0355,
+          "wage_share": 0.0303
+        },
+        {
+          "soc": "43-9061",
+          "title": "Office Clerks, General",
+          "emp_share": 0.0286,
+          "wage_share": 0.0187
+        },
+        {
+          "soc": "43-3021",
+          "title": "Billing and Posting Clerks",
+          "emp_share": 0.0144,
+          "wage_share": 0.0098
+        },
+        {
+          "soc": "11-9111",
+          "title": "Medical and Health Services Managers",
+          "emp_share": 0.0112,
+          "wage_share": 0.0127
+        },
+        {
+          "soc": "43-6014",
+          "title": "Secretaries and Administrative Assistants, Except Legal, Medical, and Executive",
+          "emp_share": 0.0112,
+          "wage_share": 0.0071
+        }
+      ],
+      "quality": "MED"
+    },
+    "n_total": {
+      "value": 120488,
+      "source": "SUSB 2022 (firms, all enterprise sizes)",
+      "year": "2022",
+      "quality": "HIGH"
+    },
+    "n_band": {
+      "value": 369,
+      "derivation": "margin 0.1580 (margins.json[62]: Damodaran Jan 2026: Hospitals/Healthcare Facilities EBITDA/Sales 15.80% (closest named bucket for provider economics; public support-services bucket at 3.87% reflects a different business model)); revenue/employee $155,235 (SUSB 2022 receipts/employment at 621210); class <5: 45,904 firms, avg revenue/firm $422,294 (class receipts/firms), implied EBITDA $66,722 -> out of $1-10M band; class 5-9: 42,843 firms, avg revenue/firm $957,190 (class receipts/firms), implied EBITDA $151,236 -> out of $1-10M band; class 10-19: 24,748 firms, avg revenue/firm $1,831,475 (class receipts/firms), implied EBITDA $289,373 -> out of $1-10M band; class 20-99: 6,486 firms, avg revenue/firm $4,762,168 (class receipts/firms), implied EBITDA $752,422 -> out of $1-10M band; class 100-499: 369 firms, avg revenue/firm $20,229,282 (class receipts/firms), implied EBITDA $3,196,227 -> IN $1-10M band; class 500+: 138 firms, avg revenue/firm $116,843,196 (class receipts/firms), implied EBITDA $18,461,225 -> out of $1-10M band; n_band = 369",
+      "margin_used": 0.158,
+      "margin_source": "Damodaran Jan 2026: Hospitals/Healthcare Facilities EBITDA/Sales 15.80% (closest named bucket for provider economics; public support-services bucket at 3.87% reflects a different business model)",
+      "quality": "ESTIMATE"
+    }
+  },
+  "inputs": {
+    "ai_replaceable_share": {
+      "value": 0.14352,
+      "breakdown_by_role": [
+        {
+          "role": "Dental Assistants (31-9091)",
+          "labor_share_of_total": 0.2095,
+          "within_role_automatable_fraction": 0.05,
+          "contribution": 0.010475,
+          "rationale": "Physical chairside assistance and sterilization are not AI-replaceable. The only automatable sliver is clinical notes dictation and charting documentation (5%). State practice acts define this role's physical duties.",
+          "plausible_range": "0.02-0.08"
+        },
+        {
+          "role": "Dental Hygienists (29-1292)",
+          "labor_share_of_total": 0.2447,
+          "within_role_automatable_fraction": 0.03,
+          "contribution": 0.007341,
+          "rationale": "Licensed, physical chairside care (prophylaxis, perio maintenance) under state practice act supervision requirements — not AI-substitutable. Only a small documentation/notes fraction is automatable (3%).",
+          "plausible_range": "0.01-0.06"
+        },
+        {
+          "role": "Medical Secretaries and Administrative Assistants (43-6013)",
+          "labor_share_of_total": 0.0631,
+          "within_role_automatable_fraction": 0.65,
+          "contribution": 0.041015,
+          "rationale": "Principal AI-exposed cost base: scheduling, recall reminders, insurance verification, prior authorizations, patient communication, eligibility checks. AI scheduling tools and automated patient outreach substantially reduce labor. In-person reception handoffs and complex insurance appeals persist. 65% reflects the large automatable task share.",
+          "plausible_range": "0.50-0.80"
+        },
+        {
+          "role": "Dentists, General (29-1021)",
+          "labor_share_of_total": 0.2526,
+          "within_role_automatable_fraction": 0.04,
+          "contribution": 0.010104,
+          "rationale": "Licensed clinical procedures (restorations, extractions, surgery) are physically reserved and legally restricted to licensed dentists. AI diagnostic tools (Overjet, Pearl — FDA-cleared radiograph analysis) augment detection but do not replace clinical time. The automatable sliver is treatment planning documentation, note generation, and coding assistance (4%). Note: owner-dentists may take income as distributions rather than W-2 wages, understating this wage share, but the automatable fraction remains very low regardless of compensation form.",
+          "plausible_range": "0.02-0.07"
+        },
+        {
+          "role": "Receptionists and Information Clerks (43-4171)",
+          "labor_share_of_total": 0.0455,
+          "within_role_automatable_fraction": 0.60,
+          "contribution": 0.027300,
+          "rationale": "Appointment scheduling, phone intake, appointment reminders, patient communication — majority automatable with AI scheduling/communication tools. Physical patient check-in and face-to-face reception are residual (40% non-automatable).",
+          "plausible_range": "0.45-0.75"
+        },
+        {
+          "role": "First-Line Supervisors of Office and Administrative Support Workers (43-1011)",
+          "labor_share_of_total": 0.0303,
+          "within_role_automatable_fraction": 0.30,
+          "contribution": 0.009090,
+          "rationale": "Revenue cycle oversight, reporting, and administrative performance monitoring partially automate. HR management, payer contract negotiations, and staff leadership persist. 30% reflects the operational reporting/analytics automation slice.",
+          "plausible_range": "0.15-0.40"
+        },
+        {
+          "role": "Office Clerks, General (43-9061)",
+          "labor_share_of_total": 0.0187,
+          "within_role_automatable_fraction": 0.70,
+          "contribution": 0.013090,
+          "rationale": "Data entry, filing, general administrative tasks — predominantly AI-automatable. Small residual in physical document handling and in-office tasks.",
+          "plausible_range": "0.55-0.85"
+        },
+        {
+          "role": "Billing and Posting Clerks (43-3021)",
+          "labor_share_of_total": 0.0098,
+          "within_role_automatable_fraction": 0.75,
+          "contribution": 0.007350,
+          "rationale": "Insurance claims submission, payment posting, EOB reconciliation, and routine denial management are highly automatable with AI-driven revenue cycle management tools. Complex appeal management and payer negotiations persist. 75% reflects the largely automated billing workflow.",
+          "plausible_range": "0.60-0.90"
+        },
+        {
+          "role": "Medical and Health Services Managers (11-9111)",
+          "labor_share_of_total": 0.0127,
+          "within_role_automatable_fraction": 0.20,
+          "contribution": 0.002540,
+          "rationale": "Revenue cycle reporting, performance dashboards, and scheduling analytics partially automate. HR management, payer contracting, compliance, and strategic leadership persist. 20% reflects the reporting/analytics sliver.",
+          "plausible_range": "0.10-0.30"
+        },
+        {
+          "role": "Secretaries and Administrative Assistants (43-6014)",
+          "labor_share_of_total": 0.0071,
+          "within_role_automatable_fraction": 0.65,
+          "contribution": 0.004615,
+          "rationale": "Similar to medical secretaries — scheduling, correspondence, document preparation predominantly automatable. 65%.",
+          "plausible_range": "0.50-0.80"
+        },
+        {
+          "role": "Remainder/tail (lab technicians, sterilization techs, marketing, other unlisted)",
+          "labor_share_of_total": 0.1060,
+          "within_role_automatable_fraction": 0.10,
+          "contribution": 0.010600,
+          "rationale": "In-house lab techs and sterilization techs perform physical work. CAD/CAM milling is a capex channel distinct from AI-labor substitution. Marketing has some AI exposure. 10% reflects a small marketing/communications sliver.",
+          "plausible_range": "0.05-0.15"
+        }
+      ],
+      "quality": "MED"
+    },
+    "pi_dist": {
+      "value": 0.50,
+      "rationale": "Dental revenue arrives through three channels: PPO fixed fee schedules (~57% of revenue per DE/Levin 2024 annual practice survey — 'typical payer mix was 57% insurance patients and 43% fee-for-service'), Medicaid (~5-10% at participating practices, reimbursement well below private rates per ADA HPI 2024), and fee-for-service/self-pay (~33-38%). Under PPO fee schedules, fees are set contractually by the insurer, so AI-driven efficiency savings accrue to the practice as margin improvement (not passed to insurers who cannot ratchet fees downward on individual practices short-term). FFS revenue is fully practice-controlled. Patient relationships are practice-owned and highly durable — dental families maintain multi-year attachment to practice and treating dentist. Corporate-practice-of-dentistry statutes in most states require dentist ownership, reinforcing direct practice-patient relationship. Moderate: 0.50, reflecting the mix of payer-constrained (PPO) and practice-controlled (FFS) revenue, and strong patient relationship ownership.",
+      "plausible_range": "0.35-0.65",
+      "sources": [
+        "2024 DE/Levin Group Annual Practice Survey (Dental Economics)",
+        "ADA Health Policy Institute Dental Payer Mix data (ada.org)",
+        "ADA HPI Medicaid Reimbursement for Dental Care 2024 (ada.org)"
+      ],
+      "quality": "MED"
+    },
+    "pi_moat": {
+      "value": 0.55,
+      "rationale": "Strong moat factors: (1) licensure — dental procedures legally reserved to licensed dentists, no AI bypass possible for physical care; (2) switching costs — dental patient relationships are multi-year/multi-family, radiograph history creates data lock-in; (3) physical facility and equipment — significant sunk costs and operational infrastructure; (4) practice act restrictions on corporate ownership limit competitive form. Moderated by: (1) PPO network insurer can steer patients to other in-network providers; (2) DSO competition may introduce lower-cost alternatives; (3) SmileDirectClub's collapse (2023) confirms teledentistry/mail-order bypass limited in scope — patients cannot substitute away from operatory visits. No generic AI bypass threat since dental care is physically delivered. Rated 0.55.",
+      "plausible_range": "0.45-0.70",
+      "sources": [
+        "ADA Health Policy Institute Dentist Workforce 2024 (ada.org)",
+        "CT Acquisitions Dental DSO M&A Multiples 2026 (ctacquisitions.com)"
+      ],
+      "quality": "MED"
+    },
+    "t50_years": {
+      "value": 9.0,
+      "derivation": "Current material AI adoption in dental practice workflows (scheduling, billing, front-desk automation): estimated 11-15% based on ADA 2025 survey ('fewer than 11% have embedded AI in clinical or operational workflows in a measurable way'); broader 35% includes light use. Material/embedded use = 12% estimate. Historical analog: dental EHR/practice management software became widely available ~2000-2005 and reached ~50% adoption by ~2012, i.e., ~10 years to 50%. However, dental adoption is slower than medical due to absence of federal mandates (HITECH Act did not mandate dental EHR adoption). AI tools face cost, learning-curve, and change-management barriers identical to EHR — but with lower capital requirements (SaaS vs installed software). Starting from 2026 with ~12% material adoption, reaching 50% by ~2035 implies t50 = 9 years. This is slightly longer than EHR adoption due to the fragmented small-practice base and higher skepticism (validated by ADA survey showing 47% tested but only 11% embedded).",
+      "plausible_range": "6-14 years",
+      "quality": "ESTIMATE"
+    },
+    "current_adoption_pct": {
+      "value": 0.12,
+      "source": "ADA Health Policy Institute 2025 practice trends survey; 30 Dental Tech Adoption Stats (Clerri); Overjet 2025 dental trends",
+      "url": "https://clerri.com/blog/dental-practice-technology-adoption-statistics",
+      "figure_quoted": "ADA 2025 survey: 'more than 47% of US dental practices have tested at least one AI tool in the past 18 months, but fewer than 11% have embedded AI in their clinical or operational workflows in a measurable way.' Clerri: '35% of practices have implemented some form of AI-powered technology.' Material/embedded adoption estimated at 12% (midpoint between ADA 11% embedded and Clerri 35% broader measure, weighting ADA primary-source embedded-use figure more heavily).",
+      "access_date": "2026-07-20",
+      "quality": "MED"
+    },
+    "historical_analogs": {
+      "value": "Dental EHR/practice management software reached ~50% adoption approximately 10 years after broad availability (~2000 to 2012)",
+      "source": "PMC research on electronic dental record adoption; Maryland MHCC dental EHR adoption report 2018",
+      "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC5849439/",
+      "figure_quoted": "EHR adoption study: 'In 2012, only 52% of U.S. dental practices used any form of electronic record system for patient care' — marking ~50% penetration approximately 10 years after broad availability (~2000-2005). 'Dental EHR adoption trails medical EHR adoption by nearly 20 percent.' No federal mandate for dental EHR, paralleling the AI adoption environment.",
+      "access_date": "2026-07-20",
+      "quality": "MED"
+    },
+    "owners_60plus_pct": {
+      "value": 0.35,
+      "source": "ADA Health Policy Institute Dentist Workforce statistics 2024 (ada.org)",
+      "url": "https://www.ada.org/resources/research/health-policy-institute/dentist-workforce",
+      "figure_quoted": "ADA HPI 2024: 18.7% of all dentists ages 55-64; 15.5% ages 65+. Total dentists 60+ estimated at ~24.85% of all dentists (half of 55-64 band + 65+). Practice-owning dentists skew older: 48% of dentists with 25+ years in practice are in solo practice vs 15% of dentists under 10 years out — owners are predominantly mid-to-late career. owners_60plus_pct estimated at 35% given the ownership skew toward older dentists (practice owners disproportionately 50+ given declining ownership among younger cohorts).",
+      "access_date": "2026-07-20",
+      "quality": "ESTIMATE",
+      "succession_shortage_documented": {
+        "value": true,
+        "evidence": "ADA HPI (2024): 'The share of U.S. dentists affiliated with a DSO has more than doubled since 2015, reaching 16.1% in 2024 — more pronounced among younger dentists (27% of dentists <10 years out).' Practice ownership among all dentists declining from 84.7% (2005) to 72.5% (2024). Fewer younger dentists buying practices from retiring owners, driving DSO acquisition demand and documented succession shortage in the independent-practice segment. Average dentist retirement age is 68.7 (2024), meaning older owners who want to sell face a shrinking pool of independent-practice buyers."
+      }
+    },
+    "active_consolidators": {
+      "value": 21,
+      "source": "CT Acquisitions Dental DSO PE Roll-Up Tracker 2026 (ctacquisitions.com)",
+      "url": "https://ctacquisitions.com/dental-dso-pe-rollup-tracker-2026/",
+      "figure_quoted": "CT Acquisitions tracker profiles 21 PE-backed dental DSO platforms with verified acquisition activity in 2024-2026: Heartland Dental (KKR), Aspen Dental (Leonard Green + Ares), Pacific Dental Services, MB2 Dental (Charlesbank + Warburg Pincus), Smile Brands (New Mountain), Mortenson (Audax + Genstar), Dental Care Alliance (Quad-C), Sage Dental (Carousel), Western Dental (New Mountain), Affordable Care (Berkshire), Specialty Dental Brands (Linden), U.S. Oral Surgery Management (OMERS), Smile Doctors (Linden), Endodontic Practice Partners (Sun Capital), Children's Dental Health (DFW Capital), Great Expressions (Roark), Dental365 (Jordan), Allied OMS (65 Equity), Beacon Oral Specialists (Blue Sea), ProSmile (acquired 2024), ImmediaDent/Imagn (Audax). Additional 40-60+ platforms with less disclosure.",
+      "access_date": "2026-07-20",
+      "quality": "MED"
+    },
+    "buy_mult": {
+      "value": 6.5,
+      "source": "CT Acquisitions Dental DSO M&A Multiples Report 2026; FOCUS Bankers Dental Practice EBITDA Multiples 2026; Provident Healthcare Partners",
+      "url": "https://ctacquisitions.com/guides/dental-dso-ma-multiples-2026/",
+      "figure_quoted": "CT Acquisitions: 'solo owner-operator general practices under $500K SDE traded at 4.0x to 6.0x SDE.' FOCUS Bankers: 'under $1M EBITDA: 5-7x; $1-3M EBITDA: 7-9x adjusted EBITDA.' EBITDA normalization applied: small single-location practices report SDE inflated by owner-dentist clinical compensation; after deducting market-rate associate cost (~30% of doctor's collections), normalized EBITDA is substantially lower. For band-size add-on acquisitions in the $1-3M normalized EBITDA range, the applicable range is 5-8x adjusted EBITDA. Median: 6.5x normalized EBITDA for single-location or small multi-site add-on acquisitions in the band.",
+      "access_date": "2026-07-20",
+      "quality": "MED"
+    },
+    "exit_mult": {
+      "value": 11.0,
+      "source": "CT Acquisitions Dental DSO M&A Multiples Report 2026; Skytale Group; Provident Healthcare Partners",
+      "url": "https://ctacquisitions.com/guides/dental-dso-ma-multiples-2026/",
+      "figure_quoted": "CT Acquisitions: 'platform-tier DSO targets with $10.0M or greater adjusted EBITDA traded in a 10.0x to 15.0x adjusted EBITDA band during 2024 through Q2 2026.' FOCUS Bankers: '$5M+ EBITDA: 11x+ (select cases); platform exits: 9-11x EBITDA.' Using 11.0x as conservative median for $10M+ EBITDA platform exits, reflecting the lower end of the 10-15x range and supported by the FOCUS Bankers 9-11x platform exit figure.",
+      "access_date": "2026-07-20",
+      "quality": "MED"
+    },
+    "pricing_structure": {
+      "value": "PPO fixed fee schedules (~57% of revenue — insurer sets fees, practice is in-network at negotiated rates); Medicaid/government (~5-10% at participating practices — fixed state schedules well below commercial rates); FFS/self-pay (~33-38% — practice sets own fees, full UCR collected). AI efficiency savings primarily accrue to practice as margin under fixed-fee-schedule and FFS arrangements; PPO insurers do not ratchet down individual practice rates based on efficiency. However, large PPO networks and leasing network aggregators can compress fee schedules system-wide on renewal. Payer mix is heavily PPO/insurance-dependent; teledentistry and mail-order alternatives have shown limited demand substitution (SmileDirectClub bankruptcy 2023 as evidence).",
+      "source": "2024 DE/Levin Group Annual Practice Survey (Dental Economics); ADA Health Policy Institute payer mix data",
+      "url": "https://www.dentaleconomics.com/practice/article/55016675/higher-production-and-much-needed-stability-the-2024-de-levin-group-annual-practice-survey",
+      "figure_quoted": "DE/Levin 2024 survey: 'typical practice payer mix was 57% insurance patients and 43% fee-for-service.' PPO plans dominate insurance segment. FFS produces 30-45% more revenue per patient than in-network PPO due to full UCR billing.",
+      "access_date": "2026-07-20",
+      "quality": "MED"
+    }
+  },
+  "scores": {
+    "V": {
+      "arithmetic": "V_raw = labor_share × ai_replaceable_share = 0.4536 × 0.14352 = 0.065101; V = 10 × min(1, 0.065101 / 0.25) = 10 × 0.260404 = 2.60404",
+      "score": 2.60404
+    },
+    "C": {
+      "arithmetic": "C = 10 × pi_dist × pi_moat = 10 × 0.50 × 0.55 = 10 × 0.275 = 2.75",
+      "score": 2.75
+    },
+    "A": {
+      "arithmetic": "A = min(10, 10 / t50_years) = min(10, 10 / 9.0) = min(10, 1.111111) = 1.111111",
+      "score": 1.111111
+    },
+    "B": {
+      "arithmetic": "TD = clamp(log10(369) / 4, 0, 1) = clamp(2.567026 / 4, 0, 1) = clamp(0.641757, 0, 1) = 0.641757; OW_base = clamp((0.35 - 0.10) / 0.35, 0.1, 0.9) = clamp(0.714286, 0.1, 0.9) = 0.714286; succession_shortage = true → OW = min(1.0, 0.714286 + 0.1) = 0.814286; CFD = min(0.9, log10(1 + 21) / 2) = min(0.9, log10(22) / 2) = min(0.9, 1.342423 / 2) = min(0.9, 0.671211) = 0.671211; B = 10 × sqrt(0.641757 × 0.814286) / (1 + 0.3 × 0.671211) = 10 × sqrt(0.522571) / 1.201363 = 10 × 0.722891 / 1.201363 = 6.01722",
+      "score": 6.01722
+    },
+    "M": {
+      "arithmetic": "M = clamp(4 × (exit_mult - buy_mult) / buy_mult, 0, 10) = clamp(4 × (11.0 - 6.5) / 6.5, 0, 10) = clamp(4 × 4.5 / 6.5, 0, 10) = clamp(18.0 / 6.5, 0, 10) = clamp(2.769231, 0, 10) = 2.769231",
+      "score": 2.769231
+    }
+  },
+  "S": 2.65752,
+  "cross_checks": {
+    "uplift_pp": 6.5101,
+    "uplift_vs_A_consistent": "uplift_pp = V_raw × 100 = 6.51pp. A = 1.111 (slow adoption, t50 = 9 years). Uplift > 3pp and A < 5, so no tension flag applies. The modest V (2.60) reflects a meaningful automatable surface (~14% of labor) but the vast majority of labor (dentists, hygienists, assistants — ~72% of wage bill) is physically and legally protected from AI substitution. The low A is consistent with historically slow dental technology adoption and the absence of federal mandates.",
+    "terminal_value": {
+      "class": "DURABLE",
+      "justification": "Dental care is delivered chairside by licensed clinicians — ~72% of the wage bill (dentists, hygienists, dental assistants) performs physical procedures that mature AI does not replace, and state practice acts legally reserve them. Visit demand is not substitutable via teledentistry for the full scope of dental care; SmileDirectClub's 2023 bankruptcy is direct evidence of the limits of remote/mail-order substitution for clinical dental care. AI diagnostics (Overjet, Pearl radiograph analysis) are FDA-cleared for augmentation, not replacement — they improve detection rates, which may increase treated volume rather than reduce visits. Front-office automation removes labor cost without reducing patient demand or visit volume. DURABLE: demand survives mature AI; AI cuts back-office and administrative cost only, does not substitute the core clinical product."
+    },
+    "no_proxy_confirmed": "V (2.60) was derived from OEWS wage-share breakdown with within-role automatable fractions assessed on task content — no reference to DSO deal activity or PE consolidation trends. The 4% automatable fraction for dentists specifically notes AI diagnostic tools augment but do not reduce dentist time, grounded in FDA-cleared indications for Overjet/Pearl (augmentation of radiograph reading, not replacement). A (1.111) was derived from current adoption rate (ADA HPI 2025: <11% embedded workflow adoption) and historical EHR analog (50% dental EHR adoption ~10 years from broad availability). No reference to DSO consolidation activity or M&A trends in either derivation. Confirmed: V and A are justified independently.",
+    "pricing_model_deflation": "Payer mix: ~57% PPO insurance (fixed contracted fee schedules set by insurer), ~5-10% Medicaid (fixed state schedules), ~33-38% FFS/self-pay (practice-set fees at full UCR). Under PPO fixed-fee arrangements, AI efficiency savings do not flow to payers short-term — the insurer cannot ratchet down individual practice fees based on that practice's cost improvements (fees are set network-wide on multi-year contracts). However, PPO lease network aggregators and large insurers can compress system-wide fees at renewal. FFS revenue gives the practice full margin capture. Reflected in pi_dist = 0.50: moderate practice control over patient relationship and revenue, but PPO fee-schedule constraints and the potential for payer steering partially limit full price-setting power. pi_moat = 0.55 reflects the licensure, switching-cost, and practice-act moats that prevent AI-enabled competitors from bypassing the practice-patient relationship."
+  },
+  "confidence_overall": "MED",
+  "heterogeneous": false,
+  "top_uncertain_inputs": [
+    {
+      "input": "t50_years",
+      "plausible_range": "6-14 years",
+      "score_impact": "A = 10/t50; at t50=6 → A=1.667; at t50=14 → A=0.714. S varies from ~2.44 (t50=14) to ~2.86 (t50=6). Moderate impact on S."
+    },
+    {
+      "input": "buy_mult",
+      "plausible_range": "5.0-8.0 normalized EBITDA",
+      "score_impact": "M = clamp(4×(11-buy)/buy, 0, 10); at buy=5.0 → M=4.8; at buy=8.0 → M=1.5. S varies from ~2.17 (buy=8.0) to ~3.22 (buy=5.0). Highest single input impact — EBITDA normalization assumption for band-size dental groups is the key uncertainty."
+    },
+    {
+      "input": "exit_mult",
+      "plausible_range": "9.0-14.0 normalized EBITDA",
+      "score_impact": "M at exit=9.0, buy=6.5 → M=1.538; at exit=14.0 → M=4.615. S varies from ~2.36 (exit=9.0) to ~3.14 (exit=14.0). Significant impact."
+    }
+  ],
+  "reviewer_note": "EBITDA normalization is the defining trap for this code: owner-dentist clinical production sits inside 'profit' on an SDE basis, and normalizing for market-rate associate compensation (28-32% of doctor's collections) materially reduces the margin. The Damodaran 15.8% margin for n_band is a rough proxy; normalized dental group EBITDA may be 10-18% depending on ownership structure. The buy_mult of 6.5x normalized EBITDA is a judgment call across a wide range (the 5-8x add-on range from FOCUS Bankers); using SDE multiples without normalization would overstate buy_mult. The role_mix is at 4-digit 6212, which is essentially co-extensive with 621210 (no contamination from general medicine). Specialist dentists (29-1022/1023/1024/1029 orthodontists, oral surgeons, etc.) sit in the unlisted tail with their higher wage rates — the listed 29-1021 Dentists General wage share of 25.26% likely understates total dentist compensation share. If specialist wages add ~5% to the dentist wage share (at 0.04 automatable fraction), ai_replaceable_share increases by only ~0.002 — immaterial. The n_band of 369 is flagged in the prompt as a likely floor since 20-99 employee class practices clearing $1M EBITDA at true group margins are missed; true n_band could be 500-1,500, which would increase TD and B meaningfully. S = 2.66 is a modest but above-kill score, driven primarily by strong B (active DSO consolidation, documented succession shortage) and moderate C (payer-mix diversity, licensure moat), offset by slow AI adoption (low A)."
+}
