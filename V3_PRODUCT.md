@@ -1,6 +1,6 @@
 # AI Value Migration Map — v3: Product Goal & Principles (proposal)
 
-**Status:** active constitution; v3.1 evidence-contract revision specified 2026-07-20, with no v3.1 research runs launched yet
+**Status:** active constitution; v3.1 five-record canary completed and failed fleet-readiness; v3.1.1 non-prompt boundary implemented 2026-07-21, with prompt/brief work and a new canary still pending
 **Replaces:** the project description in `README.md` and the Methodology tab in `6digit/index.html`. Diff against the current (v2) description is in §8. File:line references are as of commit `1bd26e0`.
 
 ---
@@ -28,9 +28,9 @@ The output of the product is a decision about **which industries deserve a deep-
 
 **P1 — Scores are build artifacts.** No score may be set by judgment. Every factor is: recorded inputs → fixed formula → score. Judgment goes into *finding and weighing inputs* and into reviewer notes — never into overriding arithmetic. Consequence: scores cannot be hand-edited at all; to change a score you change an input (with a source), and the build recomputes. Judgment does not disappear in v3 — it is confined and labeled: a short, known list of inputs are declared opinions (within-role automatable fractions, `π_dist`, `π_moat`, `t50`), each bounded, with its own rationale, range and quality flag. Everything downstream of the inputs is arithmetic. Proven: the mechanical version produced identical dentist scores across two independent runs, and surfaced the cost-plus capture mechanism for Engineering Services that judgment scoring missed.
 
-**P2 — Every number carries its provenance.** Each v3.1 input separates the selected `value`, `provenance_type` (`DIRECT/DERIVED/ESTIMATE`), `evidence_quality` (`HIGH/MED/LOW/NONE`), the exact `source_fact`, the visible `derivation`, a plausible range, and atomic fetched citations. Provenance type answers how the value relates to evidence; evidence quality answers how reliable that evidence is. Sources attach to individual facts, not to the record as a whole. The dashboard shows the full chain: verdict → score → factors → formulas → inputs → derivations → sources.
+**P2 — Every number carries its provenance.** Each input separates the selected `value`, provenance type (`DIRECT/DERIVED/ESTIMATE`), evidence reliability (`HIGH/MED/LOW/NONE`), a plausible range, and atomic fetched facts. In v3.1.1 the model declares `OBSERVED`, `CALCULATED` or `ESTIMATE`; Python maps that method to final provenance and recomputes every calculated value. Provenance answers how the value relates to evidence; evidence quality answers how reliable that evidence is. Sources attach to individual facts, not to the record as a whole. The dashboard shows the full chain: verdict → score → factors → formulas → inputs → derivations → sources.
 
-**P3 — Reproducible by construction.** Everything needed to regenerate a result lives in the repo: the versioned prompt, the model-authored research draft, the deterministic dataset, the finalized run record with model/date/run id, and the Python finalizer/build. In v3.1 the model cannot author dataset values, role weights, contributions, factor scores, S or uplift; deleting them and rerunning the finalizer regenerates them bit-for-bit.
+**P3 — Reproducible by construction.** Everything needed to regenerate a result lives in the repo: the versioned prompt, the model-authored research draft, the deterministic dataset, the finalized run record with model/date/run id, and the Python finalizer/build. In v3.1+ the model cannot author dataset values, role weights, contributions, factor scores, S or uplift; in v3.1.1 it also cannot author final provenance or the result of a declared calculation. Deleting generated fields and rerunning the matching finalizer regenerates them bit-for-bit.
 
 **P4 — Frozen rubric (pre-registration).** Formulas, anchors, gates and verdict cuts are frozen *before* the scoring run and never tuned after seeing which industries land where. (v2 chose its ×1.8 threshold explicitly to preserve the previous verdict-bucket proportions — that is back-fitting; it is banned.) Rubric changes are allowed only as a new version followed by a full re-run.
 
@@ -71,7 +71,7 @@ Two gates sit outside the score:
 
 Standing rules (carried from the proven v2 template): PE deal activity may inform only B and M, never V or A; all margins/multiples EBITDA-normalized after owner comp; catch-all codes score their dominant sub-segment and carry a visible `heterogeneous` flag on the card.
 
-Exact functional forms, gates and cuts remain the v3.0 freeze. `prompt_template_v3_1.md` changes the evidence/authoring contract and clarifies the already-at-50% t50 boundary; it does not tune thresholds after seeing outcomes.
+Exact functional forms, gates and cuts remain the v3.0 freeze. Evidence-contract versions may tighten authoring and validation mechanics, including the already-at-50% t50 boundary, but do not tune thresholds after seeing outcomes.
 
 ## 5. The score and verdicts
 
@@ -119,7 +119,7 @@ pipeline/
 - **Stage 1 — Dataset layer (no model).** Bulk-download Census SUSB/CBP and BLS OEWS/QCEW once into `pipeline/datasets/`; derive the dataset inputs (labor share, role mix, firm counts, size distribution → $1–10M band chain) for all 1,012 codes with one shared method. These values are injected into prompts and never re-researched by a model — one methodology across all codes is what makes the ranking comparable.
 - **Stage 2 — Prompt generation (Sol, 1× per code).** Sol writes the industry-specific blocks. The deterministic assembler merges blocks and dataset context into `prompts_v3_1/<naics>.md`; dataset objects are visible to the runner but not copied by it.
 - **Stage 3 — Research draft (GPT-5.5 fleet; Sol golden).** One single-author model researches with live web access and writes evidence/judgments only. C1-C4 require fetch-before-cite, exact short quotes, no URL for an unsourced estimate, complete proxy/derivation disclosure, and a final reopen-every-URL audit. Output: `drafts/<naics>/<run-id>.json`.
-- **Stage 4a — Finalize (deterministic Python, no model).** `finalize_run_v3_1.py` validates the draft, injects deterministic dataset objects, locks SOC identities and wage shares, calculates role contributions, V/C/A/B/M/S and uplift, and emits `runs/<naics>/<run-id>.json`. It rejects hidden URLs, evidence-axis contradictions, role relabeling, invalid dataset fallbacks and inconsistent t50.
+- **Stage 4a — Finalize (deterministic Python, no model).** The version-matched finalizer validates the draft, injects deterministic dataset objects, locks SOC identities and wage shares, calculates role contributions, V/C/A/B/M/S and uplift, and emits `runs/<naics>/<run-id>.json`. For v3.1.1, `finalize_run_v3_1_1.py` also recomputes safe declared calculations and assigns final provenance. It rejects hidden URLs, evidence-axis contradictions, role relabeling, invalid dataset fallbacks and inconsistent t50.
 - **Stage 4b — Build (deterministic Python, no model).** Validates the versioned final schema, independently recomputes every score, applies frozen gates/cuts and publication acceptance, and regenerates site/stats/flags/reconciliation outputs.
 - **Stage 5 — Acceptance review (Sol, every record).** Sol verifies each atomic cited fact, then separately judges whether declared derivations/proxies are complete and reasonable and estimates are candid. A DERIVED value need not appear verbatim in a source; the cited starting fact must. The validator marks the record **`accepted` or `wrong`**; only accepted records publish (P10).
 
@@ -196,9 +196,10 @@ Resolved 2026-07-20:
 
 5. **Golden set membership** — decided: the 20-code list (12 winners, 5 melters, 3 controls) in `pipeline/golden/golden_set.json`, approved as v1.0.
 6. **v3.1 evidence contract** — decided after the 0/72 initial acceptance signal and the citation-hardened 541420 s3 acceptance: keep the validator strict; separate provenance type from evidence reliability; retain C1-C4 live-source self-audit; inject deterministic inputs and calculate scores in Python; prohibit role relabeling; clarify `t50=0` when adoption is already at least 50%. No threshold was changed.
+7. **v3.1.1 mechanical boundary** — decided after the v3.1 canary produced 0/5 accepted despite materially better citation attribution: preserve atomic evidence facts; replace model-authored final provenance with explicit `OBSERVED/CALCULATED/ESTIMATE` methods and a Python mapping; restrict calculated values to safe reproducible arithmetic over fact-backed operands; require structured scope; mechanically reject ellipsis quotes; keep C1–C4 for the later runner brief. No threshold or scoring formula changed.
 
 The v3.0 score freeze remains tagged (`v3.0-freeze`). The v3.1 evidence contract must pass synthetic tests and a new frozen canary before any pilot rerun.
 
 ---
 
-*Next execution step: freeze the v3.1 contract after code review, assemble v3.1 prompts, then run only the approved canary. No fleet rerun is authorized yet.*
+*Next execution step: update and review the v3.1.1 runner and validator briefs while retaining C1–C4, then run only a new approved canary series. No fleet rerun is authorized yet.*

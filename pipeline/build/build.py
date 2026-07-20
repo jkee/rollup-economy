@@ -2,7 +2,7 @@
 """v3 build & check — Stage 4 (V3_PRODUCT.md §6), Phase 2 (V3_PLAN.md).
 
 Deterministic, stdlib-only, no model calls. Per run record in pipeline/runs/:
-  1. versioned schema validation (v3.0 legacy or finalized v3.1)
+  1. versioned schema validation (v3.0 legacy, finalized v3.1 or v3.1.1)
   2. arithmetic recompute from stored inputs with the frozen template-3.0
      formulas — hard fail if |stored - recomputed| > 0.005 on any factor or S
   3. verdicts / gates / caps / borderline / percentile from thresholds.json
@@ -16,6 +16,7 @@ Usage: python3 pipeline/build/build.py [--allow-unreviewed]
 """
 
 import argparse
+import importlib.util
 import json
 import math
 import os
@@ -55,12 +56,13 @@ SECTOR_NAMES = {
 
 CONF_RANK = {"LOW": 0, "MED": 1, "HIGH": 2}
 URL_RE = re.compile(r"https?://[^\s<>\"']+")
-SUPPORTED_TEMPLATE_VERSIONS = ("3.0", "3.1")
+SUPPORTED_TEMPLATE_VERSIONS = ("3.0", "3.1", "3.1.1")
+_V311_CONTRACT = None
 
 
 # ---------------------------------------------------------------------------
 # Minimal JSON-Schema (draft-07 subset) validator — jsonschema is unavailable
-# in this environment (PEP 668). Covers everything our two schemas use:
+# in this environment (PEP 668). Covers everything our schemas use:
 # type, required, properties, additionalProperties, enum, const, pattern,
 # minLength, minimum/maximum/exclusiveMinimum, minItems/maxItems, items,
 # contains, allOf, $ref (#/definitions/...), if/then/else. "format" is
@@ -75,11 +77,16 @@ def _type_ok(value, t):
     if t == "string":
         return isinstance(value, str)
     if t == "number":
-        return isinstance(value, (int, float)) and not isinstance(value, bool)
+        return (
+            isinstance(value, (int, float))
+            and not isinstance(value, bool)
+            and math.isfinite(float(value))
+        )
     if t == "integer":
         return (
             isinstance(value, (int, float))
             and not isinstance(value, bool)
+            and math.isfinite(float(value))
             and float(value).is_integer()
         )
     if t == "boolean":
@@ -164,9 +171,27 @@ def schema_errors(value, schema, root, path="$"):
     return errs
 
 
+def evidence_contract_errors(record):
+    """Return finalized v3.1.1 evidence errors; older versions are untouched."""
+    global _V311_CONTRACT
+    if record.get("run_meta", {}).get("template_version") != "3.1.1":
+        return []
+    if _V311_CONTRACT is None:
+        contract_path = os.path.join(
+            os.path.dirname(os.path.abspath(__file__)),
+            "evidence_contract_v3_1_1.py",
+        )
+        spec = importlib.util.spec_from_file_location(
+            "evidence_contract_v311_build", contract_path
+        )
+        _V311_CONTRACT = importlib.util.module_from_spec(spec)
+        spec.loader.exec_module(_V311_CONTRACT)
+    return _V311_CONTRACT.final_record_semantic_errors(record)
+
+
 # ---------------------------------------------------------------------------
-# Arithmetic calculation/recompute — frozen formulas shared by v3.0 and v3.1.
-# v3.1 clarifies the already-at-50% t50 boundary: t50=0 maps to A=10.
+# Arithmetic calculation/recompute — frozen formulas shared by all v3 versions.
+# v3.1+ clarifies the already-at-50% t50 boundary: t50=0 maps to A=10.
 # ---------------------------------------------------------------------------
 
 def clamp(x, lo, hi):
@@ -176,7 +201,7 @@ def clamp(x, lo, hi):
 def calculate(rec):
     """Calculate factor scores and S from inputs, without trusting stored scores.
 
-    v3.1 finalization uses this function to write scores in plain Python.
+    v3.1+ finalization uses this function to write scores in plain Python.
     Returns (computed: dict, errors: list).
     """
     naics = rec["naics"]
@@ -190,26 +215,30 @@ def calculate(rec):
     )
 
     labor_share = ds["labor_share"]["value"]
-    is_v31 = rec.get("run_meta", {}).get("template_version") == "3.1"
+    uses_v31_semantics = rec.get("run_meta", {}).get("template_version") in (
+        "3.1", "3.1.1"
+    )
     # Preserve v3.0 recompute semantics for frozen historical artifacts. v3.1
     # uses the Python-calculated role sum directly; its stored value is output,
     # not model input.
-    ars_for_score = ars_sum if is_v31 else inp["ai_replaceable_share"]["value"]
+    ars_for_score = (
+        ars_sum if uses_v31_semantics else inp["ai_replaceable_share"]["value"]
+    )
     v_raw = labor_share * ars_for_score
     V = 10.0 * min(1.0, v_raw / 0.25)
     C = 10.0 * inp["pi_dist"]["value"] * inp["pi_moat"]["value"]
 
     adoption = inp["current_adoption_pct"]["value"]
     t50 = inp["t50_years"]["value"]
-    if is_v31 and isinstance(adoption, (int, float)) and not isinstance(adoption, bool):
+    if uses_v31_semantics and isinstance(adoption, (int, float)) and not isinstance(adoption, bool):
         if adoption >= 0.5 and t50 != 0:
             errs.append(
-                "%s: v3.1 t50_years must be 0 when current_adoption_pct >= 0.5"
+                "%s: v3.1+ t50_years must be 0 when current_adoption_pct >= 0.5"
                 % naics
             )
         if adoption < 0.5 and t50 <= 0:
             errs.append(
-                "%s: v3.1 t50_years must be > 0 when current_adoption_pct < 0.5"
+                "%s: v3.1+ t50_years must be > 0 when current_adoption_pct < 0.5"
                 % naics
             )
     if t50 < 0:
@@ -444,6 +473,7 @@ def acceptance_status(naics, rec, review_dir, review_schema,
                     % (naics, review.get("run_id"), run_id))
     expected_review_prompt = {
         "3.1": "validator-3.1",
+        "3.1.1": "validator-3.1.1",
     }.get(rec.get("run_meta", {}).get("template_version"))
     actual_review_prompt = review.get("review_meta", {}).get("prompt_version")
     if (expected_review_prompt is not None
@@ -522,7 +552,7 @@ def record_flags(rec, computed, decision, deltas):
         flags.append("CROSS_CHECK_TENSION: uplift_pp %.2f < 3 while A %.2f >= 5"
                      % (uplift, computed["A"]))
     inp = rec["inputs"]
-    if rec.get("run_meta", {}).get("template_version") == "3.1":
+    if rec.get("run_meta", {}).get("template_version") in ("3.1", "3.1.1"):
         estimates = sorted(
             name for name, value in inp.items()
             if isinstance(value, dict)
@@ -571,6 +601,7 @@ def run_build(repo_root, allow_unreviewed=False, runs_dir=None, review_dir=None,
     run_schemas = {
         "3.0": load_json(os.path.join(schemas_dir, "run_record.schema.json")),
         "3.1": load_json(os.path.join(schemas_dir, "run_record_v3_1.schema.json")),
+        "3.1.1": load_json(os.path.join(schemas_dir, "run_record_v3_1_1.schema.json")),
     }
     review_schema = load_json(os.path.join(schemas_dir, "review_record.schema.json"))
 
@@ -599,6 +630,11 @@ def run_build(repo_root, allow_unreviewed=False, runs_dir=None, review_dir=None,
         if rec.get("naics") != naics:
             errs.append("%s: record naics %r does not match directory %r"
                         % (naics, rec.get("naics"), naics))
+        if template_version == "3.1.1":
+            errs.extend(
+                "%s (%s): %s" % (naics, os.path.basename(path), error)
+                for error in evidence_contract_errors(rec)
+            )
         if errs:
             errors.extend(errs)
             continue

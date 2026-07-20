@@ -91,6 +91,7 @@ def _campaign_entry(repo_root, kind, path, record, thresholds):
     schema_names = {
         "3.0": "run_record.schema.json",
         "3.1": "run_record_v3_1.schema.json",
+        "3.1.1": "run_record_v3_1_1.schema.json",
     }
     if template_version not in schema_names:
         raise ValueError(
@@ -105,6 +106,10 @@ def _campaign_entry(repo_root, kind, path, record, thresholds):
     if schema_errors:
         raise ValueError("%s has schema errors: %s"
                          % (path, "; ".join(schema_errors)))
+    contract_errors = build.evidence_contract_errors(record)
+    if contract_errors:
+        raise ValueError("%s has evidence-contract errors: %s"
+                         % (path, "; ".join(contract_errors)))
     computed, arithmetic_errors, deltas = build.recompute(record)
     if arithmetic_errors:
         raise ValueError("%s has arithmetic errors: %s"
@@ -124,6 +129,7 @@ def _campaign_entry(repo_root, kind, path, record, thresholds):
     prompt_dir = {
         "3.0": "prompts",
         "3.1": "prompts_v3_1",
+        "3.1.1": "prompts_v3_1_1",
     }[template_version]
     prompt_path = os.path.join("pipeline", prompt_dir, naics + ".md")
     dataset_path = os.path.join(
@@ -151,8 +157,14 @@ def _campaign_entry(repo_root, kind, path, record, thresholds):
         "stage4_flags": flags,
         "expected_source_audits": source_audit_pairs(record),
     }
-    if template_version == "3.1":
-        entry["required_validator_prompt_version"] = "validator-3.1"
+    required_validator_prompts = {
+        "3.1": "validator-3.1",
+        "3.1.1": "validator-3.1.1",
+    }
+    if template_version in required_validator_prompts:
+        entry["required_validator_prompt_version"] = required_validator_prompts[
+            template_version
+        ]
     return entry
 
 

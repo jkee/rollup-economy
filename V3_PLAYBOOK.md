@@ -72,6 +72,21 @@ Provenance and reliability are separate:
 
 The legacy `quality: ESTIMATE` combination is not used in v3.1. `NONE` means no citation; an ESTIMATE may still cite background facts, in which case the citation quality is stated separately and only the quoted background fact is attributed to it.
 
+### v3.1.1 non-prompt boundary (implemented; runner brief still pending)
+
+Frozen v3.1 records remain valid and are not migrated in place. The v3.1.1 mechanical contract is versioned separately:
+
+1. `evidence_facts[]` is the only place URLs and exact source excerpts may appear. Each fact has a stable ID plus required population, geography, unit, period and industry-mismatch scope fields. Ellipses are rejected because a spliced excerpt is not an exact contiguous quote.
+2. A selected input declares a method, not final provenance:
+   - `OBSERVED`: the selected value exactly repeats `observed_value` and cites at least one fact.
+   - `CALCULATED`: a safe expression using only named, fact-backed numeric operands and `+ - * /`; Python recomputes it exactly. No judgmental mapping is allowed in this branch.
+   - `ESTIMATE`: any judgmental bridge; it must state an estimate basis and plausible range.
+3. Python maps `OBSERVED → DIRECT`, `CALCULATED → DERIVED`, and `ESTIMATE → ESTIMATE`. The model cannot author that final mapping.
+4. `evidence_quality` remains a separate reliability axis (`HIGH | MED | LOW | NONE`). `NONE` means `fact_ids` is empty; any non-empty fact list requires a non-`NONE` quality.
+5. `finalize_run_v3_1_1.py`, `build.py` and `review_campaign.py` all fail closed on the v3.1.1 contract. Build rechecks finalized records independently, so changing a method/provenance label after finalization is rejected.
+
+No v3.1.1 research run is authorized yet. The next checkpoint is the prompt/runner/validator brief update, including the unchanged C1–C4 reopen-every-URL self-audit, followed by a new canary series. The mechanical checkpoint does not change thresholds or scoring formulas.
+
 **Orchestration parameters:** two codes per single-author runner; no sub-agent delegation; strict repo isolation; one canary after any brief/schema/model/platform change; own sweep on landing; checkpoint commit/push after every validated wave; new series suffix for every campaign. No v3.1 research campaign is authorized until the contract is reviewed and frozen.
 
 **Golden runs:** same v3.1 brief with Sol and the additional ban on reading `pipeline/golden/golden_set.json`. The exact golden storage migration is frozen before its canary; do not overwrite a reference record ad hoc.
@@ -100,12 +115,14 @@ python3 pipeline/datasets/derive.py            # regenerate derived inputs (dete
 python3 pipeline/build/assemble_prompts.py --check  # verify frozen v3.0 prompts
 python3 pipeline/build/assemble_prompts.py --template-version 3.1  # assemble v3.1 prompts only after authorization
 python3 pipeline/build/finalize_run_v3_1.py --draft <draft> --dataset <dataset> --output <run>
+python3 pipeline/build/finalize_run_v3_1_1.py --draft <draft> --dataset <dataset> --output <run>  # after v3.1.1 prompt authorization
 python3 pipeline/build/build.py                # accepted-only build (P10)
 python3 pipeline/build/build.py --allow-unreviewed   # pilot/dev build, everything pending-review
 python3 pipeline/build/golden_analysis.py      # golden separation criteria (exit 1 on FAIL)
 python3 pipeline/build/review_campaign.py generate  # freeze current 63-fleet + 20-golden review manifest
 python3 pipeline/build/review_campaign.py validate  # exact-run/schema/source/flag review sweep
 python3 pipeline/build/test_v3_1.py            # synthetic v3.1 draft/finalizer tests (no research runs)
+python3 pipeline/build/test_v3_1_1.py          # synthetic v3.1.1 mechanics tests (no research runs)
 python3 pipeline/build/test_build.py           # v3.0/v3.1 build regression suite
-python3 pipeline/build/test_review_campaign.py # review-campaign tests (9 tests)
+python3 pipeline/build/test_review_campaign.py # review-campaign tests (10 tests)
 ```
