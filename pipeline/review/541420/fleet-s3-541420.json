@@ -1,0 +1,116 @@
+{
+  "naics": "541420",
+  "run_id": "fleet-s3-541420",
+  "review_meta": {
+    "model_id": "claude-fable-5",
+    "review_date": "2026-07-20",
+    "prompt_version": "validator_brief_v3"
+  },
+  "verdict": "accepted",
+  "checks": {
+    "sources_exist": {
+      "pass": true,
+      "note": "All 7 distinct cited URLs (11 URL-bearing citations) opened live and resolve to the claimed sources: FirstPageSage marketing-agency multiples page (dated 2025-01-22), Auxo Capital Advisors engineering-firm multiples guide, stateofaidesign.com/chapters/tools (AI in Design Report 2026, Tools chapter), Gallup poll 657362 on small-business succession, Core77 boards thread t=32565 on freelance design pricing, and the Digiday article on AI and indie-agency billing. Three inputs carry no URL (pi_moat, historical_analogs, active_consolidators) and are explicitly declared ESTIMATE with stated basis per the authoring rules, so no citation is falsely implied; the record has 11 auditable HTTP(S) citations, satisfying the at-least-one requirement. ESTIMATE_HEAVY flag disposition: all 10 flagged ESTIMATE inputs either quote a verified URL with an explicitly labeled derivation/scope caveat or state a no-source basis honestly."
+    },
+    "figures_match_sources": {
+      "pass": true,
+      "note": "Every figure_quoted string was verified verbatim against the fetched page: 4.6x Creative Marketing $1-3M and 8.1x $5-10M (FirstPageSage table); 3.5x-5.5x founder-led and 8.5x-12.0x+ platform-quality adjusted EBITDA (Auxo framework table); 75% daily / 91% at-least-weekly up from 54% in 2025 (stateofaidesign Tools chapter, and the homepage confirms Designer Fund/Foundation Capital attribution, 900+ designers, 60+ countries); Gallup 52.3% of employer-businesses owned by people 55+, 74% of near-retirement owners have transfer plans, a third of owners have no plan or are unsure; Core77 _YO post SOW/flat-fee quotes; all three Digiday quotes with correct speakers. Declared derivations (0.30 adoption from the 75-91% broad-designer figures; 0.35 owners 60+ scaled from Gallup 52.3% 55+; exit_mult 9.175 = blend of 8.1 and Auxo midpoint 10.25) are labeled DERIVED/PROXY/ESTIMATE, attribute to the URL only what the URL actually says, and the derivation logic is stated and reasonable. Dataset inputs (labor_share 0.9177, role_mix, n_total 1610, n_band 131) match pipeline/datasets/derived/541420.json exactly, chains included."
+    },
+    "judgment_inputs_plausible": {
+      "pass": true,
+      "note": "All within-role fractions sit inside their stated plausible ranges with concrete task-level rationales consistent with the prompt's role-structure guidance (graphic/admin high at 0.85 per 'near-fully automatable' guidance; physical laborers 0.05; managers 0.25; art directors 0.30). Per-role contributions recompute exactly and sum to 0.448813; supplied top-10 wage shares sum to 0.6261 and the added residual tail row (0.3739 at 0.37, blended 2:1 from the prompt's own ~0.40 core-designer and ~0.30 engineering/prototyping hypotheses) is clearly labeled as an added hypothesis row, exactly what the prompt's role-mix-contamination trap instructs ('Rebuild the structure; flag it as hypothesis') without relabeling any supplied SOC. pi_dist 0.35 and pi_moat 0.30 are in [0,1] with sourced, mechanism-specific rationales (fixed-fee rebid-cycle leakage; no licensure, insourcing bypass threat). t50=3.5y is derived from current_adoption 0.30 plus the CAD-era analog with the cloud-delivery shortening argument, and appears in top_uncertain_inputs with range 2.5-6y and quantified S impact as mandated. LOW_CONFIDENCE flag disposition: the density of ESTIMATE inputs is real, but each is bounded, honestly labeled, and confidence_overall is set to LOW accordingly — the correct handling, not a defect."
+    },
+    "rubric_consistent": {
+      "pass": true,
+      "note": "All five formulas follow the frozen template 3.0 rubric and recompute exactly: V_raw=0.9177x0.448813=0.4118757, V capped at 10; C=10x0.35x0.30=1.05; A=10/3.5=2.857142857; TD=log10(131)/4=0.5293178, OW=0.7142857+0.1 (succession bonus, machine-readable succession_shortage_documented.value=true with verified Gallup evidence)=0.8142857, CFD=0, B=6.565180; M=clamp(4x(9.175-4.6)/4.6)=3.9782609; S=(product)^0.2=3.79151. No rounding, full precision carried. Dataset values used as given per rule 6 with the labor_share implausibility conflict described in reviewer_note rather than overridden (rule 1 compliant). PE/M&A data (active_consolidators, buy_mult, exit_mult) used only in B and M (rule 2). Multiples are on an EBITDA basis (rule 3). exit_mult uses a $5-10M bracket plus a platform-quality comp rather than true $10M+ transactions, but the record openly labels it a soft adjacent-industry upper-bound proxy with no 541420-specific deal found — acceptable under the prompt's ESTIMATE fallback and its own no-PE-roll-up trap. active_consolidators=0 is a candid absence-of-evidence conclusion from named searches (PrivSource 2024/2025 trackers), consistent with the prompt's guidance that no PE roll-up wave exists in this code."
+    },
+    "cross_checks_honest": {
+      "pass": true,
+      "note": "All four mandatory cross-checks answered candidly and agree with the inputs. (1) uplift_pp=41.19 correctly computed and, unusually candidly, called out as mechanically inflated by the dataset's own flagged labor_share artifact rather than presented as a literal claim. (2) Terminal class PRESSURED with a justification that squarely answers the prompt's insourcing question and distinguishes cost-cutting from product replacement, acknowledging bimodality. (3) No-proxy audit affirms V from labor/role judgment and A from adoption+analogs with deal data confined to B/M — consistent with the record's actual derivations. (4) Pricing-model deflation names the fixed-fee/SOW-dominant billing mix, identifies the renewal/rebid boundary as the deflation mechanism per the prompt's 'deflation hinge' framing, and ties it explicitly to pi_dist=0.35 and pi_moat=0.30. reviewer_note additionally discloses the size-class inversion, role-mix contamination handling, IDSA 403 inaccessibility (nothing from IDSA cited), and the basis for LOW confidence — no contradiction found between any cross-check and the recorded inputs."
+    }
+  },
+  "source_audits": [
+    {
+      "input_path": "inputs.buy_mult.figure_quoted",
+      "url": "https://auxocapitaladvisors.com/engineering-firm-valuation-multiples/",
+      "resolves": true,
+      "claim_supported": true,
+      "note": "Page's valuation framework table states 3.5x-5.5x adjusted EBITDA for smaller founder-led engineering firms (buyers discount for scale, founder dependence, thin reporting), exactly as quoted as the corroborating comp for buy_mult; record correctly labels it an adjacent A/E proxy, not 541420 data."
+    },
+    {
+      "input_path": "inputs.buy_mult.url",
+      "url": "https://firstpagesage.com/business/marketing-agency-valuation-multiples-and-valuations/",
+      "resolves": true,
+      "claim_supported": true,
+      "note": "FirstPageSage EBITDA-multiples table (page dated 2025-01-22) lists Creative Marketing at 4.6x for the $1-3M EBITDA bracket, matching the quoted figure and the buy_mult value of 4.6 verbatim; record honestly labels it PROXY/ESTIMATE for industrial design."
+    },
+    {
+      "input_path": "inputs.current_adoption_pct.url",
+      "url": "https://stateofaidesign.com/chapters/tools",
+      "resolves": true,
+      "claim_supported": true,
+      "note": "AI in Design Report 2026 Tools chapter states verbatim '75% of surveyed designers use it daily' and '91% of respondents now use AI in their design work at least weekly, up from 54% in 2025'; homepage confirms the Designer Fund/Foundation Capital attribution and 900+ designers across startups/enterprises/agencies in 60+ countries as the record describes. The 0.30 value is an explicitly labeled DERIVED narrowing (broad digital-design population vs 541420 physical-product studios; personal tool use vs firm-level material use) — the URL supports exactly what the record attributes to it, and the discount logic is stated and reasonable."
+    },
+    {
+      "input_path": "inputs.exit_mult.figure_quoted",
+      "url": "https://auxocapitaladvisors.com/engineering-firm-valuation-multiples/",
+      "resolves": true,
+      "claim_supported": true,
+      "note": "Page states 8.5x-12.0x+ adjusted EBITDA 'in stronger cases' for platform-quality engineering firms with scale, systems and management depth, exactly as quoted; midpoint 10.25 used in the openly-shown 9.175 blend."
+    },
+    {
+      "input_path": "inputs.exit_mult.url",
+      "url": "https://firstpagesage.com/business/marketing-agency-valuation-multiples-and-valuations/",
+      "resolves": true,
+      "claim_supported": true,
+      "note": "Same FirstPageSage table lists Creative Marketing at 8.1x for the $5-10M EBITDA bracket as quoted; exit_mult 9.175 is a declared blend (8.1+10.25)/2 labeled a soft upper-bound proxy given no 541420-specific platform transaction exists — attribution honest."
+    },
+    {
+      "input_path": "inputs.owners_60plus_pct.succession_shortage_documented.evidence",
+      "url": "https://news.gallup.com/poll/657362/small-business-owners-lack-succession-plan.aspx",
+      "resolves": true,
+      "claim_supported": true,
+      "note": "Gallup article states verbatim that 74% of near-retirement owners 'have plans to sell or transfer the ownership of their business' (implying ~26% do not) and 'a third of all business owners say they have no plan or are unsure about their future' — supports succession_shortage_documented=true as a general small-business proxy, which the record labels as such."
+    },
+    {
+      "input_path": "inputs.owners_60plus_pct.url",
+      "url": "https://news.gallup.com/poll/657362/small-business-owners-lack-succession-plan.aspx",
+      "resolves": true,
+      "claim_supported": true,
+      "note": "Article states verbatim 'just over half (52.3%) of U.S. employer-businesses are owned by people who are at or near retirement age, those 55 and older'. The 0.35 owners-60+ value is an explicitly labeled DERIVED down-scaling of the 55+ figure to the 60+ sub-cohort; the URL supports exactly the figure the record attributes to it and the scaling assumption is stated and plausible."
+    },
+    {
+      "input_path": "inputs.pi_dist.sources[0]",
+      "url": "https://boards.core77.com/viewtopic.php?t=32565",
+      "resolves": true,
+      "claim_supported": true,
+      "note": "Core77 boards thread on pricing freelance industrial/engineering design work; practitioner posts confirm SOW/flat-fee milestone billing as the working norm, supporting the fixed-fee (not hourly/cost-plus) premise in the pi_dist rationale. Forum-quality source, and the record treats it accordingly."
+    },
+    {
+      "input_path": "inputs.pi_dist.sources[1]",
+      "url": "https://digiday.com/marketing/as-ai-alters-cost-of-creative-indie-agencies-review-how-they-charge-clients/",
+      "resolves": true,
+      "claim_supported": true,
+      "note": "Digiday article contains all quotes the pi_dist rationale uses ('we always bill to actuals...' — Copacino Fujikado CCO; 'internal efficiency tool...regain some of that margin erosion' and clients 'are expecting [savings] now' — Observatory International), and the record correctly flags it as adjacent scope (ad/creative agencies, not industrial design)."
+    },
+    {
+      "input_path": "inputs.pricing_structure.figure_quoted",
+      "url": "https://digiday.com/marketing/as-ai-alters-cost-of-creative-indie-agencies-review-how-they-charge-clients/",
+      "resolves": true,
+      "claim_supported": true,
+      "note": "All three quoted Digiday passages verified verbatim with correct speaker context (hourly bill-to-actuals passthrough vs margin-retention tension); labeled corroborating adjacent-scope evidence, which matches what the article is."
+    },
+    {
+      "input_path": "inputs.pricing_structure.url",
+      "url": "https://boards.core77.com/viewtopic.php?t=32565",
+      "resolves": true,
+      "claim_supported": true,
+      "note": "Thread post by user _YO states verbatim 'I typically create something called an SOW. Statement Of Work', 'I find it easier to quote as flat fees', and that such a document 'outlines key milestones, deliverables, and costs associated with those milestones and deliverables and the timing of payments' — the quoted figures match exactly; record honestly rates this forum evidence LOW quality."
+    }
+  ],
+  "reasons": [],
+  "flags_reviewed": [
+    "LOW_CONFIDENCE",
+    "ESTIMATE_HEAVY: 10 inputs with quality ESTIMATE (active_consolidators, ai_replaceable_share, buy_mult, current_adoption_pct, exit_mult, historical_analogs, owners_60plus_pct, pi_dist, pi_moat, t50_years)"
+  ]
+}

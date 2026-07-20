@@ -1,0 +1,335 @@
+{
+  "naics": "541420",
+  "title": "Industrial Design Services",
+  "run_meta": {
+    "model_id": "claude-sonnet-4-6",
+    "run_date": "2026-07-20",
+    "run_id": "fleet-s3-541420",
+    "template_version": "3.0",
+    "prompt_version": "p3-aff6579"
+  },
+  "dataset_inputs": {
+    "labor_share": {
+      "value": 0.9177,
+      "method": "QCEW 2024 private total annual wages at 541420 ($2,501,498,861) x benefits multiplier 1.4294 [ECEC private-industry total comp $46.60/hr / wages $32.60/hr = 1.4294 (March 2026 reference period)] / SUSB 2022 receipts at 541420 ($2,906,073,000). Vintage mismatch: 2024 wages over 2022 receipts, stated. Level: 6-digit. Harmonized to IPS basis ÷1.3407 (median of 65 dual-method codes).",
+      "sources": [
+        "BLS QCEW 2024 annual averages (US000, private)",
+        "BLS ECEC news release (raw/ecec.nr0.htm)",
+        "Census SUSB 2022 (receipts by NAICS)"
+      ],
+      "year": "2024 wages / 2022 receipts",
+      "quality": "MED"
+    },
+    "role_mix": {
+      "oews_level": "4-digit 5414",
+      "occupations": [
+        {
+          "soc": "27-1025",
+          "title": "Interior Designers",
+          "emp_share": 0.1905,
+          "wage_share": 0.1841
+        },
+        {
+          "soc": "27-1024",
+          "title": "Graphic Designers",
+          "emp_share": 0.1622,
+          "wage_share": 0.1538
+        },
+        {
+          "soc": "11-1021",
+          "title": "General and Operations Managers",
+          "emp_share": 0.0696,
+          "wage_share": 0.1238
+        },
+        {
+          "soc": "41-3091",
+          "title": "Sales Representatives of Services, Except Advertising, Insurance, Financial Services, and Travel",
+          "emp_share": 0.0323,
+          "wage_share": 0.0374
+        },
+        {
+          "soc": "13-1082",
+          "title": "Project Management Specialists",
+          "emp_share": 0.0297,
+          "wage_share": 0.0347
+        },
+        {
+          "soc": "43-9061",
+          "title": "Office Clerks, General",
+          "emp_share": 0.0284,
+          "wage_share": 0.0178
+        },
+        {
+          "soc": "53-7062",
+          "title": "Laborers and Freight, Stock, and Material Movers, Hand",
+          "emp_share": 0.0201,
+          "wage_share": 0.0122
+        },
+        {
+          "soc": "13-1161",
+          "title": "Market Research Analysts and Marketing Specialists",
+          "emp_share": 0.0199,
+          "wage_share": 0.0199
+        },
+        {
+          "soc": "43-6014",
+          "title": "Secretaries and Administrative Assistants, Except Legal, Medical, and Executive",
+          "emp_share": 0.0194,
+          "wage_share": 0.0128
+        },
+        {
+          "soc": "27-1011",
+          "title": "Art Directors",
+          "emp_share": 0.019,
+          "wage_share": 0.0296
+        }
+      ],
+      "quality": "MED"
+    },
+    "n_total": {
+      "value": 1610,
+      "source": "SUSB 2022 (firms, all enterprise sizes)",
+      "year": "2022",
+      "quality": "HIGH"
+    },
+    "n_band": {
+      "value": 131,
+      "derivation": "margin 0.1565 (margins.json[54]: Damodaran Jan 2026: Business & Consumer Services EBITDA/Sales 15.65%); revenue/employee $233,495 (SUSB 2022 receipts/employment at 541420); class <5: 1,208 firms, avg revenue/firm $356,066 (class receipts/firms), implied EBITDA $55,724 -> out of $1-10M band; class 5-9: 177 firms, avg revenue/firm $1,730,514 (class receipts/firms), implied EBITDA $270,825 -> out of $1-10M band; class 10-19: 94 firms, avg revenue/firm $3,101,245 (class receipts/firms), implied EBITDA $485,345 -> out of $1-10M band; class 20-99: 85 firms, avg revenue/firm $10,402,424 (class receipts/firms), implied EBITDA $1,627,979 -> IN $1-10M band; class 100-499: 16 firms, avg revenue/firm $45,169,000 (class receipts/firms), implied EBITDA $7,068,948 -> IN $1-10M band; class 500+: 30 firms, avg revenue/firm $9,040,567 (class receipts/firms), implied EBITDA $1,414,849 -> IN $1-10M band; n_band = 131",
+      "margin_used": 0.1565,
+      "margin_source": "Damodaran Jan 2026: Business & Consumer Services EBITDA/Sales 15.65%",
+      "quality": "ESTIMATE"
+    }
+  },
+  "inputs": {
+    "ai_replaceable_share": {
+      "value": 0.448813,
+      "breakdown_by_role": [
+        {
+          "role": "Interior Designers (27-1025)",
+          "labor_share_of_total": 0.1841,
+          "within_role_automatable_fraction": 0.40,
+          "contribution": 0.07364,
+          "rationale": "CONTAMINATION-ARTIFACT ROW (flagged in prompt's known traps): this SOC/title is dominant at the 4-digit 5414 level because sibling code 541410 (interior design) is much larger than 541420; the true 541420 core occupation, 27-1021 Commercial & Industrial Designers, is absent from the supplied top-10. Per rule C6 the supplied SOC code and title are kept exactly as given (no relabeling); as a proxy interpretation for this code, I read this row's wage share as the best available quantitative stand-in for '541420 core creative fee-earner' labor (concept/CAD/rendering/CMF work), consistent with the industry-specific guidance hypothesis that this role is ~30-40% of wage bill and 'partial' automatable (concept sketching, CAD surfacing iterations, rendering and CMF documentation are heavily AI-exposed; physical prototyping, field user research, and DFM judgment with manufacturers persist). Fraction 0.40 reflects that roughly two-fifths of this labor-cost bucket's tasks (drafting/rendering/documentation) are within current AI's substantial reach, while client-facing physical/spatial judgment is not.",
+          "plausible_range": "0.30-0.50"
+        },
+        {
+          "role": "Graphic Designers (27-1024)",
+          "labor_share_of_total": 0.1538,
+          "within_role_automatable_fraction": 0.85,
+          "contribution": 0.13073,
+          "rationale": "Partly a sibling-code (541430 graphic/brand design) contamination artifact at the 4-digit level, but product design studios do genuinely employ visualization/graphics-support staff for renderings, packaging graphics and pitch decks. Per industry-specific guidance ('Visualization and graphics support ... automatable: yes ... near-fully automatable production'), this task set (renderings, animations, packaging graphics, pitch visuals) is now heavily served by generative-image and rendering AI tools, so fraction is set high.",
+          "plausible_range": "0.70-0.95"
+        },
+        {
+          "role": "General and Operations Managers (11-1021)",
+          "labor_share_of_total": 0.1238,
+          "within_role_automatable_fraction": 0.25,
+          "contribution": 0.03095,
+          "rationale": "Per industry-specific guidance: 'Corporate client relationships and creative direction persist; studio ops and reporting automate.' Only the reporting/ops-administration slice of management time is substantially AI-automatable today; client relationship management and creative/strategic direction are not.",
+          "plausible_range": "0.15-0.35"
+        },
+        {
+          "role": "Sales Representatives of Services, Except Advertising, Insurance, Financial Services, and Travel (41-3091)",
+          "labor_share_of_total": 0.0374,
+          "within_role_automatable_fraction": 0.35,
+          "contribution": 0.01309,
+          "rationale": "Per guidance: 'Proposal decks, case-study content and schedule/budget tracking automate; enterprise relationship selling persists.' Proposal/deck production is AI-automatable; the relationship-selling core of the role is not.",
+          "plausible_range": "0.25-0.45"
+        },
+        {
+          "role": "Project Management Specialists (13-1082)",
+          "labor_share_of_total": 0.0347,
+          "within_role_automatable_fraction": 0.45,
+          "contribution": 0.015615,
+          "rationale": "Scheduling, budget tracking and status reporting are largely AI-automatable; vendor- and client-facing coordination and judgment calls on scope/risk are not. Set moderately above the sales role given the higher share of this role's time spent on trackable, structured outputs.",
+          "plausible_range": "0.35-0.55"
+        },
+        {
+          "role": "Office Clerks, General (43-9061)",
+          "labor_share_of_total": 0.0178,
+          "within_role_automatable_fraction": 0.85,
+          "contribution": 0.01513,
+          "rationale": "Per guidance: 'Studio admin, invoicing, contract paperwork — near-fully automatable.'",
+          "plausible_range": "0.70-0.95"
+        },
+        {
+          "role": "Laborers and Freight, Stock, and Material Movers, Hand (53-7062)",
+          "labor_share_of_total": 0.0122,
+          "within_role_automatable_fraction": 0.05,
+          "contribution": 0.00061,
+          "rationale": "Physical handling of models, prototypes and materials; not exposed to current generative/text/vision AI capabilities.",
+          "plausible_range": "0.0-0.10"
+        },
+        {
+          "role": "Market Research Analysts and Marketing Specialists (13-1161)",
+          "labor_share_of_total": 0.0199,
+          "within_role_automatable_fraction": 0.55,
+          "contribution": 0.010945,
+          "rationale": "Per guidance: 'Proposal decks, case-study content and schedule/budget tracking automate.' Desk research synthesis and content drafting are substantially AI-automatable; primary/field user research (distinct from this occupation, which is closer to marketing analysis) is not captured here, so fraction is set higher than the sales/PM rows.",
+          "plausible_range": "0.40-0.65"
+        },
+        {
+          "role": "Secretaries and Administrative Assistants, Except Legal, Medical, and Executive (43-6014)",
+          "labor_share_of_total": 0.0128,
+          "within_role_automatable_fraction": 0.85,
+          "contribution": 0.01088,
+          "rationale": "Per guidance: 'Studio admin, invoicing, contract paperwork — near-fully automatable.'",
+          "plausible_range": "0.70-0.95"
+        },
+        {
+          "role": "Art Directors (27-1011)",
+          "labor_share_of_total": 0.0296,
+          "within_role_automatable_fraction": 0.30,
+          "contribution": 0.00888,
+          "rationale": "Creative-direction/taste judgment persists (analogous to management's creative-direction persistence in the guidance); only production-review and asset-selection portions of the role are AI-automatable today.",
+          "plausible_range": "0.20-0.40"
+        },
+        {
+          "role": "Unlisted tail / residual (not a supplied SOC row — represents the ~37.39% of 4-digit 5414 wage bill outside the supplied top-10, per OEWS top-10 convention)",
+          "labor_share_of_total": 0.3739,
+          "within_role_automatable_fraction": 0.37,
+          "contribution": 0.138343,
+          "rationale": "Known-trap flag: the true 541420 core occupation (27-1021 Commercial & Industrial Designers) and engineering/model-making/prototyping staff are NOT in the supplied 4-digit top-10 at all (per prompt: '27-1021 ... is NOT in the 4-digit 5414 top-10' and 'mechanical engineers and model-makers in the unlisted tail'); they sit in this residual bucket. This is an added residual row (not a relabeling of any supplied occupation — no rule C6 conflict) sized to make the 10 supplied wage shares plus this row sum to 1.0, consistent with dataset fields already provided. Automatable fraction is a wage-weighted blend of the industry-specific guidance hypotheses for the two components believed to dominate this tail: 'Industrial/product designers (core fee earners) ~30-40% of wage bill, automatable: partial' (~0.40, per the same task mix as the Interior Designers row above) and 'Engineering and prototyping staff ~15-20% of wage bill, automatable: partial — simulation setup, tolerance documentation and drawing packages automate; shop prototyping, testing rigs and vendor-facing DFM iteration are physical' (~0.30), blended roughly 2:1 in favor of the larger core-designer hypothesis share, giving ~0.37. HYPOTHESIS-based, flagged per known traps.",
+          "plausible_range": "0.28-0.46"
+        }
+      ],
+      "quality": "ESTIMATE"
+    },
+    "pi_dist": {
+      "value": 0.35,
+      "rationale": "Client relationship in industrial design consultancies is predominantly founder/creative-director-owned rather than firm-institution-owned — most sub-$10M studios are founder-branded (per prompt guidance), so the firm as an acquirable entity captures AI value less durably than the individual reputation does. Billing is majority fixed-fee/milestone (SOW-based; see pricing_structure), not hourly/cost-plus, so AI efficiency gains are not mechanically handed to clients within a live contract the way audited hourly billing would force ('we always bill to actuals, clients directly benefit from those savings' — Digiday, on hourly-billing ad agencies, adjacent scope). But the fixed-fee/milestone model means gains are recaptured by client procurement at the next RFP/rebid cycle rather than retained structurally — 'milestone-based fixed fees are the deflation hinge' per the prompt's own capture question. Digiday reports the parallel dynamic in adjacent creative/ad agencies: agencies 'see it as an internal efficiency tool for them to...regain some of that margin erosion,' while clients 'are expecting [savings] now.' Net: value capture is real but transitional/leaky, landing mid-low.",
+      "plausible_range": "0.25-0.45",
+      "sources": [
+        "https://boards.core77.com/viewtopic.php?t=32565",
+        "https://digiday.com/marketing/as-ai-alters-cost-of-creative-indie-agencies-review-how-they-charge-clients/"
+      ],
+      "quality": "ESTIMATE"
+    },
+    "pi_moat": {
+      "value": 0.30,
+      "rationale": "No license or statute gates entry to industrial design (per the prompt's terminal-value question), and switching costs for a corporate client moving between studios or insourcing are low. Corporate clients increasingly run in-house design teams (a decade-long documented trend per the prompt guidance) with access to the same class of generic/enterprise generative-CAD and rendering tools an outside studio would use, meaning clients can partially bypass the studio's technical toolset directly rather than needing the vendor for that capability. The studio's only real moat is taste/creative reputation, physical prototyping capability and field user-research relationships — genuine but narrow barriers that do not create licensure-like or proprietary-data-like lock-in. Set low-moderate.",
+      "plausible_range": "0.20-0.40",
+      "sources": [],
+      "quality": "ESTIMATE"
+    },
+    "t50_years": {
+      "value": 3.5,
+      "derivation": "Starting point: current_adoption_pct estimated at 0.30 (30% of US industrial design firms materially using AI in the automatable functions today; see current_adoption_pct for full derivation from the stateofaidesign.com 2026 survey figure of 75-91% among a broad, digitally-skewed global designer sample, scaled down for this specific, smaller, more hardware/physical-prototyping-oriented population). historical_analogs (ESTIMATE, no citable quantitative source found — see that input) suggests prior capital-equipment-style design/engineering software (2D CAD in the 1980s, 3D solid modeling in the 1990s-2000s) took on the order of 10-15 years from commercial introduction to majority adoption among small professional-service firms, given hardware, training and workflow-integration costs. Current-generation generative AI design tools are cloud-delivered, low/no marginal cost, and require no specialized hardware or capital outlay, which structurally shortens the remaining diffusion path relative to that CAD-era analog — going from an already-material ~30% adoption level to 50% should take materially less time than the CAD-era's initial 10-15 year climb from near-zero. Deriving t50 = 3.5 years from today (2026-07-20) as the estimated point of 50% material adoption among 541420 firms specifically.",
+      "plausible_range": "2.5-6 years",
+      "quality": "ESTIMATE"
+    },
+    "current_adoption_pct": {
+      "value": 0.30,
+      "source": "DERIVED (scope caveat, rule C4): the actual figure below is from 'AI in Design Report 2026' (stateofaidesign.com/chapters/tools; homepage stateofaidesign.com separately describes the underlying survey as covering designers across startups, enterprises and agencies in 60+ countries, attributed there to Designer Fund / Foundation Capital, Q1 2026), a survey of designers broadly (UX, digital product, enterprise design teams) — NOT industrial/physical-product design specifically, and no 541420-specific adoption survey was found in this research pass. I derive a narrower estimate of 0.30 (30%) for material AI use in automatable functions among 541420 firms specifically, discounting the source's broad-population 75-91% figures because: (a) the source's 'daily/weekly personal tool use' bar is different from 'firm materially using AI in automatable functions' as an operational practice; (b) small, founder-led, physical-prototyping-oriented industrial design studios plausibly lag larger/digital-native design organizations in tooling budgets and organizational AI rollout. No stronger 541420-specific figure was located despite searching IDSA, Core77, and industry press (IDSA's own site returned HTTP 403 on all attempted fetches and could not be cited).",
+      "url": "https://stateofaidesign.com/chapters/tools",
+      "figure_quoted": "\"75% of surveyed designers use it daily\" and \"91% of respondents now use AI in their design work at least weekly, up from 54% in 2025\" (AI in Design Report 2026, chapter: Tools)",
+      "access_date": "2026-07-20",
+      "quality": "ESTIMATE"
+    },
+    "historical_analogs": {
+      "value": "~10-15 years (ESTIMATE — no industrial-design-specific quantitative diffusion-timeline source was found)",
+      "source": "No citable source quantifying 'years to 50% adoption' for a prior technology specifically within industrial/product design firms was located in this research pass (searched CAD/3D-modeling adoption histories, generative-design market reports, and design-industry trade press). Basis for the estimate is general historical pattern for capital-equipment-style design/engineering software: 2D CAD (AutoCAD 1.0 released 1982) and later 3D parametric/solid modeling (Pro/ENGINEER 1987) required purchased software licenses, dedicated hardware, and retraining, and general accounts describe adoption as a multi-year, gradual process among small firms rather than a fast, low-cost rollout. No number in that range is directly stated by any source I fetched; this is stated as a practitioner-knowledge ESTIMATE per rule C1/C3, not attributed to any URL.",
+      "url": "",
+      "figure_quoted": "",
+      "access_date": "2026-07-20",
+      "quality": "ESTIMATE"
+    },
+    "owners_60plus_pct": {
+      "value": 0.35,
+      "source": "DERIVED (scope caveat, rule C4): figure below is Gallup's national survey of all U.S. employer-business owners, not industrial-design-specific — no succession/owner-age survey specific to 541420 or IDSA membership was found (IDSA's site returned HTTP 403 on every attempted fetch and could not be cited, consistent with the prompt's own note that this source's availability is unverified). Gallup states 52.3% of owners are 55-or-older ('at or near retirement age'). I derive a narrower 60+ estimate of 0.35 (35%) by assuming the 60+ subset is a majority-but-not-all share of the 55+ bracket (i.e., scaling the 55+ figure down to approximate the older sub-cohort), consistent with typical small-business owner age-distribution shape. This is a general small-business proxy applied to 541420 in the absence of an industry-specific source.",
+      "url": "https://news.gallup.com/poll/657362/small-business-owners-lack-succession-plan.aspx",
+      "figure_quoted": "\"just over half (52.3%) of U.S. employer-businesses are owned by people who are at or near retirement age, those 55 and older\"",
+      "access_date": "2026-07-20",
+      "quality": "ESTIMATE",
+      "succession_shortage_documented": {
+        "value": true,
+        "evidence": "General small-business proxy (no industrial-design-specific succession survey exists, per prompt's own guidance): Gallup reports that among employer-business owners nearing retirement, 74% have plans to sell or transfer ownership of their business (implying roughly 26% do not), and more broadly 'a third of all business owners say they have no plan or are unsure about their future.' Source: https://news.gallup.com/poll/657362/small-business-owners-lack-succession-plan.aspx (fetched 2026-07-20)."
+      }
+    },
+    "active_consolidators": {
+      "value": 0,
+      "source": "ESTIMATE, no URL cited per rule C1 (no source states a specific count of zero; this is an absence-of-evidence conclusion from active searching, not a quoted figure). Basis: searched PrivSource's tracked consulting-sector acquisitions for both 2024 and 2025 (both fetched in full during this run), general PE roll-up platform maps, and industry press for design-consultancy M&A. No PE-backed platform was found reporting repeated add-on acquisitions specifically in industrial/product design consultancies in the last 24 months. The design-adjacent deals actually found in this period (e.g., PA Consulting's acquisition of Design Partners; historical Accenture acquisitions of design firms like Fjord, MATTER, designaffairs, Insitum) were strategic/consultancy acquirers building service capability, not PE platforms executing a multiple-arbitrage roll-up strategy. This matches the prompt's own guidance that 'no PE roll-up wave exists in industrial design' and that historic buyers were consultancies/tech strategics doing acqui-hire deals.",
+      "url": "",
+      "figure_quoted": "",
+      "access_date": "2026-07-20",
+      "quality": "ESTIMATE"
+    },
+    "buy_mult": {
+      "value": 4.6,
+      "source": "PROXY (derived, not industrial-design-specific; ESTIMATE per rule C3). Primary comp: FirstPageSage's 2025 Marketing Agency EBITDA Multiples report gives small creative-marketing agencies ($1-3M EBITDA) at 4.6x — chosen as the closer business-model analog to founder-led industrial design studios (project/creative-service billing, founder/creative-director-driven client relationships) than a heavy-asset engineering-firm comp. Corroborating comp: Auxo Capital Advisors' Engineering Firm Valuation Multiples guide gives small founder-led engineering firms (limited management depth) at 3.5x-5.5x adjusted EBITDA — an adjacent A/E proxy in a similar range. No industrial-design-specific buy-side multiple data exists; per the prompt's own known-trap flag, historic buyers of industrial design studios have been strategics/consultancies (acqui-hire logic), not EBITDA-multiple-driven PE buyers, so this multiple should be read as a soft proxy, not evidence of an active conventional buy-side market in 541420 itself.",
+      "url": "https://firstpagesage.com/business/marketing-agency-valuation-multiples-and-valuations/",
+      "figure_quoted": "\"4.6x\" [Creative Marketing agencies, stated for the $1-3M EBITDA bracket]. Corroborating (fetched separately): \"3.5x–5.5x adjusted EBITDA\" for smaller founder-led engineering firms, at https://auxocapitaladvisors.com/engineering-firm-valuation-multiples/",
+      "access_date": "2026-07-20",
+      "quality": "ESTIMATE"
+    },
+    "exit_mult": {
+      "value": 9.175,
+      "source": "PROXY (derived, not industrial-design-specific; ESTIMATE per rule C3). Blended midpoint of two adjacent-industry comps for larger/platform-scale businesses: FirstPageSage's creative-marketing-agency bracket for $5-10M EBITDA firms at 8.1x, and Auxo Capital Advisors' 'platform-quality' engineering-firm bracket (scale, systems, management depth) at 8.5x-12.0x+ adjusted EBITDA (midpoint 10.25x). Blended midpoint = (8.1 + 10.25) / 2 = 9.175. No industrial-design-specific $10M+ EBITDA platform transaction was found; per the prompt's known-trap guidance, this code's historic buyer set has been strategics (Accenture, PA Consulting, Capgemini) acquiring design capability rather than PE platforms executing conventional multiple-arbitrage exits, so this exit_mult is a soft upper-bound proxy from adjacent markets, not evidence of an active PE exit market specific to 541420.",
+      "url": "https://firstpagesage.com/business/marketing-agency-valuation-multiples-and-valuations/",
+      "figure_quoted": "\"8.1x\" [Creative Marketing agencies, stated for the $5-10M EBITDA bracket]. Corroborating (fetched separately): \"8.5x–12.0x+ adjusted EBITDA in stronger cases\" for platform-quality engineering firms with scale, systems and management depth, at https://auxocapitaladvisors.com/engineering-firm-valuation-multiples/",
+      "access_date": "2026-07-20",
+      "quality": "ESTIMATE"
+    },
+    "pricing_structure": {
+      "value": "Project-based fixed-fee (milestone/Statement-of-Work) billing is the norm reported for industrial/product design engagements, with hourly billing used mainly for scoping and change orders; no industry-wide, industry-specific percentage breakdown of revenue by billing model was located. AI efficiency capture is uneven in adjacent creative-agency markets: some firms bill to actuals and pass savings straight through to clients, while others try to retain savings as margin but face explicit client pressure to share the efficiency gains, particularly at contract renewal.",
+      "source": "Primary (industry-specific, forum-quality, LOW): Core77 community boards discussion among industrial/product design freelancers on how they price work. Corroborating (adjacent scope: advertising/marketing agencies, not industrial design specifically): Digiday, on how AI is changing agency billing-model choices and margin-retention-vs-client-passthrough dynamics.",
+      "url": "https://boards.core77.com/viewtopic.php?t=32565",
+      "figure_quoted": "\"I typically create something called an SOW. Statement Of Work... I find it easier to quote as flat fees\" and an SOW \"outlines key milestones, deliverables, and costs associated with those milestones and deliverables and the timing of payments.\" Corroborating (adjacent scope, fetched separately, https://digiday.com/marketing/as-ai-alters-cost-of-creative-indie-agencies-review-how-they-charge-clients/): \"we always bill to actuals, clients directly benefit from those savings\" vs. agencies \"see it as an internal efficiency tool for them to…regain some of that margin erosion,\" while clients \"are expecting [savings] now.\"",
+      "access_date": "2026-07-20",
+      "quality": "LOW"
+    }
+  },
+  "scores": {
+    "V": {
+      "arithmetic": "V_raw = labor_share x ai_replaceable_share = 0.9177 x 0.448813 = 0.4118756901; V = 10 x min(1, V_raw / 0.25) = 10 x min(1, 1.6475027604) = 10 x 1 = 10",
+      "score": 10.0
+    },
+    "C": {
+      "arithmetic": "C = 10 x pi_dist x pi_moat = 10 x 0.35 x 0.30 = 1.05",
+      "score": 1.05
+    },
+    "A": {
+      "arithmetic": "A = min(10, 10 / t50) = min(10, 10 / 3.5) = min(10, 2.857142857142857) = 2.857142857142857",
+      "score": 2.857142857142857
+    },
+    "B": {
+      "arithmetic": "TD = clamp(log10(131)/4, 0, 1) = clamp(2.1172712956/4, 0, 1) = 0.5293178239; OW_base = clamp((0.35 - 0.10)/0.35, 0.1, 0.9) = clamp(0.7142857143, 0.1, 0.9) = 0.7142857143; succession_shortage_documented=true so OW = min(1.0, 0.7142857143 + 0.1) = 0.8142857143; CFD = min(0.9, log10(1+0)/2) = min(0.9, 0) = 0; B = 10 x sqrt(TD x OW) / (1 + 0.3 x CFD) = 10 x sqrt(0.5293178239 x 0.8142857143) / 1 = 10 x sqrt(0.4310159629) / 1 = 10 x 0.6565180442 = 6.565180442",
+      "score": 6.565180441769468
+    },
+    "M": {
+      "arithmetic": "M = clamp(4 x (exit_mult - buy_mult) / buy_mult, 0, 10) = clamp(4 x (9.175 - 4.6) / 4.6, 0, 10) = clamp(4 x 4.575 / 4.6, 0, 10) = clamp(18.3 / 4.6, 0, 10) = clamp(3.9782608696, 0, 10) = 3.9782608696",
+      "score": 3.9782608695652186
+    }
+  },
+  "S": 3.7915102636159967,
+  "cross_checks": {
+    "uplift_pp": 41.187569010000004,
+    "uplift_vs_A_consistent": "uplift_pp = V_raw x 100 = 41.1876 pp, far above the 3pp check floor, so the 'uplift<3pp while A>=5' tension does not arise (A=2.857 is also <5 here regardless). However this uplift figure is mechanically inflated by the dataset's own flagged data-quality issue: labor_share=0.9177 is noted in dataset_inputs as 'implausibly high, likely an artifact of 2024 QCEW wages over 2022 SUSB receipts in a small, fast-changing code.' Per Core rule 1 and rule 6, the dataset value is used as given and the formula result is reported as-is (V hits its 10.0 cap, since V_raw/0.25 = 1.65 > 1); the extreme magnitude of uplift_pp should be read as an artifact of that flagged input, not as a literal claim that AI frees 41% of industry revenue. See reviewer_note.",
+    "terminal_value": {
+      "class": "PRESSURED",
+      "justification": "Distinguishing AI cutting the operator's costs vs. AI replacing the operator's product (the prompt's terminal-value question): industrial design has no license, no statute, and a pre-existing decade-long insourcing trend in which corporate clients build in-house design teams. AI's main effect here is to make those in-house teams more self-sufficient (generative CAD/rendering lowers the bar for an internal team to cover what used to require an outside studio), which accelerates insourcing rather than simply cutting the outside studio's delivery cost on unchanged engagements — i.e., closer to 'AI replacing the operator's product' than to pure cost-cutting. That said, the studio's defensible residue — physical prototyping, field user research, and founder/creative-director reputation for genuinely novel or high-stakes work — is real and does not evaporate under mature AI; some paid external demand for that residue should persist even as the addressable outsourced base shrinks. This is neither fully DURABLE (the addressable market is shrinking, not stable) nor fully MELTING (the residual functions are not themselves being replaced by AI, they are being insourced, and a niche of bespoke/high-creative-reputation and hands-on prototyping work persists) -- classified PRESSURED, with the caveat that commodity/CAD-heavy engagements trend toward MELTING while bespoke/prototyping-heavy studio work is closer to DURABLE, making this industry's true outcome more bimodal than a single class fully captures."
+    },
+    "no_proxy_confirmed": "Confirmed in writing: V was built from labor_share x ai_replaceable_share, where ai_replaceable_share is a role-by-role judgment about which tasks current AI can substantially do (drafting, CAD/rendering, admin, scheduling, etc.), with no reference to M&A/consolidation activity anywhere in that derivation. A was built from t50, itself derived from current_adoption_pct (a designer/firm AI-tool-usage survey figure) and historical_analogs (a technology-diffusion-speed judgment), again with no reference to deal activity, PE platforms, or consolidation trends. Per rule 2, active_consolidators, buy_mult and exit_mult (all PE/M&A-flavored data) were used only in B (CFD term) and M, never in V or A.",
+    "pricing_model_deflation": "Billing mix (per pricing_structure): project-based fixed-fee/milestone (SOW) billing dominates industrial/product design engagements as reported by practitioners, with hourly used mainly for scoping/change orders; no industry-wide revenue-share-by-billing-model statistic was found. Because the dominant model is fixed-fee rather than hourly/cost-plus/audited billing, AI efficiency gains are NOT mechanically handed to the client within a live engagement (unlike, e.g., 'we always bill to actuals, clients directly benefit from those savings' reported for hourly-billing ad agencies, adjacent scope, Digiday). Instead, deflation happens at the renewal/rebid boundary: corporate procurement re-scopes and re-competes the next milestone-based SOW once it becomes evident AI has cut the hours needed, consistent with the prompt's framing of 'milestone-based fixed fees' as 'the deflation hinge.' This dynamic is reflected in pi_dist=0.35 (mid-low: firm captures gains only in the gap before the next repricing cycle, and mainly the founder/creative-director rather than the firm-as-asset captures durable value) and pi_moat=0.30 (low-moderate: no licensure or high switching cost stops a client from demanding the lower fee, or insourcing the work outright, at that renewal point)."
+  },
+  "confidence_overall": "LOW",
+  "heterogeneous": false,
+  "top_uncertain_inputs": [
+    {
+      "input": "t50_years",
+      "plausible_range": "2.5-6 years",
+      "score_impact": "A = 10/t50. Base case t50=3.5 -> A=2.857142857. At the fast end t50=2.5 -> A=4.0 (product V*C*A*B*M scales by 4.0/2.857142857=1.4, so S scales by 1.4^0.2 ~ 1.0696, i.e. S rises ~+7% to ~4.06). At the slow end t50=6 -> A=1.666667 (product scales by 1.666667/2.857142857=0.58333, S scales by 0.58333^0.2 ~ 0.8977, i.e. S falls ~-10% to ~3.40). t50 is the single largest swing factor in this record because current_adoption_pct and historical_analogs, its two inputs, are both ESTIMATE-quality with no industrial-design-specific quantitative source found."
+    },
+    {
+      "input": "ai_replaceable_share",
+      "plausible_range": "0.35-0.55 (see per-role plausible_range entries; driven mainly by the 'unlisted tail' residual row (37.39% of wage bill, fraction range 0.28-0.46) and the Interior-Designers contamination-proxy row (18.41% of wage bill, fraction range 0.30-0.50))",
+      "score_impact": "V is currently capped at 10.0 because V_raw/0.25 = 1.65 > 1 (V_raw=0.4119, driven heavily by the flagged high labor_share=0.9177). Because V is already at its ceiling, further increases in ai_replaceable_share have zero additional score impact; but if ai_replaceable_share fell below ~0.2724 (i.e., V_raw below 0.25), V would drop below 10 and become a live swing factor. Given the tail-row uncertainty, this threshold could plausibly be crossed only at the low end of the plausible range, so V's cap is not fully robust."
+    },
+    {
+      "input": "buy_mult / exit_mult",
+      "plausible_range": "buy_mult 3.5-5.5x; exit_mult 8.1-12.0x (both adjacent-industry proxies, not 541420-specific)",
+      "score_impact": "M = clamp(4x(exit-buy)/buy, 0, 10). Base case M=3.978. At buy=5.5, exit=8.1: M=4x(2.6/5.5)=1.891 (S falls). At buy=3.5, exit=12.0: M=4x(8.5/3.5)=9.714 (S rises sharply, approaching the M=10 cap). Since no industrial-design-specific multiple data exists, M is one of the least industry-grounded factors in this record."
+    }
+  ],
+  "reviewer_note": "1) DATA-QUALITY ARTIFACT DRIVING V TO ITS CAP: dataset_inputs.labor_share=0.9177 is flagged by the dataset itself as 'implausibly high, likely an artifact of 2024 QCEW wages over 2022 SUSB receipts in a small, fast-changing code.' Combined with an ai_replaceable_share of 0.4488 (itself uncertain, see top_uncertain_inputs), V_raw=0.4119 clears the V=10 cap threshold (0.25) by a wide margin, so V=10.0 mechanically. Per Core rule 1 this formula result is reported as-is rather than overridden, but it should be read with real skepticism: if labor_share were closer to a more plausible ~0.55-0.65 for a professional design-services code, V_raw would fall to roughly 0.25-0.29, i.e. still near the cap but far less robustly so. 2) ROLE-MIX CONTAMINATION: the supplied role_mix is 4-digit 5414 and, per the prompt's own known-trap flag, its two largest listed occupations (Interior Designers 18.41% wage share, Graphic Designers 15.38%) are dominated by sibling codes 541410/541430; the true 541420 core occupation (27-1021 Commercial & Industrial Designers) is absent from the supplied top-10 entirely. I kept every supplied SOC row and title exactly as given (rule C6) and added one additional, clearly-labeled residual/tail row (37.39% of wage bill, NOT a supplied occupation) to account for the occupations OEWS's top-10 cut excludes, including the true core occupation and engineering/prototyping staff, per the industry-specific guidance's own hypothesis figures. This is the single largest source of uncertainty in the V-side arithmetic. 3) SIZE-CLASS INVERSION: dataset_inputs.n_band's derivation shows the 500+ firm class averaging only $9.0M revenue/firm vs. $45.2M for the 100-499 class, an inversion the dataset attributes to likely multinational design arms with modest US-classified receipts; n_band leans heavily on the 20-99 employee class (85 of 131 firms), so the true acquirable $1-10M-EBITDA pool is probably concentrated in a small number of firms, even though it is treated mechanically via TD=log10(131)/4 here. 4) NO PE ROLL-UP WAVE CONFIRMED BY THIS RUN'S RESEARCH: extensive search (PrivSource consulting-acquisition trackers for 2024 and 2025, both fully fetched; general PE roll-up platform maps; design/AEC trade press) found zero PE-backed platforms doing repeated add-on acquisitions specifically in industrial/product design in the last 24 months, consistent with the prompt's own guidance. buy_mult and exit_mult are therefore adjacent-industry proxies (creative/marketing agencies, corroborated against A/E engineering-firm comps) rather than 541420-specific transaction data, and M should be read as a soft, uncertain estimate, not evidence of an active conventional PE exit market in this code. 5) IDSA SOURCES INACCESSIBLE: every attempted fetch of idsa.org (membership survey, salary/state-of-design pages) returned HTTP 403 Forbidden during this run; per the citation-discipline rules governing this re-run, none of that content was cited anywhere in this record, consistent with the prompt's own flag that IDSA source availability was 'unverified.' 6) Given the volume of ESTIMATE-quality, proxied, and derived inputs (current_adoption_pct, historical_analogs, owners_60plus_pct, active_consolidators, buy_mult, exit_mult all ESTIMATE; pricing_structure LOW), confidence_overall is set to LOW despite V's numerically extreme (capped) score."
+}
