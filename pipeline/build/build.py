@@ -2,7 +2,7 @@
 """v3 build & check — Stage 4 (V3_PRODUCT.md §6), Phase 2 (V3_PLAN.md).
 
 Deterministic, stdlib-only, no model calls. Per run record in pipeline/runs/:
-  1. schema validation against run_record.schema.json (hard fail, named errors)
+  1. versioned schema validation (v3.0 legacy or finalized v3.1)
   2. arithmetic recompute from stored inputs with the frozen template-3.0
      formulas — hard fail if |stored - recomputed| > 0.005 on any factor or S
   3. verdicts / gates / caps / borderline / percentile from thresholds.json
@@ -158,11 +158,97 @@ def schema_errors(value, schema, root, path="$"):
 
 
 # ---------------------------------------------------------------------------
-# Arithmetic recompute — EXACTLY the template-3.0 formulas.
+# Arithmetic calculation/recompute — frozen formulas shared by v3.0 and v3.1.
+# v3.1 clarifies the already-at-50% t50 boundary: t50=0 maps to A=10.
 # ---------------------------------------------------------------------------
 
 def clamp(x, lo, hi):
     return max(lo, min(hi, x))
+
+
+def calculate(rec):
+    """Calculate factor scores and S from inputs, without trusting stored scores.
+
+    v3.1 finalization uses this function to write scores in plain Python.
+    Returns (computed: dict, errors: list).
+    """
+    naics = rec["naics"]
+    errs = []
+    ds = rec["dataset_inputs"]
+    inp = rec["inputs"]
+
+    ars_sum = sum(
+        role["labor_share_of_total"] * role["within_role_automatable_fraction"]
+        for role in inp["ai_replaceable_share"]["breakdown_by_role"]
+    )
+
+    labor_share = ds["labor_share"]["value"]
+    is_v31 = rec.get("run_meta", {}).get("template_version") == "3.1"
+    # Preserve v3.0 recompute semantics for frozen historical artifacts. v3.1
+    # uses the Python-calculated role sum directly; its stored value is output,
+    # not model input.
+    ars_for_score = ars_sum if is_v31 else inp["ai_replaceable_share"]["value"]
+    v_raw = labor_share * ars_for_score
+    V = 10.0 * min(1.0, v_raw / 0.25)
+    C = 10.0 * inp["pi_dist"]["value"] * inp["pi_moat"]["value"]
+
+    adoption = inp["current_adoption_pct"]["value"]
+    t50 = inp["t50_years"]["value"]
+    if is_v31 and isinstance(adoption, (int, float)) and not isinstance(adoption, bool):
+        if adoption >= 0.5 and t50 != 0:
+            errs.append(
+                "%s: v3.1 t50_years must be 0 when current_adoption_pct >= 0.5"
+                % naics
+            )
+        if adoption < 0.5 and t50 <= 0:
+            errs.append(
+                "%s: v3.1 t50_years must be > 0 when current_adoption_pct < 0.5"
+                % naics
+            )
+    if t50 < 0:
+        errs.append("%s: t50_years must be >= 0, got %s" % (naics, t50))
+        A = 0.0
+    elif t50 == 0:
+        A = 10.0
+    else:
+        A = min(10.0, 10.0 / t50)
+
+    n_band = ds["n_band"]["value"]
+    TD = clamp(math.log10(n_band) / 4.0, 0.0, 1.0) if n_band >= 1 else 0.0
+    owners = inp["owners_60plus_pct"]
+    OW = clamp((owners["value"] - 0.10) / 0.35, 0.1, 0.9)
+    if owners["succession_shortage_documented"]["value"]:
+        OW = min(1.0, OW + 0.1)
+    consolidators = inp["active_consolidators"]["value"]
+    if consolidators < 0:
+        errs.append("%s: active_consolidators must be >= 0, got %s"
+                    % (naics, consolidators))
+        consolidators = 0
+    CFD = min(0.9, math.log10(1 + consolidators) / 2.0)
+    B = 10.0 * math.sqrt(TD * OW) / (1.0 + 0.3 * CFD)
+
+    buy = inp["buy_mult"]["value"]
+    exit_ = inp["exit_mult"]["value"]
+    if buy <= 0:
+        errs.append("%s: buy_mult must be > 0, got %s" % (naics, buy))
+        M = 0.0
+    else:
+        M = clamp(4.0 * (exit_ - buy) / buy, 0.0, 10.0)
+
+    S = (V * C * A * B * M) ** 0.2
+    return {
+        "V": V,
+        "C": C,
+        "A": A,
+        "B": B,
+        "M": M,
+        "S": S,
+        "V_raw": v_raw,
+        "TD": TD,
+        "OW": OW,
+        "CFD": CFD,
+        "ai_replaceable_share": ars_sum,
+    }, errs
 
 
 def recompute(rec):
@@ -174,7 +260,6 @@ def recompute(rec):
     naics = rec["naics"]
     errs = []
     deltas = {}
-    ds = rec["dataset_inputs"]
     inp = rec["inputs"]
 
     def check(name, stored, recomputed):
@@ -184,54 +269,19 @@ def recompute(rec):
             errs.append("%s: %s stored=%.6f recomputed=%.6f |delta|=%.6f > %s"
                         % (naics, name, stored, recomputed, d, ARITH_TOL))
 
+    computed, calc_errs = calculate(rec)
+    errs.extend(calc_errs)
+
     # ai_replaceable_share = sum(role contributions); each contribution checked
     ars = inp["ai_replaceable_share"]
-    ars_sum = 0.0
     for i, role in enumerate(ars["breakdown_by_role"]):
         contrib = role["labor_share_of_total"] * role["within_role_automatable_fraction"]
         check("ai_replaceable_share.breakdown_by_role[%d](%s).contribution" % (i, role["role"]),
               role["contribution"], contrib)
-        ars_sum += contrib
-    check("ai_replaceable_share", ars["value"], ars_sum)
-
-    # V
-    labor_share = ds["labor_share"]["value"]
-    v_raw = labor_share * ars["value"]
-    V = 10.0 * min(1.0, v_raw / 0.25)
-
-    # C
-    C = 10.0 * inp["pi_dist"]["value"] * inp["pi_moat"]["value"]
-
-    # A
-    A = min(10.0, 10.0 / inp["t50_years"]["value"])
-
-    # B
-    n_band = ds["n_band"]["value"]
-    TD = clamp(math.log10(n_band) / 4.0, 0.0, 1.0) if n_band >= 1 else 0.0
-    owners = inp["owners_60plus_pct"]
-    OW = clamp((owners["value"] - 0.10) / 0.35, 0.1, 0.9)
-    if owners["succession_shortage_documented"]["value"]:
-        OW = min(1.0, OW + 0.1)
-    consolidators = inp["active_consolidators"]["value"]
-    CFD = min(0.9, math.log10(1 + consolidators) / 2.0)
-    B = 10.0 * math.sqrt(TD * OW) / (1.0 + 0.3 * CFD)
-
-    # M
-    buy = inp["buy_mult"]["value"]
-    exit_ = inp["exit_mult"]["value"]
-    if buy <= 0:
-        errs.append("%s: buy_mult must be > 0, got %s" % (naics, buy))
-        M = 0.0
-    else:
-        M = clamp(4.0 * (exit_ - buy) / buy, 0.0, 10.0)
-
-    S = (V * C * A * B * M) ** 0.2
-
-    computed = {"V": V, "C": C, "A": A, "B": B, "M": M, "S": S,
-                "V_raw": v_raw, "TD": TD, "OW": OW, "CFD": CFD}
+    check("ai_replaceable_share", ars["value"], computed["ai_replaceable_share"])
     for f in ["V", "C", "A", "B", "M"]:
         check(f, rec["scores"][f]["score"], computed[f])
-    check("S", rec["S"], S)
+    check("S", rec["S"], computed["S"])
     return computed, errs, deltas
 
 
@@ -455,11 +505,21 @@ def record_flags(rec, computed, decision, deltas):
         flags.append("CROSS_CHECK_TENSION: uplift_pp %.2f < 3 while A %.2f >= 5"
                      % (uplift, computed["A"]))
     inp = rec["inputs"]
-    estimates = sorted(name for name, v in inp.items()
-                       if isinstance(v, dict) and v.get("quality") == "ESTIMATE")
+    if rec.get("run_meta", {}).get("template_version") == "3.1":
+        estimates = sorted(
+            name for name, value in inp.items()
+            if isinstance(value, dict)
+            and value.get("provenance_type") == "ESTIMATE"
+        )
+        estimate_label = "provenance_type ESTIMATE"
+    else:
+        estimates = sorted(name for name, value in inp.items()
+                           if isinstance(value, dict)
+                           and value.get("quality") == "ESTIMATE")
+        estimate_label = "quality ESTIMATE"
     if len(estimates) >= 3:
-        flags.append("ESTIMATE_HEAVY: %d inputs with quality ESTIMATE (%s)"
-                     % (len(estimates), ", ".join(estimates)))
+        flags.append("ESTIMATE_HEAVY: %d inputs with %s (%s)"
+                     % (len(estimates), estimate_label, ", ".join(estimates)))
     nonzero = sorted(name for name, d in deltas.items() if 1e-12 < d <= ARITH_TOL)
     if nonzero:
         flags.append("ARITH_DELTA_WITHIN_TOL: nonzero stored-vs-recomputed deltas on %s"
@@ -485,7 +545,10 @@ def run_build(repo_root, allow_unreviewed=False, runs_dir=None, review_dir=None,
     reconciliation_out = reconciliation_out or os.path.join(repo_root, "pipeline", "build", "reconciliation.md")
 
     th = load_json(thresholds_path)
-    run_schema = load_json(os.path.join(schemas_dir, "run_record.schema.json"))
+    run_schemas = {
+        "3.0": load_json(os.path.join(schemas_dir, "run_record.schema.json")),
+        "3.1": load_json(os.path.join(schemas_dir, "run_record_v3_1.schema.json")),
+    }
     review_schema = load_json(os.path.join(schemas_dir, "review_record.schema.json"))
 
     records, legacy = discover_runs(runs_dir)
@@ -495,6 +558,9 @@ def run_build(repo_root, allow_unreviewed=False, runs_dir=None, review_dir=None,
     for naics in sorted(records):
         path, rec = records[naics]
         # 1. schema validation
+        template_version = rec.get("run_meta", {}).get("template_version")
+        schema_key = "3.1" if template_version == "3.1" else "3.0"
+        run_schema = run_schemas[schema_key]
         errs = ["%s (%s): %s" % (naics, os.path.basename(path), e)
                 for e in schema_errors(rec, run_schema, run_schema)]
         if rec.get("naics") != naics:

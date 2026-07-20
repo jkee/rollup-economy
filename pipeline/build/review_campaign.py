@@ -87,6 +87,19 @@ def assert_exact_membership(actual, expected, label):
 
 
 def _campaign_entry(repo_root, kind, path, record, thresholds):
+    template_version = record.get("run_meta", {}).get("template_version")
+    schema_name = (
+        "run_record_v3_1.schema.json"
+        if template_version == "3.1"
+        else "run_record.schema.json"
+    )
+    run_schema = load_json(os.path.join(
+        repo_root, "pipeline", "build", "schemas", schema_name
+    ))
+    schema_errors = build.schema_errors(record, run_schema, run_schema)
+    if schema_errors:
+        raise ValueError("%s has schema errors: %s"
+                         % (path, "; ".join(schema_errors)))
     computed, arithmetic_errors, deltas = build.recompute(record)
     if arithmetic_errors:
         raise ValueError("%s has arithmetic errors: %s"
@@ -103,7 +116,8 @@ def _campaign_entry(repo_root, kind, path, record, thresholds):
     run_id = record["run_meta"]["run_id"]
     naics = record["naics"]
     relpath = os.path.relpath(path, repo_root)
-    prompt_path = os.path.join("pipeline", "prompts", naics + ".md")
+    prompt_dir = "prompts_v3_1" if template_version == "3.1" else "prompts"
+    prompt_path = os.path.join("pipeline", prompt_dir, naics + ".md")
     dataset_path = os.path.join(
         "pipeline", "datasets", "derived", naics + ".json"
     )

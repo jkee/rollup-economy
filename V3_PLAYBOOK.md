@@ -52,51 +52,28 @@ Current standard API pricing is the same for both selected models: **Sol = GPT-5
 - Validator token extrapolation remains TBD because the sub-agent interface did not expose input/cached/output/reasoning token splits. Full depth is fixed policy, not a cost-tiering option.
 - **First validator canary observed:** two records, 20 URL/path occurrences, approximately 8 live-web calls and 20–25 minutes elapsed (10–12.5 minutes per record). Both records were `wrong`; 18/20 citation occurrences failed claim support. The next API-instrumented canary must capture input, cached-input and output/reasoning token splits before a dollar extrapolation is stated.
 
-## 4. Runner brief — the canonical contract (Stage 3)
+## 4. Runner brief — canonical v3.1 contract (Stage 3)
 
-Proven 63/63. Use verbatim, parameterized per pair of codes. Key clauses earned by incident (§5) — do not soften them.
+The verbatim runner contract is `pipeline/template/runner_brief_v3_1.md`; do not recreate or soften it in an agent message. Parameterize only its assignment paths and runtime metadata.
 
-```
-You are a research runner for an industry-scoring pipeline. You will score 2 industries,
-one at a time, yourself.
+The v3.1 flow is deliberately one model stage plus one Python boundary:
 
-HARD RULES:
-1. Do NOT spawn, launch, or delegate to any sub-agent, at any level, for any reason.
-   Execute all research and writing yourself, sequentially.
-2. ISOLATION: within the repo you may read ONLY: your two prompt files, and (for
-   validation only) pipeline/build/build.py + pipeline/build/schemas/run_record.schema.json.
-   No other repo file — no golden/, no six_data.json, no deep-dives, no other runs.
-   Knowledge sources: the prompt file + live web research. Never fabricate sources or
-   figures; if a source is unreachable, use another or mark ESTIMATE with basis.
-3. Do NOT git commit.
+1. GPT-5.5 (Sol for golden runs) writes `pipeline/drafts/<naics>/<run-id>.json` against `research_draft_v3_1.schema.json`.
+2. C1–C4 require fetch-before-cite, a short exact quote and scope for every citation, no URL for an unsourced estimate, and a complete visible bridge for every proxy/derivation.
+3. Before finalization, the same runner lists and reopens every URL in its draft. A citation that cannot be reverified is replaced or removed and the input is honestly reclassified.
+4. `pipeline/build/finalize_run_v3_1.py` injects deterministic datasets/role weights and writes all contributions, scores, S and uplift to the final run. The model never authors those fields.
+5. The orchestrator independently validates the draft, final record and arithmetic. Agent self-report does not count.
 
-For each code, in order:
-a. Read pipeline/prompts/<naics>.md and execute it exactly. The Step 4 JSON structure is
-   the mandatory output contract — use its EXACT key names (t50_years not t50,
-   breakdown_by_role inside ai_replaceable_share, succession_shortage_documented nested
-   inside owners_60plus_pct). Follow any catch-all/heterogeneity and research-gap
-   instructions in the prompt.
-b. Write the record to pipeline/runs/<naics>/<date>_<model>_<series>.json with run_meta
-   exactly: {model_id, run_date, run_id: "<series>-<naics>", template_version, prompt_version}.
-c. VALIDATE with the build's own validator and fix every error before moving on
-   (repeat until OK):
-   python3 -c "
-   import importlib.util, json
-   spec = importlib.util.spec_from_file_location('build','pipeline/build/build.py')
-   b = importlib.util.module_from_spec(spec); spec.loader.exec_module(b)
-   schema = json.load(open('pipeline/build/schemas/run_record.schema.json'))
-   rec = json.load(open('pipeline/runs/<naics>/<file>.json'))
-   errs = b.schema_errors(rec, schema, schema)
-   comp, aerrs, _ = b.recompute(rec)
-   print('OK' if not errs and not aerrs else ('SCHEMA: '+str(errs[:5])+' ARITH: '+str(aerrs[:3])))"
+Provenance and reliability are separate:
 
-Report back: per code one line — V/C/A/B/M/S, terminal class, confidence, biggest
-uncertainty — plus confirmation the validation printed OK for both.
-```
+- `provenance_type`: `DIRECT | DERIVED | ESTIMATE`
+- `evidence_quality`: `HIGH | MED | LOW | NONE`
 
-**Orchestration parameters (proven):** 2 codes per agent; waves of 7–8 agents; run one **canary agent first** after any brief change or capacity incident; validate every record on landing with the orchestrator's own sweep (never trust an agent's "it passes"); `git commit + push` after each validated wave; new run series suffix (s3, s4…) per re-run campaign so the build's latest-run selection picks the newest.
+The legacy `quality: ESTIMATE` combination is not used in v3.1. `NONE` means no citation; an ESTIMATE may still cite background facts, in which case the citation quality is stated separately and only the quoted background fact is attributed to it.
 
-**Golden runs:** same brief, Sol model, output to `pipeline/golden/<naics>.json`, run_id `golden-<series>-<naics>`, and the isolation clause additionally bans reading `golden_set.json` (it contains expected outcomes — contamination).
+**Orchestration parameters:** two codes per single-author runner; no sub-agent delegation; strict repo isolation; one canary after any brief/schema/model/platform change; own sweep on landing; checkpoint commit/push after every validated wave; new series suffix for every campaign. No v3.1 research campaign is authorized until the contract is reviewed and frozen.
+
+**Golden runs:** same v3.1 brief with Sol and the additional ban on reading `pipeline/golden/golden_set.json`. The exact golden storage migration is frozen before its canary; do not overwrite a reference record ad hoc.
 
 ## 5. Incident lessons (encoded, do not relearn)
 
@@ -105,11 +82,12 @@ uncertainty — plus confirmation the validation printed OK for both.
 3. **Session limits kill agents dead.** Agents that hit a usage limit do not resume when credit is added; their in-flight work is lost. Re-launch fresh, canary first. Checkpoint-commit after every validated wave so an outage can only cost one wave.
 4. **Platform outages poison sourcing.** A safety-classifier outage blocked web tools mid-wave; helpers offered memory-based figures (banned). Any record produced in an outage window gets extra validator scrutiny for unresolvable sources.
 5. **Schema-vs-reality drift bites at the interface.** The run schema demanded a `derivation` key the dataset layer never emitted (`method`/`source`); the hand-adapted fixture masked it; all 20 golden records failed until the 3.0.2 alignment. Rule: interface schemas must be tested against *real* producer output, not hand-made fixtures.
+6. **Relevant pages are not evidence for invented precision.** The initial Sol pass found 0/72 accepted; in a random five-record sample, all pages resolved but 34/35 citation occurrences failed exact claim support. A citation-hardened 541420 s3 rerun using the same fleet model class passed 11/11 audits and all five checks. Root cause: runner attribution behavior and an ambiguous evidence schema, not a need to weaken validation. v3.1 encodes the successful fetch/quote/scope/derive behavior.
 
 ## 6. Validator and remaining TBD work
 
-- **Stage 5 validator policy — resolved 2026-07-20.** Run Sol at full depth on all 83 pilot records, with no risk-tiering: 63 fleet records plus 20 separate golden reference records. Start with a two-record canary (fleet 541330 and fleet 541611), then use batches of five records per validator; keep fleet and golden runs for the same NAICS in different batches. The canonical, parameterized contract is `pipeline/template/validator_brief_v3.md`. Reviews are exact-run artifacts at `pipeline/review/<naics>/<run-id>.json`; fleet and golden versions of the same NAICS therefore remain distinct. The Phase-2 production bootstrap `pipeline/review/541330.json` was removed before the canary; only exact-run Sol reviews can satisfy P10. The formal golden gate requires both `review_campaign.py validate` and `golden_analysis.py` to pass.
-- **Template 3.1 clarification candidates** (from pilot divergences — batch them, version-bump, re-run affected codes only after freeze discipline): where payer/regulatory clawback belongs (C input vs terminal class); terminal-class boundary guidance when a statutory human-in-the-loop floor exists (translation, court reporting); explicit rule for 1099-heavy industries (labor_share captures W-2 only — affects V comparability).
+- **Stage 5 validator policy — v3.1 pending canary.** The halted v3.0 campaign remains historical evidence. New records use `pipeline/template/validator_brief_v3_1.md`: Sol verifies each atomic cited source fact, then separately checks derivation/proxy reasonableness and estimate honesty. A source need not state a DERIVED selected value; it must state the quoted starting fact. Full depth and exact-run review paths remain unchanged.
+- **Template 3.1 clarifications — resolved in the new template.** Payer/regulatory clawback belongs in C when it governs retention of savings; terminal class separately governs survival of paid demand. A statutory human-in-loop floor affects terminal value only insofar as it preserves paid demand. W-2/1099 distortions are disclosed as `DATASET_MISMATCH` with sensitivity; deterministic labor share is never silently changed.
 - **Phase-6 API batch runner** — TBD. One API call per code (GPT-5.5 + web search tool), schema-validated response, automatic retry with error attached, then build + full-depth Sol validator. Design goals: no delegation possible, resumable, per-sector cost tracking.
 - **Dataset refresh cadence** — datasets are vintage-stamped; re-run derive.py on new SUSB/QCEW releases; market inputs (multiples, adoption) stale after ~12 months → refresh runs with a new series suffix.
 
@@ -117,12 +95,15 @@ uncertainty — plus confirmation the validation printed OK for both.
 
 ```bash
 python3 pipeline/datasets/derive.py            # regenerate derived inputs (deterministic)
-python3 pipeline/build/assemble_prompts.py     # blocks + datasets + template → prompts (--check to verify)
+python3 pipeline/build/assemble_prompts.py --check  # verify frozen v3.0 prompts
+python3 pipeline/build/assemble_prompts.py --template-version 3.1  # assemble v3.1 prompts only after authorization
+python3 pipeline/build/finalize_run_v3_1.py --draft <draft> --dataset <dataset> --output <run>
 python3 pipeline/build/build.py                # accepted-only build (P10)
 python3 pipeline/build/build.py --allow-unreviewed   # pilot/dev build, everything pending-review
 python3 pipeline/build/golden_analysis.py      # golden separation criteria (exit 1 on FAIL)
 python3 pipeline/build/review_campaign.py generate  # freeze current 63-fleet + 20-golden review manifest
 python3 pipeline/build/review_campaign.py validate  # exact-run/schema/source/flag review sweep
-python3 pipeline/build/test_build.py           # regression suite (18 tests)
+python3 pipeline/build/test_v3_1.py            # synthetic v3.1 draft/finalizer tests (no research runs)
+python3 pipeline/build/test_build.py           # v3.0/v3.1 build regression suite
 python3 pipeline/build/test_review_campaign.py # review-campaign tests (9 tests)
 ```

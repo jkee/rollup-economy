@@ -29,10 +29,19 @@ from pathlib import Path
 
 REPO = Path(__file__).resolve().parent.parent.parent
 TARGETS_PATH = REPO / "pipeline" / "blocks" / "targets_phase3.json"
-TEMPLATE_PATH = REPO / "pipeline" / "template" / "prompt_template_v3.md"
 BLOCKS_DIR = REPO / "pipeline" / "blocks"
 DERIVED_DIR = REPO / "pipeline" / "datasets" / "derived"
-PROMPTS_DIR = REPO / "pipeline" / "prompts"
+
+VERSION_PATHS = {
+    "3.0": {
+        "template": REPO / "pipeline" / "template" / "prompt_template_v3.md",
+        "prompts": REPO / "pipeline" / "prompts",
+    },
+    "3.1": {
+        "template": REPO / "pipeline" / "template" / "prompt_template_v3_1.md",
+        "prompts": REPO / "pipeline" / "prompts_v3_1",
+    },
+}
 
 RUNTIME_PLACEHOLDERS = {"{{MODEL_ID}}", "{{RUN_DATE}}", "{{RUN_ID}}", "{{PROMPT_VERSION}}"}
 PLACEHOLDER_RE = re.compile(r"\{\{[^{}]*\}\}")
@@ -146,7 +155,7 @@ def render_special_notes(block):
     return "\n".join(f"- {s}" for s in block["special_notes"])
 
 
-def render_dataset_inputs(naics, block, dataset):
+def render_dataset_inputs(naics, block, dataset, template_version):
     missing = [f for f in DATASET_FIELDS if f not in dataset]
     if missing:
         fail(naics, f"dataset record missing field(s): {', '.join(missing)}")
@@ -155,17 +164,28 @@ def render_dataset_inputs(naics, block, dataset):
     gaps = block["research_gaps"]
     if gaps:
         gap_lines = "\n".join(f"- `{g['input']}`: {g['instruction']}" for g in gaps)
+        if template_version == "3.1":
+            fallback_rule = (
+                "provide the value in `dataset_fallbacks`, show the full v3.1 evidence "
+                "chain, and use `provenance_type: ESTIMATE` when no source directly "
+                "establishes it"
+            )
+        else:
+            fallback_rule = (
+                "research the value yourself, show the full derivation chain, and mark "
+                "it quality `ESTIMATE`"
+            )
         body += (
             "\n\n**Research gaps — documented exception to core rule 6 (V3_PLAN.md 3.1).** "
             "The dataset input(s) below are null in the provided record. For these inputs ONLY, "
-            "research the value yourself, show the full derivation chain, and mark it quality "
-            "`ESTIMATE`. Every other dataset input remains provided — do not re-research it.\n\n"
+            + fallback_rule
+            + ". Every other dataset input remains provided — do not re-research it.\n\n"
             + gap_lines
         )
     return body
 
 
-def assemble_one(naics, title, template):
+def assemble_one(naics, title, template, template_version):
     block_path = BLOCKS_DIR / f"{naics}.json"
     dataset_path = DERIVED_DIR / f"{naics}.json"
     if not dataset_path.exists():
@@ -186,7 +206,9 @@ def assemble_one(naics, title, template):
         "{{CAPTURE_QUESTIONS}}": render_capture_questions(block),
         "{{TERMINAL_VALUE_QUESTION}}": block["terminal_value_question"].strip(),
         "{{SPECIAL_NOTES}}": render_special_notes(block),
-        "{{DATASET_INPUTS_JSON}}": render_dataset_inputs(naics, block, dataset),
+        "{{DATASET_INPUTS_JSON}}": render_dataset_inputs(
+            naics, block, dataset, template_version
+        ),
     }
     text = template
     for ph, value in replacements.items():
@@ -206,10 +228,18 @@ def validate_prompt_text(naics, text):
 def main():
     parser = argparse.ArgumentParser(description="Assemble v3 per-code prompts from blocks + datasets + frozen template.")
     parser.add_argument("--check", action="store_true", help="Validate only: re-render in memory and compare against prompts on disk; write nothing.")
+    parser.add_argument(
+        "--template-version",
+        choices=sorted(VERSION_PATHS),
+        default="3.0",
+        help="Contract to assemble. Defaults to 3.0 so existing prompts remain untouched.",
+    )
     args = parser.parse_args()
 
     targets = json.loads(TARGETS_PATH.read_text(encoding="utf-8"))
-    template = TEMPLATE_PATH.read_text(encoding="utf-8")
+    version_paths = VERSION_PATHS[args.template_version]
+    template = version_paths["template"].read_text(encoding="utf-8")
+    prompts_dir = version_paths["prompts"]
 
     skipped, written, checked, errors = [], [], [], []
 
@@ -220,9 +250,9 @@ def main():
             skipped.append(naics)
             continue
         try:
-            text = assemble_one(naics, title, template)
+            text = assemble_one(naics, title, template, args.template_version)
             validate_prompt_text(naics, text)
-            out_path = PROMPTS_DIR / f"{naics}.md"
+            out_path = prompts_dir / f"{naics}.md"
             if args.check:
                 if not out_path.exists():
                     fail(naics, f"--check: prompt file missing on disk: {out_path}")
@@ -240,7 +270,7 @@ def main():
         print(f"WARNING: {len(skipped)} code(s) skipped — no block file yet in {BLOCKS_DIR}/:")
         print("  " + " ".join(skipped))
     if written:
-        print(f"OK: wrote {len(written)} prompt(s) to {PROMPTS_DIR}/: " + " ".join(written))
+        print(f"OK: wrote {len(written)} prompt(s) to {prompts_dir}/: " + " ".join(written))
     if checked:
         print(f"OK: {len(checked)} prompt(s) validated against disk: " + " ".join(checked))
     if errors:
