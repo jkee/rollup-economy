@@ -1,0 +1,94 @@
+{
+  "naics": "541713",
+  "run_id": "fleet-s2-541713",
+  "review_meta": {
+    "model_id": "Sol",
+    "review_date": "2026-07-20",
+    "prompt_version": "validator-3.0"
+  },
+  "verdict": "wrong",
+  "checks": {
+    "sources_exist": {
+      "pass": true,
+      "note": "All seven canonical citations resolved, and the four deterministic dataset inputs exactly match the supplied dataset. LOW_CONFIDENCE is warranted because none of the seven pages establishes the score-bearing 541713 input attributed to it."
+    },
+    "figures_match_sources": {
+      "pass": false,
+      "note": "The pages contain broad professional-services adoption, defense-contractor multiples, small-business age, and SBIR contract-mechanism information, but they do not support the nanotech-specific adoption, analog, owner share, consolidator count, multiples, or revenue mix used in the record."
+    },
+    "judgment_inputs_plausible": {
+      "pass": false,
+      "note": "The bounded task fractions are directionally plausible, but pi_dist=0.30 rests on an unsupported 55% cost-reimbursable share and incorrectly says government sponsors own SBIR IP as a general rule. t50=7 is derived from cloud/HPC and ERP timelines absent from the linked source."
+    },
+    "rubric_consistent": {
+      "pass": false,
+      "note": "Multiple MED inputs are actually unsupported estimates and materially affect A, C, and M; the defense and aerospace benchmarks are broad proxies without a demonstrated normalization to nanotech contract R&D. ARITH_DELTA_WITHIN_TOL: nonzero stored-vs-recomputed deltas on A, B, M, S is within the stated tolerance and is not independently disqualifying."
+    },
+    "cross_checks_honest": {
+      "pass": false,
+      "note": "The labor-share anomaly and terminal-value caveats are candid, but the pricing cross-check repeats an unsupported revenue split and later cites a different SBIR dependence statistic than inputs.pricing_structure, while the no-proxy adoption chain relies on a nonexistent cited analog."
+    }
+  },
+  "source_audits": [
+    {
+      "input_path": "inputs.active_consolidators.url",
+      "url": "https://www.kippsdesanto.com/insights/dealview-top-ma-deals-q4-25/",
+      "resolves": true,
+      "claim_supported": false,
+      "note": "The page highlights a missile manufacturer and a government cybersecurity/AI services acquisition. It identifies no nanotechnology R&D add-on and provides no basis for estimating one active nanotech consolidator."
+    },
+    {
+      "input_path": "inputs.buy_mult.url",
+      "url": "https://ctacquisitions.com/defense-contractor-business-sale/",
+      "resolves": true,
+      "claim_supported": false,
+      "note": "The page supports 7-10x EBITDA for compliant defense contractors with ITAR, CMMC, and program incumbency, and lower ranges without those attributes. The record does not establish that nanotech R&D targets possess those conditions, so the page does not support a 7.5x buy multiple for 541713."
+    },
+    {
+      "input_path": "inputs.current_adoption_pct.url",
+      "url": "https://www.federalreserve.gov/econres/notes/feds-notes/monitoring-ai-adoption-in-the-u-s-economy-20260403.html",
+      "resolves": true,
+      "claim_supported": false,
+      "note": "The Federal Reserve reports about 33% adoption for the broad professional-services sector and about 18% across firms at end-2025, while explicitly saying sub-sector heterogeneity cannot be investigated. It does not support a 20% material-use rate for nanotechnology R&D."
+    },
+    {
+      "input_path": "inputs.exit_mult.url",
+      "url": "https://www.pcecompanies.com/resources/industry-reports/aerospace-government-q2-2025-pce-investment-bankers",
+      "resolves": true,
+      "claim_supported": false,
+      "note": "The cited URL redirects to an updated Aerospace & Government M&A page. Its accessible content does not contain the quoted 18.96x median, Azure Summit 11.6x transaction, KippsDeSanto 16.4x median, or a 12.5x nanotech R&D services platform multiple."
+    },
+    {
+      "input_path": "inputs.historical_analogs.url",
+      "url": "https://www.infoq.com/articles/adoption-curve-twenty/",
+      "resolves": true,
+      "claim_supported": false,
+      "note": "InfoQ gives a selective history of software technologies and the adoption-curve framework. It contains no HPC cloud adoption statistic, no 2010-2018 crossing of 50%, no ERP professional-services analog, and no eight-year benchmark for physical R&D labs."
+    },
+    {
+      "input_path": "inputs.owners_60plus_pct.url",
+      "url": "https://www.digitalwebsolutions.com/blog/average-age-of-small-business-owners/",
+      "resolves": true,
+      "claim_supported": false,
+      "note": "The marketing blog reports 50.9% of small-business owners ages 50-88 and 40-41% Boomer ownership. It does not report 37% ages 55-73, an age-60+ share, or any nanotech/principal demographic that supports the estimated 0.30."
+    },
+    {
+      "input_path": "inputs.pricing_structure.url",
+      "url": "https://sbirbasics.com/2025/06/accounting-system-differences-for-fixed-price-and-cost-plus-sbir-awards/",
+      "resolves": true,
+      "claim_supported": false,
+      "note": "The page explains FFP Phase I and CPFF Phase II mechanics, states the recipient retains FFP excess, and says CPFF fee is typically up to 7% of costs. It provides no 35%/45%/10%/10% revenue split, no 55% cost-reimbursable share, no 7-10% fee range, and no quoted 46% company-revenue statistic."
+    }
+  ],
+  "reasons": [
+    "inputs.historical_analogs at https://www.infoq.com/articles/adoption-curve-twenty/ fabricates an eight-year HPC-cloud/ERP benchmark absent from the page, so inputs.t50_years and score A lack a valid chain; rerun with a dated adoption series or a clearly labeled, auditable ESTIMATE.",
+    "inputs.pricing_structure at https://sbirbasics.com/2025/06/accounting-system-differences-for-fixed-price-and-cost-plus-sbir-awards/ supplies no evidence for the asserted contract revenue shares, and inputs.pi_dist additionally asserts sponsor ownership of SBIR IP without support; rerun with actual 541713/SBIR award-type and revenue-mix data and correct the ownership/capture mechanism.",
+    "inputs.buy_mult at https://ctacquisitions.com/defense-contractor-business-sale/ and inputs.exit_mult at https://www.pcecompanies.com/resources/industry-reports/aerospace-government-q2-2025-pce-investment-bankers use defense and aerospace proxies without establishing nanotech target compliance, business model, or cited figures; rerun with comparable normalized contract-R&D transactions or explicitly justified ESTIMATE ranges.",
+    "inputs.current_adoption_pct at https://www.federalreserve.gov/econres/notes/feds-notes/monitoring-ai-adoption-in-the-u-s-economy-20260403.html adjusts a broad 33% sector statistic to 20% for nanotech without evidence while retaining MED quality; rerun with a sourced material-use measure or a complete ESTIMATE derivation.",
+    "inputs.active_consolidators at https://www.kippsdesanto.com/insights/dealview-top-ma-deals-q4-25/ identifies no nanotech deal and inputs.owners_60plus_pct at https://www.digitalwebsolutions.com/blog/average-age-of-small-business-owners/ supplies no age-60+ nanotech figure; rerun with in-scope dated add-ons and comparable owner/principal demographics."
+  ],
+  "flags_reviewed": [
+    "LOW_CONFIDENCE",
+    "ARITH_DELTA_WITHIN_TOL: nonzero stored-vs-recomputed deltas on A, B, M, S"
+  ]
+}

@@ -1,0 +1,93 @@
+{
+  "naics": "541810",
+  "run_id": "fleet-s2-541810",
+  "review_meta": {
+    "model_id": "Sol",
+    "review_date": "2026-07-20",
+    "prompt_version": "validator-3.0"
+  },
+  "verdict": "wrong",
+  "checks": {
+    "sources_exist": {
+      "pass": true,
+      "note": "All seven canonical HTTP(S) citation occurrences resolve to the cited pages or PDF; the 4As PDF required its live access parameter but is the same document and path."
+    },
+    "figures_match_sources": {
+      "pass": false,
+      "note": "The StackAdapt page directly supports the 39% adoption figure. The remaining citations do not establish seven active consolidators, a 5.0x median actually paid across the target band, a 9.3x $10M+ exit comp, the quoted programmatic penetration curve, 25% age-60+ ownership, or the claimed 75% labor-scoped fixed-fee mix."
+    },
+    "judgment_inputs_plausible": {
+      "pass": false,
+      "note": "Role shares sum to 1.0, contributions sum to 0.437, and individual fractions are bounded, though the 30% back-office bucket is above the prompt's 20-25% guidance and drives 0.18 of the total with limited evidence. More decisively, t50_years=2.5 relies on a historical analog whose cited page lacks the claimed penetration data, and pi_dist=0.30 relies on a compensation-mix interpretation contradicted by the cited fixed-price definition."
+    },
+    "rubric_consistent": {
+      "pass": false,
+      "note": "No Stage-4 flags were assigned. Nevertheless, the frozen rubric requires source-supported research inputs and correct pricing-model treatment; the multiple, analog, ownership, consolidator and compensation inputs fail those requirements. The run also has C=0.90 below the thresholds.json any-factor-below-1.0 kill floor, which is mechanically coherent but heightens the importance of validating the unsupported capture inputs."
+    },
+    "cross_checks_honest": {
+      "pass": false,
+      "note": "All four mandatory cross-checks are present and the PRESSURED terminal classification is directionally plausible. However, no_proxy_confirmed treats the unsupported programmatic adoption curve as established, and pricing_model_deflation says roughly 75% is labor-hour-scoped fixed fee even though the cited report separates fixed-price output models (price constant regardless of effort) from hourly/cost-plus input models."
+    }
+  },
+  "source_audits": [
+    {
+      "input_path": "inputs.active_consolidators.url",
+      "url": "https://www.investorideas.com/news/2026/main/01152-private-equity-buying-marketing-agencies-2026-ai-ma.asp",
+      "resolves": true,
+      "claim_supported": false,
+      "note": "The January 2026 guest article identifies several PE investments or agency platforms, including Walker Sands/Mountaingate, ROR/Gemspring, TNT Dental/Trinity Hunt, Penta/Shamrock and R/GA/Truelink. It neither counts seven active PE-backed consolidators nor documents add-on activity for all seven names asserted by the record within the required 24-month window."
+    },
+    {
+      "input_path": "inputs.buy_mult.url",
+      "url": "https://agencies.co/ma-blog/the-definitive-guide-to-marketing-agency-valuation-in-2026/",
+      "resolves": true,
+      "claim_supported": false,
+      "note": "The broker guide lists 4.5-5.5x with a 5.0x average for $1-3M EBITDA agencies, 6.1-8.2x for $3-5M and 8.1-10.6x for $5-10M. It does not report a median actually paid for the full $1-10M target population or an underlying transaction sample, and its ranges increase materially across that band."
+    },
+    {
+      "input_path": "inputs.current_adoption_pct.url",
+      "url": "https://www.stackadapt.com/resources/blog/ai-advertising",
+      "resolves": true,
+      "claim_supported": true,
+      "note": "The June 2026 StackAdapt article explicitly says a StackAdapt/Ascend2 study found only 39% of agencies had significantly integrated AI into day-to-day workflows, matching value=0.39 and the record's definition of material workflow integration."
+    },
+    {
+      "input_path": "inputs.exit_mult.url",
+      "url": "https://agencies.co/ma-blog/the-definitive-guide-to-marketing-agency-valuation-in-2026/",
+      "resolves": true,
+      "claim_supported": false,
+      "note": "The page reports an 8.1-10.6x range and 9.3x average for the table's $5-10M EBITDA category, not for $10M+ EBITDA platform exits as the record states. It is a broker benchmark rather than disclosed recent exit transactions and therefore does not establish the required $10M+ score input."
+    },
+    {
+      "input_path": "inputs.historical_analogs.url",
+      "url": "https://blasto.ai/blog/programmatic-advertising-evolution-explained-timeline-key-players-and-milestones",
+      "resolves": true,
+      "claim_supported": false,
+      "note": "The vendor history says RTB represented 2% of display spend at companies such as BSkyB in 2010 and 18% in the UK in 2011. It does not report approximately 4% in 2010, 68% by 2020, 68% of agency budgets in 2024, or any measured time to 50%."
+    },
+    {
+      "input_path": "inputs.owners_60plus_pct.url",
+      "url": "https://www.census.gov/newsroom/press-releases/2025/business-owner-characteristics.html",
+      "resolves": true,
+      "claim_supported": false,
+      "note": "The November 2025 Census release discusses sex, race, ethnicity, veteran status and other ABS/NES-D characteristics but supplies no owner-age statistics. It does not support 37% Baby Boomer ownership, the 13.0%-to-16.3% self-employment change, or the interpolated 25% age-60+ value for advertising agencies."
+    },
+    {
+      "input_path": "inputs.pricing_structure.url",
+      "url": "https://www.aaaa.org/wp-content/uploads/4As-ANA-Decoding-Compensation-Models-and-Implementing-the-Right-Model.pdf",
+      "resolves": true,
+      "claim_supported": false,
+      "note": "The April 2024 joint 4As/ANA report says fixed fee was the most utilized model among 149 respondents, but gives no 75% share or the record's 75/15/10 mix. It defines fixed-price output compensation as constant regardless of time, effort or resources, while separately describing hourly and cost-plus input models, contradicting the record's blanket characterization of fixed fee as labor-hour-scoped and automatically deflationary."
+    }
+  ],
+  "reasons": [
+    "At inputs.active_consolidators (https://www.investorideas.com/news/2026/main/01152-private-equity-buying-marketing-agencies-2026-ai-ma.asp), the article names several investments but does not support value=7 active PE-backed add-on platforms in the last 24 months. Re-run with an enumerated seven-platform list and dated advertising-agency add-ons for each counted platform.",
+    "At inputs.buy_mult (https://agencies.co/ma-blog/the-definitive-guide-to-marketing-agency-valuation-in-2026/), the source's 5.0x is an average benchmark only for $1-3M EBITDA, while the record applies it as the buy multiple for a $1-10M target band with much higher source ranges above $3M. Re-run with a median of actual comparable transactions, appropriate target-size weighting, and documented post-market-owner-comp EBITDA.",
+    "At inputs.exit_mult (https://agencies.co/ma-blog/the-definitive-guide-to-marketing-agency-valuation-in-2026/), the cited 9.3x average belongs to the source's $5-10M category, not $10M+ platform exits. Re-run with recent disclosed $10M+ EBITDA transactions or directly comparable platform comps and state the normalization basis.",
+    "At inputs.historical_analogs (https://blasto.ai/blog/programmatic-advertising-evolution-explained-timeline-key-players-and-milestones), the cited page does not contain the quoted 4%-to-68% penetration curve or a measured time to 50%. Re-run with primary IAB/eMarketer adoption data covering consistent units and populations before deriving inputs.t50_years.",
+    "At inputs.owners_60plus_pct (https://www.census.gov/newsroom/press-releases/2025/business-owner-characteristics.html), the cited release contains no age figures and cannot support value=0.25. Re-run with an age-compatible owner dataset, preferably at advertising/marketing-services scope, and show the interpolation or estimate chain.",
+    "At inputs.pricing_structure and inputs.pi_dist (https://www.aaaa.org/wp-content/uploads/4As-ANA-Decoding-Compensation-Models-and-Implementing-the-Right-Model.pdf), the source does not report the 75/15/10 revenue mix and distinguishes fixed-price output fees from hourly/cost-plus input fees. Re-run with measured shares by compensation mechanism and apply deflation only to mechanisms where hours/costs actually reset client fees.",
+    "At cross_checks.pricing_model_deflation, the claim that roughly 75% of revenue is labor-hour-scoped fixed fee contradicts the cited report's definition of fixed price as invariant to effort. Re-run the cross-check with separate fixed-price, hourly, cost-plus, commission and performance shares and evidence for any renewal-level procurement clawback."
+  ],
+  "flags_reviewed": []
+}

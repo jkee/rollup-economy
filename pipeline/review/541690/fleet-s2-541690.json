@@ -1,0 +1,93 @@
+{
+  "naics": "541690",
+  "run_id": "fleet-s2-541690",
+  "review_meta": {
+    "model_id": "Sol",
+    "review_date": "2026-07-20",
+    "prompt_version": "validator-3.0"
+  },
+  "verdict": "wrong",
+  "checks": {
+    "sources_exist": {
+      "pass": true,
+      "note": "All seven canonical citations resolved to accessible content, and the four deterministic dataset inputs exactly match the supplied derived dataset."
+    },
+    "figures_match_sources": {
+      "pass": false,
+      "note": "The linked consulting-multiple page supports the buy and exit ranges. The adoption, historical-analog, owner-age, consolidator-count, and pricing-mix claims are not established by their cited pages."
+    },
+    "judgment_inputs_plausible": {
+      "pass": false,
+      "note": "The role fractions are bounded but are conditioned on energy consulting being dominant, which the cited IBISWorld page does not establish within NAICS 541690. pi_dist=0.45 relies on unsupported billing weights, and t50=7 relies on an unsupported adoption baseline and historical diffusion rate."
+    },
+    "rubric_consistent": {
+      "pass": false,
+      "note": "The record treats unsupported figures as MED research inputs instead of ESTIMATE chains, affecting A, B, and C. ARITH_DELTA_WITHIN_TOL: nonzero stored-vs-recomputed deltas on S is within the orchestrator's tolerance and is not independently disqualifying."
+    },
+    "cross_checks_honest": {
+      "pass": false,
+      "note": "The uplift, terminal-value, and no-proxy narratives are candid conditional analyses, but the pricing-deflation cross-check repeats an unevidenced 30%/35%/20%/15% billing mix and the adoption cross-check relies on an unsupported technology timeline."
+    }
+  },
+  "source_audits": [
+    {
+      "input_path": "inputs.active_consolidators.url",
+      "url": "https://www.privsource.com/acquisitions/private-equity-backed-acquisitions/consulting",
+      "resolves": true,
+      "claim_supported": false,
+      "note": "PrivSource is a broad consulting-acquisition list and supports some relevant deals, including E Source/ILLUME in utilities and Aperture/QSI in forensic economics. It does not substantiate the exact six-platform list in the record or show that all six made in-scope 541690 add-ons during the last 24 months."
+    },
+    {
+      "input_path": "inputs.buy_mult.url",
+      "url": "https://ctacquisitions.com/prepare-your-business-for-sale/consulting-firm-exit/",
+      "resolves": true,
+      "claim_supported": true,
+      "note": "The page reports 7-9x EBITDA for $1M-$3M specialty consulting and 8-11x for $3M-$5M specialty consulting. The selected 8.0x is a disclosed midpoint judgment within those cited ranges, though not a transaction median specific to 541690."
+    },
+    {
+      "input_path": "inputs.current_adoption_pct.url",
+      "url": "https://www.census.gov/library/stories/2026/05/ai-use-businesses.html",
+      "resolves": true,
+      "claim_supported": false,
+      "note": "Census reports 17-20% overall business AI use and less than 20% for firms with four or fewer employees. This page does not report the quoted 33% professional-services rate or support the upward adjustment to 22% for energy consulting."
+    },
+    {
+      "input_path": "inputs.exit_mult.url",
+      "url": "https://ctacquisitions.com/prepare-your-business-for-sale/consulting-firm-exit/",
+      "resolves": true,
+      "claim_supported": true,
+      "note": "The page reports 9-13x EBITDA for $5M-$10M specialty consulting and 11-15x for $10M-$25M specialty consulting. A 10.0x exit assumption lies within the former range, though the linked page does not establish the additional Guidehouse or energy-advisory transaction claims."
+    },
+    {
+      "input_path": "inputs.historical_analogs.url",
+      "url": "https://engineeringmanagementinstitute.org/aect-070-exploring-era-tech-adoption-and-innovation-aec/",
+      "resolves": true,
+      "claim_supported": false,
+      "note": "The podcast page discusses AI adoption and innovation at one large AEC firm, but contains no EnergyPlus/eQUEST history, no early-2000s to 2010/2012 timeline, and no 8-12-year early-adopter-to-majority benchmark."
+    },
+    {
+      "input_path": "inputs.owners_60plus_pct.url",
+      "url": "https://newsroom.firstcitizens.com/M-A-Sector-Spotlight-Energy-2025-Outlook",
+      "resolves": true,
+      "claim_supported": false,
+      "note": "The First Citizens page is an energy M&A outlook focused on upstream, midstream, power, and infrastructure dealmaking. It contains no small-business owner-age statistic, no 37% Boomer-owner figure, and no succession evidence."
+    },
+    {
+      "input_path": "inputs.pricing_structure.url",
+      "url": "https://www.ibisworld.com/united-states/industry/energy-utility-consulting-services/6132/",
+      "resolves": true,
+      "claim_supported": false,
+      "note": "The accessible IBISWorld page reports $7.3 billion revenue and 4,499 businesses and defines a broad custom industry that includes management, environmental, and technology consulting. It does not report the quoted $7.1 billion/4,419 figures or the asserted 30% shared-savings, 35% project-fee, 20% subscription, and 15% cost-plus revenue mix."
+    }
+  ],
+  "reasons": [
+    "inputs.current_adoption_pct at https://www.census.gov/library/stories/2026/05/ai-use-businesses.html uses a 0.22 energy-consulting estimate and quotes a 33% professional-services rate absent from the linked page; rerun with a direct sector benchmark or label the adjustment ESTIMATE and provide a complete sourced derivation.",
+    "inputs.historical_analogs at https://engineeringmanagementinstitute.org/aect-070-exploring-era-tech-adoption-and-innovation-aec/ does not establish 8-10 years to widespread EnergyPlus/eQUEST use, so inputs.t50_years and score A lack an auditable analog; rerun with dated adoption evidence identifying the start and majority-use points.",
+    "inputs.owners_60plus_pct at https://newsroom.firstcitizens.com/M-A-Sector-Spotlight-Energy-2025-Outlook is wholly unrelated to owner demographics and succession, yet its 0.37 value and succession bonus affect B; rerun with a comparable owner-age source and a directly supported succession finding.",
+    "inputs.active_consolidators at https://www.privsource.com/acquisitions/private-equity-backed-acquisitions/consulting does not validate the exact six-platform count for in-scope 541690 add-ons in the last 24 months; rerun with named sponsors, targets, dates, and NAICS-scope reasoning for every counted platform.",
+    "inputs.pricing_structure at https://www.ibisworld.com/united-states/industry/energy-utility-consulting-services/6132/ provides no support for the 30%/35%/20%/15% billing mix that drives inputs.pi_dist and cross_checks.pricing_model_deflation; rerun with direct billing-share evidence or a clearly labeled ESTIMATE chain, and establish that energy consulting is actually the dominant 541690 subsegment before applying its role and capture model."
+  ],
+  "flags_reviewed": [
+    "ARITH_DELTA_WITHIN_TOL: nonzero stored-vs-recomputed deltas on S"
+  ]
+}

@@ -1,0 +1,93 @@
+{
+  "naics": "541620",
+  "run_id": "fleet-s2-541620",
+  "review_meta": {
+    "model_id": "Sol",
+    "review_date": "2026-07-20",
+    "prompt_version": "validator-3.0"
+  },
+  "verdict": "wrong",
+  "checks": {
+    "sources_exist": {
+      "pass": true,
+      "note": "All seven canonical citations resolved to accessible pages, and all four non-null dataset inputs exactly match the supplied derived dataset."
+    },
+    "figures_match_sources": {
+      "pass": false,
+      "note": "The engineering-firm buy and exit ranges match their linked page. The linked pages do not establish the environmental-consulting adoption baseline, ten-year GIS analog, small-firm owner-age input, count of eight consolidators, or asserted industry-wide billing shares."
+    },
+    "judgment_inputs_plausible": {
+      "pass": false,
+      "note": "The bounded role fractions and pi_moat are directionally plausible, but t50=8 depends on an unsupported ten-year GIS analog and an assumed four-percentage-point annual diffusion rate. pi_dist=0.38 depends on unsupported billing weights and treats fixed-fee Phase I efficiency as client-ward even though its cited source says the provider keeps the extra margin."
+    },
+    "rubric_consistent": {
+      "pass": false,
+      "note": "Unsupported research estimates were labeled MED rather than ESTIMATE and flow into A, B, and C. ARITH_DELTA_WITHIN_TOL: nonzero stored-vs-recomputed deltas on B, S is within the stated tolerance and is not independently disqualifying."
+    },
+    "cross_checks_honest": {
+      "pass": false,
+      "note": "The terminal-value and no-proxy discussions are candid. The pricing-model-deflation cross-check is contradicted by its only HTTP(S) pricing citation: PricingLink explicitly describes fixed fees as rewarding efficiency because the consultant retains the additional margin."
+    }
+  },
+  "source_audits": [
+    {
+      "input_path": "inputs.active_consolidators.url",
+      "url": "https://www.capstonepartners.com/insights/article-ehs-market-update/",
+      "resolves": true,
+      "claim_supported": false,
+      "note": "Capstone documents active EHS add-on activity, including Verdantas's 14 acquisitions since May 2024 and several named EHS platforms. It does not substantiate the record's exact eight-platform list/count, which mixes public buyers, global groups, testing, safety, and environmental consulting."
+    },
+    {
+      "input_path": "inputs.buy_mult.url",
+      "url": "https://ctacquisitions.com/how-to-sell-an-engineering-firm/",
+      "resolves": true,
+      "claim_supported": true,
+      "note": "The page states 5-7x EBITDA for single-office $1M-$3M engineering firms and 6-9x for $3M-$8M multi-office firms, explicitly including environmental engineering; 6.0x is a disclosed midpoint judgment within the cited small-firm range."
+    },
+    {
+      "input_path": "inputs.current_adoption_pct.url",
+      "url": "https://www.census.gov/library/stories/2026/05/ai-use-businesses.html",
+      "resolves": true,
+      "claim_supported": false,
+      "note": "Census reports 17-20% overall business AI use and less than 20% for firms with four or fewer employees. The page does not report the quoted 33% professional/technical-services rate or an 18% environmental-consulting rate; the latter is an unsourced adjustment and should be an ESTIMATE."
+    },
+    {
+      "input_path": "inputs.exit_mult.url",
+      "url": "https://ctacquisitions.com/how-to-sell-an-engineering-firm/",
+      "resolves": true,
+      "claim_supported": true,
+      "note": "The page states 8-11x EBITDA for $8M-$25M multi-state engineering platforms including environmental service lines; 9.0x is a disclosed judgment within that cited platform range."
+    },
+    {
+      "input_path": "inputs.historical_analogs.url",
+      "url": "https://www.esri.com/about/newsroom/publications/wherenext/gis-enterprise-technology-evolution",
+      "resolves": true,
+      "claim_supported": false,
+      "note": "The Esri article traces GIS from 1963 to modern enterprise use, but it gives no late-1990s-to-2008/2010 adoption interval, no 10-12-year time to majority use, and no environmental/AEC adoption-rate series."
+    },
+    {
+      "input_path": "inputs.owners_60plus_pct.url",
+      "url": "https://www.russellreynolds.com/en/insights/articles/why-engineering-services-firms-need-effective-succession-planning-more-than-ever",
+      "resolves": true,
+      "claim_supported": false,
+      "note": "Russell Reynolds supports succession concern and reports age 60+ estimates for executives at seven of the largest global engineering firms: about 35% of ExCo members and 30% of EVPs. Those executives are not owners or managing principals of the mostly small U.S. 541620 target population, so the page does not support owners_60plus_pct=0.30."
+    },
+    {
+      "input_path": "inputs.pricing_structure.url",
+      "url": "https://pricinglink.com/knowledge-base/environmental-engineering-consulting/how-much-charge-phase-i-esa/",
+      "resolves": true,
+      "claim_supported": false,
+      "note": "PricingLink supports fixed-fee Phase I ESA pricing and gives standard-site ranges of $2,500-$4,500 and moderate-site ranges of $4,000-$6,000+. It does not support the 35%/45%/20% industry revenue mix, T&M and public cost-plus shares, or the claim that fixed-fee efficiency necessarily flows to clients; it says the provider keeps extra margin from efficiency."
+    }
+  ],
+  "reasons": [
+    "inputs.current_adoption_pct at https://www.census.gov/library/stories/2026/05/ai-use-businesses.html uses 0.18 for environmental consulting and quotes a 33% professional-services rate that the linked page does not contain; rerun with a directly supported sector statistic or label the environmental discount ESTIMATE with a complete sourced derivation.",
+    "inputs.historical_analogs at https://www.esri.com/about/newsroom/publications/wherenext/gis-enterprise-technology-evolution does not establish ten years to 50% GIS adoption, so inputs.t50_years and score A lack a valid research chain; rerun with an adoption time series that identifies the starting and majority-adoption points or use a properly labeled ESTIMATE.",
+    "inputs.owners_60plus_pct at https://www.russellreynolds.com/en/insights/articles/why-engineering-services-firms-need-effective-succession-planning-more-than-ever substitutes executives at seven very large global engineering firms for owners of small U.S. environmental consultancies; rerun with an owner/principal-age benchmark comparable to the target population.",
+    "inputs.active_consolidators at https://www.capstonepartners.com/insights/article-ehs-market-update/ does not establish the exact count of eight PE-backed platforms adding 541620 firms; rerun with named sponsor-backed platforms and dated, in-scope add-ons during the required 24-month window.",
+    "inputs.pricing_structure at https://pricinglink.com/knowledge-base/environmental-engineering-consulting/how-much-charge-phase-i-esa/ supplies no evidence for the 35% fixed-fee, 45% T&M, and 20% cost-plus shares, while cross_checks.pricing_model_deflation contradicts the source's statement that fixed-fee efficiency margin is retained by the provider; rerun with evidence for the mix and apply the rubric's capture mechanism consistently."
+  ],
+  "flags_reviewed": [
+    "ARITH_DELTA_WITHIN_TOL: nonzero stored-vs-recomputed deltas on B, S"
+  ]
+}
