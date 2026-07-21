@@ -24,6 +24,7 @@ jobs:
         env:
           EXTENSION_TAG: ${{ github.ref_name }}
         run: |
+          git fetch --force --no-tags origin "refs/tags/$EXTENSION_TAG:refs/tags/$EXTENSION_TAG"
           TAG_OID="$(git rev-parse "refs/tags/$EXTENSION_TAG")"
           test "$(git cat-file -t "$TAG_OID")" = tag
           test "$(git rev-parse "$TAG_OID^{commit}")" = "$GITHUB_SHA"

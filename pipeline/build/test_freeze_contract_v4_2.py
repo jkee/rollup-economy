@@ -266,6 +266,13 @@ class FreezeContractV42Tests(unittest.TestCase):
         )
         for relative, variable in cases:
             workflow = (repo / relative).read_text(encoding="utf-8")
+            fetch = (
+                'git fetch --force --no-tags origin "refs/tags/$%s:'
+                'refs/tags/$%s"' % (variable, variable)
+            )
+            resolve = 'git rev-parse "refs/tags/$%s"' % variable
+            self.assertIn(fetch, workflow)
+            self.assertLess(workflow.index(fetch), workflow.index(resolve))
             self.assertIn('git rev-parse "refs/tags/$%s"' % variable, workflow)
             self.assertNotIn('refs/tags/$%s^{tag}' % variable, workflow)
             self.assertIn(
