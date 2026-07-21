@@ -24,7 +24,7 @@ jobs:
         env:
           FREEZE_TAG: ${{ github.ref_name }}
         run: |
-          TAG_OID="$(git rev-parse "refs/tags/$FREEZE_TAG^{tag}")"
+          TAG_OID="$(git rev-parse "refs/tags/$FREEZE_TAG")"
           test "$(git cat-file -t "$TAG_OID")" = tag
           test "$(git rev-parse "$TAG_OID^{commit}")" = "$GITHUB_SHA"
           git config gpg.ssh.allowedSignersFile "$GITHUB_WORKSPACE/pipeline/v4_2/allowed_signers"

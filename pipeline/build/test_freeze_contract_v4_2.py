@@ -258,6 +258,22 @@ class Fixture:
 
 
 class FreezeContractV42Tests(unittest.TestCase):
+    def test_hosted_workflows_resolve_tag_objects_and_absolute_signer_files(self):
+        repo = HERE.parent.parent
+        cases = (
+            (".github/workflows/v4-2-freeze.yml", "FREEZE_TAG"),
+            (".github/workflows/v4-2-full-scope-extension.yml", "EXTENSION_TAG"),
+        )
+        for relative, variable in cases:
+            workflow = (repo / relative).read_text(encoding="utf-8")
+            self.assertIn('git rev-parse "refs/tags/$%s"' % variable, workflow)
+            self.assertNotIn('refs/tags/$%s^{tag}' % variable, workflow)
+            self.assertIn(
+                'gpg.ssh.allowedSignersFile "$GITHUB_WORKSPACE/'
+                'pipeline/v4_2/allowed_signers"',
+                workflow,
+            )
+
     def test_complete_contract_and_authorization_pass(self):
         with tempfile.TemporaryDirectory() as directory:
             self.assertEqual([], Fixture(directory).validate())
