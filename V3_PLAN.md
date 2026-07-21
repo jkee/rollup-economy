@@ -72,6 +72,8 @@ Sequencing has two deliberate inversions: the build/check script (Phase 2) is bu
 
   **Canary acceptance gate: FAIL; stop checkpoint.** Five isolated full-depth Sol (`gpt-5.6-sol`) validators wrote exact-run reviews with prompt version `validator-3.1.1`. The orchestrator independently verified all five review schemas, run identities, exact model/prompt bindings, URL coverage and Stage-4 flag coverage. Verdicts are **0 accepted / 5 wrong** with **29 actionable reasons**. Atomic citation support is **36/47 (76.6%)** overall: `524210` 6/11 (54.5%), `541110` 6/9 (66.7%), `541350` 7/7 (100%), `541612` 6/8 (75.0%), and `541613` 11/12 (91.7%); only 1/5 records has complete atomic support. Repeated/systemic defects are present: four records label reported geography as `not reported`; at least three make incomplete or unsupported historical-analogue/search bridges; and multiple records reuse human/ownership/credential boundaries in disallowed or double-counted V/A/C/terminal locations. The gate fails both because no record is accepted and because the defects repeat across records. Per the predeclared rule, do not launch the remaining fleet, golden reruns or remediation, and do not change or weaken the contract without user direction. Platform token splits and billable web-call data were not exposed; none are estimated.
 
+  The validated review/gate-stop evidence is commit **`4c7099e`**, pushed to `origin/main`. No post-gate work has been launched.
+
 **Deliverable:** accepted run records for sector 54 + golden set. **Done when:** 4.5 criteria all pass.
 
 ## Phase 5 — Dashboard traceability · ~1–2 days (can overlap Phase 4)
