@@ -281,6 +281,7 @@ class FreezeContractV42Tests(unittest.TestCase):
                 workflow,
             )
             self.assertIn('python-version: "3.14.4"', workflow)
+            self.assertIn("runs-on: macos-26", workflow)
 
     def test_complete_contract_and_authorization_pass(self):
         with tempfile.TemporaryDirectory() as directory:
