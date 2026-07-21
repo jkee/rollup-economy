@@ -1,0 +1,86 @@
+{
+  "naics": "541214",
+  "run_id": "2026-07-21_gpt-5.6-terra_v312p1_541214",
+  "artifact_digests": {
+    "packet_sha256": "9f349829cf6d4861d2d1da0d4a0fa5b8896af4edbccb9d5fbc2b686e73e04f69",
+    "run_sha256": "a30789e92685ce333b3a60ee7954b17a00331a467827d27e17e24c1d61d7d70b",
+    "memo_sha256": "cb0fa04d6d3024a7d48ef0a9d744a2bd95aad30a394ce0b86fdbf45e1ccf279f"
+  },
+  "review_meta": {
+    "model_id": "gpt-5.6-sol",
+    "review_date": "2026-07-21",
+    "prompt_version": "validator-3.1.2"
+  },
+  "outcome": "publishable_with_caveats",
+  "mechanics": {
+    "schema_valid": true,
+    "identity_valid": true,
+    "model_route_valid": true,
+    "dataset_equal": true,
+    "finalization_equal": true,
+    "memo_equal": true,
+    "arithmetic_valid": true
+  },
+  "source_reviews": [
+    {
+      "source_id": "S1",
+      "url": "https://www.sec.gov/Archives/edgar/data/8670/000000867025000037/adp-20250630.htm",
+      "accessible": true,
+      "score_driving": true,
+      "support": "partially_supported",
+      "notes": "The SEC filing supports ADP's recurring-revenue model, approximately 13-year Employer Services client retention, fixed per-transaction/per-employee fees, regulated client-funds movement, and deployed generative-AI payroll and compliance features. It does not report NAICS-wide or independent-bureau adoption, local-bureau transaction multiples, owner age, or a local consolidator count."
+    },
+    {
+      "source_id": "S2",
+      "url": "https://www.sec.gov/Archives/edgar/data/723531/000095017025095300/payx-20250531.htm",
+      "accessible": true,
+      "score_driving": true,
+      "support": "partially_supported",
+      "notes": "The SEC filing supports Paychex's payroll/HCM platform scope, regulatory complexity, client-funds obligations, high retention, and acquisition activity including Paycor. It does not substantiate the selected task fractions, capture fractions, local-bureau owner age, exact number of local consolidators, or transaction multiples."
+    }
+  ],
+  "findings": [
+    {
+      "severity": "caveat",
+      "category": "proxy_or_contradiction",
+      "input_paths": [
+        "inputs.current_adoption_pct",
+        "inputs.t50_years"
+      ],
+      "explanation": "ADP's deployed generative-AI features establish capability and use at one very large platform, but do not directly measure effective AI adoption across NAICS 541214 or independent payroll bureaus.",
+      "materiality": "The timing estimate can move A within the packet's declared 0-2 year sensitivity, but the platform-to-local-bureau proxy, low confidence, and timing range are explicitly disclosed, and the useful kill thesis remains supported by the independently weak C and M factors.",
+      "remediation": "Obtain a representative payroll-bureau adoption survey or cohort evidence before treating 55% current adoption and t50=0 as more than a bounded estimate.",
+      "publication_caveat": "Validator: ADP's AI deployment supports capability at a scale platform, not the selected 55% current effective adoption rate across NAICS 541214; adoption timing remains a low-confidence platform-to-local-bureau extrapolation."
+    },
+    {
+      "severity": "caveat",
+      "category": "numeric_support",
+      "input_paths": [
+        "inputs.active_consolidators",
+        "inputs.buy_mult",
+        "inputs.exit_mult"
+      ],
+      "explanation": "The two public-company filings demonstrate platform acquisition activity, but they do not provide an exact count of local payroll-bureau consolidators or lower-middle-market payroll-bureau EBITDA transaction multiples.",
+      "materiality": "These selections can move B and M, yet the packet labels them low-confidence estimates, supplies ranges, states that the activity is not local and that no comps were found, and does not rely on them for a positive acquisition thesis.",
+      "remediation": "Replace the public-platform proxy with named active local-bureau acquirers and payroll-bureau transaction comps before underwriting a transaction.",
+      "publication_caveat": "Validator: Public-platform filings do not substantiate the exact local consolidator count or 4.0x/4.5x payroll-bureau EBITDA multiples; B and M remain explicitly low-confidence estimates without local transaction evidence."
+    }
+  ],
+  "publication_caveats": [
+    "inputs.ai_replaceable_share: Payroll clerks absent from supplied 5412 proxy.",
+    "inputs.pi_dist: Independent price data unavailable.",
+    "inputs.pi_moat: Platform evidence is not local-bureau evidence.",
+    "inputs.t50_years: Independent adoption may lag.",
+    "inputs.current_adoption_pct: Not a NAICS census.",
+    "inputs.historical_analogs: Directional.",
+    "inputs.owners_60plus_pct: Unknown.",
+    "inputs.owners_60plus_pct.succession_shortage_documented: Unknown.",
+    "inputs.active_consolidators: Not local acquisitions.",
+    "inputs.buy_mult: No comps.",
+    "inputs.exit_mult: No comps.",
+    "inputs.pricing_structure: No local pricing census.",
+    "Validator: ADP's AI deployment supports capability at a scale platform, not the selected 55% current effective adoption rate across NAICS 541214; adoption timing remains a low-confidence platform-to-local-bureau extrapolation.",
+    "Validator: Public-platform filings do not substantiate the exact local consolidator count or 4.0x/4.5x payroll-bureau EBITDA multiples; B and M remain explicitly low-confidence estimates without local transaction evidence."
+  ],
+  "summary": "Publishable with caveats. Exact mechanics, identities, hashes, deterministic equality, and arithmetic pass. Both registered sources are accessible and support the platform, regulatory, recurring-revenue, and AI-capability direction, while industrywide adoption timing and local-bureau buyability/multiples remain disclosed low-confidence extrapolations."
+}

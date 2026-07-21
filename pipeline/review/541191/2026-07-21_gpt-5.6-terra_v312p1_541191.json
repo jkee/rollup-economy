@@ -1,0 +1,87 @@
+{
+  "naics": "541191",
+  "run_id": "2026-07-21_gpt-5.6-terra_v312p1_541191",
+  "artifact_digests": {
+    "packet_sha256": "6484c5c958d0d4dbc63046db82964751c8e4db4150d7b1fb2b25832c6712d689",
+    "run_sha256": "9bba6a1409f683ac7578a8cb57cf9487ad99569a879b697936180965f947416c",
+    "memo_sha256": "0ed742ba831e2612aeb8c56ba118a047c3c1b466dca714d6cac0d9c890d3ac86"
+  },
+  "review_meta": {
+    "model_id": "gpt-5.6-sol",
+    "review_date": "2026-07-21",
+    "prompt_version": "validator-3.1.2"
+  },
+  "outcome": "reject",
+  "mechanics": {
+    "schema_valid": true,
+    "identity_valid": true,
+    "model_route_valid": true,
+    "dataset_equal": true,
+    "finalization_equal": true,
+    "memo_equal": true,
+    "arithmetic_valid": true
+  },
+  "source_reviews": [
+    {
+      "source_id": "S1",
+      "url": "https://www.alta.org/news-and-publications/press-release/ALTA-Reports-2025-Market-Share-and-Title-Insurance-Premium-Volume",
+      "accessible": true,
+      "score_driving": true,
+      "support": "partially_supported",
+      "notes": "The live ALTA page confirms $18.5 billion of 2025 title premiums and 13.8% year-over-year growth. It supports market-cycle context, but it does not provide title-agency automation measurements or small-agency buy/exit multiples."
+    },
+    {
+      "source_id": "S2",
+      "url": "https://www.sos.state.tx.us/texreg/archive/May12026/Adopted%20Rules/28.INSURANCE.html",
+      "accessible": true,
+      "score_driving": true,
+      "support": "partially_supported",
+      "notes": "The live Texas Register adoption confirms commissioner rate-setting and the 6.2% basic-premium-rate reduction effective March 1, 2026. It supports the regulated-price direction, but only for Texas and not the exact national pi_dist selection."
+    },
+    {
+      "source_id": "S3",
+      "url": "https://selling-guide.fanniemae.com/sel/b7-2-06/attorney-title-opinion-letter-requirements",
+      "accessible": true,
+      "score_driving": true,
+      "support": "partially_supported",
+      "notes": "The live Fannie Mae guide authorizes qualifying attorney title opinion letters in lieu of title insurance and states the attorney, indemnity, gap-coverage and eligibility conditions. It supports a pressured bypass channel, but not the exact role-automation or moat values."
+    },
+    {
+      "source_id": "S4",
+      "url": "https://www.alta.org/business-operations/research-initiatives-and-resources/industry-financial-data/",
+      "accessible": true,
+      "score_driving": true,
+      "support": "partially_supported",
+      "notes": "The live ALTA resource confirms availability of annual and quarterly market-share data by state/company and underwriter financial statements, with current downloads restricted to members or subscribers. It does not report the selected adoption, consolidator-count or small-agency transaction-multiple values."
+    }
+  ],
+  "findings": [
+    {
+      "severity": "material",
+      "category": "numeric_support",
+      "input_paths": [
+        "inputs.buy_mult",
+        "inputs.exit_mult",
+        "scores.M",
+        "decision.verdict"
+      ],
+      "explanation": "The cited ALTA premium-volume and industry-data pages do not provide a small title-agency transaction series, EBITDA basis, entry multiple or exit multiple. The record nevertheless selects 4.5x buy and 6.0x exit values and uses their spread as a scored input; its own caveats acknowledge that neither is a transaction observation or direct size-tier comp.",
+      "materiality": "This unsupported spread can change both M and the thesis. Holding buy_mult at 4.5x and moving exit_mult to 5.5x, which remains inside the authored 4.5-8x plausible range, changes M from 1.3333 to 0.8889, changes S from 3.1889 to 2.9405 and flips the deterministic verdict from pass to kill through the factor floor.",
+      "remediation": "Reopen a size- and business-model-matched title-agency transaction source, document the earnings basis and bridge to both selected multiples, then refinalize and rerender the record."
+    }
+  ],
+  "publication_caveats": [
+    "inputs.ai_replaceable_share: 5411 role mix is law-office dominated, not a title-agency census.",
+    "inputs.pi_dist: Texas is an important regulated example, not a national rate model.",
+    "inputs.pi_moat: Do not count licensing as labor-task replaceability.",
+    "inputs.t50_years: Mortgage cycle and county record quality vary.",
+    "inputs.current_adoption_pct: No direct AI adoption survey reopened.",
+    "inputs.owners_60plus_pct: Not an observed statistic.",
+    "inputs.owners_60plus_pct.succession_shortage_documented: Do not infer succession shortage from consolidation.",
+    "inputs.active_consolidators: Not a published agency-acquirer census.",
+    "inputs.buy_mult: Not a transaction observation.",
+    "inputs.exit_mult: No direct size-tier exit comps reopened.",
+    "inputs.pricing_structure: Texas scope mismatch."
+  ],
+  "summary": "Mechanics and artifact bindings pass, and the registered sources support the premium, Texas-rate and attorney-opinion-letter directions. Reject because the unsupported buy/exit multiple spread is score- and verdict-changing."
+}

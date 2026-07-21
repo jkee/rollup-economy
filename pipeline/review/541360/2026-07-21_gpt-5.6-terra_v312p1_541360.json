@@ -1,0 +1,96 @@
+{
+  "naics": "541360",
+  "run_id": "2026-07-21_gpt-5.6-terra_v312p1_541360",
+  "artifact_digests": {
+    "packet_sha256": "9cb49b7522297e32ff3b9bc8925e9615f0b74c934a43394b06bd766d21bb9e00",
+    "run_sha256": "674f6b7625c74086b7eed73a6ca147e1203ebf92e36ebe460d9ef9d33c8f52b9",
+    "memo_sha256": "1f5a23088d67cc42155f3c2c20b58456d79a5700fe4884fed5965659064fb0ce"
+  },
+  "review_meta": {
+    "model_id": "gpt-5.6-sol",
+    "review_date": "2026-07-21",
+    "prompt_version": "validator-3.1.2"
+  },
+  "outcome": "reject",
+  "mechanics": {
+    "schema_valid": true,
+    "identity_valid": true,
+    "model_route_valid": true,
+    "dataset_equal": true,
+    "finalization_equal": true,
+    "memo_equal": true,
+    "arithmetic_valid": true
+  },
+  "source_reviews": [
+    {
+      "source_id": "S1",
+      "url": "https://www.usgs.gov/3d-elevation-program/what-3dep",
+      "accessible": true,
+      "score_driving": true,
+      "support": "partially_supported",
+      "notes": "The reopened USGS page supports national 3DEP/LiDAR activity, 99% baseline coverage available or in progress at fiscal-year 2025 end, participation by private mapping firms, and broad ongoing demand for 3D elevation data. It does not support the selected adoption, capture, consolidator, pricing, or transaction-multiple values that cite S1."
+    },
+    {
+      "source_id": "S2",
+      "url": "https://nsps.us.com/page/2026ALTA",
+      "accessible": false,
+      "score_driving": true,
+      "support": "partially_supported",
+      "notes": "The exact cited URL returned a Cloudflare challenge to direct validator fetches. A current search-index rendering of the NSPS page and the official ALTA standards page corroborate that the 2026 standards treat an ALTA survey as a boundary survey, interact with state law, and require fieldwork, but the exact cited page was not directly reproducible."
+    },
+    {
+      "source_id": "S3",
+      "url": "https://www.law.cornell.edu/regulations/new-mexico/N-M-Admin-Code-SS-12.8.2.7",
+      "accessible": true,
+      "score_driving": true,
+      "support": "partially_supported",
+      "notes": "The reopened New Mexico rule supports the stated boundary-survey reliance on record documents and field evidence and identifies lidar, radar, and UAV/UAS sensors as digital-geospatial-data technologies. It does not quantify task automation or the selected total replaceable share."
+    }
+  ],
+  "findings": [
+    {
+      "severity": "material",
+      "category": "numeric_support",
+      "input_paths": [
+        "inputs.pi_dist",
+        "inputs.pi_moat",
+        "inputs.t50_years",
+        "inputs.current_adoption_pct",
+        "inputs.active_consolidators",
+        "inputs.buy_mult",
+        "inputs.exit_mult",
+        "inputs.pricing_structure"
+      ],
+      "explanation": "The source registry establishes LiDAR-program activity and surveying constraints, but none of the reopened pages supplies relevant evidence for 55% distribution retention, 52% moat retention, 30% current adoption, three years to 50% adoption, three active consolidators, 4x entry, 6x exit, or the stated project-pricing structure. These selections repeatedly use the same generic rationale and an 'uncertain' range, so the citations do not provide an understandable industry-specific bridge for the numeric values.",
+      "materiality": "These values directly determine C, A, B, and M. The finalized S of 3.865 is only 0.135 below the conditional cut, so defensible alternative adoption, capture, buyer-count, or multiple values could materially change factor scores, the aggregate tier, and the pass thesis.",
+      "remediation": "Use directly relevant adoption, pricing, consolidator, and lower-middle-market transaction evidence, or provide bounded industry-specific estimate rationales and meaningful ranges; remove irrelevant source attributions and re-finalize the record."
+    },
+    {
+      "severity": "caveat",
+      "category": "evidence",
+      "input_paths": [
+        "inputs.pi_moat"
+      ],
+      "explanation": "The exact NSPS URL was blocked by a Cloudflare challenge during direct validator reopening, although current indexed NSPS text and the official ALTA standards page corroborate the cited boundary, state-law, and fieldwork points.",
+      "materiality": "This access limitation does not independently move pi_moat or the thesis because the underlying surveying constraints are corroborated, but it limits exact-source reproducibility.",
+      "remediation": "Replace the bot-protected URL with a stable official ALTA standards or standards-document URL.",
+      "publication_caveat": "Validator: the exact NSPS standards URL was bot-protected during review; current indexed NSPS text and the official ALTA standards page corroborate the cited surveying constraints."
+    }
+  ],
+  "publication_caveats": [
+    "inputs.ai_replaceable_share: Parent occupation proxy.",
+    "inputs.pi_dist: Parent 5413 role mix is a proxy.",
+    "inputs.pi_moat: Parent 5413 role mix is a proxy.",
+    "inputs.t50_years: Parent 5413 role mix is a proxy.",
+    "inputs.current_adoption_pct: Parent 5413 role mix is a proxy.",
+    "inputs.historical_analogs: Parent 5413 role mix is a proxy.",
+    "inputs.owners_60plus_pct: Parent 5413 role mix is a proxy.",
+    "inputs.owners_60plus_pct.succession_shortage_documented: Parent 5413 role mix is a proxy.",
+    "inputs.active_consolidators: Parent 5413 role mix is a proxy.",
+    "inputs.buy_mult: Parent 5413 role mix is a proxy.",
+    "inputs.exit_mult: Parent 5413 role mix is a proxy.",
+    "inputs.pricing_structure: Parent 5413 role mix is a proxy.",
+    "Validator: the exact NSPS standards URL was bot-protected during review; current indexed NSPS text and the official ALTA standards page corroborate the cited surveying constraints."
+  ],
+  "summary": "Mechanics and exact artifact bindings pass, but the research record is rejected because several score-driving C/A/B/M selections rely on sources that do not address the selected values, and the borderline aggregate could change materially under defensible alternatives."
+}

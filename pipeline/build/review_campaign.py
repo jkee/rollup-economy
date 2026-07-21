@@ -37,6 +37,7 @@ _spec = importlib.util.spec_from_file_location(
 )
 build = importlib.util.module_from_spec(_spec)
 _spec.loader.exec_module(build)
+LEGACY_CAMPAIGN_TEMPLATE_VERSIONS = ("3.0", "3.1", "3.1.1")
 
 
 def load_json(path):
@@ -86,6 +87,35 @@ def assert_exact_membership(actual, expected, label):
         )
 
 
+def discover_legacy_campaign_runs(runs_dir):
+    """Return the latest pre-v3.1.2 run per code for this frozen campaign.
+
+    v3.1.2 has a different packet, review schema and bounded campaign tool.
+    Later artifacts must not silently displace the exact legacy campaign that
+    this module and its accepted/wrong validator contract reproduce.
+    """
+    records = {}
+    for naics in sorted(os.listdir(runs_dir)):
+        directory = os.path.join(runs_dir, naics)
+        if not (os.path.isdir(directory) and re.fullmatch(r"[0-9]{6}", naics)):
+            continue
+        candidates = []
+        for filename in sorted(os.listdir(directory)):
+            if not filename.endswith(".json"):
+                continue
+            path = os.path.join(directory, filename)
+            record = load_json(path)
+            meta = record.get("run_meta", {})
+            if meta.get("template_version") not in LEGACY_CAMPAIGN_TEMPLATE_VERSIONS:
+                continue
+            candidates.append((str(meta.get("run_date", "")), str(meta.get("run_id", "")), path, record))
+        if candidates:
+            candidates.sort(key=lambda item: (item[0], item[1]))
+            _date, _run_id, path, record = candidates[-1]
+            records[naics] = (path, record)
+    return records
+
+
 def _campaign_entry(repo_root, kind, path, record, thresholds):
     template_version = record.get("run_meta", {}).get("template_version")
     schema_names = {
@@ -96,7 +126,7 @@ def _campaign_entry(repo_root, kind, path, record, thresholds):
     if template_version not in schema_names:
         raise ValueError(
             "%s has unsupported template_version %r; supported versions are %s"
-            % (path, template_version, ", ".join(build.SUPPORTED_TEMPLATE_VERSIONS))
+            % (path, template_version, ", ".join(LEGACY_CAMPAIGN_TEMPLATE_VERSIONS))
         )
     if template_version == "3.1.1":
         required_research_model = {
@@ -190,7 +220,7 @@ def build_manifest(repo_root=DEFAULT_REPO, enforce_pilot_counts=True):
         os.path.join(repo_root, "pipeline", "build", "thresholds.json")
     )
     runs_dir = os.path.join(repo_root, "pipeline", "runs")
-    fleet, _legacy = build.discover_runs(runs_dir)
+    fleet = discover_legacy_campaign_runs(runs_dir)
     fleet_targets = _declared_codes(
         os.path.join(repo_root, "pipeline", "blocks", "targets_phase3.json"),
         "fleet target list",

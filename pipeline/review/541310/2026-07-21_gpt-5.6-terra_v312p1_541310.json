@@ -1,0 +1,80 @@
+{
+  "naics": "541310",
+  "run_id": "2026-07-21_gpt-5.6-terra_v312p1_541310",
+  "artifact_digests": {
+    "packet_sha256": "06ef2b3748bdf270fe51849bddc79d531c0167ae8377250f63bf8c97a8233cb2",
+    "run_sha256": "9d9dc25098241227ba3e5aced2b85f5c68f3baf1ff03d6f1ed4d1f5bc8f7a75d",
+    "memo_sha256": "39a51e63da048fd66e9f966af56bc54a9264a8bdc09fc678c623b7ccb66ee0af"
+  },
+  "review_meta": {
+    "model_id": "gpt-5.6-sol",
+    "review_date": "2026-07-21",
+    "prompt_version": "validator-3.1.2"
+  },
+  "outcome": "reject",
+  "mechanics": {
+    "schema_valid": true,
+    "identity_valid": true,
+    "model_route_valid": true,
+    "dataset_equal": true,
+    "finalization_equal": true,
+    "memo_equal": true,
+    "arithmetic_valid": true
+  },
+  "source_reviews": [
+    {
+      "source_id": "S1",
+      "url": "https://www.aia.org/about-aia/press/new-research-explores-perceptions-and-opportunities-artificial-intelligence",
+      "accessible": true,
+      "score_driving": true,
+      "support": "partially_supported",
+      "notes": "The live AIA page directly reports 6% of the profession regularly using AI, 8% of firms having implemented AI and another 20% working on implementation, with optimism about automating manual tasks and product research. It supports early adoption and production-task direction, but it does not support the selected capture, consolidation, transaction-multiple, pricing or CAD/BIM-history values."
+    },
+    {
+      "source_id": "S2",
+      "url": "https://www.deltek.com/company/news/latest-deltek-clarity-industry-studies-highlight-ai-challenges/",
+      "accessible": true,
+      "score_driving": false,
+      "support": "not_score_driving",
+      "notes": "The live Deltek release reports responses from 896 U.S. and Canadian A&E firms, AI adoption rising from 53% to 70%, only 38% reporting measurable positive impact and 39% saying benefits were too early or still in pilot. It is not referenced by any finalized score input or score-affecting dataset fallback."
+    },
+    {
+      "source_id": "S3",
+      "url": "https://www.ncarb.org/publications/ncarb-model-law-and-regulations",
+      "accessible": true,
+      "score_driving": true,
+      "support": "supported",
+      "notes": "The live NCARB Model Law and linked text directly exclude detached single- or two-family residential buildings and alterations that do not affect structural or life-safety aspects from licensed architectural practice. It supports the disclosed limits on the licensing toll and the durable-but-bounded terminal-demand direction."
+    }
+  ],
+  "findings": [
+    {
+      "severity": "material",
+      "category": "numeric_support",
+      "input_paths": [
+        "inputs.buy_mult",
+        "inputs.exit_mult",
+        "scores.M",
+        "decision.verdict"
+      ],
+      "explanation": "The sole cited source for buy_mult and exit_mult is AIA's AI-adoption release, which contains no architecture-firm transaction observations, EBITDA basis, entry multiple or exit multiple. The finalized record nevertheless selects 4.0x buy and 6.0x exit values, labels their evidence quality MED and scores their spread; the generic rationale and 'uncertain' range supply no reproducible valuation bridge.",
+      "materiality": "The unsupported spread directly drives M and can reverse the verdict. Reducing only exit_mult from 6.0x to 4.9x while holding buy_mult at 4.0x changes M from 2.0 to 0.9, S from 3.8317 to about 3.2661 and the deterministic verdict from pass to kill through the factor floor. The source set neither supports nor excludes that modest compression, so matched transaction evidence could materially change M, S and the thesis.",
+      "remediation": "Reopen a size- and business-model-matched U.S. architecture-firm transaction source, document the EBITDA basis and independent support for the selected entry and exit values, then refinalize and rerender the record."
+    }
+  ],
+  "publication_caveats": [
+    "inputs.ai_replaceable_share: 5413 parent role mix is a proxy.",
+    "inputs.pi_dist: Industry and role proxies are imperfect.",
+    "inputs.pi_moat: Industry and role proxies are imperfect.",
+    "inputs.t50_years: Industry and role proxies are imperfect.",
+    "inputs.current_adoption_pct: Industry and role proxies are imperfect.",
+    "inputs.historical_analogs: Industry and role proxies are imperfect.",
+    "inputs.owners_60plus_pct: Industry and role proxies are imperfect.",
+    "inputs.owners_60plus_pct.succession_shortage_documented: Industry and role proxies are imperfect.",
+    "inputs.active_consolidators: Industry and role proxies are imperfect.",
+    "inputs.buy_mult: Industry and role proxies are imperfect.",
+    "inputs.exit_mult: Industry and role proxies are imperfect.",
+    "inputs.pricing_structure: Industry and role proxies are imperfect."
+  ],
+  "summary": "Mechanics, deterministic equality, arithmetic and frozen manifest bindings all pass, and all three registered sources were accessible on reopening. The review rejects the exact artifact because the AIA AI-adoption source supplies no transaction evidence for the 4.0x/6.0x entry-exit pair, whose unsupported spread can change M, S and the pass verdict."
+}

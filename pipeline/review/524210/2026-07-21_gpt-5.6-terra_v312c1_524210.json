@@ -1,0 +1,89 @@
+{
+  "naics": "524210",
+  "run_id": "2026-07-21_gpt-5.6-terra_v312c1_524210",
+  "artifact_digests": {
+    "packet_sha256": "d0cb5b0ee64976492b4f42cabb7c7a8e0f25cedf52c7436cfd9aff905f8cb7ba",
+    "run_sha256": "a068e861683215b18b1c1a47aee9662f17a0ad55bf7dc860e3c700b06dd1e47d",
+    "memo_sha256": "6ccf4963bb907e4d59017d18576b36379404d3c91d2911a05c7b149c003e160a"
+  },
+  "review_meta": {
+    "model_id": "gpt-5.6-sol",
+    "review_date": "2026-07-21",
+    "prompt_version": "validator-3.1.2"
+  },
+  "outcome": "reject",
+  "mechanics": {
+    "schema_valid": true,
+    "identity_valid": true,
+    "model_route_valid": true,
+    "dataset_equal": true,
+    "finalization_equal": true,
+    "memo_equal": true,
+    "arithmetic_valid": true
+  },
+  "source_reviews": [
+    {
+      "source_id": "S1",
+      "url": "https://optisins.com/wp/wp-content/uploads/2026/01/Year-End-2025-MA-Report-2.pdf",
+      "accessible": true,
+      "score_driving": true,
+      "support": "partially_supported",
+      "notes": "The reopened report directly supports 695 total 2025 deals and the named buyer counts BroadStreet 69, Hub 49, Inszone 45, World 34, Keystone 32, ALKEME 27 and King Risk 22. It supports the observed active-consolidator selection and market-crowding direction, but it does not report owner age or a retail-agency EBITDA entry or exit multiple."
+    },
+    {
+      "source_id": "S2",
+      "url": "https://www.vertafore.com/resources/ebooks-whitepapers/2026-agency-trends-outlook",
+      "accessible": true,
+      "score_driving": true,
+      "support": "partially_supported",
+      "notes": "The live Vertafore page reports more than 1,300 independent-agency respondents, the 23% transform/39% explore/29% wait responses, and expected value in data management, reporting, back-office efficiency, rating, quoting and underwriting. It supports workflow and adoption direction, but not audited effective deployment, the exact task fractions, capture parameters or a historical AMS/cloud diffusion series."
+    },
+    {
+      "source_id": "S3",
+      "url": "https://content.naic.org/insurance-topics/producer-licensing",
+      "accessible": true,
+      "score_driving": true,
+      "support": "partially_supported",
+      "notes": "The live NAIC page directly confirms that people who sell, solicit or negotiate insurance must be licensed as producers and describes state oversight. It supports the licensed-human-work and terminal-demand direction, but it does not establish commission-led revenue mix, the selected capture/moat values or protection from direct carrier distribution."
+    },
+    {
+      "source_id": "S4",
+      "url": "https://www.marshberry.com/resource/to-the-point/2025-2026-valuation-update-firms-with-delegated-authority-reach-all-time-highs/",
+      "accessible": true,
+      "score_driving": true,
+      "support": "partially_supported",
+      "notes": "The live MarshBerry page directly reports a 19.4x average 2025 pro-forma EBITDA multiple for delegated-authority businesses such as MGAs, MGUs, program administrators and coverholders. It supports the stated high-valuation warning and segment distinction, but it is explicitly not a comparable retail-agency entry or exit multiple."
+    }
+  ],
+  "findings": [
+    {
+      "severity": "material",
+      "category": "numeric_support",
+      "input_paths": [
+        "inputs.buy_mult",
+        "inputs.exit_mult",
+        "scores.M",
+        "decision.verdict"
+      ],
+      "explanation": "S1 reports deal volume and buyer counts without transaction multiples, while S4 reports a 19.4x multiple only for delegated-authority firms and expressly identifies that distinct segment. No registered source supplies a comparable $1-10M EBITDA retail-agency multiple or supports the selected 8.0x buy and 8.5x exit pair; the record's own caveats acknowledge both gaps.",
+      "materiality": "The unsupported spread determines the conclusion because the stored M of 0.25 triggers the factor-floor kill. Holding buy_mult at 8.0x and moving exit_mult to 10.0x, within the authored 7.0-10.0x exit range, changes M to 1.0, S from 2.9415 to about 3.8813 and the deterministic verdict from kill to pass. Comparable retail-agency evidence could therefore materially change M, S and the thesis.",
+      "remediation": "Reopen a size- and business-model-matched retail insurance-agency transaction source, document the EBITDA basis and independent support for entry and exit, then refinalize and rerender the record."
+    }
+  ],
+  "publication_caveats": [
+    "inputs.ai_replaceable_share: Fractions measure task replaceability, not realized layoffs or adoption speed.",
+    "inputs.ai_replaceable_share: Large residual wage bucket requires a bounded proxy judgment.",
+    "inputs.pi_dist: Commission schedules and fee-account repricing can pass savings through.",
+    "inputs.pi_moat: Licensing does not prevent carriers from going direct.",
+    "inputs.t50_years: Vendor survey captures expectations, not audited production use.",
+    "inputs.current_adoption_pct: Not a direct prevalence measure; distinction between experimentation and effective deployment is judgmental.",
+    "inputs.historical_analogs: No quantified historical adoption series selected.",
+    "inputs.owners_60plus_pct: This is not an observed owner-age statistic and should not be treated as one.",
+    "inputs.owners_60plus_pct.succession_shortage_documented: Avoids treating consolidation as proof of succession shortage.",
+    "inputs.active_consolidators: Counts named high-volume buyers, not every acquirer.",
+    "inputs.buy_mult: No reopened source supplied a directly comparable $1-10M retail-agency transaction multiple.",
+    "inputs.exit_mult: MGA valuation evidence is not a retail-agency exit comp.",
+    "inputs.pricing_structure: Commission percentages and account fee mix were not directly measured here."
+  ],
+  "summary": "Mechanics, deterministic equality, arithmetic and frozen manifest bindings all pass, and all four registered sources were accessible on reopening. The review rejects the exact artifact because no comparable retail-agency transaction source supports the 8.0x/8.5x entry-exit pair, whose narrow spread causes the factor-floor kill and can change the verdict within the authored range."
+}

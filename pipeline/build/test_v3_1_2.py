@@ -27,6 +27,7 @@ def load_module(name, path):
 build = load_module("build_v312_tests", HERE / "build.py")
 finalizer = load_module("finalizer_v312_tests", HERE / "finalize_run_v3_1_2.py")
 campaign = load_module("campaign_v312_tests", HERE / "review_campaign_v3_1_2.py")
+review_statistics = load_module("review_statistics_v312_tests", HERE / "review_statistics_v3_1_2.py")
 assemble = load_module("assemble_v312_tests", HERE / "assemble_prompts.py")
 
 
@@ -154,6 +155,26 @@ class V312Tests(unittest.TestCase):
         self.assertFalse(any(line.endswith(" ") for line in finalizer.render_memo(record).splitlines()))
         self.assertEqual("finalizer-3.1.2", record["run_meta"]["finalizer_version"])
         self.assertEqual(record["decision"], build.decide(record["S"], {name: record["scores"][name]["score"] for name in ("V", "C", "A", "B", "M")}, "DURABLE", "MED", json.loads((HERE / "thresholds.json").read_text())))
+
+    def test_review_statistics_checkpoint_is_exact_and_valid(self):
+        checkpoint = json.loads((HERE / "review_checkpoint_v3_1_2.json").read_text())
+        codes = [entry["naics"] for entry in checkpoint["entries"]]
+        self.assertEqual(20, checkpoint["target_count"])
+        self.assertEqual(20, len(codes))
+        self.assertEqual(20, len(set(codes)))
+        result = review_statistics.collect()
+        self.assertEqual([], result["errors"])
+        self.assertEqual(20, result["target_count"])
+        self.assertEqual(20, len(result["records"]))
+        self.assertLessEqual(result["reviewed_valid"], 20)
+        rendered = review_statistics.render(result)
+        self.assertFalse(any(line.endswith(" ") for line in rendered.splitlines()))
+        self.assertEqual(result["publication_caveats"], result["authored_caveats"] + result["validator_added_caveats"])
+        source_count = sum(row.get("source_count", 0) for row in result["records"])
+        for counts in result["source_statistics"].values():
+            self.assertEqual(source_count, sum(counts.values()))
+        self.assertEqual(result, json.loads((HERE / "review_statistics_v3_1_2.json").read_text()))
+        self.assertEqual(rendered, (HERE / "review_statistics_v3_1_2.md").read_text())
 
     def test_python_injects_roles_and_scores(self):
         record, errors = finalizer.finalize(packet(), dataset(), "fleet")

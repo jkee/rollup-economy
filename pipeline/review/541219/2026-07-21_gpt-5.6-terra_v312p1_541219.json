@@ -1,0 +1,80 @@
+{
+  "naics": "541219",
+  "run_id": "2026-07-21_gpt-5.6-terra_v312p1_541219",
+  "artifact_digests": {
+    "packet_sha256": "2486a3555dc3c759d8bfda4d0e842a74138041aed7ba0128a71ac2e305eb0b8e",
+    "run_sha256": "bb3e9ca037c9cf8f108b05862980b806731d8cb3d5c51cb0d39e95494070fc0f",
+    "memo_sha256": "6194100a3eb704d5526c7a26382321c60cc30b425233a9a7211a50bfb0346f70"
+  },
+  "review_meta": {
+    "model_id": "gpt-5.6-sol",
+    "review_date": "2026-07-21",
+    "prompt_version": "validator-3.1.2"
+  },
+  "outcome": "reject",
+  "mechanics": {
+    "schema_valid": true,
+    "identity_valid": true,
+    "model_route_valid": true,
+    "dataset_equal": true,
+    "finalization_equal": true,
+    "memo_equal": true,
+    "arithmetic_valid": true
+  },
+  "source_reviews": [
+    {
+      "source_id": "S1",
+      "url": "https://www.sec.gov/Archives/edgar/data/8670/000000867025000037/adp-20250630.htm",
+      "accessible": true,
+      "score_driving": true,
+      "support": "unsupported",
+      "notes": "The live ADP filing supports recurring payroll/HCM revenue, long retention, client-funds operations and deployed generative-AI features, but ADP is payroll/HCM platform evidence and does not support a 541219 bookkeeping/accounting-services scorecard."
+    },
+    {
+      "source_id": "S2",
+      "url": "https://www.sec.gov/Archives/edgar/data/723531/000095017025095300/payx-20250531.htm",
+      "accessible": true,
+      "score_driving": true,
+      "support": "unsupported",
+      "notes": "The live Paychex filing supports payroll/HCM platform scope, regulatory complexity and automated workflows, but it does not support the selected inputs for the separate 541219 accounting, bookkeeping and billing industry."
+    }
+  ],
+  "findings": [
+    {
+      "severity": "material",
+      "category": "scope",
+      "input_paths": [
+        "narrative",
+        "inputs.ai_replaceable_share",
+        "inputs.pi_dist",
+        "inputs.pi_moat",
+        "inputs.t50_years",
+        "inputs.current_adoption_pct",
+        "inputs.historical_analogs",
+        "inputs.active_consolidators",
+        "inputs.buy_mult",
+        "inputs.exit_mult",
+        "inputs.pricing_structure",
+        "cross_checks.terminal_value"
+      ],
+      "explanation": "The packet researches payroll bureaus and large payroll/HCM platforms rather than NAICS 541219 Other Accounting Services. The U.S. Census 2022 NAICS definition places payroll-only establishments in 541214 and defines 541219 around non-CPA accounting, bookkeeping and billing; the frozen prompt likewise identifies bookkeeping/write-up as the dominant subsegment. Both registered sources are payroll-platform filings, and the packet explicitly selects payroll bureaus as its dominant subsegment without disclosing that this is the neighboring code.",
+      "materiality": "Correcting the industry from payroll platforms/bureaus to bookkeeping, billing and other non-CPA accounting could materially change task exposure V, platform pass-through and moat C, effective-adoption timing A, consolidator and multiple inputs B/M, terminal demand, the composite score and the investment thesis.",
+      "remediation": "Re-research the dominant 541219 bookkeeping/write-up segment with code-relevant adoption, pricing, ownership, consolidation and transaction evidence; rebuild every affected input and the terminal-demand thesis, while treating payroll-only evidence as out of scope."
+    }
+  ],
+  "publication_caveats": [
+    "inputs.ai_replaceable_share: Payroll clerks absent from supplied 5412 proxy.",
+    "inputs.pi_dist: Independent price data unavailable.",
+    "inputs.pi_moat: Platform evidence is not local-bureau evidence.",
+    "inputs.t50_years: Independent adoption may lag.",
+    "inputs.current_adoption_pct: Not a NAICS census.",
+    "inputs.historical_analogs: Directional.",
+    "inputs.owners_60plus_pct: Unknown.",
+    "inputs.owners_60plus_pct.succession_shortage_documented: Unknown.",
+    "inputs.active_consolidators: Not local acquisitions.",
+    "inputs.buy_mult: No comps.",
+    "inputs.exit_mult: No comps.",
+    "inputs.pricing_structure: No local pricing census."
+  ],
+  "summary": "Mechanics, deterministic equality, fresh rendering, arithmetic and manifest digests all pass, but the packet is rejected because it analyzes payroll services (541214) instead of the assigned 541219 accounting/bookkeeping/billing industry."
+}
