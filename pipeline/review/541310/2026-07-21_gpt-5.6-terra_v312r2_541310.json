@@ -1,0 +1,126 @@
+{
+  "naics": "541310",
+  "run_id": "2026-07-21_gpt-5.6-terra_v312r2_541310",
+  "artifact_digests": {
+    "packet_sha256": "ff788b62d39b75647ce1c192742c8f365dc0341e01f3c18d559114a08b508fc4",
+    "run_sha256": "efc5038344a9f912b32f27633477a404d4cd1bab251bf05d1334f9b23688c250",
+    "memo_sha256": "0b615935fa10e00b6a1939da8c238f393fd3613cb701c6bb9b210c0ea43eb260"
+  },
+  "review_meta": {
+    "model_id": "gpt-5.6-sol",
+    "review_date": "2026-07-21",
+    "prompt_version": "validator-3.1.2"
+  },
+  "outcome": "reject",
+  "mechanics": {
+    "schema_valid": true,
+    "identity_valid": true,
+    "model_route_valid": true,
+    "dataset_equal": true,
+    "finalization_equal": true,
+    "memo_equal": true,
+    "arithmetic_valid": true
+  },
+  "source_reviews": [
+    {
+      "source_id": "S1",
+      "url": "https://www.aia.org/about-aia/press/new-research-explores-perceptions-and-opportunities-artificial-intelligence",
+      "accessible": true,
+      "score_driving": true,
+      "support": "partially_supported",
+      "notes": "The AIA page directly reports 6% regular individual use, 8% firm implementation, another 20% working on implementation, and optimism about automating manual tasks. It directionally supports below-50% adoption and task assistance, but it does not support the selected 0.50 distribution-retention input, CAD/BIM fee repricing, the stated pricing structure, or four active consolidators."
+    },
+    {
+      "source_id": "S2",
+      "url": "https://www.deltek.com/company/news/latest-deltek-clarity-industry-studies-highlight-ai-challenges/",
+      "accessible": true,
+      "score_driving": false,
+      "support": "not_score_driving",
+      "notes": "The page directly reports 896 U.S. and Canadian A&E respondents and uneven AI readiness and measurable impact. No finalized score input cites S2."
+    },
+    {
+      "source_id": "S3",
+      "url": "https://www.ncarb.org/publications/ncarb-model-law-and-regulations",
+      "accessible": true,
+      "score_driving": true,
+      "support": "partially_supported",
+      "notes": "The accessible NCARB model law defines responsible control and excludes detached single- or two-family dwellings and non-structural/non-life-safety alterations or renovations. It supports the stated existence of exemption categories, but as model language it does not establish nationwide adoption or directly quantify the selected 0.55 competitive-moat input."
+    },
+    {
+      "source_id": "S4",
+      "url": "https://informedinfrastructure.com/post/executive-corner-inside-the-latest-ae-business-valuation-and-ma-transaction-study-1",
+      "accessible": true,
+      "score_driving": true,
+      "support": "supported",
+      "notes": "The ROG-authored summary says the study derives benchmarks from 252 distinct transactions and data points and reports a 4.92x median EBITDA multiple for architecture firms in controlling-interest external transactions. It also separately labels the minority-interest architecture series as pre-owner-bonus. The record accurately treats size band, geography, owner-compensation basis for the controlling series, and the forward exit as caveated rather than observed."
+    }
+  ],
+  "findings": [
+    {
+      "severity": "material",
+      "category": "numeric_support",
+      "input_paths": [
+        "inputs.pi_dist",
+        "inputs.historical_analogs",
+        "inputs.pricing_structure"
+      ],
+      "explanation": "S1 is an adoption-and-perceptions release; it contains no fee-mix evidence, no observed CAD/BIM repricing history, and no evidence about what fraction of AI savings architecture operators retain. Nevertheless pi_dist is set to 0.50 with MED evidence, S1 as its source, an unbounded 'uncertain' range, and only a generic rationale. The same unsupported citation is used for the historical analog and pricing-structure claims that are supposed to explain capture.",
+      "materiality": "pi_dist enters C linearly. Holding pi_moat at 0.55, a selected pi_dist of 0.25 or 0.75 would move C from 2.75 to 1.375 or 4.125. Because S1 does not anchor the selected value or its direction, the capture factor can change materially even though the current zero M factor still forces the overall kill verdict.",
+      "remediation": "Use architecture fee-structure and historical repricing evidence to bound pi_dist and explain the bridge to 0.50, or assign evidence quality consistent with an uncited judgment and provide a defensible bounded range and sensitivity."
+    },
+    {
+      "severity": "material",
+      "category": "double_counting",
+      "input_paths": [
+        "inputs.pi_moat",
+        "cross_checks.terminal_value"
+      ],
+      "explanation": "The same licensing and exemption mechanism from S3 is used to support both pi_moat and DURABLE terminal demand, but the packet does not state two distinct causal channels. The frozen rubric expressly forbids counting a human or regulatory floor in C merely because it preserves terminal demand.",
+      "materiality": "Separating survival of paid licensed work from an operator's ability to retain AI-created savings could materially change pi_moat and therefore C while leaving terminal demand DURABLE. For example, a 0.20 change in pi_moat moves C by 1.0 at the selected pi_dist, so this prohibited capture/terminal overlap can materially change a factor.",
+      "remediation": "Reserve licensing evidence for terminal demand unless separate evidence shows that it gives firms pricing power over retained savings; recalibrate pi_moat from competitive intensity, client bargaining, switching, fee-setting, or distribution evidence and state any distinct causal channel explicitly."
+    },
+    {
+      "severity": "material",
+      "category": "numeric_support",
+      "input_paths": [
+        "inputs.owners_60plus_pct",
+        "inputs.owners_60plus_pct.succession_shortage_documented",
+        "inputs.active_consolidators"
+      ],
+      "explanation": "The 30% owner-age selection has no source, no bounded range, and a rationale that refers to cited industry evidence despite an empty source list. The selection of four active consolidators cites S1, which contains no ownership, succession, M&A, or consolidator evidence. These values are material operands in B rather than incidental context.",
+      "materiality": "Holding the other recorded inputs fixed, changing owners_60plus_pct from 0.30 to 0.10 changes B from 6.12 to about 2.56; changing the unsupported consolidator count also changes the crowding penalty. The ungrounded selections therefore can materially change the buyability factor.",
+      "remediation": "Source and bound architecture-owner age and identifiable active consolidators, or provide transparent, independently defensible estimate bridges and ranges with evidence quality that matches the support."
+    },
+    {
+      "severity": "caveat",
+      "category": "scope",
+      "input_paths": [
+        "inputs.pi_moat",
+        "cross_checks.terminal_value"
+      ],
+      "explanation": "S3 is a national council's model law, not a survey of enacted state rules or the target population's revenue mix by exempt project type.",
+      "materiality": "This limits the geographic and market-share precision of the licensing argument, but it is non-fatal by itself because the record labels the industry heterogeneous and overall confidence LOW; the material defect is the separate capture/terminal double use.",
+      "remediation": "Add enacted-state coverage and target revenue-mix evidence before presenting the exemption perimeter as representative of the U.S. lower-middle-market population.",
+      "publication_caveat": "NCARB's model law illustrates possible licensing exclusions but does not establish how widely those clauses govern the U.S. lower-middle-market target population."
+    }
+  ],
+  "publication_caveats": [
+    "inputs.ai_replaceable_share: 5413 parent role mix is a proxy.",
+    "inputs.pi_dist: Industry and role proxies are imperfect.",
+    "inputs.pi_moat: Industry and role proxies are imperfect.",
+    "inputs.t50_years: Industry and role proxies are imperfect.",
+    "inputs.current_adoption_pct: Industry and role proxies are imperfect.",
+    "inputs.historical_analogs: Industry and role proxies are imperfect.",
+    "inputs.owners_60plus_pct: Industry and role proxies are imperfect.",
+    "inputs.owners_60plus_pct.succession_shortage_documented: Industry and role proxies are imperfect.",
+    "inputs.active_consolidators: Industry and role proxies are imperfect.",
+    "inputs.buy_mult: S4 is architecture-specific and transaction-derived but does not disclose a $1–10M EBITDA subsample or an explicit U.S.-only cut.",
+    "inputs.buy_mult: The controlling-transaction 4.92x line is labeled EBITDA but not explicitly pre-owner-bonus; normalize principal compensation to market before applying it to an owner-operated target.",
+    "inputs.exit_mult: This is a no-expansion estimate anchored to S4, not an observed future exit price.",
+    "inputs.exit_mult: S4 is architecture-specific and transaction-derived but does not disclose a $1–10M EBITDA subsample or an explicit U.S.-only cut.",
+    "inputs.exit_mult: The controlling-transaction 4.92x line is labeled EBITDA but not explicitly pre-owner-bonus; normalize principal compensation to market before applying it to an owner-operated target.",
+    "inputs.pricing_structure: Industry and role proxies are imperfect.",
+    "NCARB's model law illustrates possible licensing exclusions but does not establish how widely those clauses govern the U.S. lower-middle-market target population."
+  ],
+  "summary": "Reject. Exact packet/run/memo identity, schema, model route, dataset injection, fresh finalization, fresh memo rendering, digests, and arithmetic all pass. S4 supports the remediated 4.92x entry benchmark and the no-expansion exit is clearly labeled as an estimate. However, the capture estimate lacks relevant pricing evidence, licensing is used for both capture and terminal demand without distinct channels, and the ownership/consolidator inputs that drive B are unsupported; each defect can materially change a factor."
+}

@@ -1,0 +1,123 @@
+{
+  "naics": "523940",
+  "run_id": "2026-07-21_gpt-5.6-terra_v312r2_523940",
+  "artifact_digests": {
+    "packet_sha256": "69b9fff148037a5989e709377f41326e264127be53501dce7fd15f65ad1f75ba",
+    "run_sha256": "fd092a1edbb305748f6639f72e234c7d99a2eea0c6bf5fd1fc0dce8c4b2a7cd1",
+    "memo_sha256": "c786417622315d7e63ae14d4fa52ad924084b539c9320128ee1afb9b06d20a3f"
+  },
+  "review_meta": {
+    "model_id": "gpt-5.6-sol",
+    "review_date": "2026-07-21",
+    "prompt_version": "validator-3.1.2"
+  },
+  "outcome": "publishable_with_caveats",
+  "mechanics": {
+    "schema_valid": true,
+    "identity_valid": true,
+    "model_route_valid": true,
+    "dataset_equal": true,
+    "finalization_equal": true,
+    "memo_equal": true,
+    "arithmetic_valid": true
+  },
+  "source_reviews": [
+    {
+      "source_id": "S1",
+      "url": "https://www.aboutschwab.com/ria-benchmarking-study-2025",
+      "accessible": true,
+      "score_driving": true,
+      "support": "partially_supported",
+      "notes": "The page directly supports the 68% AI-use result, the 1,288-firm Schwab-custodied sample and the self-reported scope. It supports adoption and workflow context but does not directly establish the AUM-fee retention mechanism used in pi_dist and pricing_structure."
+    },
+    {
+      "source_id": "S2",
+      "url": "https://www.investmentadviser.org/industry-snapshots/",
+      "accessible": true,
+      "score_driving": true,
+      "support": "partially_supported",
+      "notes": "The page supports 16,544 SEC advisers, 92.8% with at most 100 employees, 67.4% below $1 billion AUM, and the 8-employee/$424 million averages for individual-client advisers. It does not report the selected 4,000-firm n_band or a 35% owner-age share; both are explicitly labeled low-confidence estimates with caveats."
+    },
+    {
+      "source_id": "S3",
+      "url": "https://www.echelon-partners.com/wp-content/uploads/2026/03/FY-Annual-2025-ECHELON-2025-RIA-MA-Deal-Report-2026.02.12VF.pdf",
+      "accessible": true,
+      "score_driving": true,
+      "support": "supported",
+      "notes": "The report supports 466 announced 2025 wealth-management transactions above its stated $100 million-AUM reporting threshold, 194 buyer firms versus 165 in 2024 (17.6% growth), a broad active-acquirer universe, and explicit succession/partnership demand."
+    },
+    {
+      "source_id": "S4",
+      "url": "https://dld7fz6mejerl.cloudfront.net/wp-content/uploads/AGS_RIA_DealRoom_2025_vF_Distribution-compressed.pdf",
+      "accessible": true,
+      "score_driving": true,
+      "support": "supported",
+      "notes": "The report directly labels the 2024 median as 11.0x adjusted EBITDA, up 11% from 2023, and supports scale/quality premiums, key-person discounts and 20x-plus platform valuations. Its methodology says the 2024 transaction sample contains 37 deals; it does not directly report the selected 8.0x entry estimate."
+    },
+    {
+      "source_id": "S5",
+      "url": "https://www.sec.gov/rules-regulations/no-action-interpretive-exemptive-letters/division-investment-management-staff-no-action-interpretive-letters/investment-management-staff-issues-interest",
+      "accessible": true,
+      "score_driving": true,
+      "support": "supported",
+      "notes": "The SEC page supports that an SEC-registered adviser's contract generally must provide that the adviser may not assign it without client consent, including the client's opportunity to withhold consent. The packet correctly treats this as transfer/retention risk rather than an automatic positive moat."
+    },
+    {
+      "source_id": "S6",
+      "url": "https://www.aboutschwab.com/advisor-ai-in-action-2026",
+      "accessible": true,
+      "score_driving": true,
+      "support": "supported",
+      "notes": "The page supports 63% AI use among a voluntary October 2025 survey of 533 Schwab-custodied advisers, most respondents remaining in experimentation, and the strongest effects in administrative tasks and client communications."
+    }
+  ],
+  "findings": [
+    {
+      "severity": "caveat",
+      "category": "evidence",
+      "input_paths": [
+        "inputs.pi_dist",
+        "inputs.pricing_structure"
+      ],
+      "explanation": "S1 and S6 directly support AI adoption and affected workflows, but the reopened pages do not directly establish the prevalence of AUM pricing or how much labor-cost savings firms retain under that pricing model.",
+      "materiality": "Non-fatal: both selections are explicitly estimates with ranges, and the plausible AUM-fee mechanism is not contradicted. A lower capture selection can move this borderline conditional verdict, so the source limitation must remain visible.",
+      "remediation": "At the next evidence refresh, add primary fee-schedule and revenue-model evidence while retaining estimate labels and sensitivity ranges.",
+      "publication_caveat": "S1 and S6 support AI adoption and affected workflows but do not directly establish the AUM-fee prevalence or retention mechanism used in pi_dist and pricing_structure; those selections remain estimates."
+    },
+    {
+      "severity": "caveat",
+      "category": "scope",
+      "input_paths": [
+        "inputs.buy_mult",
+        "inputs.exit_mult"
+      ],
+      "explanation": "S4 supports the exact 11.0x adjusted-EBITDA median, but its methodology identifies only 37 completed 2024 transactions and the statistic is not matched to a specific founder-dependent target's size, owner compensation, retention terms or quality.",
+      "materiality": "Non-fatal: the numeric claim and denominator are supported, the entry multiple is labeled an estimate, and the packet already discloses the mismatch and LOW overall confidence. M and the near-cut thesis remain highly sensitive to transaction mix and normalization.",
+      "remediation": "For a live target, use size-matched adjusted-EBITDA comparables after market-rate owner compensation and retention normalization.",
+      "publication_caveat": "S4's 11.0x median adjusted-EBITDA multiple comes from AGS's 37-transaction 2024 sample and is not a size- or quality-matched exit forecast; M is therefore highly sensitive to target normalization and transaction mix."
+    }
+  ],
+  "publication_caveats": [
+    "inputs.ai_replaceable_share: Supplied role mix is 3-digit 523 and includes brokerage/asset-management contamination.",
+    "inputs.ai_replaceable_share: AI use is not equivalent to headcount removal.",
+    "inputs.pi_dist: Fee schedules and client mix are target-specific.",
+    "inputs.pi_moat: Client-consent rules create retention risk, not automatic moat.",
+    "inputs.t50_years: Measured use is above 50%, but effective adoption is a stricter construct.",
+    "inputs.current_adoption_pct: Not a direct census measure; prevents incorrectly setting t50 to zero.",
+    "inputs.historical_analogs: Not a causal estimate of future fee compression.",
+    "inputs.owners_60plus_pct: No direct owner-age statistic; do not treat adviser demographics as owner demographics.",
+    "inputs.owners_60plus_pct.succession_shortage_documented: This is market commentary, not a code-specific succession survey.",
+    "inputs.active_consolidators: Count is an estimate of active platforms/strategics, not reported by either source.",
+    "inputs.buy_mult: AGS's transaction median is not a size-matched small-firm entry comp; quality small sellers may trade nearer the market median.",
+    "inputs.buy_mult: Owner compensation and contingent retention economics must be normalized before using this estimate in a live deal.",
+    "inputs.exit_mult: The observed median spans RIA transactions and is not a size- or quality-matched forecast for a particular consolidated exit.",
+    "inputs.exit_mult: The report states larger and higher-quality firms receive higher valuations; a founder-dependent small target may require a discount after owner-compensation and client-retention normalization.",
+    "inputs.pricing_structure: No exact fee-rate selection is used in scoring.",
+    "dataset_inputs.n_band: Form ADV adviser census is not NAICS 523940 and excludes state-registered advisers.",
+    "dataset_inputs.n_band: The 0.8% fee and distribution within AUM bands are judgmental bridges; no published AUM-band table was reopened.",
+    "dataset_inputs.n_band: The supplied 11.65% margin is broad asset-management, likely below standardized wealth-RIA margins; n_band is intentionally low confidence.",
+    "S1 and S6 support AI adoption and affected workflows but do not directly establish the AUM-fee prevalence or retention mechanism used in pi_dist and pricing_structure; those selections remain estimates.",
+    "S4's 11.0x median adjusted-EBITDA multiple comes from AGS's 37-transaction 2024 sample and is not a size- or quality-matched exit forecast; M is therefore highly sensitive to target normalization and transaction mix."
+  ],
+  "summary": "Mechanics, exact identity/model routing, manifest digests, dataset injection, arithmetic, fresh finalization and fresh memo rendering all pass. All six registered sources are accessible. The direct adoption, adviser-population, deal-volume, buyer-count, assignment-consent and 11.0x adjusted-EBITDA claims are supported; remaining weaknesses are disclosed estimates or non-fatal source/scope limitations. No reversed factor semantics or capture/terminal double count is likely to change the thesis: client-consent risk is treated as a transferability constraint, and the PRESSURED terminal cap does not bind the current conditional score. The useful conclusion remains publishable only with all 18 authored caveats plus the two validator caveats, especially because M, n_band, owner age and capture can move the near-cut result."
+}
