@@ -151,6 +151,7 @@ class V312Tests(unittest.TestCase):
         self.assertEqual([], errors)
         self.assertEqual(record, fresh)
         self.assertEqual(finalizer.render_memo(record), finalizer.render_memo(fresh))
+        self.assertFalse(any(line.endswith(" ") for line in finalizer.render_memo(record).splitlines()))
         self.assertEqual("finalizer-3.1.2", record["run_meta"]["finalizer_version"])
         self.assertEqual(record["decision"], build.decide(record["S"], {name: record["scores"][name]["score"] for name in ("V", "C", "A", "B", "M")}, "DURABLE", "MED", json.loads((HERE / "thresholds.json").read_text())))
 

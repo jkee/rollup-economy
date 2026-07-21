@@ -350,7 +350,7 @@ def render_memo(rec):
     lines.extend(["## Deterministic scorecard", "", "| Factor | Score |", "|---|---:|"])
     for name in ("V", "C", "A", "B", "M"):
         lines.append("| %s | %.2f |" % (name, rec["scores"][name]["score"]))
-    lines.extend(["| **S** | **%.2f** |" % rec["S"], "", "**Verdict:** `%s`  " % rec["decision"]["verdict"], "**Overall confidence:** `%s`  " % rec["confidence_overall"], "**Terminal demand:** `%s`" % rec["cross_checks"]["terminal_value"]["class"], "", "## Selected inputs", "", "| Input | Value | Method | Confidence | Range |", "|---|---:|---|---|---|"])
+    lines.extend(["| **S** | **%.2f** |" % rec["S"], "", "**Verdict:** `%s`" % rec["decision"]["verdict"], "", "**Overall confidence:** `%s`" % rec["confidence_overall"], "", "**Terminal demand:** `%s`" % rec["cross_checks"]["terminal_value"]["class"], "", "## Selected inputs", "", "| Input | Value | Method | Confidence | Range |", "|---|---:|---|---|---|"])
     for name, value in rec["inputs"].items():
         shown = value["value"]
         if isinstance(shown, float):
