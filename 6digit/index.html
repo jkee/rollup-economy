@@ -1,1276 +1,159 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>AI Value Migration — 6-Digit NAICS Opportunity Map</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
-<style>
-  * { box-sizing: border-box; margin: 0; padding: 0; }
-  :root {
-    --bg-0: #0c0e13;
-    --bg-1: #131620;
-    --bg-2: #1a1e28;
-    --bg-3: #232735;
-    --bg-4: #2a2f3e;
-    --border: rgba(255,255,255,0.07);
-    --border-strong: rgba(255,255,255,0.13);
-    --text-1: #f4f5f7;
-    --text-2: #a8adb8;
-    --text-3: #6c7180;
-    --hellyes: #10b981;
-    --hellyes-rgb: 16,185,129;
-    --strong: #3b82f6;
-    --strong-rgb: 59,130,246;
-    --conditional: #f59e0b;
-    --conditional-rgb: 245,158,11;
-    --pass: #ef4444;
-    --pass-rgb: 239,68,68;
-    --kill: #6b7280;
-    --kill-rgb: 107,114,128;
-    --ease: cubic-bezier(0.4, 0, 0.2, 1);
-    --ease-out: cubic-bezier(0.32, 0.72, 0, 1);
-    --dur-fast: 120ms;
-    --dur: 200ms;
-    --dur-slow: 320ms;
-  }
-  body { font-family: "Manrope", -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, sans-serif; background: var(--bg-0); color: var(--text-1); min-height: 100vh; font-size: 14px; line-height: 1.55; font-feature-settings: "ss02", "ss03"; -webkit-font-smoothing: antialiased; }
-  body::before { content: ""; position: fixed; inset: 0; background: radial-gradient(circle 800px at 20% -10%, rgba(59,130,246,0.10) 0%, transparent 50%), radial-gradient(circle 600px at 80% 110%, rgba(236,72,153,0.06) 0%, transparent 50%), radial-gradient(circle 1000px at 50% 50%, rgba(16,185,129,0.04) 0%, transparent 70%); pointer-events: none; z-index: 0; }
-  @keyframes fadeUp { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
-  .fade-in { animation: fadeUp 0.4s ease-out both; }
-  a { color: #4ea0ff; text-decoration: none; } a:hover { text-decoration: underline; }
-  header.app-header { padding: 18px 32px; border-bottom: 1px solid transparent; display: flex; align-items: center; justify-content: space-between; background: rgba(12,14,19,0.75); backdrop-filter: saturate(180%) blur(24px); -webkit-backdrop-filter: saturate(180%) blur(24px); position: sticky; top: 0; z-index: 50; transition: border-color var(--dur) var(--ease); }
-  header.app-header.scrolled { border-bottom-color: var(--border); }
-  .title-block { display: flex; align-items: baseline; gap: 14px; flex-wrap: wrap; }
-  .title-block .title { font-size: 18px; font-weight: 700; color: #fff; letter-spacing: -0.4px; }
-  .title-block .subtitle { font-weight: 400; color: #999; font-size: 13px; letter-spacing: -0.1px; }
-  .nav { display: flex; gap: 4px; background: #161616; padding: 4px; border-radius: 8px; }
-  .nav-tab { padding: 7px 16px; cursor: pointer; color: #888; font-size: 13px; border-radius: 5px; user-select: none; font-weight: 500; }
-  .nav-tab.active { background: linear-gradient(135deg, #3b82f6 0%, #60a5fa 100%); color: #fff; box-shadow: 0 4px 16px rgba(59,130,246,0.4); }
-  .nav-tab:hover:not(.active) { color: #ccc; }
-  .view { display: none; } .view.active { display: block; }
-  .layer-bar { padding: 16px 32px; display: flex; align-items: center; gap: 18px; background: rgba(10,10,10,0.6); border-bottom: 1px solid #1a1a1a; flex-wrap: wrap; backdrop-filter: blur(10px); }
-  .layer-label { font-size: 10px; text-transform: uppercase; letter-spacing: 1.2px; color: #777; font-weight: 700; }
-  .layer-toggle { display: inline-flex; gap: 2px; background: var(--bg-2); padding: 3px; border-radius: 8px; border: 1px solid var(--border); }
-  .layer-btn { padding: 7px 14px; cursor: pointer; color: var(--text-2); font-size: 12.5px; border-radius: 6px; user-select: none; border: none; background: transparent; font-family: inherit; font-weight: 500; transition: all var(--dur) var(--ease); letter-spacing: -0.1px; }
-  .layer-btn:hover:not(.active) { color: var(--text-1); background: rgba(255,255,255,0.03); }
-  .layer-btn.active { background: var(--bg-4); color: var(--text-1); font-weight: 600; }
-  .filter-toggle { display: flex; gap: 2px; background: #161616; padding: 3px; border-radius: 7px; margin-left: 12px; }
-  .filter-toggle .filter-btn { padding: 7px 12px; cursor: pointer; color: #888; font-size: 11px; border-radius: 5px; user-select: none; border: none; background: transparent; font-family: inherit; font-weight: 600; }
-  .filter-toggle .filter-btn.active { background: #4ea0ff; color: #fff; }
-  .legend { display: flex; gap: 8px; align-items: center; margin-left: auto; font-size: 11px; color: #888; flex-wrap: wrap; }
-  .legend-pill { display: inline-flex; align-items: center; gap: 6px; padding: 5px 11px; background: #131313; border: 1px solid #1f1f1f; border-radius: 14px; font-weight: 500; }
-  .legend-color { width: 10px; height: 10px; border-radius: 2px; }
-  .stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); background: linear-gradient(180deg, rgba(20,20,20,0.6) 0%, transparent 100%); border-bottom: 1px solid #1a1a1a; }
-  .stat-item { padding: 16px 24px; border-right: 1px solid #1a1a1a; }
-  .stat-item:last-child { border-right: none; }
-  .stat-item .stat-label { font-size: 11px; text-transform: uppercase; letter-spacing: 1px; color: var(--text-3); font-weight: 600; }
-  .stat-item .stat-value { font-size: 26px; font-weight: 700; color: #fff; margin-top: 4px; line-height: 1.1; letter-spacing: -0.5px; font-family: "JetBrains Mono", "SF Mono", monospace; }
-  .stat-item .stat-delta { font-size: 11.5px; color: var(--text-3); margin-top: 4px; }
-  .stat-item .stat-value.green { color: var(--hellyes); }
-  .stat-item .stat-value.red { color: var(--pass); }
-  .stat-item .stat-value.yellow { color: var(--conditional); }
-  .stat-item .stat-value.small { font-size: 14px; }
-  .playground-wrap { padding: 28px 24px; }
-  .ai-force-bar { background: linear-gradient(180deg, #f85149 0%, #f9c84a 100%); border-radius: 10px; padding: 12px 6px; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 8px; color: white; font-weight: 700; font-size: 11px; letter-spacing: 1px; text-align: center; min-height: 100%; }
-  .ai-force-bar .label { writing-mode: vertical-rl; transform: rotate(180deg); font-size: 12px; letter-spacing: 2px; }
-  .ai-force-bar .arrow { font-size: 22px; }
-  .dollar-max-bar { background: linear-gradient(180deg, #34d058 0%, #0d652d 100%); border-radius: 10px; padding: 16px 8px; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 8px; color: white; min-height: 100%; }
-  .dollar-max-bar .icon { font-size: 28px; }
-  .dollar-max-bar .label { font-weight: 700; font-size: 13px; letter-spacing: 1px; }
-  .dollar-max-bar .desc { font-size: 10px; opacity: 0.9; text-align: center; line-height: 1.4; }
-  .playground-inner { background: #0f0f0f; border-radius: 12px; border: 1px solid #1f1f1f; padding: 22px; display: flex; flex-direction: column; gap: 24px; }
-  .playground-title { font-size: 11px; text-transform: uppercase; letter-spacing: 1.5px; color: #555; font-weight: 700; }
-  .layer-section .section-header { display: flex; align-items: baseline; gap: 12px; margin-bottom: 12px; flex-wrap: wrap; }
-  .layer-section .layer-num { display: inline-block; padding: 2px 8px; background: #1a73e8; color: white; border-radius: 10px; font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; }
-  .layer-section .layer-title { font-size: 14px; font-weight: 700; color: #fff; }
-  .layer-section .layer-sub { font-size: 12px; color: #777; }
-  .sector-group { margin-bottom: 24px; }
-  .sector-group:last-child { margin-bottom: 0; }
-  .sector-group-header { display: flex; align-items: center; gap: 14px; margin-bottom: 16px; padding: 12px 16px; border-radius: 10px; cursor: pointer; user-select: none; transition: background var(--dur) var(--ease); background: rgba(255,255,255,0.025); border: 1px solid rgba(255,255,255,0.04); }
-  .sector-group-header:hover { background: rgba(255,255,255,0.045); border-color: rgba(255,255,255,0.08); }
-  .sector-group-header .sector-code { font-size: 11px; color: rgba(255,255,255,0.7); font-family: "JetBrains Mono", monospace; background: rgba(255,255,255,0.06); padding: 4px 11px; border-radius: 6px; font-weight: 600; border: 1px solid rgba(255,255,255,0.08); letter-spacing: 0.3px; }
-  .sector-group-header .sector-name { font-size: 15px; font-weight: 700; color: #fff; letter-spacing: -0.2px; }
-  .sector-group-header .sector-meta { font-size: 11.5px; color: #888; margin-left: auto; font-family: "JetBrains Mono", monospace; font-weight: 500; }
-  .sector-group-header .collapse-icon { font-size: 10px; color: #555; transition: transform 0.15s; }
-  .sector-group.collapsed .collapse-icon { transform: rotate(-90deg); }
-  .sector-group.collapsed .cards-grid { display: none; }
-  .cards-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 8px; }
-  .sub-card {
-    position: relative;
-    background: linear-gradient(135deg, rgba(var(--vc-rgb,107,114,128), 0.45) 0%, rgba(var(--vc-rgb,107,114,128), 0.22) 100%);
-    border: 1px solid rgba(var(--vc-rgb,107,114,128), 0.55);
-    border-radius: 14px;
-    padding: 16px 18px 14px;
-    cursor: pointer;
-    overflow: hidden;
-    backdrop-filter: blur(16px) saturate(180%);
-    -webkit-backdrop-filter: blur(16px) saturate(180%);
-    transition: background var(--dur) var(--ease), border-color var(--dur) var(--ease), transform var(--dur) var(--ease), box-shadow var(--dur) var(--ease);
-    box-shadow: 0 4px 16px rgba(0,0,0,0.25), inset 0 1px 0 rgba(255,255,255,0.10);
-  }
-  .sub-card::after {
-    content: ''; position: absolute; left: 0; right: 0; top: 0; height: 1px;
-    background: linear-gradient(90deg, transparent 0%, rgba(255,255,255,0.45) 50%, transparent 100%);
-    opacity: 0.7;
-  }
-  .sub-card:hover {
-    background: linear-gradient(135deg, rgba(var(--vc-rgb,107,114,128), 0.60) 0%, rgba(var(--vc-rgb,107,114,128), 0.35) 100%);
-    border-color: rgba(var(--vc-rgb,107,114,128), 0.85);
-    transform: translateY(-4px) scale(1.01);
-    box-shadow: 0 24px 60px rgba(0,0,0,0.5), 0 0 0 1px rgba(var(--vc-rgb,107,114,128), 0.5), inset 0 1px 0 rgba(255,255,255,0.15), 0 0 40px rgba(var(--vc-rgb,107,114,128), 0.35);
-  }
-  .sub-card:active { transform: translateY(-1px); }
-  .sub-card .card-verdict { display: inline-block; padding: 3px 10px; border-radius: 11px; font-size: 9px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.7px; margin-bottom: 10px; color: #fff; background: rgba(0,0,0,0.35); border: 1px solid rgba(255,255,255,0.18); backdrop-filter: blur(6px); }
-  .sub-card .card-name { font-size: 14.5px; font-weight: 700; color: #fff; margin-bottom: 4px; line-height: 1.3; letter-spacing: -0.2px; text-shadow: 0 1px 2px rgba(0,0,0,0.25); }
-  .sub-card .card-naics { font-size: 10.5px; color: rgba(255,255,255,0.78); margin-bottom: 10px; font-family: "JetBrains Mono", monospace; font-weight: 500; }
-  .sub-card .card-stats { display: grid; grid-template-columns: 1fr 1fr; gap: 4px; margin-bottom: 4px; }
-  .sub-card .stat-mini { display: flex; flex-direction: column; }
-  .sub-card .stat-mini .k { font-size: 9.5px; text-transform: uppercase; letter-spacing: 0.6px; color: rgba(255,255,255,0.82); font-weight: 600; margin-bottom: 3px; }
-  .sub-card .stat-mini .v { font-size: 14px; font-weight: 700; color: #fff; font-family: "JetBrains Mono", monospace; margin-top: 2px; letter-spacing: -0.2px; }
-  .sub-card .card-cell-dots { display: flex; gap: 3px; flex-wrap: wrap; margin-top: 12px; padding-top: 10px; border-top: 1px solid rgba(255,255,255,0.18); }
-  .card-cell-dots .dot { width: 10px; height: 10px; border-radius: 3px; cursor: help; transition: transform 0.15s; }
-  .card-cell-dots .dot:hover { transform: scale(1.4); }
-  .matrix-wrap { background: #0c0c0c; border-radius: 10px; padding: 8px; overflow-x: auto; max-height: 82vh; overflow-y: auto; border: 1px solid #1a1a1a; }
-  .matrix-table { width: 100%; border-collapse: separate; border-spacing: 2px; min-width: 1300px; }
-  .matrix-table th, .matrix-table td { padding: 5px 3px; text-align: center; font-size: 10px; font-weight: 600; border-radius: 4px; }
-  .matrix-table thead th { position: sticky; top: 0; z-index: 5; background: #1a1a1a; }
-  .matrix-table th.col-header { background: #1a1a1a; color: #fff; font-size: 9.5px; font-weight: 700; line-height: 1.3; padding: 6px 4px; }
-  .matrix-table th.col-header small { display: block; font-weight: 400; opacity: 0.55; margin-top: 2px; font-size: 9px; }
-  .matrix-table th.row-label { background: #1a1a1a; color: #fff; font-weight: 600; text-align: left; padding-left: 10px; font-size: 10.5px; position: sticky; left: 0; z-index: 4; }
-  .matrix-cell { cursor: pointer; transition: all 0.18s cubic-bezier(0.4, 0, 0.2, 1); position: relative; font-family: "JetBrains Mono", monospace; font-weight: 700; border: 1px solid rgba(255,255,255,0.05); box-shadow: inset 0 1px 0 rgba(255,255,255,0.07); color: #fff; text-shadow: 0 1px 2px rgba(0,0,0,0.4); backdrop-filter: blur(2px); -webkit-backdrop-filter: blur(2px); }
-  .matrix-cell.dim { filter: brightness(0.35) saturate(0.4); }
-  .matrix-cell.cross { outline: 1px solid rgba(255,255,255,0.5); outline-offset: -1px; z-index: 2; }
-  .matrix-cell:hover { transform: scale(1.18); z-index: 4; box-shadow: 0 0 0 2px rgba(255,255,255,0.9), 0 12px 28px rgba(0,0,0,0.65), inset 0 1px 0 rgba(255,255,255,0.15); filter: brightness(1.15) saturate(1.2); }
-  .matrix-cell-empty { background: #161616; color: #3a3a3a; }
-  .matrix-cell .warn { position: absolute; top: 1px; right: 2px; font-size: 9px; opacity: 0.85; }
-  .tooltip { position: absolute; background: rgba(12,12,12,0.96); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px); border: 1px solid rgba(255,255,255,0.08); padding: 18px 22px; border-radius: 14px; pointer-events: none; opacity: 0; transition: opacity 0.15s; font-size: 13px; color: #e8eaed; min-width: 280px; max-width: 380px; box-shadow: 0 20px 60px rgba(0,0,0,0.75), 0 0 0 1px rgba(255,255,255,0.03); z-index: 1000; }
-  .tooltip .t-title { font-size: 16px; font-weight: 700; color: #fff; margin-bottom: 3px; letter-spacing: -0.2px; }
-  .tooltip .t-subtitle { font-size: 11px; color: #888; margin-bottom: 12px; }
-  .tooltip .t-rows { border-top: 1px solid #2a2a2a; padding-top: 10px; }
-  .tooltip .t-row { display: grid; grid-template-columns: 90px 1fr; gap: 12px; padding: 3px 0; align-items: center; }
-  .tooltip .t-row .k { color: #888; font-size: 11px; }
-  .tooltip .t-row .v { color: #fff; font-weight: 600; font-size: 13px; font-family: "JetBrains Mono", "SF Mono", Consolas, monospace; }
-  .tooltip .t-bar { display: inline-block; vertical-align: middle; margin-left: 8px; height: 4px; border-radius: 2px; }
-  .tooltip .t-score { margin-top: 12px; padding: 10px 14px; background: rgba(255,255,255,0.05); border-radius: 6px; }
-  .tooltip .t-score-label { font-size: 10px; color: #888; text-transform: uppercase; letter-spacing: 0.5px; }
-  .tooltip .t-score-value { font-size: 28px; font-weight: 700; font-family: "JetBrains Mono", monospace; margin-top: 4px; letter-spacing: -0.5px; }
-  .verdict { display: inline-block; padding: 3px 10px; border-radius: 12px; font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; margin-top: 8px; }
-  .tooltip .t-note { margin-top: 10px; padding: 8px 10px; background: rgba(249, 200, 74, 0.12); border-left: 2px solid #f9c84a; border-radius: 3px; font-size: 11px; color: #f9c84a; }
-  #methodology-view { max-width: 1000px; margin: 0 auto; padding: 48px 32px 96px; position: relative; z-index: 1; }
-  #methodology-view h1 { font-size: 38px; color: #fff; margin-bottom: 12px; font-weight: 800; letter-spacing: -1px; }
-  #methodology-view .intro-sub { color: #999; font-size: 14px; margin-bottom: 32px; letter-spacing: -0.1px; }
-  #methodology-view h2 { font-size: 22px; color: #fff; margin: 44px 0 14px; font-weight: 700; letter-spacing: -0.4px; }
-  #methodology-view h3 { font-size: 15px; color: #4ea0ff; margin: 18px 0 6px; }
-  #methodology-view p { margin: 10px 0; color: #c9ccd1; }
-  #methodology-view strong { color: #fff; }
-  #methodology-view em { color: #b8bcc4; font-style: italic; }
-  #methodology-view code { background: #0a0a0a; padding: 2px 6px; border-radius: 3px; font-family: "JetBrains Mono", "SF Mono", Consolas, monospace; color: #4ea0ff; font-size: 12px; }
-  .intro-card { background: linear-gradient(135deg, #181818 0%, #131313 100%); border-left: 4px solid #4ea0ff; padding: 24px 28px; border-radius: 10px; margin: 24px 0; color: #d4d7dc; font-size: 14px; line-height: 1.65; }
-  .formula-box { background: linear-gradient(135deg, #1a73e8 0%, #4ea0ff 100%); padding: 28px; border-radius: 14px; text-align: center; font-family: "JetBrains Mono", monospace; font-size: 28px; margin: 24px 0; color: white; font-weight: 700; letter-spacing: 0.5px; box-shadow: 0 12px 40px rgba(26,115,232,0.35), inset 0 1px 0 rgba(255,255,255,0.15); }
-  .formula-box .small { font-size: 13px; opacity: 0.9; display: block; margin-top: 8px; font-family: inherit; font-weight: 400; }
-  .block-card { background: linear-gradient(135deg, #131313 0%, #0f0f0f 100%); border-left: 4px solid #1a73e8; padding: 24px 28px; border-radius: 10px; margin: 16px 0; box-shadow: 0 4px 16px rgba(0,0,0,0.25); transition: transform 0.2s; }
-  .block-card:hover { transform: translateX(2px); }
-  .block-card.v { border-left-color: #34d058; }
-  .block-card.c { border-left-color: #4ea0ff; }
-  .block-card.a { border-left-color: #f9c84a; }
-  .block-card.b { border-left-color: #b768f0; }
-  .block-card.m { border-left-color: #ec4899; }
-  .block-card h3 { margin: 0 0 10px; display: flex; align-items: center; gap: 10px; font-size: 16px; }
-  .block-card h3 .letter { display: inline-block; width: 30px; height: 30px; color: #0a0a0a; border-radius: 50%; text-align: center; line-height: 30px; font-weight: 700; font-family: "JetBrains Mono", "SF Mono", Consolas, monospace; font-size: 14px; }
-  .block-card.v h3 { color: #34d058; } .block-card.v h3 .letter { background: #34d058; }
-  .block-card.c h3 { color: #4ea0ff; } .block-card.c h3 .letter { background: #4ea0ff; }
-  .block-card.a h3 { color: #f9c84a; } .block-card.a h3 .letter { background: #f9c84a; }
-  .block-card.b h3 { color: #b768f0; } .block-card.b h3 .letter { background: #b768f0; }
-  .block-card.m h3 { color: #ec4899; } .block-card.m h3 .letter { background: #ec4899; }
-  .block-row { display: grid; grid-template-columns: 110px 1fr; gap: 14px; padding: 6px 0; align-items: start; }
-  .block-row .label { font-weight: 600; color: #888; font-size: 11px; text-transform: uppercase; letter-spacing: 0.5px; padding-top: 3px; }
-  .block-row .value { color: #c9ccd1; font-size: 13px; }
-  .block-formula { background: #0a0a0a; padding: 6px 12px; border-radius: 4px; font-family: "JetBrains Mono", "SF Mono", Consolas, monospace; font-size: 13px; display: inline-block; color: #4ea0ff; border: 1px solid #2a2a2a; }
-  .why-note { background: rgba(249, 200, 74, 0.08); border-left: 3px solid #f9c84a; padding: 10px 14px; border-radius: 4px; margin-top: 12px; font-size: 12.5px; color: #d4b97e; }
-  .why-note strong { color: #f9c84a; }
-  .apqc-table { width: 100%; border-collapse: collapse; margin: 14px 0; background: #131313; border-radius: 6px; overflow: hidden; }
-  .apqc-table th, .apqc-table td { padding: 8px 12px; text-align: left; border-bottom: 1px solid #1f1f1f; font-size: 12px; }
-  .apqc-table th { background: #1a1a1a; color: #fff; font-weight: 600; font-size: 10px; text-transform: uppercase; letter-spacing: 0.5px; }
-  .apqc-table td:first-child { font-family: "JetBrains Mono", "SF Mono", Consolas, monospace; color: #4ea0ff; width: 80px; }
-  .apqc-table td:nth-child(2) { font-weight: 600; color: #fff; width: 200px; }
-  .apqc-attribution { background: rgba(78, 160, 255, 0.10); border: 1px solid #1a73e8; padding: 14px 18px; border-radius: 6px; margin: 16px 0; font-size: 12.5px; color: #a8c3e6; }
-  .apqc-attribution strong { color: #4ea0ff; }
-  .scale-table { width: 100%; border-collapse: collapse; margin: 14px 0; background: #131313; border-radius: 6px; overflow: hidden; }
-  .scale-table th, .scale-table td { padding: 10px 14px; text-align: left; border-bottom: 1px solid #1f1f1f; font-size: 13px; }
-  .scale-table th { background: #1a1a1a; color: #fff; font-weight: 600; font-size: 11px; text-transform: uppercase; letter-spacing: 0.5px; }
-  .scale-table td:first-child { font-weight: 700; width: 140px; color: white; }
-  .worked-example { background: #131313; border-radius: 8px; padding: 20px 24px; margin: 18px 0; border: 1px solid #2a2a2a; }
-  .worked-example h4 { color: #fff; font-size: 14px; margin-bottom: 12px; }
-  .worked-example table { width: 100%; border-collapse: collapse; }
-  .worked-example td { padding: 7px 12px; border-bottom: 1px solid #1f1f1f; font-size: 13px; color: #c9ccd1; vertical-align: top; }
-  .worked-example td:first-child { font-weight: 600; color: #4ea0ff; width: 90px; font-family: "JetBrains Mono", "SF Mono", Consolas, monospace; }
-  .worked-example .result { margin-top: 14px; padding: 12px 16px; background: #0d652d; color: white; border-radius: 6px; font-weight: 600; font-family: "JetBrains Mono", "SF Mono", Consolas, monospace; font-size: 15px; }
-  .excluded-list { background: #131313; border-radius: 8px; padding: 4px 20px; }
-  .excluded-list .row { padding: 12px 0; border-bottom: 1px solid #1f1f1f; display: grid; grid-template-columns: 240px 1fr; gap: 18px; }
-  .excluded-list .row:last-child { border-bottom: none; }
-  .excluded-list .row .what { font-weight: 600; color: #fff; font-size: 13px; }
-  .excluded-list .row .why { color: #c9ccd1; font-size: 13px; }
-  ol.workflow-steps { margin: 12px 0 12px 24px; } ol.workflow-steps li { margin: 8px 0; color: #c9ccd1; font-size: 13px; } ol.workflow-steps li strong { color: #fff; }
-  .context-free-banner { background: linear-gradient(135deg, rgba(59,130,246,0.10) 0%, rgba(59,130,246,0.04) 100%); border: 1px solid rgba(59,130,246,0.22); border-radius: 12px; padding: 18px 24px; margin: 20px 32px 0 32px; color: #cfdfff; font-size: 13.5px; display: flex; gap: 14px; align-items: center; backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px); line-height: 1.6; }
-  .context-free-banner .icon { font-size: 20px; }
-  .context-free-banner code { display: inline-block; padding: 3px 10px; margin: 0 4px; background: rgba(59,130,246,0.18); border: 1px solid rgba(59,130,246,0.30); border-radius: 6px; font-family: "Manrope", sans-serif; font-feature-settings: "tnum"; font-size: 13px; font-weight: 600; color: #e8f0ff; letter-spacing: 0.2px; }
-  .footer-block { margin-top: 60px; padding: 24px; text-align: center; color: #555; font-size: 11px; border-top: 1px solid #1f1f1f; }
-  @media (max-width: 900px) { .playground-wrap { grid-template-columns: 36px 1fr 60px; padding: 20px 12px; gap: 8px; } .stats { grid-template-columns: repeat(2, 1fr); } .stat-item { border-right: none; border-bottom: 1px solid #1f1f1f; } }
-
-  /* === Side drawer === */
-  .drawer { position: fixed; top: 0; right: 0; height: 100vh; width: 460px; background: var(--bg-1); border-left: 1px solid var(--border); transform: translateX(100%); transition: transform var(--dur-slow) var(--ease-out); z-index: 200; box-shadow: -24px 0 60px rgba(0,0,0,0.5); overflow-y: auto; }
-  .drawer.open { transform: translateX(0); }
-  .drawer-header { padding: 24px 28px 16px; border-bottom: 1px solid var(--border); position: sticky; top: 0; background: var(--bg-1); z-index: 1; }
-  .drawer-close { position: absolute; top: 18px; right: 18px; background: var(--bg-2); border: 1px solid var(--border); color: var(--text-2); width: 32px; height: 32px; border-radius: 8px; cursor: pointer; font-size: 16px; display: flex; align-items: center; justify-content: center; transition: all var(--dur) var(--ease); }
-  .drawer-close:hover { background: var(--bg-3); color: var(--text-1); }
-  .drawer-eyebrow { font-size: 10.5px; text-transform: uppercase; letter-spacing: 1.2px; color: var(--text-3); font-weight: 600; margin-bottom: 6px; }
-  .drawer-title { font-size: 20px; font-weight: 700; color: var(--text-1); letter-spacing: -0.3px; margin-bottom: 4px; }
-  .drawer-sub { font-size: 13px; color: var(--text-2); }
-  .drawer-body { padding: 24px 28px; }
-  .drawer-section { margin-bottom: 28px; }
-  .drawer-section-title { font-size: 11px; text-transform: uppercase; letter-spacing: 1px; color: var(--text-3); font-weight: 600; margin-bottom: 12px; }
-  .drawer-score-big { font-size: 42px; font-weight: 700; letter-spacing: -1.2px; font-family: "Manrope", sans-serif; font-feature-settings: "tnum"; line-height: 1; }
-  .drawer-bar { display: grid; grid-template-columns: 70px 1fr 32px; align-items: center; gap: 12px; padding: 8px 0; }
-  .drawer-bar .k { font-size: 11px; color: var(--text-2); font-weight: 600; letter-spacing: -0.1px; }
-  .drawer-bar .track { height: 6px; background: var(--bg-3); border-radius: 4px; overflow: hidden; }
-  .drawer-bar .fill { height: 100%; border-radius: 4px; transition: width 400ms var(--ease-out); }
-  .drawer-bar .vnum { font-size: 13px; font-weight: 600; color: var(--text-1); font-family: "JetBrains Mono", monospace; text-align: right; }
-  .drawer-formula { background: var(--bg-2); padding: 14px 18px; border-radius: 10px; font-family: "JetBrains Mono", monospace; font-size: 13.5px; color: var(--text-2); border: 1px solid var(--border); margin-top: 10px; line-height: 1.6; }
-  .drawer-formula .verdict-pill { display: inline-block; margin-top: 8px; padding: 4px 10px; border-radius: 12px; font-size: 11px; font-weight: 700; color: #fff; }
-  .drawer-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.5); opacity: 0; pointer-events: none; transition: opacity var(--dur-slow) var(--ease); z-index: 150; backdrop-filter: blur(2px); }
-  .drawer-overlay.open { opacity: 1; pointer-events: all; }
-
-  /* === Cmd+K palette === */
-  .palette-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.6); opacity: 0; pointer-events: none; transition: opacity var(--dur) var(--ease); z-index: 250; display: flex; align-items: flex-start; justify-content: center; padding-top: 18vh; backdrop-filter: blur(8px); }
-  .palette-overlay.open { opacity: 1; pointer-events: all; }
-  .palette { background: var(--bg-1); border: 1px solid var(--border-strong); border-radius: 12px; width: 90%; max-width: 580px; box-shadow: 0 20px 60px rgba(0,0,0,0.5); overflow: hidden; transform: scale(0.96); transition: transform var(--dur) var(--ease); }
-  .palette-overlay.open .palette { transform: scale(1); }
-  .palette-input { width: 100%; padding: 18px 22px; background: transparent; border: none; border-bottom: 1px solid var(--border); color: var(--text-1); font-size: 16px; font-family: inherit; outline: none; letter-spacing: -0.2px; }
-  .palette-input::placeholder { color: var(--text-3); }
-  .palette-results { max-height: 360px; overflow-y: auto; padding: 8px; }
-  .palette-item { padding: 10px 14px; cursor: pointer; border-radius: 8px; display: flex; align-items: center; gap: 12px; transition: background var(--dur-fast) var(--ease); }
-  .palette-item:hover, .palette-item.selected { background: var(--bg-3); }
-  .palette-item .pi-naics { font-family: "JetBrains Mono", monospace; font-size: 11px; color: var(--text-3); background: var(--bg-2); padding: 2px 8px; border-radius: 4px; min-width: 60px; text-align: center; }
-  .palette-item .pi-name { font-size: 13.5px; color: var(--text-1); flex: 1; }
-  .palette-item .pi-verdict { font-size: 10px; text-transform: uppercase; letter-spacing: 0.5px; font-weight: 700; padding: 3px 8px; border-radius: 10px; color: #fff; }
-  .palette-footer { padding: 10px 18px; border-top: 1px solid var(--border); display: flex; gap: 16px; font-size: 11px; color: var(--text-3); }
-  .palette-footer kbd { background: var(--bg-3); border: 1px solid var(--border); padding: 1px 6px; border-radius: 4px; font-family: "JetBrains Mono", monospace; font-size: 10px; margin: 0 3px; }
-
-
-  /* === P&L Modal === */
-  .pnl-modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.7); opacity: 0; pointer-events: none; transition: opacity var(--dur) var(--ease); z-index: 300; backdrop-filter: blur(8px); display: flex; align-items: flex-start; justify-content: center; padding: 40px 24px; overflow-y: auto; }
-  .pnl-modal-overlay.open { opacity: 1; pointer-events: all; }
-  .pnl-modal { background: var(--bg-1); border: 1px solid var(--border-strong); border-radius: 16px; width: 100%; max-width: 1100px; box-shadow: 0 30px 90px rgba(0,0,0,0.6); transform: scale(0.96) translateY(20px); transition: transform var(--dur-slow) var(--ease-out); position: relative; overflow: hidden; }
-  .pnl-modal-overlay.open .pnl-modal { transform: scale(1) translateY(0); }
-  .pnl-modal-close { position: absolute; top: 20px; right: 20px; background: var(--bg-2); border: 1px solid var(--border); color: var(--text-2); width: 36px; height: 36px; border-radius: 10px; cursor: pointer; font-size: 18px; display: flex; align-items: center; justify-content: center; transition: all var(--dur) var(--ease); z-index: 10; }
-  .pnl-modal-close:hover { background: var(--bg-3); color: var(--text-1); transform: rotate(90deg); }
-  .pnl-modal-body { padding: 32px 36px 40px; min-height: 200px; }
-  .pnl-modal-body.loading { display: flex; align-items: center; justify-content: center; color: var(--text-3); font-size: 13px; }
-  .pnl-modal .view-header { margin-bottom: 22px; padding-right: 50px; }
-  .pnl-modal .view-title { font-size: 26px; font-weight: 700; color: #fff; display: flex; align-items: center; gap: 14px; flex-wrap: wrap; letter-spacing: -0.5px; }
-  .pnl-modal .view-naics, .pnl-modal .view-verdict { padding: 6px 14px; border-radius: 18px; font-size: 13px; font-weight: 700; font-family: "JetBrains Mono", monospace; }
-  .pnl-modal .view-meta { background: var(--bg-2); border: 1px solid var(--border); border-radius: 12px; padding: 20px; margin-bottom: 20px; }
-  .pnl-modal .meta-row { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 12px; margin-bottom: 16px; }
-  .pnl-modal .meta-item { background: var(--bg-0); padding: 12px 14px; border-radius: 8px; border: 1px solid var(--border); }
-  .pnl-modal .meta-label { font-size: 10px; text-transform: uppercase; letter-spacing: 1px; color: var(--text-3); font-weight: 600; }
-  .pnl-modal .meta-value { font-size: 16px; color: var(--text-1); font-weight: 700; margin-top: 4px; font-family: "JetBrains Mono", monospace; letter-spacing: -0.3px; }
-  .pnl-modal .meta-derivation { padding: 14px 16px; background: var(--bg-0); border-radius: 8px; font-size: 13px; color: var(--text-2); line-height: 1.75; border: 1px solid var(--border); }
-  .pnl-modal .meta-derivation strong { color: var(--text-1); }
-  .pnl-modal .pnl-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
-  .pnl-modal .pnl-card { background: var(--bg-2); border: 1px solid var(--border); border-radius: 12px; overflow: hidden; }
-  .pnl-modal .pnl-card-header { padding: 12px 18px; background: var(--bg-3); color: #fff; font-weight: 700; font-size: 13.5px; border-bottom: 1px solid var(--border); letter-spacing: -0.1px; }
-  .pnl-modal .pnl-table { width: 100%; border-collapse: collapse; }
-  .pnl-modal .pnl-table td { padding: 10px 16px; border-bottom: 1px solid var(--border); font-size: 13px; }
-  .pnl-modal .pnl-label { color: var(--text-2); }
-  .pnl-modal .pnl-num { text-align: right; color: var(--text-1); font-variant-numeric: tabular-nums; font-weight: 500; font-family: "JetBrains Mono", monospace; }
-  .pnl-modal .pnl-revenue td { background: rgba(59,130,246,0.12); color: #fff; font-weight: 600; }
-  .pnl-modal .pnl-ebitda td { background: rgba(245,158,11,0.10); color: #fff; font-weight: 700; }
-  .pnl-modal .pnl-ebitda.pnl-improved td { background: rgba(16,185,129,0.18); color: #a8f0a8; }
-  .pnl-modal .pnl-modified td { background: rgba(255,255,255,0.04); }
-  @media (max-width: 768px) {
-    .pnl-modal .pnl-grid { grid-template-columns: 1fr; }
-    .pnl-modal-body { padding: 24px 20px 32px; }
-    .pnl-modal .view-title { font-size: 22px; }
-  }
-
-  /* === Pulse highlight === */
-  @keyframes pulseHighlight { 0%, 100% { box-shadow: 0 0 0 0 rgba(96,165,250,0); } 30% { box-shadow: 0 0 0 4px rgba(96,165,250,0.45), 0 0 24px rgba(96,165,250,0.3); } }
-  .pulse-target { animation: pulseHighlight 1.8s var(--ease); }
-</style>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#f3efe5">
+  <meta name="description" content="A traceable view of the completed Phase-4 AI roll-up research campaign.">
+  <meta property="og:title" content="Roll-Up Economy · Phase-4 Evidence Map">
+  <meta property="og:description" content="Explore 62 published fleet records, 20 golden diagnostics, and the complete evidence trail behind every score.">
+  <meta property="og:image" content="og-phase4.png">
+  <title>Roll-Up Economy · Phase-4 Evidence Map</title>
+  <link rel="icon" href="og-phase4.png" type="image/png">
+  <link rel="stylesheet" href="dashboard.css">
 </head>
 <body>
+  <a class="skip-link" href="#main">Skip to content</a>
 
+  <header class="topbar">
+    <a class="brand" href="./" aria-label="Roll-Up Economy dashboard home">
+      <span class="brand-mark">R/E</span>
+      <span><strong>Roll-Up Economy</strong><small>Phase-4 evidence map</small></span>
+    </a>
+    <nav class="primary-nav" aria-label="Dashboard sections">
+      <button class="nav-button active" data-view="fleet" aria-current="page">Fleet</button>
+      <button class="nav-button" data-view="golden">Golden</button>
+      <button class="nav-button" data-view="exclusions">Exclusions <span id="nav-excluded-count" class="nav-count">1</span></button>
+      <button class="nav-button" data-view="methodology">Method</button>
+    </nav>
+    <div class="topbar-status"><i></i><span>Campaign closed</span></div>
+  </header>
 
-<header class="app-header">
-  <div class="title-block">
-    <div class="title">AI Value Migration — 6-Digit NAICS (v2)</div>
-    <div class="subtitle">1,012 sub-industries · agent-verified · click any card for P&amp;L · <a href="../" style="color:#4ea0ff">⇐ back to 4-digit</a></div>
-  </div>
-  <nav class="nav">
-    <div class="nav-tab active" data-tab="map">🗺️ Map</div>
-    <div class="nav-tab" data-tab="methodology">📐 Methodology</div>
-  </nav>
-</header>
-
-<div class="context-free-banner">
-  <span class="icon">📊</span>
-  <span>Formula <code>S = V × C × A × B × M</code> applied across <strong>1,012 US 6-digit NAICS</strong> and <strong>13 business process categories</strong> — about 13,000 cells. Data: Census CBP 2022 + per-vertical agent research. See Methodology for sources.</span>
-</div>
-
-<div id="map-view" class="view active fade-in">
-  <div class="layer-bar">
-    <span class="layer-label">Color by</span>
-    <div class="layer-toggle">
-      <button class="layer-btn active" data-layer="S">S — Score</button>
-      <button class="layer-btn" data-layer="V">V — Value</button>
-      <button class="layer-btn" data-layer="C">C — Capture</button>
-      <button class="layer-btn" data-layer="A">A — Speed</button>
-      <button class="layer-btn" data-layer="B">B — Buyability</button>
-      <button class="layer-btn" data-layer="M">M — Multiple</button>
+  <main id="main" tabindex="-1">
+    <div id="loading" class="loading-state" role="status">
+      <span class="loading-kicker">Opening the evidence ledger</span>
+      <div class="loading-line"></div><div class="loading-line short"></div>
     </div>
-    <div class="legend">
-      <span class="legend-pill"><span class="legend-color" style="background:#0d652d"></span>Hell-Yes</span>
-      <span class="legend-pill"><span class="legend-color" style="background:#34d058"></span>Strong</span>
-      <span class="legend-pill"><span class="legend-color" style="background:#f9c84a"></span>Conditional</span>
-      <span class="legend-pill"><span class="legend-color" style="background:#f85149"></span>Pass</span>
-      <span class="legend-pill"><span class="legend-color" style="background:#3a3a3a"></span>KILL</span>
-    </div>
-  </div>
+    <div id="error" class="error-state" hidden></div>
 
-  <div class="stats" id="stats-bar"></div>
-
-  <div class="playground-wrap">
-    <div class="playground-inner" style="width:100%">
-      <div class="layer-section">
-        <div class="section-header">
-          <span class="layer-num">Layer 1</span>
-          <span class="layer-title">Industry sub-sectors</span>
-          <span class="layer-sub">Click sector header to collapse. Sorted by total score.</span>
-        </div>
-        <div id="cards-container"></div>
-      </div>
-      <div class="layer-section">
-        <div class="section-header">
-          <span class="layer-num">Layer 2</span>
-          <span class="layer-title">Business process matrix</span>
-          <span class="layer-sub">13 universal categories (APQC PCF). Hover for full V/C/A/B/M detail.</span>
-        </div>
-        <div class="matrix-wrap">
-          <table class="matrix-table" id="matrix-table"></table>
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
-
-<div id="methodology-view" class="view fade-in">
-  <h1>Methodology</h1>
-  <div class="intro-sub">Vertical opportunity map for AI-driven PE roll-ups · 308 NAICS sub-sectors × 13 APQC business process categories</div>
-
-  <div class="intro-card">
-    We score industry opportunities at the level of <em>cells</em> — each cell is one NAICS sub-sector intersected with one APQC business process category. A cell scores well when five conditions co-occur: (1) AI actually dislodges value in this process, (2) the operator can capture that value rather than lose it to a customer or upstream gatekeeper, (3) the market adopts AI within the fund's investment horizon, (4) targets are acquirable at sane multiples, and (5) the buy-to-exit multiple arbitrage is wide enough to make roll-up math work. A sub-sector is Hell-Yes when at least two of its 13 cells score in the top tier.
-  </div>
-
-  <h2>The formula</h2>
-  <div class="formula-box">
-    S<sub>cell</sub> = V × C × A × B × M
-    <span class="small">Cell score = Value Created × Capture Share × Adoption Speed × Buyability × Multiple Arbitrage</span>
-  </div>
-
-  <h2>v2 thresholds (recalibrated × 1.8 vs v1)</h2>
-  <p>v1 (4-digit) thresholds applied directly to 6-digit data would inflate the Hell-Yes share from 2.6% to 8.2% — because 6-digit isolates attractive sub-segments instead of averaging across a parent (Mental Health 621330 surfaces its own AI replaceability instead of being blended into "Offices of Other Health Practitioners" 6213). We recalibrated by the empirical mean-shift between v1 and v2 sumS distributions (×1.80), preserving the v1 verdict-bucket proportions so a Hell-Yes here means the same as in v1.</p>
-
-  <h2>Two layers</h2>
-  <p><strong>Layer 1 — Sub-sector cards.</strong> Each card aggregates the 13 process-category cells of one NAICS sub-sector. A sub-sector qualifies as <strong>Hell-Yes</strong> if at least two cells score ≥ 21,600, or one cell ≥ 21,600 and total Σ S ≥ 90,000. <strong>Strong</strong>: max cell ≥ 21,600 or Σ S ≥ 58,320. <strong>Conditional</strong>: Σ S ≥ 21,600. <strong>Pass</strong>: Σ S ≥ 5,625. <strong>KILL</strong> below that.</p>
-  <p><strong>Layer 2 — Business process matrix.</strong> Answers the operational question: once we acquire an operator in a Hell-Yes sub-sector, which processes should be automated first? A vertical can be Hell-Yes overall but red in specific categories (Property Management is consistently red on External Relationships and consistently green on Financial Resources — that drives the post-acquisition playbook).</p>
-
-  <h2>Why multiplication, not summation</h2>
-  <p>
-    Summation would let a strong V compensate for a weak C. That's the <strong>mortgage processors trap</strong>: V is huge (banks automate claims, save hundreds of millions per year), but <strong>C ≈ 0</strong> — five banks own the borrower relationship, every saved dollar flows upstream to them. Sum would falsely greenlight this. Multiplication punishes any weak component: 9 × 9 × 9 × 0.5 = 364 (Pass), not 27 (which a sum would give).
-  </p>
-
-  <h2>The four multipliers</h2>
-
-  <div class="block-card v">
-    <h3><span class="letter">V</span>Value Created — what AI dislodged</h3>
-    <div class="block-row"><div class="label">What</div><div class="value">$/year that AI displaces from incumbent in this cell (NAICS × APQC category) nationally. Normalized to 0–10 scale.</div></div>
-    <div class="block-row"><div class="label">Formula</div><div class="value"><span class="block-formula">V = V_base × workflow_modifier × applicability</span></div></div>
-    <div class="block-row"><div class="label">V_base</div><div class="value"><strong>Sub-sector labor intensity × AI replaceability</strong>. Each NAICS 4-digit gets a 0–10 base score from BLS QCEW labor share and Anthropic Economic Index task replaceability.</div></div>
-    <div class="block-row"><div class="label">Workflow mod</div><div class="value">Per-APQC-category coefficient (0.25-1.00) reflecting how exposed each process category is to GenAI replacement. Financial Resources = 1.00 (accounting / treasury / reporting are highly replaceable). Customer Service = 0.95 (tier-1 chatbots). External Relationships = 0.25 (relationship work). Vision & Strategy = 0.25 (judgment work). Calibrated against the Anthropic Economic Index task usage distribution.</div></div>
-    <div class="block-row"><div class="label">Applicability</div><div class="value">Some categories don't apply to all sectors. "4. Deliver Physical Products" doesn't apply to pure services (54x, 53x, 81x, 92x). "2. R&D" doesn't apply to commodity (21, 42, 44, 45) or government.</div></div>
-    <div class="block-row"><div class="label">Sources</div><div class="value" style="font-size: 12px; color: #aaa;"><strong>BLS QCEW 2024</strong> for industry labor share. <strong>Anthropic Economic Index (March 2026)</strong> for AI productivity per occupation, weighted to NAICS via BLS OEWS crosswalk. <strong>APQC PCF v7.4 Cross-Industry</strong> for the process taxonomy.</div></div>
-    <div class="why-note"><strong>Why V exists:</strong> if AI didn't dislodge value (V near 0), the cell is unattractive. BPO × "6. Customer Service" has V=10 (AI removes 90% of agents) — but C zeroes it because value flows to direct-to-enterprise AI vendors, not BPO operators.</div>
-  </div>
-
-  <div class="block-card c">
-    <h3><span class="letter">C</span>Capture Share — what we pocket</h3>
-    <div class="block-row"><div class="label">What</div><div class="value">% of V we keep (not upstream gatekeeper, generic-AI vendor, or regulator). 0–10 scale = 0.0–1.0 × 10.</div></div>
-    <div class="block-row"><div class="label">Formula</div><div class="value"><span class="block-formula">C = 10 × π_dist × π_moat</span></div></div>
-    <div class="block-row"><div class="label">π_dist</div><div class="value"><strong>Distribution Control</strong> ∈ [0, 1]. 0 = upstream gatekeeper owns customer (banks in mortgage; OEMs in parts; ANGI/Thumbtack aggregators in handyman). 1 = operator owns customer directly (broker in insurance, agency in HomeCare, property manager in PM).</div></div>
-    <div class="block-row"><div class="label">π_moat</div><div class="value"><strong>Moat strength</strong> ∈ [0, 1]. License + proprietary data + physical presence + multi-sided network. 0 = generic AI does it for 12 months without us. 1 = regulated license + 20yr client history + physical service.</div></div>
-    <div class="block-row"><div class="label">Sources</div><div class="value" style="font-size: 12px; color: #aaa;"><strong>Damodaran NYU Stern</strong> sector margins. Industry-specific benchmarks: <strong>AICPA / CPA.com CAS Benchmark 2024</strong>, <strong>MarshBerry Top 100 Insurance 2024</strong>, <strong>KeyBanc SaaS Survey 2024</strong>, <strong>Service Leadership Index Q4 2024</strong>, <strong>ADA Dental Practice Survey 2024</strong>, <strong>CMS NHE</strong>, <strong>AVMA Veterinary Industry Tracker</strong>, <strong>Buildium PM 2024</strong>, <strong>NRA Restaurant Profitability</strong>, <strong>ATA / ATRI Trucking 2025</strong>, <strong>SIA Staffing Gross Margin 2025</strong>.</div></div>
-    <div class="why-note"><strong>Why C is multiplicative inside itself:</strong> distribution and moat are both necessary. Strong distribution + no moat → generic AI bypasses us within a year. Strong moat + weak distribution → value flows to whoever owns customer. Multiplication closes both holes.</div>
-  </div>
-
-  <div class="block-card a">
-    <h3><span class="letter">A</span>Adoption Speed — how fast market accepts</h3>
-    <div class="block-row"><div class="label">What</div><div class="value">Speed of AI adoption in this category × sub-sector, in years until 50% market adoption. Faster = more $/year extracted before commoditization equalizes margins.</div></div>
-    <div class="block-row"><div class="label">Formula</div><div class="value"><span class="block-formula">A = 10 / t_50</span></div></div>
-    <div class="block-row"><div class="label">Calibration</div><div class="value">t_50 = 1 yr → A = 10 (doc parsing in claims, already happening). t_50 = 2 yr → A = 5 (most back-office). t_50 = 5 yr → A = 2 (RN scheduling in HomeCare: cultural + regulatory drag). t_50 = 10 yr → A = 1 (surgery, litigation, strategic decisions).</div></div>
-    <div class="block-row"><div class="label">Sources</div><div class="value" style="font-size: 12px; color: #aaa;">Composite of: <strong>Anthropic Economic Index (March 2026)</strong> — 30%, <strong>McKinsey MGI GenAI 2024</strong> + <strong>Goldman Sachs GenAI 2023</strong> exposure — 25%, <strong>O*NET 28.0 routine task share</strong> — 15%, industry surveys (NAHC, AICPA, CompTIA / Kaseya, MarshBerry, ADA, AMA, IAB, AIA, NRA, ATA Tech Council) — 15%, <strong>BLS Employment Projections 2024-34</strong> — 10%, <strong>Frey-Osborne</strong> — 5%.</div></div>
-    <div class="why-note"><strong>Why A:</strong> Total fund value = ($/year captured) × (years in window). If adoption is slow, the value window opens after the fund's exit horizon. A high-V cell with slow A cannot deliver returns within IC tolerance.</div>
-  </div>
-
-  <div class="block-card b">
-    <h3><span class="letter">B</span>Buyability — can we enter</h3>
-    <div class="block-row"><div class="label">What</div><div class="value">Whether the fund can actually acquire operators: enough targets in the $1-10M EBITDA band, willing owners, disciplined entry pricing, manageable competition from other PE platforms.</div></div>
-    <div class="block-row"><div class="label">Formula</div><div class="value"><span class="block-formula">B = 10 × (TD × OW × PD) / (1 + CFD)</span></div></div>
-    <div class="block-row"><div class="label">TD</div><div class="value"><strong>Target Density</strong>: log(N operators in our $1–10M EBITDA band). Not "thousands", but "how many in our band".</div></div>
-    <div class="block-row"><div class="label">OW</div><div class="value"><strong>Owner Willingness</strong>: silver tsunami × succession gap × economic distress. 60+ owner without succession + distressed = high.</div></div>
-    <div class="block-row"><div class="label">PD</div><div class="value"><strong>Price Discipline</strong>: (Public comp − Asking) / Public comp. Positive = we buy below comp.</div></div>
-    <div class="block-row"><div class="label">CFD</div><div class="value"><strong>Competition For Deals</strong>: log(1 + active PE platforms).</div></div>
-    <div class="block-row"><div class="label">B = 0</div><div class="value">For Government (sector 92), Postal Service (4911), Central Bank (5211), Management of Companies (5511), Religious Orgs (8131), Private Households (8141). These auto-KILL — not acquirable.</div></div>
-    <div class="why-note"><strong>Why B is multiplicative across TD, OW, PD:</strong> A vertical with high fragmentation but no willing sellers (TD high, OW low) is not acquirable. A single-target opportunity at the right price with no competing bidders (TD low, OW high, CFD low) still passes — fragmentation alone is not a sufficient gate.</div>
-  </div>
-
-  <div class="block-card m">
-    <h3><span class="letter">M</span>Multiple Arbitrage Spread — buy low, sell high</h3>
-    <div class="block-row"><div class="label">What</div><div class="value">The spread between the buy multiple paid for sub-$3M EBITDA tuck-in acquisitions (typically 3-5×) and the exit multiple realized when the consolidated $10M+ EBITDA platform is sold (typically 10-15×). This is the core PE roll-up economics: without spread, roll-up math does not work even when AI fit is perfect.</div></div>
-    <div class="block-row"><div class="label">Formula</div><div class="value"><span class="block-formula">M = round((exit_mult − buy_mult) / buy_mult × 4)</span>, capped 0-10</div></div>
-    <div class="block-row"><div class="label">Examples</div><div class="value"><strong>Insurance Brokers P&C</strong> (4-11× → 14-19×) = M 9. <strong>MSP / IT Services</strong> (4-6× → 9-14×) = M 8. <strong>HomeCare</strong> (3-6× → 10-14×) = M 7. <strong>Accounting</strong> (3-5.5× → 7-12×) = M 7. <strong>SaaS</strong> (6-8× → 10-12×, compressed) = M 3. <strong>Dental DSO</strong> (5-9× → 10-12×, saturated) = M 4. <strong>Commercial banks</strong> (priced on P/TBV, not EBITDA) = M 2. <strong>Real Estate Lessors</strong> (asset-priced on cap rate) = M 2.</div></div>
-    <div class="block-row"><div class="label">Sources</div><div class="value" style="font-size: 12px; color: #aaa;"><strong>Capstone Partners Middle Market 2025</strong>, <strong>Mertz Taggart Q1 2026</strong> (Home-Based Care), <strong>MarshBerry Insurance 2024</strong>, <strong>Sica Fletcher 2025</strong>, <strong>FOCUS Bankers Healthcare 2026</strong>, <strong>Aventis MSP 2025</strong>, <strong>Kroll HVAC 2025</strong>, <strong>PKF Summer 2025</strong>, <strong>Pepperdine PCMR 2025</strong>, <strong>Bain Global PE Report 2026</strong>, <strong>Houlihan Lokey T&L Q2 2025</strong>.</div></div>
-    <div class="why-note"><strong>Why M is necessary:</strong> A vertical can have perfect AI fit (V = 10) and still deliver zero MoIC if buy and exit multiples are equal — productivity gains get repriced by customers (the Klarna pattern in BPO). M is the discipline that separates "where AI applies" from "where PE roll-up math works".</div>
-  </div>
-
-  <h2>Workflow taxonomy — APQC PCF Level 1</h2>
-
-  <div class="apqc-attribution">
-    <strong>Source:</strong> APQC Process Classification Framework (PCF) v7.4 Cross-Industry, January 2022. Published by APQC (American Productivity & Quality Center) — industry-standard process taxonomy used by McKinsey, BCG, Deloitte for benchmarking, ERP implementation, and M&A integration. Cross-Industry framework is free for non-commercial use. Reference: <a href="https://www.apqc.org/process-frameworks" target="_blank">apqc.org/process-frameworks</a><br><br>
-    APQC PCF has <strong>5 hierarchical levels</strong>: 13 categories → ~70 process groups → ~250 processes → ~1,500 activities → tasks. We use <strong>Level 1 (13 categories)</strong> for the cross-economy screen. For deep-dives on Hell-Yes verticals, we'll adopt APQC industry-specific PCFs (Banking, Insurance, Healthcare, Pharma, Retail, Telecom, Education, Electric Utilities).
-  </div>
-
-  <table class="apqc-table">
-    <thead><tr><th>APQC #</th><th>Category</th><th>What it covers · AI exposure</th></tr></thead>
-    <tbody>
-      <tr><td>1.0</td><td>Develop Vision and Strategy</td><td>Strategic planning, M&A planning, portfolio decisions, business model design. <em>Low AI exposure</em> — judgment-heavy work, AI augments not replaces.</td></tr>
-      <tr><td>2.0</td><td>Develop and Manage Products and Services</td><td>R&D, product design, lifecycle management, content creation. <em>Variable</em> — code/text creative high; pharma R&D lower.</td></tr>
-      <tr><td>3.0</td><td>Market and Sell Products and Services</td><td>Marketing, lead gen, sales execution, partner management. <em>High AI exposure</em> — content gen, ad creative, lead scoring, SDR automation.</td></tr>
-      <tr><td>4.0</td><td>Deliver Physical Products</td><td>Procurement, manufacturing, logistics, fulfillment. <em>Limited</em> — robotics/warehouse automation possible but slow.</td></tr>
-      <tr><td>5.0</td><td>Deliver Services</td><td>Service delivery, scheduling, operations execution. <em>Variable</em> — knowledge services high; physical services low.</td></tr>
-      <tr><td>6.0</td><td>Manage Customer Service</td><td>Inbound support, complaint handling, customer success. <em>Highest AI exposure</em> — chatbots, tier-1 ticket auto-resolution.</td></tr>
-      <tr><td>7.0</td><td>Develop and Manage Human Capital</td><td>Recruiting, payroll, training, performance management. <em>High</em> — resume screening, sourcing, payroll automation.</td></tr>
-      <tr><td>8.0</td><td>Manage Information Technology</td><td>IT infrastructure, security, software development, help desk. <em>High</em> — Copilot for code, AI for IT support.</td></tr>
-      <tr><td>9.0</td><td>Manage Financial Resources</td><td>Accounting, AR, AP, payroll, treasury, tax, reporting. <em>Highest exposure</em> — heavy LLM adoption among accountants, ≥25% usage in Anthropic Economic Index.</td></tr>
-      <tr><td>10.0</td><td>Acquire, Construct, and Manage Assets</td><td>Real estate, equipment, maintenance, capital projects. <em>Moderate</em> — predictive maintenance, asset analytics.</td></tr>
-      <tr><td>11.0</td><td>Manage Enterprise Risk, Compliance, Resiliency</td><td>Risk, regulatory, audit, EHS, business continuity. <em>Moderate-High</em> — compliance docs, risk modeling.</td></tr>
-      <tr><td>12.0</td><td>Manage External Relationships</td><td>PR, government, legal, investor relations. <em>Low</em> — relationship work, AI augments.</td></tr>
-      <tr><td>13.0</td><td>Develop and Manage Business Capabilities</td><td>Process improvement, change management, knowledge management. <em>Moderate</em> — documentation, knowledge bases automatable.</td></tr>
-    </tbody>
-  </table>
-
-  <h2>Score interpretation (cell level)</h2>
-  <table class="scale-table">
-    <thead><tr><th>Verdict</th><th>S range</th><th>Geom mean (5 blocks)</th><th>What it means</th></tr></thead>
-    <tbody>
-      <tr><td style="background:#0d652d">Hell-Yes</td><td>≥ 21,600</td><td>≥ 7.4</td><td>All five blocks "good or excellent" (≥7). Build AI roll-up playbook here. Run before window closes.</td></tr>
-      <tr><td style="background:#34d058;color:#0a0a0a">Strong</td><td>5,625 – 21,600</td><td>5.6 – 7.4</td><td>Most blocks "average or better" (≥5.5). Specific condition named at IC.</td></tr>
-      <tr><td style="background:#f9c84a;color:#0a0a0a">Conditional</td><td>300 – 5,625</td><td>3.1 – 5.6</td><td>Mixed signal. Works only with right sub-segment or specific operator.</td></tr>
-      <tr><td style="background:#f85149">Pass</td><td>60 – 300</td><td>2.3 – 3.1</td><td>Multiple weak blocks. Not worth fund resource.</td></tr>
-      <tr><td style="background:#3a3a3a">KILL</td><td>&lt; 60</td><td>&lt; 2.3</td><td>One or more blocks near zero. V ≈ 0 (AI doesn't apply) or C ≈ 0 (value flows elsewhere) or M = 0-2 (no arbitrage) or B = 0 (not acquirable).</td></tr>
-    </tbody>
-  </table>
-
-  <h2>Why these thresholds — geometric mean derivation, recalibrated × 1.8</h2>
-  <div class="intro-card">
-    Thresholds derive from the geometric mean of the five blocks. Cell score S is a product of 0-10 dimensions; the natural cutoff is "all dimensions at least good". v1 (4-digit) used geom mean ≥ 6.5 → Hell-Yes ≈ 12,000. For v2 (6-digit), sub-segments isolated from their parents legitimately score higher (Mental Health 621330 is V=8 separately, vs averaged into V=1 for "Other Health Practitioners" 6213 in v1). Empirically v2 mean sumS = 1.80× v1; applying ×1.80 to thresholds restores the v1 verdict-bucket proportions (~2.6% Hell-Yes, etc.). Geometric mean interpretation shifts to ≥7.4 for Hell-Yes.
-  </div>
-  <p>The formula <code>S = V × C × A × B</code> with each block 0–10 has a mathematical structure that makes the geometric mean (= "average dimension score") the natural threshold rule:</p>
-  <table class="scale-table">
-    <thead><tr><th>Scenario</th><th>Per-block score</th><th>S = score⁴</th></tr></thead>
-    <tbody>
-      <tr><td>Maximum</td><td>10</td><td>10,000</td></tr>
-      <tr><td>All "excellent"</td><td>9</td><td>6,561</td></tr>
-      <tr><td>All "good"</td><td>7</td><td><strong>2,401</strong></td></tr>
-      <tr><td>All "average"</td><td>5</td><td><strong>625</strong></td></tr>
-      <tr><td>All "weak"</td><td>3</td><td><strong>81</strong></td></tr>
-      <tr><td>All "bad"</td><td>1</td><td>1</td></tr>
-    </tbody>
-  </table>
-  <p>If we define <strong>Hell-Yes = "all four blocks at least good (≥7)"</strong> — meaning no dimension is a weakness — then the threshold is <code>7⁴ = 2,401</code>. Round to <strong>2,400</strong>.</p>
-  <p>Same logic for other tiers:</p>
-  <ul style="margin-left: 24px; color: #c9ccd1;">
-    <li><strong>Strong</strong> = all blocks ≥ 5 (average or better) → <code>5⁴ = 625</code></li>
-    <li><strong>Conditional</strong> = all blocks ≥ 3 (weak but non-zero) → <code>3⁴ = 81</code> (round to 100)</li>
-    <li><strong>Pass</strong> = geom mean ≥ 1.5 → <code>1.5⁴ ≈ 5</code> (round to 20)</li>
-    <li><strong>KILL</strong> = at least one block near zero → below 20</li>
-  </ul>
-  <p><strong>Why geometric mean, not arithmetic:</strong> the formula is multiplicative. Arithmetic mean would let one strong block compensate for a near-zero block (8+8+8+0 → mean 6). Geometric mean correctly penalizes weak links (0⁴ = 0 regardless of others). This is the right math for "no link in chain is weak".</p>
-  <p><strong>Why this is better than anchoring:</strong> the threshold is now reproducible and defensible. Anyone running the formula on a new dataset gets the same answer about what "Hell-Yes" means. We don't need to recalibrate when the dataset shifts.</p>
-
-  <h3>Vertical-level verdicts (Layer 1)</h3>
-  <p>For aggregating cell scores up to vertical level:</p>
-  <ul style="margin-left: 24px; color: #c9ccd1;">
-    <li><strong>Hell-Yes vertical</strong> = ≥2 Hell-Yes cells, OR ≥1 Hell-Yes cell + Σ S ≥ 10,000</li>
-    <li><strong>Strong vertical</strong> = max cell ≥ 2,400, OR Σ S ≥ 6,500</li>
-    <li><strong>Conditional vertical</strong> = Σ S ≥ 2,400</li>
-    <li><strong>Pass vertical</strong> = Σ S ≥ 625</li>
-    <li><strong>KILL vertical</strong> = below</li>
-  </ul>
-
-  <h2>Worked example</h2>
-  <div class="worked-example">
-    <h4>Insurance Brokerage P&C (NAICS 5242) × "9. Manage Financial Resources"</h4>
-    <table>
-      <tr><td>V = 7</td><td>V_base 7 (high labor intensity, regulated docs) × workflow_modifier 1.0 (Financial Resources highest AI exposure). LR ≈ $3.6B/yr nationally (claims doc parsing κ=0.95, AR/AP automation).</td></tr>
-      <tr><td>C = 7</td><td>π_dist = 0.85 (broker owns client; carrier doesn't). π_moat = 0.85 (50-state license + accumulated book of business). C = 10 × 0.85 × 0.85 ≈ 7.</td></tr>
-      <tr><td>A = 6</td><td>t_50 ≈ 1.7 yrs: high adoption pressure (labor savings obvious), moderate friction (compliance), current adoption ~20%.</td></tr>
-      <tr><td>B = 7</td><td>tier-2 segment: 145K agencies, low PE saturation (PE prefers >$5M EBITDA), strong silver tsunami, median asking 5.5×, public comps 11×.</td></tr>
-    </table>
-    <div class="result">S = 7 × 7 × 6 × 7 = 2,058 — Strong 🟢</div>
-  </div>
-
-  <div class="footer-block">
-    Workflow taxonomy: APQC PCF v7.4 Cross-Industry · Industry classification: NAICS 2022
-  </div>
-</div>
-
-<div class="tooltip" id="tooltip"></div>
-<!-- P&L Modal -->
-<div class="pnl-modal-overlay" id="pnl-modal-overlay" onclick="if(event.target===this)closePnL()">
-  <div class="pnl-modal">
-    <button class="pnl-modal-close" onclick="closePnL()" title="Close (Esc)">✕</button>
-    <div class="pnl-modal-body" id="pnl-modal-body"></div>
-  </div>
-</div>
-
-<!-- Drawer for cell drill-down -->
-<div class="drawer-overlay" id="drawer-overlay"></div>
-<div class="drawer" id="drawer">
-  <div class="drawer-header">
-    <button class="drawer-close" onclick="closeDrawer()">✕</button>
-    <div class="drawer-eyebrow" id="drawer-eyebrow">Cell breakdown</div>
-    <div class="drawer-title" id="drawer-title"></div>
-    <div class="drawer-sub" id="drawer-sub"></div>
-  </div>
-  <div class="drawer-body" id="drawer-body"></div>
-</div>
-
-<!-- Cmd+K palette -->
-<div class="palette-overlay" id="palette-overlay" onclick="if(event.target===this)closePalette()">
-  <div class="palette">
-    <input type="text" class="palette-input" id="palette-input" placeholder="Search 308 sub-sectors by name or NAICS…" autocomplete="off">
-    <div class="palette-results" id="palette-results"></div>
-    <div class="palette-footer">
-      <span><kbd>↑↓</kbd> navigate</span><span><kbd>↵</kbd> open</span><span><kbd>esc</kbd> close</span><span style="margin-left:auto"><kbd>⌘</kbd><kbd>K</kbd> open palette</span>
-    </div>
-  </div>
-</div>
-
-
-<script>
-const subProfiles = []; // populated from six_data.json
-
-const sectorNames = {
-"11":"Agriculture, Forestry, Fishing","21":"Mining, Oil and Gas","22":"Utilities","23":"Construction",
-"31":"Manufacturing — Food/Beverage/Textile","32":"Manufacturing — Wood/Paper/Chemical/Plastic","33":"Manufacturing — Metal/Machinery/Electronics/Transport",
-"42":"Wholesale Trade","44":"Retail Trade","45":"Retail Trade (cont.)",
-"48":"Transportation","49":"Couriers and Warehousing",
-"51":"Information","52":"Finance and Insurance","53":"Real Estate",
-"54":"Professional Services","55":"Management of Companies","56":"Administrative Support",
-"61":"Educational Services","62":"Health Care",
-"71":"Arts, Entertainment, Recreation","72":"Accommodation and Food","81":"Other Services","92":"Public Administration"
-};
-
-// APQC PCF Level 1 — 13 process categories
-const workflowOrder = [
-"1. Vision & Strategy","2. Product/Service Dev","3. Market & Sell","4. Deliver Physical Products",
-"5. Deliver Services","6. Customer Service","7. Human Capital (HR)","8. Information Technology",
-"9. Financial Resources","10. Manage Assets","11. Risk & Compliance","12. External Relationships","13. Business Capabilities"
-];
-
-// Short labels for matrix headers (narrow columns)
-const workflowShort = {
-"1. Vision & Strategy":"Strategy","2. Product/Service Dev":"R&D","3. Market & Sell":"Mkt/Sell",
-"4. Deliver Physical Products":"Phys Del","5. Deliver Services":"Svc Del","6. Customer Service":"Cust Svc",
-"7. Human Capital (HR)":"HR","8. Information Technology":"IT","9. Financial Resources":"Finance",
-"10. Manage Assets":"Assets","11. Risk & Compliance":"Risk","12. External Relationships":"Ext Rel",
-"13. Business Capabilities":"Bus Caps"
-};
-
-// vMod = AI replaceability factor, aMod = adoption velocity
-// Based on Anthropic Economic Index AI exposure per APQC process category
-const workflowModifiers = {
-"1. Vision & Strategy":{vMod:0.25,aMod:0.30},
-"2. Product/Service Dev":{vMod:0.55,aMod:0.60},
-"3. Market & Sell":{vMod:0.80,aMod:0.85},
-"4. Deliver Physical Products":{vMod:0.25,aMod:0.35},
-"5. Deliver Services":{vMod:0.55,aMod:0.65},
-"6. Customer Service":{vMod:0.95,aMod:1.00},
-"7. Human Capital (HR)":{vMod:0.80,aMod:0.85},
-"8. Information Technology":{vMod:0.75,aMod:0.90},
-"9. Financial Resources":{vMod:1.00,aMod:1.00},
-"10. Manage Assets":{vMod:0.35,aMod:0.40},
-"11. Risk & Compliance":{vMod:0.65,aMod:0.65},
-"12. External Relationships":{vMod:0.30,aMod:0.25},
-"13. Business Capabilities":{vMod:0.50,aMod:0.55}
-};
-
-// Applicability — categories that DON'T apply to certain sectors (filter out)
-const categoryNotApplicableSectors = {
-"2. Product/Service Dev": new Set(["21","42","44","45","92"]),
-"3. Market & Sell": new Set(["92"]),
-"4. Deliver Physical Products": new Set(["52","53","54","55","56","61","71","72","81","92"]),
-"5. Deliver Services": new Set(["31","32","33"]),
-"6. Customer Service": new Set(["92"])
-};
-// Specific 4-digit NAICS that exclude particular categories
-const naicsExcludeCategory = {}; // v4 unbiased — removed
-
-const overrides = {}; // v4 unbiased — no overrides
-
-function isCellApplicable(naics, sector, workflow) {
-if (categoryNotApplicableSectors[workflow] && categoryNotApplicableSectors[workflow].has(sector)) return false;
-if (naicsExcludeCategory[naics] && naicsExcludeCategory[naics].has(workflow)) return false;
-return true;
-}
-
-const naicsPnL = {}; // populated from six_data.json
-
-const NAICS_M = {}; // populated from six_data.json
-const SECTOR_M = {"11":2,"21":2,"22":1,"23":5,"31":3,"32":3,"33":3,"42":3,"44":4,"45":4,"48":4,"49":5,"51":3,"52":4,"53":3,"54":5,"55":2,"56":4,"61":4,"62":6,"71":3,"72":3,"81":4,"92":0};
-const NAICS_C = {}; // populated from six_data.json
-const NAICS_A = {}; // populated from six_data.json
-
-function buildCells(){
-const out=[];
-subProfiles.forEach(p=>{
-  const[name,naics,sector,vBase,c,aBase,b]=p;
-  const cEff = NAICS_C[naics] !== undefined ? NAICS_C[naics] : c;
-  const aBaseEff = NAICS_A[naics] !== undefined ? NAICS_A[naics] : aBase;
-  workflowOrder.forEach(wf=>{
-    if(!isCellApplicable(naics,sector,wf))return;
-    const mod=workflowModifiers[wf];
-    let v=Math.max(1,Math.round(vBase*mod.vMod));
-    let a=Math.max(1,Math.round(aBaseEff*mod.aMod));
-    let note="";
-    const ovKey=naics+"|"+wf;
-    if(overrides[ovKey]){
-      if(overrides[ovKey].v!==undefined)v=overrides[ovKey].v;
-      if(overrides[ovKey].a!==undefined)a=overrides[ovKey].a;
-      note=overrides[ovKey].note||"";
-    }
-    const M = NAICS_M[naics] !== undefined ? NAICS_M[naics]
-      : (NAICS_M[naics.slice(0,3)] !== undefined ? NAICS_M[naics.slice(0,3)]
-      : (NAICS_M[naics.slice(0,2)] !== undefined ? NAICS_M[naics.slice(0,2)]
-      : (SECTOR_M[sector] || 4)));
-    const S = Math.round(v*cEff*a*b*M);
-    out.push({subsector:name,naics,sector,workflow:wf,V:v,C:cEff,A:a,B:b,M:M,S:S,note});
-  });
-});
-return out;
-}
-
-function buildVerticals(cells){
-const groups={};
-cells.forEach(c=>{
-  if(!groups[c.subsector])groups[c.subsector]={name:c.subsector,naics:c.naics,sector:c.sector,cells:[]};
-  groups[c.subsector].cells.push(c);
-});
-Object.values(groups).forEach(g=>{
-  const cs=g.cells;
-  g.sumS=cs.reduce((a,c)=>a+c.S,0);
-  g.maxS=Math.max(...cs.map(c=>c.S));
-  // 6-digit thresholds: v1 thresholds × 1.8 (mean-shift recalibration)
-  g.numHellYes=cs.filter(c=>c.S>=21600).length;
-  g.numStrong=cs.filter(c=>c.S>=5625&&c.S<21600).length;
-  g.numCond=cs.filter(c=>c.S>=300&&c.S<5625).length;
-  g.numKill=cs.filter(c=>c.S<60).length;
-  g.avgV=cs.reduce((a,c)=>a+c.V,0)/cs.length;
-  g.avgC=cs.reduce((a,c)=>a+c.C,0)/cs.length;
-  g.avgA=cs.reduce((a,c)=>a+c.A,0)/cs.length;
-  g.avgB=cs.reduce((a,c)=>a+c.B,0)/cs.length;
-  g.avgM=cs.reduce((a,c)=>a+(c.M||0),0)/cs.length;
-});
-return groups;
-}
-
-// v2 / 6-digit thresholds: recalibrated via mean-shift × 1.8 against v1 (4-digit)
-// Because 6-digit isolates sub-segments (instead of averaging across a parent),
-// V/C/A/M legitimately score higher where attractive. Recalibrating preserves
-// the v1 verdict-bucket proportions (~2.6% Hell-Yes / 5.8% Strong / 21% Cond /
-// 34% Pass / 36% KILL) so a Hell-Yes here means the same as in v1.
-function verticalVerdict(g){
-if(g.numHellYes>=2||(g.numHellYes>=1&&g.sumS>=90000))return{label:'Hell-Yes',color:'#0d652d',emoji:'💚'};
-if(g.maxS>=21600||g.sumS>=58320)return{label:'Strong',color:'#34d058',emoji:'🟢'};
-if(g.sumS>=21600)return{label:'Conditional',color:'#f9c84a',emoji:'🟡'};
-if(g.sumS>=5625)return{label:'Pass',color:'#f85149',emoji:'🔴'};
-return{label:'KILL',color:'#3a3a3a',emoji:'⚫'};
-}
-
-function subLayerVerdict(avg){
-if(avg>=7)return{label:'Strong',color:'#0d652d',emoji:'💚'};
-if(avg>=5.5)return{label:'OK',color:'#34d058',emoji:'🟢'};
-if(avg>=4)return{label:'Weak',color:'#f9c84a',emoji:'🟡'};
-if(avg>=2.5)return{label:'Poor',color:'#f85149',emoji:'🔴'};
-return{label:'Bad',color:'#3a3a3a',emoji:'⚫'};
-}
-
-function colorForCell(cell,layer){
-// Glass-tint colors matching Layer 1 cards (rgba with alpha). 6-digit cell thresholds × 1.8.
-if(layer==='S'){const s=cell.S;
-  if(s>=21600)return'rgba(16,185,129,0.62)';   // Hell-Yes emerald
-  if(s>=5625)return'rgba(52,208,88,0.55)';     // Strong green
-  if(s>=300)return'rgba(249,200,74,0.55)';     // Conditional yellow
-  if(s>=60)return'rgba(248,81,73,0.55)';       // Pass red
-  return'rgba(90,90,100,0.45)';                 // KILL grey
-}
-const v=cell[layer];
-if(v>=8)return'rgba(16,185,129,0.62)';
-if(v>=6)return'rgba(52,208,88,0.55)';
-if(v>=4)return'rgba(249,200,74,0.55)';
-if(v>=2)return'rgba(248,81,73,0.55)';
-return'rgba(90,90,100,0.45)';
-}
-function textColorFor(bg){if(bg==='#f9c84a'||bg==='#34d058')return'#0a0a0a';return'#fff';}
-function cellDisplay(cell,layer){if(layer==='S')return cell.S.toLocaleString();return cell[layer];}
-
-let currentLayer='S';
-let currentFilter='all';
-let cells=[];
-let verticals={};
-let SIX_FULL={}; // full per-6-digit dataset for P&L modal
-let SECTOR_COSTS={}; // sector-typical cost ratios (% of revenue) for Before/After AI P&L
-
-// 6-DIGIT INIT: load six_data.json and populate subProfiles, naicsPnL, NAICS_M/C/A
-async function init6digit(){
-  const [d, sc] = await Promise.all([
-    fetch('six_data.json').then(r=>r.json()),
-    fetch('sector_costs.json').then(r=>r.json()).catch(()=>({}))
-  ]);
-  SIX_FULL = d;
-  SECTOR_COSTS = sc;
-  // Clear and rebuild
-  while(subProfiles.length) subProfiles.pop();
-  Object.entries(d).forEach(([code, v]) => {
-    subProfiles.push([v.title, code, v.sector, v.V, v.C, v.A, v.B]);
-    naicsPnL[code] = {f:v.f, r:v.r, e:v.e, d:v.d};
-    NAICS_M[code] = v.M;
-  });
-  cells = buildCells();
-  verticals = buildVerticals(cells);
-}
-
-function filterVerticals(){
-const all=Object.values(verticals);
-if(currentFilter==='all')return all;
-if(currentFilter==='green')return all.filter(g=>{const v=verticalVerdict(g).label;return v==='Hell-Yes'||v==='Strong'||v==='Conditional';});
-if(currentFilter==='top50')return[...all].sort((a,b)=>b.sumS-a.sumS).slice(0,50);
-return all;
-}
-
-function renderStats(){
-const allVerticals=Object.values(verticals);
-const totalSubs=allVerticals.length;
-const hellyesV=allVerticals.filter(g=>verticalVerdict(g).label==='Hell-Yes').length;
-const strongV=allVerticals.filter(g=>verticalVerdict(g).label==='Strong').length;
-const condV=allVerticals.filter(g=>verticalVerdict(g).label==='Conditional').length;
-const passKillV=allVerticals.filter(g=>['KILL','Pass'].includes(verticalVerdict(g).label)).length;
-const sorted=[...allVerticals].sort((a,b)=>b.sumS-a.sumS);
-const top=sorted[0];
-document.getElementById('stats-bar').innerHTML=`
-<div class="stat-item"><div class="stat-label">Sub-sectors</div><div class="stat-value">${totalSubs}</div><div class="stat-delta">NAICS 6-digit</div></div>
-<div class="stat-item"><div class="stat-label">Cells total</div><div class="stat-value">${cells.length}</div><div class="stat-delta">NAICS × APQC</div></div>
-<div class="stat-item"><div class="stat-label">Hell-Yes</div><div class="stat-value green">${hellyesV}</div><div class="stat-delta">verticals</div></div>
-<div class="stat-item"><div class="stat-label">Strong</div><div class="stat-value green">${strongV}</div><div class="stat-delta">verticals</div></div>
-<div class="stat-item"><div class="stat-label">Conditional</div><div class="stat-value yellow">${condV}</div><div class="stat-delta">verticals</div></div>
-<div class="stat-item"><div class="stat-label">Pass / KILL</div><div class="stat-value red">${passKillV}</div><div class="stat-delta">deprioritize</div></div>`;
-}
-
-function renderCards(layer){
-const container=document.getElementById('cards-container');
-const filtered=filterVerticals();
-const groupedBySector={};
-filtered.forEach(g=>{if(!groupedBySector[g.sector])groupedBySector[g.sector]=[];groupedBySector[g.sector].push(g);});
-const sectorOrder=Object.keys(groupedBySector).sort((a,b)=>{
-  const sa=groupedBySector[a].reduce((x,v)=>x+v.sumS,0);
-  const sb=groupedBySector[b].reduce((x,v)=>x+v.sumS,0);
-  return sb-sa;
-});
-let html='';
-sectorOrder.forEach(sectorCode=>{
-  const subs=groupedBySector[sectorCode].sort((a,b)=>b.sumS-a.sumS);
-  const sectorTotal=subs.reduce((x,v)=>x+v.sumS,0);
-  html+=`<div class="sector-group" data-sector="${sectorCode}">
-    <div class="sector-group-header" onclick="this.parentElement.classList.toggle('collapsed')">
-      <span class="collapse-icon">▼</span>
-      <span class="sector-code">${sectorCode}</span>
-      <span class="sector-name">${sectorNames[sectorCode]||sectorCode}</span>
-      <span class="sector-meta">${subs.length} subs · Σ S = ${sectorTotal.toLocaleString()}</span>
-    </div>
-    <div class="cards-grid">`;
-  subs.forEach(g=>{
-    let verdict;
-    if(layer==='S')verdict=verticalVerdict(g);else verdict=subLayerVerdict(g['avg'+layer]);
-    const bg=`linear-gradient(135deg, ${verdict.color} 0%, ${verdict.color}cc 100%)`;
-    const dots=g.cells.map(c=>`<div class="dot" style="background:${colorForCell(c,layer)}" title="${c.workflow}: ${cellDisplay(c,layer)}"></div>`).join('');
-    const pnl=naicsPnL[g.naics];
-    const fmtMoney=(x)=>{if(!x)return'—';if(x>=1e9)return'$'+(x/1e9).toFixed(1)+'B';if(x>=1e6)return'$'+(x/1e6).toFixed(1)+'M';if(x>=1e3)return'$'+(x/1e3).toFixed(0)+'K';return'$'+x;};
-    const fmtFirms=(x)=>{if(!x)return'—';if(x>=1e6)return(x/1e6).toFixed(1)+'M';if(x>=1e3)return(x/1e3).toFixed(0)+'K';return x.toLocaleString();};
-    // Δ pp text color (used INSIDE white pill for contrast)
-    const dppColor=pnl?(pnl.d>=4?'#0d652d':pnl.d>=2?'#a16207':pnl.d>=0?'#b91c1c':'#3a3a3a'):'#777';
-    const verdictBg = verdict.color;
-    // Vivid RGB tuples for glass tint. Two label sets:
-    //   Score layer (verticalVerdict): Hell-Yes / Strong / Conditional / Pass / KILL
-    //   Sub-layer V/C/A/M/B (subLayerVerdict): Strong / OK / Weak / Poor / Bad
-    // (Sub-layer "Strong" collides with Score "Strong" — both intentionally map to same green.)
-    const verdictRGB = {
-      'Hell-Yes': '16,185,129', 'Strong': '52,208,88', 'Conditional': '249,200,74', 'Pass': '248,81,73', 'KILL': '90,90,100',
-      'OK': '52,208,88', 'Weak': '249,200,74', 'Poor': '248,81,73', 'Bad': '90,90,100'
-    };
-    const vcRgb = verdictRGB[verdict.label] || '107,114,128';
-    html+=`<div class="sub-card" style="--vc-rgb:${vcRgb}" onclick="openPnL('${g.naics}')">
-      <div class="card-verdict" style="background:${verdictBg}">${verdict.emoji} ${verdict.label}</div>
-      <div class="card-name">${g.name}</div>
-      <div class="card-naics">NAICS ${g.naics} <span style="opacity:0.6;font-size:10px">· ΣS ${g.sumS.toLocaleString()}</span></div>
-      <div class="card-stats">
-        <div class="stat-mini"><span class="k">🏢 Firms</span><span class="v">${pnl?fmtFirms(pnl.f):'—'}</span></div>
-        <div class="stat-mini"><span class="k">💰 Avg rev</span><span class="v">${pnl?fmtMoney(pnl.r):'—'}</span></div>
-        <div class="stat-mini"><span class="k">📊 EBITDA</span><span class="v">${pnl?pnl.e+'%':'—'}</span></div>
-        <div class="stat-mini"><span class="k">⚡ AI Δ pp</span><span class="v" style="display:inline-block;background:rgba(255,255,255,0.95);color:${dppColor};font-weight:800;padding:2px 8px;border-radius:6px;width:fit-content;margin-top:2px">${pnl?(pnl.d>=0?'+':'')+pnl.d.toFixed(1):'—'}</span></div>
-      </div>
-      <div class="card-cell-dots">${dots}</div>
-    </div>`;
-  });
-  html+=`</div></div>`;
-});
-container.innerHTML=html;
-}
-
-function renderMatrix(layer){
-const tbl=document.getElementById('matrix-table');
-const map={};
-cells.forEach(c=>{if(!map[c.subsector])map[c.subsector]={};map[c.subsector][c.workflow]=c;});
-const filtered=filterVerticals();
-const sortedSubs=filtered.sort((a,b)=>b.sumS-a.sumS);
-let html='<thead><tr><th class="col-header" style="text-align:left;padding-left:14px;min-width:240px;">Sub-sector ↓ · APQC →</th>';
-workflowOrder.forEach(wf=>{html+=`<th class="col-header" title="${wf}">${workflowShort[wf]}<small>${wf.split('. ')[0]}</small></th>`;});
-html+='<th class="col-header" style="min-width:60px;">Σ S</th></tr></thead><tbody>';
-sortedSubs.forEach(v=>{
-  const vv=verticalVerdict(v);
-  html+=`<tr><th class="row-label" style="border-left:4px solid ${vv.color}">
-    <div style="font-size:11px;font-weight:700">${v.name}</div>
-    <div style="font-size:9px;color:#777;font-weight:400">NAICS ${v.naics} · ${vv.emoji} ${vv.label}</div></th>`;
-  workflowOrder.forEach(wf=>{
-    const c=map[v.name]&&map[v.name][wf];
-    if(!c){html+=`<td class="matrix-cell-empty">—</td>`;}
-    else{
-      const bg=colorForCell(c,layer),fg=textColorFor(bg),val=cellDisplay(c,layer);
-      const warn=c.note?'<span class="warn">⚠</span>':'';
-      html+=`<td class="matrix-cell" style="background:${bg};color:${fg}"
-        data-sub="${c.subsector}" data-naics="${c.naics}" data-wf="${c.workflow}"
-        data-v="${c.V}" data-c="${c.C}" data-a="${c.A}" data-b="${c.B}" data-m="${c.M||0}" data-s="${c.S}"
-        data-note="${c.note||''}">${val}${warn}</td>`;
-    }
-  });
-  html+=`<td class="matrix-cell" style="background:${vv.color};color:#fff;font-weight:700">${v.sumS.toLocaleString()}</td></tr>`;
-});
-html+='</tbody>';
-tbl.innerHTML=html;
-tbl.querySelectorAll('.matrix-cell').forEach(td=>{
-  td.addEventListener('mouseenter',e=>showTooltip(e,td.dataset));
-  td.addEventListener('mousemove',moveTooltip);
-  td.addEventListener('mouseleave',hideTooltip);
-});
-}
-
-const tooltipEl=document.getElementById('tooltip');
-function showTooltip(event,d){
-if(!d.sub)return;
-const V=+d.v,C=+d.c,A=+d.a,B=+d.b,M=+d.m,S=+d.s;
-let verdict;
-if(S>=21600)verdict={label:'Hell-Yes',color:'#0d652d'};
-else if(S>=5625)verdict={label:'Strong',color:'#34d058'};
-else if(S>=300)verdict={label:'Conditional',color:'#f9c84a'};
-else if(S>=60)verdict={label:'Pass',color:'#f85149'};
-else verdict={label:'KILL',color:'#3a3a3a'};
-const barW=val=>Math.round(val*14);
-tooltipEl.innerHTML=`
-<div class="t-title">${d.sub}</div>
-<div class="t-subtitle">NAICS ${d.naics} · APQC ${d.wf}</div>
-<div class="t-rows">
-  <div class="t-row"><span class="k">V (Value)</span><span class="v">${V} <span class="t-bar" style="width:${barW(V)}px;background:#34d058"></span></span></div>
-  <div class="t-row"><span class="k">C (Capture)</span><span class="v">${C} <span class="t-bar" style="width:${barW(C)}px;background:#4ea0ff"></span></span></div>
-  <div class="t-row"><span class="k">A (Speed)</span><span class="v">${A} <span class="t-bar" style="width:${barW(A)}px;background:#f9c84a"></span></span></div>
-  <div class="t-row"><span class="k">B (Buyability)</span><span class="v">${B} <span class="t-bar" style="width:${barW(B)}px;background:#b768f0"></span></span></div>
-  <div class="t-row"><span class="k">M (Multiple Arbitrage)</span><span class="v">${M} <span class="t-bar" style="width:${barW(M)}px;background:#ec4899"></span></span></div>
-</div>
-<div class="t-score">
-  <div class="t-score-label">S = V × C × A × B × M</div>
-  <div class="t-score-value" style="color:${verdict.color}">${S.toLocaleString()}</div>
-  <div class="verdict" style="background:${verdict.color};color:#fff">${verdict.label}</div>
-</div>
-${d.note?`<div class="t-note">⚠ ${d.note}</div>`:''}`;
-tooltipEl.style.opacity=1;moveTooltip(event);
-}
-function moveTooltip(event){
-const rect=tooltipEl.getBoundingClientRect();
-const w=rect.width||280,h=rect.height||260;
-let x=event.pageX+14,y=event.pageY+14;
-if(x+w>window.innerWidth-20)x=event.pageX-w-14;
-if(y+h>window.scrollY+window.innerHeight-20)y=event.pageY-h-14;
-tooltipEl.style.left=x+'px';tooltipEl.style.top=y+'px';
-}
-function hideTooltip(){tooltipEl.style.opacity=0;}
-
-function render(layer){currentLayer=layer;renderStats();renderCards(layer);renderMatrix(layer);}
-
-document.querySelectorAll('.layer-btn').forEach(btn=>btn.addEventListener('click',()=>{
-  document.querySelectorAll('.layer-btn').forEach(b=>b.classList.remove('active'));
-  btn.classList.add('active');render(btn.dataset.layer);
-}));
-document.querySelectorAll('.filter-btn').forEach(btn=>btn.addEventListener('click',()=>{
-  document.querySelectorAll('.filter-btn').forEach(b=>b.classList.remove('active'));
-  btn.classList.add('active');currentFilter=btn.dataset.filter;render(currentLayer);
-}));
-document.querySelectorAll('.nav-tab').forEach(tab=>tab.addEventListener('click',()=>{
-  document.querySelectorAll('.nav-tab').forEach(t=>t.classList.remove('active'));
-  document.querySelectorAll('.view').forEach(v=>v.classList.remove('active'));
-  tab.classList.add('active');document.getElementById(tab.dataset.tab+'-view').classList.add('active');
-}));
-
-
-// === P&L modal (lazy-loaded from external JSON) ===
-let PNL_CACHE = null;
-async function ensurePnLLoaded() {
-  if (PNL_CACHE) return PNL_CACHE;
-  const body = document.getElementById('pnl-modal-body');
-  body.classList.add('loading');
-  body.innerHTML = 'Loading P&L data…';
-  try {
-    const res = await fetch('pnl_data.json');
-    PNL_CACHE = await res.json();
-    body.classList.remove('loading');
-    return PNL_CACHE;
-  } catch(e) {
-    body.classList.remove('loading');
-    body.innerHTML = '<div style="padding:40px;text-align:center;color:var(--text-3)">Failed to load P&L data.</div>';
-    throw e;
-  }
-}
-async function openPnL(naics) {
-  document.getElementById('pnl-modal-overlay').classList.add('open');
-  document.body.style.overflow = 'hidden';
-  const body = document.getElementById('pnl-modal-body');
-  const v = SIX_FULL[naics];
-  if (!v) {
-    body.innerHTML = '<div style="padding:40px;text-align:center;color:var(--text-3)">No data for NAICS ' + naics + '</div>';
-    return;
-  }
-  body.innerHTML = renderSixDigitPnL(naics, v);
-}
-
-function fmtMoney(n) {
-  if (!n || isNaN(n)) return '—';
-  if (n >= 1e9) return '$' + (n/1e9).toFixed(2) + 'B';
-  if (n >= 1e6) return '$' + (n/1e6).toFixed(2) + 'M';
-  if (n >= 1e3) return '$' + (n/1e3).toFixed(1) + 'K';
-  return '$' + Math.round(n);
-}
-
-function renderPnLBeforeAfter(v) {
-  const revenue = v.r || 0;
-  if (!revenue) return '';
-  const ebitda_pct = v.e || 0;
-  const ai_delta_pp = v.d || 0;
-  const sector = v.sector || '54';
-
-  // Get sector-typical cost ratios; fall back to professional services if unknown
-  const ratios = SECTOR_COSTS[sector] || SECTOR_COSTS['54'] ||
-    {wages:30, cogs:15, rent:6, dep:5, mkt:4, it:3, other:8};
-
-  // Use sector ratios; back-solve so wages+cogs+rent+dep+mkt+it+other+ebitda = 100%
-  // Keep cogs/rent/dep/mkt/it/other as-is and adjust wages to balance
-  const fixed = ratios.cogs + ratios.rent + ratios.dep + ratios.mkt + ratios.it + ratios.other;
-  let wages = 100 - ebitda_pct - fixed;
-  if (wages < 0) wages = Math.max(2, ratios.wages); // fallback if EBITDA + fixed > 100
-
-  // After AI: AI delta affects wages and IT primarily
-  // Distribute delta: 70% comes from wages reduction, 20% from revenue uplift, 10% from IT cost rise
-  // Then re-solve EBITDA
-  const ai_wages_delta = ai_delta_pp >= 0 ? -ai_delta_pp * 0.7 : -ai_delta_pp * 0.5; // wages reduction
-  const ai_rev_delta = ai_delta_pp >= 0 ? ai_delta_pp * 0.3 : ai_delta_pp * 0.2; // revenue uplift (small)
-  const ai_it_delta = ai_delta_pp >= 0 ? Math.min(ai_delta_pp * 0.2, 3) : 0; // IT cost rise (small)
-
-  const wagesAfter = Math.max(0.5, wages + ai_wages_delta);
-  const itAfter = ratios.it + ai_it_delta;
-  const revenueAfter = revenue * (1 + ai_rev_delta / 100);
-  const ebitdaAfter = ebitda_pct + ai_delta_pp;
-
-  const row = (label, pctBefore, pctAfter, isEbitda, isRev) => {
-    const $b = revenue * pctBefore / 100;
-    const $a = (isRev ? revenueAfter : revenueAfter) * pctAfter / 100;
-    const changed = Math.abs(pctBefore - pctAfter) > 0.1;
-    const rowCls = isEbitda ? 'background:rgba(16,185,129,0.12);font-weight:700' : (isRev ? 'font-weight:600' : '');
-    const aColor = changed ? (isEbitda ? '#10b981' : (pctAfter < pctBefore ? '#10b981' : '#f59e0b')) : '#a8adb8';
-    return `<tr style="${rowCls}">
-      <td style="padding:6px 10px;color:#a8adb8;font-size:12px">${label}</td>
-      <td style="padding:6px 10px;text-align:right;font-family:'JetBrains Mono',monospace;font-size:11px;color:#6c7180">${pctBefore.toFixed(1)}%</td>
-      <td style="padding:6px 10px;text-align:right;font-family:'JetBrains Mono',monospace;font-size:11px;color:#fff">${fmtMoney($b)}</td>
-      <td style="padding:6px 10px;text-align:right;font-family:'JetBrains Mono',monospace;font-size:11px;color:${aColor}">${pctAfter.toFixed(1)}%</td>
-      <td style="padding:6px 10px;text-align:right;font-family:'JetBrains Mono',monospace;font-size:11px;color:${aColor}">${fmtMoney($a)}</td>
-    </tr>`;
-  };
-
-  return `
-    <div style="padding:24px 28px;border-bottom:1px solid #1a1e28">
-      <div style="font-size:11px;color:#6c7180;text-transform:uppercase;letter-spacing:1px;font-weight:700;margin-bottom:14px">P&amp;L Before vs After AI <span style="font-weight:500;font-size:10px;color:#6c7180;text-transform:none;letter-spacing:0;margin-left:8px">per-firm · sector-typical cost structure · AI delta from agent research</span></div>
-      <div style="background:#0c0e13;border:1px solid #1a1e28;border-radius:10px;overflow:hidden">
-        <table style="width:100%;border-collapse:collapse">
-          <thead style="background:#131620">
-            <tr style="border-bottom:1px solid #232735">
-              <th style="padding:10px;text-align:left;font-size:10px;color:#6c7180;text-transform:uppercase;letter-spacing:1px;font-weight:700">Line Item</th>
-              <th style="padding:10px;text-align:right;font-size:10px;color:#6c7180;text-transform:uppercase;letter-spacing:1px;font-weight:700" colspan="2">Before AI</th>
-              <th style="padding:10px;text-align:right;font-size:10px;color:#10b981;text-transform:uppercase;letter-spacing:1px;font-weight:700" colspan="2">After AI ${ai_delta_pp>=0?'+':''}${ai_delta_pp.toFixed(1)} pp</th>
-            </tr>
-          </thead>
-          <tbody>
-            ${row('Revenue', 100, 100 + ai_rev_delta, false, true)}
-            ${row('Wages & Benefits', wages, wagesAfter)}
-            ${row('COGS / Materials', ratios.cogs, ratios.cogs)}
-            ${row('Rent / Facilities', ratios.rent, ratios.rent)}
-            ${row('Depreciation', ratios.dep, ratios.dep)}
-            ${row('Marketing & Sales', ratios.mkt, ratios.mkt)}
-            ${row('IT & Software', ratios.it, itAfter)}
-            ${row('Other Operating', ratios.other, ratios.other)}
-            ${row('= EBITDA', ebitda_pct, ebitdaAfter, true)}
-          </tbody>
-        </table>
-      </div>
-      <div style="margin-top:10px;font-size:10px;color:#6c7180;line-height:1.5">
-        Cost structure derived from v1 sector averages (sector ${sector}). AI delta distributed 70% wages reduction, 20% revenue uplift, 10% IT cost rise. Per-firm figures assume median revenue of ${fmtMoney(revenue)}.
-      </div>
-    </div>
-  `;
-}
-
-function renderSixDigitPnL(naics, v) {
-  const grp = verticals[v.title];
-  let verdictPill = '', sumS = 0;
-  if (grp) {
-    sumS = grp.sumS;
-    const verd = verticalVerdict(grp);
-    verdictPill = `<span style="display:inline-block;padding:5px 14px;border-radius:14px;background:${verd.color};color:${verd.color==='#f9c84a'||verd.color==='#34d058'?'#000':'#fff'};font-weight:700;font-size:13px">${verd.emoji} ${verd.label}</span>`;
-  }
-  const conf = v.confidence || 'LOW';
-  const confBadge = `<span style="display:inline-block;padding:3px 10px;border-radius:10px;background:${conf==='HIGH'?'#10b981':conf==='MED'?'#f59e0b':'#6b7280'};color:#fff;font-size:11px;font-weight:700;letter-spacing:0.5px">${conf}</span>`;
-  const sources = (v.sources || []).map(s => {
-    const host = s.replace(/^https?:\/\//,'').split('/')[0].replace(/^www\./,'');
-    return `<a href="${s}" target="_blank" rel="noopener" style="display:inline-block;padding:4px 9px;margin:2px 4px 2px 0;border-radius:5px;background:#1a1e28;border:1px solid #232735;color:#4ea0ff;font-size:11px;text-decoration:none;font-family:monospace">${host}</a>`;
-  }).join('');
-  const ratio = v.cbp_emp && v.f ? (v.cbp_emp/v.f).toFixed(1) : '—';
-  const sec = {"11":"Agriculture","21":"Mining","22":"Utilities","23":"Construction","31":"Manufacturing","32":"Manufacturing","33":"Manufacturing","42":"Wholesale","44":"Retail","45":"Retail","48":"Transport","49":"Couriers","51":"Information","52":"Finance","53":"Real Estate","54":"Professional","55":"Mgmt of Co.","56":"Admin Support","61":"Education","62":"Health Care","71":"Arts","72":"Accommodation","81":"Other Services","92":"Public Admin"};
-  return `
-    <div style="padding:32px 28px 16px 28px;border-bottom:1px solid #1a1e28">
-      <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:24px;flex-wrap:wrap">
-        <div style="flex:1;min-width:300px">
-          <div style="display:flex;gap:8px;align-items:center;margin-bottom:8px">
-            <span style="font-family:monospace;background:#1a1e28;padding:4px 10px;border-radius:5px;color:#a8adb8;font-weight:600;font-size:13px">${naics}</span>
-            <span style="color:#6c7180;font-size:12px">→ ${sec[v.sector]||'Unknown'} · parent 4-digit ${v.parent4}</span>
-            ${confBadge}
+    <section id="fleet-view" class="view" aria-labelledby="fleet-title" hidden>
+      <div class="hero-shell">
+        <div class="eyebrow"><span class="eyebrow-dot"></span> v3.1.2 · completed 21 Jul 2026</div>
+        <div class="hero-grid">
+          <div>
+            <h1 id="fleet-title">A ranked map of where AI may improve a roll-up—and where it won’t.</h1>
+            <p class="hero-copy">Every published result is traceable from verdict to score, factor, formula, input, and source. Estimates and validator caveats stay visible.</p>
           </div>
-          <h2 style="font-size:24px;font-weight:700;color:#fff;letter-spacing:-0.5px;margin:0 0 10px 0">${v.title}</h2>
-          ${verdictPill} <span style="margin-left:10px;color:#a8adb8;font-size:13px">Σ S = <strong style="color:#fff">${sumS.toLocaleString()}</strong></span>
+          <aside class="campaign-stamp" aria-label="Campaign status">
+            <span class="stamp-label">Bounded campaign</span>
+            <strong id="campaign-total">83 / 83</strong>
+            <span>planned records reviewed</span>
+            <em>0 arithmetic mismatches</em>
+          </aside>
+        </div>
+        <div id="campaign-metrics" class="metric-strip" aria-label="Campaign summary"></div>
+      </div>
+
+      <div class="workspace">
+        <aside class="filter-rail" aria-label="Fleet filters">
+          <div class="rail-heading"><span>Filter the fleet</span><button id="reset-filters" class="text-button">Reset</button></div>
+          <label class="search-box">
+            <span class="visually-hidden">Search by NAICS or industry</span>
+            <span aria-hidden="true">⌕</span>
+            <input id="fleet-search" type="search" placeholder="Search NAICS or industry" autocomplete="off">
+          </label>
+          <fieldset>
+            <legend>Verdict</legend>
+            <div id="verdict-filters" class="filter-list"></div>
+          </fieldset>
+          <fieldset>
+            <legend>Confidence</legend>
+            <div id="confidence-filters" class="filter-list"></div>
+          </fieldset>
+          <fieldset>
+            <legend>Signals</legend>
+            <label class="check-row"><input id="filter-borderline" type="checkbox"><span>Borderline</span><small id="borderline-count">0</small></label>
+            <label class="check-row"><input id="filter-heterogeneous" type="checkbox"><span>Heterogeneous</span><small id="heterogeneous-count">0</small></label>
+          </fieldset>
+          <div class="rail-note"><strong>Absolute first.</strong> Percentile is context only; the frozen cuts and gates determine each verdict.</div>
+        </aside>
+
+        <div class="results-column">
+          <div class="results-toolbar">
+            <div><span id="fleet-result-count">62 industries</span><small id="fleet-context">Published fleet · latest reviewed attempts</small></div>
+            <label class="sort-control">Sort
+              <select id="fleet-sort">
+                <option value="score-desc">Score · high to low</option>
+                <option value="score-asc">Score · low to high</option>
+                <option value="percentile-desc">Percentile</option>
+                <option value="naics">NAICS code</option>
+              </select>
+            </label>
+          </div>
+          <div id="fleet-list" class="fleet-list"></div>
+          <div id="fleet-empty" class="empty-state" hidden>No published records match these filters.</div>
         </div>
       </div>
-    </div>
+    </section>
 
-    <div style="padding:24px 28px;display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:14px;border-bottom:1px solid #1a1e28">
-      ${[['V Value', v.V, '#10b981', 'AI replaceability'],
-         ['C Capture', v.C, '#3b82f6', 'Fragmentation'],
-         ['A Speed', v.A, '#f59e0b', 'AI adoption'],
-         ['B Buyability', v.B, '#b768f0', 'Industry size'],
-         ['M Multiple', v.M, '#ec4899', 'Arbitrage spread']].map(([l,n,c,sub])=>`
-        <div style="padding:14px 16px;background:#131620;border:1px solid #232735;border-radius:10px">
-          <div style="font-size:11px;color:#6c7180;text-transform:uppercase;letter-spacing:1px;font-weight:700">${l}</div>
-          <div style="font-size:28px;font-weight:800;color:${c};font-family:'JetBrains Mono',monospace;line-height:1;margin-top:6px">${n}<span style="color:#3a3f50;font-size:14px;font-weight:400">/10</span></div>
-          <div style="font-size:10px;color:#6c7180;margin-top:4px">${sub}</div>
-        </div>`).join('')}
-    </div>
-
-    <div style="padding:24px 28px;border-bottom:1px solid #1a1e28">
-      <div style="font-size:11px;color:#6c7180;text-transform:uppercase;letter-spacing:1px;font-weight:700;margin-bottom:14px">P&amp;L Benchmarks</div>
-      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:10px">
-        <div style="padding:12px 14px;background:#0c0e13;border:1px solid #1a1e28;border-radius:8px"><div style="font-size:10px;color:#6c7180;text-transform:uppercase;font-weight:700">Establishments</div><div style="font-size:18px;font-weight:700;color:#fff;font-family:'JetBrains Mono',monospace;margin-top:4px">${(v.f||0).toLocaleString()}</div><div style="font-size:10px;color:#6c7180;margin-top:2px">Census CBP 2022</div></div>
-        <div style="padding:12px 14px;background:#0c0e13;border:1px solid #1a1e28;border-radius:8px"><div style="font-size:10px;color:#6c7180;text-transform:uppercase;font-weight:700">Median Revenue</div><div style="font-size:18px;font-weight:700;color:#fff;font-family:'JetBrains Mono',monospace;margin-top:4px">$${((v.r||0)/1000).toFixed(0)}K</div><div style="font-size:10px;color:#6c7180;margin-top:2px">per firm</div></div>
-        <div style="padding:12px 14px;background:#0c0e13;border:1px solid #1a1e28;border-radius:8px"><div style="font-size:10px;color:#6c7180;text-transform:uppercase;font-weight:700">EBITDA margin</div><div style="font-size:18px;font-weight:700;color:#fff;font-family:'JetBrains Mono',monospace;margin-top:4px">${v.e}%</div><div style="font-size:10px;color:#6c7180;margin-top:2px">typical small operator</div></div>
-        <div style="padding:12px 14px;background:#0c0e13;border:1px solid #1a1e28;border-radius:8px"><div style="font-size:10px;color:#6c7180;text-transform:uppercase;font-weight:700">AI Δ EBITDA</div><div style="font-size:18px;font-weight:700;color:${v.d>=0?'#10b981':'#ef4444'};font-family:'JetBrains Mono',monospace;margin-top:4px">${v.d>=0?'+':''}${v.d} pp</div><div style="font-size:10px;color:#6c7180;margin-top:2px">expected uplift</div></div>
-        <div style="padding:12px 14px;background:#0c0e13;border:1px solid #1a1e28;border-radius:8px"><div style="font-size:10px;color:#6c7180;text-transform:uppercase;font-weight:700">Employment</div><div style="font-size:18px;font-weight:700;color:#fff;font-family:'JetBrains Mono',monospace;margin-top:4px">${((v.cbp_emp||0)/1000).toFixed(0)}K</div><div style="font-size:10px;color:#6c7180;margin-top:2px">avg ${ratio}/firm</div></div>
-        <div style="padding:12px 14px;background:#0c0e13;border:1px solid #1a1e28;border-radius:8px"><div style="font-size:10px;color:#6c7180;text-transform:uppercase;font-weight:700">Annual Payroll</div><div style="font-size:18px;font-weight:700;color:#fff;font-family:'JetBrains Mono',monospace;margin-top:4px">$${((v.cbp_payroll||0)/1000000).toFixed(1)}B</div><div style="font-size:10px;color:#6c7180;margin-top:2px">sector total</div></div>
+    <section id="golden-view" class="view interior-view" aria-labelledby="golden-title" hidden>
+      <div class="section-heading">
+        <div><div class="eyebrow amber"><span class="eyebrow-dot"></span> Diagnostic, not a leaderboard</div><h1 id="golden-title">Golden-set diagnostics</h1></div>
+        <p>Twenty independent Sol runs test mechanics and directional separation. They do not enter the fleet ranking and do not trigger open-ended reruns.</p>
       </div>
-    </div>
+      <div id="golden-summary" class="diagnostic-banner"></div>
+      <div class="golden-key" aria-label="Golden classes"><span><i class="winner"></i> Known winner</span><span><i class="melter"></i> Known melter</span><span><i class="control"></i> Control</span></div>
+      <div id="golden-groups" class="golden-groups"></div>
+    </section>
 
-    ${renderPnLBeforeAfter(v)}
+    <section id="exclusions-view" class="view interior-view" aria-labelledby="exclusions-title" hidden>
+      <div class="section-heading">
+        <div><div class="eyebrow red"><span class="eyebrow-dot"></span> Explicitly outside publication</div><h1 id="exclusions-title">Exclusions ledger</h1></div>
+        <p>Rejected or invalid records remain visible here with their exact final attempt and material findings. They never appear in fleet rankings.</p>
+      </div>
+      <div id="exclusions-summary" class="exclusion-summary"></div>
+      <div id="exclusions-list"></div>
+    </section>
 
-    ${v.rationale ? `<div style="padding:24px 28px;border-bottom:1px solid #1a1e28">
-      <div style="font-size:11px;color:#6c7180;text-transform:uppercase;letter-spacing:1px;font-weight:700;margin-bottom:10px">Roll-up Thesis</div>
-      <div style="color:#a8adb8;font-size:14px;line-height:1.7">${v.rationale}</div>
-    </div>` : ''}
+    <section id="methodology-view" class="view interior-view" aria-labelledby="method-title" hidden>
+      <div class="section-heading method-heading">
+        <div><div class="eyebrow blue"><span class="eyebrow-dot"></span> Frozen scoring model · thresholds v3.0</div><h1 id="method-title">How the evidence becomes a verdict</h1></div>
+        <p>The model, factor meanings, formulas, thresholds, gates, and golden membership were frozen before this campaign. Phase 5 changes presentation only.</p>
+      </div>
+      <div class="method-flow" aria-label="Evidence traceability chain">
+        <span>Verdict</span><b>→</b><span>Geometric mean</span><b>→</b><span>5 factors</span><b>→</b><span>Deterministic formulas</span><b>→</b><span>Inputs</span><b>→</b><span>Sources + caveats</span>
+      </div>
+      <div class="method-grid">
+        <article class="method-card wide">
+          <span class="card-index">01</span><h2>The aggregate</h2>
+          <div class="formula-display">S = (V × C × A × B × M)<sup>⅕</sup></div>
+          <p>The geometric mean keeps every 0–10 factor consequential. A single weak factor cannot disappear inside an additive average.</p>
+        </article>
+        <article class="method-card"><span class="card-index">02</span><h2>Absolute verdict cuts</h2><div id="method-cuts" class="cut-list"></div></article>
+        <article class="method-card"><span class="card-index">03</span><h2>Hard constraints</h2><p><strong>KILL floor:</strong> any factor below 1.0.</p><p><strong>Hell-Yes gate:</strong> every factor ≥ 6.0, DURABLE terminal demand, and at least MED confidence.</p><p><strong>Caps:</strong> LOW confidence caps at Conditional; terminal pressure can also cap the result.</p></article>
+      </div>
+      <div id="factor-glossary" class="factor-glossary"></div>
+      <div class="method-grid lower">
+        <article class="method-card"><span class="card-index">04</span><h2>Publication policy</h2><p><strong>Publishable</strong> and <strong>publishable with caveats</strong> enter the product. Reject and invalid remain in the exclusions ledger.</p></article>
+        <article class="method-card"><span class="card-index">05</span><h2>Estimate policy</h2><p>Judgment is allowed only when its method, rationale, plausible range, uncertainty, and source IDs are visible. ESTIMATE is not disguised as observation.</p></article>
+        <article class="method-card"><span class="card-index">06</span><h2>Canonical outputs</h2><p>The page reads the final site dataset, closed campaign report, and golden analysis directly. Raw packets, records, memos, and reviews stay linked per result.</p></article>
+      </div>
+      <div class="artifact-ledger">
+        <span>Canonical generated outputs</span>
+        <a href="six_data_v3.json">six_data_v3.json</a>
+        <a href="../pipeline/build/campaign_report_v3_1_2.json">campaign report</a>
+        <a href="../pipeline/build/golden_analysis_v3_1_2.json">golden analysis</a>
+        <a href="../pipeline/build/thresholds.json">frozen thresholds</a>
+      </div>
+    </section>
+  </main>
 
-    ${sources ? `<div style="padding:24px 28px">
-      <div style="font-size:11px;color:#6c7180;text-transform:uppercase;letter-spacing:1px;font-weight:700;margin-bottom:10px">Sources</div>
-      <div>${sources}</div>
-    </div>` : `<div style="padding:24px 28px;color:#6c7180;font-size:12px">No agent-verified sources yet — baseline inherited from 4-digit parent.</div>`}
-  `;
-}
-function closePnL() {
-  document.getElementById('pnl-modal-overlay').classList.remove('open');
-  document.body.style.overflow = '';
-}
-document.addEventListener('keydown', e => { if (e.key === 'Escape') closePnL(); });
+  <div id="drawer-backdrop" class="drawer-backdrop" hidden></div>
+  <aside id="record-drawer" class="record-drawer" aria-labelledby="drawer-title" aria-modal="true" role="dialog" hidden>
+    <div id="drawer-content"></div>
+  </aside>
 
-// === Drawer functions ===
-function openDrawerForCell(cellData) {
-  const drawer = document.getElementById('drawer');
-  const overlay = document.getElementById('drawer-overlay');
-  document.getElementById('drawer-eyebrow').textContent = `NAICS ${cellData.naics} · APQC ${cellData.wf}`;
-  document.getElementById('drawer-title').textContent = cellData.sub;
-  document.getElementById('drawer-sub').textContent = cellData.wf;
-  const V=+cellData.v, C=+cellData.c, A=+cellData.a, B=+cellData.b, M=+cellData.m, S=+cellData.s;
-  let verdict;
-  if(S>=21600)verdict={label:'Hell-Yes',color:'#10b981'};
-  else if(S>=5625)verdict={label:'Strong',color:'#3b82f6'};
-  else if(S>=300)verdict={label:'Conditional',color:'#f59e0b'};
-  else if(S>=60)verdict={label:'Pass',color:'#ef4444'};
-  else verdict={label:'KILL',color:'#52525b'};
-  const bar=(k,v,color)=>`<div class="drawer-bar"><span class="k">${k}</span><div class="track"><div class="fill" style="width:${v*10}%;background:${color}"></div></div><span class="vnum">${v}</span></div>`;
-  document.getElementById('drawer-body').innerHTML = `
-    <div class="drawer-section">
-      <div class="drawer-section-title">Cell score</div>
-      <div class="drawer-score-big" style="color:${verdict.color}">${S.toLocaleString()}</div>
-      <div class="drawer-formula">S = V × C × A × B × M<br>= ${V} × ${C} × ${A} × ${B} × ${M} = ${S.toLocaleString()}<br><span class="verdict-pill" style="background:${verdict.color}">${verdict.label}</span></div>
-    </div>
-    <div class="drawer-section">
-      <div class="drawer-section-title">Five-block breakdown</div>
-      ${bar('V Value', V, '#10b981')}
-      ${bar('C Capture', C, '#3b82f6')}
-      ${bar('A Speed', A, '#f59e0b')}
-      ${bar('B Buyability', B, '#b768f0')}
-      ${bar('M Multiple', M, '#ec4899')}
-    </div>${cellData.note?`<div class="drawer-section"><div class="drawer-section-title">Note</div><div style="color:var(--text-2);font-size:13px">⚠ ${cellData.note}</div></div>`:''}`;
-  overlay.classList.add('open');
-  drawer.classList.add('open');
-}
-function closeDrawer() {
-  document.getElementById('drawer').classList.remove('open');
-  document.getElementById('drawer-overlay').classList.remove('open');
-}
-document.getElementById('drawer-overlay').addEventListener('click', closeDrawer);
-document.addEventListener('keydown', e => { if(e.key==='Escape')closeDrawer(); });
-
-// === Click sub-card → scroll to matrix row + pulse ===
-function scrollToMatrixRow(name) {
-  const tbl = document.getElementById('matrix-table');
-  const rows = tbl.querySelectorAll('tbody tr');
-  for (const row of rows) {
-    const label = row.querySelector('.row-label');
-    if (label && label.textContent.includes(name)) {
-      row.scrollIntoView({behavior:'smooth', block:'center'});
-      row.classList.add('pulse-target');
-      setTimeout(()=>row.classList.remove('pulse-target'), 1800);
-      // Add visual on matrix label
-      label.style.background = 'rgba(96,165,250,0.18)';
-      setTimeout(()=>label.style.background = '', 1800);
-      break;
-    }
-  }
-}
-
-// === Cmd+K palette ===
-let paletteSelected = 0;
-let paletteFiltered = [];
-function openPalette() {
-  document.getElementById('palette-overlay').classList.add('open');
-  const inp = document.getElementById('palette-input');
-  inp.value=''; inp.focus();
-  renderPalette('');
-}
-function closePalette() { document.getElementById('palette-overlay').classList.remove('open'); }
-function renderPalette(query) {
-  const all = Object.values(verticals);
-  const q = query.toLowerCase().trim();
-  paletteFiltered = q ? all.filter(v => v.name.toLowerCase().includes(q) || v.naics.includes(q)).slice(0, 30) : all.slice(0, 20);
-  paletteSelected = 0;
-  document.getElementById('palette-results').innerHTML = paletteFiltered.map((v,i)=>{
-    const verd = verticalVerdict(v);
-    const color = verd.label==='Hell-Yes'?'#10b981':verd.label==='Strong'?'#3b82f6':verd.label==='Conditional'?'#f59e0b':verd.label==='Pass'?'#ef4444':'#52525b';
-    return `<div class="palette-item${i===0?' selected':''}" data-name="${v.name.replace(/"/g,'&quot;')}" onclick="selectPaletteItem(${i})"><span class="pi-naics">${v.naics}</span><span class="pi-name">${v.name}</span><span class="pi-verdict" style="background:${color}">${verd.label}</span></div>`;
-  }).join('') || '<div style="padding:24px;text-align:center;color:var(--text-3)">No results</div>';
-}
-function selectPaletteItem(i) {
-  const v = paletteFiltered[i];
-  if (!v) return;
-  closePalette();
-  scrollToMatrixRow(v.name);
-}
-document.getElementById('palette-input').addEventListener('input', e => renderPalette(e.target.value));
-document.addEventListener('keydown', e => {
-  if ((e.metaKey || e.ctrlKey) && e.key === 'k') { e.preventDefault(); openPalette(); }
-  if (e.key === 'Escape') closePalette();
-  if (document.getElementById('palette-overlay').classList.contains('open')) {
-    if (e.key === 'ArrowDown') { e.preventDefault(); paletteSelected = Math.min(paletteSelected+1, paletteFiltered.length-1); updatePaletteSelection(); }
-    if (e.key === 'ArrowUp') { e.preventDefault(); paletteSelected = Math.max(paletteSelected-1, 0); updatePaletteSelection(); }
-    if (e.key === 'Enter') { e.preventDefault(); selectPaletteItem(paletteSelected); }
-  }
-});
-function updatePaletteSelection() {
-  const items = document.querySelectorAll('.palette-item');
-  items.forEach((it,i) => it.classList.toggle('selected', i===paletteSelected));
-  if (items[paletteSelected]) items[paletteSelected].scrollIntoView({block:'nearest'});
-}
-
-// === Header scroll-aware border ===
-window.addEventListener('scroll', () => {
-  document.querySelector('header.app-header').classList.toggle('scrolled', window.scrollY > 8);
-});
-
-// === Matrix crosshair ===
-function setupCrosshair() {
-  const tbl = document.getElementById('matrix-table');
-  if (!tbl) return;
-  tbl.addEventListener('mouseover', e => {
-    const cell = e.target.closest('.matrix-cell');
-    if (!cell || !cell.dataset.sub) return;
-    const sub = cell.dataset.sub, wf = cell.dataset.wf;
-    tbl.querySelectorAll('.matrix-cell').forEach(el => {
-      const same = el.dataset.sub === sub || el.dataset.wf === wf;
-      el.classList.toggle('cross', same && el !== cell);
-      el.classList.toggle('dim', !same && el !== cell);
-    });
-  });
-  tbl.addEventListener('mouseleave', () => {
-    tbl.querySelectorAll('.matrix-cell').forEach(el => { el.classList.remove('cross'); el.classList.remove('dim'); });
-  });
-  // Click matrix cell → drawer (replace tooltip on click)
-  tbl.addEventListener('click', e => {
-    const cell = e.target.closest('.matrix-cell');
-    if (!cell || !cell.dataset.sub) return;
-    openDrawerForCell(cell.dataset);
-  });
-}
-// Hook crosshair after renderMatrix
-const origRender = render;
-render = function(layer) { origRender(layer); setupCrosshair(); };
-
-// 6-DIGIT INIT: wait for data load, then render
-init6digit().then(() => {
-  render('S');
-  setupCrosshair();
-}).catch(err => {
-  document.body.innerHTML = '<div style="padding:40px;color:#f85149;font-family:monospace">Failed to load six_data.json: ' + err.message + '</div>';
-});
-</script>
+  <div id="toast" class="toast" role="status" aria-live="polite"></div>
+  <script src="dashboard.js" defer></script>
 </body>
 </html>
