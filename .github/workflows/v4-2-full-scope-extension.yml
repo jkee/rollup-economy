@@ -27,7 +27,7 @@ jobs:
           TAG_OID="$(git rev-parse "refs/tags/$EXTENSION_TAG^{tag}")"
           test "$(git cat-file -t "$TAG_OID")" = tag
           test "$(git rev-parse "$TAG_OID^{commit}")" = "$GITHUB_SHA"
-          git config gpg.ssh.allowedSignersFile pipeline/v4_2/allowed_signers
+          git config gpg.ssh.allowedSignersFile "$GITHUB_WORKSPACE/pipeline/v4_2/allowed_signers"
           git verify-tag "$TAG_OID"
           BASE_COMMIT="$(git cat-file -p "$TAG_OID" | sed -n 's/^base-commit //p')"
           EXTENSION_ROOT="$(python -c 'import json; print(json.load(open("pipeline/v4_2/full_scope_extension_manifest.json"))["root_sha256"])')"

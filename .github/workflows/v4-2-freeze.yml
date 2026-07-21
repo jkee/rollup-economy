@@ -27,7 +27,7 @@ jobs:
           TAG_OID="$(git rev-parse "refs/tags/$FREEZE_TAG^{tag}")"
           test "$(git cat-file -t "$TAG_OID")" = tag
           test "$(git rev-parse "$TAG_OID^{commit}")" = "$GITHUB_SHA"
-          git config gpg.ssh.allowedSignersFile pipeline/v4_2/allowed_signers
+          git config gpg.ssh.allowedSignersFile "$GITHUB_WORKSPACE/pipeline/v4_2/allowed_signers"
           git verify-tag "$TAG_OID"
           ROOT_DIGEST="$(python -c 'import json; print(json.load(open("pipeline/v4_2/freeze_manifest.json"))["root_sha256"])')"
           git cat-file -p "$TAG_OID" | grep -F "$ROOT_DIGEST"
