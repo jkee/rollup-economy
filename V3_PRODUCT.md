@@ -1,6 +1,6 @@
 # AI Value Migration Map — v3: Product Goal & Principles
 
-**Status:** active constitution; v3.1.2 text-first, bounded-completion path authorized 2026-07-21 and specified here; the v3.1.1 comparable canary remains a frozen historical mechanics PASS / fleet-readiness FAIL (0/5 accepted)
+**Status:** active constitution; the v3.1.2 bounded campaign is closed (82 published, 1 explicitly excluded) and its final validated checkpoint is pending push; the v3.1.1 comparable canary remains a frozen historical mechanics PASS / fleet-readiness FAIL (0/5 accepted)
 **Replaces:** the project description in `README.md` and the Methodology tab in `6digit/index.html`. Diff against the current (v2) description is in §8. File:line references are as of commit `1bd26e0`.
 
 ---
@@ -203,8 +203,8 @@ Resolved 2026-07-20:
 7. **v3.1.1 mechanical boundary** — decided after the v3.1 canary produced 0/5 accepted despite materially better citation attribution: preserve atomic evidence facts; replace model-authored final provenance with explicit `OBSERVED/CALCULATED/ESTIMATE` methods and a Python mapping; restrict calculated values to safe reproducible arithmetic over fact-backed operands; require structured scope; mechanically reject ellipsis quotes; keep C1–C4 for the later runner brief. No threshold or scoring formula changed.
 8. **v3.1.2 text-first bounded contract** — authorized 2026-07-21 after the v3.1.1 five-record canary passed mechanics but produced 0/5 accepted under the forensic all-or-nothing review. Replace the primary audit form with one canonical prose-plus-scorecard packet, retain Python-owned arithmetic and exact model/artifact identity, use four publication tiers, and permit exactly one remediation attempt for `reject`/`invalid`. Metadata and non-material evidence imperfections are visible caveats; they are not fatal by default. The campaign closes with explicit exclusions rather than requiring 83/83 publication. No frozen dataset, formula, factor, threshold, gate or golden-set member changes.
 
-The v3.0 score freeze remains tagged (`v3.0-freeze`). Frozen v3.1 and v3.1.1 artifacts remain byte-unchanged. v3.1.2 must pass synthetic tests, cold independent implementation review, deterministic 63-prompt assembly and the mechanics-only five-record canary before the complete Phase-4 campaign.
+The v3.0 score freeze remains tagged (`v3.0-freeze`). Frozen v3.1 and v3.1.1 artifacts remain byte-unchanged. v3.1.2 passed synthetic tests, cold independent implementation review, deterministic 63-prompt assembly and the mechanics-only five-record canary before the complete Phase-4 campaign was launched.
 
 ---
 
-*Next execution step: implement and cold-review the versioned v3.1.2 packet/run/review schemas, prompt, runner and validator briefs, finalizer, memo renderer, build routing and campaign tooling; freeze exactly 63 deterministic prompts; then run the five-record mechanics canary before the bounded 83-record campaign.*
+*Next execution step: commit and push the validated v3.1.2 final build, reports, documentation and closure regressions; only then mark Phase 4 complete.*

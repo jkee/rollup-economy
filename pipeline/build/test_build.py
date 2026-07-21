@@ -226,6 +226,27 @@ class BuildHarness(unittest.TestCase):
             "2026-07-20_sonnet_tv3_fixture",
         )
 
+    def test_attempt_two_wins_even_when_attempt_one_run_id_sorts_later(self):
+        runs_dir = os.path.join(self.tmp, "attempt_selection", "621210")
+        os.makedirs(runs_dir)
+        fixtures = [
+            ("2026-07-21_gpt-5.6-terra_v312rf1_621210", 1),
+            ("2026-07-21_gpt-5.6-terra_v312r2_621210", 2),
+        ]
+        for run_id, attempt in fixtures:
+            with open(os.path.join(runs_dir, run_id + ".json"), "w") as handle:
+                json.dump({
+                    "run_meta": {
+                        "template_version": "3.1.2",
+                        "run_date": "2026-07-21",
+                        "run_id": run_id,
+                        "attempt": attempt,
+                    }
+                }, handle)
+        records, legacy = build.discover_runs(os.path.dirname(runs_dir))
+        self.assertEqual([], legacy)
+        self.assertEqual(fixtures[1][0], records["621210"][1]["run_meta"]["run_id"])
+
     def test_accepted_review_with_failed_check_is_invalid(self):
         """An accepted verdict cannot conceal a failed validator check."""
         review = fixture_review()

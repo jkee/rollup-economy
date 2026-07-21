@@ -473,7 +473,7 @@ def v312_declared_caveats(record):
 
 
 def discover_runs(runs_dir):
-    """Latest v3 run record per code (by run_date, then run_id).
+    """Latest v3 run record per code (by attempt, run_date, then run_id).
 
     Returns (records: {naics: (path, record)}, legacy_skipped: [paths]).
     Files without a v3 run_meta block (e.g. the archived tv2 prototype) are
@@ -495,10 +495,13 @@ def discover_runs(runs_dir):
                     and str(meta.get("template_version", "")).startswith("3")):
                 legacy.append(path)
                 continue
-            candidates.append((str(meta.get("run_date", "")), str(meta.get("run_id", "")), path, rec))
+            attempt = meta.get("attempt", 0)
+            if not isinstance(attempt, int) or isinstance(attempt, bool):
+                attempt = 0
+            candidates.append((attempt, str(meta.get("run_date", "")), str(meta.get("run_id", "")), path, rec))
         if candidates:
-            candidates.sort(key=lambda c: (c[0], c[1]))
-            _, _, path, rec = candidates[-1]
+            candidates.sort(key=lambda c: (c[0], c[1], c[2]))
+            _, _, _, path, rec = candidates[-1]
             records[naics] = (path, rec)
     return records, legacy
 

@@ -1,6 +1,6 @@
 # v3 Run Playbook
 
-**Status: living document, v3.1.2 implementation contract** — captures how to re-run the project end-to-end, which model runs what and why, and what can be reported from observed evidence. The user authorized the text-first, bounded-completion replacement on 2026-07-21; frozen v3.0/v3.1/v3.1.1 artifacts and their historical results remain unchanged. Companions: [V3_PRODUCT.md](V3_PRODUCT.md) (what and why), [V3_PLAN.md](V3_PLAN.md) (progress tracker).
+**Status: living document, v3.1.2 campaign closed; final Phase-4 checkpoint pending** — captures how to re-run the project end-to-end, which model runs what and why, and what can be reported from observed evidence. The bounded campaign published 82 records with visible caveats and excluded one record after the single permitted remediation wave; frozen v3.0/v3.1/v3.1.1 artifacts and their historical results remain unchanged. Companions: [V3_PRODUCT.md](V3_PRODUCT.md) (what and why), [V3_PLAN.md](V3_PLAN.md) (progress tracker).
 
 ---
 
@@ -35,7 +35,7 @@ The rule (P9): **cheap by default, best model only where quality compounds.**
 
 The earlier GPT-5.5-vs-Sol benchmark remains historical evidence, but it no longer defines the runtime mapping. The v3.1.2 decision is Terra fleet + isolated Sol anchors/validation. Dataset derivation, prompt assembly, packet validation, finalization, memo rendering, build and analysis remain model-free; exact model IDs must be stored in every model-authored artifact. Golden runners and validators are isolated from each other, prior conclusions and golden membership.
 
-## 3. Runtime and usage evidence (historical until the v3.1.2 campaign replaces it)
+## 3. Runtime and usage evidence
 
 | Unit | Model | Observed tokens | Notes |
 |---|---|---|---|
@@ -46,6 +46,8 @@ The earlier GPT-5.5-vs-Sol benchmark remains historical evidence, but it no long
 | Build / datasets / analysis | — | ~0 | Python, seconds |
 
 The repository does not currently contain platform-observed billable usage sufficient to price a v3.1.2 campaign. Do not carry forward a price ratio or dollar estimate from the earlier GPT-5.5 or v3.1.1 campaigns. Report exact runtime, input/cached/output/reasoning-token fields and web-call data only when the platform exposes them; otherwise state the limitation.
+
+**Completed v3.1.2 Phase-4 campaign:** 83 initial research attempts (63 Terra fleet, 20 isolated Sol golden), 99 independent Sol reviews of exact attempts, and 16 same-class remediation attempts. The final publication set is 82 `publishable_with_caveats` and one excluded `reject` (541310). The platform did not expose a repository-verifiable billable token split or price ledger, so no dollar total is asserted after the fact.
 
 **Historical pilot observations (83 records):** golden 20 × ~52K Sol + fleet 63 × ~55K GPT-5.5 + prompt design for 63 codes on Sol. These are inherited total-token observations, not a Terra/Sol forecast or reliable billable-cost estimate. The failed first fleet wave (delegation cascades, see §5) produced zero usable records; v3.1.2 keeps the strict single-author/no-delegation rule, exact-artifact isolation and checkpointed validated waves rather than inventing a cost margin.
 
@@ -150,9 +152,9 @@ The v3.1.1 prompt layer was cold-reviewed and frozen 63/63 before the comparable
 5. **Schema-vs-reality drift bites at the interface.** The run schema demanded a `derivation` key the dataset layer never emitted (`method`/`source`); the hand-adapted fixture masked it; all 20 golden records failed until the 3.0.2 alignment. Rule: interface schemas must be tested against *real* producer output, not hand-made fixtures.
 6. **Relevant pages are not evidence for invented precision.** The initial Sol pass found 0/72 accepted; in a random five-record sample, all pages resolved but 34/35 citation occurrences failed exact claim support. A citation-hardened 541420 s3 rerun using the same fleet model class passed 11/11 audits and all five checks, motivating v3.1's stronger attribution mechanics. The later v3.1.1 canary then showed that forensic completeness also created excessive all-record rejection. v3.1.2 keeps material source-support checks while turning non-score-changing metadata/bridge imperfections into visible caveats.
 
-## 6. Validator and remaining implementation work
+## 6. Validator state and remaining work
 
-- **Stage 5 validator policy — v3.1.2 canonical.** Implement `pipeline/template/validator_brief_v3_1_2.md` and a matching versioned review schema with the four outcomes and materiality rules in §4. Sol still reviews every record and score-driving source at full depth. The campaign/build tooling must fail closed on unknown versions or exact-artifact identity mismatch, include both publishable tiers, surface caveats and exclude the other two tiers.
+- **Stage 5 validator policy — v3.1.2 implemented.** `pipeline/template/validator_brief_v3_1_2.md` and the matching versioned review schema enforce the four outcomes and materiality rules in §4. Sol reviews every record and score-driving source at full depth. Campaign/build tooling fails closed on unknown versions, exact-artifact identity mismatch, current-attempt/build drift and publication-set drift; it includes both publishable tiers, surfaces caveats and excludes the other two tiers.
 - **v3.1/v3.1.1 validator history.** The halted v3.0 campaign, successful citation-hardened 541420 rerun, `v31c1` attribution failure and `v311c1` all-wrong canary remain historical evidence. Their frozen briefs, schemas, verdicts and artifacts are not migrated to the new severity contract.
 - **Template 3.1 clarifications — resolved in the new template.** Payer/regulatory clawback belongs in C when it governs retention of savings; terminal class separately governs survival of paid demand. A statutory human-in-loop floor affects terminal value only insofar as it preserves paid demand. W-2/1099 distortions are disclosed as `DATASET_MISMATCH` with sensitivity; deterministic labor share is never silently changed.
 - **Phase-6 API batch runner** — TBD. One Terra (`gpt-5.6-terra`) API call per fleet code with web research and a schema-validated packet; Sol (`gpt-5.6-sol`) for isolated golden runs and full-depth tiered validation. Only `reject`/`invalid` may trigger one retry with the concrete review reasons attached; remaining failures are reported and excluded. Design goals: no delegation possible, resumable, exact-artifact isolation and per-sector observed usage tracking.
@@ -175,6 +177,7 @@ python3 pipeline/build/golden_analysis_v3_1_2.py  # current golden diagnostic; n
 python3 pipeline/build/review_campaign_v3_1_2.py generate  # freeze current exact artifact bytes
 python3 pipeline/build/review_campaign_v3_1_2.py validate  # validate all attempts/reviews
 python3 pipeline/build/review_campaign_v3_1_2.py close     # close bounded wave; build + golden + tests
+python3 pipeline/build/review_campaign_v3_1_2.py close --finalize  # only after a clean checkpoint is pushed and HEAD == origin/main
 python3 pipeline/build/test_v3_1.py            # synthetic v3.1 draft/finalizer tests (no research runs)
 python3 pipeline/build/test_v3_1_1.py          # synthetic v3.1.1 mechanics tests (no research runs)
 python3 pipeline/build/test_v3_1_2.py          # packet/finalizer/memo/tier regressions (no research runs)

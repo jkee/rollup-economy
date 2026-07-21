@@ -8,7 +8,7 @@ deep-dive disagree and someone should look (V3_PRODUCT.md §7.4).
 | NAICS | Deep-dive verdict | Stance | Expected v3 verdicts | Built v3 verdict | Status |
 |---|---|---|---|---|---|
 | 485991 NEMT — Non-Emergency Medical Transportation | PASS | negative | pass, kill | — | no v3 run yet |
-| 524210 Independent P&C Insurance Brokerage | STRONG (enter) | positive | strong | conditional | **DIVERGES** |
+| 524210 Independent P&C Insurance Brokerage | STRONG (enter) | positive | strong | kill | **DIVERGES** |
 | 531311 Residential Property Management | HELL-YES (enter) | positive | hell_yes, strong | — | no v3 run yet |
 | 541219 Fractional CFO & Bookkeeping | HELL-YES (enter) | positive | hell_yes, strong | kill | **DIVERGES** |
 | 541511 Custom Computer Programming | HELL-YES (enter) | positive | hell_yes, strong | pass | **DIVERGES** |

@@ -136,6 +136,88 @@ def review(run_id, outcome="publishable"):
 
 
 class V312Tests(unittest.TestCase):
+    def test_phase4_status_requires_explicit_finalization(self):
+        complete, remaining = campaign.phase4_status()
+        self.assertFalse(complete)
+        self.assertEqual(
+            ["update final documentation and push validated checkpoint commits to origin"],
+            remaining,
+        )
+        self.assertEqual((True, []), campaign.phase4_status(finalize=True))
+
+    def test_rendered_report_exposes_pending_or_complete_phase_status(self):
+        base = {
+            "campaign_closed": True,
+            "phase4_complete": False,
+            "phase4_remaining_actions": ["push checkpoint"],
+            "planned": {"fleet": 63, "golden": 20, "total": 83},
+            "attempt_counts": {"initial": 83, "remediation": 16, "total": 99},
+            "published": 82,
+            "excluded": 1,
+            "review_outcomes": {"publishable_with_caveats": 82, "reject": 1},
+            "confidence_distribution": {"LOW": 55, "MED": 28},
+            "source_support": {"supported": 318},
+            "caveats": [],
+            "exclusions": [],
+        }
+        pending = campaign.render_report(base)
+        self.assertIn("Phase 4 complete: no", pending)
+        self.assertIn("Remaining actions: push checkpoint", pending)
+        complete = copy.deepcopy(base)
+        complete["phase4_complete"] = True
+        complete["phase4_remaining_actions"] = []
+        rendered = campaign.render_report(complete)
+        self.assertIn("Phase 4 complete: yes", rendered)
+        self.assertIn("Remaining actions: none", rendered)
+
+    def test_phase4_finalization_requires_clean_pushed_checkpoint(self):
+        self.assertEqual([], campaign.finalization_state_errors("", "abc", "abc"))
+        dirty = campaign.finalization_state_errors(" M V3_PLAN.md", "abc", "abc")
+        self.assertTrue(any("clean" in item for item in dirty))
+        unpushed = campaign.finalization_state_errors("", "abc", "def")
+        self.assertTrue(any("origin/main" in item for item in unpushed))
+
+    def test_successful_verification_result_excludes_timing_noise(self):
+        first = campaign.verification_result(
+            ["python3", "tests.py"], 0, "Ran 94 tests in 0.481s\nOK\n", ""
+        )
+        second = campaign.verification_result(
+            ["python3", "tests.py"], 0, "Ran 94 tests in 0.527s\nOK\n", ""
+        )
+        self.assertEqual(first, second)
+        self.assertEqual("", first["stdout_tail"])
+        failed = campaign.verification_result(
+            ["python3", "tests.py"], 1, "failure details", "traceback"
+        )
+        self.assertEqual("failure details", failed["stdout_tail"])
+        self.assertEqual("traceback", failed["stderr_tail"])
+
+    def test_close_rejects_build_identity_or_publication_drift(self):
+        report = {
+            "records": [
+                {"kind": "fleet", "naics": "621210", "run_id": "attempt-2", "outcome": "publishable_with_caveats"},
+                {"kind": "fleet", "naics": "541310", "run_id": "attempt-2", "outcome": "reject"},
+                {"kind": "golden", "naics": "541512", "run_id": "golden-2", "outcome": "publishable_with_caveats"},
+            ]
+        }
+        valid = {
+            "flags": {"records": [
+                {"naics": "541310", "run_id": "attempt-2"},
+                {"naics": "621210", "run_id": "attempt-2"},
+            ]},
+            "site": {"records": [{"naics": "621210"}]},
+            "stats": {"rejected": ["541310"], "pending_review": []},
+        }
+        self.assertEqual([], campaign.build_campaign_consistency_errors(report, valid))
+        drifted = copy.deepcopy(valid)
+        drifted["flags"]["records"][1]["run_id"] = "attempt-1-sorts-later"
+        drifted["site"]["records"] = []
+        drifted["stats"]["rejected"] = ["541310", "621210"]
+        errors = campaign.build_campaign_consistency_errors(report, drifted)
+        self.assertTrue(any("selected run_id" in item for item in errors))
+        self.assertTrue(any("publication set" in item for item in errors))
+        self.assertTrue(any("rejection set" in item for item in errors))
+
     @classmethod
     def setUpClass(cls):
         cls.packet_schema = json.loads((SCHEMAS / "research_packet_v3_1_2.schema.json").read_text())
