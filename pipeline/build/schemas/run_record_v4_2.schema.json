@@ -1,0 +1,2239 @@
+{
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "$id": "run_record_v4_2.schema.json",
+    "title": "v4.2 finalized primitive-economics V/I/C/B/P record",
+    "type": "object",
+    "required": [
+        "naics",
+        "title",
+        "run_meta",
+        "artifact_provenance",
+        "narrative",
+        "scenario_narratives",
+        "sources",
+        "dataset_inputs",
+        "inputs",
+        "construct_provenance",
+        "cross_checks",
+        "confidence_overall",
+        "top_uncertain_inputs",
+        "reviewer_note",
+        "scenarios",
+        "decision"
+    ],
+    "additionalProperties": false,
+    "properties": {
+        "naics": {
+            "type": "string",
+            "pattern": "^[0-9]{6}$"
+        },
+        "title": {
+            "$ref": "#/definitions/nonempty"
+        },
+        "run_meta": {
+            "$ref": "#/definitions/run_meta"
+        },
+        "artifact_provenance": {
+            "type": "object",
+            "required": [
+                "execution_envelope",
+                "execution_envelope_sha256",
+                "packet_sha256"
+            ],
+            "additionalProperties": false,
+            "properties": {
+                "execution_envelope": {
+                    "$ref": "#/definitions/execution_envelope"
+                },
+                "execution_envelope_sha256": {
+                    "$ref": "#/definitions/sha256"
+                },
+                "packet_sha256": {
+                    "$ref": "#/definitions/sha256"
+                }
+            }
+        },
+        "narrative": {
+            "$ref": "#/definitions/narrative"
+        },
+        "scenario_narratives": {
+            "$ref": "#/definitions/scenario_narratives"
+        },
+        "sources": {
+            "type": "array",
+            "minItems": 1,
+            "items": {
+                "$ref": "#/definitions/source"
+            }
+        },
+        "dataset_inputs": {
+            "type": "object",
+            "required": [
+                "snapshot_id",
+                "dataset_sha256",
+                "n_total",
+                "n_band"
+            ],
+            "additionalProperties": false,
+            "properties": {
+                "snapshot_id": {
+                    "$ref": "#/definitions/nonempty"
+                },
+                "dataset_sha256": {
+                    "$ref": "#/definitions/sha256"
+                },
+                "n_total": {
+                    "type": "integer",
+                    "minimum": 0
+                },
+                "n_band": {
+                    "$ref": "#/definitions/final_selection"
+                }
+            }
+        },
+        "inputs": {
+            "$ref": "#/definitions/inputs"
+        },
+        "construct_provenance": {
+            "$ref": "#/definitions/construct_provenance"
+        },
+        "cross_checks": {
+            "$ref": "#/definitions/cross_checks"
+        },
+        "confidence_overall": {
+            "enum": [
+                "HIGH",
+                "MED",
+                "LOW"
+            ]
+        },
+        "top_uncertain_inputs": {
+            "type": "array",
+            "minItems": 1,
+            "items": {
+                "$ref": "#/definitions/uncertain_input"
+            }
+        },
+        "reviewer_note": {
+            "type": "string"
+        },
+        "scenarios": {
+            "type": "object",
+            "required": [
+                "low",
+                "base",
+                "high"
+            ],
+            "additionalProperties": false,
+            "properties": {
+                "low": {
+                    "$ref": "#/definitions/scenario"
+                },
+                "base": {
+                    "$ref": "#/definitions/scenario"
+                },
+                "high": {
+                    "$ref": "#/definitions/scenario"
+                }
+            }
+        },
+        "decision": {
+            "$ref": "#/definitions/decision"
+        }
+    },
+    "definitions": {
+        "nonempty": {
+            "type": "string",
+            "minLength": 1
+        },
+        "sha256": {
+            "type": "string",
+            "pattern": "^[0-9a-f]{64}$"
+        },
+        "nullable_number": {
+            "type": [
+                "number",
+                "null"
+            ]
+        },
+        "nullable_bool": {
+            "type": [
+                "boolean",
+                "null"
+            ]
+        },
+        "range": {
+            "type": "object",
+            "required": [
+                "low",
+                "high"
+            ],
+            "additionalProperties": false,
+            "properties": {
+                "low": {
+                    "$ref": "#/definitions/nullable_number"
+                },
+                "high": {
+                    "$ref": "#/definitions/nullable_number"
+                }
+            }
+        },
+        "source": {
+            "type": "object",
+            "required": [
+                "id",
+                "url",
+                "title",
+                "access_date",
+                "what_it_supports"
+            ],
+            "additionalProperties": false,
+            "properties": {
+                "id": {
+                    "type": "string",
+                    "pattern": "^S[1-9][0-9]*$"
+                },
+                "url": {
+                    "type": "string",
+                    "pattern": "^https?://"
+                },
+                "title": {
+                    "$ref": "#/definitions/nonempty"
+                },
+                "access_date": {
+                    "type": "string",
+                    "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}$"
+                },
+                "what_it_supports": {
+                    "$ref": "#/definitions/nonempty"
+                },
+                "exact_quote": {
+                    "type": "string"
+                }
+            }
+        },
+        "run_meta": {
+            "type": "object",
+            "required": [
+                "run_id",
+                "run_date",
+                "kind",
+                "attempt",
+                "remediates_run_id",
+                "model_id",
+                "issued_by_task_path",
+                "codex_task_path",
+                "fork_policy",
+                "finalizer_version",
+                "memo_renderer_version"
+            ],
+            "additionalProperties": false,
+            "properties": {
+                "run_id": {
+                    "$ref": "#/definitions/nonempty"
+                },
+                "run_date": {
+                    "type": "string",
+                    "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}$"
+                },
+                "kind": {
+                    "const": "target"
+                },
+                "attempt": {
+                    "type": "integer",
+                    "minimum": 1,
+                    "maximum": 2
+                },
+                "remediates_run_id": {
+                    "type": [
+                        "string",
+                        "null"
+                    ]
+                },
+                "model_id": {
+                    "enum": [
+                        "gpt-5.6-terra",
+                        "gpt-5.6-sol"
+                    ]
+                },
+                "issued_by_task_path": {
+                    "const": "/root"
+                },
+                "codex_task_path": {
+                    "type": "string",
+                    "pattern": "^/root/.+"
+                },
+                "fork_policy": {
+                    "const": "none"
+                },
+                "finalizer_version": {
+                    "const": "finalizer-4.2"
+                },
+                "memo_renderer_version": {
+                    "const": "memo-renderer-4.2"
+                }
+            }
+        },
+        "execution_envelope": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+                "envelope_version",
+                "kind",
+                "naics",
+                "title",
+                "run_id",
+                "run_date",
+                "attempt",
+                "remediates_run_id",
+                "issued_by_task_path",
+                "codex_task_path",
+                "fork_policy",
+                "role",
+                "model_id",
+                "prompt_sha256",
+                "dataset_sha256",
+                "spec_sha256",
+                "methodology_sha256",
+                "thresholds_sha256",
+                "research_packet_schema_sha256",
+                "dataset_schema_sha256",
+                "industry_spec_schema_sha256",
+                "run_record_schema_sha256",
+                "scoring_sha256",
+                "finalizer_sha256"
+            ],
+            "properties": {
+                "envelope_version": {
+                    "const": "4.2"
+                },
+                "kind": {
+                    "const": "target"
+                },
+                "naics": {
+                    "type": "string",
+                    "pattern": "^[0-9]{6}$"
+                },
+                "title": {
+                    "$ref": "#/definitions/nonempty"
+                },
+                "run_id": {
+                    "$ref": "#/definitions/nonempty"
+                },
+                "run_date": {
+                    "type": "string",
+                    "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}$"
+                },
+                "attempt": {
+                    "type": "integer",
+                    "minimum": 1,
+                    "maximum": 2
+                },
+                "remediates_run_id": {
+                    "type": [
+                        "string",
+                        "null"
+                    ]
+                },
+                "issued_by_task_path": {
+                    "const": "/root"
+                },
+                "codex_task_path": {
+                    "type": "string",
+                    "pattern": "^/root/.+"
+                },
+                "fork_policy": {
+                    "const": "none"
+                },
+                "role": {
+                    "const": "research"
+                },
+                "model_id": {
+                    "enum": [
+                        "gpt-5.6-terra",
+                        "gpt-5.6-sol"
+                    ]
+                },
+                "prompt_sha256": {
+                    "$ref": "#/definitions/sha256"
+                },
+                "dataset_sha256": {
+                    "$ref": "#/definitions/sha256"
+                },
+                "spec_sha256": {
+                    "$ref": "#/definitions/sha256"
+                },
+                "methodology_sha256": {
+                    "$ref": "#/definitions/sha256"
+                },
+                "thresholds_sha256": {
+                    "$ref": "#/definitions/sha256"
+                },
+                "research_packet_schema_sha256": {
+                    "$ref": "#/definitions/sha256"
+                },
+                "dataset_schema_sha256": {
+                    "$ref": "#/definitions/sha256"
+                },
+                "industry_spec_schema_sha256": {
+                    "$ref": "#/definitions/sha256"
+                },
+                "run_record_schema_sha256": {
+                    "$ref": "#/definitions/sha256"
+                },
+                "scoring_sha256": {
+                    "$ref": "#/definitions/sha256"
+                },
+                "finalizer_sha256": {
+                    "$ref": "#/definitions/sha256"
+                }
+            }
+        },
+        "narrative": {
+            "type": "object",
+            "required": [
+                "executive_view",
+                "revenue_and_pass_through",
+                "technical_value",
+                "implementation",
+                "commercial_capture",
+                "buyability",
+                "entry_and_exit",
+                "operator_survival",
+                "risks_and_uncertainty"
+            ],
+            "additionalProperties": false,
+            "properties": {
+                "executive_view": {
+                    "$ref": "#/definitions/nonempty"
+                },
+                "revenue_and_pass_through": {
+                    "$ref": "#/definitions/nonempty"
+                },
+                "technical_value": {
+                    "$ref": "#/definitions/nonempty"
+                },
+                "implementation": {
+                    "$ref": "#/definitions/nonempty"
+                },
+                "commercial_capture": {
+                    "$ref": "#/definitions/nonempty"
+                },
+                "buyability": {
+                    "$ref": "#/definitions/nonempty"
+                },
+                "entry_and_exit": {
+                    "$ref": "#/definitions/nonempty"
+                },
+                "operator_survival": {
+                    "$ref": "#/definitions/nonempty"
+                },
+                "risks_and_uncertainty": {
+                    "$ref": "#/definitions/nonempty"
+                }
+            }
+        },
+        "scenario_narratives": {
+            "type": "object",
+            "required": [
+                "low",
+                "base",
+                "high"
+            ],
+            "additionalProperties": false,
+            "properties": {
+                "low": {
+                    "$ref": "#/definitions/nonempty"
+                },
+                "base": {
+                    "$ref": "#/definitions/nonempty"
+                },
+                "high": {
+                    "$ref": "#/definitions/nonempty"
+                }
+            }
+        },
+        "calculation_operand": {
+            "type": "object",
+            "required": [
+                "name",
+                "value",
+                "source_id"
+            ],
+            "additionalProperties": false,
+            "properties": {
+                "name": {
+                    "type": "string"
+                },
+                "value": {
+                    "type": "number"
+                },
+                "source_id": {
+                    "type": "string"
+                }
+            }
+        },
+        "calculation": {
+            "type": "object",
+            "required": [
+                "expression",
+                "operands"
+            ],
+            "additionalProperties": false,
+            "properties": {
+                "expression": {
+                    "type": "string"
+                },
+                "operands": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/calculation_operand"
+                    }
+                }
+            }
+        },
+        "bridge": {
+            "type": "object",
+            "required": [
+                "population",
+                "geography",
+                "period",
+                "unit",
+                "business_model"
+            ],
+            "additionalProperties": false,
+            "properties": {
+                "population": {
+                    "$ref": "#/definitions/nonempty"
+                },
+                "geography": {
+                    "$ref": "#/definitions/nonempty"
+                },
+                "period": {
+                    "$ref": "#/definitions/nonempty"
+                },
+                "unit": {
+                    "$ref": "#/definitions/nonempty"
+                },
+                "business_model": {
+                    "$ref": "#/definitions/nonempty"
+                }
+            }
+        },
+        "provenance": {
+            "type": "object",
+            "required": [
+                "derivation_method",
+                "evidence_state",
+                "resolution_type"
+            ],
+            "additionalProperties": false,
+            "properties": {
+                "derivation_method": {
+                    "enum": [
+                        "OBSERVED",
+                        "CALCULATED",
+                        "ESTIMATE"
+                    ]
+                },
+                "evidence_state": {
+                    "enum": [
+                        "DIRECT",
+                        "PROXY",
+                        "ASSUMPTION",
+                        "MISSING"
+                    ]
+                },
+                "resolution_type": {
+                    "enum": [
+                        "AUTHORED",
+                        "SAFE_CALCULATION",
+                        "UNRESOLVED_MISSING",
+                        "DATASET"
+                    ]
+                }
+            }
+        },
+        "recognized_accounting_basis": {
+            "type": "object",
+            "required": ["recognition_standard", "measurement_period", "pass_through_presentation"],
+            "additionalProperties": false,
+            "properties": {
+                "recognition_standard": {"const": "ACCRUAL_RECOGNIZED_REVENUE"},
+                "measurement_period": {"const": "TRAILING_TWELVE_MONTHS"},
+                "pass_through_presentation": {"enum": ["GROSS_OF_ALL", "NET_OF_ALL", "MIXED"]}
+            }
+        },
+        "capacity_horizon": {
+            "type": "object", "required": ["start", "end", "years"], "additionalProperties": false,
+            "properties": {"start": {"const": "ENTRY_DATE"}, "end": {"const": "END_OF_YEAR_5"},
+                "years": {"const": 5}}
+        },
+        "capacity_calculation": {
+            "type": "object",
+            "required": ["measure", "completion_requirement", "onboarding_requirement", "aggregation"],
+            "additionalProperties": false,
+            "properties": {
+                "measure": {"const": "MAXIMUM_TARGET_COUNT"},
+                "completion_requirement": {"const": "CLOSED_WITHIN_FIVE_YEARS"},
+                "onboarding_requirement": {"const": "FULLY_ONBOARDED_WITHIN_FIVE_YEARS"},
+                "aggregation": {"const": "NON_DUPLICATIVE_TARGET_COUNT"}
+            }
+        },
+        "anchor_basis": {
+            "type": "object",
+            "required": ["channel", "normalized_y5_state_digest", "state_reference", "scenario_policy"],
+            "additionalProperties": false,
+            "properties": {
+                "channel": {"const": "ENTRY_EQUIVALENT_COMPARABLE_MULTIPLE_LEVEL"},
+                "normalized_y5_state_digest": {"type": ["string", "null"], "pattern": "^[0-9a-f]{64}$"},
+                "state_reference": {"const": "ENTRY_TARGET_ARCHETYPE"},
+                "scenario_policy": {"const": "ONE_STATE_LOW_BASE_HIGH"}
+            }
+        },
+        "capacity_scope": {
+            "type": "object",
+            "required": [
+                "reference_buyer",
+                "horizon_years",
+                "geography",
+                "target_archetype",
+                "counts_only_completed_and_onboarded_targets"
+            ],
+            "additionalProperties": false,
+            "properties": {
+                "reference_buyer": {
+                    "const": "CREDIBLE_US_LMM_NATIONAL_SOURCING_NO_PRIVILEGED_ACCESS"
+                },
+                "horizon_years": {
+                    "const": 5
+                },
+                "geography": {
+                    "const": "UNITED_STATES"
+                },
+                "target_archetype": {
+                    "const": "FROZEN_SELECTED_TARGET_ARCHETYPE"
+                },
+                "counts_only_completed_and_onboarded_targets": {
+                    "const": true
+                }
+            }
+        },
+        "final_selection": {
+            "type": "object",
+            "required": [
+                "value",
+                "range",
+                "authored_value",
+                "authored_range",
+                "method",
+                "evidence_state",
+                "evidence_quality",
+                "confidence",
+                "source_ids",
+                "rationale",
+                "caveats",
+                "bridge_supported",
+                "endpoints_supported",
+                "independent_validation",
+                "longitudinal_validation",
+                "resolution_type",
+                "provenance"
+            ],
+            "additionalProperties": false,
+            "properties": {
+                "value": {
+                    "$ref": "#/definitions/nullable_number"
+                },
+                "range": {
+                    "$ref": "#/definitions/range"
+                },
+                "authored_value": {
+                    "$ref": "#/definitions/nullable_number"
+                },
+                "authored_range": {
+                    "$ref": "#/definitions/range"
+                },
+                "method": {
+                    "enum": [
+                        "OBSERVED",
+                        "CALCULATED",
+                        "ESTIMATE"
+                    ]
+                },
+                "evidence_state": {
+                    "enum": [
+                        "DIRECT",
+                        "PROXY",
+                        "ASSUMPTION",
+                        "MISSING"
+                    ]
+                },
+                "evidence_quality": {
+                    "enum": [
+                        "HIGH",
+                        "MED",
+                        "LOW",
+                        "NONE"
+                    ]
+                },
+                "confidence": {
+                    "enum": [
+                        "HIGH",
+                        "MED",
+                        "LOW"
+                    ]
+                },
+                "source_ids": {
+                    "type": "array",
+                    "uniqueItems": true,
+                    "items": {
+                        "type": "string",
+                        "minLength": 1
+                    }
+                },
+                "rationale": {
+                    "$ref": "#/definitions/nonempty"
+                },
+                "caveats": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/nonempty"
+                    }
+                },
+                "accounting_basis": {
+                    "oneOf": [
+                        {"$ref": "#/definitions/nonempty"},
+                        {"$ref": "#/definitions/recognized_accounting_basis"}
+                    ]
+                },
+                "capacity_scope": {
+                    "$ref": "#/definitions/capacity_scope"
+                },
+                "capacity_type": {
+                    "enum": ["DEAL_EXECUTION", "INTEGRATION_ONBOARDING"]
+                },
+                "capacity_horizon": {
+                    "$ref": "#/definitions/capacity_horizon"
+                },
+                "capacity_calculation": {
+                    "$ref": "#/definitions/capacity_calculation"
+                },
+                "anchor_basis": {
+                    "$ref": "#/definitions/anchor_basis"
+                },
+                "calculation": {
+                    "$ref": "#/definitions/calculation"
+                },
+                "bridge": {
+                    "$ref": "#/definitions/bridge"
+                },
+                "bridge_supported": {
+                    "type": "boolean"
+                },
+                "endpoints_supported": {
+                    "type": "boolean"
+                },
+                "independent_validation": {
+                    "type": "boolean"
+                },
+                "longitudinal_validation": {
+                    "type": "boolean"
+                },
+                "rationale_separation_passed": {
+                    "type": "boolean"
+                },
+                "normalized_y5_state_digest": {
+                    "type": [
+                        "string",
+                        "null"
+                    ],
+                    "pattern": "^[0-9a-f]{64}$"
+                },
+                "resolution_type": {
+                    "enum": [
+                        "AUTHORED",
+                        "SAFE_CALCULATION",
+                        "UNRESOLVED_MISSING",
+                        "DATASET"
+                    ]
+                },
+                "provenance": {
+                    "$ref": "#/definitions/provenance"
+                }
+            }
+        },
+        "deal_capacity_final_selection": {
+            "allOf": [
+                {"$ref": "#/definitions/final_selection"},
+                {"required": ["capacity_type", "capacity_horizon", "capacity_calculation", "capacity_scope"],
+                 "properties": {"capacity_type": {"const": "DEAL_EXECUTION"}}}
+            ]
+        },
+        "recognized_revenue_final_selection": {
+            "allOf": [
+                {"$ref": "#/definitions/final_selection"},
+                {"required": ["accounting_basis"],
+                 "properties": {"accounting_basis": {"$ref": "#/definitions/recognized_accounting_basis"}}}
+            ]
+        },
+        "integration_capacity_final_selection": {
+            "allOf": [
+                {"$ref": "#/definitions/final_selection"},
+                {"required": ["capacity_type", "capacity_horizon", "capacity_calculation", "capacity_scope"],
+                 "properties": {"capacity_type": {"const": "INTEGRATION_ONBOARDING"}}}
+            ]
+        },
+        "target_archetype": {
+            "type": "object",
+            "required": [
+                "selected_id",
+                "selected_name",
+                "inclusion_criteria",
+                "exclusion_criteria",
+                "selection_basis",
+                "selection_uncertainty",
+                "enumeration_coverage"
+            ],
+            "additionalProperties": false,
+            "properties": {
+                "selected_id": {
+                    "$ref": "#/definitions/nonempty"
+                },
+                "selected_name": {
+                    "$ref": "#/definitions/nonempty"
+                },
+                "inclusion_criteria": {
+                    "type": "array",
+                    "minItems": 1,
+                    "items": {
+                        "$ref": "#/definitions/nonempty"
+                    }
+                },
+                "exclusion_criteria": {
+                    "type": "array",
+                    "minItems": 1,
+                    "items": {
+                        "$ref": "#/definitions/nonempty"
+                    }
+                },
+                "selection_basis": {
+                    "$ref": "#/definitions/nonempty"
+                },
+                "selection_uncertainty": {
+                    "type": "boolean"
+                },
+                "enumeration_coverage": {
+                    "type": "object",
+                    "required": [
+                        "base",
+                        "low",
+                        "high"
+                    ],
+                    "additionalProperties": false,
+                    "properties": {
+                        "base": {
+                            "type": "number"
+                        },
+                        "low": {
+                            "type": "number"
+                        },
+                        "high": {
+                            "type": "number"
+                        }
+                    }
+                }
+            }
+        },
+        "role_mix": {
+            "type": "object",
+            "required": [
+                "spec_mode",
+                "basis_method",
+                "basis_evidence_state",
+                "basis_evidence_quality",
+                "basis_source_ids",
+                "basis_bridge_supported",
+                "basis_endpoints_supported",
+                "basis_independent_validation",
+                "basis_longitudinal_validation",
+                "roles"
+            ],
+            "additionalProperties": false,
+            "properties": {
+                "spec_mode": {
+                    "enum": [
+                        "frozen",
+                        "assumption",
+                        "missing"
+                    ]
+                },
+                "basis_method": {
+                    "enum": [
+                        "OBSERVED",
+                        "CALCULATED",
+                        "ESTIMATE"
+                    ]
+                },
+                "basis_evidence_state": {
+                    "enum": [
+                        "DIRECT",
+                        "ASSUMPTION",
+                        "MISSING"
+                    ]
+                },
+                "basis_evidence_quality": {
+                    "enum": [
+                        "HIGH",
+                        "MED",
+                        "NONE"
+                    ]
+                },
+                "basis_source_ids": {
+                    "type": "array",
+                    "uniqueItems": true,
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "basis_bridge_supported": {
+                    "type": "boolean"
+                },
+                "basis_endpoints_supported": {
+                    "type": "boolean"
+                },
+                "basis_independent_validation": {
+                    "type": "boolean"
+                },
+                "basis_longitudinal_validation": {
+                    "type": "boolean"
+                },
+                "roles": {
+                    "type": "array",
+                    "items": {
+                        "type": "object",
+                        "required": [
+                            "role",
+                            "cost_weight",
+                            "removable_fraction"
+                        ],
+                        "additionalProperties": false,
+                        "properties": {
+                            "role": {
+                                "$ref": "#/definitions/nonempty"
+                            },
+                            "cost_weight": {
+                                "type": "number",
+                                "exclusiveMinimum": 0,
+                                "maximum": 1
+                            },
+                            "removable_fraction": {
+                                "$ref": "#/definitions/final_selection"
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "r_schedule": {
+            "type": "object",
+            "required": [
+                "r1",
+                "r2",
+                "r3",
+                "r4",
+                "r5"
+            ],
+            "additionalProperties": false,
+            "properties": {
+                "r1": {
+                    "$ref": "#/definitions/final_selection"
+                },
+                "r2": {
+                    "$ref": "#/definitions/final_selection"
+                },
+                "r3": {
+                    "$ref": "#/definitions/final_selection"
+                },
+                "r4": {
+                    "$ref": "#/definitions/final_selection"
+                },
+                "r5": {
+                    "$ref": "#/definitions/final_selection"
+                }
+            }
+        },
+        "c_schedule": {
+            "type": "object",
+            "required": [
+                "c1",
+                "c2",
+                "c3",
+                "c4",
+                "c5"
+            ],
+            "additionalProperties": false,
+            "properties": {
+                "c1": {
+                    "$ref": "#/definitions/final_selection"
+                },
+                "c2": {
+                    "$ref": "#/definitions/final_selection"
+                },
+                "c3": {
+                    "$ref": "#/definitions/final_selection"
+                },
+                "c4": {
+                    "$ref": "#/definitions/final_selection"
+                },
+                "c5": {
+                    "$ref": "#/definitions/final_selection"
+                }
+            }
+        },
+        "k_schedule": {
+            "type": "object",
+            "required": [
+                "k0",
+                "k1",
+                "k2",
+                "k3",
+                "k4",
+                "k5"
+            ],
+            "additionalProperties": false,
+            "properties": {
+                "k0": {
+                    "$ref": "#/definitions/final_selection"
+                },
+                "k1": {
+                    "$ref": "#/definitions/final_selection"
+                },
+                "k2": {
+                    "$ref": "#/definitions/final_selection"
+                },
+                "k3": {
+                    "$ref": "#/definitions/final_selection"
+                },
+                "k4": {
+                    "$ref": "#/definitions/final_selection"
+                },
+                "k5": {
+                    "$ref": "#/definitions/final_selection"
+                }
+            }
+        },
+        "normalized_state": {
+            "type": "object",
+            "required": [
+                "state_id",
+                "state_digest",
+                "accounting",
+                "size",
+                "service_mix",
+                "customer_concentration",
+                "management_depth",
+                "platform_quality",
+                "entry_equivalence",
+                "method",
+                "evidence_state",
+                "evidence_quality",
+                "confidence",
+                "source_ids",
+                "rationale",
+                "caveats",
+                "bridge_supported",
+                "endpoints_supported",
+                "independent_validation",
+                "longitudinal_validation",
+                "rationale_separation_passed"
+            ],
+            "additionalProperties": false,
+            "properties": {
+                "state_id": {
+                    "type": [
+                        "string",
+                        "null"
+                    ]
+                },
+                "state_digest": {
+                    "type": [
+                        "string",
+                        "null"
+                    ],
+                    "pattern": "^[0-9a-f]{64}$"
+                },
+                "accounting": {
+                    "enum": [
+                        "HOLD_ENTRY_REFERENCE",
+                        null
+                    ]
+                },
+                "size": {
+                    "enum": [
+                        "HOLD_ENTRY_REFERENCE",
+                        null
+                    ]
+                },
+                "service_mix": {
+                    "enum": [
+                        "HOLD_ENTRY_REFERENCE",
+                        null
+                    ]
+                },
+                "customer_concentration": {
+                    "enum": [
+                        "HOLD_ENTRY_REFERENCE",
+                        null
+                    ]
+                },
+                "management_depth": {
+                    "enum": [
+                        "HOLD_ENTRY_REFERENCE",
+                        null
+                    ]
+                },
+                "platform_quality": {
+                    "enum": [
+                        "HOLD_ENTRY_REFERENCE",
+                        null
+                    ]
+                },
+                "entry_equivalence": {
+                    "type": "object",
+                    "required": [
+                        "reference",
+                        "scenario_policy",
+                        "transformation_policy"
+                    ],
+                    "additionalProperties": false,
+                    "properties": {
+                        "reference": {
+                            "const": "ENTRY_TARGET_ARCHETYPE"
+                        },
+                        "scenario_policy": {
+                            "const": "ONE_STATE_LOW_BASE_HIGH"
+                        },
+                        "transformation_policy": {
+                            "const": "NO_SPONSOR_TRANSFORMATION"
+                        }
+                    }
+                },
+                "method": {
+                        "enum": [
+                            "OBSERVED",
+                            "ESTIMATE"
+                        ]
+                    },
+                    "evidence_state": {
+                        "enum": [
+                            "DIRECT",
+                            "PROXY",
+                            "ASSUMPTION",
+                            "MISSING"
+                        ]
+                    },
+                    "evidence_quality": {
+                        "enum": [
+                            "HIGH",
+                            "MED",
+                            "LOW",
+                            "NONE"
+                        ]
+                    },
+                    "confidence": {
+                        "enum": [
+                            "HIGH",
+                            "MED",
+                            "LOW"
+                        ]
+                    },
+                    "source_ids": {
+                        "type": "array",
+                        "uniqueItems": true,
+                        "items": {
+                            "type": "string"
+                        }
+                    },
+                    "rationale": {
+                        "$ref": "#/definitions/nonempty"
+                    },
+                    "caveats": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/definitions/nonempty"
+                        }
+                    },
+                    "bridge": {
+                        "$ref": "#/definitions/bridge"
+                    },
+                    "bridge_supported": {
+                        "type": "boolean"
+                    },
+                    "endpoints_supported": {
+                        "type": "boolean"
+                    },
+                    "independent_validation": {
+                        "type": "boolean"
+                    },
+                    "longitudinal_validation": {
+                        "type": "boolean"
+                    },
+                    "rationale_separation_passed": {
+                        "type": "boolean"
+                    }
+                }
+            },
+            "final_reconciliation": {
+                "type": "object",
+                "required": [
+                    "revenue_basis",
+                    "included_cost_ids",
+                    "already_netted_cost_ids",
+                    "supported",
+                    "method",
+                    "evidence_state",
+                    "evidence_quality",
+                    "source_ids",
+                    "bridge_supported",
+                    "independent_validation",
+                    "longitudinal_validation",
+                    "rationale",
+                    "caveats"
+                ],
+                "additionalProperties": false,
+                "properties": {
+                    "revenue_basis": {
+                        "enum": [
+                            "GROSS_OF_ALL",
+                            "NET_OF_ALL",
+                            "MIXED"
+                        ]
+                    },
+                    "included_cost_ids": {
+                        "type": "array",
+                        "uniqueItems": true,
+                        "items": {
+                            "$ref": "#/definitions/nonempty"
+                        }
+                    },
+                    "already_netted_cost_ids": {
+                        "type": "array",
+                        "uniqueItems": true,
+                        "items": {
+                            "$ref": "#/definitions/nonempty"
+                        }
+                    },
+                    "supported": {
+                        "type": "boolean"
+                    },
+                    "method": {
+                        "enum": [
+                            "OBSERVED",
+                            "CALCULATED",
+                            "ESTIMATE"
+                        ]
+                    },
+                    "evidence_state": {
+                        "enum": [
+                            "DIRECT",
+                            "PROXY",
+                            "ASSUMPTION",
+                            "MISSING"
+                        ]
+                    },
+                    "evidence_quality": {
+                        "enum": [
+                            "HIGH",
+                            "MED",
+                            "LOW",
+                            "NONE"
+                        ]
+                    },
+                    "source_ids": {
+                        "type": "array",
+                        "uniqueItems": true,
+                        "items": {
+                            "type": "string"
+                        }
+                    },
+                    "bridge_supported": {
+                        "type": "boolean"
+                    },
+                    "independent_validation": {
+                        "type": "boolean"
+                    },
+                    "longitudinal_validation": {
+                        "type": "boolean"
+                    },
+                    "rationale": {
+                        "$ref": "#/definitions/nonempty"
+                    },
+                    "caveats": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/definitions/nonempty"
+                        }
+                    }
+                }
+            },
+            "inputs": {
+                "type": "object",
+                "required": [
+                    "target_archetype",
+                    "recognized_revenue",
+                    "pass_through_reconciliation",
+                    "third_party_pass_through",
+                    "employee_cash_cost",
+                    "controllable_contractor_cash_cost",
+                    "numerator_cost_ids",
+                    "target_role_mix",
+                    "implementation_realization",
+                    "implementation_investment",
+                    "commercial_retention",
+                    "target_archetype_coverage",
+                    "five_year_sale_availability",
+                    "buyer_access_win_share",
+                    "deal_execution_capacity_5y",
+                    "integration_onboarding_capacity_5y",
+                    "buy_mult",
+                    "normalized_y5_operating_state",
+                    "downside_exit_mult",
+                    "operator_controlled_value_added_demand_share_y5"
+                ],
+                "additionalProperties": false,
+                "properties": {
+                    "target_archetype": {
+                        "$ref": "#/definitions/target_archetype"
+                    },
+                    "recognized_revenue": {
+                        "$ref": "#/definitions/recognized_revenue_final_selection"
+                    },
+                    "pass_through_reconciliation": {
+                        "$ref": "#/definitions/final_reconciliation"
+                    },
+                    "third_party_pass_through": {
+                        "type": "array",
+                        "items": {
+                            "type": "object",
+                            "required": [
+                                "category",
+                                "cost_id",
+                                "amount"
+                            ],
+                            "additionalProperties": false,
+                            "properties": {
+                                "category": {
+                                    "$ref": "#/definitions/nonempty"
+                                },
+                                "cost_id": {
+                                    "$ref": "#/definitions/nonempty"
+                                },
+                                "amount": {
+                                    "$ref": "#/definitions/final_selection"
+                                }
+                            }
+                        }
+                    },
+                    "employee_cash_cost": {
+                        "$ref": "#/definitions/final_selection"
+                    },
+                    "controllable_contractor_cash_cost": {
+                        "$ref": "#/definitions/final_selection"
+                    },
+                    "numerator_cost_ids": {
+                        "type": "array",
+                        "uniqueItems": true,
+                        "items": {
+                            "$ref": "#/definitions/nonempty"
+                        }
+                    },
+                    "target_role_mix": {
+                        "$ref": "#/definitions/role_mix"
+                    },
+                    "implementation_realization": {
+                        "$ref": "#/definitions/r_schedule"
+                    },
+                    "implementation_investment": {
+                        "$ref": "#/definitions/k_schedule"
+                    },
+                    "commercial_retention": {
+                        "$ref": "#/definitions/c_schedule"
+                    },
+                    "target_archetype_coverage": {
+                        "$ref": "#/definitions/final_selection"
+                    },
+                    "five_year_sale_availability": {
+                        "$ref": "#/definitions/final_selection"
+                    },
+                    "buyer_access_win_share": {
+                        "$ref": "#/definitions/final_selection"
+                    },
+                    "deal_execution_capacity_5y": {
+                        "$ref": "#/definitions/deal_capacity_final_selection"
+                    },
+                    "integration_onboarding_capacity_5y": {
+                        "$ref": "#/definitions/integration_capacity_final_selection"
+                    },
+                    "buy_mult": {
+                        "$ref": "#/definitions/final_selection"
+                    },
+                    "normalized_y5_operating_state": {
+                        "$ref": "#/definitions/normalized_state"
+                    },
+                    "downside_exit_mult": {
+                        "$ref": "#/definitions/final_selection"
+                    },
+                    "operator_controlled_value_added_demand_share_y5": {
+                        "$ref": "#/definitions/final_selection"
+                    }
+                }
+            },
+            "excluded_channel_map": {
+                "type": "object",
+                "additionalProperties": false,
+                "required": [
+                    "commercial_retention",
+                    "constant_price_survival",
+                    "implementation_realization",
+                    "implementation_investment",
+                    "operating_value_viability_h",
+                    "controllable_value_added_v",
+                    "buyability_b",
+                    "sponsor_transformation",
+                    "sponsor_synergy",
+                    "margin_change",
+                    "size_change",
+                    "service_mix_change",
+                    "customer_concentration_change",
+                    "management_depth_change",
+                    "platform_quality_change",
+                    "accounting_change"
+                ],
+                "properties": {
+                    "commercial_retention": {
+                        "const": "EXCLUDED"
+                    },
+                    "constant_price_survival": {
+                        "const": "EXCLUDED"
+                    },
+                    "implementation_realization": {
+                        "const": "EXCLUDED"
+                    },
+                    "implementation_investment": {
+                        "const": "EXCLUDED"
+                    },
+                    "operating_value_viability_h": {
+                        "const": "EXCLUDED"
+                    },
+                    "controllable_value_added_v": {
+                        "const": "EXCLUDED"
+                    },
+                    "buyability_b": {
+                        "const": "EXCLUDED"
+                    },
+                    "sponsor_transformation": {
+                        "const": "EXCLUDED"
+                    },
+                    "sponsor_synergy": {
+                        "const": "EXCLUDED"
+                    },
+                    "margin_change": {
+                        "const": "EXCLUDED"
+                    },
+                    "size_change": {
+                        "const": "EXCLUDED"
+                    },
+                    "service_mix_change": {
+                        "const": "EXCLUDED"
+                    },
+                    "customer_concentration_change": {
+                        "const": "EXCLUDED"
+                    },
+                    "management_depth_change": {
+                        "const": "EXCLUDED"
+                    },
+                    "platform_quality_change": {
+                        "const": "EXCLUDED"
+                    },
+                    "accounting_change": {
+                        "const": "EXCLUDED"
+                    }
+                }
+            },
+        "compact_primitive": {
+                "type": "object",
+                "required": [
+                    "value",
+                    "range",
+                    "source_ids"
+                ],
+                "additionalProperties": false,
+                "properties": {
+                    "value": {
+                        "$ref": "#/definitions/nullable_number"
+                    },
+                    "range": {
+                        "$ref": "#/definitions/range"
+                    },
+                    "source_ids": {
+                        "type": "array",
+                        "uniqueItems": true,
+                        "items": {
+                            "type": "string"
+                        }
+                }
+            }
+        },
+        "anchor_primitive": {
+            "type": "object",
+            "required": ["value", "range", "source_ids", "anchor_basis"],
+            "additionalProperties": false,
+            "properties": {
+                "value": {"$ref": "#/definitions/nullable_number"},
+                "range": {"$ref": "#/definitions/range"},
+                "source_ids": {"type": "array", "uniqueItems": true,
+                    "items": {"type": "string"}},
+                "anchor_basis": {"$ref": "#/definitions/anchor_basis"}
+            }
+        },
+            "p_provenance": {
+                "type": "object",
+                "required": [
+                    "normalized_y5_state_digest",
+                    "anchor",
+                    "adjustments",
+                    "excluded_channel_map",
+                    "calculation_status"
+                ],
+                "additionalProperties": false,
+                "properties": {
+                    "normalized_y5_state_digest": {
+                        "type": [
+                            "string",
+                            "null"
+                        ]
+                    },
+                    "anchor": {
+                        "$ref": "#/definitions/anchor_primitive"
+                    },
+                    "adjustments": {
+                        "type": "array",
+                        "items": {
+                            "type": "object",
+                            "required": [
+                                "channel",
+                                "value",
+                                "range",
+                                "source_ids"
+                            ],
+                            "additionalProperties": false,
+                            "properties": {
+                                "channel": {
+                                    "enum": [
+                                        "EXTERNAL_DISCOUNT_RATE_ENVIRONMENT",
+                                        "ENTRY_EQUIVALENT_COMPARABLE_MULTIPLE_LEVEL",
+                                        "PRIVATE_TRANSACTION_LIQUIDITY"
+                                    ]
+                                },
+                                "value": {
+                                    "$ref": "#/definitions/nullable_number"
+                                },
+                                "range": {
+                                    "$ref": "#/definitions/range"
+                                },
+                                "source_ids": {
+                                    "type": "array",
+                                    "uniqueItems": true,
+                                    "items": {
+                                        "type": "string"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "excluded_channel_map": {
+                        "$ref": "#/definitions/excluded_channel_map"
+                    },
+                    "calculation_status": {
+                        "enum": [
+                            "RECOMPUTED",
+                            "MISSING"
+                        ]
+                    },
+                    "value": {
+                        "type": "number"
+                    },
+                    "range": {
+                        "$ref": "#/definitions/range"
+                    }
+                }
+            },
+            "fixed_base_assertions": {
+                "type": "object",
+                "required": [
+                    "index_method", "price_basis", "quality_basis", "basket_scope",
+                    "operator_control_scope", "new_demand_treatment", "pass_through_boundary"
+                ],
+                "additionalProperties": false,
+                "properties": {
+                    "index_method": {"const": "FIXED_BASE_LASPEYRES_CVA"},
+                    "price_basis": {"const": "BASELINE_CVA_PER_UNIT_HELD_CONSTANT"},
+                    "quality_basis": {"const": "CONSTANT_QUALITY"},
+                    "basket_scope": {"const": "EXHAUSTIVE_BASELINE_SERVICES_ONLY"},
+                    "operator_control_scope": {"const": "PURCHASED_FROM_NAMED_OPERATOR"},
+                    "new_demand_treatment": {"const": "EXCLUDED_AND_CAPPED_AT_ONE"},
+                    "pass_through_boundary": {"const": "MATCHES_R_CVA_RECONCILIATION"}
+                }
+            },
+            "scenario_triplet": {
+                "type": "object",
+                "required": ["low", "base", "high"],
+                "additionalProperties": false,
+                "properties": {
+                    "low": {"type": "number"},
+                    "base": {"type": "number"},
+                    "high": {"type": "number"}
+                }
+            },
+            "survival_service_provenance": {
+                "type": "object",
+                "required": [
+                    "service_id", "unit", "constant_quality_spec", "baseline_quantity",
+                    "baseline_revenue", "baseline_pass_through", "baseline_cva",
+                    "baseline_cva_unit_price", "base_weight", "y5_quantity", "qrel", "source_ids"
+                ],
+                "additionalProperties": false,
+                "properties": {
+                    "service_id": {"$ref": "#/definitions/nonempty"},
+                    "unit": {"$ref": "#/definitions/nonempty"},
+                    "constant_quality_spec": {"$ref": "#/definitions/nonempty"},
+                    "baseline_quantity": {"type": "number"},
+                    "baseline_revenue": {"type": "number"},
+                    "baseline_pass_through": {"type": "number"},
+                    "baseline_cva": {"type": "number"},
+                    "baseline_cva_unit_price": {"type": "number"},
+                    "base_weight": {"type": "number"},
+                    "y5_quantity": {"$ref": "#/definitions/scenario_triplet"},
+                    "qrel": {"$ref": "#/definitions/scenario_triplet"},
+                    "source_ids": {
+                        "type": "array", "uniqueItems": true,
+                        "items": {"type": "string", "minLength": 1}
+                    }
+                }
+            },
+            "survival_provenance": {
+                "type": "object",
+                "required": [
+                    "status",
+                    "basket_id",
+                    "fixed_base_assertions",
+                    "services",
+                    "calculation_status",
+                    "failure_reasons"
+                ],
+                "additionalProperties": false,
+                "properties": {
+                    "status": {
+                        "enum": [
+                            "SUPPORTED",
+                            "MISSING"
+                        ]
+                    },
+                    "basket_id": {
+                        "$ref": "#/definitions/nonempty"
+                    },
+                    "fixed_base_assertions": {
+                        "$ref": "#/definitions/fixed_base_assertions"
+                    },
+                    "services": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/definitions/survival_service_provenance"
+                        }
+                    },
+                    "calculation_status": {
+                        "enum": [
+                            "RECOMPUTED",
+                            "MISSING"
+                        ]
+                    },
+                    "failure_reasons": {
+                        "type": "array",
+                        "items": {
+                            "type": "string"
+                        }
+                    },
+                    "R_cva_base": {
+                        "type": "number"
+                    }
+                }
+            },
+            "construct_provenance": {
+                "type": "object",
+                "required": [
+                    "cva_reconciliation",
+                    "pass_through_reconciliation",
+                    "p_attribution",
+                    "constant_price_survival",
+                    "h"
+                ],
+                "additionalProperties": false,
+                "properties": {
+                    "cva_reconciliation": {
+                        "type": "object",
+                        "required": [
+                            "controllable_value_added_boundary",
+                            "recognized_revenue_accounting_basis",
+                            "pass_through",
+                            "numerator_costs"
+                        ],
+                        "additionalProperties": false,
+                        "properties": {
+                            "controllable_value_added_boundary": {
+                                "$ref": "#/definitions/nonempty"
+                            },
+                            "recognized_revenue_accounting_basis": {
+                                "$ref": "#/definitions/recognized_accounting_basis"
+                            },
+                            "pass_through": {
+                                "type": "array",
+                                "items": {
+                                    "$ref": "#/definitions/accounting_item"
+                                }
+                            },
+                            "numerator_costs": {
+                                "type": "array",
+                                "minItems": 2,
+                                "maxItems": 2,
+                                "items": {
+                                    "$ref": "#/definitions/accounting_item"
+                                }
+                            }
+                        }
+                    },
+                    "pass_through_reconciliation": {
+                        "$ref": "#/definitions/final_reconciliation"
+                    },
+                    "p_attribution": {
+                        "$ref": "#/definitions/p_provenance"
+                    },
+                    "constant_price_survival": {
+                        "$ref": "#/definitions/survival_provenance"
+                    },
+                    "h": {
+                        "type": "object",
+                        "required": [
+                            "formula",
+                            "discount_rate",
+                            "realization_paths",
+                            "investment_paths",
+                            "retention_paths",
+                            "investment_unit"
+                        ],
+                        "additionalProperties": false,
+                        "properties": {
+                            "formula": {
+                                "const": "sum_y(r_y*c_y/(1+0.10)^y)-k0-sum_y(k_y/(1+0.10)^y)"
+                            },
+                            "discount_rate": {
+                                "const": 0.1
+                            },
+                            "realization_paths": {
+                                "type": "array",
+                                "items": {
+                                    "$ref": "#/definitions/nonempty"
+                                }
+                            },
+                            "investment_paths": {
+                                "type": "array",
+                                "items": {
+                                    "$ref": "#/definitions/nonempty"
+                                }
+                            },
+                            "retention_paths": {
+                                "type": "array",
+                                "items": {
+                                    "$ref": "#/definitions/nonempty"
+                                }
+                            },
+                            "investment_unit": {
+                                "const": "fraction_of_one_full_year_of_G"
+                            }
+                        }
+                    }
+                }
+            },
+            "accounting_item": {
+                "type": "object",
+                "required": [
+                    "cost_id",
+                    "accounting_basis"
+                ],
+                "additionalProperties": false,
+                "properties": {
+                    "category": {
+                        "$ref": "#/definitions/nonempty"
+                    },
+                    "cost_id": {
+                        "type": [
+                            "string",
+                            "null"
+                        ]
+                    },
+                    "accounting_basis": {
+                        "$ref": "#/definitions/nonempty"
+                    }
+                }
+            },
+            "cross_checks": {
+                "type": "object",
+                "required": [
+                    "target_identity_preserved",
+                    "pass_through_removed_once",
+                    "removability_only_in_v",
+                    "investment_only_in_i",
+                    "commercial_only_in_c",
+                    "buyer_access_separate_from_price",
+                    "p_uses_frozen_y5_state",
+                    "p_excludes_c_and_survival",
+                    "survival_is_constant_price_value_added"
+                ],
+                "additionalProperties": false,
+                "properties": {
+                    "target_identity_preserved": {
+                        "$ref": "#/definitions/nonempty"
+                    },
+                    "pass_through_removed_once": {
+                        "$ref": "#/definitions/nonempty"
+                    },
+                    "removability_only_in_v": {
+                        "$ref": "#/definitions/nonempty"
+                    },
+                    "investment_only_in_i": {
+                        "$ref": "#/definitions/nonempty"
+                    },
+                    "commercial_only_in_c": {
+                        "$ref": "#/definitions/nonempty"
+                    },
+                    "buyer_access_separate_from_price": {
+                        "$ref": "#/definitions/nonempty"
+                    },
+                    "p_uses_frozen_y5_state": {
+                        "$ref": "#/definitions/nonempty"
+                    },
+                    "p_excludes_c_and_survival": {
+                        "$ref": "#/definitions/nonempty"
+                    },
+                    "survival_is_constant_price_value_added": {
+                        "$ref": "#/definitions/nonempty"
+                    }
+                }
+            },
+            "uncertain_input": {
+                "type": "object",
+                "required": [
+                    "input",
+                    "range",
+                    "score_impact"
+                ],
+                "additionalProperties": false,
+                "properties": {
+                    "input": {
+                        "$ref": "#/definitions/nonempty"
+                    },
+                    "range": {
+                        "$ref": "#/definitions/nonempty"
+                    },
+                    "score_impact": {
+                        "$ref": "#/definitions/nonempty"
+                    }
+                }
+            },
+            "number_array": {
+                "type": [
+                    "array",
+                    "null"
+                ],
+                "items": {
+                    "type": [
+                        "number",
+                        "null"
+                    ]
+                }
+            },
+            "score_set": {
+                "type": "object",
+                "required": [
+                    "V",
+                    "I",
+                    "C",
+                    "B",
+                    "P"
+                ],
+                "additionalProperties": false,
+                "properties": {
+                    "V": {
+                        "$ref": "#/definitions/nullable_number"
+                    },
+                    "I": {
+                        "$ref": "#/definitions/nullable_number"
+                    },
+                    "C": {
+                        "$ref": "#/definitions/nullable_number"
+                    },
+                    "B": {
+                        "$ref": "#/definitions/nullable_number"
+                    },
+                    "P": {
+                        "$ref": "#/definitions/nullable_number"
+                    }
+                }
+            },
+            "scenario": {
+                "type": "object",
+                "required": [
+                    "scores",
+                    "S",
+                    "subfactors"
+                ],
+                "additionalProperties": false,
+                "properties": {
+                    "scores": {
+                        "$ref": "#/definitions/score_set"
+                    },
+                    "S": {
+                        "$ref": "#/definitions/nullable_number"
+                    },
+                    "subfactors": {
+                        "type": "object",
+                        "required": [
+                            "V",
+                            "implementation_realization",
+                            "implementation_investment",
+                            "commercial_retention",
+                            "B",
+                            "P",
+                            "h"
+                        ],
+                        "additionalProperties": false,
+                        "properties": {
+                            "V": {
+                                "type": "object",
+                                "required": [
+                                    "recognized_revenue",
+                                    "included_pass_through",
+                                    "already_netted_pass_through",
+                                    "R_cva",
+                                    "total_cash_cost",
+                                    "weighted_removable_fraction",
+                                    "G",
+                                    "g"
+                                ],
+                                "additionalProperties": false,
+                                "properties": {
+                                    "recognized_revenue": {
+                                        "$ref": "#/definitions/nullable_number"
+                                    },
+                                    "included_pass_through": {
+                                        "$ref": "#/definitions/nullable_number"
+                                    },
+                                    "already_netted_pass_through": {
+                                        "$ref": "#/definitions/nullable_number"
+                                    },
+                                    "R_cva": {
+                                        "$ref": "#/definitions/nullable_number"
+                                    },
+                                    "total_cash_cost": {
+                                        "$ref": "#/definitions/nullable_number"
+                                    },
+                                    "weighted_removable_fraction": {
+                                        "$ref": "#/definitions/nullable_number"
+                                    },
+                                    "G": {
+                                        "$ref": "#/definitions/nullable_number"
+                                    },
+                                    "g": {
+                                        "$ref": "#/definitions/nullable_number"
+                                    }
+                                }
+                            },
+                            "implementation_realization": {
+                                "$ref": "#/definitions/number_array"
+                            },
+                            "implementation_investment": {
+                                "$ref": "#/definitions/number_array"
+                            },
+                            "commercial_retention": {
+                                "$ref": "#/definitions/number_array"
+                            },
+                            "B": {
+                                "type": "object",
+                                "required": [
+                                    "n_band",
+                                    "coverage",
+                                    "sale_availability",
+                                    "buyer_access_win_share",
+                                    "deal_execution_capacity_5y",
+                                    "integration_onboarding_capacity_5y",
+                                    "O5",
+                                    "K5",
+                                    "N5"
+                                ],
+                                "additionalProperties": false,
+                                "properties": {
+                                    "n_band": {
+                                        "$ref": "#/definitions/nullable_number"
+                                    },
+                                    "coverage": {
+                                        "$ref": "#/definitions/nullable_number"
+                                    },
+                                    "sale_availability": {
+                                        "$ref": "#/definitions/nullable_number"
+                                    },
+                                    "buyer_access_win_share": {
+                                        "$ref": "#/definitions/nullable_number"
+                                    },
+                                    "deal_execution_capacity_5y": {
+                                        "$ref": "#/definitions/nullable_number"
+                                    },
+                                    "integration_onboarding_capacity_5y": {
+                                        "$ref": "#/definitions/nullable_number"
+                                    },
+                                    "O5": {
+                                        "type": [
+                                            "number",
+                                            "string",
+                                            "null"
+                                        ]
+                                    },
+                                    "K5": {
+                                        "type": [
+                                            "number",
+                                            "string",
+                                            "null"
+                                        ]
+                                    },
+                                    "N5": {
+                                        "type": [
+                                            "number",
+                                            "string",
+                                            "null"
+                                        ]
+                                    }
+                                }
+                            },
+                            "P": {
+                                "type": "object",
+                                "required": [
+                                    "buy_mult",
+                                    "downside_exit_mult",
+                                    "normalized_y5_state_digest",
+                                    "entry_score",
+                                    "resilience_score"
+                                ],
+                                "additionalProperties": false,
+                                "properties": {
+                                    "buy_mult": {
+                                        "$ref": "#/definitions/nullable_number"
+                                    },
+                                    "downside_exit_mult": {
+                                        "$ref": "#/definitions/nullable_number"
+                                    },
+                                    "normalized_y5_state_digest": {
+                                        "type": [
+                                            "string",
+                                            "null"
+                                        ]
+                                    },
+                                    "entry_score": {
+                                        "$ref": "#/definitions/nullable_number"
+                                    },
+                                    "resilience_score": {
+                                        "$ref": "#/definitions/nullable_number"
+                                    }
+                                }
+                            },
+                            "h": {
+                                "type": "object",
+                                "required": [
+                                    "discounted_retained_realization",
+                                    "discounted_investment",
+                                    "h",
+                                    "gate_triggered"
+                                ],
+                                "additionalProperties": false,
+                                "properties": {
+                                    "discounted_retained_realization": {
+                                        "$ref": "#/definitions/nullable_number"
+                                    },
+                                    "discounted_investment": {
+                                        "$ref": "#/definitions/nullable_number"
+                                    },
+                                    "h": {
+                                        "$ref": "#/definitions/nullable_number"
+                                    },
+                                    "gate_triggered": {
+                                        "$ref": "#/definitions/nullable_bool"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "decision": {
+                "type": "object",
+                "required": [
+                    "raw_verdict",
+                    "economic_verdict",
+                    "gate_reasons",
+                    "evidence_readiness",
+                    "action",
+                    "sensitivity"
+                ],
+                "additionalProperties": false,
+                "properties": {
+                    "raw_verdict": {
+                        "enum": [
+                            "hell_yes",
+                            "strong",
+                            "conditional",
+                            "pass",
+                            "kill",
+                            "indeterminate"
+                        ]
+                    },
+                    "economic_verdict": {
+                        "enum": [
+                            "hell_yes",
+                            "strong",
+                            "conditional",
+                            "pass",
+                            "kill",
+                            "indeterminate"
+                        ]
+                    },
+                    "gate_reasons": {
+                        "type": "array",
+                        "items": {
+                            "type": "string"
+                        }
+                    },
+                    "evidence_readiness": {
+                        "type": "object",
+                        "required": [
+                            "status",
+                            "missing_critical_inputs",
+                            "assumption_critical_input_count",
+                            "low_quality_critical_input_count",
+                            "selection_uncertainty"
+                        ],
+                        "additionalProperties": false,
+                        "properties": {
+                            "status": {
+                                "enum": [
+                                    "SUBSTANTIATED",
+                                    "PROVISIONAL",
+                                    "UNPROVEN"
+                                ]
+                            },
+                            "missing_critical_inputs": {
+                                "type": "array",
+                                "uniqueItems": true,
+                                "items": {
+                                    "type": "string"
+                                }
+                            },
+                            "assumption_critical_input_count": {
+                                "type": "integer",
+                                "minimum": 0
+                            },
+                            "low_quality_critical_input_count": {
+                                "type": "integer",
+                                "minimum": 0
+                            },
+                            "selection_uncertainty": {
+                                "type": "boolean"
+                            }
+                        }
+                    },
+                    "action": {
+                        "enum": [
+                            "DEEP_DIVE",
+                            "SELECTIVE",
+                            "DEPRIORITIZE",
+                            "AVOID",
+                            "EVIDENCE_FIRST"
+                        ]
+                    },
+                    "sensitivity": {
+                        "type": "object",
+                        "required": [
+                            "low_verdict",
+                            "high_verdict",
+                            "low_h",
+                            "high_h",
+                            "low_h_gate_triggered",
+                            "high_h_gate_triggered",
+                            "low_constant_price_survival",
+                            "high_constant_price_survival",
+                            "cross_tier",
+                            "action_instability",
+                            "stable_structural_kill"
+                        ],
+                        "additionalProperties": false,
+                        "properties": {
+                            "low_verdict": {
+                                "enum": [
+                                    "hell_yes",
+                                    "strong",
+                                    "conditional",
+                                    "pass",
+                                    "kill",
+                                    "indeterminate"
+                                ]
+                            },
+                            "high_verdict": {
+                                "enum": [
+                                    "hell_yes",
+                                    "strong",
+                                    "conditional",
+                                    "pass",
+                                    "kill",
+                                    "indeterminate"
+                                ]
+                            },
+                            "low_h": {
+                                "$ref": "#/definitions/nullable_number"
+                            },
+                            "high_h": {
+                                "$ref": "#/definitions/nullable_number"
+                            },
+                            "low_h_gate_triggered": {
+                                "type": "boolean"
+                            },
+                            "high_h_gate_triggered": {
+                                "type": "boolean"
+                            },
+                            "low_constant_price_survival": {
+                                "type": "number"
+                            },
+                            "high_constant_price_survival": {
+                                "type": "number"
+                            },
+                            "cross_tier": {
+                                "type": "boolean"
+                            },
+                            "action_instability": {
+                                "type": "boolean"
+                            },
+                            "stable_structural_kill": {
+                                "type": "boolean"
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }

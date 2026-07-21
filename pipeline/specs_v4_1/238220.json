@@ -1,0 +1,264 @@
+{
+  "spec_version": "4.1",
+  "naics": "238220",
+  "title": "Plumbing, Heating, and Air-Conditioning Contractors",
+  "dataset_snapshot": {
+    "path": "pipeline/datasets/v4_1/238220.json",
+    "sha256": "629665e7598cd1a80ff3dc22c1b6318dadee0c80de6538c17b3dd0d969b44048"
+  },
+  "target_archetype": {
+    "selected_id": "hvac-focused-contractor",
+    "alternatives": [
+      {
+        "id": "hvac-focused-contractor",
+        "name": "HVAC-focused installation and service contractor",
+        "inclusion_criteria": [
+          "The firm is classified in NAICS 238220 and its primary operating identity is heating, ventilation, and air-conditioning installation, replacement, maintenance, or repair.",
+          "HVAC work is the firm's largest service line; refrigeration work may be incidental but is not the primary operating identity.",
+          "The firm is in the dataset's estimated $1-10M EBITDA band, represented by the 100-499 employee firm class."
+        ],
+        "exclusion_criteria": [
+          "Exclude firms whose largest service line is plumbing, fire or lawn sprinklers, stand-alone refrigeration, or steam and pipe fitting.",
+          "Exclude integrated mechanical contractors whose operating identity spans HVAC, plumbing, piping, and related mechanical systems without HVAC being the largest service line.",
+          "Exclude firms outside the dataset's estimated $1-10M EBITDA band."
+        ],
+        "band_count": {
+          "base": 471,
+          "low": 353,
+          "high": 589
+        },
+        "source_ids": [
+          "A1",
+          "A2",
+          "A4"
+        ],
+        "rationale": "The Census 2022 kind-of-business table reports $121.738B of HVAC-contractor activity out of $297.609B total NAICS 238220 receipts, a 40.91% national share. Applying that share to the pinned 1,152-firm band gives 471 firms after rounding. The low and high endpoints apply a predeclared 0.75x-1.25x bridge to allow for revenue per firm and service-mix differences between the all-size revenue table and 100-499 employee firms."
+      },
+      {
+        "id": "plumbing-focused-contractor",
+        "name": "Plumbing-focused installation and service contractor",
+        "inclusion_criteria": [
+          "The firm is classified in NAICS 238220 and its primary operating identity is plumbing installation, replacement, maintenance, or repair.",
+          "Plumbing work is the firm's largest service line; heating or cooling work may be incidental but is not the primary operating identity.",
+          "The firm is in the dataset's estimated $1-10M EBITDA band, represented by the 100-499 employee firm class."
+        ],
+        "exclusion_criteria": [
+          "Exclude firms whose largest service line is HVAC, fire or lawn sprinklers, stand-alone refrigeration, or steam and pipe fitting.",
+          "Exclude integrated mechanical contractors whose operating identity spans HVAC, plumbing, piping, and related mechanical systems without plumbing being the largest service line.",
+          "Exclude firms outside the dataset's estimated $1-10M EBITDA band."
+        ],
+        "band_count": {
+          "base": 291,
+          "low": 218,
+          "high": 364
+        },
+        "source_ids": [
+          "A1",
+          "A2",
+          "A5"
+        ],
+        "rationale": "The Census 2022 kind-of-business table reports $75.078B of plumbing-contractor activity out of $297.609B total NAICS 238220 receipts, a 25.23% national share. Applying that share to the pinned 1,152-firm band gives 291 firms after rounding. The low and high endpoints apply the same predeclared 0.75x-1.25x revenue-to-count bridge used for every enumerated archetype."
+      },
+      {
+        "id": "integrated-mechanical-contractor",
+        "name": "Integrated mechanical contractor",
+        "inclusion_criteria": [
+          "The firm is classified in NAICS 238220 and operates as a multi-discipline mechanical contractor across at least two of HVAC, plumbing, piping, refrigeration, or mechanical service.",
+          "No single HVAC- or plumbing-focused identity is sufficient to classify the firm into either focused archetype.",
+          "The firm is in the dataset's estimated $1-10M EBITDA band, represented by the 100-499 employee firm class."
+        ],
+        "exclusion_criteria": [
+          "Exclude firms clearly identified as HVAC-focused or plumbing-focused under the criteria above.",
+          "Exclude single-specialty sprinkler, refrigeration, steam-fitting, or pipe-fitting contractors.",
+          "Exclude firms outside the dataset's estimated $1-10M EBITDA band."
+        ],
+        "band_count": {
+          "base": 210,
+          "low": 158,
+          "high": 263
+        },
+        "source_ids": [
+          "A1",
+          "A2",
+          "A3"
+        ],
+        "rationale": "The Census 2022 kind-of-business table reports $54.365B of mechanical-contractor activity out of $297.609B total NAICS 238220 receipts, an 18.27% national share. Applying that share to the pinned 1,152-firm band gives 210 firms after rounding. MCAA's description of member firms across heating, air conditioning, refrigeration, plumbing, piping, mechanical systems, and service supports treating integrated mechanical contracting as a distinct operating identity. The endpoints apply the common 0.75x-1.25x revenue-to-count bridge."
+      }
+    ],
+    "residual": {
+      "name": "Specialty and non-core 238220 contractors",
+      "band_count": {
+        "base": 180,
+        "low": 135,
+        "high": 225
+      },
+      "rationale": "This named residual is the balance after the three enumerated kind-of-business shares and includes building and lawn sprinkler contractors, stand-alone refrigeration contractors, steam and pipe-fitting contractors, other specialty construction activity, and secondary nonconstruction activity. Its base is 1,152 minus the three rounded archetype bases; its endpoints use the same 0.75x-1.25x bridge."
+    },
+    "enumeration_coverage": {
+      "base": 0.84375,
+      "low": 0.6328125,
+      "high": 1.0
+    },
+    "sources": [
+      {
+        "id": "A1",
+        "url": "https://www.census.gov/naics/?input=238220&year=2022&details=238220",
+        "title": "2022 NAICS definition and index entries for 238220",
+        "vintage": "2022 NAICS, accessed 2026-07-21"
+      },
+      {
+        "id": "A2",
+        "url": "https://www2.census.gov/programs-surveys/economic-census/data/2022/sector23/EC2223KOB.zip",
+        "title": "EC2223KOB: Construction, Value of Business Done for Kind-of-Business",
+        "vintage": "2022 Economic Census, released 2025-12-04"
+      },
+      {
+        "id": "A3",
+        "url": "https://www.mcaa.org/about-mcaa/",
+        "title": "Mechanical Contractors Association of America: About MCAA",
+        "vintage": "Accessed 2026-07-21"
+      },
+      {
+        "id": "A4",
+        "url": "https://www.acca.org/about-acca",
+        "title": "Air Conditioning Contractors of America: About ACCA",
+        "vintage": "Accessed 2026-07-21"
+      },
+      {
+        "id": "A5",
+        "url": "https://www.phccweb.org/about/",
+        "title": "Plumbing-Heating-Cooling Contractors Association: About PHCC",
+        "vintage": "Accessed 2026-07-21"
+      }
+    ],
+    "selection_basis": "The three enumerated archetypes cover 972 of 1,152 estimated band firms at base, or 84.375%. Their base counts are obtained by multiplying the pinned band count by the corresponding national 2022 Census kind-of-business revenue share and rounding to whole firms: HVAC 1,152 x 40.91% = 471; plumbing 1,152 x 25.23% = 291; integrated mechanical 1,152 x 18.27% = 210. HVAC-focused-contractor is selected because 471 is the largest base count. Each range applies the same 0.75x-1.25x revenue-to-firm-count bridge. The selected HVAC range of 353-589 overlaps the plumbing range of 218-364, so uncertainty is set mechanically even though the base counts differ by more than 10%.",
+    "selection_uncertainty": true
+  },
+  "value_basis": {
+    "mode": "assumption",
+    "scope": "Source-free bounded cash employee and contractor cost structure for a 100-499 employee HVAC-focused installation and service contractor; categories are mutually exclusive and exhaustive over cash labor and contractor cost.",
+    "labor_contractor_cash_cost_share": {
+      "base": 0.35,
+      "range": {
+        "low": 0.27,
+        "high": 0.45
+      },
+      "evidence_state": "ASSUMPTION",
+      "evidence_quality": "NONE",
+      "source_ids": [],
+      "rationale": "This is a pre-frozen structural assumption, not an empirical claim. The broad interval is intended to remain usable across installation-versus-service mix, residential-versus-commercial mix, subcontracting practice, and the plumbing reclassification implicated by the overlapping archetype ranges; it must not be narrowed by substituting an unbridged broad-NAICS average.",
+      "caveats": [
+        "No target-archetype dataset directly measures this cash-cost share.",
+        "The interval includes employee cash compensation and cash-paid labor contractors but excludes materials, equipment, and nonlabor subcontracted scope.",
+        "Because this basis is an assumption with evidence quality NONE, it cannot support readiness above UNPROVEN."
+      ]
+    },
+    "roles": [
+      {
+        "role_id": "CORE-FIELD-HVAC",
+        "title": "Core HVAC field technicians and installers",
+        "role_cash_cost_weight": 0.48,
+        "source_ids": [],
+        "rationale": "Assumed share for non-supervisory employees and labor contractors directly installing, maintaining, diagnosing, and repairing heating, ventilation, and air-conditioning systems; excludes helpers, fabrication specialists, supervisors, sales, and office staff."
+      },
+      {
+        "role_id": "FIELD-SUPPORT-TRADES",
+        "title": "Field helpers, fabrication, controls, and other trade specialists",
+        "role_cash_cost_weight": 0.1,
+        "source_ids": [],
+        "rationale": "Assumed share for non-supervisory field support and adjacent craft labor not included in core HVAC technicians, including helpers, sheet-metal or shop fabrication, controls, and incidental refrigeration specialists."
+      },
+      {
+        "role_id": "FIELD-SUPERVISION-PM",
+        "title": "Field supervision and project management",
+        "role_cash_cost_weight": 0.13,
+        "source_ids": [],
+        "rationale": "Assumed share for foremen, service managers, installation managers, project managers, and other roles directly accountable for field delivery; excludes executives and general operations management."
+      },
+      {
+        "role_id": "SALES-ESTIMATING",
+        "title": "Sales, estimating, and account management",
+        "role_cash_cost_weight": 0.09,
+        "source_ids": [],
+        "rationale": "Assumed share for estimators, comfort advisers, business development, and account management; excludes dispatch, customer intake, and project management."
+      },
+      {
+        "role_id": "DISPATCH-ADMIN",
+        "title": "Dispatch, customer support, and transactional administration",
+        "role_cash_cost_weight": 0.11,
+        "source_ids": [],
+        "rationale": "Assumed share for dispatch, scheduling, customer intake, billing, payroll processing, purchasing administration, and general clerical work; excludes sales and management."
+      },
+      {
+        "role_id": "EXEC-CORPORATE",
+        "title": "Executive, general operations, finance, people, and technology leadership",
+        "role_cash_cost_weight": 0.09,
+        "source_ids": [],
+        "rationale": "Assumed share for owners on market compensation, executives, general operations managers, controllers, people leadership, and internal technology leadership not assigned to another category."
+      }
+    ],
+    "sources": [],
+    "rationale": "A source-free assumption basis is frozen because the selected archetype is operationally coherent enough to define mutually exclusive labor categories, while the permitted dataset's broader NAICS role mix cannot establish target-specific weights. The six weights sum to 1.00. The cash-cost-share range is deliberately wider than a point bridge to preserve selection and business-mix uncertainty.",
+    "caveats": [
+      "The role weights are assumptions and must not be represented as observed staffing or payroll shares.",
+      "The basis describes only the selected HVAC-focused archetype, not NAICS 238220 as a whole.",
+      "Researchers must preserve the exact role membership and weights and may not replace them with broad-industry occupational shares."
+    ]
+  },
+  "source_hints": [
+    {
+      "area": "implementation",
+      "source": "Selected-archetype operator payroll, contractor invoices, system logs, workflow records, and documented before-and-after operating cases",
+      "why": "Needed to distinguish task changes from cash-realizable labor or contractor changes and to establish timing and execution costs for the named archetype.",
+      "uncertain_exists": true
+    },
+    {
+      "area": "commercial_retention",
+      "source": "Customer contracts, maintenance agreements, bid tabs, renewal cohorts, price books, and matched gross-price histories from HVAC-focused contractors",
+      "why": "Needed to measure how operating cost changes flow through customer pricing and contract mechanics in the selected archetype.",
+      "uncertain_exists": true
+    },
+    {
+      "area": "sale_availability",
+      "source": "Closed lower-middle-market HVAC contractor transaction census, broker engagement records, ownership records, and comparable deal-flow datasets",
+      "why": "Needed to estimate five-year sale availability for 100-499 employee HVAC-focused firms rather than for all 238220 businesses.",
+      "uncertain_exists": true
+    },
+    {
+      "area": "valuation_robustness",
+      "source": "Closed transaction documents and quality-matched entry and historical exit comparables for HVAC-focused contractors in the specified band",
+      "why": "Needed to measure entry pricing and support a separately bridged downside exit premise without mixing in other mechanical trades or scale classes.",
+      "uncertain_exists": true
+    },
+    {
+      "area": "operator_survival",
+      "source": "Longitudinal customer purchasing, service-contract renewal, equipment-service, warranty, and regulatory accountability evidence for HVAC-focused operators",
+      "why": "Needed to assess whether customers still purchase an accountable operator-provided service at year five, separately from pricing or margin.",
+      "uncertain_exists": true
+    }
+  ],
+  "research_questions": {
+    "implementation": [
+      "For the frozen role structure, what target-archetype evidence supports each operational realization input, its timing, and the conversion from changed work to cash cost?"
+    ],
+    "commercial_retention": [
+      "What contract, renewal, bid, and pricing evidence supports the share of operational savings retained by a 100-499 employee HVAC-focused contractor?"
+    ],
+    "sale_availability": [
+      "What evidence supports the five-year sale-availability share for firms meeting the selected archetype and band criteria?"
+    ],
+    "valuation_robustness": [
+      "What closed comparable transactions support entry and downside exit multiples for the same archetype, scale, service mix, customer mix, and quality definition?"
+    ],
+    "operator_survival": [
+      "What evidence supports the year-five share of baseline demand that still purchases an accountable service from the selected HVAC-focused operator archetype?"
+    ]
+  },
+  "special_notes": [
+    "The selected record is the HVAC-focused-contractor archetype only and must not be described as a score or conclusion for all of NAICS 238220.",
+    "Selection uncertainty is mandatory because the supported HVAC and plumbing count ranges overlap; downstream research must preserve one selected record and readiness cannot exceed UNPROVEN.",
+    "The archetype counts are ESTIMATE/PROXY values based on all-size kind-of-business revenue shares bridged to the dataset's 100-499 employee band, not directly observed firm counts by operating identity.",
+    "The assumption value basis is source-free by design and must remain labeled ASSUMPTION/NONE; no source may be attached to it and no broad-NAICS role mix may replace it.",
+    "The residual is named and bounded but is not an additional primary record."
+  ]
+}

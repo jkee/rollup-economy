@@ -1,0 +1,255 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "artifact": {
+      "additionalProperties": false,
+      "properties": {
+        "byte_length": {
+          "minimum": 1,
+          "type": "integer"
+        },
+        "path": {
+          "minLength": 1,
+          "type": "string"
+        },
+        "sha256": {
+          "pattern": "^[0-9a-f]{64}$",
+          "type": "string"
+        }
+      },
+      "required": [
+        "path",
+        "sha256",
+        "byte_length"
+      ],
+      "type": "object"
+    },
+    "artifact_kind": {
+      "enum": [
+        "packet",
+        "record",
+        "memo",
+        "review"
+      ]
+    },
+    "authorized_commit_sha": {
+      "pattern": "^(?:[0-9a-f]{40}|[0-9a-f]{64})$",
+      "type": "string"
+    },
+    "authorized_task_path": {
+      "pattern": "^/root/[a-z0-9_]+$",
+      "type": "string"
+    },
+    "campaign_id": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "claim_receipt_version": {
+      "const": "v4.2-output-claim-receipt-1"
+    },
+    "entry_id": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "execution": {
+      "oneOf": [
+        {
+          "additionalProperties": false,
+          "properties": {
+            "codex_task_path": {
+              "pattern": "^/root/[a-z0-9_]+$",
+              "type": "string"
+            },
+            "fork_policy": {
+              "const": "none"
+            },
+            "issued_by_task_path": {
+              "const": "/root"
+            },
+            "model_id": {
+              "type": "string"
+            },
+            "role": {
+              "const": "research"
+            }
+          },
+          "required": [
+            "issued_by_task_path",
+            "codex_task_path",
+            "fork_policy",
+            "role",
+            "model_id"
+          ],
+          "type": "object"
+        },
+        {
+          "additionalProperties": false,
+          "properties": {
+            "codex_task_path": {
+              "pattern": "^/root/[a-z0-9_]+$",
+              "type": "string"
+            },
+            "fork_policy": {
+              "const": "none"
+            },
+            "issued_by_task_path": {
+              "const": "/root"
+            },
+            "role": {
+              "const": "finalizer"
+            }
+          },
+          "required": [
+            "issued_by_task_path",
+            "codex_task_path",
+            "fork_policy",
+            "role"
+          ],
+          "type": "object"
+        },
+        {
+          "additionalProperties": false,
+          "properties": {
+            "codex_task_path": {
+              "pattern": "^/root/[a-z0-9_]+$",
+              "type": "string"
+            },
+            "fork_policy": {
+              "const": "none"
+            },
+            "issued_by_task_path": {
+              "const": "/root"
+            },
+            "model_id": {
+              "type": "string"
+            },
+            "prompt_version": {
+              "const": "validator-4.2"
+            },
+            "role": {
+              "const": "reviewer"
+            }
+          },
+          "required": [
+            "issued_by_task_path",
+            "codex_task_path",
+            "fork_policy",
+            "role",
+            "model_id",
+            "prompt_version"
+          ],
+          "type": "object"
+        }
+      ]
+    },
+    "execution_envelope": {
+      "additionalProperties": false,
+      "properties": {
+        "byte_length": {
+          "minimum": 1,
+          "type": "integer"
+        },
+        "path": {
+          "minLength": 1,
+          "type": "string"
+        },
+        "sha256": {
+          "pattern": "^[0-9a-f]{64}$",
+          "type": "string"
+        }
+      },
+      "required": [
+        "path",
+        "sha256",
+        "byte_length"
+      ],
+      "type": "object"
+    },
+    "freeze_root_sha256": {
+      "pattern": "^[0-9a-f]{64}$",
+      "type": "string"
+    },
+    "plan": {
+      "additionalProperties": false,
+      "properties": {
+        "path": {
+          "minLength": 1,
+          "type": "string"
+        },
+        "plan_sha256": {
+          "pattern": "^[0-9a-f]{64}$",
+          "type": "string"
+        },
+        "sha256": {
+          "pattern": "^[0-9a-f]{64}$",
+          "type": "string"
+        }
+      },
+      "required": [
+        "path",
+        "sha256",
+        "plan_sha256"
+      ],
+      "type": "object"
+    },
+    "reservation": {
+      "additionalProperties": false,
+      "properties": {
+        "byte_length": {
+          "minimum": 1,
+          "type": "integer"
+        },
+        "claim_receipt_path": {
+          "minLength": 1,
+          "type": "string"
+        },
+        "claim_token_sha256": {
+          "pattern": "^[0-9a-f]{64}$",
+          "type": "string"
+        },
+        "lock_path": {
+          "minLength": 1,
+          "type": "string"
+        },
+        "path": {
+          "minLength": 1,
+          "type": "string"
+        },
+        "sha256": {
+          "pattern": "^[0-9a-f]{64}$",
+          "type": "string"
+        }
+      },
+      "required": [
+        "path",
+        "sha256",
+        "byte_length",
+        "lock_path",
+        "claim_receipt_path",
+        "claim_token_sha256"
+      ],
+      "type": "object"
+    },
+    "run_id": {
+      "minLength": 1,
+      "type": "string"
+    }
+  },
+  "required": [
+    "claim_receipt_version",
+    "plan",
+    "campaign_id",
+    "entry_id",
+    "run_id",
+    "artifact_kind",
+    "artifact",
+    "authorized_task_path",
+    "execution",
+    "execution_envelope",
+    "reservation",
+    "freeze_root_sha256",
+    "authorized_commit_sha"
+  ],
+  "type": "object"
+}

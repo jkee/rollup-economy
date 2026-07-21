@@ -1,0 +1,77 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "review_record_v4_2.schema.json",
+  "title": "v4.2 fail-closed publication review",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["entry_id", "manifest_sha256", "artifact_digests", "toolchain_digests", "review_meta", "execution", "outcome", "mechanics", "source_reviews", "input_reviews", "findings", "publication_caveats", "summary"],
+  "properties": {
+    "entry_id": {"type": "string", "minLength": 1},
+    "manifest_sha256": {"$ref": "#/definitions/sha256"},
+    "artifact_digests": {"$ref": "#/definitions/artifact_digests"},
+    "toolchain_digests": {"type": "object", "additionalProperties": {"$ref": "#/definitions/sha256"}, "minProperties": 1},
+    "review_meta": {
+      "type": "object", "additionalProperties": false,
+      "required": ["model_id", "review_date", "prompt_version"],
+      "properties": {"model_id": {"const": "gpt-5.6-sol"}, "review_date": {"type": "string", "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}$"}, "prompt_version": {"const": "validator-4.2"}}
+    },
+    "execution": {"$ref": "#/definitions/execution"},
+    "outcome": {"enum": ["publishable", "publishable_with_caveats", "reject", "invalid"]},
+    "mechanics": {
+      "type": "object", "additionalProperties": false,
+      "required": ["schema_valid", "identity_valid", "artifact_digests_valid", "toolchain_digests_valid", "dataset_equal", "archetype_equal", "value_basis_equal", "finalization_equal", "memo_equal", "arithmetic_valid", "ranges_monotonic", "r_cva_reconciliation_valid", "pass_through_basis_partition_valid", "g_reconciliation_valid", "implementation_schedules_valid", "commercial_schedule_valid", "buyer_access_valid", "capacity_scope_valid", "o5_k5_n5_valid", "p_attribution_valid", "normalized_state_digest_valid", "downside_channels_valid", "constant_price_survival_valid", "survival_basket_reconciliation_valid", "fixed_base_laspeyres_valid", "h_gate_valid", "readiness_valid", "gates_valid"],
+      "properties": {
+        "schema_valid": {"type": "boolean"}, "identity_valid": {"type": "boolean"},
+        "artifact_digests_valid": {"type": "boolean"}, "toolchain_digests_valid": {"type": "boolean"},
+        "dataset_equal": {"type": "boolean"}, "archetype_equal": {"type": "boolean"},
+        "value_basis_equal": {"type": "boolean"}, "finalization_equal": {"type": "boolean"},
+        "memo_equal": {"type": "boolean"}, "arithmetic_valid": {"type": "boolean"},
+        "ranges_monotonic": {"type": "boolean"}, "r_cva_reconciliation_valid": {"type": "boolean"},
+        "pass_through_basis_partition_valid": {"type": "boolean"},
+        "g_reconciliation_valid": {"type": "boolean"}, "implementation_schedules_valid": {"type": "boolean"},
+        "commercial_schedule_valid": {"type": "boolean"}, "buyer_access_valid": {"type": "boolean"},
+        "capacity_scope_valid": {"type": "boolean"}, "o5_k5_n5_valid": {"type": "boolean"},
+        "p_attribution_valid": {"type": "boolean"}, "normalized_state_digest_valid": {"type": "boolean"},
+        "downside_channels_valid": {"type": "boolean"},
+        "constant_price_survival_valid": {"type": "boolean"},
+        "survival_basket_reconciliation_valid": {"type": "boolean"},
+        "fixed_base_laspeyres_valid": {"type": "boolean"},
+        "h_gate_valid": {"type": "boolean"}, "readiness_valid": {"type": "boolean"},
+        "gates_valid": {"type": "boolean"}
+      }
+    },
+    "source_reviews": {"type": "array", "minItems": 1, "items": {"$ref": "#/definitions/source_review"}},
+    "input_reviews": {"type": "array", "minItems": 1, "items": {"$ref": "#/definitions/input_review"}},
+    "findings": {"type": "array", "items": {"$ref": "#/definitions/finding"}},
+    "publication_caveats": {"type": "array", "uniqueItems": true, "items": {"type": "string", "minLength": 1}},
+    "summary": {"type": "string", "minLength": 1}
+  },
+  "definitions": {
+    "sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+    "artifact_digests": {
+      "type": "object", "additionalProperties": false,
+      "required": ["assembled_prompt_sha256", "packet_sha256", "dataset_sha256", "industry_spec_sha256", "execution_envelope_sha256", "record_sha256", "memo_sha256"],
+      "properties": {"assembled_prompt_sha256": {"$ref": "#/definitions/sha256"}, "packet_sha256": {"$ref": "#/definitions/sha256"}, "dataset_sha256": {"$ref": "#/definitions/sha256"}, "industry_spec_sha256": {"$ref": "#/definitions/sha256"}, "execution_envelope_sha256": {"$ref": "#/definitions/sha256"}, "record_sha256": {"$ref": "#/definitions/sha256"}, "memo_sha256": {"$ref": "#/definitions/sha256"}}
+    },
+    "execution": {
+      "type": "object", "additionalProperties": false,
+      "required": ["issued_by_task_path", "codex_task_path", "model_id", "fork_policy", "role"],
+      "properties": {"issued_by_task_path": {"const": "/root"}, "codex_task_path": {"type": "string", "pattern": "^/root/.+"}, "model_id": {"const": "gpt-5.6-sol"}, "fork_policy": {"enum": ["none", "isolated"]}, "role": {"const": "reviewer"}}
+    },
+    "source_review": {
+      "type": "object", "additionalProperties": false,
+      "required": ["source_id", "url", "score_driving", "accessible", "support", "input_paths", "notes"],
+      "properties": {"source_id": {"type": "string", "pattern": "^[ASB][1-9][0-9]*$"}, "url": {"type": "string", "pattern": "^https?://"}, "score_driving": {"type": "boolean"}, "accessible": {"type": "boolean"}, "support": {"enum": ["supported", "partially_supported", "unsupported", "not_score_driving"]}, "input_paths": {"type": "array", "uniqueItems": true, "items": {"type": "string", "minLength": 1}}, "notes": {"type": "string", "minLength": 1}}
+    },
+    "input_review": {
+      "type": "object", "additionalProperties": false,
+      "required": ["input_path", "reviewed_bounds", "evidence_state_honest", "base_supported", "range_supported", "scope_supported", "attribution_separated", "notes"],
+      "properties": {"input_path": {"type": "string", "minLength": 1}, "reviewed_bounds": {"type": "array", "minItems": 1, "uniqueItems": true, "items": {"type": "string", "minLength": 1}}, "evidence_state_honest": {"type": "boolean"}, "base_supported": {"type": "boolean"}, "range_supported": {"type": "boolean"}, "scope_supported": {"type": "boolean"}, "attribution_separated": {"type": "boolean"}, "notes": {"type": "string", "minLength": 1}}
+    },
+    "finding": {
+      "type": "object", "additionalProperties": false,
+      "required": ["finding_id", "defect_rule_id", "fingerprint", "severity", "category", "input_paths", "source_ids", "explanation", "causal_effect", "remediation"],
+      "properties": {"finding_id": {"type": "string", "minLength": 1}, "defect_rule_id": {"type": "string", "minLength": 1}, "fingerprint": {"$ref": "#/definitions/sha256"}, "severity": {"enum": ["caveat", "material", "fatal_mechanics"]}, "category": {"enum": ["evidence", "range_support", "evidence_state", "target_archetype", "value_basis", "pass_through", "factor_semantics", "implementation", "commercial_retention", "buyability", "price_attribution", "operator_survival", "double_counting", "h_gate", "scope", "source_age", "metadata", "mechanics", "other"]}, "input_paths": {"type": "array", "uniqueItems": true, "items": {"type": "string", "minLength": 1}}, "source_ids": {"type": "array", "uniqueItems": true, "items": {"type": "string", "pattern": "^[ASB][1-9][0-9]*$"}}, "explanation": {"type": "string", "minLength": 1}, "causal_effect": {"type": "string"}, "remediation": {"type": "string", "minLength": 1}, "publication_caveat": {"type": "string", "minLength": 1}}
+    }
+  }
+}

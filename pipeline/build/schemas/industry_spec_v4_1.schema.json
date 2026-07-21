@@ -1,0 +1,300 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "industry_spec_v4_1.schema.json",
+  "title": "v4.1 class-neutral industry and value-basis specification",
+  "type": "object",
+  "required": [
+    "spec_version",
+    "naics",
+    "title",
+    "dataset_snapshot",
+    "target_archetype",
+    "value_basis",
+    "source_hints",
+    "research_questions",
+    "special_notes"
+  ],
+  "additionalProperties": false,
+  "properties": {
+    "spec_version": {"const": "4.1"},
+    "naics": {"type": "string", "pattern": "^[0-9]{6}$"},
+    "title": {"type": "string", "minLength": 1},
+    "dataset_snapshot": {
+      "type": "object",
+      "required": ["path", "sha256"],
+      "additionalProperties": false,
+      "properties": {
+        "path": {
+          "type": "string",
+          "pattern": "^pipeline/datasets/v4_1/[0-9]{6}\\.json$"
+        },
+        "sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"}
+      }
+    },
+    "target_archetype": {"$ref": "#/definitions/target_archetype"},
+    "value_basis": {"$ref": "#/definitions/value_basis"},
+    "source_hints": {
+      "type": "array",
+      "minItems": 1,
+      "items": {"$ref": "#/definitions/source_hint"}
+    },
+    "research_questions": {
+      "type": "object",
+      "required": ["implementation", "commercial_retention", "sale_availability", "valuation_robustness", "operator_survival"],
+      "additionalProperties": false,
+      "properties": {
+        "implementation": {"$ref": "#/definitions/questions"},
+        "commercial_retention": {"$ref": "#/definitions/questions"},
+        "sale_availability": {"$ref": "#/definitions/questions"},
+        "valuation_robustness": {"$ref": "#/definitions/questions"},
+        "operator_survival": {"$ref": "#/definitions/questions"}
+      }
+    },
+    "special_notes": {
+      "type": "array",
+      "items": {"type": "string", "minLength": 1}
+    }
+  },
+  "definitions": {
+    "count_range": {
+      "type": "object",
+      "required": ["base", "low", "high"],
+      "additionalProperties": false,
+      "properties": {
+        "base": {"type": "number", "minimum": 0},
+        "low": {"type": "number", "minimum": 0},
+        "high": {"type": "number", "minimum": 0}
+      }
+    },
+    "archetype_option": {
+      "type": "object",
+      "required": ["id", "name", "inclusion_criteria", "exclusion_criteria", "band_count", "source_ids", "rationale"],
+      "additionalProperties": false,
+      "properties": {
+        "id": {"type": "string", "pattern": "^[a-z0-9]+(?:-[a-z0-9]+)*$"},
+        "name": {"type": "string", "minLength": 1},
+        "inclusion_criteria": {"type": "array", "minItems": 1, "items": {"type": "string", "minLength": 1}},
+        "exclusion_criteria": {"type": "array", "minItems": 1, "items": {"type": "string", "minLength": 1}},
+        "band_count": {"$ref": "#/definitions/count_range"},
+        "source_ids": {"type": "array", "items": {"type": "string", "pattern": "^A[1-9][0-9]*$"}},
+        "rationale": {"type": "string", "minLength": 1}
+      }
+    },
+    "archetype_source": {
+      "type": "object",
+      "required": ["id", "url", "title", "vintage"],
+      "additionalProperties": false,
+      "properties": {
+        "id": {"type": "string", "pattern": "^A[1-9][0-9]*$"},
+        "url": {"type": "string", "pattern": "^https?://"},
+        "title": {"type": "string", "minLength": 1},
+        "vintage": {"type": "string", "minLength": 1}
+      }
+    },
+    "target_archetype": {
+      "type": "object",
+      "required": [
+        "selected_id", "alternatives", "residual", "enumeration_coverage",
+        "sources", "selection_basis", "selection_uncertainty"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "selected_id": {"type": "string", "pattern": "^[a-z0-9]+(?:-[a-z0-9]+)*$"},
+        "alternatives": {"type": "array", "minItems": 1, "items": {"$ref": "#/definitions/archetype_option"}},
+        "residual": {
+          "type": "object",
+          "required": ["name", "band_count", "rationale"],
+          "additionalProperties": false,
+          "properties": {
+            "name": {"type": "string", "minLength": 1},
+            "band_count": {"$ref": "#/definitions/count_range"},
+            "rationale": {"type": "string", "minLength": 1}
+          }
+        },
+        "enumeration_coverage": {
+          "type": "object",
+          "required": ["base", "low", "high"],
+          "additionalProperties": false,
+          "properties": {
+            "base": {"type": "number", "minimum": 0.8, "maximum": 1},
+            "low": {"type": "number", "minimum": 0, "maximum": 1},
+            "high": {"type": "number", "minimum": 0, "maximum": 1}
+          }
+        },
+        "sources": {"type": "array", "items": {"$ref": "#/definitions/archetype_source"}},
+        "selection_basis": {"type": "string", "minLength": 1},
+        "selection_uncertainty": {"type": "boolean"}
+      }
+    },
+    "questions": {
+      "type": "array",
+      "minItems": 1,
+      "items": {"type": "string", "minLength": 1}
+    },
+    "source_hint": {
+      "type": "object",
+      "required": ["area", "source", "why", "uncertain_exists"],
+      "additionalProperties": false,
+      "properties": {
+        "area": {"type": "string", "minLength": 1},
+        "source": {"type": "string", "minLength": 1},
+        "why": {"type": "string", "minLength": 1},
+        "uncertain_exists": {"type": "boolean"}
+      }
+    },
+    "basis_source": {
+      "type": "object",
+      "required": ["id", "url", "title", "vintage"],
+      "additionalProperties": false,
+      "properties": {
+        "id": {"type": "string", "pattern": "^B[1-9][0-9]*$"},
+        "url": {"type": "string", "pattern": "^https?://"},
+        "title": {"type": "string", "minLength": 1},
+        "vintage": {"type": "string", "minLength": 1}
+      }
+    },
+    "numeric_range": {
+      "type": "object",
+      "required": ["low", "high"],
+      "additionalProperties": false,
+      "properties": {
+        "low": {"type": "number", "minimum": 0, "maximum": 1},
+        "high": {"type": "number", "minimum": 0, "maximum": 1}
+      }
+    },
+    "cash_cost_share": {
+      "type": "object",
+      "required": ["value", "range", "evidence_quality", "source_ids", "rationale", "caveats"],
+      "additionalProperties": false,
+      "properties": {
+        "value": {"type": "number", "minimum": 0, "maximum": 1},
+        "range": {"$ref": "#/definitions/numeric_range"},
+        "evidence_quality": {"enum": ["HIGH", "MED", "LOW"]},
+        "source_ids": {
+          "type": "array",
+          "minItems": 1,
+          "items": {"type": "string", "pattern": "^B[1-9][0-9]*$"}
+        },
+        "rationale": {"type": "string", "minLength": 1},
+        "caveats": {"type": "array", "items": {"type": "string", "minLength": 1}}
+      }
+    },
+    "assumption_cash_cost_share": {
+      "type": "object",
+      "required": ["base", "range", "evidence_state", "evidence_quality", "source_ids", "rationale", "caveats"],
+      "additionalProperties": false,
+      "properties": {
+        "base": {"type": "number", "minimum": 0, "maximum": 1},
+        "range": {"$ref": "#/definitions/numeric_range"},
+        "evidence_state": {"const": "ASSUMPTION"},
+        "evidence_quality": {"const": "NONE"},
+        "source_ids": {"type": "array", "maxItems": 0},
+        "rationale": {"type": "string", "minLength": 1},
+        "caveats": {"type": "array", "items": {"type": "string", "minLength": 1}}
+      }
+    },
+    "role": {
+      "type": "object",
+      "required": ["role_id", "title", "role_cash_cost_weight", "source_ids", "rationale"],
+      "additionalProperties": false,
+      "properties": {
+        "role_id": {"type": "string", "pattern": "^[A-Z0-9][A-Z0-9._-]*$"},
+        "title": {"type": "string", "minLength": 1},
+        "role_cash_cost_weight": {"type": "number", "exclusiveMinimum": 0, "maximum": 1},
+        "source_ids": {
+          "type": "array",
+          "minItems": 1,
+          "items": {"type": "string", "pattern": "^B[1-9][0-9]*$"}
+        },
+        "rationale": {"type": "string", "minLength": 1}
+      }
+    },
+    "assumption_role": {
+      "type": "object",
+      "required": ["role_id", "title", "role_cash_cost_weight", "source_ids", "rationale"],
+      "additionalProperties": false,
+      "properties": {
+        "role_id": {"type": "string", "pattern": "^[A-Z0-9][A-Z0-9._-]*$"},
+        "title": {"type": "string", "minLength": 1},
+        "role_cash_cost_weight": {"type": "number", "exclusiveMinimum": 0, "maximum": 1},
+        "source_ids": {"type": "array", "maxItems": 0},
+        "rationale": {"type": "string", "minLength": 1}
+      }
+    },
+    "dataset_bridge": {
+      "type": "object",
+      "required": ["population", "geography", "period", "unit", "business_model"],
+      "additionalProperties": false,
+      "properties": {
+        "population": {"type": "string", "minLength": 1},
+        "geography": {"type": "string", "minLength": 1},
+        "period": {"type": "string", "minLength": 1},
+        "unit": {"type": "string", "minLength": 1},
+        "business_model": {"type": "string", "minLength": 1}
+      }
+    },
+    "value_basis": {
+      "type": "object",
+      "required": ["mode", "scope", "labor_contractor_cash_cost_share", "roles", "sources", "rationale", "caveats"],
+      "additionalProperties": false,
+      "properties": {
+        "mode": {"enum": ["dataset", "target_specific", "assumption", "missing"]},
+        "scope": {"type": "string", "minLength": 1},
+        "labor_contractor_cash_cost_share": {
+          "oneOf": [
+            {"type": "null"},
+            {"$ref": "#/definitions/cash_cost_share"},
+            {"$ref": "#/definitions/assumption_cash_cost_share"}
+          ]
+        },
+        "roles": {"type": "array"},
+        "sources": {"type": "array", "items": {"$ref": "#/definitions/basis_source"}},
+        "bridge": {"oneOf": [{"type": "null"}, {"$ref": "#/definitions/dataset_bridge"}]},
+        "rationale": {"type": "string", "minLength": 1},
+        "caveats": {"type": "array", "items": {"type": "string", "minLength": 1}}
+      },
+      "allOf": [
+        {
+          "if": {"properties": {"mode": {"const": "target_specific"}}},
+          "then": {
+            "properties": {
+              "labor_contractor_cash_cost_share": {"$ref": "#/definitions/cash_cost_share"},
+              "roles": {"minItems": 1, "items": {"$ref": "#/definitions/role"}},
+              "sources": {"minItems": 1},
+              "bridge": {"type": "null"}
+            }
+          }
+        },
+        {
+          "if": {"properties": {"mode": {"const": "assumption"}}},
+          "then": {
+            "properties": {
+              "labor_contractor_cash_cost_share": {"$ref": "#/definitions/assumption_cash_cost_share"},
+              "roles": {"minItems": 1, "items": {"$ref": "#/definitions/assumption_role"}},
+              "sources": {"maxItems": 0},
+              "bridge": {"type": "null"}
+            }
+          }
+        },
+        {
+          "if": {"properties": {"mode": {"enum": ["dataset", "missing"]}}},
+          "then": {
+            "properties": {
+              "labor_contractor_cash_cost_share": {"type": "null"},
+              "roles": {"maxItems": 0},
+              "sources": {"maxItems": 0}
+            }
+          }
+        },
+        {
+          "if": {"properties": {"mode": {"const": "missing"}}},
+          "then": {
+            "properties": {
+              "bridge": {"type": "null"}
+            }
+          }
+        }
+      ]
+    }
+  }
+}

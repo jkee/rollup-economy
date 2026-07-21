@@ -1,0 +1,76 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "dataset_v4_2.schema.json",
+  "title": "v4.2 normalized deterministic dataset snapshot",
+  "type": "object",
+  "required": ["dataset_version", "snapshot_id", "naics", "title", "labor_share", "n_total", "n_band", "role_mix", "provenance"],
+  "additionalProperties": false,
+  "properties": {
+    "dataset_version": {"const": "4.2"},
+    "snapshot_id": {"type": "string", "pattern": "^[A-Za-z0-9._-]+$", "minLength": 1},
+    "naics": {"type": "string", "pattern": "^[0-9]{6}$"},
+    "title": {"type": "string", "minLength": 1},
+    "labor_share": {"$ref": "#/definitions/nullable_share"},
+    "n_total": {"$ref": "#/definitions/count"},
+    "n_band": {"$ref": "#/definitions/nullable_count"},
+    "role_mix": {
+      "type": "object",
+      "required": ["basis", "quality", "occupations"],
+      "additionalProperties": false,
+      "properties": {
+        "basis": {"type": "string", "minLength": 1},
+        "quality": {"$ref": "#/definitions/quality"},
+        "occupations": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "object",
+            "required": ["soc", "title", "employment_share", "wage_share"],
+            "additionalProperties": false,
+            "properties": {
+              "soc": {"type": "string", "pattern": "^[0-9]{2}-[0-9]{4}$"},
+              "title": {"type": "string", "minLength": 1},
+              "employment_share": {"type": "number", "minimum": 0, "maximum": 1},
+              "wage_share": {"type": "number", "minimum": 0, "maximum": 1}
+            }
+          }
+        }
+      }
+    },
+    "provenance": {
+      "type": "object",
+      "required": ["derivation_version", "source_manifest_sha256", "vintage"],
+      "additionalProperties": false,
+      "properties": {
+        "derivation_version": {"type": "string", "minLength": 1},
+        "source_manifest_sha256": {"$ref": "#/definitions/sha256"},
+        "vintage": {"type": "string", "minLength": 1}
+      }
+    }
+  },
+  "definitions": {
+    "sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+    "quality": {"enum": ["HIGH", "MED", "LOW", "NONE"]},
+    "nullable_share": {
+      "type": "object", "required": ["value", "quality", "basis"], "additionalProperties": false,
+      "properties": {
+        "value": {"type": ["number", "null"], "minimum": 0, "maximum": 1},
+        "quality": {"$ref": "#/definitions/quality"}, "basis": {"type": "string", "minLength": 1}
+      }
+    },
+    "count": {
+      "type": "object", "required": ["value", "quality", "basis"], "additionalProperties": false,
+      "properties": {
+        "value": {"type": "integer", "minimum": 0},
+        "quality": {"$ref": "#/definitions/quality"}, "basis": {"type": "string", "minLength": 1}
+      }
+    },
+    "nullable_count": {
+      "type": "object", "required": ["value", "quality", "basis"], "additionalProperties": false,
+      "properties": {
+        "value": {"type": ["integer", "null"], "minimum": 0},
+        "quality": {"$ref": "#/definitions/quality"}, "basis": {"type": "string", "minLength": 1}
+      }
+    }
+  }
+}

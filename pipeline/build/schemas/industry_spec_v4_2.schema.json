@@ -1,0 +1,205 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "industry_spec_v4_2.schema.json",
+  "title": "v4.2 class-neutral archetype and G value-basis specification",
+  "type": "object",
+  "required": ["spec_version", "naics", "title", "methodology_snapshot", "dataset_snapshot", "target_archetype", "value_basis", "source_hints", "research_questions", "special_notes"],
+  "additionalProperties": false,
+  "properties": {
+    "spec_version": {"const": "4.2"},
+    "naics": {"type": "string", "pattern": "^[0-9]{6}$"},
+    "title": {"type": "string", "minLength": 1},
+    "methodology_snapshot": {
+      "type": "object", "required": ["path", "sha256"], "additionalProperties": false,
+      "properties": {
+        "path": {"const": "V4_2_RUNTIME_METHODOLOGY.md"}, "sha256": {"$ref": "#/definitions/sha256"}
+      }
+    },
+    "dataset_snapshot": {
+      "type": "object", "required": ["path", "sha256"], "additionalProperties": false,
+      "properties": {
+        "path": {"type": "string", "pattern": "^pipeline/datasets/v4_2/[0-9]{6}\\.json$"},
+        "sha256": {"$ref": "#/definitions/sha256"}
+      }
+    },
+    "target_archetype": {"$ref": "#/definitions/target_archetype"},
+    "value_basis": {"$ref": "#/definitions/value_basis"},
+    "source_hints": {"type": "array", "minItems": 1, "items": {"$ref": "#/definitions/source_hint"}},
+    "research_questions": {
+      "type": "object",
+      "required": ["controllable_value_added", "operational_realization", "commercial_retention", "sale_availability", "buyer_access_win", "valuation_robustness", "operator_survival"],
+      "additionalProperties": false,
+      "properties": {
+        "controllable_value_added": {"$ref": "#/definitions/questions"},
+        "operational_realization": {"$ref": "#/definitions/questions"},
+        "commercial_retention": {"$ref": "#/definitions/questions"},
+        "sale_availability": {"$ref": "#/definitions/questions"},
+        "buyer_access_win": {"$ref": "#/definitions/questions"},
+        "valuation_robustness": {"$ref": "#/definitions/questions"},
+        "operator_survival": {"$ref": "#/definitions/questions"}
+      }
+    },
+    "special_notes": {"type": "array", "items": {"type": "string", "minLength": 1}}
+  },
+  "definitions": {
+    "sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+    "count_range": {
+      "type": "object", "required": ["base", "low", "high"], "additionalProperties": false,
+      "properties": {
+        "base": {"type": "number", "minimum": 0}, "low": {"type": "number", "minimum": 0},
+        "high": {"type": "number", "minimum": 0}
+      }
+    },
+    "archetype_option": {
+      "type": "object",
+      "required": ["id", "name", "inclusion_criteria", "exclusion_criteria", "band_count", "source_ids", "rationale"],
+      "additionalProperties": false,
+      "properties": {
+        "id": {"type": "string", "pattern": "^[a-z0-9]+(?:-[a-z0-9]+)*$"},
+        "name": {"type": "string", "minLength": 1},
+        "inclusion_criteria": {"type": "array", "minItems": 1, "items": {"type": "string", "minLength": 1}},
+        "exclusion_criteria": {"type": "array", "minItems": 1, "items": {"type": "string", "minLength": 1}},
+        "band_count": {"$ref": "#/definitions/count_range"},
+        "source_ids": {"type": "array", "items": {"type": "string", "pattern": "^A[1-9][0-9]*$"}},
+        "rationale": {"type": "string", "minLength": 1}
+      }
+    },
+    "source": {
+      "type": "object", "required": ["id", "url", "title", "vintage"], "additionalProperties": false,
+      "properties": {
+        "id": {"type": "string", "pattern": "^[AB][1-9][0-9]*$"},
+        "url": {"type": "string", "pattern": "^https?://"},
+        "title": {"type": "string", "minLength": 1}, "vintage": {"type": "string", "minLength": 1}
+      }
+    },
+    "target_archetype": {
+      "type": "object",
+      "required": ["selected_id", "alternatives", "residual", "enumeration_coverage", "sources", "selection_basis", "selection_uncertainty"],
+      "additionalProperties": false,
+      "properties": {
+        "selected_id": {"type": "string", "pattern": "^[a-z0-9]+(?:-[a-z0-9]+)*$"},
+        "alternatives": {"type": "array", "minItems": 1, "items": {"$ref": "#/definitions/archetype_option"}},
+        "residual": {
+          "type": "object", "required": ["name", "band_count", "rationale"], "additionalProperties": false,
+          "properties": {
+            "name": {"type": "string", "minLength": 1}, "band_count": {"$ref": "#/definitions/count_range"},
+            "rationale": {"type": "string", "minLength": 1}
+          }
+        },
+        "enumeration_coverage": {
+          "type": "object", "required": ["base", "low", "high"], "additionalProperties": false,
+          "properties": {
+            "base": {"type": "number", "minimum": 0.8, "maximum": 1},
+            "low": {"type": "number", "minimum": 0, "maximum": 1},
+            "high": {"type": "number", "minimum": 0, "maximum": 1}
+          }
+        },
+        "sources": {"type": "array", "minItems": 1, "items": {"allOf": [
+          {"$ref": "#/definitions/source"}, {"properties": {"id": {"pattern": "^A[1-9][0-9]*$"}}}
+        ]}},
+        "selection_basis": {"type": "string", "minLength": 1},
+        "selection_uncertainty": {"type": "boolean"}
+      }
+    },
+    "role": {
+      "type": "object", "required": ["role_id", "title", "role_cash_cost_weight", "method", "evidence_quality", "source_ids", "rationale"],
+      "additionalProperties": false,
+      "properties": {
+        "role_id": {"type": "string", "pattern": "^[A-Za-z0-9][A-Za-z0-9._-]*$"},
+        "title": {"type": "string", "minLength": 1},
+        "role_cash_cost_weight": {"type": "number", "exclusiveMinimum": 0, "maximum": 1},
+        "method": {"enum": ["OBSERVED", "CALCULATED", "ESTIMATE"]},
+        "evidence_quality": {"enum": ["HIGH", "MED", "NONE"]},
+        "source_ids": {"type": "array", "uniqueItems": true, "items": {"type": "string", "pattern": "^B[1-9][0-9]*$"}},
+        "rationale": {"type": "string", "minLength": 1}
+      }
+    },
+    "value_basis": {
+      "type": "object",
+      "required": ["mode", "scope", "controllable_value_added_boundary", "approved_pass_through_categories", "employee_cash_cost_id", "controllable_contractor_cash_cost_id", "roles", "sources", "rationale", "caveats"],
+      "additionalProperties": false,
+      "properties": {
+        "mode": {"enum": ["target_specific", "assumption", "missing"]},
+        "scope": {"type": "string", "minLength": 1},
+        "controllable_value_added_boundary": {"type": "string", "minLength": 1},
+        "approved_pass_through_categories": {
+          "type": "array", "uniqueItems": true, "items": {"type": "string", "minLength": 1}
+        },
+        "employee_cash_cost_id": {"type": ["string", "null"], "pattern": "^[A-Za-z0-9][A-Za-z0-9._-]*$"},
+        "controllable_contractor_cash_cost_id": {"type": ["string", "null"], "pattern": "^[A-Za-z0-9][A-Za-z0-9._-]*$"},
+        "roles": {"type": "array", "items": {"$ref": "#/definitions/role"}},
+        "sources": {"type": "array", "items": {"allOf": [
+          {"$ref": "#/definitions/source"}, {"properties": {"id": {"pattern": "^B[1-9][0-9]*$"}}}
+        ]}},
+        "rationale": {"type": "string", "minLength": 1},
+        "caveats": {"type": "array", "items": {"type": "string", "minLength": 1}}
+      },
+      "allOf": [
+        {
+          "if": {"properties": {"mode": {"const": "target_specific"}}},
+          "then": {
+            "properties": {
+              "employee_cash_cost_id": {"type": "string"},
+              "controllable_contractor_cash_cost_id": {"type": "string"},
+              "roles": {
+                "minItems": 1,
+                "items": {
+                  "allOf": [
+                    {"$ref": "#/definitions/role"},
+                    {"properties": {
+                      "method": {"enum": ["OBSERVED", "CALCULATED"]},
+                      "evidence_quality": {"enum": ["HIGH", "MED"]},
+                      "source_ids": {"minItems": 1}
+                    }}
+                  ]
+                }
+              },
+              "sources": {"minItems": 1}
+            }
+          }
+        },
+        {
+          "if": {"properties": {"mode": {"const": "assumption"}}},
+          "then": {
+            "properties": {
+              "employee_cash_cost_id": {"type": "string"},
+              "controllable_contractor_cash_cost_id": {"type": "string"},
+              "roles": {
+                "minItems": 1,
+                "items": {
+                  "allOf": [
+                    {"$ref": "#/definitions/role"},
+                    {"properties": {
+                      "method": {"const": "ESTIMATE"},
+                      "evidence_quality": {"const": "NONE"},
+                      "source_ids": {"maxItems": 0}
+                    }}
+                  ]
+                }
+              },
+              "sources": {"maxItems": 0}
+            }
+          }
+        },
+        {
+          "if": {"properties": {"mode": {"const": "missing"}}},
+          "then": {
+            "properties": {
+              "employee_cash_cost_id": {"type": "null"},
+              "controllable_contractor_cash_cost_id": {"type": "null"},
+              "roles": {"maxItems": 0}, "sources": {"maxItems": 0}
+            }
+          }
+        }
+      ]
+    },
+    "source_hint": {
+      "type": "object", "required": ["area", "source", "why", "uncertain_exists"], "additionalProperties": false,
+      "properties": {
+        "area": {"type": "string", "minLength": 1}, "source": {"type": "string", "minLength": 1},
+        "why": {"type": "string", "minLength": 1}, "uncertain_exists": {"type": "boolean"}
+      }
+    },
+    "questions": {"type": "array", "minItems": 1, "items": {"type": "string", "minLength": 1}}
+  }
+}

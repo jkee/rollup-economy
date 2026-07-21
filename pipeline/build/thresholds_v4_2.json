@@ -1,0 +1,263 @@
+{
+  "version": "4.2",
+  "frozen": false,
+  "status": "outcome-blind freeze candidate",
+  "authored_date": "2026-07-21",
+  "score": {
+    "type": "geometric_mean",
+    "factors": ["V", "I", "C", "B", "P"],
+    "scale": [0.0, 10.0]
+  },
+  "archetype_selection": {
+    "enumeration_min_coverage": 0.80,
+    "selection_rule": "largest_base_band_count",
+    "near_tie_fraction": 0.10,
+    "overlap_rule": "selection_uncertainty_widens_ranges",
+    "tie_break_rule": "lexicographically_smallest_stable_id",
+    "record_policy": "one_primary_record_per_naics",
+    "uncertainty_readiness": "UNPROVEN"
+  },
+  "domains": {
+    "factor": [0.0, 10.0],
+    "enumeration_coverage": [0.0, 1.0],
+    "nonnegative_money": [0.0, null],
+    "role_cost_weight": [0.0, 1.0],
+    "removable_fraction": [0.0, 1.0],
+    "implementation_realization": [0.0, 1.0],
+    "implementation_investment": [0.0, null],
+    "commercial_retention": [0.0, 1.0],
+    "n_band": [0.0, null],
+    "archetype_coverage": [0.0, 1.0],
+    "sale_availability": [0.0, 1.0],
+    "buyer_access_win_share": [0.0, 1.0],
+    "five_year_capacity": [0.0, null],
+    "buy_multiple": [0.0, null],
+    "downside_exit_multiple": [0.0, null],
+    "constant_price_survival": [0.0, 1.0]
+  },
+  "value_available": {
+    "denominator": "recognized_revenue_minus_reconciled_included_third_party_pass_through",
+    "gross_removable_cva_anchor": 0.25,
+    "positive_bounded_denominator_required": true,
+    "pass_through_double_count_policy": "cost_id_disjoint_from_v_numerator",
+    "revenue_basis_modes": ["GROSS_OF_ALL", "NET_OF_ALL", "MIXED"],
+    "recognized_accounting_basis": {"recognition_standard": "ACCRUAL_RECOGNIZED_REVENUE",
+      "measurement_period": "TRAILING_TWELVE_MONTHS",
+      "presentation_link": "must_equal_revenue_basis"},
+    "empty_pass_through_basis": "GROSS_OF_ALL",
+    "unsupported_nonempty_reconciliation": "R_cva_missing",
+    "zero_G_annihilator": "exact_zero_costs_or_every_exact_zero_removability_forces_V_I_h_zero_even_if_R_cva_missing",
+    "role_spec_modes": ["frozen", "assumption", "missing"]
+  },
+  "implementation": {
+    "years": 5,
+    "discount_rate": 0.10,
+    "realization_order": "unconstrained",
+    "investment_years": [0, 1, 2, 3, 4, 5],
+    "investment_unit": "fraction_of_one_full_year_of_G",
+    "negative_investment_policy": "forbidden",
+    "zero_G_scores": {"V": 0.0, "I": 0.0},
+    "missing_or_unbounded_G_factors": ["V", "I"]
+  },
+  "commercial_capture": {
+    "years": 5,
+    "discount_rate": 0.10,
+    "schedule_order": "unconstrained",
+    "weighting": "discounted_operational_realization",
+    "zero_realization_score": 0.0,
+    "support_rule": "exact_box_vertex_extrema",
+    "vertex_years": 5,
+    "vertex_coordinate_values": "per_year_realization_interval_endpoints",
+    "vertex_constraints": ["per_year_bounds"],
+    "retention_extrema": {"minimum": "c_low", "maximum": "c_high"},
+    "zero_denominator_vertex": "include_zero_score_only_for_all_zero_schedule",
+    "decision_support": "joint_projected_realization_hull",
+    "joint_projection": ["A=sum_r_w", "N=sum_r_c_w"],
+    "joint_edge_candidates": ["vertices", "stationary_I_times_C", "factor_floors", "aggregate_cuts", "h_zero", "interval_representatives"]
+  },
+  "buyability": {
+    "count_definition": "expected_executable_and_winnable_five_year_targets",
+    "n5_full_score": 500.0,
+    "buyer_profile": "credible_us_lmm_national_sourcing_no_privileged_access",
+    "active_consolidator_penalty": "forbidden",
+    "paid_price_channel": "P_only",
+    "opportunity_formula": "O5=n_band*coverage*sale_availability*buyer_access_win_share",
+    "capacity_formula": "K5=min(deal_execution_capacity_5y,integration_onboarding_capacity_5y)",
+    "executable_formula": "N5=min(O5,K5)",
+    "missing_capacity_support": {"low": 0.0, "base": null,
+      "high": "min_opportunity_high_and_every_known_capacity_high"},
+    "capacity_types": ["DEAL_EXECUTION", "INTEGRATION_ONBOARDING"],
+    "capacity_horizon": ["ENTRY_DATE", "END_OF_YEAR_5"],
+    "capacity_measure": "MAXIMUM_NON_DUPLICATIVE_COMPLETED_AND_FULLY_ONBOARDED_TARGET_COUNT"
+  },
+  "price_discipline": {
+    "entry_reference_multiple": 14.0,
+    "entry_score_span": 10.0,
+    "downside_ratio_floor": 0.5,
+    "downside_ratio_slope": 20.0,
+    "normalized_y5_state_required": true,
+    "state_policy": "one_state_shared_by_low_base_high",
+    "multiple_expansion_reward": "capped_at_10",
+    "state_dimensions": ["accounting", "size", "service_mix", "customer_concentration", "management_depth", "platform_quality"],
+    "state_dimension_value": "HOLD_ENTRY_REFERENCE",
+    "allowed_adjustment_channels": ["EXTERNAL_DISCOUNT_RATE_ENVIRONMENT", "ENTRY_EQUIVALENT_COMPARABLE_MULTIPLE_LEVEL", "PRIVATE_TRANSACTION_LIQUIDITY"],
+    "anchor_channel": "ENTRY_EQUIVALENT_COMPARABLE_MULTIPLE_LEVEL",
+    "anchor_state_link": "same_normalized_y5_state_digest",
+    "favorable_adjustment_policy": "forbidden",
+    "state_link": "canonical_sha256",
+    "missing_exit_or_state_high_support": "known_entry_score_ceiling",
+    "missing_buy_high_support": "zero_if_exit_high_zero_else_10_without_positive_buy_lower_bound"
+  },
+  "viability_gate": {
+    "diagnostic": "h",
+    "kill_operator": "less_than_or_equal",
+    "kill_threshold": 0.0,
+    "application_order": "after_factor_verdict_before_survival",
+    "evidence_independent": true
+  },
+  "verdict_cuts": {
+    "hell_yes": 7.5,
+    "strong": 6.0,
+    "conditional": 4.5,
+    "pass": 3.0
+  },
+  "verdict_min_each_factor": {
+    "hell_yes": 6.0,
+    "strong": 4.0,
+    "conditional": 2.0,
+    "pass": 1.0
+  },
+  "verdict_order": ["kill", "pass", "conditional", "strong", "hell_yes"],
+  "survival_gate": {
+    "measure": "constant_price_operator_controlled_value_added_demand_share_y5",
+    "index_method": "FIXED_BASE_LASPEYRES_CVA",
+    "basket_mismatch_policy": "missing_[0,1]",
+    "baseline_point_identification_required": true,
+    "new_demand_cap": 1.0,
+    "no_cap_at_or_above": 0.75,
+    "conditional_cap_at_or_above": 0.50,
+    "pass_cap_at_or_above": 0.25,
+    "caps": {
+      "no_cap": "hell_yes",
+      "conditional": "conditional",
+      "pass": "pass",
+      "kill": "kill"
+    },
+    "application_order": "after_viability_gate"
+  },
+  "actions": {
+    "ordinary": {
+      "hell_yes": "DEEP_DIVE",
+      "strong": "DEEP_DIVE",
+      "conditional": "SELECTIVE",
+      "pass": "DEPRIORITIZE",
+      "kill": "AVOID"
+    },
+    "uncertainty": "EVIDENCE_FIRST",
+    "stable_structural_kill": "AVOID"
+  },
+  "partial_identification": {
+    "missing_base": null,
+    "unbounded_count_token": "UNBOUNDED",
+    "unbounded_negative_h": "NEGATIVE_UNBOUNDED",
+    "identified_rule": "all_feasible_joint_scenarios_same_verdict",
+    "different_verdict": "indeterminate",
+    "base_requires_all_score_and_gate_inputs": true
+  },
+  "evidence_contract": {
+    "methods": ["OBSERVED", "CALCULATED", "ESTIMATE"],
+    "states": ["DIRECT", "PROXY", "ASSUMPTION", "MISSING"],
+    "qualities": ["HIGH", "MED", "LOW", "NONE"],
+    "direct_methods": ["OBSERVED", "CALCULATED"],
+    "supported_qualities": ["HIGH", "MED"],
+    "assumption_method": "ESTIMATE",
+    "missing_method": "ESTIMATE",
+    "source_requirement": {"DIRECT": "nonempty", "PROXY": "nonempty", "ASSUMPTION": "empty", "MISSING": "empty"},
+    "bridge_requirement": {"DIRECT": false, "PROXY": true, "ASSUMPTION": false, "MISSING": false},
+    "endpoint_support_required": true,
+    "validated_forward_proxy_fields": ["independent_validation", "longitudinal_validation"]
+  },
+  "readiness": {
+    "statuses_in_order": ["SUBSTANTIATED", "PROVISIONAL", "UNPROVEN"],
+    "unproven_states": ["ASSUMPTION", "MISSING"],
+    "unproven_qualities": ["LOW", "NONE"],
+    "core_paths": ["n_band", "recognized_revenue", "pass_through_reconciliation", "third_party_pass_through", "employee_cash_cost", "controllable_contractor_cash_cost", "target_role_mix_basis", "target_archetype_coverage", "buy_mult"],
+    "forward_paths": ["implementation_realization", "implementation_investment", "commercial_retention", "five_year_sale_availability", "buyer_access_win_share", "deal_execution_capacity_5y", "integration_onboarding_capacity_5y", "normalized_y5_operating_state", "downside_exit_mult", "operator_controlled_value_added_demand_share_y5"],
+    "core_substantiation": "DIRECT_or_safely_CALCULATED_MED_HIGH",
+    "forward_proxy_substantiation": "MED_HIGH_bridge_endpoints_and_independent_or_longitudinal_validation",
+    "selection_uncertainty_status": "UNPROVEN",
+    "unsupported_endpoint_status": "UNPROVEN",
+    "failed_rationale_separation_status": "UNPROVEN",
+    "supported_unvalidated_forward_proxy_status": "PROVISIONAL",
+    "core_not_substantiated_status": "PROVISIONAL",
+    "cross_tier_status": "PROVISIONAL",
+    "action_instability_status": "PROVISIONAL"
+  },
+  "validation_tolerances": {
+    "numeric": 1e-12,
+    "sentinel": 1e-9,
+    "role_weight_sum": 1e-12
+  },
+  "sentinels": {
+    "implementation_schedules_zero_investment": [
+      {"r": [1.0, 1.0, 1.0, 1.0, 1.0], "expected": 10.0},
+      {"r": [0.0, 1.0, 1.0, 1.0, 1.0], "expected": 7.601841083684134},
+      {"r": [0.0, 0.0, 1.0, 1.0, 1.0], "expected": 5.4216966143060725},
+      {"r": [0.0, 0.0, 0.0, 1.0, 1.0], "expected": 3.4397470966896524},
+      {"r": [0.2, 0.4, 0.6, 0.8, 1.0], "expected": 5.620251920525462},
+      {"r": [0.0, 0.0, 0.0, 0.0, 0.0], "expected": 0.0}
+    ],
+    "implementation_investment_cases": [
+      {"r": [1.0, 1.0, 1.0, 1.0, 1.0], "k0_annuity_fraction": 1.0, "expected": 0.0},
+      {"r": [1.0, 1.0, 1.0, 1.0, 1.0], "k0_annuity_fraction": 1.25, "expected": 0.0}
+    ],
+    "realization_ramp_decay_case": {"decayed_r": [0.2, 0.8, 0.9, 0.4, 0.1], "sustained_r": [0.2, 0.8, 0.9, 0.9, 0.9], "c": [0.0, 0.0, 0.0, 1.0, 1.0], "k": [0.0, 0.0, 0.0, 0.0, 0.0, 0.0], "expected_decayed": {"I": 4.8920083209120255, "C": 1.8080639652851715, "h": 0.3352975144519437}, "expected_sustained": {"I": 7.103274311641087, "C": 4.3582329095009475, "h": 1.173541300581803}},
+    "commercial_constant_schedules": [
+      {"value": 0.0, "expected": 0.0},
+      {"value": 0.2, "expected": 2.0},
+      {"value": 0.5, "expected": 5.0},
+      {"value": 0.8, "expected": 8.0},
+      {"value": 1.0, "expected": 10.0}
+    ],
+    "commercial_timing_case": {
+      "r": [0.0, 0.0, 0.0, 0.0, 1.0],
+      "c": [1.0, 1.0, 1.0, 1.0, 0.001],
+      "expected": 0.01
+    },
+    "r_cva_reconciliation_cases": [
+      {"basis": "GROSS_OF_ALL", "revenue": 100.0, "included": [20.0], "already_netted": [], "expected": 80.0},
+      {"basis": "NET_OF_ALL", "revenue": 80.0, "included": [], "already_netted": [20.0], "expected": 80.0},
+      {"basis": "MIXED", "revenue": 90.0, "included": [10.0], "already_netted": [10.0], "expected": 80.0},
+      {"basis": "GROSS_OF_ALL", "revenue": 100.0, "included": [], "already_netted": [], "expected": 100.0}
+    ],
+    "r_cva_double_subtraction_forbidden": true,
+    "zero_g_missing_denominator_cases": [
+      {"case": "EXACT_ZERO_EMPLOYEE_AND_CONTRACTOR_COST", "expected_V": 0.0, "expected_I": 0.0, "expected_h": 0.0, "expected_verdict": "kill"},
+      {"case": "EVERY_EXACT_ZERO_REMOVABILITY_CONTRIBUTION", "expected_V": 0.0, "expected_I": 0.0, "expected_h": 0.0, "expected_verdict": "kill"}
+    ],
+    "buyability_capacity_cases": [
+      {"O5": 100.0, "deal_capacity": 30.0, "integration_capacity": 40.0, "expected_K5": 30.0, "expected_N5": 30.0},
+      {"O5": 25.0, "deal_capacity": 50.0, "integration_capacity": 40.0, "expected_K5": 40.0, "expected_N5": 25.0}
+    ],
+    "buyability_missing_capacity_support": {"O5_high": 100.0, "known_capacity_high": 40.0, "expected_low": 0.0, "expected_base": null, "expected_high": 40.0},
+    "survival_laspeyres_case": {"weights": [0.6, 0.4], "quantity_relatives": [0.5, 0.75], "expected": 0.6},
+    "survival_ranged_baseline_case": {"q0": {"low": 50.0, "base": 100.0, "high": 400.0}, "q5": 80.0, "expected": "MISSING"},
+    "price_adjustment_case": {"anchor": 5.0, "adjustments": [-1.0, -0.5], "expected": 3.5, "positive_adjustment_forbidden": true},
+    "price_missing_exit_entry_ceiling_case": {"buy_low": 13.0, "expected_P_high": 1.0},
+    "price_missing_buy_zero_exit_case": {"buy": "MISSING_POSITIVE", "exit_high": 0.0, "expected_P_high": 0.0},
+    "mixed_component_validation_case": {"component_validation_kinds": ["independent_corroboration", "longitudinal_validation"], "expected_complete": true},
+    "joint_realization_decision_case": {"x": 0.043293960941, "c": [0.05, 0.05, 0.05, 0.05, 1.0], "k": [0.0, 0.0, 0.0, 0.0, 0.0, 0.0], "fixed_factors": {"V": 6.5, "B": 6.5, "P": 6.5}, "survival": 0.8, "expected_low_verdict": "conditional", "expected_high_verdict": "conditional", "expected_action": "SELECTIVE"},
+    "viability_negative_case": {"r": 1.0, "c": 0.2, "k0_annuity_fraction": 0.25, "expected_relation": "h_less_than_zero"},
+    "factor_verdicts": [
+      {"factors": [8.0, 8.0, 8.0, 8.0, 8.0], "expected": "hell_yes"},
+      {"factors": [7.0, 7.0, 7.0, 7.0, 7.0], "expected": "strong"},
+      {"factors": [5.0, 5.0, 5.0, 5.0, 5.0], "expected": "conditional"},
+      {"factors": [10.0, 1.5, 10.0, 10.0, 10.0], "expected": "pass"},
+      {"factors": [10.0, 0.9, 10.0, 10.0, 10.0], "expected": "kill"}
+    ]
+  },
+  "display": {
+    "decimal_places": 2,
+    "rounding_stage": "after_numeric_validation"
+  }
+}

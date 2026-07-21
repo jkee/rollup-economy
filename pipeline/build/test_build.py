@@ -90,6 +90,49 @@ def fixture_review(run_id="2026-07-20_sonnet_tv3_fixture", verdict="accepted",
     }
 
 
+class SchemaValidatorTests(unittest.TestCase):
+    """Focused coverage for the shared stdlib JSON-Schema subset."""
+
+    def validate_unique(self, value, enabled=True):
+        schema = {"type": "array", "uniqueItems": enabled}
+        return build.schema_errors(value, schema, schema)
+
+    def test_unique_scalar_items_pass(self):
+        self.assertEqual(
+            self.validate_unique([None, True, False, 0, 1, "1", 2.5]),
+            [],
+        )
+
+    def test_duplicate_scalar_reports_first_repeated_indexes(self):
+        self.assertEqual(
+            self.validate_unique(["alpha", "beta", "alpha", "beta"]),
+            ["$: array items at indexes 0 and 2 are not unique"],
+        )
+
+    def test_json_booleans_are_distinct_from_numbers(self):
+        self.assertEqual(self.validate_unique([True, 1, False, 0]), [])
+
+    def test_mathematically_equal_json_numbers_are_duplicates(self):
+        self.assertEqual(
+            self.validate_unique([1, 1.0]),
+            ["$: array items at indexes 0 and 1 are not unique"],
+        )
+
+    def test_structured_values_are_canonicalized_recursively(self):
+        first = {"name": "x", "nested": {"a": 1, "b": [True, None]}}
+        reordered = {"nested": {"b": [True, None], "a": 1.0}, "name": "x"}
+        self.assertEqual(
+            self.validate_unique([first, reordered]),
+            ["$: array items at indexes 0 and 1 are not unique"],
+        )
+
+    def test_array_order_remains_significant(self):
+        self.assertEqual(self.validate_unique([[1, 2], [2, 1]]), [])
+
+    def test_unique_items_false_preserves_prior_behavior(self):
+        self.assertEqual(self.validate_unique([{"x": 1}, {"x": 1}], enabled=False), [])
+
+
 class BuildHarness(unittest.TestCase):
     def setUp(self):
         self.tmp = tempfile.mkdtemp(prefix="v3build_test_")

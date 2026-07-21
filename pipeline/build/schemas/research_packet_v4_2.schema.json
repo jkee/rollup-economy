@@ -1,0 +1,444 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "research_packet_v4_2.schema.json",
+  "title": "v4.2 primitive economic research packet",
+  "type": "object",
+  "required": ["naics", "title", "sources", "narrative", "scenario_narratives", "inputs", "cross_checks", "confidence_overall", "top_uncertain_inputs", "reviewer_note"],
+  "additionalProperties": false,
+  "properties": {
+    "naics": {"type": "string", "pattern": "^[0-9]{6}$"},
+    "title": {"type": "string", "minLength": 1},
+    "sources": {"type": "array", "minItems": 1, "items": {"$ref": "#/definitions/source"}},
+    "narrative": {
+      "type": "object",
+      "required": ["executive_view", "revenue_and_pass_through", "technical_value", "implementation", "commercial_capture", "buyability", "entry_and_exit", "operator_survival", "risks_and_uncertainty"],
+      "additionalProperties": false,
+      "properties": {
+        "executive_view": {"$ref": "#/definitions/narrative_text"},
+        "revenue_and_pass_through": {"$ref": "#/definitions/narrative_text"},
+        "technical_value": {"$ref": "#/definitions/narrative_text"},
+        "implementation": {"$ref": "#/definitions/narrative_text"},
+        "commercial_capture": {"$ref": "#/definitions/narrative_text"},
+        "buyability": {"$ref": "#/definitions/narrative_text"},
+        "entry_and_exit": {"$ref": "#/definitions/narrative_text"},
+        "operator_survival": {"$ref": "#/definitions/narrative_text"},
+        "risks_and_uncertainty": {"$ref": "#/definitions/narrative_text"}
+      }
+    },
+    "scenario_narratives": {
+      "type": "object", "required": ["low", "base", "high"], "additionalProperties": false,
+      "properties": {
+        "low": {"$ref": "#/definitions/narrative_text"},
+        "base": {"$ref": "#/definitions/narrative_text"},
+        "high": {"$ref": "#/definitions/narrative_text"}
+      }
+    },
+    "inputs": {
+      "type": "object",
+      "required": ["recognized_revenue", "third_party_pass_through", "employee_cash_cost", "controllable_contractor_cash_cost", "target_role_judgments", "implementation_realization", "implementation_investment", "commercial_retention", "target_archetype_coverage", "five_year_sale_availability", "buyer_access_win_share", "deal_execution_capacity_5y", "integration_onboarding_capacity_5y", "buy_multiple", "normalized_y5_operating_state", "downside_exit_multiple", "operator_controlled_value_added_demand_share_y5"],
+      "additionalProperties": false,
+      "properties": {
+        "recognized_revenue": {"$ref": "#/definitions/recognized_revenue_selection"},
+        "third_party_pass_through": {"type": "array", "items": {"$ref": "#/definitions/pass_through"}},
+        "employee_cash_cost": {"$ref": "#/definitions/cost_component"},
+        "controllable_contractor_cash_cost": {"$ref": "#/definitions/cost_component"},
+        "target_role_judgments": {"$ref": "#/definitions/role_judgments"},
+        "implementation_realization": {"$ref": "#/definitions/r_schedule"},
+        "implementation_investment": {"$ref": "#/definitions/k_schedule"},
+        "commercial_retention": {"$ref": "#/definitions/c_schedule"},
+        "target_archetype_coverage": {"$ref": "#/definitions/numeric_selection"},
+        "five_year_sale_availability": {"$ref": "#/definitions/numeric_selection"},
+        "buyer_access_win_share": {"$ref": "#/definitions/numeric_selection"},
+        "deal_execution_capacity_5y": {"$ref": "#/definitions/deal_capacity_selection"},
+        "integration_onboarding_capacity_5y": {"$ref": "#/definitions/integration_capacity_selection"},
+        "buy_multiple": {"$ref": "#/definitions/numeric_selection"},
+        "normalized_y5_operating_state": {"$ref": "#/definitions/normalized_state"},
+        "downside_exit_multiple": {"$ref": "#/definitions/downside_selection"},
+        "operator_controlled_value_added_demand_share_y5": {"$ref": "#/definitions/survival_basket"}
+      }
+    },
+    "cross_checks": {
+      "type": "object",
+      "required": ["target_identity_preserved", "pass_through_removed_once", "removability_only_in_v", "investment_only_in_i", "commercial_only_in_c", "buyer_access_separate_from_price", "p_uses_frozen_y5_state", "p_excludes_c_and_survival", "survival_is_constant_price_value_added"],
+      "additionalProperties": false,
+      "properties": {
+        "target_identity_preserved": {"$ref": "#/definitions/nonempty"},
+        "pass_through_removed_once": {"$ref": "#/definitions/nonempty"},
+        "removability_only_in_v": {"$ref": "#/definitions/nonempty"},
+        "investment_only_in_i": {"$ref": "#/definitions/nonempty"},
+        "commercial_only_in_c": {"$ref": "#/definitions/nonempty"},
+        "buyer_access_separate_from_price": {"$ref": "#/definitions/nonempty"},
+        "p_uses_frozen_y5_state": {"$ref": "#/definitions/nonempty"},
+        "p_excludes_c_and_survival": {"$ref": "#/definitions/nonempty"},
+        "survival_is_constant_price_value_added": {"$ref": "#/definitions/nonempty"}
+      }
+    },
+    "confidence_overall": {"enum": ["HIGH", "MED", "LOW"]},
+    "top_uncertain_inputs": {
+      "type": "array", "minItems": 1,
+      "items": {
+        "type": "object", "required": ["input", "range", "score_impact"], "additionalProperties": false,
+        "properties": {
+          "input": {"$ref": "#/definitions/nonempty"}, "range": {"$ref": "#/definitions/nonempty"},
+          "score_impact": {"$ref": "#/definitions/nonempty"}
+        }
+      }
+    },
+    "reviewer_note": {"type": "string"}
+  },
+  "definitions": {
+    "nonempty": {"type": "string", "minLength": 1},
+    "narrative_text": {"type": "string", "minLength": 40},
+    "source": {
+      "type": "object", "required": ["id", "url", "title", "access_date", "what_it_supports"],
+      "additionalProperties": false,
+      "properties": {
+        "id": {"type": "string", "pattern": "^S[1-9][0-9]*$"},
+        "url": {"type": "string", "pattern": "^https?://"}, "title": {"$ref": "#/definitions/nonempty"},
+        "access_date": {"type": "string", "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}$"},
+        "what_it_supports": {"$ref": "#/definitions/nonempty"}, "exact_quote": {"type": "string"}
+      }
+    },
+    "range": {
+      "type": "object", "required": ["low", "high"], "additionalProperties": false,
+      "properties": {"low": {"type": ["number", "null"]}, "high": {"type": ["number", "null"]}}
+    },
+    "bridge": {
+      "type": "object", "required": ["population", "geography", "period", "unit", "business_model"],
+      "additionalProperties": false,
+      "properties": {
+        "population": {"$ref": "#/definitions/nonempty"}, "geography": {"$ref": "#/definitions/nonempty"},
+        "period": {"$ref": "#/definitions/nonempty"}, "unit": {"$ref": "#/definitions/nonempty"},
+        "business_model": {"$ref": "#/definitions/nonempty"}
+      }
+    },
+    "endpoint_support": {
+      "type": "object", "required": ["low_source_ids", "base_source_ids", "high_source_ids"],
+      "additionalProperties": false,
+      "properties": {
+        "low_source_ids": {"$ref": "#/definitions/source_ids_nonempty"},
+        "base_source_ids": {"$ref": "#/definitions/source_ids_nonempty"},
+        "high_source_ids": {"$ref": "#/definitions/source_ids_nonempty"}
+      }
+    },
+    "validation_support": {
+      "type": "object", "required": ["kind", "source_ids", "independence_basis", "rationale"], "additionalProperties": false,
+      "properties": {
+        "kind": {"enum": ["independent_corroboration", "longitudinal_validation"]},
+        "source_ids": {"$ref": "#/definitions/source_ids_nonempty"},
+        "independence_basis": {"const": "validation_source_ids_disjoint_from_primary_support"},
+        "rationale": {"$ref": "#/definitions/nonempty"}
+      }
+    },
+    "source_ids_nonempty": {
+      "type": "array", "minItems": 1, "uniqueItems": true,
+      "items": {"type": "string", "pattern": "^S[1-9][0-9]*$"}
+    },
+    "calculation_operand": {
+      "type": "object", "required": ["name", "value", "source_id"], "additionalProperties": false,
+      "properties": {
+        "name": {"type": "string", "pattern": "^[A-Za-z_][A-Za-z0-9_]*$"},
+        "value": {"type": "number"}, "source_id": {"type": "string", "pattern": "^S[1-9][0-9]*$"}
+      }
+    },
+    "calculation": {
+      "type": "object", "required": ["expression", "operands"], "additionalProperties": false,
+      "properties": {
+        "expression": {"type": "string", "minLength": 1, "maxLength": 512},
+        "operands": {"type": "array", "minItems": 1, "maxItems": 16, "items": {"$ref": "#/definitions/calculation_operand"}}
+      }
+    },
+    "numeric_selection": {
+      "type": "object",
+      "required": ["value", "range", "method", "evidence_state", "evidence_quality", "confidence", "source_ids", "rationale", "caveats"],
+      "additionalProperties": false,
+      "properties": {
+        "value": {"type": ["number", "null"]}, "range": {"$ref": "#/definitions/range"},
+        "method": {"enum": ["OBSERVED", "CALCULATED", "ESTIMATE"]},
+        "evidence_state": {"enum": ["DIRECT", "PROXY", "ASSUMPTION", "MISSING"]},
+        "evidence_quality": {"enum": ["HIGH", "MED", "LOW", "NONE"]},
+        "confidence": {"enum": ["HIGH", "MED", "LOW"]},
+        "source_ids": {"type": "array", "uniqueItems": true, "items": {"type": "string", "pattern": "^S[1-9][0-9]*$"}},
+        "rationale": {"$ref": "#/definitions/nonempty"},
+        "caveats": {"type": "array", "items": {"$ref": "#/definitions/nonempty"}},
+        "accounting_basis": {"$ref": "#/definitions/recognized_accounting_basis"},
+        "pass_through_reconciliation": {"$ref": "#/definitions/pass_through_reconciliation"},
+        "capacity_scope": {"$ref": "#/definitions/capacity_scope"},
+        "capacity_type": {"enum": ["DEAL_EXECUTION", "INTEGRATION_ONBOARDING"]},
+        "capacity_horizon": {"$ref": "#/definitions/capacity_horizon"},
+        "capacity_calculation": {"$ref": "#/definitions/capacity_calculation"},
+        "anchor_basis": {"$ref": "#/definitions/anchor_basis"},
+        "calculation": {"$ref": "#/definitions/calculation"}, "bridge": {"$ref": "#/definitions/bridge"},
+        "endpoint_support": {"$ref": "#/definitions/endpoint_support"},
+        "validation_support": {"$ref": "#/definitions/validation_support"}
+      },
+      "allOf": [
+        {
+          "if": {"properties": {"evidence_state": {"enum": ["DIRECT", "PROXY"]}}},
+          "then": {"required": ["endpoint_support"]},
+          "else": {"not": {"required": ["endpoint_support"]}}
+        },
+        {
+          "if": {"properties": {"evidence_state": {"const": "PROXY"}}},
+          "then": {"required": ["bridge"]},
+          "else": {"not": {"required": ["bridge", "validation_support"]}}
+        }
+      ]
+    },
+    "recognized_revenue_selection": {
+      "allOf": [
+        {"$ref": "#/definitions/numeric_selection"},
+        {"required": ["accounting_basis", "pass_through_reconciliation"], "properties": {
+          "pass_through_reconciliation": {"$ref": "#/definitions/pass_through_reconciliation"}
+        }}
+      ]
+    },
+    "recognized_accounting_basis": {
+      "type": "object", "required": ["recognition_standard", "measurement_period", "pass_through_presentation"],
+      "additionalProperties": false,
+      "properties": {
+        "recognition_standard": {"const": "ACCRUAL_RECOGNIZED_REVENUE"},
+        "measurement_period": {"const": "TRAILING_TWELVE_MONTHS"},
+        "pass_through_presentation": {"enum": ["GROSS_OF_ALL", "NET_OF_ALL", "MIXED"]}
+      }
+    },
+    "construct_evidence": {
+      "type": "object", "required": ["method", "evidence_state", "evidence_quality", "source_ids", "rationale", "caveats"], "additionalProperties": false,
+      "properties": {
+        "method": {"enum": ["OBSERVED", "CALCULATED", "ESTIMATE"]},
+        "evidence_state": {"enum": ["DIRECT", "PROXY", "ASSUMPTION", "MISSING"]},
+        "evidence_quality": {"enum": ["HIGH", "MED", "LOW", "NONE"]},
+        "source_ids": {"type": "array", "uniqueItems": true, "items": {"type": "string", "pattern": "^S[1-9][0-9]*$"}},
+        "rationale": {"$ref": "#/definitions/nonempty"}, "caveats": {"type": "array", "items": {"$ref": "#/definitions/nonempty"}},
+        "bridge": {"$ref": "#/definitions/bridge"}, "validation_support": {"$ref": "#/definitions/validation_support"}
+      }
+    },
+    "pass_through_reconciliation": {
+      "type": "object", "required": ["revenue_basis", "included_cost_ids", "already_netted_cost_ids", "evidence"], "additionalProperties": false,
+      "properties": {
+        "revenue_basis": {"enum": ["GROSS_OF_ALL", "NET_OF_ALL", "MIXED"]},
+        "included_cost_ids": {"type": "array", "uniqueItems": true, "items": {"type": "string", "pattern": "^[A-Za-z0-9][A-Za-z0-9._-]*$"}},
+        "already_netted_cost_ids": {"type": "array", "uniqueItems": true, "items": {"type": "string", "pattern": "^[A-Za-z0-9][A-Za-z0-9._-]*$"}},
+        "evidence": {"$ref": "#/definitions/construct_evidence"}
+      }
+    },
+    "capacity_scope": {
+      "type": "object", "required": ["reference_buyer", "horizon_years", "geography", "target_archetype", "counts_only_completed_and_onboarded_targets"], "additionalProperties": false,
+      "properties": {
+        "reference_buyer": {"const": "CREDIBLE_US_LMM_NATIONAL_SOURCING_NO_PRIVILEGED_ACCESS"},
+        "horizon_years": {"const": 5}, "geography": {"const": "UNITED_STATES"},
+        "target_archetype": {"const": "FROZEN_SELECTED_TARGET_ARCHETYPE"},
+        "counts_only_completed_and_onboarded_targets": {"const": true}
+      }
+    },
+    "capacity_horizon": {
+      "type": "object", "required": ["start", "end", "years"], "additionalProperties": false,
+      "properties": {"start": {"const": "ENTRY_DATE"}, "end": {"const": "END_OF_YEAR_5"},
+        "years": {"const": 5}}
+    },
+    "capacity_calculation": {
+      "type": "object",
+      "required": ["measure", "completion_requirement", "onboarding_requirement", "aggregation"],
+      "additionalProperties": false,
+      "properties": {
+        "measure": {"const": "MAXIMUM_TARGET_COUNT"},
+        "completion_requirement": {"const": "CLOSED_WITHIN_FIVE_YEARS"},
+        "onboarding_requirement": {"const": "FULLY_ONBOARDED_WITHIN_FIVE_YEARS"},
+        "aggregation": {"const": "NON_DUPLICATIVE_TARGET_COUNT"}
+      }
+    },
+    "capacity_selection": {
+      "allOf": [
+        {"$ref": "#/definitions/numeric_selection"},
+        {"required": ["capacity_type", "capacity_horizon", "capacity_calculation", "capacity_scope"]}
+      ]
+    },
+    "deal_capacity_selection": {
+      "allOf": [{"$ref": "#/definitions/capacity_selection"},
+        {"properties": {"capacity_type": {"const": "DEAL_EXECUTION"}}}]
+    },
+    "integration_capacity_selection": {
+      "allOf": [{"$ref": "#/definitions/capacity_selection"},
+        {"properties": {"capacity_type": {"const": "INTEGRATION_ONBOARDING"}}}]
+    },
+    "anchor_basis": {
+      "type": "object",
+      "required": ["channel", "normalized_y5_state_digest", "state_reference", "scenario_policy"],
+      "additionalProperties": false,
+      "properties": {
+        "channel": {"const": "ENTRY_EQUIVALENT_COMPARABLE_MULTIPLE_LEVEL"},
+        "normalized_y5_state_digest": {"type": ["string", "null"], "pattern": "^[0-9a-f]{64}$"},
+        "state_reference": {"const": "ENTRY_TARGET_ARCHETYPE"},
+        "scenario_policy": {"const": "ONE_STATE_LOW_BASE_HIGH"}
+      }
+    },
+    "anchor_selection": {
+      "allOf": [{"$ref": "#/definitions/numeric_selection"}, {"required": ["anchor_basis"]}]
+    },
+    "downside_selection": {
+      "type": "object",
+      "required": ["normalized_y5_state_digest", "anchor", "adjustments", "excluded_channel_map"],
+      "additionalProperties": false,
+      "properties": {
+        "normalized_y5_state_digest": {"type": ["string", "null"], "pattern": "^[0-9a-f]{64}$"},
+        "anchor": {"$ref": "#/definitions/anchor_selection"},
+        "adjustments": {"type": "array", "maxItems": 3, "items": {"$ref": "#/definitions/multiple_adjustment"}},
+        "excluded_channel_map": {"$ref": "#/definitions/excluded_channel_map"}
+      }
+    },
+    "multiple_adjustment": {
+      "type": "object", "required": ["channel", "amount"], "additionalProperties": false,
+      "properties": {
+        "channel": {"enum": ["EXTERNAL_DISCOUNT_RATE_ENVIRONMENT", "ENTRY_EQUIVALENT_COMPARABLE_MULTIPLE_LEVEL", "PRIVATE_TRANSACTION_LIQUIDITY"]},
+        "amount": {"$ref": "#/definitions/numeric_selection"}
+      }
+    },
+    "excluded_channel_map": {
+      "type": "object", "additionalProperties": false,
+      "required": ["commercial_retention", "constant_price_survival", "implementation_realization", "implementation_investment", "operating_value_viability_h", "controllable_value_added_v", "buyability_b", "sponsor_transformation", "sponsor_synergy", "margin_change", "size_change", "service_mix_change", "customer_concentration_change", "management_depth_change", "platform_quality_change", "accounting_change"],
+      "properties": {
+        "commercial_retention": {"const": "EXCLUDED"}, "constant_price_survival": {"const": "EXCLUDED"},
+        "implementation_realization": {"const": "EXCLUDED"}, "implementation_investment": {"const": "EXCLUDED"},
+        "operating_value_viability_h": {"const": "EXCLUDED"}, "controllable_value_added_v": {"const": "EXCLUDED"},
+        "buyability_b": {"const": "EXCLUDED"}, "sponsor_transformation": {"const": "EXCLUDED"},
+        "sponsor_synergy": {"const": "EXCLUDED"}, "margin_change": {"const": "EXCLUDED"},
+        "size_change": {"const": "EXCLUDED"}, "service_mix_change": {"const": "EXCLUDED"},
+        "customer_concentration_change": {"const": "EXCLUDED"}, "management_depth_change": {"const": "EXCLUDED"},
+        "platform_quality_change": {"const": "EXCLUDED"}, "accounting_change": {"const": "EXCLUDED"}
+      }
+    },
+    "pass_through": {
+      "type": "object", "required": ["category", "cost_id", "accounting_basis", "amount"], "additionalProperties": false,
+      "properties": {
+        "category": {"$ref": "#/definitions/nonempty"},
+        "cost_id": {"type": "string", "pattern": "^[A-Za-z0-9][A-Za-z0-9._-]*$"},
+        "accounting_basis": {"$ref": "#/definitions/nonempty"}, "amount": {"$ref": "#/definitions/numeric_selection"}
+      }
+    },
+    "cost_component": {
+      "type": "object", "required": ["cost_id", "accounting_basis", "amount"], "additionalProperties": false,
+      "properties": {
+        "cost_id": {"type": ["string", "null"], "pattern": "^[A-Za-z0-9][A-Za-z0-9._-]*$"},
+        "accounting_basis": {"$ref": "#/definitions/nonempty"}, "amount": {"$ref": "#/definitions/numeric_selection"}
+      }
+    },
+    "role_judgments": {
+      "type": "object", "required": ["roles"], "additionalProperties": false,
+      "properties": {
+        "roles": {
+          "type": "array",
+          "items": {
+            "type": "object", "required": ["role_id", "removable_fraction"], "additionalProperties": false,
+            "properties": {
+              "role_id": {"type": "string", "pattern": "^[A-Za-z0-9][A-Za-z0-9._-]*$"},
+              "removable_fraction": {"$ref": "#/definitions/numeric_selection"}
+            }
+          }
+        }
+      }
+    },
+    "r_schedule": {
+      "type": "object", "required": ["r1", "r2", "r3", "r4", "r5"], "additionalProperties": false,
+      "properties": {
+        "r1": {"$ref": "#/definitions/numeric_selection"}, "r2": {"$ref": "#/definitions/numeric_selection"},
+        "r3": {"$ref": "#/definitions/numeric_selection"}, "r4": {"$ref": "#/definitions/numeric_selection"},
+        "r5": {"$ref": "#/definitions/numeric_selection"}
+      }
+    },
+    "c_schedule": {
+      "type": "object", "required": ["c1", "c2", "c3", "c4", "c5"], "additionalProperties": false,
+      "properties": {
+        "c1": {"$ref": "#/definitions/numeric_selection"}, "c2": {"$ref": "#/definitions/numeric_selection"},
+        "c3": {"$ref": "#/definitions/numeric_selection"}, "c4": {"$ref": "#/definitions/numeric_selection"},
+        "c5": {"$ref": "#/definitions/numeric_selection"}
+      }
+    },
+    "k_schedule": {
+      "type": "object", "required": ["k0", "k1", "k2", "k3", "k4", "k5"], "additionalProperties": false,
+      "properties": {
+        "k0": {"$ref": "#/definitions/numeric_selection"}, "k1": {"$ref": "#/definitions/numeric_selection"},
+        "k2": {"$ref": "#/definitions/numeric_selection"}, "k3": {"$ref": "#/definitions/numeric_selection"},
+        "k4": {"$ref": "#/definitions/numeric_selection"}, "k5": {"$ref": "#/definitions/numeric_selection"}
+      }
+    },
+    "normalized_state": {
+      "type": "object",
+      "required": ["state_id", "state_digest", "accounting", "size", "service_mix", "customer_concentration", "management_depth", "platform_quality", "entry_equivalence", "method", "evidence_state", "evidence_quality", "confidence", "source_ids", "rationale", "caveats"],
+      "additionalProperties": false,
+      "properties": {
+        "state_id": {"type": ["string", "null"], "pattern": "^[A-Za-z0-9._-]+$"},
+        "state_digest": {"type": ["string", "null"], "pattern": "^[0-9a-f]{64}$"},
+        "accounting": {"enum": ["HOLD_ENTRY_REFERENCE", null]}, "size": {"enum": ["HOLD_ENTRY_REFERENCE", null]},
+        "service_mix": {"enum": ["HOLD_ENTRY_REFERENCE", null]}, "customer_concentration": {"enum": ["HOLD_ENTRY_REFERENCE", null]},
+        "management_depth": {"enum": ["HOLD_ENTRY_REFERENCE", null]}, "platform_quality": {"enum": ["HOLD_ENTRY_REFERENCE", null]},
+        "entry_equivalence": {
+          "type": "object", "required": ["reference", "scenario_policy", "transformation_policy"], "additionalProperties": false,
+          "properties": {"reference": {"const": "ENTRY_TARGET_ARCHETYPE"}, "scenario_policy": {"const": "ONE_STATE_LOW_BASE_HIGH"}, "transformation_policy": {"const": "NO_SPONSOR_TRANSFORMATION"}}
+        },
+        "method": {"enum": ["OBSERVED", "ESTIMATE"]},
+        "evidence_state": {"enum": ["DIRECT", "PROXY", "ASSUMPTION", "MISSING"]},
+        "evidence_quality": {"enum": ["HIGH", "MED", "LOW", "NONE"]},
+        "confidence": {"enum": ["HIGH", "MED", "LOW"]},
+        "source_ids": {"type": "array", "uniqueItems": true, "items": {"type": "string", "pattern": "^S[1-9][0-9]*$"}},
+        "rationale": {"$ref": "#/definitions/nonempty"}, "caveats": {"type": "array", "items": {"$ref": "#/definitions/nonempty"}},
+        "bridge": {"$ref": "#/definitions/bridge"},
+        "endpoint_support": {"$ref": "#/definitions/endpoint_support"},
+        "validation_support": {"$ref": "#/definitions/validation_support"}
+      },
+      "allOf": [
+        {
+          "if": {"properties": {"evidence_state": {"enum": ["DIRECT", "PROXY"]}}},
+          "then": {"required": ["endpoint_support"]},
+          "else": {"not": {"required": ["endpoint_support"]}}
+        },
+        {
+          "if": {"properties": {"evidence_state": {"const": "PROXY"}}},
+          "then": {"required": ["bridge", "validation_support"]},
+          "else": {
+            "allOf": [
+              {"not": {"required": ["bridge"]}},
+              {"not": {"required": ["validation_support"]}}
+            ]
+          }
+        }
+      ]
+    },
+    "survival_basket": {
+      "type": "object", "required": ["status", "basket_id", "fixed_base_assertions", "services", "rationale"], "additionalProperties": false,
+      "properties": {
+        "status": {"enum": ["SUPPORTED", "MISSING"]}, "basket_id": {"$ref": "#/definitions/nonempty"},
+        "fixed_base_assertions": {"$ref": "#/definitions/fixed_base_assertions"},
+        "services": {"type": "array", "items": {"$ref": "#/definitions/survival_service"}},
+        "rationale": {"$ref": "#/definitions/nonempty"}
+      },
+      "allOf": [
+        {"if": {"properties": {"status": {"const": "SUPPORTED"}}}, "then": {"properties": {"services": {"minItems": 1}}}},
+        {"if": {"properties": {"status": {"const": "MISSING"}}}, "then": {"properties": {"services": {"maxItems": 0}}}}
+      ]
+    },
+    "fixed_base_assertions": {
+      "type": "object", "additionalProperties": false,
+      "required": ["index_method", "price_basis", "quality_basis", "basket_scope", "operator_control_scope", "new_demand_treatment", "pass_through_boundary"],
+      "properties": {
+        "index_method": {"const": "FIXED_BASE_LASPEYRES_CVA"},
+        "price_basis": {"const": "BASELINE_CVA_PER_UNIT_HELD_CONSTANT"},
+        "quality_basis": {"const": "CONSTANT_QUALITY"}, "basket_scope": {"const": "EXHAUSTIVE_BASELINE_SERVICES_ONLY"},
+        "operator_control_scope": {"const": "PURCHASED_FROM_NAMED_OPERATOR"},
+        "new_demand_treatment": {"const": "EXCLUDED_AND_CAPPED_AT_ONE"},
+        "pass_through_boundary": {"const": "MATCHES_R_CVA_RECONCILIATION"}
+      }
+    },
+    "survival_service": {
+      "type": "object", "additionalProperties": false,
+      "required": ["service_id", "unit", "constant_quality_spec", "baseline_quantity", "baseline_revenue", "baseline_pass_through", "baseline_cva", "baseline_cva_unit_price", "base_weight", "y5_operator_controlled_quantity"],
+      "properties": {
+        "service_id": {"type": "string", "pattern": "^[A-Za-z0-9][A-Za-z0-9._-]*$"}, "unit": {"$ref": "#/definitions/nonempty"},
+        "constant_quality_spec": {"$ref": "#/definitions/nonempty"},
+        "baseline_quantity": {"$ref": "#/definitions/numeric_selection"}, "baseline_revenue": {"$ref": "#/definitions/numeric_selection"},
+        "baseline_pass_through": {"$ref": "#/definitions/numeric_selection"}, "baseline_cva": {"type": "number", "minimum": 0},
+        "baseline_cva_unit_price": {"type": "number", "minimum": 0}, "base_weight": {"type": "number", "minimum": 0, "maximum": 1},
+        "y5_operator_controlled_quantity": {"$ref": "#/definitions/numeric_selection"}
+      }
+    }
+  }
+}
