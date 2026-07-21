@@ -87,11 +87,13 @@ Frozen v3.1 records remain valid and are not migrated in place. The v3.1.1 mecha
 4. `evidence_quality` remains a separate reliability axis (`HIGH | MED | LOW | NONE`). `NONE` means `fact_ids` is empty; any non-empty fact list requires a non-`NONE` quality.
 5. `finalize_run_v3_1_1.py`, `build.py` and `review_campaign.py` all fail closed on the v3.1.1 contract. Build rechecks finalized records independently, so changing a method/provenance label after finalization is rejected.
 
-No v3.1.1 research run is authorized until the new prompt/runner/validator layer is cold-reviewed, tested, committed and pushed, and all prompts are deterministically assembled and frozen in a separate wave. The unchanged C1–C4 reopen-every-URL self-audit remains mandatory. The contract does not change thresholds or scoring formulas.
+The v3.1.1 prompt layer was cold-reviewed and frozen 63/63 before the comparable canary. The canary is now complete and failed its predeclared gate; no further research, remediation or contract change is authorized pending user direction. The unchanged C1–C4 reopen-every-URL self-audit remains mandatory. Thresholds and scoring formulas were not changed.
 
 **Orchestration parameters:** at most two codes per single-author runner; no sub-agent delegation; strict repo isolation; one canary after any brief/schema/model/platform change; orchestrator-owned validation sweep on landing; checkpoint commit/push after every validated wave; new series suffix for every campaign. The comparable v3.1.1 canary is `524210 541110 541350 541612 541613`. Proceed only with at least one acceptance and no repeated/systemic method, calculation, quote, scope, evidence-attribution or validator-contract defect.
 
 **Golden runs:** use the same current v3.1.1 brief with Sol (`gpt-5.6-sol`) and the additional ban on reading `pipeline/golden/golden_set.json` or prior golden conclusions. Use new run IDs and never overwrite a reference record ad hoc.
+
+**v3.1.1 canary stop result:** Terra (`gpt-5.6-terra`) produced five mechanically valid records with zero arithmetic mismatches; isolated full-depth Sol (`gpt-5.6-sol`) validation returned 0 accepted / 5 wrong. Atomic support was 36/47 (76.6%), with one record fully supported. Repeated defects included reported geography labeled `not reported`, incomplete historical-analogue/search bridges, and human/ownership/credential mechanisms reused in disallowed or double-counted rubric locations. Do not launch the remaining fleet or golden reruns, and do not weaken/change the contract, until the user chooses the next hypothesis.
 
 ## 5. Incident lessons (encoded, do not relearn)
 
