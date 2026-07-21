@@ -1,0 +1,136 @@
+{
+  "naics": "524210",
+  "run_id": "2026-07-21_gpt-5.6-sol_v312g1_524210",
+  "artifact_digests": {
+    "packet_sha256": "a3f47d269729902c419251a831385cb621e8943a85ce5a8865887b9d0fc64e6f",
+    "run_sha256": "c16fef18be037b8170edf0e8c638564858805a71ceeb18ad5a9f8022263a1939",
+    "memo_sha256": "44c322c745ba20df93e9e5cae9d5daadd61955729a84e6e9754157e181609818"
+  },
+  "review_meta": {
+    "model_id": "gpt-5.6-sol",
+    "review_date": "2026-07-21",
+    "prompt_version": "validator-3.1.2"
+  },
+  "outcome": "publishable_with_caveats",
+  "mechanics": {
+    "schema_valid": true,
+    "identity_valid": true,
+    "model_route_valid": true,
+    "dataset_equal": true,
+    "finalization_equal": true,
+    "memo_equal": true,
+    "arithmetic_valid": true
+  },
+  "source_reviews": [
+    {
+      "source_id": "S1",
+      "url": "https://www.census.gov/naics/?details=524210&input=524210&year=2022",
+      "accessible": true,
+      "score_driving": false,
+      "support": "not_score_driving",
+      "notes": "The official Census NAICS page is accessible and is used only to define the exact six-digit industry boundary, not a finalized score input."
+    },
+    {
+      "source_id": "S2",
+      "url": "https://www.independentagent.com/wp-content/uploads/2026/02/26_ACT_TechTrendsReport.pdf",
+      "accessible": true,
+      "score_driving": true,
+      "support": "supported",
+      "notes": "The report supports the 68% planned increase, 8% regular strategic use, readiness barriers, automatable back-office tasks, durable producer functions, and customer preference for agent involvement."
+    },
+    {
+      "source_id": "S3",
+      "url": "https://www.independentagent.com/news/big-i-releases-2026-market-share-report/",
+      "accessible": true,
+      "score_driving": true,
+      "support": "supported",
+      "notes": "The release supports independent-agency placement of 62% of total U.S. P&C written premium and 87.7% of commercial-lines written premium in 2025."
+    },
+    {
+      "source_id": "S4",
+      "url": "https://content.naic.org/insurance-topics/producer-licensing",
+      "accessible": true,
+      "score_driving": true,
+      "support": "supported",
+      "notes": "The NAIC page supports the requirement that people selling, soliciting, or negotiating insurance be licensed producers; the packet correctly avoids treating licensing as an exclusive channel franchise."
+    },
+    {
+      "source_id": "S5",
+      "url": "https://www.hanover.com/legal-and-compliance/hanover-producer-compensation-disclosure",
+      "accessible": true,
+      "score_driving": true,
+      "support": "supported",
+      "notes": "The disclosure supports fixed-percentage base commissions on new and renewal premium and incentive compensation tied to production, retention, growth, and profitability."
+    },
+    {
+      "source_id": "S6",
+      "url": "https://www.iamagazine.com/news/2023-agency-growth-study-agencies-anticipate-ownership-changes",
+      "accessible": true,
+      "score_driving": true,
+      "support": "supported",
+      "notes": "The article supports the 40% over-60 result among more than 450 principals and owners and documents ownership-transition and talent-pipeline challenges."
+    },
+    {
+      "source_id": "S7",
+      "url": "https://optisins.com/wp/wp-content/uploads/2026/01/Year-End-2025-MA-Report-2.pdf",
+      "accessible": true,
+      "score_driving": true,
+      "support": "supported",
+      "notes": "The report supports 695 announced 2025 deals, 73% PE/hybrid share, and the seven named buyers with 22 to 69 deals; the broader North American distribution scope is retained as a caveat."
+    },
+    {
+      "source_id": "S8",
+      "url": "https://www.marshberry.com/resource/waypoint/focused-insights-clock-speed-and-the-landscape-of-risk/",
+      "accessible": true,
+      "score_driving": true,
+      "support": "supported",
+      "notes": "The article supports approximately 12x public-broker trading multiples and roughly 14x private-platform base purchase prices, with near-19x values including earnouts."
+    },
+    {
+      "source_id": "S9",
+      "url": "https://www.marshberry.com/wp-content/uploads/2025/04/2024-MARSHBERRY-MA-YEAR-IN-REVIEW.0425-1.pdf",
+      "accessible": true,
+      "score_driving": true,
+      "support": "supported",
+      "notes": "The report supports 11.22x average all-firm and 14.02x platform-firm 2024 upfront base purchase prices and clearly defines the mixed roll-in, stand-alone, and platform population."
+    },
+    {
+      "source_id": "S10",
+      "url": "https://www.independentagent.com/media/Pages/2024/big-i-and-future-one-release-2024-agency-universe-findings.aspx",
+      "accessible": true,
+      "score_driving": true,
+      "support": "supported",
+      "notes": "The registered legacy path was rate-limited during direct fetch, but the migrated official Big I page is accessible and supports ownership-change expectations, e-signature adoption, and direct-bill commission-statement adoption."
+    }
+  ],
+  "findings": [
+    {
+      "severity": "caveat",
+      "category": "scope",
+      "input_paths": [
+        "dataset_inputs.n_band"
+      ],
+      "explanation": "The deterministic target-count bridge applies a 23.57% Damodaran Insurance (General) EBITDA margin to insurance agencies and brokerages, a cross-segment proxy that is transparently labeled ESTIMATE but is not agency-specific.",
+      "materiality": "A different agency-brokerage margin could change which SUSB size classes enter the $1-10M EBITDA band and therefore move B, but this does not overturn the M-factor-floor kill thesis and the proxy is disclosed rather than contradictory.",
+      "remediation": "On refresh, use an agency-brokerage margin benchmark or publish sensitivity of n_band and B to plausible agency margins.",
+      "publication_caveat": "dataset_inputs.n_band: The deterministic EBITDA-band count applies a 23.57% Damodaran Insurance (General) margin to insurance agencies and brokerages; although labeled ESTIMATE and transparently derived, this cross-segment margin proxy can move the buyability factor."
+    }
+  ],
+  "publication_caveats": [
+    "inputs.ai_replaceable_share: The 52421 occupation mix includes MGAs, wholesale brokers and delegated-authority work as well as retail agencies; target books can differ materially.",
+    "inputs.ai_replaceable_share: Fractions describe technically replaceable tasks at mature deployment, not current adoption or immediate headcount reduction.",
+    "inputs.pi_dist: Carrier commission schedules and contingent income are controlled upstream and can change; fee-based large-commercial accounts expose cost more directly.",
+    "inputs.pi_moat: Commercial-heavy agencies have more moat than personal-lines and standardized small-commercial books; licensing is not treated as an exclusive channel franchise.",
+    "inputs.t50_years: The survey measures agency-reported usage rather than verified labor substitution, and target sophistication varies sharply by size.",
+    "inputs.current_adoption_pct: National Big I member survey; regular strategic use is a stricter definition than any AI use and does not prove headcount removal.",
+    "inputs.historical_analogs: E-signature is a simpler, lower-liability tool than AI-assisted policy advice or autonomous workflow execution.",
+    "inputs.owners_60plus_pct: More than 450 principals and owners were surveyed; it is not a Census estimate and may not match the $1–10M EBITDA cohort.",
+    "inputs.owners_60plus_pct.succession_shortage_documented: A documented channel-wide challenge does not mean every target lacks an internal successor.",
+    "inputs.active_consolidators: North American announced-deal data covers insurance distribution broadly and includes transactions outside exact NAICS 524210 or the target EBITDA band.",
+    "inputs.buy_mult: MarshBerry mixes roll-ins, stand-alone firms and platforms and skews larger than many $1–10M EBITDA targets; earnouts and contingent consideration are excluded.",
+    "inputs.exit_mult: Exit requires genuine platform scale, organic growth, retention and infrastructure; a collection of small books may still price as a roll-in, and 2026 public comparables had fallen toward 12x.",
+    "inputs.pricing_structure: The Hanover is one carrier example and does not establish a universal commission percentage.",
+    "dataset_inputs.n_band: The deterministic EBITDA-band count applies a 23.57% Damodaran Insurance (General) margin to insurance agencies and brokerages; although labeled ESTIMATE and transparently derived, this cross-segment margin proxy can move the buyability factor."
+  ],
+  "summary": "Mechanics, identity, routing, digests, deterministic dataset injection, arithmetic, fresh finalization, and memo rendering all pass. All ten registered sources were reopened or recovered at the official migrated page and support their attributed claims; S1 is not score-driving. The thesis and factor directions remain useful without material evidence defects or thesis-changing capture/terminal double counting, but publication must retain 13 authored caveats plus the validator caveat on the deterministic n_band margin proxy."
+}

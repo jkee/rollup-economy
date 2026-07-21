@@ -1,0 +1,123 @@
+{
+  "naics": "541512",
+  "run_id": "2026-07-21_gpt-5.6-sol_v312g1_541512",
+  "artifact_digests": {
+    "packet_sha256": "ab3423393241bd4c4d1dc157c0536482eafa62550f84e1ec7c422743c81f4936",
+    "run_sha256": "11298ed30b7cc3b0823158406e8ca444f8466c9555ad205d8d14cd6e00bd7c1a",
+    "memo_sha256": "7169f46b5b088ea1131a21c252e27c54430c3cab1043f8dd59c3fe7dfc8f2640"
+  },
+  "review_meta": {
+    "model_id": "gpt-5.6-sol",
+    "review_date": "2026-07-21",
+    "prompt_version": "validator-3.1.2"
+  },
+  "outcome": "reject",
+  "mechanics": {
+    "schema_valid": true,
+    "identity_valid": true,
+    "model_route_valid": true,
+    "dataset_equal": true,
+    "finalization_equal": true,
+    "memo_equal": true,
+    "arithmetic_valid": true
+  },
+  "source_reviews": [
+    {
+      "source_id": "S1",
+      "url": "https://www.census.gov/naics/?details=541512&input=541512&year=2022",
+      "accessible": true,
+      "score_driving": false,
+      "support": "not_score_driving",
+      "notes": "The Census page supports the stated systems-integration boundary, installation, training and user-support scope; it is not referenced by a finalized score input."
+    },
+    {
+      "source_id": "S2",
+      "url": "https://www.kaseya.com/press-release/ai-emerges-as-the-key-to-scaling-msp-operations-as-growth-gets-harder/",
+      "accessible": true,
+      "score_driving": true,
+      "support": "partially_supported",
+      "notes": "The release directly supports the global 1,000-plus respondent scope, 53% use of AI for ticketing, patching and monitoring, competitive pressure, cybersecurity/BCDR growth and the statement that most respondents automated only about one-quarter of workload. It does not establish that 53% have reached effective adoption under the frozen A-factor meaning."
+    },
+    {
+      "source_id": "S3",
+      "url": "https://www.kaseya.com/wp-content/uploads/dlm_uploads/2024/03/Whitepaper-2024-MSP-Benchmark-Survey_Kaseya.pdf",
+      "accessible": true,
+      "score_driving": true,
+      "support": "supported",
+      "notes": "The report supports the 984-respondent global frame, the 80% subscription-managed-services top-three result, the 39% project and 38% resale figures, and the reported billing-model mix."
+    },
+    {
+      "source_id": "S4",
+      "url": "https://aventis-advisors.com/msp-valuation-multiples/",
+      "accessible": true,
+      "score_driving": true,
+      "support": "supported",
+      "notes": "The page supports analysis of 120 disclosed transactions, a roughly 8.9x median at a much larger median transaction size, 5-8x for smaller MSPs and 3-4x for the smallest firms."
+    },
+    {
+      "source_id": "S5",
+      "url": "https://solganick.com/wp-content/uploads/2026/03/Solganick-Technology-Services-MA-Update-Q4-2025-and-2026-Forecast.pdf",
+      "accessible": true,
+      "score_driving": true,
+      "support": "supported",
+      "notes": "The report supports 466 MSP deals in 2025, the named active acquirers, 5-8x smaller add-ons and 11-20x platform MSPs, while separately disclosing the broader managed-services ranges and platform requirements."
+    },
+    {
+      "source_id": "S6",
+      "url": "https://ir.usbank.com/news-events/news/news-details/2025/U-S--Bank-Small-Business-Survey-Finds-More-Than-One-Third-of-Gen-Z-and-Millennial-Owners-Plan-to-Acquire-a-Business-From-a-Retiring-Owner--But-Many-Older-Owners-Arent-Ready/default.aspx",
+      "accessible": true,
+      "score_driving": true,
+      "support": "partially_supported",
+      "notes": "The survey supports that more than half of broad U.S. small-business owners are over 55 and that 54% have a formal succession plan. It does not report an MSP-specific or over-60 distribution, so it is only a disclosed proxy for the selected 30%."
+    },
+    {
+      "source_id": "S7",
+      "url": "https://www.connectwise.com/blog/it-nation-connect-global-keynote-recap-2025",
+      "accessible": true,
+      "score_driving": true,
+      "support": "supported",
+      "notes": "The recap supports the 2005-2024 RMM-enabled remote-first era, the new automate-first framing, the stated historical efficiency differences and the operational workflows exposed to AI."
+    },
+    {
+      "source_id": "S8",
+      "url": "https://www.kaseya.com/resource/msp-pricing-managed-it-services-pricing/",
+      "accessible": true,
+      "score_driving": true,
+      "support": "supported",
+      "notes": "The page directly supports per-user, per-device, tiered and fixed-fee pricing mechanics and states that per-user revenue fluctuates with the client's employee base and hiring plans."
+    }
+  ],
+  "findings": [
+    {
+      "severity": "material",
+      "category": "factor_semantics",
+      "input_paths": [
+        "inputs.current_adoption_pct",
+        "inputs.t50_years",
+        "scores.A",
+        "decision.verdict"
+      ],
+      "explanation": "The frozen rubric defines A as years until 50% effective adoption, but the record treats 53% incidence of any AI use in ticketing, patching and monitoring as 53% effective adoption and therefore sets t50_years to zero. S2 simultaneously says most respondents had automated only about one-quarter of workload, and the packet itself distinguishes incidence from 2-4 years for deep workflow penetration. The cited evidence therefore does not support crossing the effective-adoption boundary.",
+      "materiality": "This semantic substitution sets A to 10. Using the packet's own 2-4 year deep-penetration range would set A to 5.0-2.5 and reduce geometric-mean S from 6.262 to approximately 5.452-4.746, changing the published verdict from strong to conditional. It can therefore change both a factor and the thesis tier.",
+      "remediation": "Re-estimate current effective adoption and t50 using evidence or an explicit judgmental bridge consistent with effective workflow adoption, then re-finalize the same-model-class remediation artifact; do not use simple tool-use incidence as the boundary unless the rubric's effective-adoption meaning is actually demonstrated."
+    }
+  ],
+  "publication_caveats": [
+    "inputs.ai_replaceable_share: MSP surveys span several NAICS codes and are a business-model proxy for 541512.",
+    "inputs.ai_replaceable_share: The supplied four-digit 5415 role mix may underweight support-desk roles and overweight software developers for MSP-heavy targets.",
+    "inputs.pi_dist: Subscription prevalence is not the same as contract duration or demonstrated post-AI price retention.",
+    "inputs.pi_dist: Per-user billing is capture-positive per service hour but capture-negative when AI reduces client headcount.",
+    "inputs.pi_moat: Moat varies sharply with client concentration, documentation quality and whether relationships belong to the firm or founder.",
+    "inputs.t50_years: This is adoption incidence, not the share of total work automated; most respondents had automated only about one-quarter of workload.",
+    "inputs.current_adoption_pct: Global vendor-sponsored MSP survey, not a probability sample of U.S. NAICS 541512 establishments.",
+    "inputs.historical_analogs: The analogue is vendor/trade benchmark history, not a causal study of transaction returns.",
+    "inputs.owners_60plus_pct: No verified MSP- or 541512-specific owner-age distribution was found; this is a broad U.S. small-business proxy.",
+    "inputs.owners_60plus_pct.succession_shortage_documented: The documented shortage is cross-industry, not specific to MSPs or NAICS 541512.",
+    "inputs.active_consolidators: Count uses named acquirers in a market report, not an exhaustive NAICS-coded acquirer census.",
+    "inputs.buy_mult: Applies to recurring-revenue MSPs; project-heavy, resale-heavy, subscale or owner-dependent 541512 firms may trade lower.",
+    "inputs.exit_mult: Requires successful scale, diversification, recurring revenue and institutional controls; it is not a same-asset market multiple.",
+    "inputs.exit_mult: The reported platform range is MSP-wide rather than exact NAICS 541512.",
+    "inputs.pricing_structure: Business-model surveys cross 541512 and neighboring MSP classifications."
+  ],
+  "summary": "Mechanics and exact-artifact binding pass, and the reopened sources support the MSP operating, pricing, succession-proxy and transaction evidence with the authored scope caveats. Publication is rejected because simple AI-use incidence was substituted for the rubric's effective-adoption boundary, materially inflating A and changing the verdict tier."
+}

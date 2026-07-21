@@ -1,0 +1,135 @@
+{
+  "naics": "561510",
+  "run_id": "2026-07-21_gpt-5.6-sol_v312g1_561510",
+  "artifact_digests": {
+    "packet_sha256": "4efa6f87c507bb304f7077235887f592f377a4dc7e1d9afb4c64baaee30e9adf",
+    "run_sha256": "1ebe8bca2253717cc0be1da69511020a898fbc9e5cef16c6bea344e682926cae",
+    "memo_sha256": "a395c1bffe533c2277cf293e05e26606b50753d8d6964332303632334cd2c6fe"
+  },
+  "review_meta": {
+    "model_id": "gpt-5.6-sol",
+    "review_date": "2026-07-21",
+    "prompt_version": "validator-3.1.2"
+  },
+  "outcome": "reject",
+  "mechanics": {
+    "schema_valid": true,
+    "identity_valid": true,
+    "model_route_valid": true,
+    "dataset_equal": true,
+    "finalization_equal": true,
+    "memo_equal": true,
+    "arithmetic_valid": true
+  },
+  "source_reviews": [
+    {
+      "source_id": "S1",
+      "url": "https://www.census.gov/naics/reference_files_tools/2022_NAICS_Manual.pdf",
+      "accessible": true,
+      "score_driving": false,
+      "support": "not_score_driving",
+      "notes": "The official manual supports the 561510 scope and cross-references; it is narrative boundary evidence only."
+    },
+    {
+      "source_id": "S2",
+      "url": "https://www.travelweekly.com/Travel-News/Travel-Agent-Issues/Travel-Industry-Survey-2025-attitudes-toward-technology",
+      "accessible": true,
+      "score_driving": true,
+      "support": "partially_supported",
+      "notes": "The article directly supports 59% any-AI-tool use and marketing as the leading owner/manager use. It does not measure effective labor substitution or t50, which the packet treats as estimates and caveats."
+    },
+    {
+      "source_id": "S3",
+      "url": "https://www.phocuswright.com/Travel-Research/Research-Updates/2025/5-ways-autonomous-ai-agents-will-redefine-travel",
+      "accessible": true,
+      "score_driving": true,
+      "support": "partially_supported",
+      "notes": "The article supports 40% future interest in booking trip components and an expected shift of booking intent into generative interfaces, but not a measured agency labor-adoption timetable."
+    },
+    {
+      "source_id": "S4",
+      "url": "https://www2.arccorp.com/about-us/newsroom/2025-news-releases/december-2024-ticket-sales/",
+      "accessible": true,
+      "score_driving": false,
+      "support": "not_score_driving",
+      "notes": "ARC directly supports record 2024 U.S. agency air-ticket sales of $99.2 billion, 4% growth, and the stated reporting-location scope; it supports narrative demand only."
+    },
+    {
+      "source_id": "S5",
+      "url": "https://www.travelweekly.com/Industry-Survey-2025",
+      "accessible": true,
+      "score_driving": true,
+      "support": "partially_supported",
+      "notes": "The survey page supports 1,562 respondents, 56% older than 55, 71% owners/managers, 67% home-based, and its unweighted nonrepresentative design. It does not publish an owner-by-age cross-tab or an owner-60-plus rate."
+    },
+    {
+      "source_id": "S6",
+      "url": "https://www.travelmarketreport.com/retail-strategies/articles/how-a-talent-shortage-is-threatening-agencies-and-why-underqualified-advisors-arent-the-answer",
+      "accessible": true,
+      "score_driving": true,
+      "support": "unsupported",
+      "notes": "The article reports a shortage of qualified working advisors as seasoned advisors retire, based on a three-owner panel. It does not document a shortage of buyers or successors for travel-agency ownership, so it does not support the scored ownership-succession boolean."
+    },
+    {
+      "source_id": "S7",
+      "url": "https://www.travelweekly.com/Travel-News/Travel-Agent-Issues/2025-year-in-review",
+      "accessible": true,
+      "score_driving": true,
+      "support": "supported",
+      "notes": "The article documents four distinct 2025 acquiring groups across Amex GBT/CWT, Direct Travel/ATPI, Trevello/Gifted Travel Network, and KHM/Levarte, while making their mixed scale clear."
+    },
+    {
+      "source_id": "S8",
+      "url": "https://ctacquisitions.com/sell-your-business/travel-agency/",
+      "accessible": true,
+      "score_driving": true,
+      "support": "supported",
+      "notes": "The live specialist-broker page directly gives 4-6x EBITDA for $3-15 million revenue agencies and 6-8x for $15 million-plus platforms, and describes commissions, overrides, fees, transferability, host relationships, and client-book risk. It remains marketing guidance rather than disclosed deal data, as caveated."
+    },
+    {
+      "source_id": "S9",
+      "url": "https://www.gao.gov/assets/a239238.html",
+      "accessible": true,
+      "score_driving": true,
+      "support": "supported",
+      "notes": "The indexed GAO report supports the 57% decline in average annual airline payments to agencies from 1999 to 2002, the replacement of broad base commissions by negotiated arrangements, and continued agency/GDS intermediation."
+    },
+    {
+      "source_id": "S10",
+      "url": "https://www.phocuswire.com/booking-travel-advisors-inflation-phocuswright-research",
+      "accessible": true,
+      "score_driving": true,
+      "support": "supported",
+      "notes": "The article supports agency sales outpacing the broader 2025 market and advisor-reported importance of personal relationships, service, and product/destination knowledge rather than lowest price."
+    }
+  ],
+  "findings": [
+    {
+      "severity": "material",
+      "category": "factor_semantics",
+      "input_paths": [
+        "inputs.owners_60plus_pct.succession_shortage_documented"
+      ],
+      "explanation": "The scored value is true, but S6 documents a staffing shortage of qualified advisors as seasoned practitioners retire, not a shortage of buyers or successors for travel-agency ownership. S5 supplies advisor demographics but no ownership-transfer or succession-plan evidence. The record therefore reuses a labor-supply mechanism in the ownership-succession slot required by factor B.",
+      "materiality": "The unsupported true value adds 0.1 to OW. Holding the other finalized inputs fixed, setting it to false lowers B from 6.8561 to 6.4881 and S from 3.1969 to 3.1618. It therefore changes a scored factor and the aggregate score in the favorable direction using evidence with the wrong rubric meaning.",
+      "remediation": "Supply evidence specifically documenting travel-agency ownership succession or acquisition-successor scarcity, or set the boolean to false and regenerate the finalized run and memo."
+    }
+  ],
+  "publication_caveats": [
+    "inputs.ai_replaceable_share: The 4-digit OEWS mix includes OTAs and other 5615 employers, so the software-developer share overstates many midmarket agencies.",
+    "inputs.ai_replaceable_share: The 37.87% residual contains mixed occupations; treating it as predominantly administrative is a material judgment.",
+    "inputs.ai_replaceable_share: Independent-contractor advisors are outside the W-2 wage weights, so this is not a share of total economic labor used by host agencies.",
+    "inputs.pi_dist: No representative source measures pass-through of AI savings for U.S. midmarket agencies; this is a mechanism-based estimate.",
+    "inputs.pi_moat: Moat varies sharply between corporate/luxury/group specialists and commodity leisure agencies.",
+    "inputs.t50_years: Tool-use surveys are not measurements of labor-displacing effective adoption, so the bridge to t50 is uncertain.",
+    "inputs.current_adoption_pct: The 1,562-response survey was unweighted and covers advisors across agency sizes, not only $1-10 million EBITDA operators.",
+    "inputs.historical_analogs: Generative agents combine consumer-interface and labor-automation effects, so the internet-era analogue is directional rather than identical.",
+    "inputs.owners_60plus_pct: The survey does not publish the owner-by-age cross-tab, uses a 55+ threshold and is not statistically weighted; this is not an observed owner-60+ rate.",
+    "inputs.owners_60plus_pct.succession_shortage_documented: The shortage report is qualitative panel evidence, not a representative succession-plan census.",
+    "inputs.active_consolidators: Two transactions involve very large TMCs and are not direct $1-10 million EBITDA comparables.",
+    "inputs.buy_mult: Broker guidance is not a disclosed transaction dataset; agencies often quote SDE or commission multiples and gross-versus-net revenue can change the apparent size band.",
+    "inputs.exit_mult: Exit assumes the platform crosses a quality and scale threshold; AI disintermediation or advisor churn could instead compress the multiple.",
+    "inputs.pricing_structure: Revenue presentation varies between gross bookings and net commissions, so peer margins and multiples require normalization."
+  ],
+  "summary": "Mechanics and exact-artifact binding pass, and most sources support the disclosed estimate-based thesis. Reject because the favorable factor-B succession boolean is supported only by advisor labor-shortage evidence, not ownership-succession evidence, so its rubric semantics are materially wrong."
+}
