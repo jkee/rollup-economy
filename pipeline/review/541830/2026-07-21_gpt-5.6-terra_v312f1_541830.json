@@ -1,0 +1,117 @@
+{
+  "naics": "541830",
+  "run_id": "2026-07-21_gpt-5.6-terra_v312f1_541830",
+  "artifact_digests": {
+    "packet_sha256": "92a68b838c7ff085afd756e62bba63d15f40fb836d0a0559f8d2bf2f7d97b5ae",
+    "run_sha256": "c2f4c17aeb80da873b2cb7639e8428d89547dd45a7717d78f9558ba7082a08d9",
+    "memo_sha256": "ad4fa95113f77f1e2bcf744431da3f117c98ee873038e8ca71daae3d8d499a8a"
+  },
+  "review_meta": {
+    "model_id": "gpt-5.6-sol",
+    "review_date": "2026-07-21",
+    "prompt_version": "validator-3.1.2"
+  },
+  "outcome": "publishable_with_caveats",
+  "mechanics": {
+    "schema_valid": true,
+    "identity_valid": true,
+    "model_route_valid": true,
+    "dataset_equal": true,
+    "finalization_equal": true,
+    "memo_equal": true,
+    "arithmetic_valid": true
+  },
+  "source_reviews": [
+    {
+      "source_id": "S1",
+      "url": "https://www.census.gov/naics/reference_files_tools/2022_NAICS_Manual.pdf",
+      "accessible": true,
+      "score_driving": true,
+      "support": "supported",
+      "notes": "The official manual directly supports 541830 as purchasing advertising time or space from media outlets and reselling it, and distinguishes advertising agencies and media representatives."
+    },
+    {
+      "source_id": "S2",
+      "url": "https://iabeurope.eu/wp-content/uploads/IAB-Europe-Attitudes-to-Programmatic-Advertising-Report-Nov-2024.pdf",
+      "accessible": true,
+      "score_driving": true,
+      "support": "partially_supported",
+      "notes": "The report supports widespread European agency-side programmatic display use and reports 68% of agency respondents above its 41%-of-display threshold. It does not directly report that 68% of agency-side budgets are programmatic or measure US generative-AI adoption."
+    },
+    {
+      "source_id": "S3",
+      "url": "https://www.iab.com/news/digital-ad-revenue-2024/",
+      "accessible": true,
+      "score_driving": true,
+      "support": "supported",
+      "notes": "IAB reports $258.6 billion of 2024 US internet-ad revenue and describes generative and agentic AI creating content, making decisions, managing campaigns end to end and taking operational tasks, while noting adoption constraints."
+    },
+    {
+      "source_id": "S4",
+      "url": "https://www.ana.net/content/show/id/industry-initiative-media-transparency-report",
+      "accessible": true,
+      "score_driving": true,
+      "support": "supported",
+      "notes": "ANA's K2 overview directly supports pervasive non-transparent practices, cash rebates and systemic transparency concerns in the US media-buying ecosystem."
+    },
+    {
+      "source_id": "S5",
+      "url": "https://www.marketingdive.com/news/inside-the-empower-ocean-merger-that-formed-a-15b-indie-media-agency/759284/",
+      "accessible": true,
+      "score_driving": true,
+      "support": "partially_supported",
+      "notes": "The article directly supports the Empower-Ocean merger, $1.5 billion of combined media billings, shared resources, technology/data benefits and buying power. It is a single large-scale transaction and does not directly establish owner age or three active consolidators in the target band."
+    },
+    {
+      "source_id": "S6",
+      "url": "https://agencies.co/agency-valuation-by-type/media-buying-agency/",
+      "accessible": true,
+      "score_driving": true,
+      "support": "supported",
+      "notes": "The commercial guide directly states EBITDA-on-fees valuation, the gross-billings versus net-revenue distinction, 4.5-6x typical multiples for well-run agencies, and a 3-8x overall indicated range. The record appropriately labels it commercial guidance."
+    }
+  ],
+  "findings": [
+    {
+      "severity": "caveat",
+      "category": "numeric_support",
+      "input_paths": [
+        "inputs.current_adoption_pct",
+        "inputs.t50_years"
+      ],
+      "explanation": "S2's 68% is the share of surveyed agency stakeholders using programmatic for more than 41% of display activity, not a statement that 68% of all agency-side display budgets are programmatic and not a direct US AI-adoption rate.",
+      "materiality": "The unit should be corrected, but S2 separately reports 51.9% of European non-social display spend transacted programmatically and its agency respondent measure remains above 50%; together with the packet's explicit geography, display and non-generative-AI proxy caveats, the wording defect does not establish that A or the thesis changes.",
+      "remediation": "At the next research refresh, use the source's exact respondent-threshold unit or a direct US 541830 AI-adoption measure and classify any judgmental mapping as ESTIMATE.",
+      "publication_caveat": "inputs.current_adoption_pct / inputs.t50_years: S2's 68% is the share of surveyed European agency stakeholders above a 41%-of-display programmatic-use threshold, not 68% of all agency-side budgets or a direct US AI-adoption rate."
+    },
+    {
+      "severity": "caveat",
+      "category": "numeric_support",
+      "input_paths": [
+        "inputs.active_consolidators"
+      ],
+      "explanation": "S5 documents one two-agency merger and names Horizon as a scale benchmark, but it does not independently establish three active consolidators for lower-middle-market 541830 targets.",
+      "materiality": "The selection is explicitly a low-confidence estimate and the source establishes the direction of consolidation and scale economics; changing the count within the stated 0-3 evidence bound moves B and S only modestly and does not alter the kill verdict or pressured-demand thesis.",
+      "remediation": "Replace the estimate with a dated buyer-and-deal census for the target EBITDA band in the next research refresh.",
+      "publication_caveat": "inputs.active_consolidators: S5 documents one two-agency merger and a scale benchmark, not a census establishing three active consolidators for lower-middle-market 541830 targets."
+    }
+  ],
+  "publication_caveats": [
+    "inputs.ai_replaceable_share: Role mix is 4-digit 5418, not pure 541830, and includes obvious non-media-buying occupations.",
+    "inputs.ai_replaceable_share: The programmatic statistic is Europe-wide and not a direct US firm AI census.",
+    "inputs.pi_dist: Opaque principal economics and client auditing can materially lower realized distribution retention.",
+    "inputs.pi_moat: The consolidation example is vastly larger than lower-middle-market targets.",
+    "inputs.t50_years: This is a Europe-wide display automation proxy, not a US NAICS-specific AI adoption measure.",
+    "inputs.current_adoption_pct: The observed measure is European and display-specific; it is not a US 541830 establishment statistic or a pure generative-AI measure.",
+    "inputs.historical_analogs: Analogy does not predict target-level revenue retention.",
+    "inputs.owners_60plus_pct: No NAICS-specific owner-age study was found in reopened sources.",
+    "inputs.owners_60plus_pct.succession_shortage_documented: This is not proof that no individual target has a succession issue.",
+    "inputs.active_consolidators: Large-scale buyer activity does not prove appetite for every small target.",
+    "inputs.buy_mult: S6 is commercial guidance rather than a disclosed transaction database; EBITDA must be on net fee revenue, not gross billings.",
+    "inputs.exit_mult: Exit value depends on normalization of pass-through and principal/rebate economics.",
+    "inputs.pricing_structure: Reported receipts and EBITDA can be distorted by gross pass-through and rebates.",
+    "inputs.current_adoption_pct / inputs.t50_years: S2's 68% is the share of surveyed European agency stakeholders above a 41%-of-display programmatic-use threshold, not 68% of all agency-side budgets or a direct US AI-adoption rate.",
+    "inputs.active_consolidators: S5 documents one two-agency merger and a scale benchmark, not a census establishing three active consolidators for lower-middle-market 541830 targets."
+  ],
+  "summary": "Mechanics pass and the pressured-demand thesis remains useful. The record is publishable with all authored caveats plus explicit corrections for the programmatic statistic's unit and the weakly evidenced active-consolidator count."
+}

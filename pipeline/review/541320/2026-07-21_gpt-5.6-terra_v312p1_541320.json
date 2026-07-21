@@ -1,0 +1,106 @@
+{
+  "naics": "541320",
+  "run_id": "2026-07-21_gpt-5.6-terra_v312p1_541320",
+  "artifact_digests": {
+    "packet_sha256": "7d117997fadcac31d37218b032030821e2dcc15f6bc6ec8a5d87e4e747fbb56e",
+    "run_sha256": "7e3208a933dd9faa7023a8339847a9b6926af5d698ab8e8ba5c7bf2e6371893f",
+    "memo_sha256": "895318d6e3f8da0ca47b7fc37e29ffb157ff6c7b85b9d739b2a80841fa1b7b01"
+  },
+  "review_meta": {
+    "model_id": "gpt-5.6-sol",
+    "review_date": "2026-07-21",
+    "prompt_version": "validator-3.1.2"
+  },
+  "outcome": "reject",
+  "mechanics": {
+    "schema_valid": true,
+    "identity_valid": true,
+    "model_route_valid": true,
+    "dataset_equal": true,
+    "finalization_equal": true,
+    "memo_equal": true,
+    "arithmetic_valid": true
+  },
+  "source_reviews": [
+    {
+      "source_id": "S1",
+      "url": "https://www.deltek.com/company/news/latest-deltek-clarity-industry-studies-highlight-ai-challenges/",
+      "accessible": true,
+      "score_driving": true,
+      "support": "partially_supported",
+      "notes": "The article supports broad A&E AI interest, uneven maturity, and inconsistent measurable impact: it reports A&E AI adoption rising to 70%, generative-AI use at 78%, and only 38% reporting measurable positive impact. It contains no landscape-architecture-specific adoption measure, active-consolidator count, transaction multiples, CAD/BIM repricing history, or fee-structure evidence."
+    },
+    {
+      "source_id": "S2",
+      "url": "https://www.asla.org/become-a-la/your-path/will-i-need-a-license",
+      "accessible": true,
+      "score_driving": true,
+      "support": "supported",
+      "notes": "The ASLA page states that all 50 states license landscape architects and accurately distinguishes title acts from practice acts."
+    },
+    {
+      "source_id": "S3",
+      "url": "https://www.asla.org/uploadedFiles/CMS/Government_Affairs/State_Goverment_Affairs_and_Licensure/Licensure_Advocacy_Resources/Exemptions.pdf",
+      "accessible": false,
+      "score_driving": true,
+      "support": "unsupported",
+      "notes": "The exact registered URL returns ASLA's Page Not Found page rather than the cited PDF, so the claimed state-law exemptions for contractors and designers could not be verified."
+    }
+  ],
+  "findings": [
+    {
+      "severity": "material",
+      "category": "evidence",
+      "input_paths": [
+        "inputs.pi_moat",
+        "cross_checks.terminal_value"
+      ],
+      "explanation": "The exact S3 URL is inaccessible and returns a Page Not Found page. S2 verifies the distinction between title and practice acts, but it does not verify the packet's contractor/designer-exemption claim used to select pi_moat=0.42 and classify terminal demand as PRESSURED.",
+      "materiality": "Removing the unverified exemptions mechanism could raise the moat input and change terminal demand from PRESSURED toward DURABLE, moving factor C and the terminal-demand thesis rather than merely weakening metadata.",
+      "remediation": "Replace S3 with an accessible authoritative state-law compilation and substantiate the specific exemptions that drive the moat and terminal classification, then rerun those selections."
+    },
+    {
+      "severity": "material",
+      "category": "proxy_or_contradiction",
+      "input_paths": [
+        "inputs.current_adoption_pct",
+        "inputs.t50_years",
+        "scores.A",
+        "S"
+      ],
+      "explanation": "S1 reports 70% A&E AI adoption and 78% generative-AI use, with 38% reporting measurable positive impact. The packet selects 18% current adoption and t50=3.5 years using only a generic 'conservative selected estimate' rationale and gives no mapping from any of S1's reported measures to 18% effective adoption.",
+      "materiality": "The unsupported mapping determines factor A. If the cited 70% adoption measure governed, the deterministic threshold would require t50=0 and A=10 instead of 2.857; that change moves S from 3.101 to about 3.984 and materially changes the borderline thesis.",
+      "remediation": "Define the effective-adoption measure, use landscape-architecture evidence or an explicit source-grounded mapping from the A&E statistics, and recompute current adoption and t50 consistently."
+    },
+    {
+      "severity": "material",
+      "category": "numeric_support",
+      "input_paths": [
+        "inputs.active_consolidators",
+        "inputs.buy_mult",
+        "inputs.exit_mult",
+        "scores.B",
+        "scores.M",
+        "S"
+      ],
+      "explanation": "S1 contains no acquisition evidence, consolidator count, or transaction multiples, yet it is the sole cited source for two active consolidators, a 3.5x buy multiple, and a 5.0x exit multiple. The repeated generic rationale and 'uncertain' range do not supply an understandable market bridge.",
+      "materiality": "These unsupported numeric selections directly determine the consolidation contribution to B and all of M; plausible changes to the entry/exit spread can move M from zero to several points and therefore change the 3.101 borderline score and verdict.",
+      "remediation": "Provide landscape-architecture buyer/deal evidence and defensible entry/exit ranges, or reclassify the unsupported inputs with a concrete estimate basis before recomputing B, M, and S."
+    }
+  ],
+  "publication_caveats": [
+    "inputs.ai_replaceable_share: 5413 parent role mix is a proxy.",
+    "inputs.pi_dist: Industry and role proxies are imperfect.",
+    "inputs.pi_moat: Industry and role proxies are imperfect.",
+    "inputs.t50_years: Industry and role proxies are imperfect.",
+    "inputs.current_adoption_pct: Industry and role proxies are imperfect.",
+    "inputs.historical_analogs: Industry and role proxies are imperfect.",
+    "inputs.owners_60plus_pct: Industry and role proxies are imperfect.",
+    "inputs.owners_60plus_pct.succession_shortage_documented: Industry and role proxies are imperfect.",
+    "inputs.active_consolidators: Industry and role proxies are imperfect.",
+    "inputs.buy_mult: Industry and role proxies are imperfect.",
+    "inputs.exit_mult: Industry and role proxies are imperfect.",
+    "inputs.pricing_structure: Industry and role proxies are imperfect."
+  ],
+  "summary": "Mechanics and exact-artifact checks pass, but the record is rejected: one score-driving licensing source is inaccessible, the adoption/timing selections lack a supportable mapping to the cited A&E statistics, and the cited source contains no evidence for the consolidator count or entry/exit multiples that materially drive B, M, and the borderline score."
+}

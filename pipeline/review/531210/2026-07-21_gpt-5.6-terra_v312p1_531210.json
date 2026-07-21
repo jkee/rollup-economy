@@ -1,0 +1,73 @@
+{
+  "naics": "531210",
+  "run_id": "2026-07-21_gpt-5.6-terra_v312p1_531210",
+  "artifact_digests": {
+    "packet_sha256": "a72acc56738bfc85d7d11028d0f47fcde428560323b51e7067e650492c91482b",
+    "run_sha256": "535cb7eb2a92001b8eef41daa0c8b3f502a2e90196f7406369456287e89aee09",
+    "memo_sha256": "bf47b768096a39041ad6943af17cd01a22cb4ffc99ad17d48212adeab4374e7a"
+  },
+  "review_meta": {
+    "model_id": "gpt-5.6-sol",
+    "review_date": "2026-07-21",
+    "prompt_version": "validator-3.1.2"
+  },
+  "outcome": "reject",
+  "mechanics": {
+    "schema_valid": true,
+    "identity_valid": true,
+    "model_route_valid": true,
+    "dataset_equal": true,
+    "finalization_equal": true,
+    "memo_equal": true,
+    "arithmetic_valid": true
+  },
+  "source_reviews": [
+    {
+      "source_id": "S1",
+      "url": "https://www.nar.realtor/press-releases/realtors-embrace-ai-digital-tools-to-enhance-client-service-nar-survey-finds",
+      "accessible": true,
+      "score_driving": true,
+      "support": "partially_supported",
+      "notes": "The page supports 79% eSignature use, 46% AI-generated-content use, 46% reporting no noticeable AI impact, and respondent/member scope. It does not report 41% current AI use: it reports 20% daily, 22% weekly, 27% a few times monthly, and 32% never, implying about 68-69% have used AI. It also does not provide owner-age or consolidator counts."
+    },
+    {
+      "source_id": "S2",
+      "url": "https://www.nar.realtor/news/economists-outlook/top-10-takeaways-from-nars-2025-profile-of-home-buyers-and-sellers",
+      "accessible": true,
+      "score_driving": true,
+      "support": "partially_supported",
+      "notes": "The page supports 88% buyer and 91% seller agent/broker use and the cited negotiation, explanation, marketing, and pricing functions. It does not supply transaction-comparable buy or exit multiples; those selections remain explicitly disclosed low-confidence estimates."
+    }
+  ],
+  "findings": [
+    {
+      "severity": "material",
+      "category": "numeric_support",
+      "input_paths": [
+        "inputs.current_adoption_pct",
+        "inputs.t50_years",
+        "scores.A",
+        "S"
+      ],
+      "explanation": "The finalized record labels current_adoption_pct=0.41 as OBSERVED and repeatedly states that S1 reports 41% current AI use. S1 contains no 41% use statistic; its frequency breakdown is 20% daily, 22% weekly, 27% a few times monthly, and 32% never, implying about 68-69% have used AI.",
+      "materiality": "The unsupported 41% figure is the stated reason adoption remains below 50% and t50_years is set to 3, producing A=3.33. Correcting the cited usage level puts raw use above 50%; under the rubric A could move toward 10 unless a separately supported effective-adoption construct justifies a positive t50, materially changing A and the aggregate score even if the low-capture thesis remains weak.",
+      "remediation": "Replace the 41% observed value with the source-supported measure and reassess t50 under the rubric, or explicitly estimate effective operating adoption from reopened evidence without mislabeling the source statistic, then refinalize."
+    }
+  ],
+  "publication_caveats": [
+    "inputs.ai_replaceable_share: The supplied 3-digit 531 mix is materially contaminated by lessors and property managers, not brokerage offices.",
+    "inputs.ai_replaceable_share: Independent-contractor agent commissions are outside W-2 payroll and not included as automatable labor.",
+    "inputs.pi_dist: Commission terms and post-settlement repricing vary by market and brokerage.",
+    "inputs.pi_moat: NAR member evidence measures agent use, not ownership of lead flow or retention of an acquired office.",
+    "inputs.t50_years: Survey use is self-reported and does not establish automation of a brokerage's payroll.",
+    "inputs.current_adoption_pct: NAR REALTOR respondent scope is not identical to NAICS 531210 firms.",
+    "inputs.historical_analogs: Analogue is directional, not a causal forecast.",
+    "inputs.owners_60plus_pct: This is not a measured NAICS 531210 owner statistic.",
+    "inputs.owners_60plus_pct.succession_shortage_documented: Absence of reopened documentation is not evidence that no succession issue exists.",
+    "inputs.active_consolidators: No code-specific, current consolidator census was reopened.",
+    "inputs.buy_mult: No reopened transaction-comparable source; broker-owner normalization and revenue basis vary.",
+    "inputs.exit_mult: No reopened transaction-comparable source; not a claim of observed market pricing.",
+    "inputs.pricing_structure: No single broker P&L or post-settlement commission series is used; gross commission and retained company dollar must not be conflated."
+  ],
+  "summary": "Mechanics pass and the weak-capture brokerage thesis remains plausible, but the record fabricates an observed 41% adoption statistic and uses it to set t50 and A. Because the cited source instead places any use above 50%, the score-driving adoption factor requires bounded remediation."
+}

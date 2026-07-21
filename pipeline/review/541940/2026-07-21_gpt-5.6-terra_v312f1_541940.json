@@ -1,0 +1,125 @@
+{
+  "naics": "541940",
+  "run_id": "2026-07-21_gpt-5.6-terra_v312f1_541940",
+  "artifact_digests": {
+    "packet_sha256": "558ff0d874887a4857e09bdc7ed135b8c8ec05242653fd70fa8efc25a5fd1ebd",
+    "run_sha256": "66f0b694631f395d306d6e60cd6f88a19098c6061b860a3080b4dd96c9487096",
+    "memo_sha256": "7996f8ba636444d886fa729ab40048d00e5c80a49edf3e8761195e191a0bf0fe"
+  },
+  "review_meta": {
+    "model_id": "gpt-5.6-sol",
+    "review_date": "2026-07-21",
+    "prompt_version": "validator-3.1.2"
+  },
+  "outcome": "publishable_with_caveats",
+  "mechanics": {
+    "schema_valid": true,
+    "identity_valid": true,
+    "model_route_valid": true,
+    "dataset_equal": true,
+    "finalization_equal": true,
+    "memo_equal": true,
+    "arithmetic_valid": true
+  },
+  "source_reviews": [
+    {
+      "source_id": "S1",
+      "url": "https://www.census.gov/naics/?details=541940&input=541940&year=2022",
+      "accessible": true,
+      "score_driving": false,
+      "support": "not_score_driving",
+      "notes": "The official Census definition supports the code boundary, including licensed veterinary practices and veterinary testing laboratories; no finalized score input cites S1."
+    },
+    {
+      "source_id": "S2",
+      "url": "https://www.fda.gov/animal-veterinary/product-safety-information/veterinarian-client-patient-relationships-prescribingdispensing-animal-drugs-and-telemedicine",
+      "accessible": true,
+      "score_driving": true,
+      "support": "supported",
+      "notes": "FDA supports licensed-veterinarian involvement in prescription dispensing, VCPR requirements in specified contexts, the federal in-person component, and the packet's state-law qualification."
+    },
+    {
+      "source_id": "S3",
+      "url": "https://www.aaha.org/trends-magazine/publications/generative-ai-scribing-tools-considerations-for-implementation-in-veterinary-practice/",
+      "accessible": true,
+      "score_driving": true,
+      "support": "supported",
+      "notes": "AAHA supports AI-assisted veterinary record drafting, workflow variation, error risk, and continued clinician review rather than autonomous clinical substitution."
+    },
+    {
+      "source_id": "S4",
+      "url": "https://academic.oup.com/jvim/article/40/1/aalaf036/8431570",
+      "accessible": true,
+      "score_driving": true,
+      "support": "partially_supported",
+      "notes": "The paper supports 42% ACVIM and 33% ECVIM-CA reporting any current AI use, common use of generative models and scribes, low self-rated knowledge, and selection-bias limits. It does not call the 42% and 33% routine-use rates; only 50% and 37% of AI-using respondents, respectively, reported daily use."
+    },
+    {
+      "source_id": "S5",
+      "url": "https://www.aaha.org/trends-magazine/publications/corporate-consolidation-and-the-rise-of-private-equity/",
+      "accessible": true,
+      "score_driving": true,
+      "support": "partially_supported",
+      "notes": "AAHA supports extensive consolidation and identifies multiple platforms and owners, adequately grounding a minimum buyer screen. It does not provide a code-wide owner-age measure or document a shortage of successors; its opening example includes an available younger buyer."
+    },
+    {
+      "source_id": "S6",
+      "url": "https://naphia.org/news/naphia-news/soi-report-2025/",
+      "accessible": true,
+      "score_driving": true,
+      "support": "partially_supported",
+      "notes": "NAPHIA supports 6,405,541 insured U.S. pets at year-end 2024 and low single-digit dog/cat penetration, but those market statistics do not directly establish a clinic's payer mix or savings retention."
+    },
+    {
+      "source_id": "S7",
+      "url": "https://www.bizbuysell.com/veterinary-practices-for-sale/",
+      "accessible": true,
+      "score_driving": true,
+      "support": "partially_supported",
+      "notes": "The live page supports 53 analyzed listings, direct client billing as common, and asking-price earnings multiples of 2.82x-4.10x with a 3.44x median. The packet correctly discloses that these are listed SDE/owner-earnings figures, not closed adjusted-EBITDA transactions."
+    }
+  ],
+  "findings": [
+    {
+      "severity": "caveat",
+      "category": "numeric_support",
+      "input_paths": [
+        "inputs.current_adoption_pct",
+        "inputs.t50_years"
+      ],
+      "explanation": "S4 asks whether respondents currently use any AI tool; it does not label the reported 42% ACVIM and 33% ECVIM-CA shares as routine use. Among respondents using AI, 50% and 37%, respectively, reported daily use.",
+      "materiality": "The wording makes 0.38 an upward proxy for effective or routine adoption, but both directly reported any-use rates remain below 50%, t50_years remains an expressly uncertain estimate with a 2-5-year range, and correcting the label does not by itself demonstrate a material thesis or verdict change.",
+      "remediation": "Describe 42% and 33% as any current use and distinguish the reported daily-use shares when using the survey to anchor effective adoption.",
+      "publication_caveat": "S4 reports any current AI use, not routine use: 42% of ACVIM and 33% of ECVIM-CA respondents used AI, while 50% and 37% of those users, respectively, reported daily use; the selected 0.38 effective-adoption proxy may therefore be high."
+    },
+    {
+      "severity": "caveat",
+      "category": "factor_semantics",
+      "input_paths": [
+        "inputs.owners_60plus_pct.succession_shortage_documented"
+      ],
+      "explanation": "S5 documents consolidation and retirement-sale context but not a shortage of successors; its opening case actually describes a younger colleague willing to buy before a corporate group outbid that buyer. The finalized boolean nevertheless marks succession_shortage_documented true.",
+      "materiality": "Changing only the unsupported boolean to false lowers deterministic B from 6.3837 to 6.0411 and leaves S at 0 and the kill verdict unchanged, so the defect is visible but nonfatal under the materiality standard.",
+      "remediation": "Set the documented-shortage flag false unless a source specifically establishes successor scarcity, while retaining consolidation evidence for the separate active-consolidator input.",
+      "publication_caveat": "S5 documents consolidation but not a shortage of successors; treating inputs.owners_60plus_pct.succession_shortage_documented as true raises B by about 0.34 points without changing S or the kill verdict."
+    }
+  ],
+  "publication_caveats": [
+    "inputs.ai_replaceable_share: The estimate treats AI scribes as documentation augmentation and caps DVM substitution well below administrative work.",
+    "inputs.ai_replaceable_share: The supplied mix is 5-digit 54194 and includes laboratories and specialty care as well as GP clinics; role-level fractions are a companion-clinic investment view.",
+    "inputs.pi_dist: Insured-pet counts are not a clinic-level payer-mix measure and do not establish local pricing power.",
+    "inputs.pi_moat: Federal VCPR rules do not create a universal in-person requirement; state law and the service line matter.",
+    "inputs.t50_years: The survey is a voluntary specialty-membership sample, not a representative general-practice adoption census.",
+    "inputs.current_adoption_pct: This is a specialty-survey proxy, not a measured adoption rate for all NAICS 541940 operators.",
+    "inputs.historical_analogs: No audited historical AI adoption curve for independent GP clinics was found in the reopened sources.",
+    "inputs.owners_60plus_pct: No reopened source provided a current national 541940 owner-over-60 percentage; diligence must replace this estimate with target-level owner age and succession intent.",
+    "inputs.owners_60plus_pct.succession_shortage_documented: Corporate consolidation evidence is not itself proof that each owner lacks an internal successor.",
+    "inputs.active_consolidators: This is a screening count, not a verified current deal pipeline or a count of all buyers.",
+    "inputs.buy_mult: The source reports asking-price multiples of seller's discretionary earnings, not closed transactions or adjusted EBITDA; owner-DVM replacement must be normalized in diligence.",
+    "inputs.exit_mult: The exit multiple is not supported as an EBITDA platform multiple; it deliberately avoids an expansion thesis.",
+    "inputs.pricing_structure: Neither source measures a specific target's realized payer mix or price elasticity.",
+    "S4 reports any current AI use, not routine use: 42% of ACVIM and 33% of ECVIM-CA respondents used AI, while 50% and 37% of those users, respectively, reported daily use; the selected 0.38 effective-adoption proxy may therefore be high.",
+    "S5 documents consolidation but not a shortage of successors; treating inputs.owners_60plus_pct.succession_shortage_documented as true raises B by about 0.34 points without changing S or the kill verdict."
+  ],
+  "summary": "Publishable with caveats. All deterministic mechanics and exact-artifact checks pass, every registered source resolves, and the central thesis remains useful. The source audit confirms the clinical-task floor, consolidation, low insurance penetration, and listing-multiple evidence, while preserving the authored scope and proxy warnings. Two additional nonfatal findings correct the adoption-survey wording and flag that documented successor scarcity was not established."
+}

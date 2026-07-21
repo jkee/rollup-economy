@@ -1,0 +1,127 @@
+{
+  "naics": "541870",
+  "run_id": "2026-07-21_gpt-5.6-terra_v312f1_541870",
+  "artifact_digests": {
+    "packet_sha256": "d33016798922df7269efb74cd2ae86cd55f08d3841db228f41048c91a1e33c5d",
+    "run_sha256": "7b53a2220d307fc2884a723557428a4c0ea7e8f14e1b4f71fdd586f5efcb0d33",
+    "memo_sha256": "9a87239eec220bb0877340ca129178b7999cf01bb566d596b57932ec61b13e72"
+  },
+  "review_meta": {
+    "model_id": "gpt-5.6-sol",
+    "review_date": "2026-07-21",
+    "prompt_version": "validator-3.1.2"
+  },
+  "outcome": "publishable_with_caveats",
+  "mechanics": {
+    "schema_valid": true,
+    "identity_valid": true,
+    "model_route_valid": true,
+    "dataset_equal": true,
+    "finalization_equal": true,
+    "memo_equal": true,
+    "arithmetic_valid": true
+  },
+  "source_reviews": [
+    {
+      "source_id": "S1",
+      "url": "https://www.census.gov/naics/reference_files_tools/2022_NAICS_Manual.pdf",
+      "accessible": true,
+      "score_driving": true,
+      "support": "supported",
+      "notes": "The official manual supports the exact physical-distribution scope, examples, and boundaries for 541870."
+    },
+    {
+      "source_id": "S2",
+      "url": "https://www.uspsoig.gov/reports/white-papers/analysis-historical-mail-volume-trends",
+      "accessible": true,
+      "score_driving": true,
+      "support": "partially_supported",
+      "notes": "The OIG source supports a 40% Marketing Mail decline from 99 billion pieces in FY2008 to 59 billion in FY2023 and attributes it to lower-cost online alternatives. It does not support the memo's different 80.9 billion FY2016 and 56.8 billion FY2025 endpoints."
+    },
+    {
+      "source_id": "S3",
+      "url": "https://www.usps.com/business/every-door-direct-mail.htm",
+      "accessible": true,
+      "score_driving": true,
+      "support": "supported",
+      "notes": "USPS supports EDDM neighborhood, city, ZIP Code, route, and demographic targeting and public per-piece pricing. The record correctly discloses that this is only a partial alternative and not evidence of private-firm pass-through."
+    },
+    {
+      "source_id": "S4",
+      "url": "https://www.bizbuysell.com/learning-center/valuation-benchmarks/paper-manufacturing-printing/",
+      "accessible": true,
+      "score_driving": true,
+      "support": "supported",
+      "notes": "The page supports the 2021-2025 sold-business 2.45x median and 2.57x average earnings multiples and explicitly defines the denominator as owner discretionary earnings/cash flow. The record discloses that printing/SDE is a weak proxy for 541870 EBITDA."
+    },
+    {
+      "source_id": "S5",
+      "url": "https://facts.usps.com/every-door-direct-mail/",
+      "accessible": true,
+      "score_driving": false,
+      "support": "not_score_driving",
+      "notes": "The page supports nearly 3 billion EDDM pieces in FY2025 and is used only for narrative channel persistence, not a finalized score input."
+    },
+    {
+      "source_id": "S6",
+      "url": "https://www.printing.org/docs/default-source/academy-docs/2025_ai_adoption_in_the_print_industry_final-update.pdf?sfvrsn=b1ba96ac_1",
+      "accessible": true,
+      "score_driving": true,
+      "support": "supported",
+      "notes": "The report supports fragmented, early but real print-provider workflow adoption, barriers, and applications in estimating, customer communications, and operations. Its adjacent-print rather than 541870 scope is explicit in the packet."
+    },
+    {
+      "source_id": "S7",
+      "url": "https://news.gallup.com/poll/657362/small-business-owners-lack-succession-plan.aspx",
+      "accessible": true,
+      "score_driving": true,
+      "support": "partially_supported",
+      "notes": "Gallup supports broad U.S. small-business succession, transfer, sale, closure, and planning context, including age-group differences. It does not measure a 541870 owner-age share, as the packet discloses."
+    }
+  ],
+  "findings": [
+    {
+      "severity": "caveat",
+      "category": "numeric_support",
+      "input_paths": [
+        "narrative.terminal_demand",
+        "cross_checks.terminal_value",
+        "inputs.historical_analogs"
+      ],
+      "explanation": "S2 supports a 40% Marketing Mail decline from 99 billion pieces in FY2008 to 59 billion in FY2023, not the memo's stated 80.9 billion FY2016 to 56.8 billion FY2025 endpoints. Those later endpoints are on the separate USPS Postal Facts table, which is not registered in this packet.",
+      "materiality": "Correcting the endpoints to the figures actually reported by S2 preserves a large long-run decline and the documented online-diversion mechanism, so it does not reverse the MELTING direction, any scored input, or the kill thesis.",
+      "remediation": "Use S2's 99 billion FY2008 and 59 billion FY2023 figures or register the USPS Postal Facts table for the 2016-2025 endpoints.",
+      "publication_caveat": "S2 supports a 99 billion FY2008 to 59 billion FY2023 Marketing Mail decline, not the memo's 80.9 billion FY2016 to 56.8 billion FY2025 endpoints."
+    },
+    {
+      "severity": "caveat",
+      "category": "scope",
+      "input_paths": [
+        "narrative.terminal_demand",
+        "cross_checks.terminal_value"
+      ],
+      "explanation": "The terminal-demand evidence is principally postal Marketing Mail, while exact 541870 also includes non-postal door-to-door, windshield, and in-store sample distribution. The memo acknowledges that the exact melt rate is uncertain and frames MELTING for a generalist operator.",
+      "materiality": "A sampling-heavy or non-postal target could have a less adverse terminal profile, but the disclosed boundary does not undermine the low automation, weak capture, weak multiple, and kill direction for the generalist industry thesis.",
+      "remediation": "At target diligence, segment revenue by postal, non-postal route, and in-store sampling demand and reassess terminal class for the actual mix.",
+      "publication_caveat": "The MELTING terminal classification is supported mainly by postal Marketing Mail evidence; non-postal flyers and in-store sampling within 541870 may have a different demand trajectory."
+    }
+  ],
+  "publication_caveats": [
+    "inputs.ai_replaceable_share: The supplied 4-digit 5418 occupation mix is dominated by advertising occupations and is not a physical-distribution occupational census.",
+    "inputs.ai_replaceable_share: The residual's field-labor interpretation is a bounded judgment; a sampling-heavy target may be even less automatable.",
+    "inputs.pi_dist: EDDM is an alternative for some, not all, direct-distribution work; the source does not measure private-firm pass-through.",
+    "inputs.pi_moat: No public NAICS-specific retention or switching-cost study was located.",
+    "inputs.t50_years: S6 is adjacent printing research, not a 541870 adoption survey.",
+    "inputs.current_adoption_pct: Effective adoption excludes generic individual use of AI and does not imply delivery automation.",
+    "inputs.historical_analogs: No historical AI adoption dataset for 541870 was found.",
+    "inputs.owners_60plus_pct: S7 is national small-business evidence, not a representative 541870 owner-age census.",
+    "inputs.owners_60plus_pct.succession_shortage_documented: False means not documented in the reopened sources, not that succession risk is absent.",
+    "inputs.active_consolidators: A target search could identify buyers, but that would be new research rather than evidence for this initial count.",
+    "inputs.buy_mult: S4 is SDE/owner earnings, not EBITDA, and is neither exact NAICS 541870 nor direct-distribution transaction evidence.",
+    "inputs.exit_mult: This is an underwriting scenario based on a weak SDE/printing proxy, not a reported exit multiple.",
+    "inputs.pricing_structure: EDDM does not cover every non-postal distribution or in-store sampling assignment.",
+    "S2 supports a 99 billion FY2008 to 59 billion FY2023 Marketing Mail decline, not the memo's 80.9 billion FY2016 to 56.8 billion FY2025 endpoints.",
+    "The MELTING terminal classification is supported mainly by postal Marketing Mail evidence; non-postal flyers and in-store sampling within 541870 may have a different demand trajectory."
+  ],
+  "summary": "Mechanics pass. The low-confidence kill thesis remains useful and rubric-consistent: physical field labor limits V, rebiddable services limit C, and capture is kept distinct from terminal demand. Publication must retain all authored caveats plus the corrected mail-volume attribution and terminal-scope caveats."
+}

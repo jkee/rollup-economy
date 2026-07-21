@@ -1,0 +1,98 @@
+{
+  "naics": "561492",
+  "run_id": "2026-07-21_gpt-5.6-terra_v312f1_561492",
+  "artifact_digests": {
+    "packet_sha256": "a566962b940c81a5d9d8eaa2ed2175fdc72ab7e6a20bfbfbf3563954002a2e5b",
+    "run_sha256": "9e6214bf6558cd177be0f759e0a9e459f209f6d96ccf669fc1e5031186559657",
+    "memo_sha256": "3134e982832a03b52086c0dcc31b86bd1e94e3986a0c16901e3a775ac014ea2a"
+  },
+  "review_meta": {
+    "model_id": "gpt-5.6-sol",
+    "review_date": "2026-07-21",
+    "prompt_version": "validator-3.1.2"
+  },
+  "outcome": "publishable_with_caveats",
+  "mechanics": {
+    "schema_valid": true,
+    "identity_valid": true,
+    "model_route_valid": true,
+    "dataset_equal": true,
+    "finalization_equal": true,
+    "memo_equal": true,
+    "arithmetic_valid": true
+  },
+  "source_reviews": [
+    {
+      "source_id": "S1",
+      "url": "https://www.census.gov/naics/?details=561492&input=561492&year=2022",
+      "accessible": true,
+      "score_driving": true,
+      "support": "supported",
+      "notes": "The Census definition supports the live legal-proceeding, subsequent-transcription and realtime-captioning scope used to bound task exposure and terminal demand."
+    },
+    {
+      "source_id": "S2",
+      "url": "https://aaert.org/about-aaert-certifications/",
+      "accessible": true,
+      "score_driving": true,
+      "support": "partially_supported",
+      "notes": "AAERT supports the digital-reporting certification path, real-time audio monitoring, continued human responsibility and a retirement-driven stenographer shortage. It does not measure the selected 15% effective AI adoption, agency-owner age or ownership-succession shortage; those selections are disclosed estimates and proxies."
+    },
+    {
+      "source_id": "S3",
+      "url": "https://cand.uscourts.gov/cases-e-filing/transcripts-court-reporters/transcript-pricing-explanation-examples",
+      "accessible": true,
+      "score_driving": true,
+      "support": "supported",
+      "notes": "The federal court page supports per-page original/copy pricing and delivery-speed distinctions. The packet properly limits this to a pricing-mechanism reference rather than treating it as universal private-deposition pricing or margin evidence."
+    },
+    {
+      "source_id": "S4",
+      "url": "https://exitvalue.ai/blog/how-to-value-court-reporting-firm",
+      "accessible": true,
+      "score_driving": true,
+      "support": "supported",
+      "notes": "The exact page states 4.5x-6.5x adjusted EBITDA for regional firms with $500K-$2M EBITDA and 7x-10x for $2M-plus multi-market platforms, and names six national acquirer platforms. Its commercial, non-transaction-database character is accurately caveated."
+    },
+    {
+      "source_id": "S5",
+      "url": "https://www.jackimwoods.com/category/blog/",
+      "accessible": true,
+      "score_driving": true,
+      "support": "supported",
+      "notes": "The page lists multiple 2025 court-reporting acquisitions by Veritext, Magna, Lexitas and a regional buyer and describes long-running consolidation. It supports active buyer direction and target activity, while the packet appropriately labels the count approximate."
+    }
+  ],
+  "findings": [
+    {
+      "severity": "caveat",
+      "category": "proxy_or_contradiction",
+      "input_paths": [
+        "inputs.owners_60plus_pct",
+        "inputs.owners_60plus_pct.succession_shortage_documented"
+      ],
+      "explanation": "The owner-age estimate and true succession-shortage flag use AAERT evidence about reporter retirement and production-talent scarcity, not evidence about agency owners or ownership succession. The packet discloses both scope substitutions, but the same workforce mechanism is used in both B inputs.",
+      "materiality": "The shortage flag raises OW from 0.9 to 1.0 and B from approximately 5.61 to 5.92. Removing that bonus would not change the kill verdict or the conditional court-reporting thesis, so this is a publication caveat rather than a material rejection finding.",
+      "remediation": "Label the reporter-workforce evidence as a buyability proxy and obtain agency-owner age and ownership-succession evidence before treating either selection as observed industry structure.",
+      "publication_caveat": "Validator caveat: reporter retirement and production-talent shortage are proxies for agency-owner age and ownership succession; this modestly raises B but does not change the kill verdict or conditional thesis."
+    }
+  ],
+  "publication_caveats": [
+    "inputs.ai_replaceable_share: The supplied 4-digit 5614 occupations are a poor proxy for 561492 and omit court reporters/stenographers.",
+    "inputs.ai_replaceable_share: Freelance and 1099 reporter payouts may be a larger production cost than the W-2 wage-based labor-share input.",
+    "inputs.ai_replaceable_share: The role arithmetic is required against the supplied proxy and is not observed 561492 occupational data.",
+    "inputs.pi_dist: Federal court rates are a pricing-mechanism reference, not a complete representation of private deposition pricing.",
+    "inputs.pi_moat: No target-specific reporter agreements, rule coverage or client retention data was reviewed.",
+    "inputs.t50_years: AAERT documents a digital path, not a measured 561492 AI-adoption rate.",
+    "inputs.current_adoption_pct: This is effective-work adoption, not the percentage of firms using any AI tool.",
+    "inputs.historical_analogs: Digital reporting is not equivalent to fully autonomous certification.",
+    "inputs.owners_60plus_pct: Reporter age is not the same as business-owner age.",
+    "inputs.owners_60plus_pct.succession_shortage_documented: This is evidence of a reporter pipeline shortage, not a census of agency ownership succession plans.",
+    "inputs.active_consolidators: This is not a paid transaction-database count and active status varies by geography and target quality.",
+    "inputs.buy_mult: S4 is a commercial valuation guide rather than a disclosed-comps database; the dataset's $1-10M EBITDA band spans regional and platform categories.",
+    "inputs.exit_mult: Exit depends on client/roster transferability and is not a guaranteed multiple expansion; source ranges are commercial estimates.",
+    "inputs.pricing_structure: Federal court schedules do not establish a universal private deposition price or agency margin.",
+    "Validator caveat: reporter retirement and production-talent shortage are proxies for agency-owner age and ownership succession; this modestly raises B but does not change the kill verdict or conditional thesis."
+  ],
+  "summary": "Mechanics, exact-artifact identity, source coverage and arithmetic pass. The sources support the industry boundary, digital-reporting pathway, pricing mechanism, commercial multiple ranges and consolidation direction. The owner/succession use of reporter-workforce evidence is a non-fatal disclosed proxy that modestly affects B but cannot change the kill verdict or useful conditional thesis; no material numeric-support, factor-direction or capture/terminal double-counting defect was found."
+}

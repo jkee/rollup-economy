@@ -1,0 +1,108 @@
+{
+  "naics": "523940",
+  "run_id": "2026-07-21_gpt-5.6-terra_v312p1_523940",
+  "artifact_digests": {
+    "packet_sha256": "2d81b16ce698f8c0aa2ebb143e070a677de326f6fc5527b048b415e5e1525bea",
+    "run_sha256": "a9d7d5a07f00f9cb6b34b28d0a2991494c3ff4152daad23329ac5eb82d51f0cb",
+    "memo_sha256": "1558e216679088b811bb6f7d7d221781a146b2d37b092d47225cc351163835ad"
+  },
+  "review_meta": {
+    "model_id": "gpt-5.6-sol",
+    "review_date": "2026-07-21",
+    "prompt_version": "validator-3.1.2"
+  },
+  "outcome": "reject",
+  "mechanics": {
+    "schema_valid": true,
+    "identity_valid": true,
+    "model_route_valid": true,
+    "dataset_equal": true,
+    "finalization_equal": true,
+    "memo_equal": true,
+    "arithmetic_valid": true
+  },
+  "source_reviews": [
+    {
+      "source_id": "S1",
+      "url": "https://www.aboutschwab.com/ria-benchmarking-study-2025",
+      "accessible": true,
+      "score_driving": true,
+      "support": "supported",
+      "notes": "The page supports the 68% some-use statistic, 1,288-firm self-reported survey scope, and a general efficiency thesis. The packet appropriately distinguishes some use from effective workflow adoption."
+    },
+    {
+      "source_id": "S2",
+      "url": "https://www.investmentadviser.org/industry-snapshots/",
+      "accessible": true,
+      "score_driving": true,
+      "support": "partially_supported",
+      "notes": "The page supports 16,544 advisers, 92.8% at 100 or fewer employees, 67.4% below $1 billion AUM, and the 8-employee/$424 million individual-client-firm averages. It does not support the selected 4,000-firm EBITDA-band count or a 35% owner-age share; both are disclosed estimates."
+    },
+    {
+      "source_id": "S3",
+      "url": "https://www.echelon-partners.com/wp-content/uploads/2026/03/FY-Annual-2025-ECHELON-2025-RIA-MA-Deal-Report-2026.02.12VF.pdf",
+      "accessible": true,
+      "score_driving": true,
+      "support": "supported",
+      "notes": "The 39-page report supports 466 announced wealth-management deals in 2025, buyer participation expansion, the cited 17.6% year-over-year unique-buyer increase, active smaller acquisitions, and succession/partnership demand. The selected consolidator count remains an explicitly disclosed estimate."
+    },
+    {
+      "source_id": "S4",
+      "url": "https://www.prnewswire.com/news-releases/ria-ma-valuations-reached-new-heights-in-2024-but-future-success-isnt-guaranteed-for-all-302415146.html",
+      "accessible": true,
+      "score_driving": true,
+      "support": "partially_supported",
+      "notes": "The release supports a 2024 median valuation of 11x and intensified competition below $1 billion AUM. It does not identify the 11x denominator as normalized EBITDA or otherwise establish an EBITDA-equivalent exit multiple."
+    },
+    {
+      "source_id": "S5",
+      "url": "https://www.sec.gov/rules-regulations/no-action-interpretive-exemptive-letters/division-investment-management-staff-no-action-interpretive-letters/investment-management-staff-issues-interest",
+      "accessible": true,
+      "score_driving": true,
+      "support": "supported",
+      "notes": "The SEC page supports the requirement that registered-adviser contracts provide against assignment without client consent and explains the contractual consequence and consent process. The packet correctly treats this as retention risk rather than automatic moat."
+    },
+    {
+      "source_id": "S6",
+      "url": "https://www.aboutschwab.com/advisor-ai-in-action-2026",
+      "accessible": true,
+      "score_driving": true,
+      "support": "supported",
+      "notes": "The page supports 63% advisor AI use, a 533-advisor voluntary Schwab-custodied sample, early/experimental adoption, and concentration in administrative tasks and client communications."
+    }
+  ],
+  "findings": [
+    {
+      "severity": "material",
+      "category": "numeric_support",
+      "input_paths": [
+        "inputs.exit_mult",
+        "scores.M",
+        "S",
+        "decision.verdict"
+      ],
+      "explanation": "S4 reports a broad market median valuation of 11x but does not state that the denominator is normalized EBITDA. The finalized record nevertheless labels 11.0 as OBSERVED, calls it EBITDA-equivalent, and compares it directly with an estimated 8.0x EBITDA entry multiple.",
+      "materiality": "The unsupported denominator drives M=1.5 and enters the geometric aggregate S=4.17, only 0.17 above the conditional cut. If the 11x headline statistic is not commensurate with normalized EBITDA, the exit-entry spread and M can disappear, collapsing the aggregate and changing the verdict from conditional to kill.",
+      "remediation": "Cite a reopened source that explicitly defines the relevant 11x statistic as a normalized-EBITDA multiple for a sufficiently comparable cohort, or reclassify and re-estimate the exit multiple on a denominator consistent with buy_mult before refinalizing."
+    }
+  ],
+  "publication_caveats": [
+    "inputs.ai_replaceable_share: Supplied role mix is 3-digit 523 and includes brokerage/asset-management contamination.",
+    "inputs.ai_replaceable_share: AI use is not equivalent to headcount removal.",
+    "inputs.pi_dist: Fee schedules and client mix are target-specific.",
+    "inputs.pi_moat: Client-consent rules create retention risk, not automatic moat.",
+    "inputs.t50_years: Measured use is above 50%, but effective adoption is a stricter construct.",
+    "inputs.current_adoption_pct: Not a direct census measure; prevents incorrectly setting t50 to zero.",
+    "inputs.historical_analogs: Not a causal estimate of future fee compression.",
+    "inputs.owners_60plus_pct: No direct owner-age statistic; do not treat adviser demographics as owner demographics.",
+    "inputs.owners_60plus_pct.succession_shortage_documented: This is market commentary, not a code-specific succession survey.",
+    "inputs.active_consolidators: Count is an estimate of active platforms/strategics, not reported by either source.",
+    "inputs.buy_mult: AGS market median is not a size-matched entry comp; high-quality small sellers may trade nearer headline levels.",
+    "inputs.exit_mult: Reported valuation basis/details and size distribution may differ from a normalized EBITDA exit; this is not proof of a specific future exit.",
+    "inputs.pricing_structure: No exact fee-rate selection is used in scoring.",
+    "dataset_inputs.n_band: Form ADV adviser census is not NAICS 523940 and excludes state-registered advisers.",
+    "dataset_inputs.n_band: The 0.8% fee and distribution within AUM bands are judgmental bridges; no published AUM-band table was reopened.",
+    "dataset_inputs.n_band: The supplied 11.65% margin is broad asset-management, likely below standardized wealth-RIA margins; n_band is intentionally low confidence."
+  ],
+  "summary": "Mechanics pass and the broad RIA thesis is useful, but the observed 11x exit input lacks a cited EBITDA denominator. Because that unsupported comparison materially drives M and a near-cut aggregate verdict, the record is rejected for one bounded remediation."
+}

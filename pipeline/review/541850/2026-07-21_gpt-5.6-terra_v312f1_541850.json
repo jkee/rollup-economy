@@ -1,0 +1,125 @@
+{
+  "naics": "541850",
+  "run_id": "2026-07-21_gpt-5.6-terra_v312f1_541850",
+  "artifact_digests": {
+    "packet_sha256": "f8d26fa25a217a6bb525eeeb95264f894f1636d116e9ee13d89eb080b05d177c",
+    "run_sha256": "64b1544e9e6b0b4a087d079d2bee90aba0222f2652dacddcc8f52811d7589e16",
+    "memo_sha256": "a2936a79532d1d13bcb7e4c4d071a4a2581f82d33ae37aa31fdd08bf3d30f279"
+  },
+  "review_meta": {
+    "model_id": "gpt-5.6-sol",
+    "review_date": "2026-07-21",
+    "prompt_version": "validator-3.1.2"
+  },
+  "outcome": "publishable_with_caveats",
+  "mechanics": {
+    "schema_valid": true,
+    "identity_valid": true,
+    "model_route_valid": true,
+    "dataset_equal": true,
+    "finalization_equal": true,
+    "memo_equal": true,
+    "arithmetic_valid": true
+  },
+  "source_reviews": [
+    {
+      "source_id": "S1",
+      "url": "https://www.census.gov/naics/?details=541&input=541&year=2017",
+      "accessible": true,
+      "score_driving": false,
+      "support": "not_score_driving",
+      "notes": "The official Census NAICS application opens, but the exact URL currently renders a blank 541 search result rather than the cited 541850 definition. S1 is used only for narrative scope, not a finalized score input."
+    },
+    {
+      "source_id": "S2",
+      "url": "https://oaaa.org/news/out-of-home-advertising-revenue-reaches-record-9-46-billion/",
+      "accessible": true,
+      "score_driving": false,
+      "support": "not_score_driving",
+      "notes": "The OAAA release supports the narrative claims of $9.46 billion 2025 OOH revenue, 3.6% growth, 19 consecutive growth quarters, 36.3% DOOH share and 10.5% DOOH growth. No finalized score input cites S2."
+    },
+    {
+      "source_id": "S3",
+      "url": "https://www.census.gov/library/stories/2026/05/ai-use-businesses.html",
+      "accessible": true,
+      "score_driving": true,
+      "support": "supported",
+      "notes": "The Census article reports 17–20% overall business AI use from December 2025 through May 2026 and less than 20% use among firms with four or fewer employees. The packet appropriately identifies it as broad-business evidence."
+    },
+    {
+      "source_id": "S4",
+      "url": "https://billboardinsider.com/whats-billboard-cashflow/",
+      "accessible": true,
+      "score_driving": true,
+      "support": "partially_supported",
+      "notes": "The page defines billboard cash flow, lists direct costs and states 10–12x average sale multiples for a well-maintained plant with a reasonable lease portfolio. It does not support owner age and is not an EBITDA-comps source; both limitations are disclosed."
+    },
+    {
+      "source_id": "S5",
+      "url": "https://oaaa.org/blog-posts/programmatic-ooh-shows-continued-momentum-in-h1-2025/",
+      "accessible": true,
+      "score_driving": true,
+      "support": "partially_supported",
+      "notes": "The page supports platform-specific programmatic momentum, a 16% increase in available screens, the deal mix and outdoor's 51% share of Place Exchange spend. It does not contain the narrative's 24% of 2024 DOOH-spend figure."
+    },
+    {
+      "source_id": "S6",
+      "url": "https://www.sec.gov/Archives/edgar/data/1090425/000109042526000008/lamr-20251231.htm",
+      "accessible": true,
+      "score_driving": true,
+      "support": "supported",
+      "notes": "The filing reports over 50 outdoor-asset acquisitions for $191.079 million in 2025, the $147.642 million Verde Outdoor acquisition and allocations to structures, site locations, customer contracts and lease assets."
+    },
+    {
+      "source_id": "S7",
+      "url": "https://billboardinsider.com/does-a-us-asset-sale-make-sense-for-clear-channel/",
+      "accessible": true,
+      "score_driving": true,
+      "support": "partially_supported",
+      "notes": "The trade analysis supports a 12.5–14x billboard-cash-flow scenario and identifies a historic 12.5x asset sale to Lamar. It is not an EBITDA multiple or a lower-middle-market 541850 comp, as the packet discloses."
+    }
+  ],
+  "findings": [
+    {
+      "severity": "caveat",
+      "category": "metadata",
+      "input_paths": [
+        "narrative.executive_view"
+      ],
+      "explanation": "S1's exact Census URL opens the NAICS application but does not currently render the cited 541850 definition because the query resolves to an empty 541 search result.",
+      "materiality": "Non-material citation-location weakness: S1 is not referenced by a finalized score input, and the packet separately discloses its heterogeneous market boundary. This cannot change a score or the durable-but-asset-specific thesis.",
+      "remediation": "Replace S1 in a future run with a stable Census manual or code-specific URL that directly renders the 541850 definition.",
+      "publication_caveat": "Census S1 opens as the NAICS search application without a rendered 541850 result, so the exact industry-scope text is not directly visible at the cited URL; S1 is not score-driving and the packet separately discloses the code's heterogeneous boundary."
+    },
+    {
+      "severity": "caveat",
+      "category": "numeric_support",
+      "input_paths": [
+        "narrative.value_capture",
+        "inputs.pi_dist"
+      ],
+      "explanation": "The statement that programmatic represented 24% of DOOH spend in 2024 is not present on S5's exact page. The page does support outdoor's 51% share of Place Exchange spend and the cited platform-specific programmatic trends.",
+      "materiality": "Non-material to C and the thesis: pi_dist is explicitly an estimate with a disclosed absence of platform-take-rate and pass-through evidence, and its rationale does not depend on the 24% figure. Removing that unsupported contextual number leaves the physical-inventory capture mechanism and platform-risk direction unchanged.",
+      "remediation": "Remove the 24% sentence or cite a source that directly reports the 2024 DOOH programmatic share in a future run.",
+      "publication_caveat": "The 24% of DOOH spend in 2024 figure in narrative.value_capture is not present on S5's exact page; S5 does support the cited 51% Place Exchange venue mix and platform-specific momentum. Because pi_dist is explicitly an estimate with a platform/pass-through caveat and does not depend on the 24% figure, this does not change C or the thesis."
+    }
+  ],
+  "publication_caveats": [
+    "inputs.ai_replaceable_share: The supplied 4-digit 5418 workforce omits much installation, print, maintenance, permitting and lease work while overstating agency/PR roles.",
+    "inputs.ai_replaceable_share: Programmatic transaction growth is not counted as a V input; it is addressed in pi_dist and terminal discussion.",
+    "inputs.pi_dist: No reopened source reports the platform take rate or AI savings pass-through for independent 541850 operators.",
+    "inputs.pi_moat: Moat is asset-specific: short leases, non-transferable permits and poor locations can sharply reduce it.",
+    "inputs.t50_years: Neither source is a 541850 workflow-adoption survey.",
+    "inputs.current_adoption_pct: BTOS is all-business evidence and Place Exchange is a selected platform, not the full code.",
+    "inputs.historical_analogs: The source covers one platform’s patterns and must not be read as all-industry adoption.",
+    "inputs.owners_60plus_pct: S4 discusses plant valuation and owner-operated sales expense, not a representative owner-age survey.",
+    "inputs.owners_60plus_pct.succession_shortage_documented: Not documented is not evidence of no target-level succession need.",
+    "inputs.active_consolidators: Count is deliberately limited to an active acquirer documented in a reopened primary filing, not a census of all buyers.",
+    "inputs.buy_mult: S4 and S7 report billboard cash flow, not EBITDA; accounting definitions, lease treatment and sales-cost normalization can make the proxy materially wrong.",
+    "inputs.exit_mult: The source multiple is billboard cash flow, not EBITDA. Exit premium is not used in capture or terminal scoring.",
+    "inputs.pricing_structure: This describes billboard plants; 541850 also includes indoor, transit and display-design activities.",
+    "Census S1 opens as the NAICS search application without a rendered 541850 result, so the exact industry-scope text is not directly visible at the cited URL; S1 is not score-driving and the packet separately discloses the code's heterogeneous boundary.",
+    "The 24% of DOOH spend in 2024 figure in narrative.value_capture is not present on S5's exact page; S5 does support the cited 51% Place Exchange venue mix and platform-specific momentum. Because pi_dist is explicitly an estimate with a platform/pass-through caveat and does not depend on the 24% figure, this does not change C or the thesis."
+  ],
+  "summary": "Mechanics, identity, digests, deterministic dataset injection, fresh finalization, memo rendering and arithmetic all pass. The physical-inventory moat, active-acquirer evidence and OOH-demand evidence support the useful durable-but-asset-specific thesis. The cash-flow-multiple and workforce proxies are prominently disclosed, and two non-material citation issues require publication caveats; neither demonstrates a likely factor, score or thesis reversal."
+}

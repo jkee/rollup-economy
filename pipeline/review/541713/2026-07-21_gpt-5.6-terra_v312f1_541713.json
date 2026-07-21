@@ -1,0 +1,138 @@
+{
+  "naics": "541713",
+  "run_id": "2026-07-21_gpt-5.6-terra_v312f1_541713",
+  "artifact_digests": {
+    "packet_sha256": "b5396f1c34049cd0ce2118c11674f7da092192abe1ca7ca3fa72f401722585b9",
+    "run_sha256": "9022d48b6f8e4a4f18fc8039f832f17078461ecfce553f17b290c7e336dc8767",
+    "memo_sha256": "f5c9b55fad8b12c4639ab23c847197be01b428c56896f89ff9055e349bef067e"
+  },
+  "review_meta": {
+    "model_id": "gpt-5.6-sol",
+    "review_date": "2026-07-21",
+    "prompt_version": "validator-3.1.2"
+  },
+  "outcome": "publishable_with_caveats",
+  "mechanics": {
+    "schema_valid": true,
+    "identity_valid": true,
+    "model_route_valid": true,
+    "dataset_equal": true,
+    "finalization_equal": true,
+    "memo_equal": true,
+    "arithmetic_valid": true
+  },
+  "source_reviews": [
+    {
+      "source_id": "S1",
+      "url": "https://www.census.gov/naics/?details=541&input=541&year=2022",
+      "accessible": true,
+      "score_driving": true,
+      "support": "partially_supported",
+      "notes": "The Census NAICS page defines 541713 as nanotechnology research and experimental development involving matter at roughly 1–100 nanometers. It does not establish that the modeled acquisition subset is predominantly fee-for-service physical lab work or quantify automatable tasks, capture, or moat."
+    },
+    {
+      "source_id": "S2",
+      "url": "https://www.census.gov/library/stories/2026/05/ai-use-businesses.html",
+      "accessible": true,
+      "score_driving": true,
+      "support": "supported",
+      "notes": "The article reports overall business AI use of 17%–20% during the stated period and identifies research and development among the measured business functions. The packet correctly states that this is not a nanotechnology-specific effective-adoption survey."
+    },
+    {
+      "source_id": "S3",
+      "url": "https://www.nano.gov/2025BudgetSupplement/",
+      "accessible": true,
+      "score_driving": true,
+      "support": "supported",
+      "notes": "The NNI page reports a $2.2 billion FY2025 request, support across 12 agencies, and more than $45 billion cumulative funding since 2001. The packet accurately limits this to public funding context rather than 541713 firm revenue."
+    },
+    {
+      "source_id": "S4",
+      "url": "https://www.sbir.gov/awards",
+      "accessible": true,
+      "score_driving": true,
+      "support": "supported",
+      "notes": "The federal page provides a searchable and downloadable SBIR awards database and states that files are refreshed monthly. It supports the existence of a visible small-business R&D funding source but not a 541713 contract or revenue mix."
+    },
+    {
+      "source_id": "S5",
+      "url": "https://corporatefinance.kpmg.com/us/en/insights/2025/government-services-update-h1-2025.html",
+      "accessible": true,
+      "score_driving": true,
+      "support": "partially_supported",
+      "notes": "KPMG reports 60 H1 2025 government-technology-services deals, 146 PE-backed government-services platforms, procurement uncertainty, and selective continuing activity. Those figures do not measure nanotechnology R&D consolidation or contract structure."
+    },
+    {
+      "source_id": "S6",
+      "url": "https://exitvalue.ai/blog/how-to-value-government-contracting",
+      "accessible": true,
+      "score_driving": true,
+      "support": "partially_supported",
+      "notes": "The page discusses federal-contracting multiple ranges and the relevance of clearances, prime contracts, contract vehicles, DCAA compliance, customer concentration, and contract type. It is commercial GovCon commentary, not transaction evidence for nanotechnology R&D or grant-funded labs."
+    }
+  ],
+  "findings": [
+    {
+      "severity": "caveat",
+      "category": "proxy_or_contradiction",
+      "input_paths": [
+        "dataset_inputs.labor_share",
+        "scores.V",
+        "S"
+      ],
+      "explanation": "The deterministic labor share is 0.0676, and the packet itself calls that value implausibly low for an R&D-services code and potentially classification-distorted. The finalizer correctly uses it unchanged, so this is not a mechanics failure, but the economic interpretation of V is fragile.",
+      "materiality": "A more representative labor share could materially raise V. The anomaly is prominently disclosed in the executive view, risk section, dataset-mismatch sensitivity, and top uncertain inputs; it therefore remains an explicit publication limitation rather than a hidden contradiction or mutated deterministic input.",
+      "remediation": "Reconcile QCEW wages and SUSB receipts for 541713 and test adjacent R&D-service labor-share benchmarks before relying on V for target underwriting.",
+      "publication_caveat": "The deterministic 0.0676 labor share is acknowledged as potentially classification-distorted and may materially understate V; the computed V and S are mechanically correct but economically fragile."
+    },
+    {
+      "severity": "caveat",
+      "category": "scope",
+      "input_paths": [
+        "inputs.pi_dist",
+        "inputs.pi_moat",
+        "inputs.active_consolidators",
+        "inputs.buy_mult",
+        "inputs.exit_mult",
+        "inputs.pricing_structure"
+      ],
+      "explanation": "KPMG and ExitValue support government-services activity, contract and valuation mechanisms, but they do not observe nanotechnology R&D economics. The one-consolidator count, contract mix, and 5.5x/6.0x multiples are explicitly low-confidence estimates for a hypothesized profitable contract-lab subset.",
+      "materiality": "Actual grant dependence, backlog, principal-investigator concentration, and sponsor mix could move B, C, and M. The proxy is broad but repeatedly disclosed, the values are not claimed as observed 541713 facts, and the sources do support the limited GovCon mechanisms attributed to them; this warrants a caveat rather than rejection.",
+      "remediation": "Use named 541713 acquirers, closed contract-lab transactions, and target-level sponsor and contract data to replace the government-services proxy.",
+      "publication_caveat": "B, C, and M rely heavily on disclosed government-services proxies; the consolidator count, contract mix, and 5.5x/6.0x multiples are not observed 541713 market figures."
+    },
+    {
+      "severity": "caveat",
+      "category": "scope",
+      "input_paths": [
+        "inputs.pricing_structure",
+        "cross_checks.terminal_value"
+      ],
+      "explanation": "NNI and SBIR establish a public nanotechnology and small-business R&D funding ecosystem, but they do not establish revenue accruing to 541713 firms or the prevalence of paid physical-lab contracts. The DURABLE terminal view applies only to the explicitly selected physical contract-R&D/lab-services hypothesis.",
+      "materiality": "A venture-funded, product-development, or single-PI business could have a different paid-demand and acquisition thesis. Because the packet makes the market boundary and conditional terminal mechanism explicit and does not use funding totals as code revenue, the weakness is non-fatal scope uncertainty.",
+      "remediation": "Measure the code's revenue by fee-for-service, grant, venture, and product-development model and validate recurring paid demand for the selected acquisition subset.",
+      "publication_caveat": "The DURABLE terminal-demand view is conditional on a fee-for-service physical contract-lab subset; NNI and SBIR evidence shows funding context, not 541713 firm revenue or contract prevalence."
+    }
+  ],
+  "publication_caveats": [
+    "inputs.ai_replaceable_share: The supplied 5-digit 54171 role mix is not nanotechnology-specific and is visibly biotech-biased.",
+    "inputs.ai_replaceable_share: The large RESIDUAL mixes materials scientists, engineers, technicians, facilities and administration; 0.25 is a conservative mixed-task judgment.",
+    "inputs.pi_dist: No public 541713 revenue split by cost-plus, FTE-rate, fixed-price or grant contract was located.",
+    "inputs.pi_dist: Government-services sources are a contract-R&D proxy rather than a code-specific sample.",
+    "inputs.pi_moat: This is capture, not the separate physical-work terminal-demand mechanism.",
+    "inputs.t50_years: BTOS is an all-business, all-function proxy, not a nanotechnology effective-adoption survey.",
+    "inputs.current_adoption_pct: Current use in any function is not task-level adoption or a code-specific measurement.",
+    "inputs.historical_analogs: Not an observed nanotechnology analogue dataset.",
+    "inputs.owners_60plus_pct: Pure unsupported estimate; validate actual founder age and succession on each target.",
+    "inputs.owners_60plus_pct.succession_shortage_documented: Absence of located evidence is not evidence of no succession issue.",
+    "inputs.active_consolidators: KPMG’s platform and deal counts cover government technology services, not nanotechnology R&D.",
+    "inputs.buy_mult: No public 541713 lower-middle-market transaction-comp set was found.",
+    "inputs.buy_mult: Government-contracting valuation commentary is a proxy and may be materially too high for grant-funded or single-PI businesses.",
+    "inputs.exit_mult: A grant-dependent or key-person business can exit below entry; selected value is not an observed 541713 exit multiple.",
+    "inputs.pricing_structure: NNI and SBIR sources show funding context, not a 541713 revenue-by-contract-form breakdown.",
+    "The deterministic 0.0676 labor share is acknowledged as potentially classification-distorted and may materially understate V; the computed V and S are mechanically correct but economically fragile.",
+    "B, C, and M rely heavily on disclosed government-services proxies; the consolidator count, contract mix, and 5.5x/6.0x multiples are not observed 541713 market figures.",
+    "The DURABLE terminal-demand view is conditional on a fee-for-service physical contract-lab subset; NNI and SBIR evidence shows funding context, not 541713 firm revenue or contract prevalence."
+  ],
+  "summary": "Publishable with caveats. Exact artifact identity, schemas, dataset injection, fresh finalization, memo rendering, and arithmetic all pass. All six registered sources are accessible and support their stated broad facts, but the anomalous deterministic labor share, non-nanotechnology government-services market proxies, and unmeasured physical contract-lab boundary make the score and terminal thesis economically fragile despite adequate disclosure."
+}
