@@ -1382,8 +1382,9 @@ def _validate_predecessor_review(root, campaign_path, plan_path, entry, review,
         raise IssueError("predecessor campaign manifest is invalid: %s" % "; ".join(manifest_errors))
     plan_ref = manifest.get("issuance_plan", {})
     plan_file = _repository_path(root, plan_path, must_exist=True)
-    if (plan_ref.get("path") != plan_path or plan_ref.get("sha256") != sha256_file(plan_file)
-            or plan_ref.get("byte_length") != plan_file.stat().st_size):
+    if (set(plan_ref) != {"path", "sha256"}
+            or plan_ref.get("path") != plan_path
+            or plan_ref.get("sha256") != sha256_file(plan_file)):
         raise IssueError("predecessor campaign does not bind the exact issuance plan")
     matches = [item for item in manifest.get("entries", [])
                if isinstance(item, dict) and item.get("entry_id") == entry["entry_id"]]

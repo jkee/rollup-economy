@@ -84,27 +84,50 @@ class RemediationIssuanceV42Tests(unittest.TestCase):
         run_sha, review_sha = self._materialize_predecessor(
             paths=["inputs.implementation_realization.r2",
                    "inputs.commercial_retention.c4"])
+        plan_file = self.fixture.root / self.fixture.plan_path
+        campaign_entry = {"entry_id": self.entry["entry_id"]}
+        self.fixture.write_json(self.campaign_path, {
+            "issuance_plan": {"path": self.fixture.plan_path,
+                              "sha256": issuer.sha256_file(plan_file)},
+            "entries": [campaign_entry],
+        })
+        campaign_authority = SimpleNamespace(
+            validate_manifest=lambda _manifest, _root: [],
+            review_errors=lambda _review, _entry, _manifest, _root: [],
+            computed_outcome=lambda _entry, _review: "reject",
+        )
+        real_validate = issuer._validate_predecessor_review
+        self.review_authority_patch.stop()
         output = "pipeline/v4_2/plans/remediation.json"
-        plan = issuer.issue_remediation(
-            self.fixture.root, self.fixture.plan_path, self.campaign_path,
-            self.entry["entry_id"],
-            run_sha, review_sha, output)
-        second = plan["entries"][-1]
-        self.assertEqual(second["attempt"], 2)
-        self.assertEqual(second["remediates_run_id"], self.entry["run_id"])
-        self.assertEqual(second["remediable_paths"], [
-            "inputs.commercial_retention.c4", "inputs.implementation_realization.r2"])
-        _loaded, errors = issuer.validate_issued_plan(self.fixture.root, output)
-        self.assertEqual(errors, [])
-        with self.assertRaisesRegex(issuer.IssueError, "overwrite"):
-            issuer.issue_remediation(
+        authority_patch = mock.patch.object(
+            issuer, "_validate_predecessor_review",
+            side_effect=lambda root, campaign_path, plan_path, entry, review:
+            real_validate(root, campaign_path, plan_path, entry, review,
+                          campaign_module=campaign_authority))
+        authority_patch.start()
+        try:
+            plan = issuer.issue_remediation(
                 self.fixture.root, self.fixture.plan_path, self.campaign_path,
                 self.entry["entry_id"],
                 run_sha, review_sha, output)
-        with self.assertRaisesRegex(issuer.IssueError, "original attempt-1"):
-            issuer.build_remediation_issuance(
-                self.fixture.root, output, self.campaign_path,
-                second["entry_id"], run_sha, review_sha)
+            second = plan["entries"][-1]
+            self.assertEqual(second["attempt"], 2)
+            self.assertEqual(second["remediates_run_id"], self.entry["run_id"])
+            self.assertEqual(second["remediable_paths"], [
+                "inputs.commercial_retention.c4", "inputs.implementation_realization.r2"])
+            _loaded, errors = issuer.validate_issued_plan(self.fixture.root, output)
+            self.assertEqual(errors, [])
+            with self.assertRaisesRegex(issuer.IssueError, "overwrite"):
+                issuer.issue_remediation(
+                    self.fixture.root, self.fixture.plan_path, self.campaign_path,
+                    self.entry["entry_id"],
+                    run_sha, review_sha, output)
+            with self.assertRaisesRegex(issuer.IssueError, "original attempt-1"):
+                issuer.build_remediation_issuance(
+                    self.fixture.root, output, self.campaign_path,
+                    second["entry_id"], run_sha, review_sha)
+        finally:
+            authority_patch.stop()
 
     def test_unreviewed_wrong_digest_publishable_and_nonremediable_fail(self):
         with self.assertRaisesRegex(issuer.IssueError, "reserved|predecessor|required file"):
@@ -140,8 +163,7 @@ class RemediationIssuanceV42Tests(unittest.TestCase):
         campaign_entry = {"entry_id": self.entry["entry_id"]}
         manifest = {
             "issuance_plan": {"path": self.fixture.plan_path,
-                              "sha256": issuer.sha256_file(plan_file),
-                              "byte_length": plan_file.stat().st_size},
+                              "sha256": issuer.sha256_file(plan_file)},
             "entries": [campaign_entry],
         }
         self.fixture.write_json(self.campaign_path, manifest)
@@ -156,6 +178,25 @@ class RemediationIssuanceV42Tests(unittest.TestCase):
             self.entry, review, campaign_module=valid)
         self.assertEqual(loaded, manifest)
         self.assertEqual(selected, campaign_entry)
+        stale = dict(manifest)
+        stale["issuance_plan"] = dict(manifest["issuance_plan"], sha256="0" * 64)
+        self.fixture.write_json(self.campaign_path, stale)
+        with self.assertRaisesRegex(issuer.IssueError, "exact issuance plan"):
+            issuer._validate_predecessor_review(
+                self.fixture.root, self.campaign_path, self.fixture.plan_path,
+                self.entry, review, campaign_module=valid)
+        other_plan_path = "pipeline/v4_2/plans/same-bytes-other-path.json"
+        self.fixture.write_bytes(other_plan_path, plan_file.read_bytes())
+        wrong_path = dict(manifest)
+        wrong_path["issuance_plan"] = {"path": other_plan_path,
+                                         "sha256": issuer.sha256_file(
+                                             self.fixture.root / other_plan_path)}
+        self.fixture.write_json(self.campaign_path, wrong_path)
+        with self.assertRaisesRegex(issuer.IssueError, "exact issuance plan"):
+            issuer._validate_predecessor_review(
+                self.fixture.root, self.campaign_path, self.fixture.plan_path,
+                self.entry, review, campaign_module=valid)
+        self.fixture.write_json(self.campaign_path, manifest)
         invalid_schema = SimpleNamespace(
             validate_manifest=lambda _manifest, _root: [],
             review_errors=lambda *_args: ["schema/artifact/execution mismatch"],
