@@ -280,6 +280,7 @@ class FreezeContractV42Tests(unittest.TestCase):
                 'pipeline/v4_2/allowed_signers"',
                 workflow,
             )
+            self.assertIn('python-version: "3.14.4"', workflow)
 
     def test_complete_contract_and_authorization_pass(self):
         with tempfile.TemporaryDirectory() as directory:
