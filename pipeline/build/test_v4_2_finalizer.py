@@ -348,6 +348,15 @@ class FinalizerV42Tests(unittest.TestCase):
                               for bound in scoring_fixture.scoring.BOUNDS], [0, 0, 0])
             self.assertEqual([record["scenarios"][bound]["scores"]["I"]
                               for bound in scoring_fixture.scoring.BOUNDS], [0, 0, 0])
+            thresholds = scoring_fixture.scoring.load_thresholds()
+            for bound in scoring_fixture.scoring.BOUNDS:
+                subfactors = record["scenarios"][bound]["subfactors"]
+                expected_h = scoring_fixture.scoring._h_value(
+                    subfactors["implementation_realization"],
+                    subfactors["implementation_investment"],
+                    subfactors["commercial_retention"], thresholds,
+                )
+                self.assertAlmostEqual(subfactors["h"]["h"], expected_h)
             self.assertEqual(record["decision"]["economic_verdict"], "kill")
             self.assertEqual(record["decision"]["action"], "AVOID")
 

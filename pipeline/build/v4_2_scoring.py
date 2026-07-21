@@ -82,7 +82,7 @@ def validate_thresholds(t):
                                          "presentation_link": "must_equal_revenue_basis"},
         "empty_pass_through_basis": "GROSS_OF_ALL",
         "unsupported_nonempty_reconciliation": "R_cva_missing",
-        "zero_G_annihilator": "exact_zero_costs_or_every_exact_zero_removability_forces_V_I_h_zero_even_if_R_cva_missing",
+        "zero_G_annihilator": "exact_zero_costs_or_every_exact_zero_removability_forces_V_I_zero_even_if_R_cva_missing_h_remains_schedule_derived",
         "role_spec_modes": ["frozen", "assumption", "missing"],
     }, "V mapping differs")
     _exact(t["implementation"], {
@@ -468,9 +468,11 @@ def _validate_sentinels(t):
     _exact(sent["r_cva_double_subtraction_forbidden"], True, "double subtraction sentinel differs")
     zero_g_cases = [
         {"case": "EXACT_ZERO_EMPLOYEE_AND_CONTRACTOR_COST", "expected_V": 0.,
-         "expected_I": 0., "expected_h": 0., "expected_verdict": "kill"},
+         "expected_I": 0., "h_policy": "schedule_derived_independent_of_G",
+         "expected_verdict": "kill"},
         {"case": "EVERY_EXACT_ZERO_REMOVABILITY_CONTRIBUTION", "expected_V": 0.,
-         "expected_I": 0., "expected_h": 0., "expected_verdict": "kill"},
+         "expected_I": 0., "h_policy": "schedule_derived_independent_of_G",
+         "expected_verdict": "kill"},
     ]
     _exact(sent["zero_g_missing_denominator_cases"], zero_g_cases,
            "zero-G annihilator sentinels differ")

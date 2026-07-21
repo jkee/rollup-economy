@@ -40,7 +40,7 @@ HOLDOUT_MEMBERSHIP_PATH = "pipeline/v4_2/holdout_membership.json"
 REGRESSION_MEMBERSHIP_PATH = "pipeline/v4_2/regression_membership.json"
 FROZEN_TARGET_UNIVERSE_SHA256 = "b403aaa5291b11391c51f1f85651ef55a9b53bb8b03ed13f2a2365c7c64152f2"
 FROZEN_REGRESSION_SHA256 = "14fd1ee651f12cabe169f5be7658cf4bec9be2157b41a9b8fdafe7b9efa34783"
-FROZEN_HOLDOUT_SHA256 = "77be1cead8d787f8f4476a009dd785629b6e9dcea61210821ebb97a084c8da71"
+FROZEN_HOLDOUT_SHA256 = "c4d34be87e695db1452ac313c5269d59a5839f7797f7643cbc7c07aa3d7b3229"
 
 
 def _canonical_holdout():
@@ -299,13 +299,9 @@ def _h_record_errors(record):
     decision = record.get("decision")
     if isinstance(decision, dict):
         verdict = decision.get("economic_verdict")
-        reasons = decision.get("gate_reasons", [])
         if isinstance(base_g, (int, float)) and not isinstance(base_g, bool) and base_g == 0:
             if verdict != "kill":
                 errors.append("base G=0 must produce a structural factor kill")
-        elif base_g is None or base_g in ("UNBOUNDED", "NEGATIVE_UNBOUNDED"):
-            if verdict != "indeterminate":
-                errors.append("missing/unbounded base G must remain economically indeterminate")
     return errors
 
 

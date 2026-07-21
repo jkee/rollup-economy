@@ -456,6 +456,22 @@ class V42CampaignTests(unittest.TestCase):
         errors = campaign._h_record_errors(finalized)
         self.assertTrue(any("differs from primitive inputs" in item for item in errors))
 
+    def test_missing_g_with_negative_h_can_be_stable_kill(self):
+        source = scoring_fixtures.record()
+        source["inputs"]["employee_cash_cost"] = scoring_fixtures.missing()
+        source["inputs"]["implementation_investment"]["k0"] = \
+            scoring_fixtures.proxy(3.0)
+        computed = scoring_fixtures.scoring.calculate(source)
+        finalized = copy.deepcopy(source)
+        finalized["scenarios"] = {
+            bound: computed[bound] for bound in ("low", "base", "high")
+        }
+        finalized["decision"] = computed["decision"]
+        self.assertIsNone(finalized["scenarios"]["base"]["subfactors"]["V"]["G"])
+        self.assertLess(finalized["scenarios"]["base"]["subfactors"]["h"]["h"], 0)
+        self.assertEqual("kill", finalized["decision"]["economic_verdict"])
+        self.assertEqual([], campaign._h_record_errors(finalized))
+
     def test_membership_snapshots_are_closed_exact_63_code_partitions(self):
         with tempfile.TemporaryDirectory() as root:
             for scope, expected_size, omitted_size in (

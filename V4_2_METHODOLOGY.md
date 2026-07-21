@@ -712,10 +712,12 @@ All sentinels must pass before any real v4.2 artifact is accepted.
 35. Missing buy multiple with downside-exit high exactly 0 gives P high 0;
     missing buy with a positive exit high retains feasible P high 10.
 36. Missing `R_cva` plus exact zero employee and contractor cost forces
-    G=V=I=h=0 and stable kill.
+    G=V=I=0 and stable factor-floor kill. The h diagnostic remains derived
+    independently from r, c, and k and is not forced to zero.
 37. Missing `R_cva` plus exact zero contribution from every removable-weight
-    term produces the same structural zero; positive or unresolved G retains
-    ordinary missing-denominator V support.
+    term produces the same structural G=V=I zero; h remains schedule-derived,
+    while positive or unresolved G retains ordinary missing-denominator V
+    support.
 38. `r=[.2,.8,.9,.4,.1]` is valid. Against otherwise identical
     `[.2,.8,.9,.9,.9]`, later operational decay lowers I, C, and h when
     retention is concentrated in years four and five.
