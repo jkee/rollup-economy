@@ -56,8 +56,8 @@ Sequencing has two deliberate inversions: the build/check script (Phase 2) is bu
 - [x] 4.1 Fleet runs done via in-session agents (not API batch — deferred to Phase 6): 63/63 codes validated (schema + arithmetic recompute), verdicts 7 conditional / 27 pass / 29 kill / 0 green, 20 borderline. **Incident log:** first wave (3-codes-per-agent briefs) collapsed into delegation cascades + a platform outage → 0 usable records; fixed with single-author 2-code briefs + mandatory real-validator self-check loop → 63/63 clean ("s2" runs). Lesson encoded for Phase 6: one API call per code, validator-in-the-loop
 - [x] 4.2 Golden-set runs (20, Sol) in `pipeline/golden/` — separation PASS (`golden_analysis.py`); all 20 codes also have GPT-5.5 fleet runs as the benchmark. Observed: tight cross-model agreement on structure/mechanisms; divergence concentrated in t50 and multiples; 2 terminal-class boundary disagreements (541930 translation, 561492 court reporting) + payer-clawback C-vs-T ambiguity (healthcare codes) — template clarification candidates
 - [~] 4.3 **RESOLVED 2026-07-20; halted by user after systemic-failure signal** — full-depth Sol validator pass was specified for all 83 records, with no risk-tiering: 63 fleet records plus 20 separate golden reference records. Every URL anywhere in each record and every quoted figure is audited; judgment inputs, rubric consistency, dataset agreement and cross-check honesty are reviewed; every Stage-4 flag is addressed. Reviews are run-scoped at `pipeline/review/<naics>/<run-id>.json`. The Phase-2 production bootstrap was removed before the validator canary. **Halt checkpoint:** 72/83 reviewed (all 63 fleet plus 9 golden), 0 accepted / 72 wrong / 0 invalid; 11 golden reviews were deliberately not run. The first two-record canary audited 20 URL/path occurrences with 18 unsupported-claim failures, and the zero-acceptance pattern persisted into Sol-generated golden records. Continuing the same campaign would add cost without testing a new hypothesis.
-- [ ] 4.4 `wrong` records re-run with critique attached — **paused**; do not launch an all-record rerun until 4.6 determines whether the sourcing/prompt/validator contract is the failed instrument
-- [ ] 4.5 Judge pilot vs frozen pass criteria (partially done: golden separation PASS, zero arithmetic mismatches across all 83 records; acceptance-rate criterion blocked on 4.3):
+- [x] 4.4 **Closed without execution; superseded by 4.9.** The open-ended `wrong`-record queue was never launched. v3.1.2 permits one bounded remediation pass only for materially rejected/invalid records.
+- [x] 4.5 **Historical zero-defect pilot criteria, superseded by the v3.1.2 completion definition in 4.9.** At the time: golden separation PASS and zero arithmetic mismatches across all 83 records; the acceptance criterion was blocked on 4.3. The former criteria were:
   - golden gate passes both `python3 pipeline/build/review_campaign.py validate` (all exact-run reviews and campaign invariants) and `python3 pipeline/build/golden_analysis.py` (known winners above known melters; melters caught by the T gate)
   - zero arithmetic mismatches in the build
   - all 83 current records accepted after remediation, with zero unresolved citation/check failures
@@ -72,9 +72,44 @@ Sequencing has two deliberate inversions: the build/check script (Phase 2) is bu
 
   **Canary acceptance gate: FAIL; stop checkpoint.** Five isolated full-depth Sol (`gpt-5.6-sol`) validators wrote exact-run reviews with prompt version `validator-3.1.1`. The orchestrator independently verified all five review schemas, run identities, exact model/prompt bindings, URL coverage and Stage-4 flag coverage. Verdicts are **0 accepted / 5 wrong** with **29 actionable reasons**. Atomic citation support is **36/47 (76.6%)** overall: `524210` 6/11 (54.5%), `541110` 6/9 (66.7%), `541350` 7/7 (100%), `541612` 6/8 (75.0%), and `541613` 11/12 (91.7%); only 1/5 records has complete atomic support. Repeated/systemic defects are present: four records label reported geography as `not reported`; at least three make incomplete or unsupported historical-analogue/search bridges; and multiple records reuse human/ownership/credential boundaries in disallowed or double-counted V/A/C/terminal locations. The gate fails both because no record is accepted and because the defects repeat across records. Per the predeclared rule, do not launch the remaining fleet, golden reruns or remediation, and do not change or weaken the contract without user direction. Platform token splits and billable web-call data were not exposed; none are estimated.
 
-  The validated review/gate-stop evidence is commit **`4c7099e`**, pushed to `origin/main`. No post-gate work has been launched.
+  The validated review/gate-stop evidence is commit **`4c7099e`**, pushed to `origin/main`. No post-gate campaign work has been launched. On 2026-07-21 the user explicitly authorized planning a weaker, text-first and bounded replacement contract; that direction is recorded in 4.9 and does not retroactively change the v3.1.1 result.
 
-**Deliverable:** accepted run records for sector 54 + golden set. **Done when:** 4.5 criteria all pass.
+- [~] 4.9 **v3.1.2 text-first, bounded-completion contract — direction authorized 2026-07-21; implementation in progress.** v3.1.1 proved that the deterministic boundary works but its all-or-nothing research audit is too strict for the product: all five canary records were schema-valid with zero arithmetic mismatch, while 29 research reasons made all five `wrong`; 10 of those reasons were source-title, quote-typography or scope-metadata defects rather than false substantive claims. v3.1.2 will optimize for a useful, candid research product that can finish. It will **not** change the frozen datasets, formulas, factor meanings, score thresholds, gates or golden-set membership, and it will not mutate any v3.0, v3.1 or v3.1.1 artifact.
+
+  **Primary artifact and authored contract**
+
+  - [x] 4.9.1 Replace the forensic-form-shaped v3.1.1 draft with a smaller versioned research packet. Terra authors substantive prose sections — executive view, how AI changes the work, value capture, adoption timing, consolidation/economics, terminal demand, risks and uncertainty — plus a compact machine scorecard containing each selected value, plausible range, confidence, rationale and source IDs.
+  - [x] 4.9.2 Keep one canonical model-authored packet so prose and numbers cannot drift. Plain Python validates the compact scorecard, injects deterministic dataset inputs and role weights, computes every contribution/factor/score/verdict, and renders a human-facing Markdown memo under `pipeline/memos/<naics>/<run-id>.md`. Neither the model nor a human may hand-edit finalized values, scores or rendered memos.
+  - [x] 4.9.3 Simplify evidence to a compact source registry (`id`, URL, title, access date and what the source supports). Require source IDs for material factual and numeric claims; make exact quotes optional. Remove mandatory per-fact population/geography/unit/period objects and the step-by-step `estimate_basis` form. Material population, geography, period or proxy mismatches remain candid prose caveats attached to the affected score input.
+  - [x] 4.9.4 Preserve declared judgment. Every score input must still distinguish sourced observation/calculation from estimate, but an estimate is valid when its rationale, range and uncertainty are understandable; it no longer fails because every bridge step or search query was not serialized.
+
+  **Review severity and publication policy**
+
+  | Outcome | Meaning | Build treatment |
+  |---|---|---|
+  | `publishable` | Mechanics pass; no material research defect | Include |
+  | `publishable_with_caveats` | Mechanics pass; useful conclusion, with non-fatal evidence/proxy/uncertainty findings | Include and expose caveats |
+  | `reject` | Material research defect could change the score or thesis | Exclude pending the single remediation pass |
+  | `invalid` | Schema/identity/dataset/finalization/arithmetic failure | Exclude pending the single remediation pass |
+
+  - [x] 4.9.5 Define fatal mechanics narrowly and deterministically: wrong identity/model/version, schema failure, mutated deterministic inputs or roles, invalid/non-finite score inputs, unsafe calculation, finalizer mismatch or arithmetic mismatch. These are `invalid`, never caveats.
+  - [x] 4.9.6 Define material research defects narrowly: fabricated or inaccessible score-driving evidence; a material numeric claim not supported by its cited source; reversed factor semantics; an undisclosed proxy or contradiction likely to change a factor materially; or a terminal/capture mechanism counted twice in a way likely to change the thesis. These are `reject`.
+  - [x] 4.9.7 Treat exact punctuation, normalized quotation differences, page-title variants, conservative `not reported` metadata, incomplete search logs, source age, broad-but-disclosed proxies, non-material scope weakness and incomplete bridge prose as caveats unless the validator explains why the issue is materially score-changing. A reason without a materiality statement cannot produce `reject`.
+  - [x] 4.9.8 Version the review schema and validator brief around those outcomes. Sol still reviews every record and every score-driving source, but evaluates usefulness, material support and rubric direction rather than demanding perfect forensic metadata. The accepted-only build becomes a publishable-only build that includes both publishable outcomes and emits caveats in the product.
+
+  **Bounded execution — no open-ended quality loop**
+
+  - [x] 4.9.9 Update `V3_PRODUCT.md`, `V3_PLAYBOOK.md` and this plan first; implement new versioned packet/run/review schemas, prompt, validator brief, finalizer, memo renderer, build routing and campaign tooling; add synthetic regression coverage for every outcome and for v3.1.1 artifact/hash preservation. **Implemented 2026-07-21:** exact prompt/model routing, safe calculations, source/caveat semantics, exact packet/run/memo SHA-256 review binding, byte-equal finalization, full attempt history and bounded close reporting are enforced. The cold Sol review found eight gaps; all eight plus its fallback-source follow-up were closed and independently verified. The suite is 91/91 before prompt assembly (74 inherited + 17 v3.1.2).
+  - [x] 4.9.10 Obtain one cold independent implementation review, close its material findings, run the full deterministic test suite, assemble exactly 63 v3.1.2 prompts with plain Python, verify byte-deterministic rerendering and freeze the prompt layer in a checkpoint commit pushed only to `origin`. **Validated 2026-07-21:** cold Sol review plus two closure passes found no remaining material issue; 91/91 tests pass; all 63 `prompts_v3_1_2` files match fresh in-memory and on-disk rerenders byte-for-byte; frozen v3.0/v3.1/v3.1.1 prompt trees and thresholds/golden membership remain hash-identical. Prompt identity is exactly `v3.1.2-text-first-1`.
+  - [ ] 4.9.11 Run the same five comparable codes (`524210 541110 541350 541612 541613`) as a regression canary. The canary gates only execution readiness: all five must produce schema-valid packets, freshly reproducible final records and memos with zero arithmetic mismatch. Research findings determine publication tier but do not stop the fleet merely because a subjective defect repeats.
+  - [ ] 4.9.12 Run the complete Phase-4 campaign once: 63 Terra fleet records and 20 isolated Sol golden records, each independently checked for packet/run/memo identity and deterministic equality. Then run one isolated Sol review per exact artifact under the v3.1.2 severity contract.
+  - [ ] 4.9.13 Perform **at most one** record-specific remediation pass, and only for `reject` or `invalid`. Attach the concrete review findings, create a new run ID, re-finalize and re-review. Never re-run `publishable_with_caveats`, never silently edit an artifact, and never start a third attempt.
+  - [ ] 4.9.14 After that single remediation pass, close the campaign. Include `publishable` and `publishable_with_caveats`; exclude any remaining `reject`/`invalid` records and list them explicitly in a generated completion report rather than keeping Phase 4 open. Run and report golden separation as a diagnostic, not an unbounded rerun trigger.
+  - [ ] 4.9.15 Generate the final build, campaign report, golden analysis and exact counts by review tier, confidence, source support and unresolved exclusions; update documentation; run all tests, frozen-artifact checks and `git diff --check`; checkpoint with the required Codex co-author trailer and push only to `origin`.
+
+  **v3.1.2 completion definition:** Phase 4 is done when all 83 planned artifacts have been attempted and independently reviewed, the one permitted remediation wave is closed, every included record is `publishable` or `publishable_with_caveats`, every exclusion and caveat is visible in generated output, deterministic validation has zero unresolved arithmetic/dataset/identity errors in included records, golden analysis and exact campaign statistics are reported, frozen earlier versions are unchanged, documentation is current, and all validated checkpoints are pushed to `origin`. There is no required 100% publication rate and no retry-until-accepted loop.
+
+**Deliverable:** text-first v3.1.2 research memos and deterministic score records for sector 54 + golden set, with visible caveats and a bounded exclusion report. **Done when:** the v3.1.2 completion definition above is satisfied; the superseded zero-defect/83-of-83 rule in 4.5 is retained only as historical context.
 
 ## Phase 5 — Dashboard traceability · ~1–2 days (can overlap Phase 4)
 
@@ -90,11 +125,11 @@ Sequencing has two deliberate inversions: the build/check script (Phase 2) is bu
 
 - [ ] 6.1 Prompt generation for all codes, batched by sector
 - [ ] 6.2 Terra (`gpt-5.6-terra`) run fleet via API batch; per-sector observed runtime, token/web-call data and acceptance-rate tracking
-- [ ] 6.3 Validator pass over every record; `wrong` → re-run loop until the queue drains
+- [ ] 6.3 Validator pass over every record using the Phase-4-proven severity contract; at most one remediation run for `reject`/`invalid`, with remaining exclusions reported rather than retried indefinitely
 - [ ] 6.4 Final build, publish; deep-dive reconciliation reviewed
 - [ ] 6.5 Archive/remove v1 & v2 per decision 0.3; stale-input refresh cadence noted in README (market inputs ~12 months)
 
-**Deliverable:** the v3 map live. **Done when:** all 1,012 published records are validator-accepted and the build is green.
+**Deliverable:** the v3 map live. **Done when:** all 1,012 codes have been attempted and reviewed, the single remediation wave is closed, published records are publishable under the proven contract, exclusions/caveats are visible, and the build is green.
 
 ---
 
@@ -102,10 +137,10 @@ Sequencing has two deliberate inversions: the build/check script (Phase 2) is bu
 
 | Item | Estimate |
 |---|---|
-| Terra (`gpt-5.6-terra`) research fleet | Recalculate only from observed runtime/token/web-call data exposed by the platform after the v3.1.1 canary; do not invent unsupported billable usage |
+| Terra (`gpt-5.6-terra`) research fleet | Recalculate only from observed runtime/token/web-call data exposed by the platform during the v3.1.2 campaign; do not invent unsupported billable usage |
 | Sol (`gpt-5.6-sol`) prompt review + full-depth validation + 20 golden runs | Recalculate only from measured platform data; no post-hoc price ratio is assumed |
 | Calendar | ~2–3 weeks part-time; Phases 0–2 week 1, 3–4 week 2, 5–6 week 3 |
 
 **Critical path:** 0.3 decisions → 0.7 freeze → 1.x datasets → 3.x prompts → 4.x pilot → 6.x full run. Phases 2 and 5 hang off the critical path and can run in parallel with their neighbors.
 
-**First move:** draft the golden-set list + confirm proposed cut values (0.3), restructure the repo (0.1–0.2) in the same pass.
+**First move:** specify the v3.1.2 packet, memo and tiered-review contracts in `V3_PRODUCT.md` and `V3_PLAYBOOK.md`, then implement their versioned schemas and synthetic tests (4.9.9).

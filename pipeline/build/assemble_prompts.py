@@ -45,6 +45,10 @@ VERSION_PATHS = {
         "template": REPO / "pipeline" / "template" / "prompt_template_v3_1_1.md",
         "prompts": REPO / "pipeline" / "prompts_v3_1_1",
     },
+    "3.1.2": {
+        "template": REPO / "pipeline" / "template" / "prompt_template_v3_1_2.md",
+        "prompts": REPO / "pipeline" / "prompts_v3_1_2",
+    },
 }
 
 RUNTIME_PLACEHOLDERS = {"{{MODEL_ID}}", "{{RUN_DATE}}", "{{RUN_ID}}", "{{PROMPT_VERSION}}"}
@@ -168,7 +172,14 @@ def render_dataset_inputs(naics, block, dataset, template_version):
     gaps = block["research_gaps"]
     if gaps:
         gap_lines = "\n".join(f"- `{g['input']}`: {g['instruction']}" for g in gaps)
-        if template_version == "3.1.1":
+        if template_version == "3.1.2":
+            fallback_rule = (
+                "provide the value in `dataset_fallbacks` using the compact v3.1.2 "
+                "selection shape; use `OBSERVED` only for an exact sourced value, "
+                "`CALCULATED` only for safe source-backed arithmetic, and `ESTIMATE` "
+                "for any judgmental bridge, with range, confidence and candid caveats"
+            )
+        elif template_version == "3.1.1":
             fallback_rule = (
                 "provide the value in `dataset_fallbacks` using the v3.1.1 "
                 "selection contract; use `OBSERVED` only for an exact sourced value, "

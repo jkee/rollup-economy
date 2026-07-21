@@ -1,0 +1,236 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "research_packet_v3_1_2.schema.json",
+  "title": "v3.1.2 text-first research packet",
+  "description": "Canonical model-authored prose and compact scorecard. Python injects datasets and computes scores, verdict and memo.",
+  "type": "object",
+  "required": ["naics", "title", "run_meta", "narrative", "sources", "dataset_fallbacks", "scorecard", "cross_checks", "disclosures", "confidence_overall", "heterogeneous", "top_uncertain_inputs", "reviewer_note"],
+  "additionalProperties": false,
+  "properties": {
+    "naics": {"type": "string", "pattern": "^[0-9]{6}$"},
+    "title": {"type": "string", "minLength": 1},
+    "run_meta": {
+      "type": "object",
+      "required": ["model_id", "run_date", "run_id", "template_version", "prompt_version", "attempt"],
+      "additionalProperties": false,
+      "properties": {
+        "model_id": {"enum": ["gpt-5.6-terra", "gpt-5.6-sol"]},
+        "run_date": {"type": "string", "format": "date", "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}$"},
+        "run_id": {"type": "string", "pattern": "^[A-Za-z0-9._-]+$", "minLength": 1},
+        "template_version": {"const": "3.1.2"},
+        "prompt_version": {"const": "v3.1.2-text-first-1"},
+        "attempt": {"type": "integer", "minimum": 1, "maximum": 2},
+        "remediates_run_id": {"type": ["string", "null"]}
+      }
+    },
+    "narrative": {
+      "type": "object",
+      "required": ["executive_view", "how_ai_changes_work", "value_capture", "adoption_timing", "consolidation_economics", "terminal_demand", "risks_and_uncertainty"],
+      "additionalProperties": false,
+      "properties": {
+        "executive_view": {"type": "string", "minLength": 40},
+        "how_ai_changes_work": {"type": "string", "minLength": 40},
+        "value_capture": {"type": "string", "minLength": 40},
+        "adoption_timing": {"type": "string", "minLength": 40},
+        "consolidation_economics": {"type": "string", "minLength": 40},
+        "terminal_demand": {"type": "string", "minLength": 40},
+        "risks_and_uncertainty": {"type": "string", "minLength": 40}
+      }
+    },
+    "sources": {
+      "type": "array",
+      "minItems": 1,
+      "items": {"$ref": "#/definitions/source"}
+    },
+    "dataset_fallbacks": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "labor_share": {"$ref": "#/definitions/nonnegative_number_selection"},
+        "n_band": {"$ref": "#/definitions/nonnegative_integer_selection"}
+      }
+    },
+    "scorecard": {
+      "type": "object",
+      "required": ["ai_replaceable_share", "pi_dist", "pi_moat", "t50_years", "current_adoption_pct", "historical_analogs", "owners_60plus_pct", "active_consolidators", "buy_mult", "exit_mult", "pricing_structure"],
+      "additionalProperties": false,
+      "properties": {
+        "ai_replaceable_share": {"$ref": "#/definitions/role_judgment_set"},
+        "pi_dist": {"$ref": "#/definitions/fraction_selection"},
+        "pi_moat": {"$ref": "#/definitions/fraction_selection"},
+        "t50_years": {"$ref": "#/definitions/nonnegative_number_selection"},
+        "current_adoption_pct": {"$ref": "#/definitions/fraction_selection"},
+        "historical_analogs": {"$ref": "#/definitions/string_selection"},
+        "owners_60plus_pct": {"$ref": "#/definitions/owners_selection"},
+        "active_consolidators": {"$ref": "#/definitions/nonnegative_integer_selection"},
+        "buy_mult": {"$ref": "#/definitions/positive_number_selection"},
+        "exit_mult": {"$ref": "#/definitions/positive_number_selection"},
+        "pricing_structure": {"$ref": "#/definitions/string_selection"}
+      }
+    },
+    "cross_checks": {"$ref": "#/definitions/cross_checks"},
+    "disclosures": {"$ref": "#/definitions/disclosures"},
+    "confidence_overall": {"enum": ["HIGH", "MED", "LOW"]},
+    "heterogeneous": {"type": "boolean"},
+    "top_uncertain_inputs": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "required": ["input", "plausible_range", "score_impact"],
+        "additionalProperties": false,
+        "properties": {
+          "input": {"type": "string", "minLength": 1},
+          "plausible_range": {"type": "string", "minLength": 1},
+          "score_impact": {"type": "string", "minLength": 1}
+        }
+      },
+      "contains": {"type": "object", "required": ["input"], "properties": {"input": {"const": "t50_years"}}}
+    },
+    "reviewer_note": {"type": "string"}
+  },
+  "definitions": {
+    "confidence": {"enum": ["HIGH", "MED", "LOW"]},
+    "source": {
+      "type": "object",
+      "required": ["id", "url", "title", "access_date", "what_it_supports"],
+      "additionalProperties": false,
+      "properties": {
+        "id": {"type": "string", "pattern": "^S[1-9][0-9]*$"},
+        "url": {"type": "string", "pattern": "^https?://", "minLength": 1},
+        "title": {"type": "string", "minLength": 1},
+        "access_date": {"type": "string", "format": "date", "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}$"},
+        "what_it_supports": {"type": "string", "minLength": 1},
+        "exact_quote": {"type": "string"}
+      }
+    },
+    "calculation_operand": {
+      "type": "object",
+      "required": ["name", "value", "source_id"],
+      "additionalProperties": false,
+      "properties": {
+        "name": {"type": "string", "pattern": "^[A-Za-z_][A-Za-z0-9_]*$"},
+        "value": {"type": "number"},
+        "source_id": {"type": "string", "pattern": "^S[1-9][0-9]*$"}
+      }
+    },
+    "calculation": {
+      "type": "object",
+      "required": ["expression", "operands"],
+      "additionalProperties": false,
+      "properties": {
+        "expression": {"type": "string", "minLength": 1},
+        "operands": {"type": "array", "minItems": 1, "items": {"$ref": "#/definitions/calculation_operand"}}
+      }
+    },
+    "selection": {
+      "type": "object",
+      "required": ["value", "method", "evidence_quality", "confidence", "source_ids", "rationale", "plausible_range", "caveats"],
+      "additionalProperties": false,
+      "properties": {
+        "value": {},
+        "method": {"enum": ["OBSERVED", "CALCULATED", "ESTIMATE"]},
+        "evidence_quality": {"enum": ["HIGH", "MED", "LOW", "NONE"]},
+        "confidence": {"$ref": "#/definitions/confidence"},
+        "source_ids": {"type": "array", "items": {"type": "string", "pattern": "^S[1-9][0-9]*$"}},
+        "rationale": {"type": "string", "minLength": 1},
+        "plausible_range": {"type": "string", "minLength": 1},
+        "caveats": {"type": "array", "items": {"type": "string", "minLength": 1}},
+        "calculation": {"$ref": "#/definitions/calculation"}
+      },
+      "if": {"required": ["method"], "properties": {"method": {"const": "CALCULATED"}}},
+      "then": {"required": ["calculation"]}
+    },
+    "fraction_selection": {"allOf": [{"$ref": "#/definitions/selection"}, {"properties": {"value": {"type": "number", "minimum": 0, "maximum": 1}}}]},
+    "nonnegative_number_selection": {"allOf": [{"$ref": "#/definitions/selection"}, {"properties": {"value": {"type": "number", "minimum": 0}}}]},
+    "positive_number_selection": {"allOf": [{"$ref": "#/definitions/selection"}, {"properties": {"value": {"type": "number", "exclusiveMinimum": 0}}}]},
+    "nonnegative_integer_selection": {"allOf": [{"$ref": "#/definitions/selection"}, {"properties": {"value": {"type": "integer", "minimum": 0}}}]},
+    "string_selection": {"allOf": [{"$ref": "#/definitions/selection"}, {"properties": {"value": {"type": "string", "minLength": 1}}}]},
+    "boolean_selection": {"allOf": [{"$ref": "#/definitions/selection"}, {"properties": {"value": {"type": "boolean"}}}]},
+    "role_judgment_set": {
+      "type": "object",
+      "required": ["method", "evidence_quality", "confidence", "source_ids", "rationale", "plausible_range", "caveats", "role_judgments"],
+      "additionalProperties": false,
+      "properties": {
+        "method": {"const": "ESTIMATE"},
+        "evidence_quality": {"enum": ["HIGH", "MED", "LOW", "NONE"]},
+        "confidence": {"$ref": "#/definitions/confidence"},
+        "source_ids": {"type": "array", "items": {"type": "string", "pattern": "^S[1-9][0-9]*$"}},
+        "rationale": {"type": "string", "minLength": 1},
+        "plausible_range": {"type": "string", "minLength": 1},
+        "caveats": {"type": "array", "items": {"type": "string", "minLength": 1}},
+        "role_judgments": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "object",
+            "required": ["soc", "within_role_automatable_fraction", "rationale", "plausible_range"],
+            "additionalProperties": false,
+            "properties": {
+              "soc": {"type": "string", "minLength": 1},
+              "within_role_automatable_fraction": {"type": "number", "minimum": 0, "maximum": 1},
+              "rationale": {"type": "string", "minLength": 1},
+              "plausible_range": {"type": "string", "minLength": 1}
+            }
+          }
+        }
+      }
+    },
+    "owners_selection": {
+      "type": "object",
+      "required": ["selection", "succession_shortage_documented"],
+      "additionalProperties": false,
+      "properties": {
+        "selection": {"$ref": "#/definitions/fraction_selection"},
+        "succession_shortage_documented": {"$ref": "#/definitions/boolean_selection"}
+      }
+    },
+    "cross_checks": {
+      "type": "object",
+      "required": ["uplift_vs_A_consistent", "terminal_value", "no_proxy_confirmed", "pricing_model_deflation"],
+      "additionalProperties": false,
+      "properties": {
+        "uplift_vs_A_consistent": {"type": "string", "minLength": 1},
+        "terminal_value": {
+          "type": "object",
+          "required": ["class", "justification"],
+          "additionalProperties": false,
+          "properties": {
+            "class": {"enum": ["DURABLE", "PRESSURED", "MELTING"]},
+            "justification": {"type": "string", "minLength": 1}
+          }
+        },
+        "no_proxy_confirmed": {"type": "string", "minLength": 1},
+        "pricing_model_deflation": {"type": "string", "minLength": 1}
+      }
+    },
+    "disclosures": {
+      "type": "object",
+      "required": ["dataset_mismatch", "market_boundary"],
+      "additionalProperties": false,
+      "properties": {
+        "dataset_mismatch": {
+          "type": "object",
+          "required": ["applies", "description", "sensitivity"],
+          "additionalProperties": false,
+          "properties": {
+            "applies": {"type": "boolean"},
+            "description": {"type": "string"},
+            "sensitivity": {"type": "array", "items": {"type": "string"}}
+          }
+        },
+        "market_boundary": {
+          "type": "object",
+          "required": ["applies", "subsegments", "dominant_subsegment", "selection_basis"],
+          "additionalProperties": false,
+          "properties": {
+            "applies": {"type": "boolean"},
+            "subsegments": {"type": "array", "items": {"type": "string"}},
+            "dominant_subsegment": {"type": "string"},
+            "selection_basis": {"type": "string"}
+          }
+        }
+      }
+    }
+  }
+}

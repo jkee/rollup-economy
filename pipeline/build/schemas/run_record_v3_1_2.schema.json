@@ -1,0 +1,246 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "run_record_v3_1_2.schema.json",
+  "title": "v3.1.2 Python-finalized score record",
+  "type": "object",
+  "required": ["naics", "title", "run_meta", "narrative", "sources", "dataset_inputs", "inputs", "scores", "S", "decision", "cross_checks", "disclosures", "confidence_overall", "heterogeneous", "top_uncertain_inputs", "reviewer_note"],
+  "additionalProperties": false,
+  "properties": {
+    "naics": {"type": "string", "pattern": "^[0-9]{6}$"},
+    "title": {"type": "string", "minLength": 1},
+    "run_meta": {
+      "type": "object",
+      "required": ["model_id", "run_date", "run_id", "template_version", "prompt_version", "attempt", "finalizer_version", "memo_renderer_version"],
+      "additionalProperties": false,
+      "properties": {
+        "model_id": {"enum": ["gpt-5.6-terra", "gpt-5.6-sol"]},
+        "run_date": {"type": "string", "format": "date", "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}$"},
+        "run_id": {"type": "string", "pattern": "^[A-Za-z0-9._-]+$", "minLength": 1},
+        "template_version": {"const": "3.1.2"},
+        "prompt_version": {"const": "v3.1.2-text-first-1"},
+        "attempt": {"type": "integer", "minimum": 1, "maximum": 2},
+        "remediates_run_id": {"type": ["string", "null"]},
+        "finalizer_version": {"const": "finalizer-3.1.2"},
+        "memo_renderer_version": {"const": "memo-renderer-3.1.2"}
+      }
+    },
+    "narrative": {"$ref": "#/definitions/narrative"},
+    "sources": {"type": "array", "minItems": 1, "items": {"$ref": "#/definitions/source"}},
+    "dataset_inputs": {
+      "type": "object",
+      "required": ["labor_share", "role_mix", "n_total", "n_band"],
+      "additionalProperties": false,
+      "properties": {
+        "labor_share": {"type": "object"},
+        "role_mix": {"type": "object"},
+        "n_total": {"type": "object"},
+        "n_band": {"type": "object"}
+      }
+    },
+    "inputs": {
+      "type": "object",
+      "required": ["ai_replaceable_share", "pi_dist", "pi_moat", "t50_years", "current_adoption_pct", "historical_analogs", "owners_60plus_pct", "active_consolidators", "buy_mult", "exit_mult", "pricing_structure"],
+      "additionalProperties": false,
+      "properties": {
+        "ai_replaceable_share": {"$ref": "#/definitions/final_role_input"},
+        "pi_dist": {"$ref": "#/definitions/final_fraction_selection"},
+        "pi_moat": {"$ref": "#/definitions/final_fraction_selection"},
+        "t50_years": {"$ref": "#/definitions/final_nonnegative_number_selection"},
+        "current_adoption_pct": {"$ref": "#/definitions/final_fraction_selection"},
+        "historical_analogs": {"$ref": "#/definitions/final_string_selection"},
+        "owners_60plus_pct": {"$ref": "#/definitions/final_owners_selection"},
+        "active_consolidators": {"$ref": "#/definitions/final_nonnegative_integer_selection"},
+        "buy_mult": {"$ref": "#/definitions/final_positive_number_selection"},
+        "exit_mult": {"$ref": "#/definitions/final_positive_number_selection"},
+        "pricing_structure": {"$ref": "#/definitions/final_string_selection"}
+      }
+    },
+    "scores": {
+      "type": "object",
+      "required": ["V", "C", "A", "B", "M"],
+      "additionalProperties": false,
+      "properties": {
+        "V": {"$ref": "#/definitions/factor_score"},
+        "C": {"$ref": "#/definitions/factor_score"},
+        "A": {"$ref": "#/definitions/factor_score"},
+        "B": {"$ref": "#/definitions/factor_score"},
+        "M": {"$ref": "#/definitions/factor_score"}
+      }
+    },
+    "S": {"type": "number", "minimum": 0, "maximum": 10},
+    "decision": {
+      "type": "object",
+      "required": ["verdict", "killed_by_factor_floor", "gate_blocked", "capped_by", "borderline", "nearest_cut"],
+      "additionalProperties": false,
+      "properties": {
+        "verdict": {"enum": ["hell_yes", "strong", "conditional", "pass", "kill"]},
+        "killed_by_factor_floor": {"type": "boolean"},
+        "gate_blocked": {"type": "boolean"},
+        "capped_by": {"type": "array", "items": {"type": "string"}},
+        "borderline": {"type": "boolean"},
+        "nearest_cut": {
+          "type": "object",
+          "required": ["name", "value", "distance"],
+          "additionalProperties": false,
+          "properties": {
+            "name": {"type": "string"},
+            "value": {"type": "number"},
+            "distance": {"type": "number", "minimum": 0}
+          }
+        }
+      }
+    },
+    "cross_checks": {"$ref": "#/definitions/final_cross_checks"},
+    "disclosures": {"$ref": "#/definitions/disclosures"},
+    "confidence_overall": {"enum": ["HIGH", "MED", "LOW"]},
+    "heterogeneous": {"type": "boolean"},
+    "top_uncertain_inputs": {"type": "array", "minItems": 1, "items": {"$ref": "#/definitions/uncertain_input"}},
+    "reviewer_note": {"type": "string"}
+  },
+  "definitions": {
+    "confidence": {"enum": ["HIGH", "MED", "LOW"]},
+    "provenance_type": {"enum": ["DIRECT", "DERIVED", "ESTIMATE"]},
+    "narrative": {
+      "type": "object",
+      "required": ["executive_view", "how_ai_changes_work", "value_capture", "adoption_timing", "consolidation_economics", "terminal_demand", "risks_and_uncertainty"],
+      "additionalProperties": false,
+      "properties": {
+        "executive_view": {"type": "string", "minLength": 40},
+        "how_ai_changes_work": {"type": "string", "minLength": 40},
+        "value_capture": {"type": "string", "minLength": 40},
+        "adoption_timing": {"type": "string", "minLength": 40},
+        "consolidation_economics": {"type": "string", "minLength": 40},
+        "terminal_demand": {"type": "string", "minLength": 40},
+        "risks_and_uncertainty": {"type": "string", "minLength": 40}
+      }
+    },
+    "source": {
+      "type": "object",
+      "required": ["id", "url", "title", "access_date", "what_it_supports"],
+      "additionalProperties": false,
+      "properties": {
+        "id": {"type": "string", "pattern": "^S[1-9][0-9]*$"},
+        "url": {"type": "string", "pattern": "^https?://", "minLength": 1},
+        "title": {"type": "string", "minLength": 1},
+        "access_date": {"type": "string", "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}$"},
+        "what_it_supports": {"type": "string", "minLength": 1},
+        "exact_quote": {"type": "string"}
+      }
+    },
+    "calculation_operand": {
+      "type": "object",
+      "required": ["name", "value", "source_id"],
+      "additionalProperties": false,
+      "properties": {
+        "name": {"type": "string"}, "value": {"type": "number"}, "source_id": {"type": "string", "pattern": "^S[1-9][0-9]*$"}
+      }
+    },
+    "calculation": {
+      "type": "object",
+      "required": ["expression", "operands"],
+      "additionalProperties": false,
+      "properties": {
+        "expression": {"type": "string", "minLength": 1},
+        "operands": {"type": "array", "minItems": 1, "items": {"$ref": "#/definitions/calculation_operand"}}
+      }
+    },
+    "final_selection": {
+      "type": "object",
+      "required": ["value", "method", "provenance_type", "evidence_quality", "confidence", "source_ids", "rationale", "plausible_range", "caveats"],
+      "additionalProperties": false,
+      "properties": {
+        "value": {},
+        "method": {"enum": ["OBSERVED", "CALCULATED", "ESTIMATE"]},
+        "provenance_type": {"$ref": "#/definitions/provenance_type"},
+        "evidence_quality": {"enum": ["HIGH", "MED", "LOW", "NONE"]},
+        "confidence": {"$ref": "#/definitions/confidence"},
+        "source_ids": {"type": "array", "items": {"type": "string", "pattern": "^S[1-9][0-9]*$"}},
+        "rationale": {"type": "string", "minLength": 1},
+        "plausible_range": {"type": "string", "minLength": 1},
+        "caveats": {"type": "array", "items": {"type": "string", "minLength": 1}},
+        "calculation": {"$ref": "#/definitions/calculation"}
+      }
+    },
+    "final_fraction_selection": {"allOf": [{"$ref": "#/definitions/final_selection"}, {"properties": {"value": {"type": "number", "minimum": 0, "maximum": 1}}}]},
+    "final_nonnegative_number_selection": {"allOf": [{"$ref": "#/definitions/final_selection"}, {"properties": {"value": {"type": "number", "minimum": 0}}}]},
+    "final_positive_number_selection": {"allOf": [{"$ref": "#/definitions/final_selection"}, {"properties": {"value": {"type": "number", "exclusiveMinimum": 0}}}]},
+    "final_nonnegative_integer_selection": {"allOf": [{"$ref": "#/definitions/final_selection"}, {"properties": {"value": {"type": "integer", "minimum": 0}}}]},
+    "final_string_selection": {"allOf": [{"$ref": "#/definitions/final_selection"}, {"properties": {"value": {"type": "string", "minLength": 1}}}]},
+    "final_boolean_selection": {"allOf": [{"$ref": "#/definitions/final_selection"}, {"properties": {"value": {"type": "boolean"}}}]},
+    "role_breakdown": {
+      "type": "object",
+      "required": ["soc", "role", "labor_share_of_total", "within_role_automatable_fraction", "contribution", "rationale", "plausible_range"],
+      "additionalProperties": false,
+      "properties": {
+        "soc": {"type": "string"}, "role": {"type": "string"},
+        "labor_share_of_total": {"type": "number", "minimum": 0, "maximum": 1},
+        "within_role_automatable_fraction": {"type": "number", "minimum": 0, "maximum": 1},
+        "contribution": {"type": "number", "minimum": 0, "maximum": 1},
+        "rationale": {"type": "string"}, "plausible_range": {"type": "string"}
+      }
+    },
+    "final_role_input": {
+      "type": "object",
+      "required": ["value", "method", "provenance_type", "evidence_quality", "confidence", "source_ids", "rationale", "plausible_range", "caveats", "breakdown_by_role"],
+      "additionalProperties": false,
+      "properties": {
+        "value": {"type": "number", "minimum": 0, "maximum": 1},
+        "method": {"const": "ESTIMATE"},
+        "provenance_type": {"const": "ESTIMATE"},
+        "evidence_quality": {"enum": ["HIGH", "MED", "LOW", "NONE"]},
+        "confidence": {"$ref": "#/definitions/confidence"},
+        "source_ids": {"type": "array", "items": {"type": "string", "pattern": "^S[1-9][0-9]*$"}},
+        "rationale": {"type": "string"}, "plausible_range": {"type": "string"},
+        "caveats": {"type": "array", "items": {"type": "string"}},
+        "breakdown_by_role": {"type": "array", "minItems": 1, "items": {"$ref": "#/definitions/role_breakdown"}}
+      }
+    },
+    "final_owners_selection": {
+      "type": "object",
+      "required": ["value", "method", "provenance_type", "evidence_quality", "confidence", "source_ids", "rationale", "plausible_range", "caveats", "succession_shortage_documented"],
+      "additionalProperties": false,
+      "properties": {
+        "value": {"type": "number", "minimum": 0, "maximum": 1},
+        "method": {"enum": ["OBSERVED", "CALCULATED", "ESTIMATE"]},
+        "provenance_type": {"$ref": "#/definitions/provenance_type"},
+        "evidence_quality": {"enum": ["HIGH", "MED", "LOW", "NONE"]},
+        "confidence": {"$ref": "#/definitions/confidence"},
+        "source_ids": {"type": "array", "items": {"type": "string"}},
+        "rationale": {"type": "string"}, "plausible_range": {"type": "string"},
+        "caveats": {"type": "array", "items": {"type": "string"}},
+        "calculation": {"$ref": "#/definitions/calculation"},
+        "succession_shortage_documented": {"$ref": "#/definitions/final_boolean_selection"}
+      }
+    },
+    "factor_score": {
+      "type": "object",
+      "required": ["arithmetic", "score"],
+      "additionalProperties": false,
+      "properties": {"arithmetic": {"type": "string", "minLength": 1}, "score": {"type": "number", "minimum": 0, "maximum": 10}}
+    },
+    "final_cross_checks": {
+      "type": "object",
+      "required": ["uplift_pp", "uplift_vs_A_consistent", "terminal_value", "no_proxy_confirmed", "pricing_model_deflation"],
+      "additionalProperties": false,
+      "properties": {
+        "uplift_pp": {"type": "number"},
+        "uplift_vs_A_consistent": {"type": "string"},
+        "terminal_value": {"type": "object", "required": ["class", "justification"], "additionalProperties": false, "properties": {"class": {"enum": ["DURABLE", "PRESSURED", "MELTING"]}, "justification": {"type": "string"}}},
+        "no_proxy_confirmed": {"type": "string"}, "pricing_model_deflation": {"type": "string"}
+      }
+    },
+    "disclosures": {
+      "type": "object",
+      "required": ["dataset_mismatch", "market_boundary"],
+      "additionalProperties": false,
+      "properties": {
+        "dataset_mismatch": {"type": "object", "required": ["applies", "description", "sensitivity"], "additionalProperties": false, "properties": {"applies": {"type": "boolean"}, "description": {"type": "string"}, "sensitivity": {"type": "array", "items": {"type": "string"}}}},
+        "market_boundary": {"type": "object", "required": ["applies", "subsegments", "dominant_subsegment", "selection_basis"], "additionalProperties": false, "properties": {"applies": {"type": "boolean"}, "subsegments": {"type": "array", "items": {"type": "string"}}, "dominant_subsegment": {"type": "string"}, "selection_basis": {"type": "string"}}}
+      }
+    },
+    "uncertain_input": {
+      "type": "object", "required": ["input", "plausible_range", "score_impact"], "additionalProperties": false,
+      "properties": {"input": {"type": "string"}, "plausible_range": {"type": "string"}, "score_impact": {"type": "string"}}
+    }
+  }
+}

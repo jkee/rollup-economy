@@ -1,6 +1,6 @@
-# AI Value Migration Map — v3: Product Goal & Principles (proposal)
+# AI Value Migration Map — v3: Product Goal & Principles
 
-**Status:** active constitution; v3.1.1 comparable five-record canary completed 2026-07-21 with mechanics PASS but fleet-readiness gate FAIL (0/5 accepted, repeated systemic defects); campaign stopped pending user direction
+**Status:** active constitution; v3.1.2 text-first, bounded-completion path authorized 2026-07-21 and specified here; the v3.1.1 comparable canary remains a frozen historical mechanics PASS / fleet-readiness FAIL (0/5 accepted)
 **Replaces:** the project description in `README.md` and the Methodology tab in `6digit/index.html`. Diff against the current (v2) description is in §8. File:line references are as of commit `1bd26e0`.
 
 ---
@@ -12,9 +12,9 @@
 For any industry on the map, a reader must be able to answer four questions without leaving the dashboard:
 
 1. **How attractive is it?** — the score and verdict.
-2. **Why exactly?** — each factor → its formula → its inputs → each input's source, URL, quoted figure, and quality flag.
+2. **Why exactly?** — a readable research memo explains the thesis; each factor still traces through its formula and compact scorecard inputs to the supporting source registry and any caveats.
 3. **How sure are we?** — confidence level, sensitivity ranges on the most uncertain inputs, borderline flags.
-4. **How was it produced and checked?** — which prompt, which model, which date; whether the validator accepted it; re-runnable from the stored prompt.
+4. **How was it produced and checked?** — which prompt, exact model and date; its publication tier and caveats; re-runnable from the stored packet and deterministic finalizer.
 
 The output of the product is a decision about **which industries deserve a deep-dive** — nothing more.
 
@@ -28,9 +28,9 @@ The output of the product is a decision about **which industries deserve a deep-
 
 **P1 — Scores are build artifacts.** No score may be set by judgment. Every factor is: recorded inputs → fixed formula → score. Judgment goes into *finding and weighing inputs* and into reviewer notes — never into overriding arithmetic. Consequence: scores cannot be hand-edited at all; to change a score you change an input (with a source), and the build recomputes. Judgment does not disappear in v3 — it is confined and labeled: a short, known list of inputs are declared opinions (within-role automatable fractions, `π_dist`, `π_moat`, `t50`), each bounded, with its own rationale, range and quality flag. Everything downstream of the inputs is arithmetic. Proven: the mechanical version produced identical dentist scores across two independent runs, and surfaced the cost-plus capture mechanism for Engineering Services that judgment scoring missed.
 
-**P2 — Every number carries its provenance.** Each input separates the selected `value`, provenance type (`DIRECT/DERIVED/ESTIMATE`), evidence reliability (`HIGH/MED/LOW/NONE`), a plausible range, and atomic fetched facts. In v3.1.1 the model declares `OBSERVED`, `CALCULATED` or `ESTIMATE`; Python maps that method to final provenance and recomputes every calculated value. Provenance answers how the value relates to evidence; evidence quality answers how reliable that evidence is. Sources attach to individual facts, not to the record as a whole. The dashboard shows the full chain: verdict → score → factors → formulas → inputs → derivations → sources.
+**P2 — Every score input carries its provenance.** The v3.1.2 compact scorecard records each selected `value`, method (`OBSERVED/CALCULATED/ESTIMATE`), evidence reliability (`HIGH/MED/LOW/NONE`), plausible range, confidence, rationale and supporting source IDs. A compact source registry records `id`, URL, title, access date and what the source supports. Exact quotations are optional, and forensic population/geography/unit/period objects and serialized search/bridge logs are no longer required. Material scope or proxy mismatches must instead be disclosed as prose caveats on the affected input. Provenance answers how a value relates to evidence; evidence quality answers how reliable that evidence is. The dashboard keeps the full chain: verdict → score → factors → formulas → inputs → rationale → sources and caveats.
 
-**P3 — Reproducible by construction.** Everything needed to regenerate a result lives in the repo: the versioned prompt, the model-authored research draft, the deterministic dataset, the finalized run record with model/date/run id, and the Python finalizer/build. In v3.1+ the model cannot author dataset values, role weights, contributions, factor scores, S or uplift; in v3.1.1 it also cannot author final provenance or the result of a declared calculation. Deleting generated fields and rerunning the matching finalizer regenerates them bit-for-bit.
+**P3 — Reproducible by construction.** Everything needed to regenerate a result lives in the repo: the versioned prompt, one canonical model-authored v3.1.2 research packet, the deterministic dataset, the finalized run record with model/date/run id, the rendered Markdown memo, and the Python finalizer/build. The packet is the sole model-authored source for both prose and numbers, so they cannot drift. The model cannot author dataset values, role weights, contributions, factor scores, S, uplift or verdict. Plain Python validates the packet, safely recomputes declared calculations, injects deterministic values, computes every downstream field and renders the memo bit-for-bit. Neither a model nor a human may hand-edit a finalized record or rendered memo.
 
 **P4 — Frozen rubric (pre-registration).** Formulas, anchors, gates and verdict cuts are frozen *before* the scoring run and never tuned after seeing which industries land where. (v2 chose its ×1.8 threshold explicitly to preserve the previous verdict-bucket proportions — that is back-fitting; it is banned.) Rubric changes are allowed only as a new version followed by a full re-run.
 
@@ -42,9 +42,9 @@ The output of the product is a decision about **which industries deserve a deep-
 
 **P8 — One source of truth.** Thresholds, formulas and distribution stats are defined once (in the build), and every displayed or documented number — README verdict counts, methodology tables, dashboard stats — is generated from the data. No hand-maintained copies. (v2: README says 83 Hell-Yes and a 4-factor formula; the shipped data computes 22 Hell-Yes with 5 factors; the methodology page carries three contradictory threshold ladders.)
 
-**P9 — Cheap by default, expensive where it matters.** The current fleet-research model is Terra (`gpt-5.6-terra`). Sol (`gpt-5.6-sol`) is used where quality compounds: prompt design/review, golden reference runs and full-depth acceptance validation. Dataset derivation, prompt assembly, finalization, build and analysis are plain Python only; models are prohibited in those deterministic stages. Every model-authored artifact records the exact runtime model ID, and pricing/token burn are reported only from platform-observed campaign data.
+**P9 — Cheap by default, expensive where it matters.** The current fleet-research model is Terra (`gpt-5.6-terra`). Sol (`gpt-5.6-sol`) is used where quality compounds: prompt design/review, golden reference runs and full-depth tiered publication validation. Dataset derivation, prompt assembly, finalization, memo rendering, build and analysis are plain Python only; models are prohibited in those deterministic stages. Every model-authored artifact records the exact runtime model ID, and pricing/token burn are reported only from platform-observed campaign data.
 
-**P10 — Nothing ships unreviewed.** The last pipeline stage is a validator: the best model, prompted as a critic, reviews every record — sources real and actually containing the quoted figures, judgment inputs plausible and consistent with the rubric, cross-checks answered honestly — and marks it `accepted` or `wrong`, with reasons stored on the record. `wrong` records go back to the queue; they never enter the published dataset.
+**P10 — Nothing ships unreviewed; review is materiality-based and bounded.** Sol (`gpt-5.6-sol`), prompted as a critic, reviews every exact packet/run/memo artifact and every score-driving source. It assigns `publishable`, `publishable_with_caveats`, `reject` or `invalid` with reasons and explicit materiality. Both publishable tiers enter the product, with caveats visible. Only a defect likely to change the score or thesis may cause `reject`; deterministic contract failures cause `invalid`. Rejected or invalid records receive at most one record-specific remediation attempt. Remaining failures are excluded and reported instead of keeping the campaign open.
 
 ## 4. The factors — corrected semantics
 
@@ -61,7 +61,7 @@ One score per industry. The 13-cell APQC workflow matrix is removed (see §8, "U
 **Where each input comes from — three declared classes:**
 
 - **Dataset inputs** — deterministic; computed identically for all 1,012 codes from bulk extracts in `pipeline/datasets/` (Census SUSB/CBP, BLS OEWS/QCEW): `labor_share`, the role mix behind V's breakdown, `n_total`, the size-class distribution behind the `n_band` chain. No model touches these values.
-- **Research inputs** — collected by the run, each with source + URL + quoted figure + quality flag: current AI adoption, historical analogs, owner age / succession, active consolidators, buy/exit multiples, pricing-structure and capture evidence.
+- **Research inputs** — collected in the compact scorecard, each with selected value, method, rationale, plausible range, confidence, source IDs and any material scope/proxy caveat: current AI adoption, historical analogs, owner age / succession, active consolidators, buy/exit multiples, pricing-structure and capture evidence.
 - **Judgment inputs** — declared opinions, bounded and itemized, each with rationale and range: within-role automatable fractions, `π_dist`, `π_moat`, `t50`. Stated plainly: opinions still exist in v3 — but only here, in small visible pieces challengeable one by one, never at the score level.
 
 Two gates sit outside the score:
@@ -97,46 +97,50 @@ Multiplicative logic is kept deliberately — a sum would let strong V compensat
 
 ## 6. The pipeline
 
-Six stages; every artifact lives in the repo (today's prototypes in `../prompts_54/`, `../results_54/`, `../prompt_template_v2.md` move in):
+Six stages; v3.1.2 adds versioned artifacts and does not mutate the frozen v3.0, v3.1 or v3.1.1 layers:
 
 ```
 pipeline/
-  template/prompt_template_v3_1_1.md    # v3.1.1 evidence contract; frozen formulas retained
-  template/runner_brief_v3_1_1.md       # C1-C4 fetch/quote/scope/self-audit discipline
+  template/prompt_template_v3_1_2.md    # text-first packet contract; frozen formulas retained
+  template/runner_brief_v3_1_2.md       # canonical packet authoring brief
+  template/validator_brief_v3_1_2.md    # tiered, materiality-based review brief
   datasets/                             # stage 1 — bulk Census SUSB/CBP + BLS OEWS/QCEW extracts
                                         #   + derivation code → per-code dataset inputs
   blocks/<sector>.json                  # per-industry hint blocks (stage 2 output)
-  prompts_v3_1_1/<naics>.md             # one generated v3.1.1 prompt per code
-  drafts/<naics>/<run-id>.json          # model-authored evidence + judgments only
-  runs/<naics>/<run-id>.json            # Python-finalized data + inputs + scores
-  golden/                               # golden-set reference runs (best model)
-  review/<naics>/<run-id>.json          # stage 5 — validator verdicts: accepted / wrong + reasons
+  prompts_v3_1_2/<naics>.md             # one plain-Python-assembled prompt per fleet code
+  packets/<naics>/<run-id>.json         # canonical model-authored prose + scorecard + sources
+  runs/<naics>/<run-id>.json            # Python-finalized fleet inputs + scores
+  golden_v3_1_2/<naics>/<run-id>.json   # isolated Python-finalized Sol reference runs
+  memos/<naics>/<run-id>.md             # Python-rendered human-facing research memo
+  review/<naics>/<run-id>.json          # stage 5 — four-tier exact-artifact review
   build/                                # stage 4 — deterministic build + checks
-6digit/six_data.json                    # GENERATED — the site's view; never hand-edited
+6digit/six_data_v3.json                 # GENERATED — the site's v3 view; never hand-edited
 ```
 
 - **Stage 0 — Freeze.** Template v3 finalized: formulas, anchors, gates, verdict cuts, output schema, golden-set membership, validator rubric. Frozen before any scoring.
 - **Stage 1 — Dataset layer (no model).** Bulk-download Census SUSB/CBP and BLS OEWS/QCEW once into `pipeline/datasets/`; derive the dataset inputs (labor share, role mix, firm counts, size distribution → $1–10M band chain) for all 1,012 codes with one shared method. These values are injected into prompts and never re-researched by a model — one methodology across all codes is what makes the ranking comparable.
-- **Stage 2 — Prompt design and assembly.** Sol (`gpt-5.6-sol`) designs/reviews the versioned prompt layer and industry-specific blocks. Plain Python deterministically merges blocks and dataset context into `prompts_v3_1_1/<naics>.md`; models are prohibited from assembly. Dataset objects are visible to the runner but not copied by it.
-- **Stage 3 — Research draft (Terra fleet; Sol golden).** One single-author model researches with live web access and writes evidence/judgments only. Current exact model IDs are `gpt-5.6-terra` and `gpt-5.6-sol`. C1-C4 require fetch-before-cite, exact short contiguous quotes, no URL for an unsourced estimate, complete method disclosure, and a final reopen-every-URL/fact audit. Output: `drafts/<naics>/<run-id>.json`.
-- **Stage 4a — Finalize (deterministic Python, no model).** The version-matched finalizer validates the draft, injects deterministic dataset objects, locks SOC identities and wage shares, calculates role contributions, V/C/A/B/M/S and uplift, and emits `runs/<naics>/<run-id>.json`. For v3.1.1, `finalize_run_v3_1_1.py` also recomputes safe declared calculations and assigns final provenance. It rejects hidden URLs, evidence-axis contradictions, role relabeling, invalid dataset fallbacks and inconsistent t50.
-- **Stage 4b — Build (deterministic Python, no model).** Validates the versioned final schema, independently recomputes every score, applies frozen gates/cuts and publication acceptance, and regenerates site/stats/flags/reconciliation outputs.
-- **Stage 5 — Acceptance review (Sol, every record).** Sol verifies each atomic cited fact, then separately judges whether declared derivations/proxies are complete and reasonable and estimates are candid. A DERIVED value need not appear verbatim in a source; the cited starting fact must. The validator marks the record **`accepted` or `wrong`**; only accepted records publish (P10).
+- **Stage 2 — Prompt design and assembly.** Sol (`gpt-5.6-sol`) designs and independently reviews the versioned prompt, packet and validator contract. Plain Python deterministically merges blocks and dataset context into exactly 63 Phase-4 prompts under `prompts_v3_1_2/`; models are prohibited from assembly. The prompt layer must rerender byte-identically before it is frozen.
+- **Stage 3 — Canonical research packet (Terra fleet; isolated Sol golden).** A single-author model with live web access writes `packets/<naics>/<run-id>.json`. Its prose sections are: executive view; how AI changes the work; value capture; adoption timing; consolidation and economics; terminal demand; and risks and uncertainty. The same packet contains the compact scorecard and source registry. Every score input carries a selected value, plausible range, confidence, method, rationale, source IDs and any scope/proxy caveat. Material factual and numeric claims require source IDs; exact quotations are optional. Fleet packets must identify `gpt-5.6-terra`; golden packets must identify `gpt-5.6-sol` and remain isolated from golden membership and prior conclusions.
+- **Stage 4a — Finalize and render (plain Python, no model).** The v3.1.2 finalizer validates packet schema/identity/model/version, safe calculations and scorecard bounds; injects immutable dataset objects and locked SOC role weights; computes contributions, V/C/A/B/M/S, uplift, gates and verdict; then renders `memos/<naics>/<run-id>.md` from the same packet and finalized run. A fresh rerun must reproduce both the record and memo exactly. Hand edits are prohibited.
+- **Stage 4b — Build (plain Python, no model).** Validates the versioned final schema, independently recomputes every score, applies the frozen gates/cuts and publishable-tier filter, and regenerates site/stats/flags/reconciliation and completion-report outputs. It includes `publishable` and `publishable_with_caveats`, exposes their caveats, and excludes remaining `reject`/`invalid` artifacts by exact run ID.
+- **Stage 5 — Tiered review (isolated Sol, every record).** Sol (`gpt-5.6-sol`) reviews every exact packet/run/memo identity, each score-driving source, rubric direction and possible double counting. Its outcome is `publishable`, `publishable_with_caveats`, `reject` or `invalid`. A rejection reason must explain why the defect could materially change a factor, score or thesis; otherwise the issue is a caveat. Each record is independently reviewed once, with at most one new-run remediation and re-review for `reject`/`invalid` only.
 
-**Golden set.** ~20 codes with known consolidation history — proven roll-up industries (insurance brokerage, HVAC, dental DSOs) and known melters (court reporting, telemarketing, translation) — are run with Sol (`gpt-5.6-sol`) as reference records in `golden/`. They anchor the instrument before scale: the pilot passes only if the golden set separates cleanly (winners above melters, melters caught by the T gate), with zero arithmetic mismatches and validator acceptance. Terra (`gpt-5.6-terra`) runs on the same codes provide the current fleet-quality benchmark; older model comparisons remain historical only.
+**Phase-4 execution and golden set.** First run the same five regression-canary codes (`524210 541110 541350 541612 541613`). This gate tests mechanics only: all five must yield schema-valid packets and freshly reproducible final records and memos with zero arithmetic mismatch. Subjective research findings set publication tier but do not stop the fleet. Once mechanics pass, the five valid canary artifacts count toward the 63-record Terra fleet; run the remaining 58 once, plus 20 isolated Sol golden records, then obtain one exact-artifact Sol review per record. Golden separation remains a reported diagnostic, not a trigger for an open-ended rerun loop. The frozen golden membership, datasets, formulas, factors, thresholds and gates do not change.
 
-**Run metadata** on every record: model id, run date, run id, template version, prompt version, validator verdict + review date — two runs of the same code sit side by side and disagreement is visible. Reusable atomic evidence facts carry access dates; selected inputs reference those facts by ID. Market evidence for multiples/adoption counts as stale after ~12 months and queues a refresh run.
+**Bounded remediation and close.** Only `reject` or `invalid` records may receive remediation. Attach the concrete review findings, author a new packet with a new run ID using the same research model class, rerun deterministic finalization/memo rendering, and obtain a new isolated Sol review. There is exactly one remediation attempt per record and no third attempt. After that wave, include both publishable tiers, exclude remaining failures, list every exclusion and caveat in generated output, and close Phase 4 even if publication is below 83/83.
 
-**Dashboard requirements** (traceability is a product feature, not an internal artifact): every factor chip expands to formula + inputs; every input shows source, URL, quoted figure, quality flag; cards show run metadata, overall confidence, acceptance status, `borderline` and `heterogeneous` flags, sensitivity ranges, and percentile as context next to the absolute verdict; strings that are not URLs are never rendered as links (v2 renders bare report names as dead links, `6digit/index.html:1069`).
+**Run metadata** on every packet, finalized record, memo and review binds the NAICS code, artifact/run ID, exact model ID where applicable, run date, template/prompt/review version and review date. Two runs of the same code sit side by side; remediation never overwrites an earlier artifact. Source-registry entries carry access dates. Market evidence older than about 12 months is reported as a caveat/refresh signal unless Sol explains why it materially changes the result.
+
+**Dashboard requirements** (traceability is a product feature, not an internal artifact): the generated memo is the primary readable explanation; every factor chip expands to formula + compact scorecard inputs; every input shows rationale, method, range, confidence, supporting sources and caveats. Cards show run metadata, publication tier, overall confidence, `borderline` and `heterogeneous` flags, sensitivity ranges, and percentile as context next to the absolute verdict. `publishable_with_caveats` must be visibly distinct, exclusions must appear in the completion report, and strings that are not URLs are never rendered as links.
 
 ## 7. How results are checked
 
 1. **Arithmetic regression (CI).** The build recomputes all scores from inputs on every change; any mismatch between stored and recomputed values fails the build. Hand-edits to scores are structurally impossible (P1).
-2. **In-run cross-checks.** Every run must answer: uplift consistency (V_raw → expected EBITDA pp vs A), terminal value, no-proxy confirmation (V/A justified without deal-activity evidence), pricing-model deflation. Failed checks → escalation queue.
+2. **Packet cross-checks.** Every packet must address uplift consistency (V_raw → expected EBITDA pp vs A), terminal value, V/A evidence independent of deal activity, and pricing-model deflation. A disclosed non-material weakness becomes a caveat; only a score-changing contradiction becomes `reject`.
 3. **Sensitivity.** Top uncertain inputs carry plausible ranges + score impact; ranges that cross a verdict cut ⇒ `borderline`.
 4. **Reconciliation.** Generated report comparing screen verdicts against deep-dives; divergence is surfaced, not discovered by accident.
-5. **Acceptance review.** Every record is accepted or marked `wrong` by the best-model validator (P10, Stage 5), with the build's flag list as its focus points; `wrong` records re-run with the critique attached. Nothing ships unreviewed.
-6. **Golden-set anchor.** Best-model reference runs on codes with known history are the external sanity check: if known winners and known melters fail to separate, the instrument is wrong — fix the rubric and re-run everything; never hand-fix the records.
+5. **Tiered publication review.** Every record receives an isolated full-depth Sol review (P10, Stage 5). Fatal mechanics are narrowly deterministic: wrong identity/model/version, schema failure, mutated datasets/roles, invalid or non-finite inputs, unsafe calculation, finalizer mismatch or arithmetic mismatch. These always yield `invalid`. Material research defects are fabricated/inaccessible score-driving evidence, unsupported material numeric claims, reversed factor semantics, undisclosed score-changing proxies/contradictions, or thesis-changing terminal/capture double counting. These yield `reject` only with a materiality explanation.
+6. **Caveat policy and golden diagnostic.** Punctuation or normalized-quotation differences, page-title variants, conservative `not reported` metadata, incomplete search logs, source age, broad-but-disclosed proxies, non-material scope weakness and incomplete bridge prose are caveats unless the validator explains their score-changing effect. Golden separation is reported as an external diagnostic; it does not create an unbounded repair loop or authorize hand-fixing records.
 7. **Doc consistency.** README counts, methodology tables and thresholds are generated from the same build (P8) — they cannot drift from the data.
 
 ## 8. Diff against the current (v2) description
@@ -151,7 +155,7 @@ v3: **one record per industry**; the matrix is deleted. Workflow granularity sur
 
 **Where scores come from.**
 v2: five integers assigned per code by agent judgment, one rationale paragraph, a flat source list attached to nothing; documented formulas (`π_dist`, `t_50`, `TD/OW/PD/CFD`) exist only as prose — none of their inputs are stored, so nothing is recomputable. Same facts produced three different dentist scores across edits.
-v3: 13 inputs per code (dataset inputs computed identically for all codes from bulk Census/BLS extracts; research inputs sourced by the run; judgment inputs declared and bounded) → frozen formulas → float scores; the score is derivable from the record (P1–P3), and every record passes the best-model acceptance review before it ships (P10).
+v3: 13 inputs per code (dataset inputs computed identically for all codes from bulk Census/BLS extracts; research inputs sourced by the run; judgment inputs declared and bounded) → frozen formulas → float scores; the score is derivable from the record (P1–P3), and every shipped record has a publishable-tier Sol review (P10).
 
 **Factor semantics.**
 v2: C described as distribution×moat but scored as opinion — pricing/contract structure ignored (hourly and cost-plus industries scored as if the operator keeps AI savings). B described as "$1–10M EBITDA band" (`6digit/index.html:429-431`) but scored from raw firm counts — 20 of 22 Hell-Yes codes have median firms far below the band; the competition penalty effectively never applied; PD inside B duplicated M's spread. No terminal-value concept — melting industries (court reporting, telemarketing, translation) ranked at the top.
@@ -163,7 +167,7 @@ v3: float geometric mean + explicit gates + frozen absolute cuts (percentile sho
 
 **Traceability.**
 v2: sources are unlinked report names (70 of 1,012 records contain any URL; the current #1 has five sources, none with a URL); UI renders non-URLs as links; P&L card math is broken (comment promises 70/20/10 split, code applies 70/30/20 and double-adds revenue uplift, `6digit/index.html:1000,1012` — 951 of 1,012 post-AI P&Ls off by >0.1pp).
-v3: per-number provenance with quoted figures and quality flags (P2); the P&L display is either derived from stored inputs as a true accounting identity or dropped — no separately-guessed numbers.
+v3: per-input provenance, source IDs, rationale, ranges, confidence and visible caveats (P2); exact quotes are optional. The P&L display is either derived from stored inputs as a true accounting identity or dropped — no separately-guessed numbers.
 
 **Reproducibility.**
 v2: "96 specialist agents, ~3–5 min each" (`README.md:16`) — no prompts, no model/version, no run records stored; independent reproduction impossible.
@@ -183,7 +187,7 @@ v3: company selection is explicitly out of scope (§2). The deliverable ends at 
 
 **Cost model.**
 v2: one undocumented expensive pass over 96 agents.
-v3: Sol (`gpt-5.6-sol`) for prompt design/review, golden-set reference runs and full-depth acceptance review; Terra (`gpt-5.6-terra`) for fleet research; plain Python only for deterministic stages (P9–P10). Unsupported price estimates are not inferred when the platform does not expose billable usage.
+v3: Sol (`gpt-5.6-sol`) for prompt design/review, golden-set reference runs and full-depth tiered publication review; Terra (`gpt-5.6-terra`) for fleet research; plain Python only for deterministic stages (P9–P10). Unsupported price estimates are not inferred when the platform does not expose billable usage.
 
 ## 9. Open decisions (need sign-off before Stage 0 freeze)
 
@@ -197,9 +201,10 @@ Resolved 2026-07-20:
 5. **Golden set membership** — decided: the 20-code list (12 winners, 5 melters, 3 controls) in `pipeline/golden/golden_set.json`, approved as v1.0.
 6. **v3.1 evidence contract** — decided after the 0/72 initial acceptance signal and the citation-hardened 541420 s3 acceptance: keep the validator strict; separate provenance type from evidence reliability; retain C1-C4 live-source self-audit; inject deterministic inputs and calculate scores in Python; prohibit role relabeling; clarify `t50=0` when adoption is already at least 50%. No threshold was changed.
 7. **v3.1.1 mechanical boundary** — decided after the v3.1 canary produced 0/5 accepted despite materially better citation attribution: preserve atomic evidence facts; replace model-authored final provenance with explicit `OBSERVED/CALCULATED/ESTIMATE` methods and a Python mapping; restrict calculated values to safe reproducible arithmetic over fact-backed operands; require structured scope; mechanically reject ellipsis quotes; keep C1–C4 for the later runner brief. No threshold or scoring formula changed.
+8. **v3.1.2 text-first bounded contract** — authorized 2026-07-21 after the v3.1.1 five-record canary passed mechanics but produced 0/5 accepted under the forensic all-or-nothing review. Replace the primary audit form with one canonical prose-plus-scorecard packet, retain Python-owned arithmetic and exact model/artifact identity, use four publication tiers, and permit exactly one remediation attempt for `reject`/`invalid`. Metadata and non-material evidence imperfections are visible caveats; they are not fatal by default. The campaign closes with explicit exclusions rather than requiring 83/83 publication. No frozen dataset, formula, factor, threshold, gate or golden-set member changes.
 
-The v3.0 score freeze remains tagged (`v3.0-freeze`). The v3.1 evidence contract must pass synthetic tests and a new frozen canary before any pilot rerun.
+The v3.0 score freeze remains tagged (`v3.0-freeze`). Frozen v3.1 and v3.1.1 artifacts remain byte-unchanged. v3.1.2 must pass synthetic tests, cold independent implementation review, deterministic 63-prompt assembly and the mechanics-only five-record canary before the complete Phase-4 campaign.
 
 ---
 
-*Next execution step: complete and cold-review the v3.1.1 prompt, runner and validator layer while retaining C1–C4, freeze deterministic prompts, then run the comparable five-record canary under the current Terra/Sol policy. No broader fleet rerun is authorized until that canary passes its predeclared gate.*
+*Next execution step: implement and cold-review the versioned v3.1.2 packet/run/review schemas, prompt, runner and validator briefs, finalizer, memo renderer, build routing and campaign tooling; freeze exactly 63 deterministic prompts; then run the five-record mechanics canary before the bounded 83-record campaign.*

@@ -2,13 +2,13 @@
 """v3 build & check — Stage 4 (V3_PRODUCT.md §6), Phase 2 (V3_PLAN.md).
 
 Deterministic, stdlib-only, no model calls. Per run record in pipeline/runs/:
-  1. versioned schema validation (v3.0 legacy, finalized v3.1 or v3.1.1)
+  1. versioned schema validation (v3.0 legacy through finalized v3.1.2)
   2. arithmetic recompute from stored inputs with the frozen template-3.0
      formulas — hard fail if |stored - recomputed| > 0.005 on any factor or S
   3. verdicts / gates / caps / borderline / percentile from thresholds.json
      (every cut, gate and cap is read from that file — nothing hardcoded)
-  4. acceptance filter: publish only codes with an accepted review record in
-     pipeline/review/<naics>/<run-id>.json (--allow-unreviewed publishes pending too)
+  4. publication filter: v3.1.2 includes `publishable` and
+     `publishable_with_caveats`; earlier versions retain accepted/wrong routing
   5. outputs: 6digit/six_data_v3.json, pipeline/build/stats.json,
      pipeline/build/flags.json, pipeline/build/reconciliation.md
 
@@ -16,6 +16,7 @@ Usage: python3 pipeline/build/build.py [--allow-unreviewed]
 """
 
 import argparse
+import hashlib
 import importlib.util
 import json
 import math
@@ -56,7 +57,7 @@ SECTOR_NAMES = {
 
 CONF_RANK = {"LOW": 0, "MED": 1, "HIGH": 2}
 URL_RE = re.compile(r"https?://[^\s<>\"']+")
-SUPPORTED_TEMPLATE_VERSIONS = ("3.0", "3.1", "3.1.1")
+SUPPORTED_TEMPLATE_VERSIONS = ("3.0", "3.1", "3.1.1", "3.1.2")
 _V311_CONTRACT = None
 
 
@@ -216,7 +217,7 @@ def calculate(rec):
 
     labor_share = ds["labor_share"]["value"]
     uses_v31_semantics = rec.get("run_meta", {}).get("template_version") in (
-        "3.1", "3.1.1"
+        "3.1", "3.1.1", "3.1.2"
     )
     # Preserve v3.0 recompute semantics for frozen historical artifacts. v3.1
     # uses the Python-calculated role sum directly; its stored value is output,
@@ -385,6 +386,14 @@ def load_json(path):
         return json.load(f)
 
 
+def sha256_file(path):
+    digest = hashlib.sha256()
+    with open(path, "rb") as handle:
+        for chunk in iter(lambda: handle.read(1024 * 1024), b""):
+            digest.update(chunk)
+    return digest.hexdigest()
+
+
 def _trim_embedded_url(url):
     """Remove prose punctuation while preserving balanced URL parentheses."""
     url = url.rstrip(".,;:]}")
@@ -416,6 +425,51 @@ def source_audit_pairs(record):
         {"input_path": path, "url": url}
         for path, url in sorted(found, key=lambda pair: (pair[0], pair[1]))
     ]
+
+
+def v312_score_driving_source_ids(record):
+    """Return source IDs referenced by a v3.1.2 finalized score input."""
+    found = set()
+
+    def walk(value):
+        if isinstance(value, dict):
+            ids = value.get("source_ids")
+            if isinstance(ids, list):
+                found.update(item for item in ids if isinstance(item, str))
+            for child in value.values():
+                walk(child)
+        elif isinstance(value, list):
+            for child in value:
+                walk(child)
+
+    walk(record.get("inputs", {}))
+    for name in ("labor_share", "n_band"):
+        value = record.get("dataset_inputs", {}).get(name)
+        if isinstance(value, dict) and value.get("provenance_type"):
+            walk(value)
+    return found
+
+
+def v312_declared_caveats(record):
+    """Canonical publication strings for model-authored score-input caveats."""
+    found = []
+
+    def add(path, value):
+        if not isinstance(value, dict):
+            return
+        for caveat in value.get("caveats", []):
+            found.append("%s: %s" % (path, caveat))
+        if path == "inputs.owners_60plus_pct":
+            add(path + ".succession_shortage_documented",
+                value.get("succession_shortage_documented"))
+
+    for name, value in record.get("inputs", {}).items():
+        add("inputs.%s" % name, value)
+    for name in ("labor_share", "n_band"):
+        value = record.get("dataset_inputs", {}).get(name)
+        if isinstance(value, dict) and value.get("provenance_type"):
+            add("dataset_inputs.%s" % name, value)
+    return found
 
 
 def discover_runs(runs_dir):
@@ -450,7 +504,8 @@ def discover_runs(runs_dir):
 
 
 def acceptance_status(naics, rec, review_dir, review_schema,
-                      expected_source_audits, expected_flags):
+                      expected_source_audits, expected_flags,
+                      expected_artifact_digests=None):
     """Return (status, review_summary, errors). status: accepted|pending|rejected."""
     run_id = rec["run_meta"]["run_id"]
     if (not run_id or os.path.basename(run_id) != run_id
@@ -463,6 +518,7 @@ def acceptance_status(naics, rec, review_dir, review_schema,
     if not os.path.isfile(path):
         return "pending", {"note": "no review record for run_id %r" % run_id}, []
     review = load_json(path)
+    template_version = rec.get("run_meta", {}).get("template_version")
     errs = ["%s (review): %s" % (naics, e)
             for e in schema_errors(review, review_schema, review_schema)]
     if review.get("naics") != naics:
@@ -471,6 +527,108 @@ def acceptance_status(naics, rec, review_dir, review_schema,
     if review.get("run_id") != run_id:
         errs.append("%s (review): review run_id %r does not match current run_id %r"
                     % (naics, review.get("run_id"), run_id))
+    if template_version == "3.1.2":
+        if review.get("artifact_digests") != expected_artifact_digests:
+            errs.append("%s (review): artifact digests do not match exact packet/run/memo bytes" % naics)
+        score_driving_ids = v312_score_driving_source_ids(rec)
+        actual_sources = [
+            (item.get("source_id"), item.get("url"))
+            for item in review.get("source_reviews", [])
+            if isinstance(item, dict)
+        ]
+        expected_sources = [(item["id"], item["url"]) for item in rec["sources"]]
+        if len(actual_sources) != len(set(actual_sources)):
+            errs.append("%s (review): source_reviews contains duplicates" % naics)
+        if set(actual_sources) != set(expected_sources):
+            errs.append(
+                "%s (review): source review coverage mismatch: missing=%s unexpected=%s"
+                % (naics, sorted(set(expected_sources) - set(actual_sources)),
+                   sorted(set(actual_sources) - set(expected_sources)))
+            )
+        source_review_by_id = {
+            item.get("source_id"): item
+            for item in review.get("source_reviews", [])
+            if isinstance(item, dict)
+        }
+        for source in rec["sources"]:
+            source_id = source["id"]
+            item = source_review_by_id.get(source_id, {})
+            expected_driving = source_id in score_driving_ids
+            if item.get("score_driving") is not expected_driving:
+                errs.append(
+                    "%s (review): source %s score_driving must be %s"
+                    % (naics, source_id, expected_driving)
+                )
+        mechanics = review.get("mechanics", {})
+        mechanics_ok = isinstance(mechanics, dict) and mechanics and all(
+            value is True for value in mechanics.values()
+        )
+        findings = review.get("findings", [])
+        severities = [item.get("severity") for item in findings if isinstance(item, dict)]
+        outcome = review.get("outcome")
+        declared_caveats = v312_declared_caveats(rec)
+        publication_caveats = review.get("publication_caveats", [])
+        missing_declared = sorted(set(declared_caveats) - set(publication_caveats))
+        if missing_declared:
+            errs.append(
+                "%s (review): publication_caveats omit authored caveats %s"
+                % (naics, missing_declared)
+            )
+        driving_failures = [
+            item for source_id, item in source_review_by_id.items()
+            if source_id in score_driving_ids
+            and (item.get("accessible") is not True
+                 or item.get("support") in ("unsupported", "not_score_driving"))
+        ]
+        caveat_finding_text = [
+            item.get("publication_caveat") for item in findings
+            if isinstance(item, dict) and item.get("severity") == "caveat"
+        ]
+        if any(not value or value not in publication_caveats for value in caveat_finding_text):
+            errs.append("%s (review): every caveat finding must be copied to publication_caveats" % naics)
+        if driving_failures and mechanics_ok and outcome != "reject":
+            errs.append(
+                "%s (review): inaccessible/unsupported score-driving evidence requires reject"
+                % naics
+            )
+        if (not mechanics_ok or "fatal_mechanics" in severities) and outcome != "invalid":
+            errs.append("%s (review): failed mechanics requires invalid" % naics)
+        if outcome == "publishable" and (findings or publication_caveats or declared_caveats):
+            errs.append("%s (review): publishable requires no findings or caveats" % naics)
+        if outcome == "publishable_with_caveats":
+            if not mechanics_ok:
+                errs.append("%s (review): publishable_with_caveats requires all mechanics" % naics)
+            if any(value != "caveat" for value in severities):
+                errs.append("%s (review): publishable_with_caveats allows caveat findings only" % naics)
+            if not publication_caveats:
+                errs.append("%s (review): caveat outcome requires publication_caveats" % naics)
+        if outcome == "publishable" and not mechanics_ok:
+            errs.append("%s (review): publishable requires all mechanics" % naics)
+        if outcome == "reject":
+            if not mechanics_ok:
+                errs.append("%s (review): reject requires mechanics pass; otherwise invalid" % naics)
+            if "material" not in severities:
+                errs.append("%s (review): reject requires a material finding" % naics)
+            if "fatal_mechanics" in severities:
+                errs.append("%s (review): fatal_mechanics requires invalid, never reject" % naics)
+        if outcome == "invalid" and mechanics_ok and "fatal_mechanics" not in severities:
+            errs.append("%s (review): invalid requires failed mechanics or fatal_mechanics" % naics)
+        if outcome in ("publishable", "publishable_with_caveats") and any(
+                value in ("material", "fatal_mechanics") for value in severities):
+            errs.append("%s (review): publishable outcomes cannot contain material/fatal findings" % naics)
+        if errs:
+            return "pending", {"note": "invalid review record"}, errs
+        summary = {
+            "run_id": review["run_id"],
+            "model_id": review["review_meta"]["model_id"],
+            "review_date": review["review_meta"]["review_date"],
+            "prompt_version": review["review_meta"]["prompt_version"],
+            "outcome": outcome,
+            "publication_caveats": review["publication_caveats"],
+            "summary": review["summary"],
+        }
+        return ("accepted" if outcome in ("publishable", "publishable_with_caveats") else "rejected"), summary, []
+
     expected_review_prompt = {
         "3.1": "validator-3.1",
         "3.1.1": "validator-3.1.1",
@@ -562,7 +720,7 @@ def record_flags(rec, computed, decision, deltas):
         flags.append("CROSS_CHECK_TENSION: uplift_pp %.2f < 3 while A %.2f >= 5"
                      % (uplift, computed["A"]))
     inp = rec["inputs"]
-    if rec.get("run_meta", {}).get("template_version") in ("3.1", "3.1.1"):
+    if rec.get("run_meta", {}).get("template_version") in ("3.1", "3.1.1", "3.1.2"):
         estimates = sorted(
             name for name, value in inp.items()
             if isinstance(value, dict)
@@ -574,7 +732,7 @@ def record_flags(rec, computed, decision, deltas):
             if isinstance(rec.get("dataset_inputs", {}).get(name), dict)
             and rec["dataset_inputs"][name].get("provenance_type") == "ESTIMATE"
         ))
-        if rec.get("run_meta", {}).get("template_version") == "3.1.1":
+        if rec.get("run_meta", {}).get("template_version") in ("3.1.1", "3.1.2"):
             succession = inp.get("owners_60plus_pct", {}).get(
                 "succession_shortage_documented", {}
             )
@@ -620,8 +778,10 @@ def run_build(repo_root, allow_unreviewed=False, runs_dir=None, review_dir=None,
         "3.0": load_json(os.path.join(schemas_dir, "run_record.schema.json")),
         "3.1": load_json(os.path.join(schemas_dir, "run_record_v3_1.schema.json")),
         "3.1.1": load_json(os.path.join(schemas_dir, "run_record_v3_1_1.schema.json")),
+        "3.1.2": load_json(os.path.join(schemas_dir, "run_record_v3_1_2.schema.json")),
     }
     review_schema = load_json(os.path.join(schemas_dir, "review_record.schema.json"))
+    review_schema_v312 = load_json(os.path.join(schemas_dir, "review_record_v3_1_2.schema.json"))
 
     records, legacy = discover_runs(runs_dir)
     errors = []
@@ -654,6 +814,13 @@ def run_build(repo_root, allow_unreviewed=False, runs_dir=None, review_dir=None,
                 )
             )
             continue
+        if (template_version == "3.1.2"
+                and rec.get("run_meta", {}).get("model_id") != "gpt-5.6-terra"):
+            errors.append(
+                "%s (%s): v3.1.2 fleet model_id %r does not match required %r"
+                % (naics, path, rec.get("run_meta", {}).get("model_id"), "gpt-5.6-terra")
+            )
+            continue
         run_schema = run_schemas[template_version]
         errs = ["%s (%s): %s" % (naics, os.path.basename(path), e)
                 for e in schema_errors(rec, run_schema, run_schema)]
@@ -678,11 +845,32 @@ def run_build(repo_root, allow_unreviewed=False, runs_dir=None, review_dir=None,
         decision = decide(computed["S"], factors,
                           rec["cross_checks"]["terminal_value"]["class"],
                           rec["confidence_overall"], th)
+        if template_version == "3.1.2" and rec.get("decision") != decision:
+            errors.append(
+                "%s (%s): stored deterministic decision differs from fresh recompute"
+                % (naics, os.path.basename(path))
+            )
+            continue
         flags = record_flags(rec, computed, decision, deltas)
         # 4. acceptance
+        artifact_digests = None
+        if template_version == "3.1.2":
+            run_id = rec["run_meta"]["run_id"]
+            packet_path = os.path.join(repo_root, "pipeline", "packets", naics, run_id + ".json")
+            memo_path = os.path.join(repo_root, "pipeline", "memos", naics, run_id + ".md")
+            missing_artifacts = [item for item in (packet_path, memo_path) if not os.path.isfile(item)]
+            if missing_artifacts:
+                errors.append("%s: missing canonical packet/memo artifacts %s" % (naics, missing_artifacts))
+                continue
+            artifact_digests = {
+                "packet_sha256": sha256_file(packet_path),
+                "run_sha256": sha256_file(path),
+                "memo_sha256": sha256_file(memo_path),
+            }
         status, review_summary, review_errs = acceptance_status(
-            naics, rec, review_dir, review_schema,
-            source_audit_pairs(rec), flags,
+            naics, rec, review_dir,
+            review_schema_v312 if template_version == "3.1.2" else review_schema,
+            source_audit_pairs(rec), flags, artifact_digests,
         )
         errors.extend(review_errs)
         built[naics] = {"rec": rec, "computed": computed, "decision": decision,
@@ -750,6 +938,12 @@ def run_build(repo_root, allow_unreviewed=False, runs_dir=None, review_dir=None,
                 "reviewer_note": rec["reviewer_note"],
             },
         })
+        if rec.get("run_meta", {}).get("template_version") == "3.1.2":
+            site_records[-1]["research_memo"] = rec["narrative"]
+            site_records[-1]["sources"] = rec["sources"]
+            site_records[-1]["publication_caveats"] = b["review"].get(
+                "publication_caveats", []
+            )
 
     site = {
         "_generated": "pipeline/build/build.py — GENERATED, never hand-edited (V3_PRODUCT.md P1/P3/P8)",
