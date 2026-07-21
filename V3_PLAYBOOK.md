@@ -1,6 +1,6 @@
 # v3 Run Playbook
 
-**Status: living document, v3.1.2 campaign closed; final Phase-4 checkpoint pending** — captures how to re-run the project end-to-end, which model runs what and why, and what can be reported from observed evidence. The bounded campaign published 82 records with visible caveats and excluded one record after the single permitted remediation wave; frozen v3.0/v3.1/v3.1.1 artifacts and their historical results remain unchanged. Companions: [V3_PRODUCT.md](V3_PRODUCT.md) (what and why), [V3_PLAN.md](V3_PLAN.md) (progress tracker).
+**Status: living document, v3.1.2 Phase 4 completed 2026-07-21** — captures how to re-run the project end-to-end, which model runs what and why, and what can be reported from observed evidence. The bounded campaign published 82 records with visible caveats and excluded one record after the single permitted remediation wave; final validated checkpoint `009d088` is on origin, and frozen v3.0/v3.1/v3.1.1 artifacts and their historical results remain unchanged. Companions: [V3_PRODUCT.md](V3_PRODUCT.md) (what and why), [V3_PLAN.md](V3_PLAN.md) (progress tracker).
 
 ---
 

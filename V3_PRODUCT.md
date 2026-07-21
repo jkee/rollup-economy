@@ -1,6 +1,6 @@
 # AI Value Migration Map — v3: Product Goal & Principles
 
-**Status:** active constitution; the v3.1.2 bounded campaign is closed (82 published, 1 explicitly excluded) and its final validated checkpoint is pending push; the v3.1.1 comparable canary remains a frozen historical mechanics PASS / fleet-readiness FAIL (0/5 accepted)
+**Status:** active constitution; v3.1.2 Phase 4 completed 2026-07-21 under the bounded contract (82 published, 1 explicitly excluded; final validated checkpoint `009d088` pushed to origin); the v3.1.1 comparable canary remains a frozen historical mechanics PASS / fleet-readiness FAIL (0/5 accepted)
 **Replaces:** the project description in `README.md` and the Methodology tab in `6digit/index.html`. Diff against the current (v2) description is in §8. File:line references are as of commit `1bd26e0`.
 
 ---
@@ -207,4 +207,4 @@ The v3.0 score freeze remains tagged (`v3.0-freeze`). Frozen v3.1 and v3.1.1 art
 
 ---
 
-*Next execution step: commit and push the validated v3.1.2 final build, reports, documentation and closure regressions; only then mark Phase 4 complete.*
+*Next execution step: Phase 5 dashboard traceability; the bounded v3.1.2 Phase-4 campaign is complete.*
