@@ -1043,16 +1043,18 @@ def calculate(record, thresholds=None):
                  "normalized_y5_state_digest": None if state_missing else state["state_digest"],
                  "entry_score": entry, "resilience_score": resilience}
 
-        h_unknown = G is None or ramp is None or investment is None or capture is None
+        # h is denominated in units of one full year of G, but its value is
+        # defined solely by the independently modeled r/c/k schedules.  A
+        # missing or zero G changes V/I; it must not suppress or annihilate
+        # this viability diagnostic.
+        h_unknown = (ramp is None or investment is None or capture is None
+                     or any(x is None for x in ramp)
+                     or any(x is None for x in investment)
+                     or any(x is None for x in capture))
         if h_unknown:
             h = None
             gate_triggered = None if bound == "base" else bound == "low"
             retained = invested = None
-        elif any(x is None for x in investment):
-            h = None; gate_triggered = True
-            retained = sum(a * b * w for a, b, w in zip(ramp, capture, _weights(t))); invested = None
-        elif G == 0:
-            h = 0.0; gate_triggered = True; retained = invested = 0.0
         else:
             retained = sum(a * b * w for a, b, w in zip(ramp, capture, _weights(t)))
             invested = investment[0] + sum(a * w for a, w in zip(investment[1:], _weights(t)))

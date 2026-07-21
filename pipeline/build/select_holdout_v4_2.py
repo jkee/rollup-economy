@@ -85,8 +85,16 @@ def _codes(value, source_path):
 
 
 def _code_from_path(relative_path):
-    matches = NAICS_RE.findall(relative_path)
-    return matches[-1] if matches else None
+    # Only a path component that is itself code-addressed identifies an
+    # economic target.  v4.2 output names are deliberately opaque hashes and
+    # can contain an incidental six-digit substring; interpreting that random
+    # substring as NAICS both leaks no useful identity and corrupts holdout
+    # exclusion accounting.
+    for component in reversed(relative_path.split("/")):
+        stem = component.split(".", 1)[0]
+        if NAICS_RE.fullmatch(component) or NAICS_RE.fullmatch(stem):
+            return stem
+    return None
 
 
 def economic_result_codes(repo_root, relative_roots):

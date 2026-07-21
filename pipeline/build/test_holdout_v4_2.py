@@ -164,6 +164,14 @@ class HoldoutV42Tests(unittest.TestCase):
             eligible = {item["naics"] for item in membership["eligible_inputs"]}
             self.assertTrue({"100002", "100003", "100004"}.isdisjoint(eligible))
 
+    def test_opaque_output_id_digit_substrings_are_not_naics(self):
+        self.assertIsNone(selector._code_from_path(
+            "pipeline/v4_2/runs/v42_d77baefe700494d3c4279f43_a1.json"
+        ))
+        self.assertEqual("541512", selector._code_from_path(
+            "pipeline/v4/runs/541512/2026-07-21_canary.json"
+        ))
+
     def test_normalization_boundary_binds_legacy_bytes_and_allows_normalized_null(self):
         codes = ["100001", "100002", "100003", "100004", "100005", "100006"]
         with fixture_root(codes) as root:

@@ -385,7 +385,7 @@ class V42ScoringTests(unittest.TestCase):
         self.assertEqual(result["base"]["scores"]["I"], 0)
         self.assertEqual(result["decision"]["economic_verdict"], "kill")
 
-    def test_zero_g_annihilates_missing_denominator_support(self):
+    def test_zero_g_annihilates_value_scores_but_not_h(self):
         item = record()
         item["inputs"]["recognized_revenue"] = missing()
         item["inputs"]["employee_cash_cost"] = selection(0)
@@ -395,7 +395,9 @@ class V42ScoringTests(unittest.TestCase):
             self.assertEqual(result[bound]["scores"]["V"], 0)
             self.assertEqual(result[bound]["scores"]["I"], 0)
             self.assertEqual(result[bound]["subfactors"]["V"]["G"], 0)
-            self.assertEqual(result[bound]["subfactors"]["h"]["h"], 0)
+            expected_h = scoring._h_value([.8] * 5, [.05, 0, 0, 0, 0, 0],
+                                          [.8] * 5, self.t)
+            self.assertAlmostEqual(result[bound]["subfactors"]["h"]["h"], expected_h)
         self.assertEqual(result["decision"]["economic_verdict"], "kill")
         self.assertTrue(result["decision"]["sensitivity"]["stable_structural_kill"])
         self.assertEqual(result["decision"]["action"], "AVOID")
@@ -415,12 +417,15 @@ class V42ScoringTests(unittest.TestCase):
         self.assertIsNone(result["base"]["scores"]["V"])
         self.assertEqual(result["high"]["scores"]["V"], 10)
 
-    def test_missing_g_makes_v_i_and_h_base_missing(self):
+    def test_missing_g_makes_v_i_missing_but_h_remains_independent(self):
         item = record(); item["inputs"]["employee_cash_cost"] = missing()
         result = self.calculate(item)
         self.assertIsNone(result["base"]["scores"]["V"])
         self.assertIsNone(result["base"]["scores"]["I"])
-        self.assertIsNone(result["base"]["subfactors"]["h"]["h"])
+        expected_h = scoring._h_value([.8] * 5, [.05, 0, 0, 0, 0, 0],
+                                      [.8] * 5, self.t)
+        self.assertAlmostEqual(result["base"]["subfactors"]["h"]["h"], expected_h)
+        self.assertFalse(result["base"]["subfactors"]["h"]["gate_triggered"])
         self.assertEqual(result["decision"]["economic_verdict"], "indeterminate")
 
     def test_missing_investment_has_unbounded_downside(self):

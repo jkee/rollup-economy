@@ -423,7 +423,7 @@ class V42CampaignTests(unittest.TestCase):
         errors = campaign._h_record_errors(record)
         self.assertTrue(any("unresolved h must remain null" in item for item in errors))
 
-    def test_zero_g_structural_h_matches_scorer_and_rejects_fabrication(self):
+    def test_zero_g_keeps_h_independent_and_rejects_fabrication(self):
         source = scoring_fixtures.record()
         source["inputs"]["employee_cash_cost"] = scoring_fixtures.selection(0.0)
         source["inputs"]["controllable_contractor_cash_cost"] = scoring_fixtures.selection(0.0)
@@ -436,7 +436,7 @@ class V42CampaignTests(unittest.TestCase):
         finalized["scenarios"]["base"]["subfactors"]["h"][
             "discounted_retained_realization"] = 1.0
         errors = campaign._h_record_errors(finalized)
-        self.assertTrue(any("G=0 requires structural zero h" in item for item in errors))
+        self.assertTrue(any("differs from primitive inputs" in item for item in errors))
 
     def test_missing_and_unbounded_g_stay_indeterminate_across_layers(self):
         source = scoring_fixtures.record()
@@ -454,7 +454,7 @@ class V42CampaignTests(unittest.TestCase):
             discounted_retained_realization=1.0, discounted_investment=0.0,
             h=1.0, gate_triggered=False)
         errors = campaign._h_record_errors(finalized)
-        self.assertTrue(any("missing/unbounded G requires unresolved h" in item for item in errors))
+        self.assertTrue(any("differs from primitive inputs" in item for item in errors))
 
     def test_membership_snapshots_are_closed_exact_63_code_partitions(self):
         with tempfile.TemporaryDirectory() as root:
@@ -509,6 +509,10 @@ class V42CampaignTests(unittest.TestCase):
     def test_manifest_entry_closure_leakage_and_plan_projection(self):
         entry = closed_entry()
         self.assertEqual([], campaign._v4_2_entry_shape_errors(entry))
+        self.assertEqual([], campaign._v4_2_entry_leakage_errors(entry))
+        entry["authored_caveats"] = [
+            "Frozen methodology note: this input does not encode an expected outcome."
+        ]
         self.assertEqual([], campaign._v4_2_entry_leakage_errors(entry))
         for key, value in (("expected_outcome", "publishable"),
                            ("scope", "regression"),
@@ -570,6 +574,13 @@ class V42CampaignTests(unittest.TestCase):
         errors = campaign._issuance_errors({"scope": "regression"}, "/tmp")
         self.assertTrue(any("issuance plan" in item for item in errors))
         self.assertEqual("v4.2-pre-run-issuance-1", campaign.issuer_v4_2.PLAN_VERSION)
+
+    def test_v4_2_drops_obsolete_v4_1_commit_digest_error(self):
+        legacy_error = "issuance plan lacks exact nonzero freeze root/manifest/commit bindings"
+        with mock.patch.object(campaign, "_CORE_ISSUANCE_ERRORS",
+                               return_value=[legacy_error]):
+            self.assertEqual([], campaign._v4_2_issuance_errors(
+                {"scope": "regression", "issuance_plan": {}}, "/tmp"))
 
     def test_pass_through_costs_are_exact_review_inputs(self):
         record = {
