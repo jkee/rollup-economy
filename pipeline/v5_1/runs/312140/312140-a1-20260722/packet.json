@@ -1,0 +1,204 @@
+{
+  "identity": {
+    "naics": "312140",
+    "title": "Distilleries",
+    "run_id": "312140-a1-20260722",
+    "model_id": "claude-sonnet-5",
+    "run_date": "2026-07-22",
+    "methodology_version": "5.1",
+    "attempt": 1
+  },
+  "lens": {
+    "included_activities": "U.S. lower-middle-market distilled-spirits plants that repeatedly provide contract distillation, blending, proofing, bottling, co-packing, or related production services to external brand owners.",
+    "excluded_activities": "Consumer-branded distillers whose economics primarily come from their own products, tasting rooms, tourism, retail, bulk inventory speculation, captive plants, inactive permit holders, and asset-only transactions.",
+    "customer_and_revenue_model": "Brand owners and capacity-constrained producers buy recurring batch, case, storage, formulation, and packaging services under production agreements; inputs may be customer supplied or procured and passed through by the operator.",
+    "deviation_from_default": "Narrowed to contract production and co-packing because NAICS 312140 mixes outsourced manufacturing services with economically distinct branded-product, hospitality, and inventory-aging models.",
+    "heterogeneous": true
+  },
+  "primitives": {
+    "a": {
+      "evidence_state": "PROXY",
+      "low": 0.2,
+      "base": 0.31,
+      "high": 0.43,
+      "bridge": "BLS measures the broader NAICS 312100 beverage-manufacturing occupation mix, not contract distilleries, and NIST describes manufacturing AI use cases rather than task-level substitution. I map exposure mainly to sales, office, forecasting, scheduling, compliance-document preparation, and machine-data analysis, while discounting hands-on distillation, sanitation, packaging, maintenance, and sensory quality work. The broader beverage mix may overstate large-plant automation readiness and understate small-firm administrative multitasking.",
+      "rationale": "BLS reports that production occupations are 21.59% and sales occupations 12.45% of broader beverage-manufacturing employment. NIST identifies predictive maintenance, quality control, and demand forecasting as manufacturing AI uses, while BLS expects generative AI to raise productivity in wholesale/manufacturing sales and routine office work. The result is meaningful task exposure but not a majority of wage-weighted work because the plant floor remains physical and safety critical.",
+      "change_evidence": "Payroll-weighted time studies from 15-20 contract DSPs, mapped by occupation to administrative, commercial, compliance, planning, laboratory, sanitation, packaging, and distillation tasks, plus pre/post deployment labor hours for specific AI workflows.",
+      "source_ids": ["S1", "S2", "S3"],
+      "caveats": [
+        "The occupation table is four-digit beverage manufacturing rather than six-digit distilleries.",
+        "NIST use cases and BLS direction-of-change evidence do not measure avoidable labor hours.",
+        "Small plants combine jobs, making occupation-title mapping imprecise."
+      ]
+    },
+    "rho": {
+      "evidence_state": "PROXY",
+      "low": 0.33,
+      "base": 0.5,
+      "high": 0.67,
+      "bridge": "Census measures current AI use across all U.S. employer businesses and NIST cites manufacturers generally, not implementation of the exposed tasks in LMM contract distilleries over five years. I translate broad adoption evidence into the share of the identified opportunity implemented, reducing it for legacy equipment, sparse data, regulated records, product-quality accountability, and small-firm capital constraints. NIST's manufacturer sample may be larger and more digitally mature, biasing the estimate upward for this lens.",
+      "rationale": "Census found overall business AI use around 17%-20% in late 2025 through May 2026 and under 20% among firms with four or fewer employees. NIST reports much higher manufacturer use and expected increases, but also identifies data quality, cost, skills, cybersecurity, and legacy-system barriers. Five years permits adoption of office and planning tools, yet plant-floor implementation should remain selective.",
+      "change_evidence": "A contract-distillery technology census documenting current software stack, sensor coverage, data quality, planned capital spending, workflow ownership, validation requirements, and realized adoption by use case at 12, 36, and 60 months.",
+      "source_ids": ["S2", "S4"],
+      "caveats": [
+        "The Census measure changed wording to AI use in any business function and is not implementation intensity.",
+        "The NIST adoption figures cite an external manufacturer survey and may not represent small plants.",
+        "Regulatory and customer approval can slow changes to production and recordkeeping."
+      ]
+    },
+    "e": {
+      "evidence_state": "ESTIMATE",
+      "low": 0.07,
+      "base": 0.14,
+      "high": 0.24,
+      "rationale": "Contract production is a recognized and common craft/RTD model, but the industry population is dominated by producers selling their own brands. ACSA reports 90.9% of craft producers are small and its permit-universe screen separately removes bottlers, industrial plants, inactive businesses, and non-craft entities; neither source reports the share earning predominantly recurring third-party service revenue. I therefore estimate only a minority of LMM distilleries satisfy the outsourced-service lens.",
+      "change_evidence": "TTB DSP registry matched to producer websites and confidential revenue-by-customer surveys identifying plants with at least two external production customers and a material share of revenue from contract distilling or co-packing.",
+      "source_ids": ["S5", "S6", "S7"],
+      "caveats": [
+        "No denominator of contract-service DSPs was found.",
+        "Many plants mix own-brand and third-party work, so eligibility depends on revenue mix and customer recurrence.",
+        "The frozen firm-count estimate may include business models excluded from the lens."
+      ]
+    },
+    "s5": {
+      "evidence_state": "PROXY",
+      "low": 0.12,
+      "base": 0.24,
+      "high": 0.38,
+      "bridge": "Published deal evidence covers beverage-alcohol and craft-spirits brands, not a complete census of qualifying control transfers among eligible LMM contract DSPs. Park Street counted 22 spirits-category deals in first-half 2024, but many were brand investments, stakes, or non-U.S. transactions; Market Watch describes dozens of craft-distiller transactions over several years. I treat this as evidence that control markets function, then discount heavily for the much narrower contract-manufacturing population and exclude minority investments. Brand-led strategic interest likely overstates transfer probability for service-oriented plants.",
+      "rationale": "Craft-spirits acquisitions are established, and strategic buyers have bought plants and portfolios, but observed lists are skewed toward brands with consumer traction rather than contract capacity. The five-year transfer range reflects some founder exits and consolidation while recognizing that customer concentration, aged inventory, permits, real estate, and mixed brand/service assets complicate transferable control deals.",
+      "change_evidence": "A five-year transaction database linking DSP permits to closed majority-control deals, buyer type, acquired operating assets, and pre-deal revenue mix, supplemented by owner-age and succession-plan interviews for eligible contract plants.",
+      "source_ids": ["S8", "S9"],
+      "caveats": [
+        "Deal roundups are not exhaustive and mix control acquisitions with minority investments.",
+        "Most disclosed transactions emphasize brand value rather than outsourced-service cash flow.",
+        "No industry-specific owner-age distribution was located."
+      ]
+    },
+    "q": {
+      "evidence_state": "ESTIMATE",
+      "low": 0.42,
+      "base": 0.59,
+      "high": 0.75,
+      "rationale": "Contract DSPs charge brand owners for production services under negotiated agreements. Efficiency gains in scheduling, forecasting, compliance administration, sales support, and quality triage can initially accrue to the operator, but competitive rebids and renewals should share part of the benefit. Physical inputs and customer-specified packaging are often separable or passed through, limiting the relevance of AI savings to the conversion/service margin rather than the full invoice.",
+      "change_evidence": "A sample of 30 current contract-production agreements showing fee basis, indexation, open-book costing, pass-through clauses, minimum volumes, renewal cadence, gain-sharing, and realized price changes after productivity improvements.",
+      "source_ids": ["S6", "S7"],
+      "caveats": [
+        "Public sources describe services but not contract economics or renewal repricing.",
+        "Customer concentration can sharply reduce retention even under nominally fixed per-case pricing.",
+        "The estimate excludes volume effects and implementation cost."
+      ]
+    },
+    "d5": {
+      "evidence_state": "PROXY",
+      "low": 0.86,
+      "base": 0.98,
+      "high": 1.14,
+      "bridge": "DISCUS measures total U.S. spirits supplier volumes and revenues, while ACSA measures craft spirits, not outsourced production demand. I use recent category volume as the demand anchor and allow an upside case from RTDs, where contract production is common, but lower the base because craft volume and producer counts have recently declined. Brand outsourcing can gain share even in a flat category, so total-category data may understate contract demand; craft weakness and customer failures may work in the opposite direction.",
+      "rationale": "U.S. spirits volume rose 1.1% in 2024 even as supplier revenue fell 1.1%; RTD revenue rose 16.5%. In contrast, ACSA reports 2024 craft volume down 6.1%, value down 3.3%, and active craft-distiller counts down sharply under an updated methodology. A roughly flat five-year constant-price, constant-quality contract-service basket is the most defensible center, with a wide range for category mix and outsourcing penetration.",
+      "change_evidence": "Five years of case volumes and signed production commitments from a representative panel of contract DSPs, split by RTD, aged spirits, white spirits, bottling, and own-brand work, plus customer launch and cancellation cohorts.",
+      "source_ids": ["S5", "S10"],
+      "caveats": [
+        "Supplier sales are not contract-manufacturing revenue.",
+        "ACSA changed its active-distiller research methodology, so the 2025 count change is not a closure rate.",
+        "Constant-quality adjustment is unavailable, and category mix is shifting rapidly toward RTDs."
+      ]
+    },
+    "o": {
+      "evidence_state": "ESTIMATE",
+      "low": 0.88,
+      "base": 0.95,
+      "high": 0.99,
+      "rationale": "The service basket ends in regulated physical production: distilling, blending, proofing, filling, labeling, case packing, warehousing, and release of beverage alcohol. Software can reduce planning and administrative labor but cannot eliminate the licensed facility, equipment, sanitation, sensory and laboratory checks, inventory custody, or accountable producer. Some brand owners may self-manufacture or shift to larger co-packers, preventing a value of one.",
+      "change_evidence": "Customer-level churn studies distinguishing insourcing, plant switching, brand discontinuation, and software-enabled self-service, along with regulatory opinions on remote or automated supervision and release controls.",
+      "source_ids": ["S6", "S7"],
+      "caveats": [
+        "No source directly measures operator displacement for contract DSPs.",
+        "This is quantity requiring an accountable operator, not the share of labor resistant to automation.",
+        "Consolidation into larger co-packers still counts as operator-supplied demand but may leave the LMM lens."
+      ]
+    }
+  },
+  "narrative": {
+    "executive_view": "The relevant opportunity is not the typical craft distillery selling its own label; it is the smaller subset acting as a repeat outsourced production partner for brand owners. That subset combines real process, compliance, and capacity value with exposure to customer concentration and a recently weak craft market.",
+    "ai_impact": "AI can assist demand and batch planning, purchasing, production scheduling, maintenance triage, quality anomaly review, compliance-document preparation, customer service, sales support, and forecasting. It is less able to replace sanitation, material movement, setup, maintenance, sensory judgment, and accountable control of beverage-alcohol production.",
+    "value_capture": "Savings in overhead and planning can remain with the operator between renewals, while per-case competition and powerful brand customers will reclaim part of them. Input and packaging pass-throughs mean the retainable benefit sits primarily in conversion fees and overhead, not total invoiced value.",
+    "firm_availability": "The broad industry contains thousands of small producers, but only a minority appear to provide material recurring third-party production. Craft-spirit transactions demonstrate transferability, yet disclosed deals favor brands, and permit, inventory, real-estate, and customer-contract diligence can make a contract DSP harder to transfer cleanly.",
+    "demand_durability": "Overall spirits volume has recently held up better than revenue, and RTDs remain a growth pocket suited to co-packing. Craft volumes and producer counts weakened, however, so the five-year base is near flat rather than structurally high growth. Physical, regulated production keeps operator requirement high even as software changes workflows.",
+    "risks_and_uncertainty": "The central uncertainty is population definition: public data do not reveal how many LMM DSPs are truly recurring service providers or how much revenue comes from external contracts. Other risks include brand failures, customer concentration, volatile launches, alcohol-demand softness, tariffs, excise and state rules, legacy equipment, sparse data, and liabilities tied to product quality and aged inventory.",
+    "principal_driver": "AI-enabled overhead and planning efficiency inside a physically indispensable, regulated outsourced production workflow.",
+    "principal_weakness": "The eligible contract-DSP population and its transaction rate are not directly measured, while recent craft-spirit demand has weakened."
+  },
+  "sources": [
+    {
+      "id": "S1",
+      "url": "https://www.bls.gov/oes/2023/may/naics4_312100.htm",
+      "title": "May 2023 National Industry-Specific Occupational Employment and Wage Estimates: NAICS 312100 Beverage Manufacturing",
+      "access_date": "2026-07-22",
+      "supports": "Broader beverage-manufacturing occupation mix, including 21.59% production and 12.45% sales employment shares."
+    },
+    {
+      "id": "S2",
+      "url": "https://www.nist.gov/mep/rise-artificial-intelligence-ai-us-manufacturing-text-only",
+      "title": "The Rise of Artificial Intelligence (AI) in U.S. Manufacturing",
+      "access_date": "2026-07-22",
+      "supports": "Manufacturing AI adoption, use cases in predictive maintenance, quality control and forecasting, and implementation barriers."
+    },
+    {
+      "id": "S3",
+      "url": "https://www.bls.gov/emp/tables/factors-affecting-occupational-utilization.htm",
+      "title": "Factors Affecting Occupational Utilization",
+      "access_date": "2026-07-22",
+      "supports": "BLS expects AI-driven productivity change in wholesale/manufacturing sales and automation in several office occupations."
+    },
+    {
+      "id": "S4",
+      "url": "https://www.census.gov/library/stories/2026/05/ai-use-businesses.html",
+      "title": "Large Firms With at Least 20 Employees Biggest AI Users",
+      "access_date": "2026-07-22",
+      "supports": "BTOS evidence on current and expected AI use, firm-size variation, and the revised business-function measure."
+    },
+    {
+      "id": "S5",
+      "url": "https://americancraftspirits.org/wp-content/uploads/2017/02/2025-craft-spirits-data-project-102125-final.pdf",
+      "title": "2025 Craft Spirits Data Project",
+      "access_date": "2026-07-22",
+      "supports": "Craft producer counts and segmentation, 2024 volume/value declines, market share, employment, and producer-size concentration."
+    },
+    {
+      "id": "S6",
+      "url": "https://www.zahnlawpc.com/what-is-distilled-spirits-co-packing-or-contract-production/",
+      "title": "What Is Distilled Spirits Co-Packing or Contract Production?",
+      "access_date": "2026-07-22",
+      "supports": "Definition, customer relationship, common craft and RTD use, and service-fee character of contract production."
+    },
+    {
+      "id": "S7",
+      "url": "https://www.tattersalldistilling.com/bottling-co-packing-services/",
+      "title": "Bottling & Co-Packing Services",
+      "access_date": "2026-07-22",
+      "supports": "Concrete outsourced service basket: bottling, labeling, case packing, blending, proofing, formulation, sourcing, and custom distillation."
+    },
+    {
+      "id": "S8",
+      "url": "https://www.marketwatchmag.com/craft-grows-up/",
+      "title": "Craft Grows Up",
+      "access_date": "2026-07-22",
+      "supports": "Examples and qualitative breadth of craft-distillery acquisitions, while showing strategic interest centers on brands with traction."
+    },
+    {
+      "id": "S9",
+      "url": "https://www.parkstreet.com/mergers-and-acquisitions-roundup-for-2024-so-far/",
+      "title": "Roundup of Mergers and Acquisitions in 2024 So Far",
+      "access_date": "2026-07-22",
+      "supports": "First-half 2024 beverage-alcohol deal count and spirits-category examples, including the mix of acquisitions and investments."
+    },
+    {
+      "id": "S10",
+      "url": "https://distilledspirits.org/news/distilled-spirits-council-annual-economic-briefing-spirits-industry-holds-steady-in-market-share-amid-economic-challenges-in-2024/",
+      "title": "Distilled Spirits Council Annual Economic Briefing: Spirits Industry Holds Steady in Market Share Amid Economic Challenges in 2024",
+      "access_date": "2026-07-22",
+      "supports": "2024 U.S. supplier revenue, case volume, market share, category trends, RTD growth, and industry headwinds."
+    }
+  ]
+}

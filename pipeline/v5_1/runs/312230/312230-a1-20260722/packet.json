@@ -1,0 +1,197 @@
+{
+  "identity": {
+    "naics": "312230",
+    "title": "Tobacco Manufacturing",
+    "run_id": "312230-a1-20260722",
+    "model_id": "claude-sonnet-5",
+    "run_date": "2026-07-22",
+    "methodology_version": "5.1",
+    "attempt": 1
+  },
+  "lens": {
+    "included_activities": "U.S. lower-middle-market tobacco and nicotine-product manufacturers providing recurring contract, private-label, formulation, processing, packaging, or labeling services to external brand owners for legally marketable adult products.",
+    "excluded_activities": "Manufacturers whose economics primarily come from proprietary brands, foreign-only plants, leaf growers, distributors, retailers, unauthorized-product businesses, captive factories, product-IP holding companies, and non-control investments.",
+    "customer_and_revenue_model": "External brand owners purchase repeat production runs, often priced per unit or batch with formulation, packaging, regulatory documentation, and input terms governed by manufacturing agreements.",
+    "deviation_from_default": "Narrowed to third-party contract and private-label manufacturing because NAICS 312230 combines outsourced production with economically distinct proprietary-brand manufacturing, and only the former fits the recurring outsourced-service lens.",
+    "heterogeneous": true
+  },
+  "primitives": {
+    "a": {
+      "evidence_state": "PROXY",
+      "low": 0.23,
+      "base": 0.34,
+      "high": 0.46,
+      "bridge": "BLS measures the entire NAICS 312200 tobacco-manufacturing workforce rather than eligible LMM contract plants, while NIST describes manufacturing AI applications rather than task substitution. I weight exposure toward management, business, legal/compliance support, office, sales, planning, machine-data analysis, and inspection triage, then discount physical processing, packaging, maintenance, and material movement. Large branded manufacturers in the BLS sample likely have more specialized knowledge work and more automated production than eligible smaller contractors, creating offsetting bias.",
+      "rationale": "BLS reports production at 36.76%, material moving at 16.35%, maintenance at 7.07%, and office support at 10.15% of tobacco-manufacturing jobs, with additional management and business roles. NIST identifies predictive maintenance, quality control, and demand forecasting as AI uses. Wage weighting raises exposure because management, business, legal, and technical work is higher paid, but most plant-floor activity remains physical and controlled.",
+      "change_evidence": "Payroll-weighted time-and-task studies at 10-15 private-label tobacco or nicotine plants, separating regulatory submissions, formulation, testing, scheduling, line operation, maintenance, packaging, warehousing, customer service, and sales, with current automation documented.",
+      "source_ids": ["S1", "S2"],
+      "caveats": [
+        "The occupation table covers all employer sizes and proprietary-brand manufacturers.",
+        "NIST use cases do not quantify avoidable labor hours.",
+        "The very low frozen compensation-to-output ratio means even substantial task exposure applies to a small cost base."
+      ]
+    },
+    "rho": {
+      "evidence_state": "PROXY",
+      "low": 0.28,
+      "base": 0.44,
+      "high": 0.61,
+      "bridge": "Census reports AI use across all employer businesses and NIST reports manufacturers generally, not five-year implementation intensity at contract tobacco plants. I reduce those broad adoption signals for validated product specifications, FDA records, data integrity, legacy equipment, cybersecurity, customer approval, and liability. The broader manufacturer evidence likely overstates implementation capacity for LMM contractors, although high regulatory-document burden could make some office uses easier than estimated.",
+      "rationale": "Census found overall AI use around 17%-20% from late 2025 to May 2026, with lower use among the smallest firms. NIST reports considerable manufacturer use and growth intentions but highlights data quality, initial cost, skills, cybersecurity, and legacy-system barriers. FDA treats processing, labeling, and repacking as manufacturing and requires establishment and product records, limiting unvalidated changes to controlled workflows.",
+      "change_evidence": "A plant-level five-year deployment survey covering AI use by workflow, electronic batch records, sensor coverage, validation and change-control procedures, customer approvals, FDA inspection findings, realized labor hours, and aborted deployments.",
+      "source_ids": ["S2", "S3", "S4"],
+      "caveats": [
+        "Current AI use is not the implemented share of exposed labor.",
+        "Contract plants may lack the data and IT staff of large manufacturers.",
+        "Regulatory documentation can create both automatable work and severe error costs."
+      ]
+    },
+    "e": {
+      "evidence_state": "ESTIMATE",
+      "low": 0.12,
+      "base": 0.24,
+      "high": 0.4,
+      "rationale": "FDA explicitly recognizes third-party manufacturers, and a disclosed nicotine-pouch transaction retained the original producer as contract manufacturer, confirming a viable outsourced model. However, the category is led by vertically integrated branded manufacturers, while FDA counted 900 active domestic tobacco establishments in August 2025 across a wider regulatory universe that includes ENDS, relabelers, and specification developers. No source identifies the revenue share or count of LMM plants predominantly serving external customers, so only a minority of the frozen firm population is estimated eligible.",
+      "change_evidence": "Match FDA registered establishments and marketing orders to ownership, NAICS, customer lists, and confidential revenue mix; classify firms with repeat third-party manufacturing revenue and exclude own-brand, unauthorized, captive, and foreign operations.",
+      "source_ids": ["S4", "S5", "S6"],
+      "caveats": [
+        "FDA's 900-establishment universe is broader than NAICS 312230 and is not a firm count.",
+        "Public descriptions do not disclose the share of revenue derived from contract manufacturing.",
+        "The frozen LMM count is margin-bridged with a food-processing margin that may be poorly matched to tobacco."
+      ]
+    },
+    "s5": {
+      "evidence_state": "PROXY",
+      "low": 0.1,
+      "base": 0.22,
+      "high": 0.36,
+      "bridge": "The Imperial/TJP transaction is one adjacent North American nicotine-pouch IP acquisition with continuing contract manufacturing, not a measured control-transfer rate for U.S. LMM tobacco contract plants. FDA also estimates 4% annual establishment entry and exit, but exit is not equivalent to a transferable control sale. I use the transaction to establish buyer interest and the FDA churn estimate as a weak boundary, then discount for control-only transfers and severe regulatory/product-authorization diligence. The entry/exit proxy likely overstates transfers because closures and startups do not qualify.",
+      "rationale": "A strategic buyer paid an initial £65 million plus a five-year volume-based deferred amount for a 14-variant nicotine-pouch range while leaving manufacturing under contract, showing that separable IP and production relationships can transact. Yet the relevant universe is small, product authorizations are valuable and product-specific, and establishment churn includes non-transfer outcomes. A moderate but wide five-year probability is therefore warranted.",
+      "change_evidence": "A five-year census of majority-control transactions among FDA-registered domestic establishments, linked to plant assets, marketing orders, customer contracts, ownership age, closure status, and whether operations continued under the buyer.",
+      "source_ids": ["S5", "S6"],
+      "caveats": [
+        "The cited transaction acquired a product range rather than control of the contract manufacturer.",
+        "FDA's 4% rate combines entry and exit assumptions and does not observe transfers.",
+        "Unauthorized-product exposure can make an otherwise operating business nontransferable."
+      ]
+    },
+    "q": {
+      "evidence_state": "ESTIMATE",
+      "low": 0.4,
+      "base": 0.58,
+      "high": 0.74,
+      "rationale": "Per-unit or batch manufacturing agreements should let operators retain administrative, planning, quality-triage, and uptime gains until renewal. Customers can demand price reductions or volume rebates, especially where specifications are portable, while regulatory files, validated processes, scarce authorizations, and switching costs can support retention. The Imperial agreement's volume-based deferred consideration illustrates that economics can be explicitly linked to customer sales, increasing pass-through risk.",
+      "change_evidence": "Review 20-30 private-label manufacturing contracts for open-book costing, input pass-throughs, price resets, indexation, minimum volumes, rebates, audit rights, change control, term, termination, and ownership of regulatory submissions and product files.",
+      "source_ids": ["S4", "S6"],
+      "caveats": [
+        "No public sample of tobacco contract-manufacturing fee structures was found.",
+        "Customer and product concentration can dominate bargaining power.",
+        "This estimate excludes implementation cost and demand effects."
+      ]
+    },
+    "d5": {
+      "evidence_state": "PROXY",
+      "low": 0.72,
+      "base": 0.94,
+      "high": 1.2,
+      "bridge": "CDC and FTC measure consumer use and manufacturer sales across tobacco and nicotine categories, not recurring outsourced-production quantity. I map cigarette and traditional smokeless decline against growth in e-cigarettes and nicotine pouches, then allow contract manufacturing to gain or lose share as brands outsource or vertically integrate. Consumer-category shifts may overstate upside if growing products are imported or made by large captive plants and may overstate downside if brand owners outsource to avoid capital investment.",
+      "rationale": "CDC found the 2017-2023 decline in adults exclusively smoking cigarettes was offset by a similar increase in adults exclusively using e-cigarettes, leaving overall adult tobacco-product use unchanged. FTC found 2022 traditional smokeless volume fell while reported nicotine lozenge, puck, and pouch sales more than doubled from 2020 to $1.06 billion. The existing contract-service basket faces combustible decline but potential modern-oral growth, making a slightly declining base with a very wide mix-dependent range appropriate.",
+      "change_evidence": "Five years of customer-level units and revenue from eligible plants split by cigarettes, cigars, traditional smokeless, ENDS, and nicotine pouches, with new launches, regulatory authorization, imports, insourcing, cancellations, and constant-quality adjustments.",
+      "source_ids": ["S7", "S8", "S9"],
+      "caveats": [
+        "Consumer prevalence and sales are not outsourced manufacturing demand.",
+        "FTC data are from major manufacturers and lag the five-year horizon.",
+        "Product regulation, enforcement, taxation, and import rules can shift demand abruptly."
+      ]
+    },
+    "o": {
+      "evidence_state": "ESTIMATE",
+      "low": 0.91,
+      "base": 0.97,
+      "high": 1.0,
+      "rationale": "Year-five output still requires a manufacturer to formulate, process, test, package, label, document, and release a physical regulated product. FDA's definition makes even labeling and repacking manufacturing and requires domestic establishments to register and list products. AI can reduce tasks but cannot turn the service into pure software; the residual displacement risk is customers insourcing or shifting to foreign or larger captive plants.",
+      "change_evidence": "Customer churn records classifying insourcing, foreign sourcing, plant consolidation, product discontinuation, and software-enabled self-service, plus FDA guidance on accountable manufacturer responsibilities in highly automated plants.",
+      "source_ids": ["S4", "S5"],
+      "caveats": [
+        "No direct displacement measure exists for contract tobacco manufacturers.",
+        "Operator requirement is distinct from the amount of labor required.",
+        "Demand moved to imported products still requires an operator but may leave the U.S. lens."
+      ]
+    }
+  },
+  "narrative": {
+    "executive_view": "The coherent population is the small subset of tobacco and nicotine manufacturers that repeatedly produce for external brand owners. Physical production and regulatory accountability make the service durable, but the eligible universe is narrow, category demand is shifting away from combustible products, and regulatory authorization can determine whether a customer relationship has value at all.",
+    "ai_impact": "AI can support planning, forecasting, documentation, regulatory-file retrieval, complaint triage, quality anomaly detection, maintenance, inspection review, purchasing, and customer service. It is less able to replace controlled formulation, machine operation, maintenance, testing, packaging, material movement, or accountable release.",
+    "value_capture": "Contract pricing should preserve some gains between renewals, and validated processes or scarce regulatory capabilities can create switching costs. Open-book costing, volume-linked economics, powerful brand customers, and portable specifications can instead push savings through to customers.",
+    "firm_availability": "FDA recognizes third-party manufacturers and reports substantial domestic establishment activity, but public data do not separate own-brand, contract, relabeling, and ENDS businesses. A disclosed nicotine-pouch transaction confirms contract continuity after product-IP transfer, not a broad market of plant-control sales.",
+    "demand_durability": "Adult tobacco use has shifted from cigarettes toward e-cigarettes rather than disappearing overall, while nicotine-pouch sales have grown quickly. Eligible plants tied to legacy combustibles face contraction; those with authorized modern-oral capacity may grow. The resulting service-basket outlook is near flat with unusually wide regulatory and mix risk.",
+    "risks_and_uncertainty": "Principal risks are a tiny eligible population, dependence on a few products or customers, FDA authorization and enforcement, state taxes and restrictions, litigation, reputational constraints, import competition, product recalls, and rapidly shifting category preferences. Public data provide no direct contract-manufacturing revenue share, pricing, owner age, or control-transfer rate.",
+    "principal_driver": "A regulated physical manufacturing role that remains necessary while AI can compress planning, documentation, quality-review, and support work.",
+    "principal_weakness": "Eligibility and transferability are poorly measured, and combustible decline plus product-authorization risk can overwhelm operational gains."
+  },
+  "sources": [
+    {
+      "id": "S1",
+      "url": "https://www.bls.gov/oes/2023/may/naics4_312200.htm",
+      "title": "May 2023 National Industry-Specific Occupational Employment and Wage Estimates: NAICS 312200 Tobacco Manufacturing",
+      "access_date": "2026-07-22",
+      "supports": "Tobacco-manufacturing employment and wage mix, including production, material moving, maintenance, office, management, business, sales, science, and legal roles."
+    },
+    {
+      "id": "S2",
+      "url": "https://www.nist.gov/mep/rise-artificial-intelligence-ai-us-manufacturing-text-only",
+      "title": "The Rise of Artificial Intelligence (AI) in U.S. Manufacturing",
+      "access_date": "2026-07-22",
+      "supports": "Manufacturing AI uses in predictive maintenance, quality control, and demand forecasting, plus adoption barriers."
+    },
+    {
+      "id": "S3",
+      "url": "https://www.census.gov/library/stories/2026/05/ai-use-businesses.html",
+      "title": "Large Firms With at Least 20 Employees Biggest AI Users",
+      "access_date": "2026-07-22",
+      "supports": "National current and expected business AI use and firm-size differences from BTOS."
+    },
+    {
+      "id": "S4",
+      "url": "https://www.fda.gov/tobacco-products/compliance-enforcement-training/manufacturing",
+      "title": "Manufacturing",
+      "access_date": "2026-07-22",
+      "supports": "FDA definition of tobacco manufacturing and domestic establishment registration, product listing, reporting, and compliance requirements."
+    },
+    {
+      "id": "S5",
+      "url": "https://www.fda.gov/media/193313/download?attachment=",
+      "title": "Establishment Registration and Product Listing for Tobacco Products: Preliminary Regulatory Impact Analysis",
+      "access_date": "2026-07-22",
+      "supports": "Recognition of third-party manufacturing; 900 active domestic registrations in August 2025; estimated 4% annual entry and exit; regulatory baseline and market characterization."
+    },
+    {
+      "id": "S6",
+      "url": "https://www.imperialbrandsplc.com/news/key-announcements/2023/imperial-acquires-us-nicotine-pouches-range-from-tjp",
+      "title": "Imperial Acquires US Nicotine Pouches Range from TJP",
+      "access_date": "2026-07-22",
+      "supports": "Acquisition of 14 nicotine-pouch variants for initial £65 million plus volume-linked deferred consideration, with TJP continuing as contract manufacturer."
+    },
+    {
+      "id": "S7",
+      "url": "https://www.cdc.gov/mmwr/volumes/74/wr/mm7407a3.htm",
+      "title": "Tobacco Product Use Among Adults — United States, 2017–2023",
+      "access_date": "2026-07-22",
+      "supports": "Adult use shift from exclusive cigarettes to exclusive e-cigarettes and no net change in overall current adult tobacco use."
+    },
+    {
+      "id": "S8",
+      "url": "https://search.ftc.gov/news-events/news/press-releases/2023/10/ftc-releases-reports-cigarette-smokeless-tobacco-sales-marketing-expenditures-2022",
+      "title": "FTC Releases Reports on Cigarette and Smokeless Tobacco Sales and Marketing Expenditures for 2022",
+      "access_date": "2026-07-22",
+      "supports": "Traditional smokeless volume decline, revenue, promotions, and growth of non-tobacco nicotine lozenge, puck, and pouch sales."
+    },
+    {
+      "id": "S9",
+      "url": "https://www.fda.gov/tobacco-products/advertising-and-promotion/swedish-match-usa-inc-modified-risk-tobacco-product-mrtp-applications-zyn-products",
+      "title": "Swedish Match USA, Inc. Modified Risk Tobacco Product Applications for ZYN Products",
+      "access_date": "2026-07-22",
+      "supports": "FDA marketing authorization and modified-risk orders for 20 nicotine-pouch products, illustrating product-specific authorization and category development."
+    }
+  ]
+}

@@ -1,0 +1,175 @@
+{
+  "identity": {
+    "naics": "316990",
+    "title": "Other Leather and Allied Product Manufacturing",
+    "run_id": "316990-a1-20260722",
+    "model_id": "claude-sonnet-5",
+    "run_date": "2026-07-22",
+    "methodology_version": "5.1",
+    "attempt": 1
+  },
+  "lens": {
+    "included_activities": "Independent US contract cut-and-sew and assembly manufacturers that repeatedly produce customer-designed bags, carrying cases, pouches, straps, harnesses, and related soft goods from leather, textiles, plastics, or substitutes for external brands, OEMs, distributors, medical, industrial, outdoor, defense, or government customers.",
+    "excluded_activities": "Own-brand-only manufacturers, wholesalers and retailers, captive factories, consumer bespoke artisans without repeat outsourced programs, leather shoe parts and soles, industrial leather belting, pet furnishings, unrelated hard goods, shells, and non-control financing vehicles.",
+    "customer_and_revenue_model": "Repeat B2B contract, OEM, or private-label programs priced per unit, batch, or purchase order, often bundling design-for-manufacture, prototyping, sourcing, cutting, sewing, assembly, quality control, branding, packaging, and fulfillment.",
+    "deviation_from_default": "NAICS 316990 combines consumer luggage and purses, wallets, shoe findings, pet furnishings, industrial belting, protective leather goods, and products made from substitute materials. These have materially different processes and end markets, so the lens is narrowed for coherence to contract-manufactured bags, cases, straps, harnesses, and related sewn soft goods; the narrowing is based on operating-model comparability, not attractiveness.",
+    "heterogeneous": true
+  },
+  "primitives": {
+    "a": {
+      "evidence_state": "PROXY",
+      "low": 0.1,
+      "base": 0.19,
+      "high": 0.3,
+      "bridge": "BLS measures occupations across all other leather and allied product manufacturing, not wage-weighted AI task exposure in the narrowed contract soft-goods lens. O*NET describes sewing-machine work nationally. I assign low exposure to cutting, sewing, assembly, handling, and maintenance; moderate exposure to work-order interpretation, quality triage, pattern/nesting assistance, production reporting, and inspection; and higher exposure to office, customer-service, estimating, procurement, and planning tasks. The industry proxy may overstate exposure if small contract runs require more skilled manual setup, or understate it where computer vision and digital patterns are mature.",
+      "rationale": "BLS reports a production-heavy occupation mix led by 2,430 shoe and leather workers, 1,620 assemblers, and 1,400 sewing-machine operators, alongside 500 production supervisors, 410 general/operations managers, 400 shipping clerks, and smaller customer and sales roles. O*NET says sewing operators continually handle and guide materials, monitor machines, position parts, inspect output, and maintain equipment. AI primarily affects the informational layer around these physical tasks.",
+      "change_evidence": "Payroll-weighted task studies at 8-12 eligible contract plants covering estimating, design intake, patterns, sampling, nesting, sourcing, scheduling, cutting, sewing, assembly, inspection, compliance, shipping, and customer service, with demonstrable tool-by-tool substitution tests.",
+      "source_ids": ["S2", "S3"],
+      "caveats": [
+        "BLS covers the full heterogeneous NAICS industry rather than the narrowed lens.",
+        "The occupation chart provides counts but not a complete wage-weighted task distribution.",
+        "AI-enabled robotics could expand physical automation but requires capital and integration beyond software deployment."
+      ]
+    },
+    "rho": {
+      "evidence_state": "ESTIMATE",
+      "low": 0.38,
+      "base": 0.58,
+      "high": 0.75,
+      "rationale": "Over five years, contract plants can implement tech-pack and specification parsing, quote drafting, pattern and material support, scheduling, purchasing assistance, work instructions, compliance documentation, customer communication, and vision-assisted inspection. High product variety, small batches, tactile materials, legacy equipment, limited labeled data, customer approval, and integration with physical work constrain realization.",
+      "change_evidence": "Sustained before/after pilots across several product families at eligible plants, measuring labor hours, first-pass yield, rework, quote cycle time, on-time delivery, and customer returns for AI-assisted front office, planning, and inspection workflows.",
+      "source_ids": ["S3", "S6"],
+      "caveats": [
+        "No current adoption survey isolates eligible US contract soft-goods plants.",
+        "Frequent custom designs reduce the value of historical training data.",
+        "Quality failures in medical, defense, or equipment cases can outweigh labor savings."
+      ]
+    },
+    "e": {
+      "evidence_state": "ESTIMATE",
+      "low": 0.1,
+      "base": 0.24,
+      "high": 0.42,
+      "rationale": "The Census definition spans many products and does not identify customer ownership or contract revenue. Current US manufacturers explicitly offer OEM, private-label, prototyping, and repeat production of bags, cases, straps, harnesses, and related sewn goods, proving the model exists, but vertically integrated brands and excluded industrial/product categories are substantial. A minority of firms is therefore assumed eligible.",
+      "change_evidence": "A firm-level census of all candidate establishments using websites, government awards, customer references, UCC filings, and management calls to quantify recurring external contract-manufacturing revenue and confirm normalized EBITDA-band membership.",
+      "source_ids": ["S1", "S6"],
+      "caveats": [
+        "The provided dataset has no defensible LMM-band firm count, so this share cannot currently be converted into an eligible-firm count.",
+        "Firms often mix proprietary brands, wholesale, custom work, and contract production.",
+        "Publicly advertised capability may not represent a material share of revenue."
+      ]
+    },
+    "s5": {
+      "evidence_state": "PROXY",
+      "low": 0.14,
+      "base": 0.22,
+      "high": 0.31,
+      "bridge": "Gallup's fall 2024 survey covers US employer-business owners across industries, not eligible contract soft-goods manufacturers. It reports 22% of employer owners plan to sell or transfer in five years and 30% among employer owners age 55 or older. I retain 22% as the base and use a range allowing for lower realization and an older manufacturing-owner mix. This can overstate qualifying transfers because intentions may not close and may include internal gifts, while omitting unplanned or strategically initiated sales.",
+      "rationale": "No eligible-industry closed-deal denominator or owner-age distribution was found. The broad employer-owner rate supplies a directly timed anchor without assuming that legacy manufacturing firms necessarily transfer more often.",
+      "change_evidence": "Owner-age and succession interviews for eligible firms plus five years of completed control transfers from PitchBook, GF Data, Axial, BizBuySell, SBA loan records, government-contract novations, industry brokers, and local M&A counsel, excluding closures and noncontrol recapitalizations.",
+      "source_ids": ["S5"],
+      "caveats": [
+        "Survey plans are not completed transactions.",
+        "Gallup spans all employer industries and sizes.",
+        "The missing frozen LMM firm count makes observed transaction-rate calibration especially difficult."
+      ]
+    },
+    "q": {
+      "evidence_state": "ESTIMATE",
+      "low": 0.3,
+      "base": 0.5,
+      "high": 0.7,
+      "rationale": "Per-unit and per-run contract prices let a plant retain savings between purchase orders. Design integration, prototyping, compliance, domestic origin, short runs, and switching costs can protect value, while repeat bidding, customer purchasing leverage, transparent material costs, and foreign or alternative domestic suppliers pass savings back over time.",
+      "change_evidence": "An anonymized contract and quote panel from at least five eligible firms showing renewal cadence, cost-escalator clauses, material and labor pass-through, customer concentration, gross-margin bridges, win/loss history, and re-sourcing frequency.",
+      "source_ids": ["S6"],
+      "caveats": [
+        "No public dataset measures savings pass-through in this contract niche.",
+        "Retention differs between commodity promotional bags and regulated medical, defense, or device-specific cases.",
+        "Demand effects and implementation costs are excluded from this primitive."
+      ]
+    },
+    "d5": {
+      "evidence_state": "PROXY",
+      "low": 0.76,
+      "base": 0.98,
+      "high": 1.2,
+      "bridge": "BLS real sectoral output covers all NAICS 31699 products, not future constant-quality demand for narrowed contract bags, cases, straps, and harnesses. The index rose from 97.171 in 2019 to 110.281 in 2024, but peaked at 120.624 in 2022 and declined in both 2023 and 2024. I therefore center five-year niche demand near current rather than extrapolating either the post-2019 rise or recent decline. The proxy may understate eligible demand if domestic procurement and supply-chain resilience favor contractors, or overstate it if own-brand consumer products drove the observed output.",
+      "rationale": "Recent real output is above both 2017 and pre-pandemic 2019 levels, showing that the domestic industry is not in uninterrupted contraction, but the two latest annual declines and heterogeneous end markets argue against a strong growth assumption. Specialty OEM, medical, defense, outdoor, and industrial programs support a flat central case with a wide range.",
+      "change_evidence": "Eligible-firm unit order books and backlog by end market, recompete calendars for government programs, customer sourcing and reshoring plans, import quantities for relevant bags/cases, and BLS real output through 2026 separated by product class.",
+      "source_ids": ["S4", "S6"],
+      "caveats": [
+        "The BLS series is at ancestor NAICS 31699 and combines products excluded from the lens.",
+        "Pandemic and reopening effects distort recent comparisons.",
+        "Consumer fashion, medical devices, defense procurement, and industrial cases can move independently."
+      ]
+    },
+    "o": {
+      "evidence_state": "ESTIMATE",
+      "low": 0.9,
+      "base": 0.97,
+      "high": 1.0,
+      "rationale": "Almost all surviving outsourced quantity still requires an accountable manufacturer to translate specifications, source and cut materials, sew and assemble components, inspect output, manage compliance, and deliver finished goods. AI can reduce coordination and inspection work but cannot itself supply a physical bag, case, strap, or harness; customer insourcing or fully autonomous production is the main displacement route.",
+      "change_evidence": "Customer procurement interviews on insourcing and software-enabled self-production, plus evidence of commercially operating end-to-end autonomous high-mix sewing and assembly lines meeting medical, defense, or OEM quality requirements.",
+      "source_ids": ["S3", "S6"],
+      "caveats": [
+        "The operator can migrate offshore even when operator-required demand remains globally.",
+        "This estimate concerns accountable operator necessity, not workforce size.",
+        "Simpler products may become more automated than complex, high-mix sewn assemblies."
+      ]
+    }
+  },
+  "narrative": {
+    "executive_view": "A coherent opportunity exists inside the broad code among domestic contract manufacturers of bags, cases, straps, harnesses, and related soft goods. Repeat OEM programs and physical accountability support operator durability, while production-heavy labor limits AI substitution and the missing LMM firm-count input prevents a grounded estimate of how many targets exist.",
+    "ai_impact": "AI can accelerate tech-pack intake, quoting, materials planning, pattern and nesting support, work instructions, scheduling, production reporting, compliance documentation, customer service, and visual quality triage. Material handling, cutting, sewing, joining, hardware installation, assembly, maintenance, and final tactile judgment remain physical and often high-mix.",
+    "value_capture": "Fixed per-unit or per-run pricing supports initial margin retention. Custom engineering, prototypes, regulated materials, domestic-origin rules, short lead times, and product-specific quality systems create switching costs, but repeat tenders and customer cost visibility share gains over time.",
+    "firm_availability": "Current US contract manufacturers visibly serve external brands and OEMs, but NAICS 316990 also contains own-brand consumer firms and very different industrial products. Eligibility is therefore a minority estimate, and the frozen dataset's missing LMM firm count is the most consequential availability gap.",
+    "demand_durability": "Ancestor-industry real output in 2024 remained above 2017 and 2019 levels but fell from its 2022 peak. The narrowed niche can benefit from medical, defense, outdoor, and industrial programs as well as domestic sourcing, yet product and customer diversity justify a flat central five-year quantity outlook rather than a strong directional claim.",
+    "risks_and_uncertainty": "Major risks include an unknown target count, lens misclassification, customer concentration, offshore re-sourcing, fashion and procurement volatility, legacy equipment, skilled sewing labor scarcity, high-mix integration costs, warranty failures, and the possibility that advertised contract capability is immaterial to revenue.",
+    "principal_driver": "Repeat specialized OEM programs where domestic speed, compliance, engineering support, or origin requirements matter.",
+    "principal_weakness": "No defensible LMM-band firm count exists, and the NAICS code is too heterogeneous to infer eligible target availability from aggregate data."
+  },
+  "sources": [
+    {
+      "id": "S1",
+      "url": "https://www.census.gov/naics/?details=316&input=316&year=2022",
+      "title": "2022 NAICS Definition: Other Leather and Allied Product Manufacturing",
+      "access_date": "2026-07-22",
+      "supports": "Defines NAICS 316990 and its heterogeneous examples, including billfolds, luggage, purses, dog furnishings, shoe findings and soles, watch bands, protective leather goods, and products made from leather substitutes."
+    },
+    {
+      "id": "S2",
+      "url": "https://www.bls.gov/oes/2024/may/ind_emp_chart/ind_emp_chart_data.htm",
+      "title": "BLS OEWS Data Tables for Industry Employment Charts, May 2024",
+      "access_date": "2026-07-22",
+      "supports": "Reports the largest occupations in other leather and allied product manufacturing, including 2,430 shoe/leather workers, 1,620 assemblers, 1,400 sewing-machine operators, 500 production supervisors, 410 managers, and 400 shipping/inventory clerks."
+    },
+    {
+      "id": "S3",
+      "url": "https://www.onetonline.org/link/details/51-6031.00",
+      "title": "O*NET: Sewing Machine Operators",
+      "access_date": "2026-07-22",
+      "supports": "Describes core physical tasks such as monitoring machines, positioning and guiding material, threading equipment, measuring output, attaching components, inspecting defects, and maintenance; reports 84% continually use their hands and 71% continually make repetitive motions."
+    },
+    {
+      "id": "S4",
+      "url": "https://fred.stlouisfed.org/data/IPUEN31699T010000000",
+      "title": "BLS via FRED: Real Sectoral Output for Other Leather and Allied Product Manufacturing",
+      "access_date": "2026-07-22",
+      "supports": "Provides the real sectoral-output index for NAICS 31699 (2017=100), including 97.171 in 2019, 96.486 in 2020, 117.471 in 2021, 120.624 in 2022, 112.705 in 2023, and 110.281 in 2024."
+    },
+    {
+      "id": "S5",
+      "url": "https://news.gallup.com/poll/657362/small-business-owners-lack-succession-plan.aspx",
+      "title": "Gallup: Most Small-Business Owners Lack a Succession Plan",
+      "access_date": "2026-07-22",
+      "supports": "Reports from a fall 2024 US survey that 22% of employer-business owners planned to sell or transfer ownership within five years, rising to 30% among employer owners age 55 or older."
+    },
+    {
+      "id": "S6",
+      "url": "https://www.unitedmfg.com/custom-contract",
+      "title": "United Manufacturers: Private Label and Custom Contract Sewing",
+      "access_date": "2026-07-22",
+      "supports": "Documents a current US contract model offering OEM/private-label production, prototyping, patterns, samples, small-to-large runs, assembly, packaging and fulfillment for bags, cases, straps, harnesses, protective gear, and industrial and specialty applications."
+    }
+  ]
+}

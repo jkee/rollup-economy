@@ -1,0 +1,241 @@
+{
+  "identity": {
+    "naics": "311230",
+    "title": "Breakfast Cereal Manufacturing",
+    "run_id": "311230-a1-20260722",
+    "model_id": "claude-sonnet-5",
+    "run_date": "2026-07-22",
+    "methodology_version": "5.1",
+    "attempt": 1
+  },
+  "lens": {
+    "included_activities": "Independent US breakfast-cereal co-manufacturers and private-label manufacturers repeatedly producing cereal for external brand and retail customers, within the lower-middle-market EBITDA band.",
+    "excluded_activities": "Branded cereal manufacturers selling their own products, captive plants, firms focused only on adjacent snacks or dry blending, non-control financing vehicles, and operations outside the EBITDA band.",
+    "customer_and_revenue_model": "Recurring batch production, formulation, packaging, and private-label supply for food brands and retailers, generally priced per case or production run under fixed, indexed, or periodically renewed commercial terms.",
+    "deviation_from_default": "The NAICS definition covers product manufacturing generally, so the lens is narrowed to contract and private-label cereal manufacturing because only that subset supplies a recurring outsourced service to external customers.",
+    "heterogeneous": true
+  },
+  "primitives": {
+    "a": {
+      "evidence_state": "PROXY",
+      "low": 0.16,
+      "base": 0.25,
+      "high": 0.36,
+      "bridge": "Industry occupational shares show 49% production, 14% transportation/material moving, 9% installation/maintenance, and 7% office/administrative work. I map most office planning/documentation and selected inspection, scheduling, process-control, and material-handling tasks to AI exposure, but only a minority of hands-on batchmaking, packaging, maintenance, and sanitation. Wage weighting would likely raise the share modestly versus headcount because exposed planning and administrative roles are generally higher paid; the published shares are headcount, so the error could run either direction.",
+      "rationale": "The occupation mix is dominated by physical production: food batchmakers alone are 14%, and packaging/filling operators 10%. AI can reduce production planning, quality documentation, forecasting, procurement, customer service, and some machine-monitoring labor, but cereal conversion, sanitation, changeovers, maintenance, and material movement remain embodied tasks.",
+      "change_evidence": "A payroll-weighted occupation roster from three to five cereal co-manufacturers, paired with task-level time studies for planning, QA records, line monitoring, changeovers, and customer administration, would materially tighten this range.",
+      "source_ids": ["S2", "S3", "S4"],
+      "caveats": [
+        "The occupational source reports headcount shares, not wage-weighted task shares.",
+        "Manufacturing-wide AI adoption does not establish cereal-specific technical exposure.",
+        "Existing conventional automation is excluded conceptually, but plant-level installed equipment is unknown."
+      ]
+    },
+    "rho": {
+      "evidence_state": "PROXY",
+      "low": 0.34,
+      "base": 0.5,
+      "high": 0.66,
+      "bridge": "Manufacturing-wide surveys report current or expected AI use rather than implementation of the specific exposed labor opportunity in LMM cereal co-manufacturers. I use the 51% current use and 60% expected use by 2027 as adoption anchors, then discount for small-firm capital limits, legacy equipment integration, validation, food-safety controls, and change management. Large-firm-heavy surveys likely bias implementation upward for this lens.",
+      "rationale": "Five years is long enough to deploy low-capital copilots for scheduling, documentation, customer service, and forecasting, plus selective vision and predictive-maintenance systems. Physical-line changes are slower because production uptime, sanitation, traceability, and preventive-control validation constrain rollout.",
+      "change_evidence": "Plant-level implementation records from LMM cereal co-manufacturers showing production deployments, realized hours saved, false-reject rates, downtime, validation costs, and time to stable operation would move this estimate.",
+      "source_ids": ["S3", "S4", "S10"],
+      "caveats": [
+        "Survey definitions of AI include light-touch use that may not remove labor or avoid hiring.",
+        "The lens firms may have fewer engineering and data resources than surveyed manufacturers.",
+        "Food-safety and customer approval requirements vary by process and contract."
+      ]
+    },
+    "e": {
+      "evidence_state": "ESTIMATE",
+      "low": 0.12,
+      "base": 0.28,
+      "high": 0.48,
+      "rationale": "The NAICS definition is product-based and includes branded producers, which do not meet the outsourced-service lens. A current supplier directory lists 64 US private-label cereal manufacturers and multiple firms explicitly market cereal co-manufacturing, confirming a real subset; however, directory entries span adjacent categories and unknown size bands. With only seven dataset-estimated LMM firms, a base case of roughly two eligible firms is plausible.",
+      "change_evidence": "A verified establishment-by-establishment census of the seven estimated LMM firms, including revenue mix from third-party contract/private-label cereal production and independence from brand owners, could resolve eligibility directly.",
+      "source_ids": ["S1", "S5", "S6", "S7"],
+      "caveats": [
+        "The directory is not an official census and includes adjacent granola, snacks, and packaging capabilities.",
+        "Public websites do not reveal EBITDA, customer mix, or whether cereal is the primary NAICS activity.",
+        "The frozen n estimate is margin-bridged and may not identify the same firms represented in supplier directories."
+      ]
+    },
+    "s5": {
+      "evidence_state": "PROXY",
+      "low": 0.14,
+      "base": 0.27,
+      "high": 0.43,
+      "bridge": "Gallup measures five-year ownership intentions among US employer-business owners, while EPI surveys privately held owners and BizBuySell tracks reported Main Street transactions across sectors. I discount broad stated transfer intent for failed processes, family/internal transfers, closures, and the lens requirement for a qualifying control transfer. Manufacturing transaction growth supports, but does not quantify, cereal co-manufacturer turnover. Broad owner surveys may overstate completed third-party control transfers.",
+      "rationale": "Owner demographics and stated plans create meaningful availability, and manufacturing acquisitions were among the faster-growing BizBuySell sectors in 2024. Yet small food plants are operationally specialized, financing-intensive, and often customer-concentrated, so only a fraction of intended exits should become transferable qualifying deals in five years.",
+      "change_evidence": "PitchBook, GF Data, Axial, and broker records for US cereal, granola, and dry-food co-manufacturer control transactions over 2016-2026, divided by a verified eligible-firm denominator, would materially change the estimate.",
+      "source_ids": ["S11", "S12", "S13"],
+      "caveats": [
+        "No source measures qualifying transfers for NAICS 311230 or the contract-manufacturing subset.",
+        "Survey intentions do not equal closed transactions.",
+        "With a very small eligible population, one transaction materially changes the rate."
+      ]
+    },
+    "q": {
+      "evidence_state": "PROXY",
+      "low": 0.28,
+      "base": 0.46,
+      "high": 0.66,
+      "bridge": "A filed food contract-manufacturing agreement itemizes materials, packaging, conversion fees, and reconciles ingredient costs, while a food manufacturer's filing reports index pricing and annual fixed-price arrangements. These are adjacent food-manufacturing contracts, not cereal-LMM contracts. They show that input costs are often transparent or passed through, implying sophisticated customers can seek productivity sharing at renewal; bespoke operational know-how and fixed-term conversion pricing may preserve some savings. Customer bargaining could make retention lower than the base.",
+      "rationale": "Automation benefits arising inside conversion operations can be retained during a fixed pricing period, but retailers and brands can rebid, benchmark conversion fees, or demand lower prices at renewal. Retention should therefore be material but well below full, especially where a few large customers dominate volume.",
+      "change_evidence": "Ten anonymized cereal co-manufacturing MSAs and bid sheets showing term length, open-book costing, indexation, productivity clauses, renewal cadence, termination rights, and historical repricing after efficiency gains would materially move q.",
+      "source_ids": ["S8", "S9"],
+      "caveats": [
+        "Observed contract structures come from adjacent food categories and one older agreement.",
+        "Customer concentration and private-label tender frequency are unknown for the eligible firms.",
+        "This estimate excludes demand-volume loss, which is captured in d5 and o."
+      ]
+    },
+    "d5": {
+      "evidence_state": "PROXY",
+      "low": 0.7,
+      "base": 0.82,
+      "high": 0.96,
+      "bridge": "NielsenIQ box volumes reported by AP fell from nearly 2.5 billion in the 52 weeks ending July 3, 2021 to 2.1 billion in the comparable 2025 period, more than 13%, while experts described a 25-year decline. I extrapolate a moderated constant-quality quantity decline over five years, allowing niche protein, fiber, snack-use, hot-cereal, and private-label demand to perform better. Retail box volume is broader than outsourced production volume; co-manufacturing share gains could make lens demand stronger than category demand.",
+      "rationale": "Cold cereal faces persistent substitution by portable breakfast foods, yogurt, shakes, and less-processed options. Co-manufacturers can offset some category decline by serving fragmented niche brands and retailers, but the current service basket remains tied to cereal unit demand.",
+      "change_evidence": "Circana or NielsenIQ unit-volume forecasts by cold cereal, hot cereal, granola, private label, and emerging brands, plus eligible firms' contracted production volumes and new-business pipelines, would materially move the range.",
+      "source_ids": ["S14"],
+      "caveats": [
+        "The observed period includes pandemic normalization and is not a clean structural forecast.",
+        "Box counts do not control for package size or distinguish branded from contract-manufactured output.",
+        "The estimate is constant-price and constant-quality, unlike reported retail revenue growth."
+      ]
+    },
+    "o": {
+      "evidence_state": "PROXY",
+      "low": 0.88,
+      "base": 0.94,
+      "high": 0.98,
+      "bridge": "FDA rules require covered food facilities to maintain facility-specific food-safety plans and qualified human oversight, evidence that accountable plant operators remain necessary. This establishes regulatory accountability but does not directly measure the share of year-five quantity requiring the current lens operator; brand insourcing and alternative co-manufacturers can shift supply. The regulatory proxy may bias o upward if customers insource despite continuing human accountability.",
+      "rationale": "Software can optimize formulation, planning, inspection, and documentation but cannot itself extrude, cook, dry, package, sanitize, release, and physically ship cereal. Brands without plants will still need accountable manufacturers; limited insourcing, industry consolidation, or highly automated greenfield capacity could displace some current operators.",
+      "change_evidence": "Customer sourcing strategies, five-year make-versus-buy plans, co-manufacturing contract renewal data, and announced cereal plant investments or closures would materially tighten this estimate.",
+      "source_ids": ["S10", "S15"],
+      "caveats": [
+        "Regulation ensures accountable facilities, not survival of any particular firm.",
+        "The lens may lose quantity to larger co-manufacturers or customer-owned plants.",
+        "Technological change could reduce staffing substantially without eliminating the operator entity."
+      ]
+    }
+  },
+  "narrative": {
+    "executive_view": "The coherent opportunity is the small subset of cereal plants acting as repeat outsourced manufacturers for brands and retailers. AI can improve planning, documentation, quality workflows, and selective line monitoring, but physical production dominates labor and long-run cereal unit demand is weak.",
+    "ai_impact": "Near-term gains should come first from demand forecasting, production scheduling, procurement, maintenance triage, customer documentation, label and specification review, and computer-assisted inspection. Batchmaking, sanitation, changeovers, repairs, and material handling require equipment and human execution, keeping implementable substitution below generic knowledge-work benchmarks.",
+    "value_capture": "Fixed-term conversion pricing can let the operator retain savings initially. At renewal, transparent materials and conversion economics, competitive bids, and concentrated retail or brand customers are likely to reclaim part of the benefit through price concessions or tighter service terms.",
+    "firm_availability": "Contract and private-label cereal manufacturers demonstrably exist, but NAICS 311230 also includes branded manufacturers outside the lens. With only seven dataset-estimated LMM firms and uncertain service revenue mix, the eligible pool is likely very small and each owner decision matters.",
+    "demand_durability": "The physical manufacturing need remains operator-required, supported by food-safety accountability and specialized plant assets. However, cold-cereal box volumes have continued a long decline; niche health positioning, snack occasions, hot cereal, and private label offer offsets rather than a clear return to broad volume growth.",
+    "risks_and_uncertainty": "The largest uncertainties are the eligible-firm denominator, actual plant automation baseline, customer concentration and repricing terms, and whether co-manufacturers gain share while the category contracts. Food-safety failures, recalls, allergen controls, commodity volatility, and capital-intensive line upgrades can overwhelm administrative AI savings.",
+    "principal_driver": "A real outsourced co-manufacturing niche with recurring physical production and meaningful planning, quality, and documentation workflows.",
+    "principal_weakness": "A tiny, poorly enumerated eligible pool operating in a cereal category with persistent unit-volume decline and strong customer repricing leverage."
+  },
+  "sources": [
+    {
+      "id": "S1",
+      "url": "https://www.census.gov/naics/?details=31123&input=31123&year=2022",
+      "title": "2022 NAICS definition: Breakfast Cereal Manufacturing",
+      "access_date": "2026-07-23",
+      "supports": "Defines 311230 as establishments primarily manufacturing breakfast cereal foods, establishing that the code is product-based rather than limited to outsourced manufacturers."
+    },
+    {
+      "id": "S2",
+      "url": "https://pellresearch.com/food-manufacturing/breakfast-cereal-manufacturing",
+      "title": "Breakfast Cereal Manufacturing Industry - Market Research Report",
+      "access_date": "2026-07-23",
+      "supports": "Reports industry employment shares including production occupations 49%, food processing workers 17%, food batchmakers 14%, packaging and filling operators 10%, material moving 14%, maintenance 9%, and office/administrative support 7%."
+    },
+    {
+      "id": "S3",
+      "url": "https://www.federalreserve.gov/econres/notes/feds-notes/monitoring-ai-adoption-in-the-u-s-economy-20260403.html",
+      "title": "Monitoring AI Adoption in the US Economy",
+      "access_date": "2026-07-23",
+      "supports": "Reports about 18% firm-level AI adoption at year-end 2025, 41% work-related GenAI adoption, and faster recent growth in manufacturing while noting substantial survey and population differences."
+    },
+    {
+      "id": "S4",
+      "url": "https://nam.org/nam-to-white-house-heres-how-to-boost-ai-adoption-in-manufacturing/",
+      "title": "NAM to White House: Here's How to Boost AI Adoption in Manufacturing",
+      "access_date": "2026-07-23",
+      "supports": "Reports a 2025 Manufacturing Leadership Council survey in which 51% of manufacturers used AI, 60% expected to by 2027, and 80% considered it vital by 2030."
+    },
+    {
+      "id": "S5",
+      "url": "https://stephanosbakedgoods.com/co-man-private-label.html",
+      "title": "Stephano Group Co-Manufacturing & Private Label",
+      "access_date": "2026-07-23",
+      "supports": "Confirms an operating firm offers contract and private-label manufacturing of granola, extruded cereal, and hot cereal, with R&D and regulatory support."
+    },
+    {
+      "id": "S6",
+      "url": "https://organicmilling.roskamfoods.com/",
+      "title": "Organic Milling - a Roskam Foods Company",
+      "access_date": "2026-07-23",
+      "supports": "Describes a cereal and granola contract manufacturer serving food companies and retailers, confirming the outsourced business model within the category."
+    },
+    {
+      "id": "S7",
+      "url": "https://www.kokoquest.com/companies/food-beverage/cereal-manufacturers-private-label",
+      "title": "Cereal Manufacturers Private Label - US Supplier Directory",
+      "access_date": "2026-07-23",
+      "supports": "Lists 64 US private-label cereal manufacturers as of January 2026, while descriptions show inclusion of adjacent cereal, granola, dry-goods, and packaging capabilities."
+    },
+    {
+      "id": "S8",
+      "url": "https://www.sec.gov/Archives/edgar/data/1431897/000119312512444185/d406800dex103.htm",
+      "title": "Contract Manufacturing and Packaging Agreement",
+      "access_date": "2026-07-23",
+      "supports": "Shows a food manufacturing contract that separately details material, packaging, conversion, and waste-factor costs; ingredient cost variances are reconciled and conversion cost is fixed for the initial term."
+    },
+    {
+      "id": "S9",
+      "url": "https://www.sec.gov/Archives/edgar/data/1669792/000110465916139289/a16-15949_110q.htm",
+      "title": "Food manufacturer quarterly filing describing pricing arrangements",
+      "access_date": "2026-07-23",
+      "supports": "Reports price-list, index, and annually renewed fixed-price arrangements and explains that index pricing passes through raw-material or conversion-cost changes."
+    },
+    {
+      "id": "S10",
+      "url": "https://www.fda.gov/food/food-safety-modernization-act-fsma/frequently-asked-questions-fsma",
+      "title": "Frequently Asked Questions on FSMA",
+      "access_date": "2026-07-23",
+      "supports": "States that covered facilities generally need facility-specific written food-safety plans and qualified individuals overseeing hazard controls, validation, and record review."
+    },
+    {
+      "id": "S11",
+      "url": "https://news.gallup.com/poll/657362/small-business-owners-lack-succession-plan.aspx",
+      "title": "Most Small-Business Owners Lack a Succession Plan",
+      "access_date": "2026-07-23",
+      "supports": "Reports a fall 2024 survey asking business owners about the next five years and finds 74% of employer-business owners plan eventually to sell or transfer ownership, while succession preparation is often weak."
+    },
+    {
+      "id": "S12",
+      "url": "https://exit-planning-institute.org/state-of-owner-readiness",
+      "title": "State of Owner Readiness",
+      "access_date": "2026-07-23",
+      "supports": "Reports that 51% of the current American business market is owned by Baby Boomers expected to transition over zero to ten years, providing broad succession context."
+    },
+    {
+      "id": "S13",
+      "url": "https://www-tsm2.bizbuysell.com/insight-report/",
+      "title": "BizBuySell Insight Report - 2024 Market Trends",
+      "access_date": "2026-07-23",
+      "supports": "Reports 9,546 closed small-business transactions in 2024, up 5%, with manufacturing among the sectors showing the strongest acquisition growth."
+    },
+    {
+      "id": "S14",
+      "url": "https://apnews.com/article/kellogg-cereal-general-mills-db705c5cbb828e31b31ac02cc4d5a886",
+      "title": "Breakfast cereal sales declined for decades before Kellogg's sale",
+      "access_date": "2026-07-23",
+      "supports": "Reports nearly 2.5 billion cereal boxes sold in the 52 weeks ending July 3, 2021 versus 2.1 billion in the comparable 2025 period, down more than 13%, within a decline lasting at least 25 years."
+    },
+    {
+      "id": "S15",
+      "url": "https://www.fda.gov/food/food-safety-modernization-act-fsma/fsma-final-rule-preventive-controls-human-food",
+      "title": "FSMA Final Rule for Preventive Controls for Human Food",
+      "access_date": "2026-07-23",
+      "supports": "States that covered food facilities must comply with risk-based preventive controls and CGMPs and maintain food-safety plans with hazard analysis and controls."
+    }
+  ]
+}

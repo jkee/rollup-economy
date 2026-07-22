@@ -1,0 +1,182 @@
+{
+  "identity": {
+    "naics": "314110",
+    "title": "Carpet and Rug Mills",
+    "run_id": "314110-a1-20260722",
+    "model_id": "claude-sonnet-5",
+    "run_date": "2026-07-22",
+    "methodology_version": "5.1",
+    "attempt": 1
+  },
+  "lens": {
+    "included_activities": "Lower-middle-market carpet and rug mills providing repeat commission coating, finishing, printing, or contract/custom production to external manufacturers, dealers, hospitality groups, institutions, and other commercial customers.",
+    "excluded_activities": "Stock or branded product manufacturing without a recurring outsourced-service relationship; pure distribution, retail, installation, carpet cutting and binding classified elsewhere, captive internal finishing, shells, and non-control financing vehicles.",
+    "customer_and_revenue_model": "Business customers place repeat purchase orders or production runs priced per yard, unit, lot, or specification; the qualifying subset earns manufacturing-service revenue through commission finishing/printing or recurring contract production rather than a subscription.",
+    "deviation_from_default": "The code is narrowed to commission finishing/printing and repeat contract production because NAICS 314110 primarily describes goods manufacturing, while the qualifying outsourced production-service model has different eligibility and retention economics from branded or stock carpet sales.",
+    "heterogeneous": true
+  },
+  "primitives": {
+    "a": {
+      "evidence_state": "PROXY",
+      "low": 0.08,
+      "base": 0.14,
+      "high": 0.24,
+      "bridge": "BLS measures employment, not wage-weighted task exposure, for the broader Textile Furnishings Mills industry: its largest occupations are predominantly physical production, material-moving, maintenance, and supervisory roles. OECD evidence places non-routine physical and textile pressing work among the least AI-exposed occupations, while BLS and OECD identify machine vision and automated inspection as a tractable production use. I map the small cognitive/clerical, planning, inspection-reporting, and visual-QA task slice to current AI exposure and weight it down because the dominant shop-floor occupations require embodied work. The broader-industry mapping may overstate exposure if carpet mills are more production-heavy than curtain and linen mills, while exclusion of smaller office occupations may understate it.",
+      "rationale": "The occupation mix is dominated by sewing, winding, weaving, supervision, material handling, maintenance, and cutting. Current AI can assist order entry, scheduling, specifications, customer service, demand planning, and defect detection, but it cannot directly perform most machine tending, repair, movement, or tactile validation. The range allows meaningful machine-vision exposure without treating conventional robotics as software AI substitution.",
+      "change_evidence": "A wage-weighted 314110 establishment occupation file from BLS special tabulation, paired with time-and-motion interviews at commission finishers and task-level data on current vision-inspection coverage, would materially change the estimate.",
+      "source_ids": ["S2", "S3", "S4"],
+      "caveats": [
+        "OEWS evidence is for 3141 Textile Furnishings Mills, not six-digit 314110.",
+        "Occupation employment counts are not wage weights and do not reveal task shares within occupations.",
+        "AI exposure evidence spans economies and occupations rather than U.S. carpet mills specifically."
+      ]
+    },
+    "rho": {
+      "evidence_state": "ESTIMATE",
+      "low": 0.25,
+      "base": 0.45,
+      "high": 0.65,
+      "rationale": "About half of the exposed opportunity could plausibly be implemented in five years through order/specification handling, production planning, document workflows, customer service, and targeted machine vision. Integration with legacy machinery, varied textures and patterns, false-reject costs, worker training, and continued physical validation limit conversion of exposure into operating labor savings.",
+      "change_evidence": "Plant-level implementation case studies from carpet finishers showing pre/post labor hours, defect escapes, false-reject rates, uptime, and payback for AI scheduling or vision inspection would materially move this range.",
+      "source_ids": ["S3", "S4", "S6"],
+      "caveats": [
+        "No carpet-mill adoption survey separates pilots from production deployments.",
+        "The estimate assumes adequate machine data and digital order records, which may be absent in smaller mills.",
+        "It excludes labor savings from conventional capital equipment unless AI is essential to the workflow."
+      ]
+    },
+    "e": {
+      "evidence_state": "ESTIMATE",
+      "low": 0.05,
+      "base": 0.12,
+      "high": 0.25,
+      "rationale": "The official definition is overwhelmingly carpet and rug manufacturing or finishing, not an outsourced service category. A public operator nevertheless identifies commission carpet coating/finishing and contract commission printing as actual business lines, establishing that the qualifying model exists. Only a minority of the frozen LMM firm population is therefore likely to combine repeat external-customer service revenue, transferable operations, and control-buyout suitability.",
+      "change_evidence": "A firm-by-firm screen of the 52 dataset-estimated LMM firms using customer mix, revenue by commission/contract service, ownership, and standalone operating status would directly determine eligibility.",
+      "source_ids": ["S1", "S6"],
+      "caveats": [
+        "The dataset firm count is an estimate derived from size classes and a margin bridge, not an observed roster.",
+        "Public disclosures from one integrated operator establish existence but not population share.",
+        "Some contract manufacturing relationships may be repeat purchases without constituting an outsourced service under the lens."
+      ]
+    },
+    "s5": {
+      "evidence_state": "PROXY",
+      "low": 0.08,
+      "base": 0.16,
+      "high": 0.25,
+      "bridge": "Gallup's fall-2024 U.S. survey found that 22% of employer-business owners planned to sell or transfer ownership within five years. I apply that employer-business rate to eligible LMM commission/contract carpet mills, then reduce the base to 16% because capital-intensive mills have a thin buyer universe, industry production is concentrated, and not every stated transfer plan becomes a qualifying control transfer. This could understate family or strategic transfers not yet planned, or overstate completed transactions because intentions can lapse.",
+      "rationale": "Owner aging creates a credible transfer pool, but a qualifying transaction requires a transferable plant, customer relationships, financing, and actual control change. The range brackets substantial slippage from stated plans while allowing strategic and succession transactions.",
+      "change_evidence": "A five-year 314110 transaction census from PitchBook, Capital IQ, GF Data, Axial, and local flooring-industry advisers, matched to owner age and deal type, would replace the cross-industry proxy.",
+      "source_ids": ["S5", "S6"],
+      "caveats": [
+        "Gallup covers all U.S. employer businesses, not manufacturing or LMM carpet mills.",
+        "Plans to sell, gift, or go public are intentions and include transfers outside the qualifying-control definition.",
+        "The eligible population is small, so a few transactions can move the realized rate sharply."
+      ]
+    },
+    "q": {
+      "evidence_state": "ESTIMATE",
+      "low": 0.25,
+      "base": 0.45,
+      "high": 0.65,
+      "rationale": "Purchase-order and per-run pricing permits initial retention of implemented savings, but the industry competes on price, quality, service, innovation, and technology, with import and hard-surface pressure. At renewal or rebid, sophisticated dealers and commercial buyers can demand concessions. Differentiated short-lead-time, low-defect commission work should retain more than commoditized production.",
+      "change_evidence": "Customer-contract samples and bid histories showing indexation, open-book costing, rebid cadence, gross-margin persistence, and price changes after documented process savings would materially change retention.",
+      "source_ids": ["S6"],
+      "caveats": [
+        "No observed pass-through study exists for commission carpet finishing.",
+        "Retention varies sharply by customer concentration, differentiation, capacity utilization, and whether work is cost-plus or competitively bid.",
+        "The estimate excludes volume effects, which belong in demand primitives."
+      ]
+    },
+    "d5": {
+      "evidence_state": "PROXY",
+      "low": 0.65,
+      "base": 0.85,
+      "high": 1.05,
+      "bridge": "Federal Reserve industrial production for NAICS 31411 fell from 86.4779 in 2021 to 70.4170 in 2025, while a carpet manufacturer's filing says replacement is the larger submarket and accounts for about 52% of industry shipments. I use the output decline as a directional proxy for constant-price, constant-quality quantity and temper straight-line extrapolation because replacement demand provides a recurring floor and current output may be cyclically depressed. The proxy can overstate decline if mix or measurement revisions reduce the index, and can understate it if hard-surface substitution accelerates.",
+      "rationale": "Recent real output is contracting and carpet faces substitution from hard surfaces and imports. Replacement, commercial, hospitality, institutional, and specialty applications prevent a collapse, but a return to growth is not the central case over five years.",
+      "change_evidence": "CRI square-yard shipments split by residential replacement, new construction, commercial, and commission finishing, together with constant-quality forecasts for housing turnover and commercial renovation, would materially refine the range.",
+      "source_ids": ["S6", "S7"],
+      "caveats": [
+        "The Federal Reserve series is five-digit 31411 and measures all carpet/rug output, not the narrowed service subset.",
+        "The 2021 comparison point was affected by pandemic-era housing and remodeling conditions.",
+        "A public company filing may reflect its own market framing and cites trade-association information not independently reproduced here."
+      ]
+    },
+    "o": {
+      "evidence_state": "ESTIMATE",
+      "low": 0.9,
+      "base": 0.96,
+      "high": 0.99,
+      "rationale": "For demand that remains in year five, customers still require an accountable physical operator to receive materials, run coating/printing/tufting equipment, assure specifications, manage defects, and deliver carpet. Software can reshape planning, service, and inspection but cannot independently supply the physical output. A modest tail allows insourcing, fully automated production cells, or substitution to standardized imports.",
+      "change_evidence": "Customer procurement interviews on insourcing and import substitution, plus plant roadmaps for lights-out finishing or printing lines, would test how much retained quantity ceases to require an external accountable operator.",
+      "source_ids": ["S3", "S4", "S6"],
+      "caveats": [
+        "This estimate conditions on demand already surviving in d5 and avoids counting hard-surface substitution twice.",
+        "Operator requirement could fall faster for standardized printing than for small-batch custom finishing.",
+        "No direct survey measures self-service or software-only displacement for this physical production service."
+      ]
+    }
+  },
+  "narrative": {
+    "executive_view": "The coherent opportunity is not the whole carpet-mill industry but a small subset of commission finishers, printers, and repeat contract producers. That subset has real order, planning, inspection, and customer-service workflows for AI, but most labor remains embodied production work and demand has been declining.",
+    "ai_impact": "AI can reduce clerical touch time, translate specifications into work instructions, improve scheduling and demand planning, draft customer communications, and support camera-based defect detection. Physical machine operation, maintenance, material movement, tactile inspection, and accountability remain human- and equipment-intensive.",
+    "value_capture": "Savings can initially accrue to the operator because work is quoted per run, yard, or specification. Competitive bids, powerful dealers, imports, and hard-surface alternatives should pass a meaningful portion back to customers over renewal cycles; retention is better where quality, customization, and turnaround are hard to benchmark.",
+    "firm_availability": "The frozen dataset estimates 52 LMM-band firms, but the official code primarily covers product manufacturers. Actual eligibility is likely confined to a minority with repeat external commission or contract-service revenue, and a broad employer-business transfer survey is only a proxy for control availability.",
+    "demand_durability": "Replacement demand supplies a recurring base, and commercial or specialty carpet still serves applications where acoustics, comfort, design, or performance matter. Even so, the Federal Reserve output index fell materially through 2025, and hard surfaces, imports, housing turnover, construction, and consumer confidence remain major demand risks.",
+    "risks_and_uncertainty": "The greatest uncertainty is denominator quality: a product-manufacturing NAICS code and a margin-bridged firm count may leave very few true outsourced-service targets. Other risks are continued volume contraction, customer concentration, capital spending needed for machine vision, legacy data, false defect calls, and rapid competitive pass-through of savings.",
+    "principal_driver": "Repeat, specification-heavy production and inspection workflows create focused AI opportunities without eliminating the need for a physical operator.",
+    "principal_weakness": "Only a small, unobserved share of carpet mills likely fits the outsourced-service lens, against a backdrop of declining real output."
+  },
+  "sources": [
+    {
+      "id": "S1",
+      "url": "https://www.census.gov/naics/?details=31411&input=31411&year=2022",
+      "title": "2022 NAICS Definition: 314110 Carpet and Rug Mills",
+      "access_date": "2026-07-22",
+      "supports": "Defines the industry as establishments manufacturing woven, tufted, and other carpets and rugs and/or finishing carpets and rugs; supports the lens mismatch and eligibility judgment."
+    },
+    {
+      "id": "S2",
+      "url": "https://www.bls.gov/oes/2024/may/ind_emp_chart/ind_emp_chart_data.htm",
+      "title": "BLS OEWS Data Tables for Industry Charts, May 2024",
+      "access_date": "2026-07-22",
+      "supports": "Reports the largest occupations in Textile Furnishings Mills, including 5,870 sewing machine operators, 4,260 winding/twisting operators, 2,970 knitting/weaving operators, 1,820 production supervisors, 1,720 industrial truck operators, and other physical production roles."
+    },
+    {
+      "id": "S3",
+      "url": "https://www.oecd.org/content/dam/oecd/en/publications/reports/2024/04/artificial-intelligence-and-the-changing-demand-for-skills-in-the-labour-market_861a23ea/88684e36-en.pdf",
+      "title": "Artificial Intelligence and the Changing Demand for Skills in the Labour Market",
+      "access_date": "2026-07-22",
+      "supports": "Finds high-skill cognitive occupations most exposed and non-routine physical occupations least exposed; lists textile pressers among the five least AI-exposed occupations and cautions that exposure measures have not been shown to equal adoption."
+    },
+    {
+      "id": "S4",
+      "url": "https://www.bls.gov/ooh/production/quality-control-inspectors.htm",
+      "title": "BLS Occupational Outlook Handbook: Quality Control Inspectors",
+      "access_date": "2026-07-22",
+      "supports": "Describes inspection tasks, automated vision systems, and 3D scanners; projects little or no employment change through 2034 because technology automates some but not all inspection and validation tasks."
+    },
+    {
+      "id": "S5",
+      "url": "https://news.gallup.com/poll/657362/small-business-owners-lack-succession-plan.aspx",
+      "title": "Most Small-Business Owners Lack a Succession Plan",
+      "access_date": "2026-07-22",
+      "supports": "Gallup's fall-2024 U.S. survey of 1,264 working business owners reports that 22% of employer-business owners planned to sell or transfer ownership within five years and that 52.3% of employer businesses were owned by people age 55 or older."
+    },
+    {
+      "id": "S6",
+      "url": "https://ir.liveventures.com/annual-reports/content/0001628280-24-052099/0001628280-24-052099.pdf",
+      "title": "Live Ventures Incorporated 2024 Form 10-K",
+      "access_date": "2026-07-22",
+      "supports": "Identifies commission carpet coating/finishing and contract commission printing business lines; reports about $11.4 billion of 2023 carpet/rug shipments, about 52% tied to residential replacement, fewer than 100 domestic manufacturers, and competition based on service, quality, price, innovation, and technology."
+    },
+    {
+      "id": "S7",
+      "url": "https://fred.stlouisfed.org/series/IPG31411A",
+      "title": "Industrial Production: Carpet and Rug Mills (NAICS 31411)",
+      "access_date": "2026-07-22",
+      "supports": "Federal Reserve annual real-output index reported 86.4779 for 2021, 86.8040 for 2022, 77.2588 for 2023, 73.7997 for 2024, and 70.4170 for 2025."
+    }
+  ]
+}
