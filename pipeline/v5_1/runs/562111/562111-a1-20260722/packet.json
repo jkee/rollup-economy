@@ -1,0 +1,197 @@
+{
+  "identity": {
+    "naics": "562111",
+    "title": "Solid Waste Collection",
+    "run_id": "562111-a1-20260722",
+    "model_id": "claude-sonnet-5",
+    "run_date": "2026-07-22",
+    "methodology_version": "5.1",
+    "attempt": 1
+  },
+  "lens": {
+    "included_activities": "US lower-middle-market firms providing recurring or repeat local collection and hauling of nonhazardous solid waste or mixed recyclables, plus nonhazardous transfer-station operations sold to external residential, commercial, industrial, institutional, or municipal customers.",
+    "excluded_activities": "Hazardous waste collection, brush and rubble removal, long-distance waste trucking, materials recovery facilities, waste consulting, captive municipal departments, combined collection-and-disposal businesses classified outside NAICS 562111, shells, non-control financing vehicles, and firms outside the target EBITDA band.",
+    "customer_and_revenue_model": "Residential subscriptions, commercial and industrial service agreements, municipal contracts, scheduled route charges, container and frequency-based fees, and repeat transfer-station tipping fees paid by external customers.",
+    "deviation_from_default": "none",
+    "heterogeneous": false
+  },
+  "primitives": {
+    "a": {
+      "evidence_state": "PROXY",
+      "low": 0.14,
+      "base": 0.24,
+      "high": 0.35,
+      "bridge": "BLS measures employment and wages for four-digit Waste Collection, not the six-digit lens, and O*NET describes occupation tasks rather than current AI exposure. I wage-weighted the broad occupation mix conceptually, assigned higher exposure to dispatch, customer service, billing, records, routing, and management work, and low exposure to driving, lifting, equipment operation, and repair. Inclusion of hazardous and other waste collection likely biases the proxy modestly downward if those activities require more specialized field work; uncertainty about AI assistance inside driver and collector roles can bias either direction.",
+      "rationale": "Transportation and material-moving work accounts for most sector employment, including large driver and refuse-collector groups whose core tasks are physical and safety-critical. The exposed opportunity is concentrated in office support, customer service, dispatch, scheduling, route planning, work-order handling, billing, compliance documentation, and limited information tasks within field roles. Management wages increase the wage-weighted share, but current AI cannot substitute for most collection, driving, lifting, or mechanical work.",
+      "change_evidence": "A six-digit employer payroll extract matched to detailed occupations, combined with a time-and-motion survey of dispatch, customer service, billing, route supervision, and driver paperwork at private LMM haulers, would materially change this estimate.",
+      "source_ids": ["S2", "S3", "S4", "S5"],
+      "caveats": [
+        "The BLS occupation mix is for four-digit Waste Collection and includes adjacent waste-collection activities.",
+        "O*NET describes occupations across industries and does not measure AI substitution or avoidable hiring.",
+        "The range is task judgment rather than an observed wage-weighted exposure statistic."
+      ]
+    },
+    "rho": {
+      "evidence_state": "PROXY",
+      "low": 0.34,
+      "base": 0.52,
+      "high": 0.7,
+      "bridge": "The Census survey measures any business-function AI use across nonfarm businesses, not implementation of exposed labor opportunity by solid-waste collectors. I use the near-one-fifth overall adoption level, higher adoption at larger firms, and coverage of customer service, finance, human resources, and information technology as a starting point, then raise the five-year expectation for established routing and field-service workflows while discounting for fragmented LMM systems, data quality, safety, labor relations, and integration constraints. Economy-wide adoption may overstate small-hauler readiness but understate mature vertical-software diffusion over five years.",
+      "rationale": "Customer intake, call summaries, billing exceptions, route changes, work orders, driver documentation, maintenance triage, and reporting can be embedded into existing fleet and route software. Implementation should be meaningful but incomplete because operating mistakes affect missed pickups, safety, municipal service levels, and customer retention, while many smaller firms have fragmented data and limited change capacity.",
+      "change_evidence": "A vendor-neutral survey of private waste haulers documenting deployed AI workflows, affected labor hours, integration duration, exception rates, and sustained usage by firm size would materially change this value.",
+      "source_ids": ["S4", "S5", "S6"],
+      "caveats": [
+        "The Census measure is economy-wide and counts use that may not avoid labor.",
+        "Vendor adoption claims may conflate conventional optimization or automation with AI.",
+        "Implementation varies sharply with route-software maturity, fleet telemetry, and local management quality."
+      ]
+    },
+    "e": {
+      "evidence_state": "ESTIMATE",
+      "low": 0.76,
+      "base": 0.87,
+      "high": 0.95,
+      "rationale": "The six-digit definition is already centered on outsourced local collection, hauling, and transfer services. Most private LMM firms should serve external customers on subscriptions, contracts, scheduled routes, or repeat tipping transactions. The main exclusions are firms dominated by episodic activity, captive or municipal operations misclassified in business data, transfer-station-only models without sufficiently repeat external revenue, integrated disposal businesses classified elsewhere, and entities outside the target control and earnings lens.",
+      "change_evidence": "A stratified review of business descriptions, customer contracts, revenue recurrence, ownership, and normalized EBITDA for a commercial database sample of NAICS 562111 firms would materially change the eligible share.",
+      "source_ids": ["S1", "S8"],
+      "caveats": [
+        "No source measures the eligible share within the target EBITDA band.",
+        "Business databases can assign NAICS from self-reports or primary-revenue judgments that obscure integrated operations.",
+        "The dataset firm-count estimate may include entities without transferable standalone operations."
+      ]
+    },
+    "s5": {
+      "evidence_state": "PROXY",
+      "low": 0.09,
+      "base": 0.16,
+      "high": 0.24,
+      "bridge": "Gallup measures five-year sale or ownership-transfer intentions among US employer-business owners across industries, while Casella's filing documents completed waste-industry acquisitions by a strategic buyer. I discount stated owner intentions for plans that do not close or do not produce a qualifying control transfer, then allow an industry uplift for demonstrated tuck-in demand and consolidation. The Gallup intention measure likely overstates completed transfers, while reliance on one public acquirer's activity may overstate deal flow available to a typical LMM buyer.",
+      "rationale": "Owner succession creates a broad transfer pool, and strategic acquirers actively purchase collection tuck-ins to densify routes and expand adjacent service areas. Completed qualifying transfers should remain below stated intentions because owners defer sales, close firms, transfer internally, or fail to meet buyer quality and price requirements.",
+      "change_evidence": "A five-year transaction database filtered to US NAICS 562111 control deals and linked to the estimated stock of eligible LMM firms, supplemented by owner-age and succession interviews, would materially change this probability.",
+      "source_ids": ["S7", "S8"],
+      "caveats": [
+        "Gallup covers employer businesses across industries and measures plans, not completed qualifying deals.",
+        "A public consolidator's acquisitions are evidence of buyer demand, not a denominator-based transfer rate.",
+        "Strategic buyers may outbid financial or independent operators for route-dense assets."
+      ]
+    },
+    "q": {
+      "evidence_state": "ESTIMATE",
+      "low": 0.43,
+      "base": 0.59,
+      "high": 0.74,
+      "rationale": "Recurring subscriptions, scheduled service agreements, and municipal contracts let an operator retain a meaningful portion of implemented savings before renewal or rebid. Route density and service reliability also reduce immediate price transparency. Retention is limited by competitive municipal bidding, negotiated commercial renewals, customer demands, and pricing mechanisms tied to collection frequency, equipment, disposal distance, weight, and processing costs rather than solely to operator labor cost.",
+      "change_evidence": "Contract-level cohorts showing price changes, renewal timing, rebid outcomes, churn, service-level penalties, and realized margin after documented workflow savings across residential, commercial, and municipal customers would materially change this estimate.",
+      "source_ids": ["S8"],
+      "caveats": [
+        "No source directly measures retention of AI-enabled gross benefit.",
+        "Customer and contract mix varies materially across local markets.",
+        "Municipal rebids and aggressive strategic competitors can transfer savings to customers."
+      ]
+    },
+    "d5": {
+      "evidence_state": "PROXY",
+      "low": 0.99,
+      "base": 1.08,
+      "high": 1.15,
+      "bridge": "BLS projects constant-price output for the broader Waste Management and Remediation Services parent, not six-digit Solid Waste Collection. I compound the published 1.6 percent annual parent-output growth rate over five years for the base and widen the range for collection-specific population, business activity, recycling diversion, compaction, and local policy effects. The broader parent includes treatment, disposal, and remediation, so it may overstate collection growth if those activities grow faster; essential recurring collection and projected four-digit employment growth provide a partial counterweight.",
+      "rationale": "Waste collection is an essential local service tied to households and business activity, making severe volume destruction unlikely. Parent-industry output projections imply modest real growth, while diversion, packaging changes, compaction, recycling policy, and slower local formation can reduce collection trips or change the current service basket.",
+      "change_evidence": "Six-digit real revenue and physical-volume forecasts separating residential, commercial, industrial, mixed-recycling, and transfer-station activity, ideally from Census Service Annual Survey microdata or an industry route-volume panel, would materially change this ratio.",
+      "source_ids": ["S1", "S9"],
+      "caveats": [
+        "The BLS output projection is available only for the broader parent industry.",
+        "Constant-quality demand is not the same as tonnage because route frequency, container size, and service mix can change.",
+        "Local population, regulation, and commercial activity create wide geographic dispersion."
+      ]
+    },
+    "o": {
+      "evidence_state": "ESTIMATE",
+      "low": 0.9,
+      "base": 0.96,
+      "high": 0.99,
+      "rationale": "Nearly all year-five waste quantity still requires a licensed, insured, accountable operator to provide trucks, labor, route execution, safety control, customer exceptions, transfer handling, and regulatory compliance. Software, sensors, customer self-service, and route optimization can reduce calls, miles, or pickups but cannot remove the underlying physical collection obligation. Losses mainly come from municipal insourcing, customer self-hauling, onsite compaction, service-frequency reduction, or unusually rapid vehicle autonomy and automated handling.",
+      "change_evidence": "Municipal and commercial procurement data tracking insourcing, self-haul, service-frequency changes, container-sensor deployment, autonomous collection pilots, and contract displacement by software-only offerings would materially change this estimate.",
+      "source_ids": ["S1", "S3", "S8"],
+      "caveats": [
+        "There is no direct measurement of operator-required quantity for the lens.",
+        "Automation may reduce crew size without reducing the operator-required service quantity measured here.",
+        "Municipal insourcing and integrated disposal providers can displace lens firms even when physical collection demand persists."
+      ]
+    }
+  },
+  "narrative": {
+    "executive_view": "Solid waste collection combines highly recurring, essential local service with active consolidation, but its operating core is trucks, routes, equipment, and field labor rather than information work. AI can improve the administrative and coordination layer; it is unlikely to transform most direct collection work within five years.",
+    "ai_impact": "The clearest uses are customer intake, billing and complaint workflows, dispatch assistance, dynamic route changes, work-order preparation, driver-document processing, maintenance triage, safety-event review, and management reporting. The dominant collector and driver roles remain physical, exposed to weather and safety constraints, and only partly addressable through information assistance.",
+    "value_capture": "Residential subscriptions and multi-period commercial or municipal agreements create time to retain productivity gains, especially in dense routes with reliable service. Capture erodes at renewal, during municipal rebids, and where customers can compare several capable haulers or demand sharing of observable efficiencies.",
+    "firm_availability": "The code contains many externally facing route businesses that fit recurring-service economics, and public-company filings show continuing tuck-in acquisitions. Availability is tempered by strong strategic-buyer competition, route-density logic that makes adjacency valuable to incumbents, and the possibility that attractive independents sell at prices reflecting synergies unavailable to a new platform.",
+    "demand_durability": "Households and businesses continue to generate waste that must be collected and hauled, supporting stable operator-required demand. Real growth should be modest; diversion, recycling rules, onsite compaction, packaging changes, and local economic conditions can alter volume, route frequency, and service mix without eliminating the need for collection.",
+    "risks_and_uncertainty": "The main uncertainties are the absence of six-digit occupation and real-output measures, the share of database firms that are genuinely independent recurring-service LMM operations, and the gap between succession intentions and closed control deals. Operational risks include vehicle capital intensity, fuel and disposal costs, insurance, worker safety, driver availability, municipal rebids, environmental rules, and integration failures. The injected compensation-to-receipts ratio may also understate the strategic importance of labor that controls route reliability and safety even when direct payroll is not the largest cost pool.",
+    "principal_driver": "Dense recurring routes, durable external demand, contract or subscription revenue, and demonstrated tuck-in acquisition activity support a coherent consolidation thesis with targeted administrative AI gains.",
+    "principal_weakness": "Most work and customer value remain tied to physical route execution, fleet assets, safety, and disposal access, sharply limiting the share of economics that AI labor substitution can reach."
+  },
+  "sources": [
+    {
+      "id": "S1",
+      "url": "https://www.census.gov/naics/reference_files_tools/2022_NAICS_Manual.pdf",
+      "title": "2022 North American Industry Classification System Manual",
+      "access_date": "2026-07-22",
+      "supports": "Defines NAICS 562111 as local nonhazardous solid-waste or mixed-recyclable collection and hauling plus nonhazardous transfer stations, and identifies adjacent excluded activities."
+    },
+    {
+      "id": "S2",
+      "url": "https://www.bls.gov/oes/2023/may/naics4_562100.htm",
+      "title": "Waste Collection: May 2023 OEWS Industry-Specific Occupational Employment and Wage Estimates",
+      "access_date": "2026-07-22",
+      "supports": "Provides the four-digit occupation and wage mix: transportation and material-moving roles are 67.93 percent of employment, office support is 10.94 percent, and management is 4.54 percent."
+    },
+    {
+      "id": "S3",
+      "url": "https://www.onetonline.org/link/details/53-7081.00",
+      "title": "O*NET OnLine: Refuse and Recyclable Material Collectors",
+      "access_date": "2026-07-22",
+      "supports": "Describes core collection work including truck inspection, route driving, dumping, hoist and compactor operation, mounting and dismounting vehicles, exception communication, and weather checks."
+    },
+    {
+      "id": "S4",
+      "url": "https://www.onetonline.org/link/details/43-5032.00",
+      "title": "O*NET OnLine: Dispatchers, Except Police, Fire, and Ambulance",
+      "access_date": "2026-07-22",
+      "supports": "Describes dispatch scheduling, daily run preparation, customer problem handling, work-order relay and preparation, and reporting tasks that are candidates for AI assistance."
+    },
+    {
+      "id": "S5",
+      "url": "https://www.onetonline.org/link/details/43-4051.00",
+      "title": "O*NET OnLine: Customer Service Representatives",
+      "access_date": "2026-07-22",
+      "supports": "Describes customer inquiries, orders, complaints, interaction records, billing, account changes, and grievance routing that inform exposed administrative tasks."
+    },
+    {
+      "id": "S6",
+      "url": "https://www.census.gov/library/stories/2026/05/ai-use-businesses.html",
+      "title": "Large Firms With at Least 20 Employees Biggest AI Users",
+      "access_date": "2026-07-22",
+      "supports": "Reports nationally representative recent business AI adoption near one-fifth overall, higher adoption among larger firms, and measurement across functions including customer service, finance, human resources, and information technology."
+    },
+    {
+      "id": "S7",
+      "url": "https://news.gallup.com/poll/657362/small-business-owners-lack-succession-plan.aspx",
+      "title": "Most Small-Business Owners Lack a Succession Plan",
+      "access_date": "2026-07-22",
+      "supports": "Reports that 22 percent of employer-business owners planned to sell or transfer ownership within five years, providing a broad succession-intention proxy."
+    },
+    {
+      "id": "S8",
+      "url": "https://www.sec.gov/Archives/edgar/data/911177/000091117726000008/cwst-20251231.htm",
+      "title": "Casella Waste Systems, Inc. 2025 Annual Report on Form 10-K",
+      "access_date": "2026-07-22",
+      "supports": "Documents residential subscriptions, commercial and industrial service agreements, municipal contracts and rebids, competition, pricing drivers, and nine completed acquisitions including multiple collection tuck-ins."
+    },
+    {
+      "id": "S9",
+      "url": "https://www.bls.gov/emp/tables/industry-employment-and-output.htm",
+      "title": "BLS Employment and Output by Industry",
+      "access_date": "2026-07-22",
+      "supports": "Projects 1.6 percent annual constant-price output growth for Waste Management and Remediation Services and positive employment growth for four-digit Waste Collection."
+    }
+  ]
+}
