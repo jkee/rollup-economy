@@ -345,3 +345,54 @@ not be reopened during review, but the affected records already disclosed the
 relevant uncertainty and no correction or honest downgrade changed a base tier
 or action. No review found a material defect, and the predeclared pause trigger
 did not fire.
+
+## S8 — Educational services and arts, entertainment, and recreation
+
+**Closed:** 2026-07-22
+**Coverage:** 42 attempted, 42 deterministically valid, 42 published, 0 excluded
+**Independent review:** 11/42 (7 mandatory, 4 random, 0 canary)
+**Review outcomes:** 11 `publishable_with_caveats`; 0 `publishable`; 0 `reject`; 0 `invalid`
+**Material findings:** 0
+**Remediations:** 0
+
+### Screen distribution
+
+- Base tiers: 0 `HIGHEST_PRIORITY`, 7 `PRIORITY`, 17 `CONDITIONAL`,
+  9 `LOW_PRIORITY`, 8 `STRUCTURAL_OUT`, and 1 without a base tier.
+- Readiness: 41 `MODEL_CONDITIONED`; 1 `STRESS_TEST_ONLY`.
+- Actions: 41 `VALIDATE_ASSUMPTIONS`; 1 `EVIDENCE_FIRST`.
+- Robust tiers: 1/42, `STRUCTURAL_OUT`.
+- Publication labels: 11 `accepted`; 31 `not_reviewed` by the frozen sampling
+  contract.
+
+The random stratum consisted of `711130`, `711310`, `713210`, and `713950`.
+All four were accepted with caveats and carried no material finding. These are
+sample observations only; no S8 defect rate is estimated.
+
+### Economic read
+
+The screen differentiated digital, workflow-rich instruction and representation
+services from physical venues, nonprofit institutions, and embodied delivery.
+Computer training, professional and management development training, other
+technical and trade schools, exam preparation and tutoring, educational
+support services, talent agents and managers, and qualifying multi-person
+creative operators reached `PRIORITY`. Their opportunity combined repeatable
+knowledge or administrative workflows with a continuing need for accountable
+instruction, advice, negotiation, rights control, or client delivery.
+
+Physical attractions and institution-heavy models generally screened lower.
+Museums, historical sites, nature parks, arcades, casinos, other gambling,
+business and secretarial schools, and racetracks were `STRUCTURAL_OUT`, often
+because nonprofit or public governance, a zero or very small target-band firm
+pool, or physical and safety-critical work constrained transferability. Sports
+teams and clubs were the sole gap-routed record and correctly published without
+a base tier as `STRESS_TEST_ONLY / EVIDENCE_FIRST`.
+
+Validators' caveats emphasized broad occupational and sector proxies,
+judgmental eligibility and benefit-retention estimates, sparse direct
+qualifying-transfer evidence, heterogeneous residual codes, and demand measures
+that did not perfectly match constant-price service quantity. One dynamic NAICS
+definition page could not be fully verified during review, but the affected
+eligibility estimate was already disclosed as broad and no correction or honest
+downgrade changed the tier or action. No review found a material defect, and
+the predeclared pause trigger did not fire.
