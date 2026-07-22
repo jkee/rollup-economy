@@ -1,0 +1,198 @@
+{
+  "identity": {
+    "naics": "541940",
+    "title": "Veterinary Services",
+    "run_id": "541940-a1-20260722",
+    "model_id": "claude-sonnet-5",
+    "run_date": "2026-07-22",
+    "methodology_version": "5.1",
+    "attempt": 1
+  },
+  "lens": {
+    "included_activities": "Veterinary clinics, animal hospitals, specialty and emergency practices, mobile and farm-animal practices, and veterinary diagnostic laboratories that serve external customers, generate recurring or repeat service revenue, and fall within the dataset-defined lower-middle-market EBITDA band.",
+    "excluded_activities": "Captive internal veterinary units, shells, non-control financing vehicles, research and development establishments, non-veterinary boarding or grooming, breeding and horse boarding, animal transportation, and retail-only pet supply activity. Incidental medicine or food sales inside an eligible veterinary practice remain included as ancillary revenue.",
+    "customer_and_revenue_model": "Customers are primarily pet owners, farms and other animal owners, with some referrals from other veterinary practices. Revenue is predominantly fee-for-service by examination, procedure, diagnostic test, treatment, hospitalization, and dispensed product; preventive, chronic-care, and follow-up needs create repeat demand, while emergency and surgical work is episodic.",
+    "deviation_from_default": "none",
+    "heterogeneous": true
+  },
+  "primitives": {
+    "a": {
+      "evidence_state": "PROXY",
+      "low": 0.19,
+      "base": 0.29,
+      "high": 0.39,
+      "bridge": "BLS directly measures the industry's occupation and wage mix, not task-level AI substitutability. I map high exposure to reception, scheduling, billing, records and documentation; moderate exposure to diagnostic support, client communication and parts of management; and low exposure to examination, surgery, restraint, nursing and specimen handling. Wage weighting raises the contribution from veterinarians but their physical and accountable duties cap the estimate. The mapping may overstate substitution because some saved time becomes additional clinical capacity rather than avoided labor, while it may understate workflow redesign across administrative roles.",
+      "rationale": "The 2023 industry profile reports office and administrative support at 23.21% of employment, including receptionists at 13.26%, while veterinarians, veterinary technologists and technicians, and veterinary assistants account for most of the remaining core workforce [S3]. AI tools already used in specialty practice include scribes, image and laboratory interpretation, client communication, and generative documentation [S4]. However, veterinarians diagnose, prescribe and perform procedures under licensure, and technicians restrain animals, administer anesthesia, collect tests and prepare surgery [S8][S9]. A base of 0.29 therefore reflects substantial exposure in information work but limited exposure in hands-on clinical delivery.",
+      "change_evidence": "A time-and-motion study across general, emergency, specialty, large-animal and laboratory practices that reports wage-weighted task hours before and after deployed AI, separating avoided hiring from added visit capacity, would materially change this value.",
+      "source_ids": ["S3", "S4", "S8", "S9"],
+      "caveats": [
+        "The OEWS mix is industry-specific but does not identify tasks within occupations.",
+        "The AI survey covers veterinary internal-medicine specialists and may not represent general, rural, large-animal or laboratory practices.",
+        "Potential labor savings are not the same as realized headcount reductions in capacity-constrained clinics."
+      ]
+    },
+    "rho": {
+      "evidence_state": "PROXY",
+      "low": 0.42,
+      "base": 0.62,
+      "high": 0.78,
+      "bridge": "The specialist survey measures respondent use of any AI tool, attitudes and knowledge rather than the share of exposed labor opportunity implemented by a typical eligible firm. AVMA technology adoption measures digital infrastructure, not AI workflow completion. I use current AI use and practice-software penetration as starting readiness indicators, then discount for integration, validation, training, privacy and liability constraints. Specialist self-selection likely biases adoption upward, so the bridge is more likely to overstate than understate implementation for the full lens.",
+      "rationale": "Routine AI use was reported by 42% of ACVIM respondents and 33% of ECVIM-CA respondents; scribes were the most common tool, and 83% of nonusers expressed interest in learning integration [S4]. The AVMA reports widespread digital foundations, including 76.5% use of practice-management software and 64.1% use of electronic medical records among represented practices [S5]. These conditions support majority implementation within five years, but low self-reported AI knowledge and unresolved oversight, error, privacy and liability issues keep the base below full realization.",
+      "change_evidence": "A representative AVMA or AAHA longitudinal practice survey linking named AI workflows to staff hours, deployment duration, integration failures, override rates and realized avoided hires would materially change this value.",
+      "source_ids": ["S4", "S5"],
+      "caveats": [
+        "Current use of at least one AI tool does not measure depth, reliability or enterprise-wide implementation.",
+        "The AVMA technology figures describe broad software readiness and may include practices outside the target EBITDA band.",
+        "State professional rules, vendor interoperability and clinical liability may produce large variation among practices."
+      ]
+    },
+    "e": {
+      "evidence_state": "ESTIMATE",
+      "low": 0.7,
+      "base": 0.82,
+      "high": 0.92,
+      "rationale": "The official industry scope centers on externally provided veterinary medicine, dentistry, surgery, testing, hospitals, clinics and laboratories [S1]. Its product list is dominated by examinations, preventive care, diagnosis, treatment, surgery, imaging and laboratory services that naturally support repeat relationships or recurring referral demand [S2]. Most operating firms in the target size band should therefore fit the service lens, with exclusions for captive units, unusual project-only laboratories, non-operating entities and firms whose normalized EBITDA or independence is misclassified.",
+      "change_evidence": "A firm-level census or commercial database matching veterinary establishments to consolidated ownership, external-customer revenue, normalized EBITDA, recurring-client share and operating status would materially change this value.",
+      "source_ids": ["S1", "S2"],
+      "caveats": [
+        "No source directly measures eligibility for the frozen acquisition lens.",
+        "The injected firm count is inferred from SUSB size classes using a generic 15.65% margin; veterinary practices can differ materially in margins and multi-site ownership structure.",
+        "NAICS 541940 mixes companion-animal, large-animal, specialty, emergency and diagnostic-laboratory models."
+      ]
+    },
+    "s5": {
+      "evidence_state": "PROXY",
+      "low": 0.12,
+      "base": 0.22,
+      "high": 0.32,
+      "bridge": "Gallup measures stated five-year sale or transfer plans across all U.S. employer-business owners, not completed qualifying control transfers among lower-middle-market veterinary firms. I anchor to its 22% intention rate, discount for plans that do not close or do not transfer control, and offset that discount with veterinary-specific evidence of strategic and private-equity acquisition activity. Intentions tend to overstate completions, while active veterinary consolidation and an older owner base may make the all-industry benchmark understate this industry's opportunity.",
+      "rationale": "Gallup found that 22% of employer-business owners planned to sell or transfer ownership within five years and that 52.3% of employer businesses were owned by people age 55 or older [S6]. Veterinary deal flow is observable: the FTC's order concerning JAB's proposed $1.1 billion acquisition of SAGE describes existing general, specialty and emergency clinic chains and imposed conditions on future acquisitions [S7]. The base stays at the broad employer intention rate because not every intention closes and large platform transactions do not directly measure target-band turnover.",
+      "change_evidence": "A five-year transaction census from VMG, Brakke, PitchBook or veterinary practice brokers that identifies unique target-band firms, control acquired, seller type, EBITDA and failed processes would materially change this value.",
+      "source_ids": ["S6", "S7"],
+      "caveats": [
+        "Gallup is cross-industry and measures intentions rather than completed transfers.",
+        "FTC evidence establishes acquisition activity but not an industry transfer rate and emphasizes specialty and emergency markets.",
+        "Corporate tuck-ins can be acquisitions of clinics or assets rather than control transfers of independently counted firms."
+      ]
+    },
+    "q": {
+      "evidence_state": "ESTIMATE",
+      "low": 0.45,
+      "base": 0.64,
+      "high": 0.8,
+      "rationale": "Veterinary practices generally charge customers for discrete examinations, procedures, tests, treatments, hospitalization and products rather than billing labor on a cost-plus contract [S2]. That structure allows an operator to retain much of an implemented labor benefit initially through capacity expansion, avoided hiring or margin improvement. Over five years, local competition, customer affordability, employee wage sharing, payer or wellness-plan repricing and lower price growth should transfer a meaningful share to customers and staff, producing a base retention estimate of 0.64.",
+      "change_evidence": "Matched practice-level data on AI-attributable labor savings, prices, visit volumes, wage changes and EBITDA over contract or customer-renewal cycles, segmented by local competition and corporate ownership, would materially change this value.",
+      "source_ids": ["S2"],
+      "caveats": [
+        "No direct study traces veterinary AI savings into prices, wages and margins over five years.",
+        "Retention differs between routine primary care, emergency care, referral specialties, farm contracts, wellness plans and laboratories.",
+        "Using saved clinician time for more visits raises gross benefit but does not by itself establish retained unit economics."
+      ]
+    },
+    "d5": {
+      "evidence_state": "PROXY",
+      "low": 0.96,
+      "base": 1.05,
+      "high": 1.14,
+      "bridge": "BLS projects employment rather than constant-price, constant-quality service quantity. I convert the 10% ten-year veterinarian growth and 9% ten-year technician growth into an approximate five-year demand signal centered near 1.05, then widen the interval for productivity, labor scarcity, service-mix and affordability effects. Employment can overstate quantity growth if care becomes more labor-intensive, but it can understate demand when clinician shortages constrain observed employment.",
+      "rationale": "BLS projects veterinarian employment to grow 10% and veterinary technologist and technician employment to grow 9% through 2034, attributing growth to pet-related spending, expanding treatment options and a growing and aging pet population [S8][S9]. Because both major clinical occupations point to similar growth, the base assumes modest real service-quantity expansion rather than flat demand, while the low case allows affordability pressure or pet-population weakness to offset those drivers.",
+      "change_evidence": "Inflation-adjusted AVMA or VetSuccess data on unique patients, visits, procedures and diagnostic tests per practice, together with pet-population cohorts and unmet-care surveys through 2031, would materially change this value.",
+      "source_ids": ["S8", "S9"],
+      "caveats": [
+        "Employment projections are not direct forecasts of constant-quality service volume.",
+        "BLS projections cover occupations across employers, although veterinary services employ 84% of veterinarians and 89% of veterinary technologists and technicians.",
+        "Nominal pet spending can rise even if real service quantity is flat, and affordability can suppress visits."
+      ]
+    },
+    "o": {
+      "evidence_state": "PROXY",
+      "low": 0.89,
+      "base": 0.95,
+      "high": 0.99,
+      "bridge": "Occupational duties, licensing rules and clinician attitudes establish human accountability and physical-work requirements, not a measured year-five operator-required quantity share. I map examinations, prescribing, surgery, anesthesia, animal restraint, specimen collection and regulated diagnosis to operator-required service, while allowing some triage, monitoring, communication and interpretation to shift to customer self-service or software. This may overstate operator persistence in diagnostic laboratories, where automation is greater, and understate it where professional rules require veterinarian oversight.",
+      "rationale": "Veterinarians require a professional degree and state license and perform diagnosis, treatment, surgery, vaccination and prescribing [S8]. Technicians perform physical nursing, restraint, anesthesia, imaging, specimen collection and surgery preparation under veterinarian supervision [S9]. The specialist survey shows broad expectation that AI will become standard, but its reported tools are principally scribes, interpretation and decision support rather than substitutes for accountable clinical operators [S4]. Most year-five service quantity should therefore still require a veterinary practice or laboratory operator.",
+      "change_evidence": "State-board rulings, insurer policies and audited deployment studies showing the share of consultations, prescriptions, diagnoses and laboratory outputs delivered without a veterinarian-led operator would materially change this value.",
+      "source_ids": ["S4", "S8", "S9"],
+      "caveats": [
+        "The operator requirement varies by state scope-of-practice rules and by companion, farm, emergency, specialty and laboratory setting.",
+        "Remote monitoring and direct-to-consumer triage may reduce clinic touchpoints without eliminating clinical accountability.",
+        "The AI survey is attitudinal and specialist-heavy, not a direct displacement measure."
+      ]
+    }
+  },
+  "narrative": {
+    "executive_view": "Veterinary services combine durable repeat demand and a visible acquisition market with a credible but bounded AI labor opportunity. AI is already entering documentation, communication and diagnostic support, yet the industry's largest clinical roles remain licensed, physical and accountable. The practical thesis is workflow augmentation and capacity release across multi-role practices, not replacement of the veterinarian-led service.",
+    "ai_impact": "The clearest near-term uses are ambient notes, record summarization, scheduling, reception, billing support, client follow-up, inventory support, image interpretation and laboratory-result assistance [S3][S4]. These tools can reduce administrative burden and avoid incremental hires, but exams, restraint, specimen collection, anesthesia, procedures and surgery remain hands-on [S8][S9]. Clinical outputs also require review because errors, liability, privacy and skill decay constrain unattended automation [S4].",
+    "value_capture": "Itemized fee-for-service pricing gives an operator room to retain savings through avoided hiring, higher throughput and reduced clinician overtime. Retention is not complete: scarce staff may capture part through wages, added capacity may induce lower effective prices, and affordability or local competition can shift benefits to customers over time. Diagnostic laboratories and wellness plans may face faster repricing than urgent or specialty services.",
+    "firm_availability": "Most target-band operating practices should meet the recurring external-service lens, although the code spans several business models and the injected size-to-EBITDA mapping is uncertain. Broad employer-owner succession intentions and FTC-documented veterinary consolidation support a meaningful transfer pipeline [S6][S7]. Actual qualifying supply could be lower if seller intentions fail, clinics are already held inside large groups, or owner-dependent practices lack transferable teams.",
+    "demand_durability": "Animal examination, treatment, prevention and diagnostics remain operator-required because of licensure, physical care and clinical accountability [S1][S8][S9]. BLS expects above-average growth for both veterinarians and veterinary technicians, citing pet spending, treatment expansion and the growing, aging pet population [S8][S9]. The downside is that affordability pressure can defer nonurgent visits, and real service quantity may lag nominal spending.",
+    "risks_and_uncertainty": "The largest measurement gaps are task-level labor savings, realized AI implementation depth, target-band firm ownership, completed control-transfer rates and long-run savings retention. The specialty AI survey may overstate readiness for general and rural practices, while employment projections are an indirect demand proxy. Clinical errors, fragmented practice systems, cybersecurity, state regulation, staff resistance, customer trust and corporate concentration can each reduce realized benefit.",
+    "principal_driver": "Durable, repeat animal-health demand delivered through digitally enabled practices creates room for AI-assisted capacity growth without removing the veterinarian-led operator.",
+    "principal_weakness": "Most labor value sits in licensed or hands-on clinical work, so documentation and front-office automation may not translate into proportionate headcount reduction or retained margin."
+  },
+  "sources": [
+    {
+      "id": "S1",
+      "url": "https://www.census.gov/naics/?details=541940&input=541940&year=2022",
+      "title": "2022 NAICS Definition: 541940 Veterinary Services",
+      "access_date": "2026-07-22",
+      "supports": "Official industry scope, included veterinary medical and testing establishments, and cross-industry exclusions."
+    },
+    {
+      "id": "S2",
+      "url": "https://www2.census.gov/library/reference/napcs/product-list/web-54194-final-reformatted-edited-us082208.pdf",
+      "title": "NAPCS Product List for NAICS 54194: Veterinary Services",
+      "access_date": "2026-07-22",
+      "supports": "Service basket covering preventive care, examinations, diagnosis, treatment, surgery, imaging, laboratory services and ancillary products."
+    },
+    {
+      "id": "S3",
+      "url": "https://www.bls.gov/oes/2023/may/naics5_541940.htm",
+      "title": "Veterinary Services: May 2023 OEWS Industry-Specific Occupational Employment and Wage Estimates",
+      "access_date": "2026-07-22",
+      "supports": "Direct industry occupation counts, employment shares and wages used to anchor wage-weighted task exposure."
+    },
+    {
+      "id": "S4",
+      "url": "https://academic.oup.com/jvim/article/40/1/aalaf036/8431570",
+      "title": "The use of, and attitudes toward, artificial intelligence in members of the American College of Veterinary Internal Medicine and the European College of Veterinary Internal Medicine - Companion Animals",
+      "access_date": "2026-07-22",
+      "supports": "Veterinary specialist AI adoption, tool categories, interest, knowledge, attitudes and implementation constraints."
+    },
+    {
+      "id": "S5",
+      "url": "https://ebusiness.avma.org/files/productdownloads/002_AVMA_SotPReport25_NoPasswordPRO.pdf",
+      "title": "2025 AVMA Report on the Economic State of the Veterinary Profession",
+      "access_date": "2026-07-22",
+      "supports": "Practice adoption of management software, electronic medical records and other digital technologies."
+    },
+    {
+      "id": "S6",
+      "url": "https://news.gallup.com/poll/657362/small-business-owners-lack-succession-plan.aspx",
+      "title": "Most Small-Business Owners Lack a Succession Plan",
+      "access_date": "2026-07-22",
+      "supports": "Cross-industry employer-owner age and stated five-year sale or transfer intentions."
+    },
+    {
+      "id": "S7",
+      "url": "https://www.ftc.gov/news-events/news/press-releases/2022/08/ftc-approves-final-order-protecting-pet-owners-private-equity-firms-anticompetitive-acquisition",
+      "title": "FTC Approves Final Order Protecting Pet Owners from Private Equity Firm's Anticompetitive Acquisition of Veterinary Services Clinics",
+      "access_date": "2026-07-22",
+      "supports": "Evidence of veterinary clinic chain ownership, private-equity acquisition activity and consolidation scrutiny."
+    },
+    {
+      "id": "S8",
+      "url": "https://www.bls.gov/ooh/healthcare/veterinarians.htm",
+      "title": "Occupational Outlook Handbook: Veterinarians",
+      "access_date": "2026-07-22",
+      "supports": "Veterinarian duties, licensing, work setting, employment concentration, growth projection and demand drivers."
+    },
+    {
+      "id": "S9",
+      "url": "https://www.bls.gov/ooh/healthcare/veterinary-technologists-and-technicians.htm",
+      "title": "Occupational Outlook Handbook: Veterinary Technologists and Technicians",
+      "access_date": "2026-07-22",
+      "supports": "Technician physical and clinical duties, credentials, industry concentration, growth projection and demand drivers."
+    }
+  ]
+}
