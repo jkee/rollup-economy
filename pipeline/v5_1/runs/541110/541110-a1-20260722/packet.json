@@ -1,0 +1,219 @@
+{
+  "identity": {
+    "naics": "541110",
+    "title": "Offices of Lawyers",
+    "run_id": "541110-a1-20260722",
+    "model_id": "claude-sonnet-5",
+    "run_date": "2026-07-22",
+    "methodology_version": "5.1",
+    "attempt": 1
+  },
+  "lens": {
+    "included_activities": "US law firms in the roughly $1-10M normalized EBITDA band that provide recurring or repeat legal advice, representation, drafting, transactions, litigation, compliance, and related client service to external individuals or organizations.",
+    "excluded_activities": "In-house legal departments, captive insurance-defense units, nonprofit and government law offices, financing vehicles, dormant practices, and practices whose matters or client relationships are not reasonably transferable.",
+    "customer_and_revenue_model": "External individuals, businesses, insurers, and institutions buy matter-based or continuing legal services through hourly, flat, contingent, subscription, retainer, and blended fee arrangements.",
+    "deviation_from_default": "none",
+    "heterogeneous": false
+  },
+  "primitives": {
+    "a": {
+      "evidence_state": "PROXY",
+      "low": 0.38,
+      "base": 0.53,
+      "high": 0.66,
+      "bridge": "May 2023 OEWS measures employment and mean wages for four-digit Legal Services, not six-digit Offices of Lawyers, while Clio estimates automatable task shares rather than wage-weighted, current, not-yet-automated opportunity. I wage-weight the dominant occupational groups implied by OEWS and temper Clio's 57% lawyer, 81% legal-secretary, and up-to-74% billable-task exposure for work already automated and for review, judgment, relationship, and courtroom tasks. Clio's technology-user sample and task methodology likely bias exposure upward; OEWS's inclusion of other legal services and exclusion of proprietors can bias the mix in either direction.",
+      "rationale": "Legal Services wages are concentrated in lawyers, with meaningful paralegal and administrative support. Research, document review, drafting, discovery, intake, scheduling, billing, and information gathering are exposed, but persuasion, client counseling, negotiation, fact judgment, and accountable sign-off remain substantially human. The range reflects both a large task ceiling and uncertainty over how much current tool use has already harvested it.",
+      "change_evidence": "Obtain a task-level time study from LMM law firms that maps time and cash compensation by SOC occupation, practice area, and workflow, and separately records tasks already automated; Clio or Thomson Reuters billing-system telemetry linked to task codes would materially tighten the estimate.",
+      "source_ids": ["S1", "S2", "S11", "S12"],
+      "caveats": [
+        "OEWS is four-digit Legal Services and May 2023, not six-digit Offices of Lawyers or the LMM lens.",
+        "Clio reports potential task automation, not observed labor substitution, and its customer/survey population may be more technology-forward than the industry.",
+        "The frozen l input uses 2024 employee wages over 2022 receipts, is harmonized by a cross-code divisor, and omits proprietor and partner labor; this is material for law firms and may understate economic labor intensity."
+      ]
+    },
+    "rho": {
+      "evidence_state": "PROXY",
+      "low": 0.28,
+      "base": 0.46,
+      "high": 0.68,
+      "bridge": "ABA adoption surveys and Thomson Reuters expectations measure tool use and predicted hours saved across attorney firm sizes and, for Thomson Reuters, legal, tax, and risk professionals globally; they do not measure the fraction of exposed law-firm labor operationally implemented. I translate current small/midsize adoption, five-year time-saving expectations, and stated blockers into the share of the exposure in a that can survive workflow redesign, verification, confidentiality, supervision, and change management. Respondent optimism may bias upward, while rapid model improvement and falling tool costs may bias downward.",
+      "rationale": "Implementation should advance meaningfully within five years because legal research, drafting, review, discovery, and back-office tools already exist. It remains below the technical ceiling: the ABA found only 24.1% usage in 2-9 lawyer firms and 29.5% in 10-49 lawyer firms in 2024, alongside strong accuracy, reliability, and privacy concerns; professional rules require competent review and secure handling of client information.",
+      "change_evidence": "Survey the target firms annually for workflow-level deployment, percentage of matters using approved AI, review minutes per AI output, error and rework rates, data-security approvals, and realized FTE or avoided-hire effects; matched pre/post billing and payroll data would be decisive.",
+      "source_ids": ["S3", "S4", "S12"],
+      "caveats": [
+        "Adoption is not implementation depth, and usage surveys disagree sharply because they define AI and samples differently.",
+        "Thomson Reuters respondents span multiple professional sectors and countries, and their 12-hour five-year expectation is a forecast, not observed savings.",
+        "Implementation varies substantially by practice area, matter sensitivity, court rules, client requirements, and firm technology maturity."
+      ]
+    },
+    "e": {
+      "evidence_state": "ESTIMATE",
+      "low": 0.35,
+      "base": 0.58,
+      "high": 0.75,
+      "rationale": "Most offices of lawyers serve external clients and many generate repeat matters or referrals, but eligibility is reduced by personal-goodwill dependence, client consent and conflicts, nonportable contingent or one-off books, and ownership restrictions. ABA Model Rule 1.17 permits a practice sale only under conditions including sale to lawyers or law firms and client notice; Model Rule 5.4 generally bars nonlawyer ownership, and an ABA review reported the traditional ban in 48 US jurisdictions. The estimate assumes a legally compliant lawyer-controlled buyer or structure rather than unrestricted investor ownership.",
+      "change_evidence": "Build a representative broker and state-bar diligence sample of LMM practices showing revenue recurrence, top-client concentration, matter duration, partner-originated revenue, client retention after partner departure, buyer licensing structure, and the fraction that can satisfy each governing jurisdiction's sale and ownership rules.",
+      "source_ids": ["S6", "S7", "S8"],
+      "caveats": [
+        "No national dataset measures the share of LMM law firms with transferable client relationships or compliant ownership structures.",
+        "Ethics rules vary by jurisdiction; Arizona, Utah, and D.C. have exceptions or alternative regimes, while multistate practices face overlapping restrictions.",
+        "The frozen n=7193 is itself an ESTIMATE margin-bridged using a broad Business & Consumer Services EBITDA margin; law-firm margins and partner compensation conventions may move firms into or out of the band."
+      ]
+    },
+    "s5": {
+      "evidence_state": "PROXY",
+      "low": 0.08,
+      "base": 0.14,
+      "high": 0.22,
+      "bridge": "ABA/BLS age data describe all active lawyers, not equity owners of eligible LMM firms or completed control transfers: 13.1% were age 65+ and 17.9% were 55-64 in 2023. I use those cohorts as a succession-pressure proxy, then discount for lawyers who work past 65, firms that close, and internal reorganizations, while allowing for transfers driven by reasons other than retirement. Because owners are likely older than all lawyers, the age proxy tends to understate succession pressure; because many retirements do not create a qualifying transfer, it tends to overstate completed transfer probability.",
+      "rationale": "A meaningful owner cohort is near or beyond conventional retirement age, and law practices can legally be sold, but personal client relationships and regulatory requirements suppress conversion of succession need into qualifying control transfers. The base therefore sits near the observed 65+ lawyer share rather than treating all older lawyers as sellers.",
+      "change_evidence": "Acquire five years of closed transaction data from specialist law-practice brokers, state-bar succession programs, and legal-sector M&A advisers, with seller age, firm revenue/EBITDA, internal versus external buyer, client retention, and failed or withdrawn processes.",
+      "source_ids": ["S5", "S6", "S7"],
+      "caveats": [
+        "Lawyer age is not owner age, and retirement is not equivalent to a control transfer.",
+        "The public evidence does not provide an industry-wide denominator of eligible firms or verified completed deals.",
+        "Sales to nonlawyers are generally constrained, and client choice can impair transferability even when a practice sale is permitted."
+      ]
+    },
+    "q": {
+      "evidence_state": "PROXY",
+      "low": 0.22,
+      "base": 0.42,
+      "high": 0.62,
+      "bridge": "Clio measures firm billing modes and reported revenue effects, not the discounted five-year share of a specific implemented gross benefit. I map exclusively hourly billing toward rapid pass-through, flat/contingent/subscription work toward greater initial retention, and mixed billing between them, then reduce retention for renewal repricing, competition, client sharing, and ethical fee limits. Firm-level billing incidence is not revenue-weighted and likely overstates retention where firms offer flat fees on only a small share of matters.",
+      "rationale": "Hourly billing remains a strong leakage channel: lawyers must bill actual time, and faster AI-assisted work can directly reduce invoices unless released capacity is sold. Flat, contingent, and subscription arrangements permit more capture, but even those fees must remain reasonable. Clio reports 41% of firms exclusively hourly and 59% using flat fees either exclusively or alongside hourly fees; among wide AI adopters, pricing responses include increases, reductions, and new fee types, supporting partial rather than full retention.",
+      "change_evidence": "Obtain firm-level revenue-weighted fee-mix data and matched matter cohorts before and after AI implementation, including hours, realized rates, flat-fee margins, matter volume, client concessions, renewal repricing, write-downs, and competitor pricing over at least three years.",
+      "source_ids": ["S9", "S10", "S12"],
+      "caveats": [
+        "Clio's firms may not represent all LMM practices, and firm incidence of a fee type does not reveal its revenue share.",
+        "Benefit retention depends on the ability to refill freed capacity; volume loss is intentionally excluded from q.",
+        "ABA fee guidance is based on Model Rules and reasonableness; binding state rules and engagement terms vary."
+      ]
+    },
+    "d5": {
+      "evidence_state": "PROXY",
+      "low": 0.9,
+      "base": 1.02,
+      "high": 1.1,
+      "bridge": "BLS projects lawyer employment, not constant-price, constant-quality quantity of the current Offices of Lawyers service basket. I convert its 4% 2024-34 lawyer-employment growth to an approximate five-year midpoint ratio of 1.02 and widen the range for productivity, legal-cycle exposure, price competition, outsourcing, and substitution. Employment can understate demand if productivity rises, but it can overstate demand for the current basket if staffing persists while routine work migrates to software or lower-cost providers.",
+      "rationale": "BLS expects continued legal-service needs from individuals, businesses, and government and projects lawyer employment up 4% over ten years, while also warning that price competition, automation, and low-cost providers will affect routine work. On a five-year horizon, broadly stable to modestly growing real service quantity is more defensible than either rapid growth or collapse.",
+      "change_evidence": "Obtain BEA or Census real-output measures specific to 541110, deflate practice-area revenue with matched legal-service price indexes, and combine them with five-year client legal-spend forecasts and matter counts by litigation, transactional, regulatory, and consumer practice.",
+      "source_ids": ["S10", "S11"],
+      "caveats": [
+        "Employment is an imperfect demand proxy and the BLS projection is national, occupational, and ten-year rather than industry-specific and five-year.",
+        "The current service basket is heterogeneous and cyclical: litigation, restructuring, transactions, real estate, and consumer practices can move in different directions.",
+        "The ratio is intended to be constant-price and constant-quality, but no directly matching public forecast was found."
+      ]
+    },
+    "o": {
+      "evidence_state": "ESTIMATE",
+      "low": 0.62,
+      "base": 0.8,
+      "high": 0.92,
+      "rationale": "A large majority of year-five legal-service quantity should still require a responsible law-firm operator because representation, privileged advice, conflicts, confidentiality, client counseling, negotiation, and court-facing work require licensed judgment and supervision. ABA Formal Opinion 512 says generative AI may assist but cannot replace the judgment and experience needed to advise clients or carry out representations. The deduction recognizes consumer self-service, document automation, alternative legal providers, and software handling routine questions and forms.",
+      "change_evidence": "Measure the share of matters and revenue by practice area that can legally and practically be completed without a lawyer, using state unauthorized-practice rules, court filing data, consumer legal-platform completion rates, client surveys, and longitudinal matter migration from firms to software or licensed paraprofessionals.",
+      "source_ids": ["S8", "S9", "S10", "S12"],
+      "caveats": [
+        "No source directly measures operator-required quantity for the current 541110 service basket.",
+        "Unauthorized-practice and paraprofessional rules vary by state and may liberalize over five years.",
+        "High-stakes and complex matters are more operator-dependent than routine consumer forms and information queries, so practice mix is decisive."
+      ]
+    }
+  },
+  "narrative": {
+    "executive_view": "Offices of lawyers combine a substantial AI-exposed labor base with strong continuing need for accountable professional judgment. The opportunity is real but does not translate mechanically into cash: small and midsize firms have uneven implementation, hourly billing passes time savings to clients, and ownership and client-transfer rules constrain consolidation.",
+    "ai_impact": "AI can accelerate legal research, first drafts, contract and document review, discovery, intake, scheduling, billing, and other administrative work. Lawyers and paralegals still must frame issues, verify output, protect confidences, exercise judgment, negotiate, persuade, supervise, and remain responsible to clients and tribunals.",
+    "value_capture": "Capture depends heavily on fee mix and demand generation. Hourly matters lose billable time unless freed capacity is filled, while flat, contingent, subscription, and value-based arrangements retain more of the productivity benefit; competitive repricing and reasonableness obligations prevent full retention even there.",
+    "firm_availability": "The profession's older age profile creates succession pressure, but a retirement is not automatically an acquisition. Portable client relationships, conflicts, seller transition, lawyer-controlled ownership, jurisdictional rules, and client choice determine whether an eligible practice can undergo a qualifying transfer.",
+    "demand_durability": "Core demand should remain broadly stable to modestly higher as individuals and organizations continue to need advice, representation, transactions, dispute resolution, and regulatory navigation. Routine research, forms, and information work face self-service, software, paraprofessional, and low-cost-provider substitution, leaving the complex and accountable portion more durable.",
+    "risks_and_uncertainty": "The largest uncertainties are task-level realized savings, fee-mix economics, client retention after transfer, owner-versus-lawyer age, and state-by-state ownership rules. A bad outcome is a firm with hourly revenue, partner-personal relationships, weak demand generation, sensitive workflows that require heavy review, and no compliant scalable acquisition structure.",
+    "principal_driver": "High-cost research, drafting, review, discovery, and administrative workflows create meaningful implementable productivity potential.",
+    "principal_weakness": "Hourly billing and lawyer-ownership/client-portability constraints can prevent technical productivity from becoming durable, transferable cash flow."
+  },
+  "sources": [
+    {
+      "id": "S1",
+      "url": "https://www.bls.gov/oes/2023/may/naics4_541100.htm",
+      "title": "Legal Services - May 2023 OEWS Industry-Specific Occupational Employment and Wage Estimates",
+      "access_date": "2026-07-22",
+      "supports": "Four-digit Legal Services occupational mix, employment shares, and mean wages: lawyers 37.49% of employment, paralegals and legal assistants 23.04%, and office and administrative support 26.25%."
+    },
+    {
+      "id": "S2",
+      "url": "https://www.clio.com/about/press/clio-latest-legal-trends-report/",
+      "title": "AI-powered legal practices surge: Clio's latest Legal Trends Report reveals major shift",
+      "access_date": "2026-07-22",
+      "supports": "Clio's 2024 estimates that up to 74% of hourly billable tasks are exposed, including 57% of lawyer tasks and 81% of legal-secretary and administrative-assistant tasks, plus AI-use and flat-fee indicators."
+    },
+    {
+      "id": "S3",
+      "url": "https://www.americanbar.org/groups/law_practice/resources/tech-report/2024/2024-artificial-intelligence-techreport/",
+      "title": "2024 Artificial Intelligence TechReport",
+      "access_date": "2026-07-22",
+      "supports": "ABA private-practice survey evidence on 2024 AI usage by firm size, perceived timing of mainstream adoption, and implementation concerns including accuracy, reliability, privacy, cost, and learning time."
+    },
+    {
+      "id": "S4",
+      "url": "https://www.thomsonreuters.com/en-us/posts/innovation/future-of-professionals-report-ai-set-to-save-professionals-12-hours-per-week-by-2029/",
+      "title": "Future of Professionals Report: AI Set to Save Professionals 12 Hours Per Week by 2029",
+      "access_date": "2026-07-22",
+      "supports": "Survey of more than 2,200 legal, tax, and risk professionals predicting four hours saved weekly in one year and 12 hours within five years, with nearly two-thirds stressing human oversight."
+    },
+    {
+      "id": "S5",
+      "url": "https://www.americanbar.org/news/profile-legal-profession/demographics/?trk=public_post_reshare-text",
+      "title": "ABA Profile of the Legal Profession 2024: Demographics",
+      "access_date": "2026-07-22",
+      "supports": "BLS-derived age distribution for lawyers in 2023: 17.9% age 55-64 and 13.1% age 65 or older, with median age 46."
+    },
+    {
+      "id": "S6",
+      "url": "https://www.americanbar.org/groups/professional_responsibility/publications/model_rules_of_professional_conduct/rule_1_17_sale_of_law_practice/",
+      "title": "Rule 1.17: Sale of Law Practice",
+      "access_date": "2026-07-22",
+      "supports": "Model-rule conditions for selling a law practice, including sale to lawyers or law firms, seller cessation, client notice and choice, and no fee increase because of the sale."
+    },
+    {
+      "id": "S7",
+      "url": "https://www.americanbar.org/groups/professional_responsibility/publications/model_rules_of_professional_conduct/rule_5_4_professional_independence_of_a_lawyer/",
+      "title": "Rule 5.4: Professional Independence of a Lawyer",
+      "access_date": "2026-07-22",
+      "supports": "Model-rule restrictions on fee sharing, partnerships with nonlawyers, nonlawyer ownership, and outside direction of professional judgment."
+    },
+    {
+      "id": "S8",
+      "url": "https://www.americanbar.org/groups/law_practice/resources/law-practice-magazine/2025/january-february-2025/time-to-lift-the-ban-on-nonlawyer-ownership/",
+      "title": "Time to Lift the Ban on Nonlawyer Ownership?",
+      "access_date": "2026-07-22",
+      "supports": "Jurisdictional ownership landscape: Arizona, Utah, and D.C. alternatives and the traditional nonlawyer-ownership ban maintained in 48 other US jurisdictions as reported in 2025."
+    },
+    {
+      "id": "S9",
+      "url": "https://www.clio.com/resources/legal-trends/read-online/",
+      "title": "2025 Legal Trends Report",
+      "access_date": "2026-07-22",
+      "supports": "Billing and capture evidence: 41% of firms billed exclusively hourly in 2024, 59% used flat fees exclusively or with hourly billing, and wide AI adopters reported varied pricing and revenue responses; also consumer AI use and self-service pressure."
+    },
+    {
+      "id": "S10",
+      "url": "https://www.bls.gov/ooh/legal/lawyers.htm",
+      "title": "Occupational Outlook Handbook: Lawyers",
+      "access_date": "2026-07-22",
+      "supports": "BLS projects lawyer employment up 4% from 2024 to 2034 and expects continuing legal demand, while identifying price competition, automation, and low-cost outsourcing of routine work."
+    },
+    {
+      "id": "S11",
+      "url": "https://www.bls.gov/opub/mlr/2026/article/industry-and-occupational-employment-projections-overview.htm",
+      "title": "Industry and occupational employment projections overview and highlights, 2024-34",
+      "access_date": "2026-07-22",
+      "supports": "BLS identifies AI-enabled contract review, discovery, and research in legal services and projects paralegal and legal-assistant employment to change only 0.2% over 2024-34 as productivity constrains growth."
+    },
+    {
+      "id": "S12",
+      "url": "https://www.americanbar.org/content/dam/aba/administrative/professional_responsibility/ethics-opinions/aba-formal-opinion-512.pdf",
+      "title": "ABA Formal Opinion 512: Generative Artificial Intelligence Tools",
+      "access_date": "2026-07-22",
+      "supports": "Authoritative model-rule guidance on AI-assisted legal tasks, competence, verification, confidentiality, supervision, accountable judgment, actual-time hourly billing, and reasonableness of flat and contingent fees."
+    }
+  ]
+}

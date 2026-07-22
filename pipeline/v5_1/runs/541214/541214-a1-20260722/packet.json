@@ -1,0 +1,218 @@
+{
+  "identity": {
+    "naics": "541214",
+    "title": "Payroll Services",
+    "run_id": "541214-a1-20260722",
+    "model_id": "claude-sonnet-5",
+    "run_date": "2026-07-22",
+    "methodology_version": "5.1",
+    "attempt": 1
+  },
+  "lens": {
+    "included_activities": "US lower-middle-market payroll service bureaus that repeatedly collect client hours, pay rates, deductions, and related data and produce payroll, reports, payments, and tax filings for external employer clients.",
+    "excluded_activities": "CPA firms, bundled bookkeeping or accounting practices classified elsewhere, PEO co-employment, captive payroll departments, pure software publishers, pure data-processing vendors, non-control financing vehicles, and shells.",
+    "customer_and_revenue_model": "Recurring outsourced business-to-business service, generally billed per payroll period and often per employee, with implementation fees and optional compliance, HR, timekeeping, and reporting services.",
+    "deviation_from_default": "none",
+    "heterogeneous": false
+  },
+  "primitives": {
+    "a": {
+      "evidence_state": "PROXY",
+      "low": 0.38,
+      "base": 0.52,
+      "high": 0.65,
+      "bridge": "The source population is NAICS 541200 employment across accounting, tax, bookkeeping, and payroll firms plus the cross-industry payroll-clerk occupation, not 541214 LMM payroll bureaus. I mapped structured data intake, payroll calculation, reconciliation, report preparation, tax-form drafting, routine support, and internal administration to high or medium AI exposure; sales, management, final approval, and novel compliance exceptions to lower exposure; and calibrated the wage-weighted result to 0.52. The broad 541200 mix overweights accountants and tax preparers and therefore likely understates pure-payroll clerical exposure, while O*NET includes work already partly automated and therefore can overstate the remaining not-yet-automated opportunity; the range covers both errors.",
+      "rationale": "BLS shows office and administrative support at 28.76% and business and financial operations at 47.31% of NAICS 541200 employment, while O*NET describes payroll-clerk work as verifying hours, computing wages and deductions, entering records, reconciling payroll, preparing reports, and filing payroll tax returns. These are structured information workflows well suited to extraction, anomaly detection, drafting, and assisted resolution. Exposure is not higher because client implementation, sales, cybersecurity, changing-law interpretation, complex exceptions, and final release of funds require judgment and accountability. BLS's projected 17% decline in payroll and timekeeping clerks provides directional confirmation that productivity technology can substitute for part of this work.",
+      "change_evidence": "A 541214-specific payroll by occupation from a private labor-data vendor, combined with time-and-motion studies from 15-20 LMM payroll bureaus that separate already automated work from manual intake, reconciliation, exception handling, support, compliance updates, sales, and management, would materially move this estimate.",
+      "source_ids": ["S2", "S3", "S4"],
+      "caveats": [
+        "BLS does not publish the cited occupational mix at the six-digit 541214 level; NAICS 541200 is materially affected by accountants and tax preparers.",
+        "The task allocation is analyst judgment rather than a measured AI-substitution rate.",
+        "The frozen labor input uses 2024 wages over 2022 receipts, includes a 1.4294 benefits multiplier, and is harmonized by a cross-code median divisor; the vintage and harmonization can distort the economic weight even though they do not change this task-share estimate."
+      ]
+    },
+    "rho": {
+      "evidence_state": "PROXY",
+      "low": 0.38,
+      "base": 0.58,
+      "high": 0.74,
+      "bridge": "PayrollOrg measures organization-level technology use among more than 500 global payroll professionals, not the fraction of exposed labor opportunity implemented by US LMM payroll bureaus. I treated the 21% already using AI plus 30% planning near-term integration as evidence that roughly half the market has entered the adoption funnel, then allowed five years for wider diffusion but discounted for incomplete workflow coverage, data integration, review controls, security, and compliance. The global respondent base likely overstates LMM US implementation capacity, while its near-term planning horizon understates cumulative five-year adoption; the base gives more weight to the former and the range spans both.",
+      "rationale": "A majority of exposed work should be implementable through bounded copilots, exception triage, document and data ingestion, anomaly detection, knowledge retrieval, customer-service assistance, and workflow orchestration. Full autonomous payroll release is less plausible: PayrollOrg identifies compliance and inbound/outbound integration as leading challenges, and O*NET shows reconciliation, tax-law monitoring, employee advice, and error correction among core duties. Implementation therefore captures more than current adoption but materially less than all technical exposure.",
+      "change_evidence": "Obtain implementation cohort data from payroll-platform vendors and 15-20 LMM bureaus showing pre/post labor hours, error and rework rates, percentage of clients on standardized integrations, manual-review rates, and production AI coverage by workflow over at least four payroll quarters.",
+      "source_ids": ["S3", "S5"],
+      "caveats": [
+        "The PayrollOrg survey is global, appears weighted toward larger and multinational organizations, and reports use or plans rather than realized labor displacement.",
+        "Vendor-embedded deterministic automation and generative AI are difficult to separate in payroll operations.",
+        "Security, privacy, auditability, and state-by-state compliance may slow LMM implementation more than technical capability suggests."
+      ]
+    },
+    "e": {
+      "evidence_state": "ESTIMATE",
+      "low": 0.68,
+      "base": 0.82,
+      "high": 0.92,
+      "rationale": "NAICS 541214 is already defined around an external-client service: collecting client payroll data and generating paychecks, reports, and tax filings. Most LMM-band firms in the code should therefore satisfy the recurring outsourced-service lens. The haircut excludes software-dominant businesses, misclassified bundled accounting or PEO operations, captive units, firms without a transferable operating team, and entities whose economics are inseparable from one owner or a reseller relationship.",
+      "change_evidence": "Review a stratified sample of 75-100 firms from the SUSB-derived LMM population using tax returns or confidential financials, customer invoices, ownership records, employee rosters, and product mix to classify recurring external payroll revenue, standalone operations, owner dependence, and software-only or PEO exposure.",
+      "source_ids": ["S1"],
+      "caveats": [
+        "Eligibility is not directly reported in public establishment data.",
+        "The frozen n of 297 is itself an ESTIMATE bridged from SUSB size classes using a sector EBITDA margin; firm-specific margins, multi-establishment ownership, and high industry concentration can materially change the true LMM count.",
+        "NAICS assignment follows primary activity and may not reflect current revenue mix after HCM, benefits, or software expansion."
+      ]
+    },
+    "s5": {
+      "evidence_state": "PROXY",
+      "low": 0.12,
+      "base": 0.2,
+      "high": 0.3,
+      "bridge": "Gallup measures stated five-year plans across all US employer-business owners: 22% planned to sell or transfer ownership. I reduced that starting point for gifts, internal transfers, rare public offerings, abandoned plans, and closures that do not become qualifying control transfers, then added a smaller offset for payroll firms' recurring revenue, long client lives, and demonstrated strategic-buyer appetite. The raw 22% likely overstates qualifying transfers because its outcome definition is broader; payroll transferability and unplanned sales partly offset that upward error, producing a 20% base.",
+      "rationale": "Succession supply is meaningful: Gallup reports 52.3% of US employer businesses are owned by people age 55 or older, and 22% of employer owners planned a sale or transfer within five years. Payroll client books are more transferable than owner-personal labor, but not every intention closes or changes control. Paychex's 2025 acquisition of Paycor confirms acquirer appetite for payroll and HCM assets, although that transaction is far above the LMM band and cannot establish a small-firm transfer rate.",
+      "change_evidence": "Acquire five years of PitchBook, GF Data, Axial, BizBuySell, and payroll-specialist broker data filtered to US payroll-service targets in the $1-10M normalized EBITDA band, deduplicated by closing and matched to estimated eligible firm stock; supplement with owner-age and succession-plan interviews across at least 50 independent bureaus.",
+      "source_ids": ["S6", "S7"],
+      "caveats": [
+        "Gallup is cross-industry and based on plans, not completed qualifying control transfers.",
+        "The public payroll transaction is a very large strategic deal and only demonstrates buyer appetite, not LMM incidence.",
+        "Family gifts, management succession without a control event, and closures must not be counted."
+      ]
+    },
+    "q": {
+      "evidence_state": "ESTIMATE",
+      "low": 0.4,
+      "base": 0.61,
+      "high": 0.78,
+      "rationale": "Payroll fees are generally charged each payroll period and often vary with employee count, so labor savings are not mechanically passed through through cost-plus billing. Long client relationships and high retention support near-term capture: ADP reported 92.1% Employer Services revenue retention and an estimated 13-year Employer Services relationship, while Paycom reports a 10-year estimated client life. Capture is not permanent because agreements can be terminable on 30 days' notice, prices are periodically reassessed, and capable rivals can share automation savings through lower prices or richer service. Discounting that repricing and competition over five years yields a retained share modestly above one-half.",
+      "change_evidence": "Analyze five years of anonymized contracts, renewal quotes, discounts, churn reasons, and gross margins from 15-20 LMM payroll bureaus, then compare realized price and service-level changes before and after measurable automation releases on matched client cohorts.",
+      "source_ids": ["S8", "S9"],
+      "caveats": [
+        "Public-company retention and client-life metrics may overstate switching costs for independent LMM bureaus.",
+        "Revenue retention is not the same as retention of an implemented gross benefit; pass-through is not publicly disclosed.",
+        "Savings may be reinvested in service, compliance, cybersecurity, and sales rather than appearing as retained operating profit."
+      ]
+    },
+    "d5": {
+      "evidence_state": "PROXY",
+      "low": 0.98,
+      "base": 1.09,
+      "high": 1.18,
+      "bridge": "BLS projects constant-dollar output for broad NAICS 541200, not six-digit 541214 service quantity, at a 2.1% annual compound rate from 2024 to 2034; five-year compounding implies about 1.11. I temper that to 1.09 using 541214 payroll employment's modest rise from 240,600 in July 2024 to 242,700 in June 2025 and the risk that software productivity raises measured output without equal growth in the current service basket. The broad-output proxy likely overstates 541214 quantity if adjacent accounting and tax lines grow faster or if quality-enhancing software is counted as output, so the base is below the raw transformation.",
+      "rationale": "The number of workers paid, employers served, filing obligations, and regulatory complexity sustain payroll demand, while broad BLS real-output projections point to moderate growth. Counterweights are client consolidation, per-employee billing sensitivity to employment, self-service, and software automation. The result is modest five-year real quantity growth rather than either rapid expansion or structural collapse.",
+      "change_evidence": "Obtain 541214-specific five-year histories and forecasts for active employer clients, paid employees, payroll runs, tax filings, and constant-price service revenue from Census service-product data, payroll processors, and industry vendors, with software-license revenue and interest on client funds removed.",
+      "source_ids": ["S10", "S12"],
+      "caveats": [
+        "The BLS output projection is for NAICS 541200 and combines payroll with accounting, tax preparation, and bookkeeping.",
+        "Employment is an input, not service quantity, and can fall while output rises through automation.",
+        "Public payroll-company revenue is unsuitable as a direct demand measure because it includes HCM modules, PEO services, pricing, acquisitions, and interest on client funds."
+      ]
+    },
+    "o": {
+      "evidence_state": "ESTIMATE",
+      "low": 0.52,
+      "base": 0.7,
+      "high": 0.84,
+      "rationale": "Much routine calculation and self-service can move into software, and BLS expects payroll-clerk employment to decline 17% by 2034 because of productivity technology. Yet the current outsourced-service basket also includes onboarding, data correction, reconciliation, tax filing, payment custody, changing-law interpretation, audit trails, security, and accountable exception resolution. The IRS emphasizes that employers remain liable for tax deposits even when duties are outsourced, encouraging them to retain a trusted operator and controls rather than rely on unaccountable software alone. ADP's combination of cloud platforms with 24/7 payroll-professional support illustrates the durable hybrid model. On balance, a clear majority of year-five quantity still needs a service operator, though with fewer human touches per payroll.",
+      "change_evidence": "Survey and interview 100 US SMB payroll buyers on planned self-service versus managed-service use, switching triggers, required human support, and willingness to accept software-only filing and payment; pair this with processor ticket, exception, amended-return, tax-notice, and manual-approval volumes by client cohort.",
+      "source_ids": ["S4", "S8", "S11"],
+      "caveats": [
+        "Employer legal responsibility can support demand for expert service but can also motivate direct monitoring and self-service; the net effect is not directly measured.",
+        "The BLS occupational projection covers payroll clerks across all industries rather than outsourced 541214 operators.",
+        "Large vendors' hybrid service models may not describe the minimum operator layer needed by LMM clients."
+      ]
+    }
+  },
+  "narrative": {
+    "executive_view": "Payroll services combine a highly structured, labor-heavy workflow with recurring client relationships and nontrivial compliance stakes. AI can remove substantial intake, checking, reconciliation, reporting, and support effort, but the attractive operating model is controlled automation around an accountable service team, not autonomous payroll release. Demand should be durable in quantity, while software-led price competition and concentrated platforms constrain how much benefit remains with the operator.",
+    "ai_impact": "The best use cases are extracting and normalizing client data, validating inputs, detecting anomalies, drafting reports and tax forms, retrieving jurisdiction rules, triaging tickets, and preparing explanations for human approval. Exception handling, final fund release, security decisions, client implementation, sales, and novel compliance judgments remain human-led. A deliberate control environment matters because a small error can create wage, tax, and trust consequences.",
+    "value_capture": "Per-payroll and per-employee pricing decouple customer fees from the bureau's internal labor hours, while long client lives allow early productivity gains to accrue internally. Over five years, however, short termination rights, renewal negotiations, software-native rivals, and expectations for richer service should transfer a meaningful share to customers. Benefits may also be reinvested in controls and cybersecurity rather than harvested as margin.",
+    "firm_availability": "The NAICS definition naturally fits recurring external providers, so most firms in the frozen LMM population should be eligible. The greater uncertainty is actual availability: broad employer-owner surveys imply meaningful five-year succession, and payroll has strategic buyers, but public evidence does not measure closed LMM payroll transfers. Owner dependence, platform licensing, customer concentration, and multi-establishment ownership require target-level verification.",
+    "demand_durability": "Employers must continue paying workers, withholding and remitting taxes, filing returns, correcting errors, and maintaining records. Self-service and embedded payroll will eliminate some managed-service touches, but regulatory complexity, payment custody, auditability, security, and exception resolution preserve demand for accountable operators. Moderate real quantity growth is more defensible than rapid expansion, with the operator share declining as software absorbs routine work.",
+    "risks_and_uncertainty": "The weakest links are the absence of six-digit occupation and real-output data, no public LMM payroll transfer denominator, and no observed five-year pass-through rate. The injected labor ratio also mixes 2024 wages with 2022 receipts and a cross-code harmonization, while the frozen firm count depends on a sector margin bridge. A software-only shift, rapid price compression, platform dependence, tax-payment failure, cyber breach, or poor client-data integration could invalidate the operating case.",
+    "principal_driver": "Structured recurring payroll workflows offer substantial assisted-automation potential while clients still value an accountable compliance and payment operator.",
+    "principal_weakness": "The evidence for LMM transfer incidence and durable operator-level value capture is proxy-heavy, and software competition can pass savings to customers."
+  },
+  "sources": [
+    {
+      "id": "S1",
+      "url": "https://www.census.gov/naics/resources/archives/sect54.html",
+      "title": "North American Industry Classification System: Sector 54 archive, NAICS 541214 Payroll Services",
+      "access_date": "2026-07-22",
+      "supports": "Defines 541214 as non-CPA establishments collecting payroll data from clients and using it to generate paychecks, payroll reports, and tax filings, while excluding bundled accounting, bookkeeping, and billing."
+    },
+    {
+      "id": "S2",
+      "url": "https://www.bls.gov/oes/2023/May/naics4_541200.htm",
+      "title": "May 2023 National Industry-Specific Occupational Employment and Wage Estimates: NAICS 541200",
+      "access_date": "2026-07-22",
+      "supports": "Reports 1,100,840 workers in broad NAICS 541200, including 47.31% in business and financial operations, 28.76% in office and administrative support, 10.54% in management, and 4.65% in computer and mathematical occupations, with occupation-level wages."
+    },
+    {
+      "id": "S3",
+      "url": "https://www.onetonline.org/link/details/43-3051.00",
+      "title": "O*NET OnLine: Payroll and Timekeeping Clerks (43-3051.00)",
+      "access_date": "2026-07-22",
+      "supports": "Lists core payroll tasks including verifying hours, computing wages and deductions, entering employee records, reconciling payroll, tracking leave, resolving discrepancies, advising employees, monitoring tax-law changes, and preparing payroll tax returns; also reports the occupation's degree-of-automation responses."
+    },
+    {
+      "id": "S4",
+      "url": "https://www.bls.gov/ooh/office-and-administrative-support/financial-clerks.htm",
+      "title": "BLS Occupational Outlook Handbook: Financial Clerks",
+      "access_date": "2026-07-22",
+      "supports": "Projects payroll and timekeeping clerks to decline from 161,100 in 2024 to 134,200 in 2034, a 17% decrease, and attributes limited demand partly to productivity-enhancing technology."
+    },
+    {
+      "id": "S5",
+      "url": "https://payroll.org/news-resources/news/news-detail/2025/07/02/navigating-compliance-strategy-in-a-complex-global-market-global-payroll-week-2025-survey-results-in-review",
+      "title": "PayrollOrg: Navigating Compliance, Strategy in a Complex Global Market — 2025 Survey Results",
+      "access_date": "2026-07-22",
+      "supports": "Reports more than 500 global payroll respondents; 21% already used AI, 30% planned near-term AI integration, 57% named local compliance the biggest challenge, and inbound and outbound data automation were the next two challenges."
+    },
+    {
+      "id": "S6",
+      "url": "https://news.gallup.com/poll/657362/small-business-owners-lack-succession-plan.aspx",
+      "title": "Gallup: Most Small-Business Owners Lack a Succession Plan",
+      "access_date": "2026-07-22",
+      "supports": "Reports that 52.3% of US employer businesses are owned by people age 55 or older and that 22% of employer-business owners planned to sell or transfer ownership within five years in the fall 2024 survey."
+    },
+    {
+      "id": "S7",
+      "url": "https://www.paychex.com/newsroom/news-releases/paycor-acquisition-complete",
+      "title": "Paychex Completes Acquisition of Paycor",
+      "access_date": "2026-07-22",
+      "supports": "Documents the April 2025 acquisition of payroll and HCM provider Paycor for approximately $4.1 billion of enterprise value, demonstrating strategic buyer appetite but not LMM deal incidence."
+    },
+    {
+      "id": "S8",
+      "url": "https://www.sec.gov/Archives/edgar/data/8670/000000867025000037/adp-20250630.htm",
+      "title": "Automatic Data Processing, Inc. 2025 Form 10-K",
+      "access_date": "2026-07-22",
+      "supports": "Reports 92.1% Employer Services revenue retention, an estimated 13-year Employer Services client relationship, recurring revenue under written price quotations or service agreements, and cloud payroll platforms paired with 24/7 payroll-professional support."
+    },
+    {
+      "id": "S9",
+      "url": "https://www.sec.gov/Archives/edgar/data/1590955/000119312526059372/payc-20251231.htm",
+      "title": "Paycom Software, Inc. 2025 Form 10-K",
+      "access_date": "2026-07-22",
+      "supports": "States recurring revenue is recognized and charged each payroll period, most related contracts effectively run one month with 30-day termination rights, prices are periodically assessed for adjustment, and the estimated client life used for upfront fees is 10 years."
+    },
+    {
+      "id": "S10",
+      "url": "https://www.bls.gov/emp/tables/industry-employment-and-output.htm",
+      "title": "BLS Employment and Output by Industry, 2024-2034",
+      "access_date": "2026-07-22",
+      "supports": "Projects broad NAICS 541200 constant-dollar output from $210.0 billion in 2024 to $258.6 billion in 2034, a 2.1% compound annual rate, and employment growth of 2.4% over the decade."
+    },
+    {
+      "id": "S11",
+      "url": "https://www.irs.gov/businesses/small-businesses-self-employed/outsourcing-payroll-duties",
+      "title": "Internal Revenue Service: Outsourcing Payroll Duties",
+      "access_date": "2026-07-22",
+      "supports": "Explains that payroll providers can administer and deposit employment taxes but employers remain ultimately responsible for federal tax deposits, taxes, penalties, and interest."
+    },
+    {
+      "id": "S12",
+      "url": "https://www.bls.gov/ces/data/employment-and-earnings/2025/table1a_202507.htm",
+      "title": "BLS CES Table B-1a: Employees on Nonfarm Payrolls, July 2025",
+      "access_date": "2026-07-22",
+      "supports": "Reports seasonally adjusted NAICS 541214 payroll-services employment of 240,600 in July 2024 and 242,700 in June 2025, indicating modest recent employment growth."
+    }
+  ]
+}

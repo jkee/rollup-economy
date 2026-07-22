@@ -1,0 +1,206 @@
+{
+  "identity": {
+    "naics": "541219",
+    "title": "Other Accounting Services",
+    "run_id": "541219-a1-20260722",
+    "model_id": "claude-sonnet-5",
+    "run_date": "2026-07-22",
+    "methodology_version": "5.1",
+    "attempt": 1
+  },
+  "lens": {
+    "included_activities": "US lower-middle-market non-CPA bookkeeping, outsourced accounting, billing, controller, financial reporting, and related repeat services supplied to external customers, including mixed practices that also provide tax return preparation or payroll alongside accounting services.",
+    "excluded_activities": "CPA offices, tax-return-preparation-only firms, payroll-only firms, one-person practices below the EBITDA band, captive accounting departments, software-only vendors, shells, non-control financing vehicles, and firms whose work is predominantly one-off cleanup or project consulting rather than recurring or repeat outsourced service.",
+    "customer_and_revenue_model": "Primarily small and midsize business clients purchasing monthly or otherwise repeat bookkeeping, close, reporting, billing, and controller support under hourly, fixed-fee, subscription, or bundled arrangements; project cleanup and advisory work may supplement recurring fees.",
+    "deviation_from_default": "none",
+    "heterogeneous": false
+  },
+  "primitives": {
+    "a": {
+      "evidence_state": "PROXY",
+      "low": 0.45,
+      "base": 0.6,
+      "high": 0.73,
+      "bridge": "S2 measures the employment mix of broader NAICS 541200 rather than wage-weighted AI exposure in NAICS 541219: accountants and auditors are 31.73% of employment, bookkeeping/accounting/auditing clerks 8.88%, and tax preparers 7.13%. S3-S5 describe tasks and observed technology use across those broader occupations and accounting professionals. I mapped routine document intake, coding, reconciliation, report drafting, and client communication to high exposure; exception resolution, judgment, control, and accountable review to lower exposure; and weighted the professional task families more heavily because their wages exceed clerical wages. This likely biases exposure upward because the surveys include tech-forward respondents and CPA, tax, and payroll firms, but downward because OEWS omits self-employed owners and current tools are improving quickly.",
+      "rationale": "The service basket is unusually digital and language/data intensive. BLS says software has already automated many clerical bookkeeping tasks, while accountants use AI and process automation to increase productivity and shift toward analytical work. The estimate excludes work already automated and retains substantial human effort for ambiguous coding, reconciliations, controls, client context, and final review.",
+      "change_evidence": "A time-and-wage study of employees at US non-CPA bookkeeping and outsourced-accounting firms in the $1-10M EBITDA band, coded to O*NET tasks and separating already-automated from manual minutes, would materially change the range.",
+      "source_ids": ["S2", "S3", "S4", "S5"],
+      "caveats": [
+        "The available occupation mix is NAICS 541200, which also includes CPA, tax-only, and payroll-only establishments.",
+        "No source directly measures wage-weighted, not-yet-automated task exposure for the frozen firm lens.",
+        "Vendor-sponsored adoption evidence may overrepresent firms already using modern cloud accounting tools."
+      ]
+    },
+    "rho": {
+      "evidence_state": "PROXY",
+      "low": 0.35,
+      "base": 0.52,
+      "high": 0.68,
+      "bridge": "S5 measures reported AI and automation use among 700 US accounting professionals, not the five-year share of exposed labor opportunity implemented by LMM NAICS 541219 firms; S6 measures global tax and accounting firms. I treat daily AI use, planned investment, workflow automation, and the move from experimentation to integration as diffusion anchors, then discount for fragmented client systems, data quality, review requirements, change management, privacy, and the smaller-firm lens. The vendor and respondent-selection effects likely bias reported readiness upward.",
+      "rationale": "Implementation should advance meaningfully because core workflows are already software-mediated: in the Intuit survey, 46% used AI daily and 64% planned AI investment or upgrades within a year, while Wolters Kluwer reported 41% adoption and 77% planning higher investment. Full capture remains constrained by integrations, inconsistent source documents, client-specific charts of accounts, accuracy checks, confidentiality, and the need to preserve accountable review.",
+      "change_evidence": "Obtain workflow-level implementation logs from 20-30 US non-CPA LMM firms showing baseline labor hours, go-live dates, exception rates, review time, and sustained headcount or avoided-hiring outcomes for at least 12 months.",
+      "source_ids": ["S5", "S6"],
+      "caveats": [
+        "Survey use of AI does not establish production-grade implementation or realized labor substitution.",
+        "Both surveys cover broader accounting populations; S6 is global and includes large firms.",
+        "Five-year capability and regulatory developments are uncertain."
+      ]
+    },
+    "e": {
+      "evidence_state": "ESTIMATE",
+      "low": 0.55,
+      "base": 0.7,
+      "high": 0.82,
+      "rationale": "The official NAICS definition includes non-CPA accountant, bookkeeper, and billing offices, and monthly accounting/bookkeeping is commonly billed as an ongoing service. A majority of firms in the frozen EBITDA band should therefore fit the recurring external-service lens. The range removes firms dominated by one-off cleanup or consulting, software resale, captive arrangements, weakly transferable owner books, or other nonrecurring activity.",
+      "change_evidence": "A stratified Dun & Bradstreet or Data Axle sample of NAICS 541219 firms in the frozen revenue/EBITDA band, verified through websites and owner interviews for recurring-revenue share, external customers, and transferability, would directly measure eligibility.",
+      "source_ids": ["S1", "S7"],
+      "caveats": [
+        "Public datasets do not report recurring-revenue share or lens eligibility at the six-digit industry and EBITDA band.",
+        "NAICS self-classification may mix bookkeeping firms with billing offices and miscellaneous accounting practices.",
+        "The frozen firm-count estimate may include businesses whose owner dependence makes them operationally nontransferable."
+      ]
+    },
+    "s5": {
+      "evidence_state": "PROXY",
+      "low": 0.1,
+      "base": 0.16,
+      "high": 0.24,
+      "bridge": "S8 reports that 26% of US CPA-firm single owners and sole practitioners planned to retire within five years in a 2020 survey; it does not measure non-CPA NAICS 541219 LMM firms or completed qualifying control transfers. I reduce that retirement intention for delayed exits, internal succession without a qualifying external control change, client-book wind-downs, and failed transfers, while allowing non-retirement strategic sales. The CPA population may have stronger succession infrastructure and larger transferable practices, biasing the proxy upward for this non-CPA lens; the older vintage may bias it either way.",
+      "rationale": "Aging owners and the recurring client-book model create a credible transfer channel, but planned retirement is not equivalent to a qualifying control transfer. Some practices will be absorbed through internal succession, client attrition, or asset/book sales that do not preserve a standalone transferable operation.",
+      "change_evidence": "Acquire five years of closed US non-CPA bookkeeping/accounting-practice transactions from BizBuySell, DealStats, Accounting Practice Sales, and Poe Group, matched to an estimated eligible-firm denominator and coded for control transfer versus book sale or internal reorganization.",
+      "source_ids": ["S8"],
+      "caveats": [
+        "The succession survey covers CPA firms, while NAICS 541219 explicitly excludes CPA offices.",
+        "Retirement intentions from 2020 may not predict completed transfers in 2026-2031.",
+        "Public deal feeds undercount private transactions and often omit NAICS and EBITDA."
+      ]
+    },
+    "q": {
+      "evidence_state": "PROXY",
+      "low": 0.42,
+      "base": 0.6,
+      "high": 0.76,
+      "bridge": "S7 measures billing-method prevalence across accounting practitioners, finding monthly services split between 50% hourly and 49% fixed-fee billing; S10 covers broader tax, audit, and accounting firms and reports hourly billing at less than half of client arrangements with subscriptions growing. I convert the mix into discounted retention: hourly work passes labor savings through quickly through fewer billable hours, while fixed, bundled, and subscription fees retain more benefit until renewals and competition reset prices. Broader CPA/tax samples and pricing-advice respondents may have more pricing power than non-CPA bookkeeping firms, biasing retention upward.",
+      "rationale": "The roughly even mix of hourly and fixed monthly pricing prevents either immediate full pass-through or durable full retention. Fixed and subscription engagements can preserve early efficiency gains, but annual repricing, transparent software alternatives, client bargaining, and rivalry should share a meaningful portion over five years. Advisory capacity created by automation can support retention when firms sell outcomes rather than hours.",
+      "change_evidence": "Review anonymized engagement letters, invoices, renewal histories, and gross-margin cohorts from 15-20 LMM non-CPA firms before and after workflow automation, separating hourly, fixed, bundled, and subscription contracts.",
+      "source_ids": ["S7", "S10"],
+      "caveats": [
+        "The 2021 Intuit billing survey is dated and not limited to NAICS 541219 or the EBITDA band.",
+        "Pricing-model prevalence is not a direct measurement of benefit retention.",
+        "The estimate assumes competitive repricing occurs over renewals rather than immediately."
+      ]
+    },
+    "d5": {
+      "evidence_state": "PROXY",
+      "low": 0.95,
+      "base": 1.08,
+      "high": 1.17,
+      "bridge": "S9 projects chained-dollar output for broader NAICS 541200 from $210.0 billion in 2024 to $258.6 billion in 2034, a 2.1% annual rate; mechanically applying that rate for five years gives about 1.11. I haircut the base to 1.08 for the narrower non-CPA bookkeeping/billing mix and for self-service pressure on the current service basket, while retaining a range around the broad-sector path. The broad industry includes CPA, tax-only, and payroll-only services and may embed changing service mix, so it may overstate constant-quality demand for NAICS 541219.",
+      "rationale": "Underlying demand should be broadly stable to moderately growing as the economy expands and businesses continue to generate transactions, reporting needs, and regulatory obligations. BLS expects real output growth in the broader accounting-services industry even as clerical employment declines, consistent with productivity growth rather than disappearance of service demand.",
+      "change_evidence": "Obtain six-digit real receipts or quantity indexes for NAICS 541219 from Census Service Annual Survey microdata or a custom industry study, decomposed into bookkeeping, billing, controller, and advisory services and held to a constant service basket.",
+      "source_ids": ["S9", "S3", "S4"],
+      "caveats": [
+        "BLS publishes the projection only for NAICS 541200, not 541219.",
+        "Chained-dollar output is not a direct constant-quality quantity index for the current service basket.",
+        "Self-service software could reduce commodity bookkeeping demand faster than the broader sector projection implies."
+      ]
+    },
+    "o": {
+      "evidence_state": "PROXY",
+      "low": 0.58,
+      "base": 0.73,
+      "high": 0.86,
+      "bridge": "S3 and S4 project employment and describe task change for bookkeeping clerks and accountants across all industries, not the share of NAICS 541219 service quantity requiring an outsourced accountable operator. I translate the 6% projected decline and automation of routine clerical work, together with 5% accountant growth and the continued prominence of analytical, advisory, compliance, and explanation duties, into an operator-required share. Because non-CPA bookkeeping has more routine content than the accountant occupation, relying on S4 alone would bias the estimate upward; direct-to-customer software progress could also make the proxy optimistic.",
+      "rationale": "Transaction ingestion, basic categorization, and standard reporting are increasingly self-served or automated, so some current quantity will no longer require a service firm. Most clients will still need exception handling, reconciliations, close ownership, controls, interpretation, communication, and accountable delivery across fragmented systems. The durable unit is therefore a technology-enabled operator, not manual data entry.",
+      "change_evidence": "Survey current clients of LMM NAICS 541219 firms and track five-year cohort outcomes by workflow: continued outsourced operator, client self-service, software-only substitution, offshore provider, or eliminated task, with revenue and transaction volume attached.",
+      "source_ids": ["S3", "S4", "S5"],
+      "caveats": [
+        "Occupational employment is not service quantity and includes in-house workers outside the screened industry.",
+        "The pace of reliable agentic close and exception handling is highly uncertain.",
+        "Operator need varies sharply with client complexity, software standardization, and willingness to self-serve."
+      ]
+    }
+  },
+  "narrative": {
+    "executive_view": "Other accounting services combines a labor-heavy, digitally mediated workflow with recurring client relationships and a plausible succession channel. The opportunity depends on converting automation into lower staffing needs while preserving accountable client service; commodity bookkeeping that becomes software-only is the central threat.",
+    "ai_impact": "AI can reduce document intake, coding, reconciliation preparation, report drafting, correspondence, and first-pass analysis. Human work shifts toward exception resolution, review, controls, client context, and advice. Existing automation means the relevant opportunity is the remaining manual workflow, not the entire payroll base.",
+    "value_capture": "Monthly services are split between hourly and fixed-fee approaches, while subscriptions and bundles are growing. Hourly contracts pass efficiency through quickly; fixed and subscription arrangements retain more initially, but renewals and price competition share gains over time. The strongest defense is packaging reliable close and advisory outcomes rather than selling hours.",
+    "firm_availability": "Bookkeeper, non-CPA accountant, and billing offices often serve repeat external customers, so many LMM firms should meet the operating lens. Availability is reduced by owner-dependent client books, one-off cleanup practices, internal succession, and wind-downs. CPA succession evidence confirms aging-owner pressure but is only a proxy for this explicitly non-CPA industry.",
+    "demand_durability": "Real output in the broader accounting-services industry is projected to grow, while routine bookkeeping employment declines and accountant demand grows. That pattern supports durable demand for financial-record integrity, close, compliance support, and interpretation, but less demand for manual data entry. A technology-enabled operator should remain necessary for most complex clients, though simple clients can migrate to self-service software.",
+    "risks_and_uncertainty": "The largest uncertainties are six-digit occupation mix, already-automated task share, realized production deployment in smaller firms, pricing pass-through, and the gap between owner retirement plans and completed control transfers. Fragmented client systems and accuracy obligations may slow implementation; conversely, reliable software agents could accelerate self-service and compress both labor and revenue.",
+    "principal_driver": "Digitally mediated recurring bookkeeping and close workflows create a large implementable labor opportunity if firms standardize client systems and preserve accountable review.",
+    "principal_weakness": "The same automation that lowers delivery cost can let clients self-serve commodity bookkeeping and force savings into lower prices at renewal."
+  },
+  "sources": [
+    {
+      "id": "S1",
+      "url": "https://www.census.gov/naics/reference_files_tools/2022_NAICS_Manual.pdf",
+      "title": "2022 North American Industry Classification System Manual: NAICS 541219 Other Accounting Services",
+      "access_date": "2026-07-22",
+      "supports": "Defines 541219 as non-CPA accounting services excluding tax-only and payroll-only establishments, and explicitly includes non-CPA accountant, bookkeeper, and billing offices."
+    },
+    {
+      "id": "S2",
+      "url": "https://www.bls.gov/oes/2023/May/naics4_541200.htm",
+      "title": "May 2023 OEWS: Accounting, Tax Preparation, Bookkeeping, and Payroll Services",
+      "access_date": "2026-07-22",
+      "supports": "Reports the broader industry occupation mix, including accountants and auditors at 31.73% of employment, bookkeeping/accounting/auditing clerks at 8.88%, and tax preparers at 7.13%, with occupation-specific wages."
+    },
+    {
+      "id": "S3",
+      "url": "https://www.bls.gov/ooh/office-and-administrative-support/bookkeeping-accounting-and-auditing-clerks.htm",
+      "title": "Occupational Outlook Handbook: Bookkeeping, Accounting, and Auditing Clerks",
+      "access_date": "2026-07-22",
+      "supports": "Describes core bookkeeping tasks, states that software has automated many tasks, projects employment down 6% from 2024 to 2034, and expects remaining work to become more analytical and advisory."
+    },
+    {
+      "id": "S4",
+      "url": "https://www.bls.gov/ooh/business-and-financial/accountants-and-auditors.htm",
+      "title": "Occupational Outlook Handbook: Accountants and Auditors",
+      "access_date": "2026-07-22",
+      "supports": "Describes accounting duties and AI/process-automation use, projects 5% employment growth from 2024 to 2034, and says automation should elevate advisory and analytical duties rather than reduce overall accountant demand."
+    },
+    {
+      "id": "S5",
+      "url": "https://investors.intuit.com/news-events/press-releases/detail/1263/accountants-embrace-ai-and-strategic-advisory-services-to-fuel-growth-yet-continue-to-face-tech-and-talent-barriers-according-to-2025-intuit-quickbooks-survey",
+      "title": "2025 Intuit QuickBooks Accountant Technology Survey",
+      "access_date": "2026-07-22",
+      "supports": "Survey of 700 US accounting professionals: 46% reported daily AI use, 64% planned AI investment or upgrades within a year, 95% adopted automation in the prior year, and common automated areas included payroll, AP/AR, and data entry."
+    },
+    {
+      "id": "S6",
+      "url": "https://www.wolterskluwer.com/en/news/wolters-kluwer-releases-its-2025-future-ready-accountant-report",
+      "title": "Wolters Kluwer 2025 Future Ready Accountant Report Release",
+      "access_date": "2026-07-22",
+      "supports": "Reports a global survey of more than 2,700 tax and accounting professionals, with AI adoption rising from 9% in 2024 to 41% in 2025, 35% using AI daily, and 77% planning increased AI investment."
+    },
+    {
+      "id": "S7",
+      "url": "https://accountants.intuit.com/taxprocenter/practice-management/the-results-of-the-new-intuit-rate-survey-are-in/",
+      "title": "2021 Intuit Rate Survey Results",
+      "access_date": "2026-07-22",
+      "supports": "Reports that monthly accounting services were billed hourly by 50% of respondents and fixed-fee by 49%, with hourly billing common for uncertain-scope work."
+    },
+    {
+      "id": "S8",
+      "url": "https://www.journalofaccountancy.com/news/2020/dec/succession-issues-surge-at-accounting-firms/",
+      "title": "Succession Issues Surge at Accounting Firms",
+      "access_date": "2026-07-22",
+      "supports": "Reports an AICPA/Succession Institute survey of 587 CPA-firm representatives in which 26% of US single owners and sole practitioners planned to retire within five years."
+    },
+    {
+      "id": "S9",
+      "url": "https://www.bls.gov/emp/tables/industry-employment-and-output.htm",
+      "title": "BLS Employment and Output by Industry, 2024-2034",
+      "access_date": "2026-07-22",
+      "supports": "Projects broader NAICS 541200 real output from $210.0 billion in 2024 to $258.6 billion in 2034, a 2.1% compound annual growth rate, while employment rises 2.4%."
+    },
+    {
+      "id": "S10",
+      "url": "https://www.thomsonreuters.com/en-us/posts/tax-and-accounting/tax-firm-pricing-report-2025/",
+      "title": "Tax, Audit and Accounting Firm Pricing Report 2025",
+      "access_date": "2026-07-22",
+      "supports": "Reports that hourly billing remains the largest pricing model but represents less than half of client arrangements, while subscription and bundled pricing are gaining traction."
+    }
+  ]
+}
