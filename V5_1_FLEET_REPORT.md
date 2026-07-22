@@ -109,3 +109,50 @@ unobserved LMM implementation depth, weak direct transfer-rate denominators,
 and judgmental retention/operator-necessity estimates. No accepted review found
 a correction meeting the frozen base-tier-or-action materiality threshold, and
 the predeclared pause trigger did not fire.
+
+## S3 — Health care and social assistance
+
+**Closed:** 2026-07-22
+**Coverage:** 39 attempted, 39 deterministically valid, 39 published, 0 excluded
+**Independent review:** 12/39 (7 mandatory, 4 random, 1 canary)
+**Review outcomes:** 12 `publishable_with_caveats`; 0 `publishable`; 0 `reject`; 0 `invalid`
+**Material findings:** 0
+**Remediations:** 0
+
+### Screen distribution
+
+- Base tiers: 7 `PRIORITY`, 15 `CONDITIONAL`, 11 `LOW_PRIORITY`,
+  5 `STRUCTURAL_OUT`, and 1 without a base tier.
+- Readiness: 38 `MODEL_CONDITIONED`; 1 `STRESS_TEST_ONLY`.
+- Actions: 38 `VALIDATE_ASSUMPTIONS`; 1 `EVIDENCE_FIRST`.
+- Robust tiers: 2/39, both `STRUCTURAL_OUT`.
+- Publication labels: 12 `accepted`; 27 `not_reviewed` by the frozen sampling
+  contract.
+
+The random stratum consisted of `621493`, `621498`, `621512`, and `624229`.
+All four were accepted with caveats and carried no material finding. The
+previously reviewed canary `621111` also closed with the block. These are sample
+observations only; no S3 defect rate is estimated.
+
+### Economic read
+
+The screen separated ambulatory, practitioner-led, and social-service models
+from institution- and asset-heavy care. Seven records reached `PRIORITY`:
+mental-health physician and practitioner offices, therapy/audiology practices,
+other health practitioners, outpatient behavioral-health centers, other
+residential care, and other individual/family services. Their opportunity was
+still evidence-conditioned; none reached `HIGHEST_PRIORITY` or an unconditional
+Stage 2 action.
+
+Hospitals, dialysis, ambulatory surgery/emergency centers, ambulance services,
+blood/organ banks, nursing facilities, senior living, relief services, and
+child care generally screened low or out as physical delivery, regulated care,
+institutional form, or thin transferable-firm depth constrained the frozen
+lens. `624221` Temporary Shelters correctly followed the declared-gap route to
+no base tier and `STRESS_TEST_ONLY / EVIDENCE_FIRST`.
+
+Validators repeatedly caveated broad occupation and adoption proxies, limited
+LMM-specific implementation evidence, estimated eligible-firm counts, sparse
+transaction denominators, and judgmental transfer/retention bridges. No review
+found a correction meeting the frozen base-tier-or-action materiality test, and
+the predeclared pause trigger did not fire.
