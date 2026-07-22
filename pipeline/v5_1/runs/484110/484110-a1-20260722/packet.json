@@ -1,0 +1,204 @@
+{
+  "identity": {
+    "naics": "484110",
+    "title": "General Freight Trucking, Local",
+    "run_id": "484110-a1-20260722",
+    "model_id": "claude-sonnet-5",
+    "run_date": "2026-07-22",
+    "methodology_version": "5.1",
+    "attempt": 1
+  },
+  "lens": {
+    "included_activities": "U.S. lower-middle-market employer firms providing recurring or repeat, for-hire local transportation of palletized general freight for external shippers, including local truckload and less-than-truckload operations and incidental terminal or storage activity, typically on same-day metropolitan-area routes.",
+    "excluded_activities": "Captive private fleets, shells, non-control financing vehicles, freight brokers and independent terminals, couriers and small-item delivery, specialized freight, household moving, long-distance trucking, independent drivers without transferable operations, and firms outside the roughly $1-10 million normalized EBITDA band.",
+    "customer_and_revenue_model": "Business shippers and logistics intermediaries buy recurring lane, route, pickup-and-delivery, or dedicated-capacity service under negotiated contracts, with overflow and irregular loads priced transactionally; revenue is generally tied to loads, miles, stops, weight, time, or committed capacity.",
+    "deviation_from_default": "none",
+    "heterogeneous": false
+  },
+  "primitives": {
+    "a": {
+      "evidence_state": "PROXY",
+      "low": 0.1,
+      "base": 0.17,
+      "high": 0.25,
+      "bridge": "The source staffing population is all NAICS 484 truck transportation rather than NAICS 484110 LMM firms. I converted published employment and mean wages into approximate compensation shares, then assigned task-level exposure: low exposure to the predominantly physical driving and material-moving work, and materially higher exposure to dispatch, routing, billing, bookkeeping, customer communication, and document processing. Broader NAICS 484 likely contains more long-distance driving than local trucking, biasing the result downward if local firms have more coordination work; using current occupational titles without firm-level task audits may bias it upward because some workflows are already automated, so the net error direction is uncertain.",
+      "rationale": "In the 2023 truck-transportation staffing proxy, driver/sales workers and truck drivers were 62.99% of employment and office and administrative support was 11.32%; dispatchers alone were 2.42%. USDOT documents actual freight-industry use of AI for route optimization, shipment inquiries, tracking updates, invoices, bills of lading, and predictive maintenance. Most driving, cargo securement, inspection, loading, and exception handling remains physical or accountable human work, limiting the wage-weighted exposed share.",
+      "change_evidence": "A payroll-weighted task inventory from 20-30 NAICS 484110 carriers, mapping hours and wages across dispatch, billing, customer service, safety/compliance, maintenance, loading, and driving, plus current TMS/ELD automation already in use, would materially change this range.",
+      "source_ids": ["S2", "S3", "S4"],
+      "caveats": [
+        "The occupational mix is for four-digit NAICS 484 and employers of all sizes, not six-digit local general freight or the LMM band.",
+        "OEWS excludes self-employed workers and reports occupations, not task shares or prior automation.",
+        "The estimate treats autonomous driving separately from near-term generative and analytical AI exposure and does not count wholesale driver replacement as exposed current work."
+      ]
+    },
+    "rho": {
+      "evidence_state": "ESTIMATE",
+      "low": 0.35,
+      "base": 0.55,
+      "high": 0.72,
+      "rationale": "More than half of the identified exposure should be implementable within five years because routing, invoice and bill-of-lading processing, routine shipment updates, customer intake, and maintenance triage can be inserted into existing transportation-management workflows. The remainder is constrained by fragmented data, integration cost at smaller fleets, hallucination and context errors, privacy and cybersecurity exposure, regulated documentation, and the need for dispatchers and managers to handle exceptions and remain accountable.",
+      "change_evidence": "Carrier-level before-and-after studies from TMS vendors or an audited 12-month pilot across at least 10 LMM local carriers, reporting labor hours avoided by workflow, exception rates, safety/compliance incidents, and implementation costs, would materially move the estimate.",
+      "source_ids": ["S3", "S4"],
+      "caveats": [
+        "USDOT identifies applications and risks but does not measure five-year adoption or labor realization in NAICS 484110.",
+        "Implementation can improve service or throughput without reducing payroll, so productivity adoption is not automatically avoidable hiring.",
+        "Small-carrier data quality and legacy-system integration are not quantified."
+      ]
+    },
+    "e": {
+      "evidence_state": "ESTIMATE",
+      "low": 0.65,
+      "base": 0.82,
+      "high": 0.92,
+      "rationale": "The industry definition already centers on providing local general freight trucking, and the injected LMM count has already been bridged into the target EBITDA band. Most employer carriers therefore sell an outsourced service that customers need repeatedly. The discount removes spot-only or highly customer-concentrated operations, owner-dependent firms without transferable systems, weak compliance records, and businesses whose apparent economics depend on non-transferable owner labor or equipment condition.",
+      "change_evidence": "A stratified sample of FMCSA-authorized NAICS 484110 firms matched to tax returns and customer invoices, with flags for recurring-customer revenue, owner driving hours, fleet ownership or leases, safety status, customer concentration, and normalized EBITDA, would materially change eligibility.",
+      "source_ids": ["S1"],
+      "caveats": [
+        "No public dataset measures the frozen lens's recurring-revenue, transferability, and control-eligibility tests jointly.",
+        "The frozen firm-count input is an estimate and may include firms whose normalized EBITDA or owner dependence is misclassified.",
+        "NAICS is establishment-based, while eligibility is assessed at the firm level."
+      ]
+    },
+    "s5": {
+      "evidence_state": "PROXY",
+      "low": 0.1,
+      "base": 0.18,
+      "high": 0.26,
+      "bridge": "Gallup measured stated five-year plans among working U.S. business owners, including a 22% planned sale or transfer rate for employer-business owners, rather than completed qualifying control transfers among LMM local trucking firms. I apply a realization discount to the 22% plan rate for delayed, abandoned, partial, and non-qualifying transactions, while allowing a wide range because 52.3% of U.S. employer businesses are owned by people age 55 or older. The realization discount biases the base below stated intent; omission of unplanned sales could bias it downward, while trucking-specific financing, safety, and equipment diligence could bias completion lower.",
+      "rationale": "The five-year employer-owner plan rate is directly aligned with the horizon and is more relevant than all-owner statistics. A base below the reported 22% recognizes that intent does not ensure a completed control transfer and excludes closures, minority investments, and internal reorganizations.",
+      "change_evidence": "Completed five-year control-transfer cohorts from BizBuySell, DealStats, GF Data, Axial, SBA 7(a) change-of-ownership loans, and trucking-focused brokers, filtered to NAICS 484110 and the target EBITDA band, would materially change this probability.",
+      "source_ids": ["S5"],
+      "caveats": [
+        "Gallup covers employer businesses across industries and sizes, not NAICS 484110 or the LMM band.",
+        "Survey responses measure plans, not completed transactions, and the category includes gifts and rare public offerings.",
+        "Owner age is national employer-business context, not a trucking-specific age distribution."
+      ]
+    },
+    "q": {
+      "evidence_state": "ESTIMATE",
+      "low": 0.2,
+      "base": 0.4,
+      "high": 0.62,
+      "rationale": "Existing contracts and customer relationships should let an operator retain a meaningful early share of implemented savings, and service improvements can support retention. Over five years, however, local general freight is readily benchmarked and competitively bid: a DOT-sponsored study characterizes trucking as highly competitive, easy-entry, relatively undifferentiated, and thin-margin, while BTS says spot loads are only about one-tenth of common-carrier trucking, implying most volume is under pre-existing arrangements that eventually renew. The discounted retained share is therefore below one-half in the base case.",
+      "change_evidence": "A contract census from acquired or diligenced local carriers showing renewal frequency, fuel and labor escalators, open-book or cost-plus clauses, bid-loss rates, gross-margin changes after productivity gains, and customer concentration would materially change retention.",
+      "source_ids": ["S7", "S8"],
+      "caveats": [
+        "The competition study is old and not restricted to NAICS 484110, although its structural description remains directionally relevant.",
+        "BTS's one-tenth statistic concerns the overall common-carrier spot market, not local general freight specifically.",
+        "Savings from better utilization may be retained differently from visible reductions in labor or accessorial charges."
+      ]
+    },
+    "d5": {
+      "evidence_state": "PROXY",
+      "low": 0.96,
+      "base": 1.07,
+      "high": 1.15,
+      "bridge": "FAF5 forecasts all U.S. freight tonnage, across commodities and modes, to grow 50% from 2020 to 2050 and says trucks carry 65% of current tonnage and are expected to remain predominant. Converting 50% over 30 years to a compound five-year ratio gives about 1.07, which I use as the central constant-price quantity proxy. Local general freight may grow faster through denser fulfillment networks or slower because the source includes nontruck bulk modes and long-distance flows; the net direction is uncertain, so the range spans mild contraction to stronger growth.",
+      "rationale": "Physical goods still require movement between warehouses, businesses, and customers, and national freight volumes are forecast to rise. Local trucking is cyclical and exposed to goods spending, inventory shifts, insourcing, network redesign, and modal substitution, so a broad range surrounds the mechanically bridged base.",
+      "change_evidence": "FAF 5.7.1 custom tables for truck-only intra-metropolitan tonnage from 2024 to 2030, combined with inflation-adjusted Census service receipts and carrier shipment counts specifically for NAICS 484110, would materially change the estimate.",
+      "source_ids": ["S6", "S9"],
+      "caveats": [
+        "The FAF forecast is national, multimodal, and long-horizon rather than a direct five-year forecast for local general freight.",
+        "Tonnage is an imperfect proxy for constant-quality local trucking service quantity because stops, shipment size, distance, and handling complexity can change.",
+        "The 2020 base year was affected by pandemic-era freight patterns."
+      ]
+    },
+    "o": {
+      "evidence_state": "PROXY",
+      "low": 0.88,
+      "base": 0.96,
+      "high": 0.99,
+      "bridge": "BLS measures driver employment and outlook, not the share of local freight quantity requiring an accountable carrier. It reports no meaningful autonomous-trucking employment impact through 2023 and projects heavy-truck-driver employment to rise 4% from 2024 to 2034; GAO found automation development focused on highway portions of long-haul routes and that complex driving and non-driving tasks may retain operators. I translate those signals, together with 484110's same-day metropolitan operating domain, into a very high five-year operator-required share. This likely overstates human-driver retention but may understate carrier retention, because even driverless trucks still require a legally and commercially accountable fleet operator.",
+      "rationale": "Software cannot move palletized freight by itself, and local routes involve urban traffic, pickup and delivery, cargo handling, inspections, customer interaction, exceptions, maintenance, and safety accountability. Autonomous driving can reduce labor on some constrained routes but is more applicable first to highway portions of long-haul operations than to same-day local service, so little year-five demand is expected to leave the operator model entirely.",
+      "change_evidence": "State-by-state deployment records for driverless commercial operations, FMCSA rule changes, insurer acceptance, autonomous local-route miles and disengagement data, and signed shipper contracts for unattended pickup/delivery would materially change this estimate.",
+      "source_ids": ["S1", "S4", "S9", "S10"],
+      "caveats": [
+        "Driver employment is not identical to operator-required service quantity and can grow even while automation penetrates selected routes.",
+        "GAO's automation evidence is from 2019 and focused on long-haul trucking; technology can advance nonlinearly.",
+        "The estimate concerns retention of an accountable carrier, not retention of every current driving job."
+      ]
+    }
+  },
+  "narrative": {
+    "executive_view": "Local general freight is a physically indispensable, repeat business service with a substantial pool of LMM firms, but it is not a broad labor-replacement story. The implementable AI case is concentrated in dispatch, routing, customer updates, document handling, billing, and maintenance decisions. Durable shipment demand and continued carrier accountability support the model; competitive rebidding and uneven firm quality limit retained economics.",
+    "ai_impact": "AI can optimize multi-stop routes, triage exceptions, answer routine tracking questions, process invoices and bills of lading, and flag maintenance needs. Those workflows sit mainly in the administrative and coordination layer. Driving, loading, cargo securement, inspection, customer-site handling, and safety responsibility dominate the workforce and remain much less substitutable over five years.",
+    "value_capture": "Savings should initially accrue to the operator where rates are fixed or relationship-based, especially when better routing and service reduce empty miles or support more volume. Retention erodes as contracts renew, shippers benchmark lanes, and competitors bid away visible cost advantages. Differentiated reliability and embedded customer workflows matter more than raw automation savings.",
+    "firm_availability": "Most in-band employer carriers should satisfy the outsourced repeat-service lens, but some are spot-dependent, owner-driven, customer-concentrated, poorly documented, or operationally inseparable from the seller. National employer-owner surveys indicate meaningful five-year transfer intent, yet actual qualifying control transfers will be fewer than stated plans.",
+    "demand_durability": "The current basket is anchored in physical goods movement, and national freight tonnage is forecast to expand. Local trucking also benefits from metropolitan pickup, sorting, transfer, and delivery needs. Cyclicality, insourcing by large shippers, network redesign, and changing shipment density can still reduce demand for a given carrier even when systemwide freight grows.",
+    "risks_and_uncertainty": "The largest evidence gaps are six-digit occupation and task data, realized AI labor outcomes at small fleets, contract-level pass-through, and completed trucking control transfers. Safety and compliance errors, weak data, legacy TMS integration, customer concentration, equipment liabilities, driver availability, insurance, and rate competition can overwhelm back-office productivity. A weak acquisition thesis would combine spot exposure, commoditized lanes, deferred maintenance, poor safety records, and an owner who personally dispatches and drives.",
+    "principal_driver": "Persistent physical freight demand plus automatable coordination and document workflows creates a focused operating-improvement opportunity.",
+    "principal_weakness": "Most compensation remains in physical driver work while competitive contract renewal can transfer a large share of visible savings to shippers."
+  },
+  "sources": [
+    {
+      "id": "S1",
+      "url": "https://www.census.gov/naics/reference_files_tools/2022_NAICS_Manual.pdf",
+      "title": "2022 North American Industry Classification System Manual",
+      "access_date": "2026-07-22",
+      "supports": "Defines NAICS 484110 as local general freight trucking of generally palletized commodities in containers or van trailers, usually within a metropolitan area and generally on same-day return trips; distinguishes long-distance, specialized freight, terminals, and other activities."
+    },
+    {
+      "id": "S2",
+      "url": "https://www.bls.gov/oes/2023/may/naics4_484000.htm",
+      "title": "May 2023 National Industry-Specific Occupational Employment and Wage Estimates: NAICS 484000 Truck Transportation",
+      "access_date": "2026-07-22",
+      "supports": "Reports 1,577,900 jobs; driver/sales workers and truck drivers at 62.99% of employment, transportation and material moving at 74.75%, office and administrative support at 11.32%, and dispatchers at 2.42%, with occupation-level mean wages used to approximate wage weights."
+    },
+    {
+      "id": "S3",
+      "url": "https://www.transportation.gov/sites/dot.gov/files/2025-01/TTAC%202024%20Report.pdf",
+      "title": "Formal Recommendations of the Transforming Transportation Advisory Committee, December 2024",
+      "access_date": "2026-07-22",
+      "supports": "Documents freight and transportation uses of AI for multi-stop route optimization, predictive fleet maintenance, customer inquiries, shipment tracking and updates, invoices, bills of lading, and document processing; also identifies hallucination, context, privacy, cybersecurity, and data-quality risks."
+    },
+    {
+      "id": "S4",
+      "url": "https://www.bls.gov/opub/mlr/2025/article/incorporating-ai-impacts-in-bls-employment-projections.htm",
+      "title": "Incorporating AI impacts in BLS employment projections: occupational case studies",
+      "access_date": "2026-07-22",
+      "supports": "Explains that technology employment effects tend to occur gradually; BLS judged autonomous-trucking effects too uncertain for short-to-medium-term adjustment, cites regulatory and public-safety constraints, and reports no meaningful employment impact through 2023."
+    },
+    {
+      "id": "S5",
+      "url": "https://news.gallup.com/poll/657362/small-business-owners-lack-succession-plan.aspx",
+      "title": "Most Small-Business Owners Lack a Succession Plan",
+      "access_date": "2026-07-22",
+      "supports": "Reports a fall-2024 U.S. survey in which 22% of employer-business owners planned to sell or transfer ownership within five years, versus 9% of nonemployers; also reports 52.3% of employer businesses owned by people age 55 or older."
+    },
+    {
+      "id": "S6",
+      "url": "https://www.bts.gov/newsroom/freight-activity-us-expected-grow-fifty-percent-2050",
+      "title": "Freight Activity in the U.S Expected to Grow Fifty Percent by 2050",
+      "access_date": "2026-07-22",
+      "supports": "Reports FAF5 projections of 50% growth in U.S. freight tonnage from 2020 to 2050, with trucks carrying 65% of current tonnage and expected to remain the predominant mode."
+    },
+    {
+      "id": "S7",
+      "url": "https://www.bts.gov/freight-indicators",
+      "title": "Latest Supply Chain and Freight Indicators",
+      "access_date": "2026-07-22",
+      "supports": "States that truck spot-market loads are approximately one-tenth of the overall common-carrier trucking market and defines them as shipments outside pre-existing hauling contracts, supporting the prevalence of contract or relationship pricing."
+    },
+    {
+      "id": "S8",
+      "url": "https://rosap.ntl.bts.gov/view/dot/37454",
+      "title": "A Novel Approach to Routing and Dispatching Trucks Based on Partial Information in a Dynamic Environment",
+      "access_date": "2026-07-22",
+      "supports": "A DOT-sponsored research abstract describes trucking as highly competitive, easy to enter, relatively undifferentiated, and thin-margin, and describes routing and dispatch under uncertain orders, congestion, and travel times."
+    },
+    {
+      "id": "S9",
+      "url": "https://www.bls.gov/ooh/transportation-and-material-moving/heavy-and-tractor-trailer-truck-drivers.htm",
+      "title": "Heavy and Tractor-trailer Truck Drivers",
+      "access_date": "2026-07-22",
+      "supports": "Projects heavy and tractor-trailer truck-driver employment to grow 4% from 2024 to 2034 and describes physical, regulatory, inspection, cargo-securement, routing, logging, and maintenance-reporting duties."
+    },
+    {
+      "id": "S10",
+      "url": "https://www.gao.gov/products/gao-19-161",
+      "title": "Automated Trucking: Federal Agencies Should Take Additional Steps to Prepare for Potential Workforce Effects",
+      "access_date": "2026-07-22",
+      "supports": "Reports that automated-truck development focused on highway portions of long-haul routes, widespread deployment was viewed as years or decades away, and one scenario retained operators for complex driving and non-driving tasks."
+    }
+  ]
+}

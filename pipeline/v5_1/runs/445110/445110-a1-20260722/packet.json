@@ -1,0 +1,191 @@
+{
+  "identity": {
+    "naics": "445110",
+    "title": "Supermarkets and Other Grocery Retailers (except Convenience Retailers)",
+    "run_id": "445110-a1-20260722",
+    "model_id": "claude-sonnet-5",
+    "run_date": "2026-07-22",
+    "methodology_version": "5.1",
+    "attempt": 1
+  },
+  "lens": {
+    "included_activities": "U.S. firms primarily classified as supermarkets or other grocery retailers, with eligibility limited by the fixed screen to firms that also earn meaningful recurring or repeat revenue from an outsourced service delivered to external customers, such as contracted workplace pantry replenishment, managed grocery programs, or service-led ordering and fulfillment bundled with the grocery relationship.",
+    "excluded_activities": "Convenience retailers; warehouse clubs and supercenters; pure grocery delivery or local messenger firms acting on behalf of retailers; wholesalers; restaurants; captive internal units; shells; non-control financing vehicles; and conventional grocery retailers whose customer proposition is only the resale of merchandise.",
+    "customer_and_revenue_model": "The underlying industry is predominantly consumer-facing, transaction-priced merchandise resale through stores and online channels. The rare eligible subset must have a repeat external-customer service relationship, generally combining grocery procurement with ordering, replenishment, fulfillment, or account management; this screen does not treat ordinary repeat shopping or a loyalty program as an outsourced service.",
+    "deviation_from_default": "none",
+    "heterogeneous": false
+  },
+  "primitives": {
+    "a": {
+      "evidence_state": "PROXY",
+      "low": 0.16,
+      "base": 0.24,
+      "high": 0.34,
+      "bridge": "BLS measured an adjacent 2018 Food and Beverage Stores occupation mix in which cashiers plus stock clerks/order fillers were 49.6% of employment, not a current wage-weighted AI-task share for NAICS 445110. I map cashier transaction, inquiry, and record tasks; ordering, forecasting, scheduling, marketing, and administrative work to partial AI exposure, while treating stocking, food handling, cleaning, age verification, and most customer-facing physical work as largely unexposed. Wage weighting lowers the contribution of the numerous lower-paid frontline roles. The older broader-industry employment mix may overstate remaining cashier exposure because self-checkout is already installed, but may understate newer exposure in forecasting, digital ordering, and administration.",
+      "rationale": "The largest frontline roles contain repetitive information-processing tasks, but much of grocery labor is embodied, on-site work. BLS describes cashier duties including scanning, payment processing, returns, questions, rewards enrollment, and register reconciliation, while also noting bagging, age checks, stocking, and upkeep. BLS further attributes projected cashier decline to self-checkout and online sales. After excluding automation already in place, about one quarter of current wage-weighted work is judged exposed to AI substitution or avoidable hiring.",
+      "change_evidence": "A current six-digit OEWS employment-and-wage extract joined to O*NET task-level data, followed by store-level time-and-motion interviews at independent and regional grocers that distinguish already automated work, would materially change this range.",
+      "source_ids": ["S1", "S2"],
+      "caveats": [
+        "The key occupation-share observation is from 2018 and covers NAICS 4451 and 4452, broader than NAICS 445110.",
+        "Task shares within occupations are judgmental, and the estimate excludes gains from automation already implemented.",
+        "The frozen compensation-to-output input is a high-quality 2024 direct BLS measure, but it does not resolve the occupation/task allocation used here."
+      ]
+    },
+    "rho": {
+      "evidence_state": "PROXY",
+      "low": 0.28,
+      "base": 0.4,
+      "high": 0.62,
+      "bridge": "Census BTOS measures whether Retail Trade businesses use any AI function: about 14% current use and 17% expected use within six months as of May 2026. It does not measure the share of exposed labor opportunity implemented, grocery-only adoption, or a five-year outcome. I extrapolate diffusion over five years but haircut for small-firm capital, data, integration, workflow, employee, food-safety, and customer-service constraints. Because BTOS covers the whole retail sector and larger firms adopt more readily, it likely overstates near-term implementation for the LMM grocery population; conversely, vendor-embedded AI may make future use easier than direct survey responses imply.",
+      "rationale": "Retail AI adoption is real but below the national business average, and BLS history shows that store technology adoption can require operational redesign. Physical fulfillment and exception handling constrain conversion of exposure into avoided labor. Five years should permit broader adoption of demand forecasting, scheduling, customer service, promotions, loss prevention, and back-office tools, but implementation is unlikely to capture most exposed work in smaller operators.",
+      "change_evidence": "Census BTOS microdata by retail subsector and firm size, plus a longitudinal survey of independent and regional grocers measuring production deployment, affected hours, error rates, capex, and implementation failures, would materially move the estimate.",
+      "source_ids": ["S1", "S3", "S4"],
+      "caveats": [
+        "BTOS reports business use, not labor-opportunity implementation intensity.",
+        "Retail Trade is broader than grocery retail and the eligible service-led subset may differ from both.",
+        "Self-checkout and conventional rules-based automation are informative implementation precedents but are not themselves evidence of future AI implementation."
+      ]
+    },
+    "e": {
+      "evidence_state": "ESTIMATE",
+      "low": 0.002,
+      "base": 0.01,
+      "high": 0.03,
+      "rationale": "NAICS 445110 is overwhelmingly a merchandise-retailing industry. Ordinary repeated grocery visits, loyalty programs, pickup, and delivery attached to a consumer purchase do not by themselves constitute an outsourced service. A small tail may operate contracted workplace pantry, institutional replenishment, or other managed grocery programs while retaining grocery retail as its primary classification, so eligibility is near zero rather than assumed to be exactly zero.",
+      "change_evidence": "A firm-level NAICS 445110 census enriched with website and invoice review for contracted managed-service revenue, followed by owner interviews confirming customer type, recurrence, and service-versus-merchandise economics, would materially change this estimate.",
+      "source_ids": ["S4"],
+      "caveats": [
+        "No source enumerates the fixed-lens eligible subset directly.",
+        "The public-company example confirms the dominant retail model but may not represent niche independent operators.",
+        "The frozen firm count of 961 is an ESTIMATE margin-bridged from SUSB size classes using a 5.40% sector EBITDA margin; both band assignment and this eligibility filter are uncertain."
+      ]
+    },
+    "s5": {
+      "evidence_state": "PROXY",
+      "low": 0.12,
+      "base": 0.22,
+      "high": 0.35,
+      "bridge": "The cited evidence reports that about 51% of U.S. small-business owners, across industries and sizes, are over age 55 and describes sale, internal succession, and closure as distinct exit paths. I convert this demographic pressure into a five-year qualifying-control-transfer probability by allowing only a minority of older owners to exit within five years and excluding closures and non-transfer reorganizations. The all-small-business owner-age measure may overstate transfer likelihood because eligible grocery operations are capital- and location-dependent and can close rather than sell, but grocery consolidation and transferable licenses, leases, supplier relations, and cash flow may support sales of viable firms.",
+      "rationale": "Aging ownership creates plausible succession pressure, yet age is not observed deal flow. For the rare eligible firms, transferability depends on store economics, leases, licenses, supplier/cooperative relationships, management depth, and separation of the service contract from commodity grocery sales. The base therefore assumes roughly one in five eligible firms experiences a qualifying control transfer over five years.",
+      "change_evidence": "Five years of closed-transaction data from BizBuySell, Axial, GF Data, SBA 7(a) change-of-ownership loans, and regional grocery brokers, filtered to NAICS 445110, EBITDA band, and control deals, plus owner-age and succession-plan interviews, would materially change this estimate.",
+      "source_ids": ["S8"],
+      "caveats": [
+        "The owner-age statistic is secondary reporting of Census data and is not grocery-specific or LMM-specific.",
+        "No observed denominator of eligible firms or completed qualifying transfers was found.",
+        "The very small eligible subset makes the probability especially sensitive to a few atypical firms."
+      ]
+    },
+    "q": {
+      "evidence_state": "ESTIMATE",
+      "low": 0.25,
+      "base": 0.42,
+      "high": 0.6,
+      "rationale": "Grocery pricing is transactional rather than contractually cost-plus, so an operator can initially retain labor savings. Over five years, however, frequent observable prices, promotions, low switching costs, broad format competition, and powerful suppliers/customers should transmit a substantial share through lower prices or reinvestment in service. A public supermarket describes the industry as highly competitive with narrow margins, while FTC evidence shows margins can still expand under disrupted competition; the range reflects both forces.",
+      "change_evidence": "Matched store-level pilots comparing realized labor savings, shelf prices, promotions, gross margin, customer retention, and competitor response for at least three years, together with contract review for the service-led eligible subset, would materially move this estimate.",
+      "source_ids": ["S4", "S5"],
+      "caveats": [
+        "No source directly measures five-year retention of AI-created gross benefit.",
+        "FTC margin evidence reflects pandemic-era food and beverage retailers and is not a clean measure of competitive pass-through from automation.",
+        "The rare outsourced-service subset may use contracts and pricing structures unlike conventional supermarkets."
+      ]
+    },
+    "d5": {
+      "evidence_state": "PROXY",
+      "low": 0.98,
+      "base": 1.05,
+      "high": 1.12,
+      "bridge": "USDA reports inflation-adjusted U.S. food-at-home expenditures rising from $738 billion in 1997 to $1.10 trillion in 2025, a broad historical quantity proxy with an implied long-run annual growth rate near 1.4%. I temper the corresponding five-year continuation because the source covers all food-at-home channels, not NAICS 445110, and is historical rather than a forecast. The broad category likely overstates demand for this NAICS if supercenters, warehouse clubs, or nonstore channels gain share, while population growth and the essential nature of food support stable total quantity.",
+      "rationale": "Real food-at-home demand has grown over a long period, but supermarkets compete for that basket with other formats and food-away-from-home. The five-year range spans modest channel-share loss through moderate real growth, holding quality and price constant.",
+      "change_evidence": "USDA Food Expenditure Series channel-level constant-dollar data combined with Census real sales for NAICS 445110 and a five-year population-and-per-capita food-at-home forecast would materially change the range.",
+      "source_ids": ["S6"],
+      "caveats": [
+        "Food-at-home expenditure is broader than supermarket output and is not a constant-quality quantity index.",
+        "The long historical interval includes structural shifts that may not repeat over the next five years.",
+        "Demand for the eligible service-led subset may diverge from household grocery demand."
+      ]
+    },
+    "o": {
+      "evidence_state": "PROXY",
+      "low": 0.88,
+      "base": 0.95,
+      "high": 0.99,
+      "bridge": "USDA observed that 19.3% of regular U.S. grocery shoppers bought groceries online at least once in the prior 30 days in 2022, while a supermarket filing shows online ordering can remain fulfilled by the grocery operator or third parties. These sources measure shopper channel use and one operator's model, not the share of year-five quantity needing a NAICS 445110 operator. I infer that software can shift ordering and self-service but cannot eliminate procurement, inventory, cold-chain, food-safety, fulfillment, and exception accountability. The proxy may overstate operator durability if platforms or competing retail formats take the customer relationship, but online adoption itself does not imply operator elimination.",
+      "rationale": "Food is a physical, regulated, perishable basket. Even with AI shopping agents, self-checkout, and online ordering, most quantity still requires an accountable organization to source, store, handle, and fulfill goods. Some current-service quantity can migrate to supercenters, warehouse clubs, direct-to-consumer suppliers, meal delivery, or platform-led fulfillment, so the estimate remains below one.",
+      "change_evidence": "Longitudinal household scanner data that attributes real grocery quantity by operator type and fulfillment model, plus forecasts from Census ARTS/AIES and interviews with online grocery platforms about merchant-of-record and fulfillment responsibility, would materially change this estimate.",
+      "source_ids": ["S4", "S7"],
+      "caveats": [
+        "Online shopping incidence is not sales share or operator displacement.",
+        "The 2022 consumer survey predates further growth in AI agents and rapid-delivery platforms.",
+        "The distinction between software interface, third-party delivery, and accountable grocery operator can vary by transaction."
+      ]
+    }
+  },
+  "narrative": {
+    "executive_view": "Grocery retail has durable physical demand and meaningful repetitive-work automation potential, but the fixed screen is a poor fit for the industry's dominant business model. Most supermarkets sell merchandise transaction by transaction rather than provide an outsourced service; only a very small service-led tail is eligible. Any diligence should first prove that a target's recurring managed-service revenue is real and separable from ordinary grocery sales.",
+    "ai_impact": "AI can improve demand forecasting, ordering, workforce scheduling, promotion design, customer inquiries, fraud and shrink review, and administrative workflows. Checkout and online ordering show that retail work can move to software or customers, but much store labor remains physical: receiving, shelf replenishment, food preparation, cleaning, age checks, and exception handling. Current retail AI use is still modest, especially for smaller firms.",
+    "value_capture": "Transaction pricing lets a grocer keep early labor savings, but visible prices, low switching costs, promotions, supplier bargaining, and intense competition should erode a meaningful portion over five years. The eligible service-led subset could retain more under sticky managed-service contracts, but that must be established contract by contract and should not be inferred from loyalty-program repeat purchases.",
+    "firm_availability": "The injected LMM-band count is an estimate, and only a near-zero share appears eligible under the fixed outsourced-service lens. Aging small-business ownership supports some five-year transfer flow, but viable grocery transfers depend heavily on leases, licenses, supplier or cooperative relationships, local competitive position, management depth, and whether the service relationship survives a change of control.",
+    "demand_durability": "Real food-at-home spending has a long record of growth, and physical grocery demand is unlikely to be eliminated by software. Channels can change: online ordering, third-party delivery, supercenters, clubs, direct-to-consumer supply, and food-away-from-home can all reduce the amount served by this exact operator type. AI is more likely to alter ordering and fulfillment than eliminate accountable food handling.",
+    "risks_and_uncertainty": "The largest uncertainty is classification and lens fit, not whether people will keep buying food. Additional risks include thin margins, price competition, supplier power, perishability and shrink, food-safety and licensing obligations, labor relations, capital-intensive stores and automation, location and lease dependence, and the possibility that independent operators cannot match chains' technology or purchasing economics. A target lacking genuine contracted service revenue would fail the screen regardless of its automation potential.",
+    "principal_driver": "Durable physical grocery demand combined with repetitive forecasting, ordering, checkout, scheduling, and back-office workflows.",
+    "principal_weakness": "Nearly all industry firms are merchandise retailers rather than recurring outsourced-service providers, leaving very few firms eligible under the fixed lens."
+  },
+  "sources": [
+    {
+      "id": "S1",
+      "url": "https://www.bls.gov/opub/btn/volume-8/checking-out-productivity-in-grocery-stores.htm",
+      "title": "Checking out productivity in grocery stores",
+      "access_date": "2026-07-22",
+      "supports": "BLS identifies NAICS 445110, reports that cashiers and stock clerks/order fillers were 49.6% of Food and Beverage Stores employment in May 2018, describes self-checkout and related technologies, and documents grocery productivity history and channel change."
+    },
+    {
+      "id": "S2",
+      "url": "https://www.bls.gov/ooh/sales/cashiers.htm",
+      "title": "Occupational Outlook Handbook: Cashiers",
+      "access_date": "2026-07-22",
+      "supports": "BLS lists cashier tasks, reports food and beverage retailers employed 29% of cashiers in 2024, and projects cashier employment to decline 10% from 2024 to 2034 because of technologies including self-service checkout and online sales."
+    },
+    {
+      "id": "S3",
+      "url": "https://www.census.gov/library/stories/2026/05/ai-use-businesses.html",
+      "title": "Large Firms With at Least 20 Employees Biggest AI Users",
+      "access_date": "2026-07-22",
+      "supports": "Census BTOS data through May 3, 2026 show about 14% of Retail Trade businesses currently using AI and about 17% expecting use within six months; adoption is higher at larger firms."
+    },
+    {
+      "id": "S4",
+      "url": "https://www.sec.gov/Archives/edgar/data/103595/000010359525000015/vlgea-20250726.htm",
+      "title": "Village Super Market, Inc. Form 10-K for fiscal year ended July 26, 2025",
+      "access_date": "2026-07-22",
+      "supports": "The filing describes supermarket competition and narrow margins, transaction and loyalty economics, online ordering and third-party delivery, physical operations, licensing, capital needs, labor structure, and the 2024 closure of an automated micro-fulfillment center."
+    },
+    {
+      "id": "S5",
+      "url": "https://www.ftc.gov/news-events/news/press-releases/2024/03/ftc-releases-report-grocery-supply-chain-disruptions",
+      "title": "FTC Releases Report on Grocery Supply Chain Disruptions",
+      "access_date": "2026-07-22",
+      "supports": "FTC reports smaller grocery retailers faced disproportionate supply difficulty and that food and beverage retailer revenue exceeded total costs by more than 6% in 2021 and 7% in the first three quarters of 2023, illustrating supplier power and variable margin retention."
+    },
+    {
+      "id": "S6",
+      "url": "https://www.ers.usda.gov/data-products/charts-of-note/114212",
+      "title": "Total U.S. food spending reached $2.51 trillion in 2025",
+      "access_date": "2026-07-22",
+      "supports": "USDA ERS reports inflation-adjusted food-at-home expenditures increasing from $738 billion in 1997 to $1.10 trillion in 2025."
+    },
+    {
+      "id": "S7",
+      "url": "https://www.ers.usda.gov/data-products/charts-of-note/108618",
+      "title": "Nearly 20 percent of U.S. shoppers bought groceries online in 2022",
+      "access_date": "2026-07-22",
+      "supports": "USDA ERS reports 19.3% of regular U.S. grocery shoppers bought groceries online at least once in the prior 30 days in 2022 and provides purchase-frequency detail."
+    },
+    {
+      "id": "S8",
+      "url": "https://apnews.com/article/small-business-succession-retirement-sale-transition-d582a18f1e440846a6ff5bb425ba6daa",
+      "title": "Starting a small business is hard. Exiting can be even harder, but planning early is the key",
+      "access_date": "2026-07-22",
+      "supports": "Associated Press reports, citing the U.S. Census, that about 51% of small-business owners are over age 55 and distinguishes sale, internal succession, and closure as exit paths."
+    }
+  ]
+}

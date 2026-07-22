@@ -1,0 +1,225 @@
+{
+  "identity": {
+    "naics": "621111",
+    "title": "Offices of Physicians (except Mental Health Specialists)",
+    "run_id": "621111-a1-20260722",
+    "model_id": "claude-sonnet-5",
+    "run_date": "2026-07-22",
+    "methodology_version": "5.1",
+    "attempt": 1
+  },
+  "lens": {
+    "included_activities": "US physician-owned, sponsor-owned, and other transferable physician practices that repeatedly provide non-mental-health professional medical services to patients and payers, including office-based and facility-based professional services when the practice is the billing operating entity.",
+    "excluded_activities": "Mental-health-specialist offices classified elsewhere; hospital departments or other captive internal units without a separately transferable operating business; shell entities; non-control financing vehicles; and firms outside the frozen lower-middle-market EBITDA band.",
+    "customer_and_revenue_model": "Practices serve patients as the clinical customers while collecting chiefly from commercial insurers and public payers through fee-for-service schedules, supplemented by capitation, shared savings, bundled payments, performance payments, and patient cost sharing.",
+    "deviation_from_default": "none",
+    "heterogeneous": false
+  },
+  "primitives": {
+    "a": {
+      "evidence_state": "PROXY",
+      "low": 0.2,
+      "base": 0.29,
+      "high": 0.38,
+      "bridge": "S1 measures the employment and wage mix for the broader NAICS 621100 physician-office group, not task exposure for NAICS 621111. S2 measures physician time by activity, and S3 measures physician AI use cases rather than automatable wage share. I mapped each major occupation's wage bill to task groups, assigned higher exposure to documentation, coding, records, scheduling, patient messaging, and other information work, and lower exposure to physical examination, procedures, hands-on care, and accountable clinical judgment. Because S1 includes mental-health offices and AI-use surveys do not measure labor substitution, the bridge may overstate exposure where AI only assists work and understate exposure in nonphysician revenue-cycle workflows.",
+      "rationale": "S1 shows that healthcare practitioners and technical occupations were 45.24% of employment at a $158,340 mean wage, office and administrative support was 26.73% at $43,630, physicians alone were 13.41% at $293,860, and surgeons were another 1.34% at $364,100. S2 reports a 57.8-hour physician workweek containing 13.0 hours of indirect patient care and 7.3 hours of administration. S3 shows current use concentrated in research summaries, discharge and care-plan drafting, documentation, chart summaries, portal replies, translation, and assistive diagnosis. Applying task-level exposure assumptions to the wage mix yields a central not-yet-automated exposed share of 0.29.",
+      "change_evidence": "A vendor-neutral time-and-motion study across independent practices that links payroll by occupation to task minutes and records whether each task is already automated would materially change this estimate; EHR audit logs paired with general-ledger labor costs would be especially useful.",
+      "source_ids": [
+        "S1",
+        "S2",
+        "S3"
+      ],
+      "caveats": [
+        "The available OEWS page is 2023 and NAICS 621100, so it is broader than the target code and includes mental-health physician offices.",
+        "Occupation-level task mapping cannot distinguish augmentation from true substitution or avoided hiring.",
+        "Specialty mix matters greatly: diagnostic, procedural, and primary-care practices carry different clinical and administrative task profiles.",
+        "The frozen labor ratio l=0.5409 uses 2024 wages over 2022 receipts and an IPS harmonization divisor; its vintage mismatch and harmonization affect the downstream labor opportunity even though a is independently estimated here."
+      ]
+    },
+    "rho": {
+      "evidence_state": "PROXY",
+      "low": 0.35,
+      "base": 0.55,
+      "high": 0.72,
+      "bridge": "S3 measures whether physicians use any of several AI applications and their adoption concerns, not the share of exposed wage opportunity converted into operational savings. I translated broad and rapidly rising use into a five-year implementation fraction, then reduced it for integration, validation, privacy, training, liability, specialty variation, and the gap between tool use and labor redesign. The translation can overstate implementation because light individual use does not prove workflow-level savings, while it can understate it because the survey excludes much back-office adoption.",
+      "rationale": "S3 reports 81% awareness or use in 2026, with 39% using research summaries, 30% drafting discharge instructions or care plans, 28% using documentation, and 28% using chart summaries. The same survey reports that 86% view privacy assurances and 88% view safety or efficacy validation as important, while 85% want involvement in adoption decisions. These data support meaningful implementation within five years but not conversion of all exposed work.",
+      "change_evidence": "Multi-practice implementation cohorts reporting pre/post paid hours, vacancies avoided, override rates, safety events, denial rates, and sustained use at 12 and 24 months for ambient documentation, coding, prior authorization, patient access, and inbox workflows would materially change rho.",
+      "source_ids": [
+        "S3"
+      ],
+      "caveats": [
+        "The AMA survey is physician-reported and spans practice settings, ownership forms, and specialties rather than only LMM NAICS 621111 firms.",
+        "Reported use can mean occasional assistance and does not demonstrate cost removal, headcount avoidance, or durable workflow adoption.",
+        "Privacy, cybersecurity, EHR integration, clinical validation, and unresolved liability can delay implementation after a tool appears technically capable."
+      ]
+    },
+    "e": {
+      "evidence_state": "PROXY",
+      "low": 0.72,
+      "base": 0.82,
+      "high": 0.92,
+      "bridge": "S4 measures physicians by their practice ownership and size, whereas e requires a share of firms in the frozen EBITDA band. I use the concentration of private-practice physicians in small practices, together with the target code's external patient-service model, to infer that most firms counted in n are operating and potentially transferable; I deduct hospital-captive operations, nontransferable owner-dependent entities, and already integrated units. Physician weighting gives large practices more influence than a firm-weighted denominator and therefore likely overstates corporate ownership and understates firm eligibility.",
+      "rationale": "Nearly every active physician-practice firm sells recurring or repeat medical services to external patients and payers. S4 reports that 42.2% of physicians were in wholly physician-owned private practice in 2024, 47% worked in practices with 10 or fewer physicians, and almost half of private-practice physicians were in practices with fewer than five physicians. Those physician-level data indicate a large small-practice base but do not directly identify eligible firms, supporting a bounded proxy centered at 0.82.",
+      "change_evidence": "A firm-level linkage of the SUSB universe to PECOS ownership records, NPPES organization NPIs, CMS Care Compare affiliations, and state corporate registrations could identify hospital-captive entities, sponsor ownership, operating status, and transferable legal structures within the EBITDA band.",
+      "source_ids": [
+        "S4"
+      ],
+      "caveats": [
+        "The AMA Benchmark Survey is physician-weighted, not firm-weighted, and excludes physicians providing less than 20 hours of patient care per week and federal physicians.",
+        "A practice can be clinically viable but have substantial personal goodwill, restrictive ownership rules, or payer-contract assignment barriers that reduce practical eligibility.",
+        "The frozen n=14540 is an ESTIMATE margin-bridged with a 15.80% public Hospitals/Healthcare Facilities EBITDA margin; specialty-level physician-office margins may differ materially."
+      ]
+    },
+    "s5": {
+      "evidence_state": "PROXY",
+      "low": 0.08,
+      "base": 0.14,
+      "high": 0.22,
+      "bridge": "S4 reports acquisition timing for physicians currently in hospital-, insurer-, or private-equity-owned practices and changes in physician ownership, not a prospective firm-level hazard among eligible LMM firms. I anchor the five-year probability near the 15.1% retrospective share acquired after 2019, cross-check it against the long decline in private-practice ownership, and reduce the central estimate for survivor bias, repeated physician counting within a firm, closures, employment conversions without transferable operations, and non-control transactions. This can understate future transfers if succession pressure accelerates and overstate them if corporate acquisitions concentrate in larger practices outside the frozen band.",
+      "rationale": "S4 reports that 15.1% of physicians currently in hospital-, insurer-, or private-equity-owned practices said their practice was purchased after 2019; the corresponding figure was 38% for physicians in private-equity-owned practices and 10.0% for hospital-owned practices. It also shows physician ownership falling to 35.4% in 2024 from 53.2% in 2012. These are strong indicators of control-transfer activity, but neither statistic is a prospective eligible-firm probability, so 0.14 remains a proxy rather than an observation.",
+      "change_evidence": "A five-year firm cohort built from Irving Levin Associates, PitchBook, LevinPro HC, Definitive Healthcare, PECOS change-of-ownership filings, and state professional-entity records, deduplicated to legal firms and coded for control transfers versus closures or internal reorganizations, would materially change s5. Interviews with physician owners aged 60 and older would sharpen the succession component.",
+      "source_ids": [
+        "S4"
+      ],
+      "caveats": [
+        "The acquisition-timing denominator contains only physicians in currently corporate-owned practices and is subject to recall, survivor, and size weighting biases.",
+        "A physician's move from ownership to employment is not necessarily a qualifying transfer of a standalone operating firm.",
+        "Deal incidence differs substantially by specialty, geography, payer mix, ancillary assets, and state corporate-practice-of-medicine restrictions."
+      ]
+    },
+    "q": {
+      "evidence_state": "ESTIMATE",
+      "low": 0.5,
+      "base": 0.68,
+      "high": 0.82,
+      "rationale": "S5 reports that fee-for-service produced 67.7% of practice revenue in 2024 and alternative payment methods produced 32.3%. Fixed fee schedules generally do not force immediate contractual pass-through of a practice's internal labor savings, allowing substantial initial retention; some value-based arrangements may also reward lower cost. Against that, commercial renewals, network competition, public fee updates, and payer efficiency assumptions can share gains. S6 demonstrates this mechanism directly: CMS applied a 2.5% efficiency adjustment to many non-time-based services for 2026 while exempting several time-based categories. A discounted five-year retained share centered at 0.68 reflects gradual rather than immediate repricing.",
+      "change_evidence": "Practice-level payer contract abstracts showing fee-update clauses, medical-loss-ratio sharing, capitation reconciliation, shared-savings attribution, and renewal outcomes after documented automation would materially change q; interviews with revenue-cycle leaders and payer network negotiators should separate public, commercial, and self-pay retention.",
+      "source_ids": [
+        "S5",
+        "S6"
+      ],
+      "caveats": [
+        "No source directly measures how much AI-enabled labor savings physician practices retain over five years.",
+        "Revenue mix and negotiating leverage vary sharply by specialty, local concentration, ownership, and payer mix.",
+        "The estimate excludes volume effects, implementation difficulty, and valuation effects as required; those belong in other primitives."
+      ]
+    },
+    "d5": {
+      "evidence_state": "PROXY",
+      "low": 0.98,
+      "base": 1.04,
+      "high": 1.1,
+      "bridge": "S7 projects physician and surgeon employment rather than constant-price, constant-quality service quantity, while S8 projects nominal physician and clinical services spending. I translate the 3% employment increase across ten years into a modest five-year quantity anchor and use S8's stated utilization and demographic drivers only as directional evidence, not as real growth. Employment can understate quantity if productivity rises and can overstate current-basket demand if care shifts to nonphysician practitioners, facilities, or self-service; nominal spending likely overstates real quantity because it includes prices and mix.",
+      "rationale": "S7 projects physician and surgeon employment growth of 3% from 2024 to 2034 and 23,600 annual openings, consistent with durable but not rapid expansion. S8 projects 5.5% average annual nominal spending growth for physician and clinical services from 2025 to 2034, cites continued service use and aging into Medicare, and also anticipates insurance enrollment and utilization headwinds. Together these support a year-five service-quantity ratio modestly above 1.0, with a broad band around policy, coverage, productivity, and site-of-care uncertainty.",
+      "change_evidence": "CMS claims-based projections of allowed service units by HCPCS and site of service, deflated with service-specific price indices and held to a fixed code basket, would materially change d5. Commercial claims from FAIR Health or HCCI segmented by physician-office specialty would close the public-payer gap.",
+      "source_ids": [
+        "S7",
+        "S8"
+      ],
+      "caveats": [
+        "Neither employment nor nominal spending is the target constant-price, constant-quality quantity measure.",
+        "The target NAICS spans specialties with different demographics, technology substitution, and site-of-care trends.",
+        "Coverage losses and payer policy can suppress paid utilization even when underlying medical need rises."
+      ]
+    },
+    "o": {
+      "evidence_state": "ESTIMATE",
+      "low": 0.9,
+      "base": 0.96,
+      "high": 0.99,
+      "rationale": "Most of the current basket consists of diagnosis, treatment, procedures, interpretation, prescribing, and care-plan oversight that remains tied to licensed professionals, billing entities, and clinical accountability. S9 distinguishes limited non-device decision support from software functions that remain regulated medical devices, reinforcing an assistive rather than fully autonomous near-term model. S10 shows that even Medicare-covered nurse-practitioner services require state authorization, personal performance, an enrolled billing identity, medical necessity, and collaboration or supervision when state law requires it. Some triage, routine follow-up, messaging, and low-acuity information demand can disappear or become self-service, so the estimate is below 1.0.",
+      "change_evidence": "Claims studies tracking encounter displacement after patient-facing AI adoption, state-by-state scope-of-practice changes, autonomous-device clearances, malpractice allocation, and payer coverage for software-only care would materially change o. Interviews with medical directors and credentialing leaders could test which current services can be delivered without a physician-practice operator.",
+      "source_ids": [
+        "S9",
+        "S10"
+      ],
+      "caveats": [
+        "There is no direct measure of the share of year-five physician-office quantity that will require the same kind of accountable operator.",
+        "Operator requirement does not imply that every task must be performed by a physician; advanced practitioners, centralized teams, and software can change staffing while leaving the practice accountable.",
+        "Regulation, payer policy, and liability can change faster than historical clinical workflows."
+      ]
+    }
+  },
+  "narrative": {
+    "executive_view": "Physician practices combine a large wage base with repeat patient demand and a sizable layer of document, coding, access, inbox, and revenue-cycle work. The opportunity is operational rather than autonomous-clinical: AI can compress information work and avoid hiring, while licensed clinicians and billable entities remain responsible for most of the service basket. The main uncertainties are whether tool use becomes durable labor redesign and how many attractive practices remain independently transferable.",
+    "ai_impact": "The clearest uses are ambient and downstream documentation, chart summarization, coding support, patient-message drafting, translation, prior authorization, scheduling, and work-queue triage. Clinical summarization and assistive diagnosis can raise throughput, but examination, procedures, final judgment, and accountability are much less substitutable. Current physician adoption is broad, yet observed use is not the same as realized payroll savings.",
+    "value_capture": "Fee-for-service remains the majority revenue source, so internal productivity gains are not automatically passed through when realized. Retention can erode through public fee updates, commercial renewal pressure, local competition, and alternative-payment reconciliation; CMS's explicit efficiency adjustment shows that payers can eventually incorporate assumed productivity. Specialty and local bargaining power will dominate the realized result.",
+    "firm_availability": "Small private practices remain numerous, and reported corporate acquisitions show a live transfer market. At the same time, physician ownership and solo practice have declined, corporate consolidation has already removed some inventory, and many small entities depend heavily on owner goodwill. Firm-level ownership, EBITDA, and transaction data are needed before treating the frozen count as actionable supply.",
+    "demand_durability": "Demographic and utilization evidence supports stable to modestly growing physician-service quantity. Insurance losses, site-of-care shifts, team-based care, and productivity can restrain the current office basket, but diagnosis, treatment, procedures, and prescribing are unlikely to become software-only at scale within five years. AI is more likely to alter the production function than eliminate the accountable practice.",
+    "risks_and_uncertainty": "The industry code hides major specialty differences in task mix, capital intensity, reimbursement, referral concentration, and acquisition appetite. AI can add review work or safety risk instead of removing labor; privacy, EHR integration, validation, and liability may slow deployment. Reimbursement cuts can absorb savings, and regulatory ownership restrictions or nonassignable payer contracts can impede transfers. A bad case is a heavily consolidated local market where the remaining firms are owner-dependent, weakly contracted, and unable to convert AI assistance into vacancies avoided.",
+    "principal_driver": "High-cost clinical and administrative information work creates avoidable hiring and throughput potential while the practice remains the accountable service operator.",
+    "principal_weakness": "Broad AI use is not evidence of realized labor removal, and the remaining transferable firm pool is obscured by consolidation, specialty variation, and owner dependence."
+  },
+  "sources": [
+    {
+      "id": "S1",
+      "url": "https://www.bls.gov/oes/2023/may/naics4_621100.htm",
+      "title": "May 2023 National Industry-Specific Occupational Employment and Wage Estimates: NAICS 621100 Offices of Physicians",
+      "access_date": "2026-07-22",
+      "supports": "Actual page tables show 2,842,350 total jobs; healthcare practitioners and technical occupations at 45.24% of employment and $158,340 mean annual wage; physicians at 13.41% and $293,860; surgeons at 1.34% and $364,100; office and administrative support at 26.73% and $43,630."
+    },
+    {
+      "id": "S2",
+      "url": "https://www.ama-assn.org/practice-management/physician-health/doctors-work-fewer-hours-ehr-still-follows-them-home",
+      "title": "Doctors work fewer hours, but the EHR still follows them home",
+      "access_date": "2026-07-22",
+      "supports": "Actual page content reports a 57.8-hour physician workweek in 2024, including 27.2 hours of direct patient care, 13.0 hours of indirect patient care, and 7.3 hours of administrative tasks."
+    },
+    {
+      "id": "S3",
+      "url": "https://www.ama-assn.org/system/files/physician-ai-sentiment-report.pdf",
+      "title": "2026 Physician Survey on Augmented Intelligence",
+      "access_date": "2026-07-22",
+      "supports": "Fetched report content shows 81% physician awareness or use in 2026; use-case shares including 39% research summaries, 30% discharge or care-plan creation, and 28% each for documentation and chart summaries; it also reports privacy, validation, training, and liability constraints."
+    },
+    {
+      "id": "S4",
+      "url": "https://www.ama-assn.org/system/files/2024-prp-pp-characteristics.pdf",
+      "title": "Physician Practice Characteristics in 2024: Private Practices Account for Less Than Half of Physicians in Most Specialties",
+      "access_date": "2026-07-22",
+      "supports": "Fetched report content shows 42.2% of physicians in private practice, 47% in practices with 10 or fewer physicians, 35.4% with an ownership stake, and acquisition timing including 15.1% of physicians in corporate-owned practices reporting purchase after 2019."
+    },
+    {
+      "id": "S5",
+      "url": "https://www.ama-assn.org/system/files/2024-prp-aco-apm.pdf",
+      "title": "Alternative Payment and Delivery Models: A Decade in Review Shows Stagnant Growth Between 2014 and 2024",
+      "access_date": "2026-07-22",
+      "supports": "Fetched report content shows 2024 practice revenue shares of 67.7% fee-for-service and 32.3% alternative payment methods, with 82.8% of physicians reporting at least some fee-for-service payment."
+    },
+    {
+      "id": "S6",
+      "url": "https://www.cms.gov/newsroom/fact-sheets/calendar-year-cy-2026-medicare-physician-fee-schedule-final-rule-cms-1832-f",
+      "title": "Calendar Year 2026 Medicare Physician Fee Schedule Final Rule",
+      "access_date": "2026-07-22",
+      "supports": "Actual CMS page content explains administered physician-office payment and finalizes a 2.5% efficiency adjustment for many non-time-based services, with specified time-based exemptions."
+    },
+    {
+      "id": "S7",
+      "url": "https://www.bls.gov/ooh/healthcare/physicians-and-surgeons.htm",
+      "title": "Physicians and Surgeons: Occupational Outlook Handbook",
+      "access_date": "2026-07-22",
+      "supports": "Actual BLS page content projects 3% physician and surgeon employment growth from 2024 to 2034 and 23,600 openings per year."
+    },
+    {
+      "id": "S8",
+      "url": "https://www.cms.gov/files/document/nhe-projections-forecast-summary.pdf",
+      "title": "National Health Expenditure Projections 2025-2034: Forecast Summary",
+      "access_date": "2026-07-22",
+      "supports": "Fetched forecast shows projected average nominal physician and clinical services spending growth of 5.5% from 2025 to 2034 and identifies utilization, coverage, Medicare aging, and demographic drivers."
+    },
+    {
+      "id": "S9",
+      "url": "https://www.fda.gov/regulatory-information/search-fda-guidance-documents/clinical-decision-support-software",
+      "title": "Clinical Decision Support Software: Guidance for Industry and FDA Staff",
+      "access_date": "2026-07-22",
+      "supports": "Actual FDA page content states that only certain clinical decision-support functions meet non-device criteria and that device software, including functions intended for patients or caregivers, remains subject to digital-health policies."
+    },
+    {
+      "id": "S10",
+      "url": "https://www.cms.gov/medicare/payment/fee-schedules/physician-fee-schedule/advanced-practice-non-physician-practitioners/advanced-practice-registered-nurses-aprns",
+      "title": "Advanced Practice Registered Nurses",
+      "access_date": "2026-07-22",
+      "supports": "Actual CMS page content sets licensure, certification, medical-necessity, personal-performance, billing-identity, collaboration, and supervision requirements for Medicare-covered advanced-practice services."
+    }
+  ]
+}

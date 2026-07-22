@@ -1,0 +1,226 @@
+{
+  "identity": {
+    "naics": "311612",
+    "title": "Meat Processed from Carcasses",
+    "run_id": "311612-a1-20260722",
+    "model_id": "claude-sonnet-5",
+    "run_date": "2026-07-22",
+    "methodology_version": "5.1",
+    "attempt": 1
+  },
+  "lens": {
+    "included_activities": "U.S. lower-middle-market establishments that repeatedly process purchased red meat for external customers through private-label, case-ready, co-packing, custom-formulation, cutting, curing, smoking, grinding, cooking, freezing, or related contract programs.",
+    "excluded_activities": "Captive internal plants, manufacturers whose economics primarily depend on their own consumer brands rather than outsourced processing, shells and non-control financing vehicles, slaughter-only establishments, poultry processors, renderers, wholesalers that do not manufacture, and custom-exempt household processing.",
+    "customer_and_revenue_model": "Recurring B2B production programs for retailers, foodservice distributors, institutions, and food brands, typically invoiced per pound, case, SKU, or production run under specifications that incorporate raw-material, packaging, conversion, and logistics economics.",
+    "deviation_from_default": "The code is heterogeneous between branded product manufacturing, merchant-like boxed-meat activity, captive plants, and outsourced private-label or case-ready processing. The lens is narrowed to recurring external-customer processing programs so one commercial-retention and transferability screen remains coherent.",
+    "heterogeneous": true
+  },
+  "primitives": {
+    "a": {
+      "evidence_state": "PROXY",
+      "low": 0.1,
+      "base": 0.17,
+      "high": 0.27,
+      "bridge": "BLS measures employment and wages for the broader four-digit NAICS 311600, not task-level AI exposure or the six-digit lens. I mapped high exposure to portions of management, business, office, planning, recordkeeping, sales, quality-inspection, and scheduling work; partial exposure to machine monitoring, packaging, and logistics; and little exposure to manual cutting, cleaning, maintenance, and material handling, then bounded the wage-weighted result. Inclusion of slaughter and poultry can bias the proxy downward if 311612 has more administrative and batch-processing work, while treating vision-assisted physical tasks as exposed can bias it upward.",
+      "rationale": "The occupation mix puts 59.77% of employment in production, 18.43% in transportation/material moving, and 6.47% in installation/maintenance, while office and administrative support is only 4.31%. Within production, meat-processing workers alone are 33.00% of employment. The exposed opportunity therefore sits mainly in production planning, ordering, inventory, traceability records, QA triage, vision inspection, forecasting, customer administration, and selected machine-assisted operations rather than wholesale substitution of knife and line labor.",
+      "change_evidence": "Obtain a current six-digit payroll extract by occupation and role, then conduct paid-time task diaries at 10-15 eligible plants covering production planning, QA/HACCP documentation, order entry, inventory, maintenance, packaging, and cutting lines; validate exposure against vendor demonstrations and existing automation inventories.",
+      "source_ids": ["S2", "S3"],
+      "caveats": [
+        "OEWS is 2023 and covers NAICS 311600, including slaughter, poultry, and rendering rather than only 311612.",
+        "Employment shares are not wage-weighted task shares, and current automation penetration is not reported by occupation.",
+        "The frozen compensation ratio l=0.1266 is MED quality, uses 2024 wages over 2022 receipts, and is harmonized to the IPS basis by division by 1.3407."
+      ]
+    },
+    "rho": {
+      "evidence_state": "PROXY",
+      "low": 0.28,
+      "base": 0.45,
+      "high": 0.65,
+      "bridge": "The Parsec survey measures organization-level AI adoption across 1,200 global manufacturing leaders, while USDA's project description characterizes robotics uptake in U.S. meat and hoofstock facilities; neither measures the share of this lens's exposed labor opportunity implemented in five years. I translate the reported 10% scaled deployment, 22% active implementation, use-case concentration, and meat-specific equipment constraints into a five-year implementation share. The global, cross-manufacturing survey likely overstates small-plant digital readiness, while rapid improvements in modular vision, scheduling, and documentation tools could make the range conservative.",
+      "rationale": "Manufacturing AI is broad but shallow: 72% of survey respondents reported some adoption, yet only 10% had scaled it and 22% were actively implementing; top uses were quality control, IT operations, and supply chain management. Meat robotics still has limited U.S. uptake because systems are costly, single-purpose, and infrastructure-intensive. Easier software workflows should implement faster than adaptive cutting, while HACCP validation, data integration, sanitation, machine guarding, and change management slow deployment.",
+      "change_evidence": "Interview plant managers, QA leads, integrators, and MES/robotics vendors at 15-20 eligible plants; collect installed-base, pilot-to-production conversion, capex payback, sanitation validation, false-reject, yield, and staffing results by workflow over the last three years.",
+      "source_ids": ["S3", "S4", "S5", "S13"],
+      "caveats": [
+        "Parsec is a vendor-sponsored global manufacturing survey rather than an independent U.S. meat-processor sample.",
+        "The USDA robotics source describes a research project and qualitative industry constraints, not commercial deployment rates.",
+        "Small LMM plants may have weaker data foundations and less capital than surveyed manufacturers."
+      ]
+    },
+    "e": {
+      "evidence_state": "ESTIMATE",
+      "low": 0.18,
+      "base": 0.32,
+      "high": 0.48,
+      "rationale": "The NAICS definition spans all processing of purchased red meat, but the frozen lens retains only recurring outsourced private-label, case-ready, and contract programs. Cargill's long-term retailer partnership and Branding Iron's mix of private-label and branded value-added meats establish that this business model exists, but no source measures its prevalence among LMM firms. The range allows many independent processors to mix customer brands with their own brands while excluding captive and primarily branded manufacturers.",
+      "change_evidence": "Classify the 294 frozen-band firms using FSIS establishment records, customer/brand disclosures, websites, and 15 broker or customer interviews; record external-customer revenue share, private-label/co-pack status, customer concentration, captive ownership, and normalized EBITDA quality.",
+      "source_ids": ["S1", "S6", "S7"],
+      "caveats": [
+        "There is no published census of contract or private-label revenue at NAICS 311612.",
+        "Mixed branded and outsourced plants require firm-level revenue classification rather than establishment labels.",
+        "The frozen n=294 is an ESTIMATE margin-bridged from SUSB firm-size data using a 15.25% Food Processing EBITDA margin and is not re-estimated here."
+      ]
+    },
+    "s5": {
+      "evidence_state": "PROXY",
+      "low": 0.12,
+      "base": 0.2,
+      "high": 0.3,
+      "bridge": "Census measures owner age across responding U.S. employer-business owners, while Baker Tilly measures broad U.S. food-and-beverage M&A and the Branding Iron transaction is one meat-processor example. I use the 51% age-55-and-over share as succession pressure, temper it because age does not imply a sale and multi-owner firms are represented by owners, and use observed broad-sector deal flow only as confirmation that control transfers occur. This may overstate transfer probability if eligible plants pass within families or close, and understate it if consolidation and succession accelerate.",
+      "rationale": "Census found 51% of responding employer-business owners were at least 55. Broad U.S. food-and-beverage M&A recorded 165 closings in H2 2024 versus 147 in H1, and a middle-market investor acquired a three-plant branded/private-label meat processor in 2024. Those signals support a meaningful but minority five-year probability after excluding closures, internal reorganizations, non-control stakes, and firms without transferable operations.",
+      "change_evidence": "Build a five-year transaction and succession panel for eligible 311612 firms from PitchBook, Capital IQ, GF Data, Axial, BizBuySell, state registrations, and broker interviews; identify owner age, ownership concentration, family succession, closures, and whether each event conveyed control.",
+      "source_ids": ["S7", "S8", "S9"],
+      "caveats": [
+        "The owner-age evidence is data year 2018, covers all employer businesses, and excludes nonresponding owners.",
+        "Food-and-beverage deal counts include many subsectors, company sizes, asset sales, and transactions outside the narrow lens.",
+        "A single meat-processor acquisition demonstrates feasibility but not frequency."
+      ]
+    },
+    "q": {
+      "evidence_state": "ESTIMATE",
+      "low": 0.35,
+      "base": 0.55,
+      "high": 0.72,
+      "rationale": "Eligible processors generally quote per-pound, per-case, SKU, or production-run prices rather than bill labor hours transparently. That permits retention during a contract period, but sophisticated retailers and food brands can benchmark conversion economics and seek lower renewal pricing. USDA notes that processing technology can reduce wholesale-to-retail spreads, transferring value to producers and/or consumers. A discounted five-year base of 0.55 balances initial retention against renewal sharing, competitive rebids, and customer bargaining power.",
+      "change_evidence": "Review 20-30 customer contracts and renewal histories from eligible targets, separating raw-material pass-through from conversion fees; measure repricing cadence, open-book provisions, productivity-sharing clauses, bid competition, customer concentration, and realized margin after documented process savings.",
+      "source_ids": ["S6", "S11"],
+      "caveats": [
+        "No public source measures the five-year retained share of AI savings for contract meat processors.",
+        "Pricing varies sharply between open-book tolling, formula pricing, fixed-price programs, and processors taking meat-price risk.",
+        "Customer concentration and private-label rebids can produce much lower retention than stable differentiated programs."
+      ]
+    },
+    "d5": {
+      "evidence_state": "PROXY",
+      "low": 0.98,
+      "base": 1.08,
+      "high": 1.16,
+      "bridge": "USDA projects physical commercial production for all U.S. beef and pork, not constant-quality demand for NAICS 311612 outsourced processors. I sum projected beef and pork commercial production: 52,865 million pounds in 2026 and 57,105 million pounds in 2031, yielding 1.0802, and use that as the base quantity ratio. It may overstate lens demand if processing moves into captive slaughter plants or away from red meat, and understate it if private-label and case-ready outsourcing gains share.",
+      "rationale": "USDA's November 2025 baseline projects beef commercial production rising from 25,390 million pounds in 2026 to 27,188 million in 2031 and pork from 27,475 million to 29,917 million. The combined physical-volume ratio is about 1.08, consistent with recovery in beef supply and continued pork growth rather than a demand collapse.",
+      "change_evidence": "Obtain five-year volume forecasts and historical pounds processed from eligible plants and their top retail, foodservice, and brand customers; separate carcass-processing share, imports, exports, captive insourcing, product mix, and quality/specification changes.",
+      "source_ids": ["S10"],
+      "caveats": [
+        "USDA forecasts commodity production, not six-digit outsourced-processing demand or a constant-quality service basket.",
+        "The projection includes output handled by slaughter plants, branded manufacturers, and captive facilities outside the lens.",
+        "Health preferences, cattle cycles, trade policy, disease, and substitution toward poultry can move the outcome materially."
+      ]
+    },
+    "o": {
+      "evidence_state": "PROXY",
+      "low": 0.94,
+      "base": 0.98,
+      "high": 0.995,
+      "bridge": "Federal inspection and HACCP rules establish accountable-establishment obligations, not the numerical share of future quantity retaining this lens's operator. I translate the continuing need for inspected physical preparation, hazard analysis, preventive controls, product-specific HACCP plans, records, and responsible sign-off into a near-one operator-required share, with deductions for retailer self-processing, customer insourcing, exemptions, and migration to captive plants. The legal proxy may overstate retention of the outsourced operator even though it strongly supports retention of some accountable physical operator.",
+      "rationale": "Software cannot cut, grind, cure, cook, package, refrigerate, and physically release meat into commerce by itself. Federal rules require inspection at establishments preparing carcass-derived products for commerce and require official establishments to conduct hazard analysis and implement written HACCP plans for relevant products. Automation can change staffing and equipment, but almost all forecast quantity still needs an accountable inspected operator.",
+      "change_evidence": "Track eligible customers' insourcing plans, retailer back-room and centralized case-ready capacity, plant closures, exemption use, and regulatory changes; interview FSIS compliance specialists and major customers about whether autonomous operation could alter establishment accountability within five years.",
+      "source_ids": ["S12", "S13"],
+      "caveats": [
+        "Regulation assures an accountable establishment, not that the same outsourced firm remains the supplier.",
+        "The estimate does not protect against captive insourcing, consolidation, or customer substitution among physical processors.",
+        "Statutory exemptions and state-only regimes exist, though the target lens is commercial recurring B2B production."
+      ]
+    }
+  },
+  "narrative": {
+    "executive_view": "The coherent opportunity is not the full processed-meat code but recurring private-label, case-ready, and contract-processing firms. Physical throughput and regulatory accountability are durable, while AI value is concentrated in planning, quality, traceability, administration, vision inspection, and selective human-in-the-loop automation rather than rapid replacement of most line labor.",
+    "ai_impact": "Near-term uses include order and production scheduling, yield and demand forecasting, inventory and traceability reconciliation, HACCP-document assistance, QA exception triage, customer service, predictive maintenance, and machine vision. Adaptive robotic cutting is relevant but remains harder because meat varies, plants are wet and hazardous, sanitation is demanding, and existing equipment is often specialized and costly.",
+    "value_capture": "Per-pound and per-case program pricing can preserve savings inside a contract period, especially when AI improves yield, reduces overtime, or avoids hiring without changing specifications. Retention erodes at renewal when concentrated customers benchmark conversion costs, rebid private-label work, or negotiate productivity sharing; commodity input pass-through should not be confused with retained AI benefit.",
+    "firm_availability": "The private-label and case-ready model is real and transferable transactions occur, but public data do not reveal how many of the 294 frozen-band firms derive enough revenue from recurring outsourced programs. Aging owners and broad food-sector M&A support succession activity, while family transfers, closures, captive ownership, branded economics, and food-safety liabilities reduce the qualifying pool.",
+    "demand_durability": "USDA projects combined beef and pork commercial production to rise about 8% from 2026 to 2031. Regardless of software progress, red meat still requires physical processing, cold-chain execution, inspection, hazard controls, records, and responsible establishment sign-off; the main displacement risk is insourcing or consolidation into another plant, not software-only fulfillment.",
+    "risks_and_uncertainty": "The largest uncertainties are eligibility prevalence, customer concentration, contract repricing, plant-level digital readiness, and the gap between broad manufacturing AI adoption and validated savings in small meat plants. Food-safety failures, recalls, worker injury, commodity volatility, cattle cycles, trade policy, and capex-heavy robotics can overwhelm administrative savings. The compensation-to-receipts input also mixes 2024 wages with 2022 receipts and is IPS-harmonized.",
+    "principal_driver": "Durable physical red-meat throughput plus mandatory accountable processing creates a stable base for targeted planning, QA, traceability, and selective automation gains.",
+    "principal_weakness": "Most labor is manual production and material handling, while the fraction of LMM firms truly operating recurring outsourced programs is unmeasured."
+  },
+  "sources": [
+    {
+      "id": "S1",
+      "url": "https://www.census.gov/naics/resources/archives/sect31-33.html",
+      "title": "North American Industry Classification System: Sector 31-33 definitions",
+      "access_date": "2026-07-22",
+      "supports": "Defines 311612 as processing or preserving non-poultry meat and byproducts from purchased meats, including assembly cutting and packing boxed meats, and identifies adjacent exclusions."
+    },
+    {
+      "id": "S2",
+      "url": "https://www.bls.gov/oes/2023/may/naics4_311600.htm",
+      "title": "May 2023 National Industry-Specific Occupational Employment and Wage Estimates: NAICS 311600",
+      "access_date": "2026-07-22",
+      "supports": "Reports 542,990 total jobs; production occupations at 59.77%, transportation/material moving at 18.43%, installation/maintenance at 6.47%, office/administrative support at 4.31%, and meat-processing workers at 33.00% of broader-industry employment, with occupation wages."
+    },
+    {
+      "id": "S3",
+      "url": "https://osha.prod.pace.dol.gov/laws-regs/standardinterpretations/2024-10-15",
+      "title": "Inspection Guidance for Animal Slaughtering and Processing Establishments",
+      "access_date": "2026-07-22",
+      "supports": "Includes 311612 in scope; describes dangerous equipment, high mechanization, water and slippery surfaces, sanitation and lockout hazards, and reports a 2022 DART rate of 4.7 per 100 FTE versus 1.7 for private industry."
+    },
+    {
+      "id": "S4",
+      "url": "https://www.nal.usda.gov/research-tools/food-safety-research-projects/collaborative-cutting-agile-robot-learners-multipurpose-meat-industry-automation",
+      "title": "Collaborative Cutting: Agile Robot Learners for Multipurpose Meat Industry Automation",
+      "access_date": "2026-07-22",
+      "supports": "States robotic uptake in American meat and hoofstock facilities remains fairly limited and attributes this to expense, single-purpose designs, high infrastructure requirements, and limited improvement to surrounding work."
+    },
+    {
+      "id": "S5",
+      "url": "https://www.parsec-corp.com/news-and-events/parsec-survey-72-of-manufacturers-have-adopted-ai-but-only-10-have-done-so-at-scale",
+      "title": "Parsec Survey: 72% of Manufacturers Have Adopted AI, but Only 10% Have Done So at Scale",
+      "access_date": "2026-07-22",
+      "supports": "February 2026 global survey of 1,200 manufacturing leaders: 72% reported some AI adoption, 10% scaled deployment, 22% active implementation; leading use cases were quality control, IT operations, and supply chain management, with cost and integration barriers."
+    },
+    {
+      "id": "S6",
+      "url": "https://www.cargill.com/2024/cargill-purchases-two-meat-plants-from-partner-ahold-delhaize",
+      "title": "Cargill purchases two meat plants from long-time partner Ahold Delhaize USA",
+      "access_date": "2026-07-22",
+      "supports": "Documents a long-term retailer partnership producing packaged beef and pork, muscle cuts, and value-added products for grocery-store brands, and the 2024 transfer of two case-ready plants."
+    },
+    {
+      "id": "S7",
+      "url": "https://www.foodbusinessnews.net/articles/27197-private-equity-company-acquires-meat-processor",
+      "title": "Private equity company acquires meat processor",
+      "access_date": "2026-07-22",
+      "supports": "Reports a 2024 middle-market investor acquisition of Branding Iron Holdings, a branded and private-label value-added meat processor with three manufacturing plants."
+    },
+    {
+      "id": "S8",
+      "url": "https://www.census.gov/content/dam/Census/library/visualizations/2020/comm/business-owners-ages.pdf",
+      "title": "Business Owners' Ages",
+      "access_date": "2026-07-22",
+      "supports": "2019 Annual Business Survey infographic for data year 2018 reports 51% of responding employer-business owners age 55 or older, 43% age 35-54, and 6% age 34 or younger; estimates represent 4.1 million responding owners."
+    },
+    {
+      "id": "S9",
+      "url": "https://www.bakertilly.com/insights/food-and-beverage-ma-update-h2-2024",
+      "title": "Food and beverage M&A update: H2 2024",
+      "access_date": "2026-07-22",
+      "supports": "Capital IQ-based report says 165 U.S. food-and-beverage deals closed in H2 2024, compared with 147 in H1 2024 and 131 in H2 2023; food products were 67% of H2 closings."
+    },
+    {
+      "id": "S10",
+      "url": "https://ers.usda.gov/sites/default/files/_laserfiche/outlooks/113817/OCE-2026-1.pdf?v=39134",
+      "title": "USDA Agricultural Projections to 2035",
+      "access_date": "2026-07-22",
+      "supports": "November 2025 baseline tables project beef commercial production of 25,390 million pounds in 2026 and 27,188 million in 2031, and pork commercial production of 27,475 million pounds in 2026 and 29,917 million in 2031."
+    },
+    {
+      "id": "S11",
+      "url": "https://www.ers.usda.gov/amber-waves/2015/october/ers-tracks-meat-prices-at-the-retail-wholesale-and-farm-levels",
+      "title": "ERS Tracks Meat Prices at the Retail, Wholesale, and Farm Levels",
+      "access_date": "2026-07-22",
+      "supports": "Explains farm, wholesale, and retail meat price spreads as gross-margin indicators and notes that improved meat-processing technology can lower wholesale-to-retail spreads, transferring value to producers and/or consumers."
+    },
+    {
+      "id": "S12",
+      "url": "https://www.law.cornell.edu/cfr/text/9/302.1",
+      "title": "9 CFR 302.1: Establishments requiring inspection",
+      "access_date": "2026-07-22",
+      "supports": "Requires inspection, subject to specified exemptions, at establishments where livestock-derived carcass products are prepared for transport or sale in commerce as human food."
+    },
+    {
+      "id": "S13",
+      "url": "https://www.law.cornell.edu/cfr/text/9/417.2",
+      "title": "9 CFR 417.2: Hazard Analysis and HACCP Plan",
+      "access_date": "2026-07-22",
+      "supports": "Requires official establishments to conduct hazard analysis and, where hazards are reasonably likely, implement written HACCP plans covering listed processing categories, records, controls, and responsible sign-off."
+    }
+  ]
+}

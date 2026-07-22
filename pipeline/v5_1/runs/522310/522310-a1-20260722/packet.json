@@ -1,0 +1,219 @@
+{
+  "identity": {
+    "naics": "522310",
+    "title": "Mortgage and Nonmortgage Loan Brokers",
+    "run_id": "522310-a1-20260722",
+    "model_id": "claude-sonnet-5",
+    "run_date": "2026-07-22",
+    "methodology_version": "5.1",
+    "attempt": 1
+  },
+  "lens": {
+    "included_activities": "US lower-middle-market firms that repeatedly arrange mortgage or nonmortgage loans for external borrowers by matching them with lenders and earning commissions or fees.",
+    "excluded_activities": "Direct lenders, loan servicers, captive internal origination units, shells, non-control financing vehicles, and firms whose operations cannot continue independently of the owner.",
+    "customer_and_revenue_model": "Transaction-based commissions or fees paid by borrowers or lenders for loan sourcing, advice, application assembly, lender matching, and closing coordination; repeat volume is driven by referrals, borrower reuse, and continuing lender relationships.",
+    "deviation_from_default": "none",
+    "heterogeneous": false
+  },
+  "primitives": {
+    "a": {
+      "evidence_state": "PROXY",
+      "low": 0.34,
+      "base": 0.47,
+      "high": 0.6,
+      "bridge": "The industry workforce proxy reports 42% office/administrative support, 26% business/financial operations, 13% sales, 11% management, and 7% computer/mathematical occupations; O*NET task lists show that loan staff verify, assemble, record, calculate, prepare, and review documents while also advising customers and resolving judgment-heavy cases. I applied higher exposure to document/data work, moderate exposure to analysis and sales support, and low exposure to management and accountable advice, then reduced the result for already-automated rules-based workflows documented by UWM and Freddie Mac. The proxy may overstate remaining exposure where digital underwriting is already mature and understate it where small brokers still handle documents manually.",
+      "rationale": "Most compensation sits in occupations with large amounts of structured information intake, document reconciliation, status communication, compliance checking, and file preparation. Those tasks are exposed to extraction, drafting, anomaly detection, workflow agents, and avoided incremental hiring, while borrower advice, exception handling, licensing accountability, relationship selling, and final quality control remain less substitutable.",
+      "change_evidence": "Obtain payroll by SOC and time-on-task data from a representative sample of independent mortgage and commercial-loan brokers, segmented by loan type and current LOS/AUS usage; map task minutes before and after deployed AI tools and validate against quality-control exceptions.",
+      "source_ids": ["S2", "S3", "S4", "S5", "S6", "S12"],
+      "caveats": [
+        "The occupation shares are a secondary presentation attributed to BLS and may contain classification overlap or rounding.",
+        "O*NET occupations include lender, servicing, collection, and underwriting roles outside independent brokerage, so task weights are not observed specifically for NAICS 522310.",
+        "The injected compensation-to-receipts input uses 2024 wages over 2022 receipts, is harmonized from an establishment-based measure to the screen basis, and therefore carries a stated vintage and basis mismatch."
+      ]
+    },
+    "rho": {
+      "evidence_state": "PROXY",
+      "low": 0.35,
+      "base": 0.55,
+      "high": 0.72,
+      "bridge": "Fannie Mae surveyed mortgage lenders rather than independent brokers: 7% reported deployed AI/ML, 22% limited or trial deployment, and 29% expected broader rollout within two years in 2023. Freddie Mac separately documents material savings from digital underwriting tools and a KeyBank implementation in under a year. I extend those adoption signals to a five-year broker implementation share while discounting for smaller-firm integration capacity, licensing, fair-lending, privacy, auditability, and human-review requirements. The lender sample likely overstates small-broker implementation resources but may understate the speed of vendor-mediated adoption.",
+      "rationale": "Proven digital underwriting economics and vendor-embedded tools should move more than half of exposed work into production over five years, but measured adoption was still limited and cited integration complexity, unproven results, cost, data security, and privacy as barriers. Implementation therefore trails task exposure materially.",
+      "change_evidence": "Run a 2026-2027 survey of NMLS-licensed broker owners by employee count covering production use, share of files touched, straight-through processing, human override rates, audit findings, integration costs, and planned deployment dates.",
+      "source_ids": ["S5", "S6", "S12"],
+      "caveats": [
+        "The key adoption survey is from 2023 and covers mortgage lenders of multiple types, not the screened LMM broker population.",
+        "Digital underwriting savings are not identical to generative-AI labor substitution and include process redesign and non-AI automation.",
+        "Nonmortgage brokerage may face different data availability and regulation than residential mortgage brokerage."
+      ]
+    },
+    "e": {
+      "evidence_state": "ESTIMATE",
+      "low": 0.55,
+      "base": 0.68,
+      "high": 0.8,
+      "rationale": "The NAICS definition is intrinsically an external commission-or-fee service, and a major wholesale lender reports relationships with more than 13,000 independent broker businesses, so most operating firms fit the outsourced-service lens. The estimate removes shells, effectively solo books with nontransferable personal goodwill, captive or misclassified units, and firms lacking durable compliance, lender, referral, or staff infrastructure after a change of control.",
+      "change_evidence": "Acquire NMLS company-level roster and call-report data, join to ownership, employee, branch, origination-volume, license-status, and lender-approval records, then sample LMM firms for owner dependence, repeat/referral concentration, and change-of-control portability.",
+      "source_ids": ["S1", "S12"],
+      "caveats": [
+        "No source directly measures eligibility among firms in the $1-10M normalized EBITDA band.",
+        "The frozen LMM firm count is itself an ESTIMATE bridged from SUSB size classes using a sector EBITDA margin, so its population may include firms outside the economic band despite the eligibility haircut.",
+        "Mortgage and nonmortgage brokers share an intermediary model but differ in licensing, borrower type, lender panels, and owner dependence."
+      ]
+    },
+    "s5": {
+      "evidence_state": "PROXY",
+      "low": 0.11,
+      "base": 0.18,
+      "high": 0.24,
+      "bridge": "Gallup found 22% of US employer-business owners planned to sell or transfer ownership within five years, but that population spans all industries and includes gifts and rare public offerings. I reduce it for plans that will not close, internal restructurings, untransferable owner books, and nonqualifying outcomes, while mortgage-sector reporting of 62 broadly defined transactions and strategic events in 2025 supports an active buyer environment. The broad owner survey may overstate completed qualifying transfers; the public mortgage deal count understates private deals but overstates relevance because it includes lenders, servicers, technology, title, appraisal, investments, joint ventures, exits, and entrances.",
+      "rationale": "Employer firms have meaningful stated transfer intent, and mortgage-market consolidation provides a real path to control transactions. Conversion from intent to a qualifying closed transfer is lower because many small brokerages are owner-led, licenses and lender relationships require continuity work, and some stressed firms close instead of selling.",
+      "change_evidence": "Build a five-year cohort of NMLS company ownership and control-person changes, match it to state change-of-control approvals and PitchBook or S&P Capital IQ deal records, and manually classify sales, gifts, internal reorganizations, closures, and continued operations for LMM firms.",
+      "source_ids": ["S8", "S9"],
+      "caveats": [
+        "Gallup measures plans, not completed transfers, and is not industry-specific.",
+        "The mortgage deal tally is not restricted to NAICS 522310 or the LMM band and includes non-control activity.",
+        "Private transactions and asset sales may not be publicly disclosed."
+      ]
+    },
+    "q": {
+      "evidence_state": "ESTIMATE",
+      "low": 0.35,
+      "base": 0.52,
+      "high": 0.68,
+      "rationale": "Broker revenue is transaction-based rather than cost-plus, so labor savings are not mechanically owed to customers. Retention is nevertheless limited by transparent closing disclosures, lender-paid versus borrower-paid compensation rules, wholesale-lender and broker competition, renewal-less transaction repricing, and the likelihood that operators reinvest part of savings in faster service, compliance, lead generation, or consumer pricing. The range represents the discounted five-year share of implemented gross benefit retained after those leakages.",
+      "change_evidence": "Collect five years of loan-level broker compensation, fee-waiver, lender-paid pricing, customer acquisition cost, pull-through, and contribution-margin data from acquired firms and compare cohorts before and after workflow automation, controlling for loan size, product, rate cycle, and channel competition.",
+      "source_ids": ["S1", "S6", "S7", "S12"],
+      "caveats": [
+        "There is no observed industry measure of AI benefit retention or contract repricing.",
+        "Residential mortgage compensation rules do not govern every nonmortgage brokerage transaction.",
+        "Freddie Mac savings are measured for lenders using its tools and can accrue partly to borrowers or counterparties rather than brokers."
+      ]
+    },
+    "d5": {
+      "evidence_state": "PROXY",
+      "low": 0.86,
+      "base": 1.08,
+      "high": 1.25,
+      "bridge": "Fannie Mae forecasts total US home sales rising from 4.814 million in 2026 to 5.131 million in 2027 and single-family mortgage originations from $2.345 trillion to $2.465 trillion. I use housing transaction quantity as the primary mortgage-broker demand proxy, treat the one-year rebound as partly cyclical rather than compounding it, and extend to a five-year constant-price, constant-quality ratio with a wide range. Home sales omit refinances and nonmortgage loans, while origination dollars embed home-price and loan-size changes; these omissions can bias the proxy in either direction.",
+      "rationale": "The current service basket is highly cyclical, but the near-term forecast indicates recovery rather than structural disappearance, and purchase originations are less rate-sensitive than refinancing. A modest five-year quantity increase is more defensible than extrapolating the forecast rebound, with downside for persistent affordability and rate lock-in and upside for normalization of turnover and refinancing.",
+      "change_evidence": "Obtain a five-year unit forecast for purchase, refinance, commercial, consumer, and other brokered loans from MBA or another loan-level provider, separate broker-channel share from total originations, and deflate any dollar series by loan-size and service-quality mix.",
+      "source_ids": ["S10", "S12"],
+      "caveats": [
+        "Fannie Mae forecasts only through 2027, so years two through five are bounded judgment.",
+        "The forecast is residential mortgage-focused, while NAICS 522310 includes nonmortgage brokers.",
+        "A dollar origination forecast is not a constant-price quantity measure; home-sales units are the cleaner but incomplete anchor."
+      ]
+    },
+    "o": {
+      "evidence_state": "PROXY",
+      "low": 0.64,
+      "base": 0.8,
+      "high": 0.91,
+      "bridge": "Fannie Mae reports that most recent homebuyers used a hybrid online and personal-touch mortgage process; online-only use was 14% for ages 18-34, 11% for ages 35-44, 13% for ages 45-64, and 3% for ages 65 and older. UWM describes brokers as responsible for advice, initial credit checks, information gathering, and application submission, and reports that roughly two of every ten loans currently use the wholesale channel. I project greater automation and self-service over five years but retain an accountable operator for regulated advice, exceptions, lender matching, disclosures, fraud/compliance escalation, and closing coordination. The borrower survey may understate future software substitution, while current wholesale share is a channel measure rather than the survival rate of today's brokered quantity.",
+      "rationale": "Digital intake and verification will absorb more steps, yet current consumers predominantly combine digital tools with personal contact and the workflow still assigns consequential, licensed, and exception-heavy duties to people. Software is more likely to compress labor per file and change the service interface than to eliminate the accountable brokerage operator from most brokered transactions within five years.",
+      "change_evidence": "Track NSMO channel-use and online-only responses through 2031, combine them with HMDA wholesale-channel originations and NMLS broker counts, and interview wholesale lenders on files completed without broker human intervention, exception rates, and accountability allocation.",
+      "source_ids": ["S5", "S11", "S12"],
+      "caveats": [
+        "The consumer evidence covers recent residential homebuyers, not refinances, commercial loans, or other nonmortgage borrowers.",
+        "Online-only does not necessarily mean operator-free, and hybrid use does not prove that every personal-touch step remains economically necessary.",
+        "UWM is a large interested market participant and its statements about channel growth and broker value are management views."
+      ]
+    }
+  },
+  "narrative": {
+    "executive_view": "Loan brokerage combines a large document-and-data workload with licensed advice, exception handling, and relationship-based distribution. That creates a credible labor-efficiency opportunity, but the transaction cycle, regulation, owner dependence, and competitive sharing of savings make realization and retention materially less certain than raw task exposure.",
+    "ai_impact": "AI can extract borrower data, reconcile documents, draft communications, monitor conditions, search lender guidelines, flag anomalies, prepare files, and prioritize follow-up. Human brokers remain important for suitability discussions, lender selection, ambiguous income or collateral cases, fair-lending and privacy controls, borrower reassurance, and accountable sign-off; existing AUS and LOS automation also means the opportunity is incremental rather than greenfield.",
+    "value_capture": "Commission and fee billing avoids automatic cost pass-through, but each transaction effectively reprices the relationship. Faster closes and fewer defects can support margin and conversion, while visible fees, wholesale pricing competition, lead costs, and reinvestment in service or compliance share the benefit with lenders and borrowers.",
+    "firm_availability": "Most firms are external-service businesses by definition, and the independent broker ecosystem is large. Transferability varies sharply: staff, lender panels, referral sources, licenses, documented processes, and diversified production are assets; a founder's personal realtor network or individual license is not. Broad employer-owner surveys imply real five-year transfer intent, but completed broker control transfers are not directly measured.",
+    "demand_durability": "Housing forecasts point to near-term recovery in transactions and originations, and purchase activity is structurally less rate-sensitive than refinancing. Demand remains exposed to affordability, mortgage-rate lock-in, housing turnover, credit cycles, and loan-product mix. Digital self-service should reduce work per file, yet predominantly hybrid borrower behavior and regulated exception handling support continued operator-required demand.",
+    "risks_and_uncertainty": "The largest uncertainties are the absence of broker-specific task-time data, stale cross-population AI adoption evidence, an estimated LMM firm count, unknown owner dependence, and no direct measure of retained automation savings. The NAICS code also mixes residential mortgage and nonmortgage models. This becomes a poor roll-up thesis if lead generation and producer relationships depart with sellers, lender approvals do not transfer, compliance costs rise faster than savings, or consumer and lender platforms disintermediate brokers.",
+    "principal_driver": "Document-intensive loan workflows create meaningful AI-enabled capacity gains while licensed brokers remain the accountable interface for complex, regulated transactions.",
+    "principal_weakness": "Revenue and enterprise value can be tied to volatile transaction volumes and owner-producer relationships that may not survive a control transfer."
+  },
+  "sources": [
+    {
+      "id": "S1",
+      "url": "https://www.census.gov/naics/resources/archives/sect52.html",
+      "title": "North American Industry Classification System: Sector 52, NAICS 522310",
+      "access_date": "2026-07-22",
+      "supports": "Defines 522310 as establishments arranging loans by bringing borrowers and lenders together on a commission or fee basis and excludes direct real-estate lending and loan servicing."
+    },
+    {
+      "id": "S2",
+      "url": "https://www.anythingresearch.com/industry/Mortgage-Nonmortgage-Loan-Brokers.htm",
+      "title": "2026 Industry Statistics - Mortgage and Nonmortgage Loan Brokers",
+      "access_date": "2026-07-22",
+      "supports": "Reports an industry workforce mix of 42% office and administrative support, 26% business and financial operations, 13% sales, 11% management, and 7% computer and mathematical occupations, attributed to BLS."
+    },
+    {
+      "id": "S3",
+      "url": "https://www.onetonline.org/link/summary/43-4131.00",
+      "title": "O*NET OnLine: Loan Interviewers and Clerks",
+      "access_date": "2026-07-22",
+      "supports": "Lists loan-work tasks including document verification and preparation, records, calculations, application intake, underwriting submission, customer contact, and closings."
+    },
+    {
+      "id": "S4",
+      "url": "https://www.onetonline.org/link/summary/13-2072.00",
+      "title": "O*NET OnLine: Loan Officers",
+      "access_date": "2026-07-22",
+      "supports": "Describes loan officers as evaluating or recommending approval of loans and advising borrowers; includes mortgage loan officers and agents."
+    },
+    {
+      "id": "S5",
+      "url": "https://www.fanniemae.com/research-and-insights/perspectives/lenders-motivation-ai-adoption",
+      "title": "Mortgage Lenders Cite Operational Efficiency as Primary Motivation for AI Adoption",
+      "access_date": "2026-07-22",
+      "supports": "Reports 2023 lender AI/ML familiarity and adoption: 65% familiar, 7% deployed, 22% limited or trial deployment, and 29% expecting broader rollout within two years; identifies integration, proof, cost, security, and privacy barriers and relevant use cases."
+    },
+    {
+      "id": "S6",
+      "url": "https://sf.freddiemac.com/articles/insights/2025-updates-to-the-cost-to-originate-study",
+      "title": "2025 Updates to the Cost to Originate Study",
+      "access_date": "2026-07-22",
+      "supports": "Reports up to $1,700 per-loan savings from LPA digital capabilities, five-day shorter timelines, lower defects, and a KeyBank implementation in under a year, while documenting automation of underwriting and verification tasks."
+    },
+    {
+      "id": "S7",
+      "url": "https://www.consumerfinance.gov/rules-policy/regulations/1026/2024-01-01/36/",
+      "title": "Regulation Z Section 1026.36: Loan Originator Compensation and Requirements",
+      "access_date": "2026-07-22",
+      "supports": "Documents restrictions on transaction-term-based compensation and dual compensation, including the borrower-paid versus creditor-paid structure for mortgage brokers."
+    },
+    {
+      "id": "S8",
+      "url": "https://news.gallup.com/poll/657362/small-business-owners-lack-succession-plan.aspx",
+      "title": "Most Small-Business Owners Lack a Succession Plan",
+      "access_date": "2026-07-22",
+      "supports": "Reports that 22% of US employer-business owners planned to sell or transfer ownership within five years, compared with 9% of nonemployers, based on a fall 2024 survey."
+    },
+    {
+      "id": "S9",
+      "url": "https://www.housingwire.com/articles/mortgage-ma-2026-forecast/",
+      "title": "Mortgage M&A Poised to Accelerate in 2026",
+      "access_date": "2026-07-22",
+      "supports": "Reports 62 publicly tracked mortgage-sector M&A, exit/entry, investment, and joint-venture events in 2025 versus 37 in 2024, while noting private activity is underreported and scope includes multiple mortgage subsectors."
+    },
+    {
+      "id": "S10",
+      "url": "https://www.fanniemae.com/media/57071/display",
+      "title": "Fannie Mae Housing Forecast: June 2026",
+      "access_date": "2026-07-22",
+      "supports": "Forecasts total home sales of 4.814 million in 2026 and 5.131 million in 2027, and single-family mortgage originations of $2.345 trillion and $2.465 trillion, respectively."
+    },
+    {
+      "id": "S11",
+      "url": "https://www.fanniemae.com/research-and-insights/perspectives/opportunities-exist-offer-digital-verification-tools-more-homebuyers",
+      "title": "Opportunities Exist to Offer Digital Verification Tools to More Homebuyers",
+      "access_date": "2026-07-22",
+      "supports": "Finds most recent homebuyers used hybrid online and personal-touch channels; reports online-only use of 14%, 11%, 13%, and 3% across successive adult age groups and documents growing digital preferences."
+    },
+    {
+      "id": "S12",
+      "url": "https://www.sec.gov/Archives/edgar/data/1783398/000178339826000013/uwmc-20251231.htm",
+      "title": "UWM Holdings Corporation 2025 Form 10-K",
+      "access_date": "2026-07-22",
+      "supports": "Reports relationships with over 13,000 independent broker businesses and about 57,000 associated loan officers, wholesale channel share near 20%, broker workflow responsibilities, current automation, and purchase-origination durability."
+    }
+  ]
+}
