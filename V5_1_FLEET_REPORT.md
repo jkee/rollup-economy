@@ -396,3 +396,52 @@ definition page could not be fully verified during review, but the affected
 eligibility estimate was already disclosed as broad and no correction or honest
 downgrade changed the tier or action. No review found a material defect, and
 the predeclared pause trigger did not fire.
+
+## S9 — Accommodation and food services
+
+**Closed:** 2026-07-22
+**Coverage:** 15 attempted, 15 deterministically valid, 15 published, 0 excluded
+**Independent review:** 3/15 (0 mandatory, 3 random, 0 canary)
+**Review outcomes:** 3 `publishable_with_caveats`; 0 `publishable`; 0 `reject`; 0 `invalid`
+**Material findings:** 0
+**Remediations:** 0
+
+### Screen distribution
+
+- Base tiers: 0 `HIGHEST_PRIORITY`, 0 `PRIORITY`, 2 `CONDITIONAL`,
+  8 `LOW_PRIORITY`, 5 `STRUCTURAL_OUT`, and 0 without a base tier.
+- Readiness: 15 `MODEL_CONDITIONED`.
+- Actions: 15 `VALIDATE_ASSUMPTIONS`.
+- Robust tiers: 0/15.
+- Publication labels: 3 `accepted`; 12 `not_reviewed` by the frozen sampling
+  contract.
+
+The random stratum consisted of `722330`, `722513`, and `722514`. All three
+were accepted with caveats and carried no material finding. These are sample
+observations only; no S9 defect rate is estimated.
+
+### Economic read
+
+The screen was appropriately conservative in a block dominated by physical,
+site-specific, customer-facing delivery. Food service contractors and
+recreational and vacation camps were the only `CONDITIONAL` records: each
+combined a meaningful administrative or planning layer with recurring demand,
+but retained substantial physical delivery, transferability, or pass-through
+risk. No record reached `PRIORITY` or an unconditional Stage 2 action.
+
+Hotels, inns, parks, caterers, limited-service restaurants, buffets, and snack
+bars generally screened `LOW_PRIORITY`. Casino hotels, rooming and boarding
+houses, mobile food services, drinking places, and full-service restaurants
+were `STRUCTURAL_OUT`, reflecting very small or uncertain eligible-firm pools,
+asset or licensing complexity, intense price competition, and the limited
+portion of core labor that software can remove. All records nevertheless had a
+base tier; none was gap-routed.
+
+Validators' caveats emphasized broad industry and occupation proxies, scarce
+direct evidence on qualifying LMM control transfers, judgmental firm
+eligibility, limited implemented-AI evidence, and uncertainty over whether
+savings would survive contract repricing or local competition. One exact NAICS
+definition URL could not be reopened, but the associated eligibility input was
+already an explicit estimate and no correction or honest downgrade changed a
+tier or action. No review found a material defect, and the predeclared pause
+trigger did not fire.
