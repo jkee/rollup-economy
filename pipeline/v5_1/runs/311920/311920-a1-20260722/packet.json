@@ -1,0 +1,190 @@
+{
+  "identity": {
+    "naics": "311920",
+    "title": "Coffee and Tea Manufacturing",
+    "run_id": "311920-a1-20260722",
+    "model_id": "claude-sonnet-5",
+    "run_date": "2026-07-22",
+    "methodology_version": "5.1",
+    "attempt": 1
+  },
+  "lens": {
+    "included_activities": "US lower-middle-market coffee roasters and tea blenders that repeatedly provide contract roasting, blending, grinding, private-label manufacturing, co-packing, custom packaging, and related fulfillment to external retailers, cafés, restaurants, hospitality programs, distributors, and consumer brands.",
+    "excluded_activities": "Retail cafés, proprietary consumer brands without material outsourced-production revenue, captive plants, green-bean importers without manufacturing, bottled ready-to-drink beverage plants classified elsewhere, shells, non-control financing vehicles, and firms outside the approximately $1-10M normalized EBITDA band.",
+    "customer_and_revenue_model": "Repeat B2B orders under wholesale, private-label, toll-roasting, contract-manufacturing, and co-packing arrangements, typically priced per pound, case, capsule, package, or production run, sometimes bundled with sourcing, formulation, certification, packaging, and fulfillment.",
+    "deviation_from_default": "NAICS 311920 contains proprietary-brand manufacturers as well as outsourced roasters and blenders. The lens is narrowed to firms with recurring custom, wholesale-program, contract, co-packing, or private-label production for external customers so the screened activity is a coherent outsourced service.",
+    "heterogeneous": true
+  },
+  "primitives": {
+    "a": {
+      "evidence_state": "PROXY",
+      "low": 0.12,
+      "base": 0.19,
+      "high": 0.28,
+      "bridge": "BLS reports occupations for NAICS 3119 Other Food Manufacturing, not 311920 or the outsourced subset, and does not measure AI task exposure. I treat roasting, blending, packaging, material movement, and sanitation as mainly physical while assigning exposure to production scheduling, demand forecasting, green-coffee procurement analysis, specification and label drafting, quality-record review, order service, and administrative work. The proxy may understate exposure in service-intensive custom roasters and overstate it in highly automated commodity plants.",
+      "rationale": "BLS lists packaging and filling machine operators (31,240), food batchmakers (30,470), laborers and material movers (16,180), hand packers (11,280), and first-line production supervisors (9,850) as the five largest occupations in broader other food manufacturing. That physical mix caps AI substitution, but custom programs create information-heavy coordination around each production run.",
+      "change_evidence": "A 311920 occupation-by-wage extract and time-and-motion interviews at 15-20 contract roasters and tea blenders covering scheduling, procurement, QC, regulatory labeling, customer service, sales administration, roasting, packing, and warehouse work.",
+      "source_ids": ["S2", "S3"],
+      "caveats": ["The occupational proxy covers all NAICS 3119 and may differ materially from small coffee and tea plants.", "Conventional automated roasters, fillers, and palletizers already in use are excluded from the not-yet-automated AI opportunity."]
+    },
+    "rho": {
+      "evidence_state": "ESTIMATE",
+      "low": 0.3,
+      "base": 0.5,
+      "high": 0.7,
+      "rationale": "Forecasting, customer-order intake, roast-plan optimization, procurement support, documentation, and administrative copilots are deployable within five years. Realization is constrained by ERP and roasting-system integration, batch traceability, sensory quality judgments, label and certification controls, cybersecurity, and the need for human sign-off on food-safety plans.",
+      "change_evidence": "Audited before-and-after labor hours, schedule adherence, scrap, roast consistency, service levels, and quality incidents from coffee or tea plants implementing AI planning, optical inspection, maintenance, and documentation tools for at least 12 months.",
+      "source_ids": ["S4", "S10"],
+      "caveats": ["No public source measures five-year AI implementation in the lens population.", "Small specialty plants may lack clean data and integration staff; larger private-label plants may implement materially faster."]
+    },
+    "e": {
+      "evidence_state": "ESTIMATE",
+      "low": 0.2,
+      "base": 0.38,
+      "high": 0.55,
+      "rationale": "The Census definition includes all coffee roasting, tea blending, concentrates, extracts, and syrups, regardless of whether work is outsourced. Multiple US operators explicitly sell private-label, proprietary-profile contract roasting, co-packing, and wholesale programs, so eligibility is meaningful but remains unmeasured. The base assumes these models represent a substantial minority of LMM firms, with proprietary roasters and branded tea businesses outside the lens.",
+      "change_evidence": "A firm-level census of the 147 injected LMM-band firms using websites, customer lists, packaging capabilities, and revenue interviews to classify the share of revenue derived from repeat external contract, private-label, or custom wholesale production.",
+      "source_ids": ["S1", "S5", "S6", "S7"],
+      "caveats": ["Operator websites prove the business model exists but do not measure its prevalence.", "Many firms mix eligible wholesale/private-label revenue with proprietary-brand sales.", "The broad NAICS code also includes concentrates and extracts whose contract structure may differ from roasting."]
+    },
+    "s5": {
+      "evidence_state": "PROXY",
+      "low": 0.14,
+      "base": 0.24,
+      "high": 0.36,
+      "bridge": "A Census working paper reports 62.4% of manufacturing employer-business owners were age 55 or older, while cross-industry Project Equity evidence reports six in ten Washington owners planned to sell within a decade and only 20% of companies listed by a leading broker sold. I convert the age, intent, and completion proxies to a five-year probability of a completed qualifying control transfer among eligible LMM coffee and tea manufacturers, excluding closures and non-control events. Broad manufacturing age likely captures the direction well but may overstate aging among newer specialty roasters; broker completion may understate profitable LMM firms.",
+      "rationale": "The eligible population includes long-standing regional roasters and family manufacturers, making succession relevant, but retirement intent materially exceeds executable deal supply. A five-year base of 24% reflects both forces.",
+      "change_evidence": "PitchBook, GF Data, Axial, BizBuySell, and food-and-beverage investment-banker records of closed control sales, failed processes, closures, and starting population for US coffee roasters and tea blenders over 2021-2026.",
+      "source_ids": ["S8", "S9"],
+      "caveats": ["The 62.4% figure is for all manufacturing owners and comes from data year 2020.", "The sell-intent statistic is Washington-specific and not industry-specific.", "Internal succession and minority investments are excluded even when publicly announced."]
+    },
+    "q": {
+      "evidence_state": "ESTIMATE",
+      "low": 0.42,
+      "base": 0.65,
+      "high": 0.82,
+      "rationale": "Custom roast profiles, sourcing relationships, packaging formats, certifications, sensory approval, and service reliability create qualification and switching costs that support retention of some productivity gains. Per-pound and per-package prices can preserve savings during a term, while transparent green-coffee costs, commodity surcharges, customer concentration, annual bids, and private-label bargaining can pass gains back at renewal.",
+      "change_evidence": "A sample of 20 customer agreements and three renewal cycles showing fixed-price versus cost-plus terms, commodity and freight indexation, productivity-sharing, audit rights, minimum volumes, rebid cadence, and post-automation gross-margin retention.",
+      "source_ids": ["S5", "S6", "S7"],
+      "caveats": ["No public evidence quantifies contractual pass-through for LMM coffee and tea co-manufacturers.", "Retention should be lower in toll roasting with customer-owned beans and higher in differentiated full-service programs."]
+    },
+    "d5": {
+      "evidence_state": "PROXY",
+      "low": 0.96,
+      "base": 1.06,
+      "high": 1.18,
+      "bridge": "Consumer surveys measure beverage participation rather than constant-price demand for outsourced manufacturing. NCA reports coffee past-day and past-week participation unchanged since 2022 at 66% and 73%, while specialty-coffee weekly participation rose from 53% to 58%; the Tea Association reports nearly 86 billion US tea servings in 2023 and broad household penetration. I translate stable category participation plus specialty mix growth into modest five-year real-volume growth for current contract roasting and blending services. This may overstate manufacturing demand if consumers shift to ready-to-drink products classified elsewhere or customers insource, and understate it if private label gains share.",
+      "rationale": "Coffee and tea are habitual, high-frequency categories with broad participation, supporting resilience. Mature penetration limits upside, but specialty formats, custom blends, capsules, at-home consumption, and private-label programs provide modest growth avenues.",
+      "change_evidence": "Five-year Circana, NielsenIQ, SPINS, and foodservice-distributor physical-unit data for roasted coffee, pods, packaged tea, and concentrates, separated from price and mix, plus outsourcing-share data from large retail and hospitality customers.",
+      "source_ids": ["S11", "S12"],
+      "caveats": ["Trade-association surveys may have sponsor and sampling limitations.", "Tea data are for 2023 and include channels and formats not necessarily manufactured by the lens firms.", "Demand is held constant for price and quality and is not a nominal sales forecast."]
+    },
+    "o": {
+      "evidence_state": "PROXY",
+      "low": 0.92,
+      "base": 0.97,
+      "high": 1.0,
+      "bridge": "FDA requirements apply to covered food facilities, not specifically to the share of outsourced coffee and tea quantity retaining an independent operator. Because production involves physical roasting or blending, packaging, traceability, and a written food-safety plan overseen by qualified people, I infer that nearly all year-five quantity still needs an accountable manufacturer. The estimate can be high if retailers insource or automated plants consolidate volume, but software by itself cannot roast, blend, pack, and release food.",
+      "rationale": "AI can automate planning, inspection support, and records, but the current service basket ends in a physical, regulated product. An accountable plant operator remains necessary for sourcing controls, equipment, sensory and safety verification, packaging, traceability, and shipment.",
+      "change_evidence": "Structured interviews with 20 private-label customers about insourcing and supplier-consolidation plans, plus plant studies of highly autonomous roasting and packing lines and allocation of regulatory responsibility.",
+      "source_ids": ["S4", "S10"],
+      "caveats": ["Regulation establishes facility accountability but does not ensure the same independent firm keeps the work.", "Customer insourcing, direct-to-consumer micro-roasting, or consolidation into larger manufacturers can reduce demand for lens operators."]
+    }
+  },
+  "narrative": {
+    "executive_view": "The relevant subset is contract and private-label roasting, blending, and packaging, not coffee and tea manufacturing in general. Demand is habitual and physical production remains necessary, while differentiated blends and certifications create customer stickiness; however, the true eligible share is unknown and plant work is mainly physical.",
+    "ai_impact": "AI is most applicable to order intake, roast and packing schedules, green-coffee purchasing analysis, forecasting, specification and label drafting, quality-record review, maintenance triage, customer service, and administration. Roasting, blending, sanitation, packing, warehousing, sensory approval, and food-safety accountability continue to require equipment and people.",
+    "value_capture": "Custom profiles, sourcing, packaging qualification, certifications, and dependable service can preserve savings through a contract term and deter switching. Customer bids, commodity-cost transparency, indexation, and retailer or hospitality buyer power can recapture those gains at renewal.",
+    "firm_availability": "Many public operator examples confirm that contract roasting and private label are established services, but no source measures their share of the 311920 LMM population. Broad manufacturing owner-age data imply succession supply, tempered by the low completion rate of businesses brought to market.",
+    "demand_durability": "Coffee participation has remained high and stable since 2022, specialty participation has increased, and tea retains very broad household reach. Mature penetration and format shifts constrain growth, yet the service still requires physical roasting or blending, packaging, traceability, and release by an accountable operator.",
+    "risks_and_uncertainty": "Green-coffee and tea-price volatility, tariffs and import disruptions, crop and climate shocks, customer concentration, certification failures, recalls, stale inventory, and sensory inconsistency can overwhelm labor savings. The eligible-firm share, contract pass-through, and plant-specific data readiness need direct diligence.",
+    "principal_driver": "Habitual category demand and qualification-heavy custom programs support repeat outsourced production relationships.",
+    "principal_weakness": "Eligibility is unmeasured, and most roasting, packing, sanitation, and material-handling labor is physical rather than AI-substitutable."
+  },
+  "sources": [
+    {
+      "id": "S1",
+      "url": "https://www.census.gov/naics/resources/archives/sect31-33.html",
+      "title": "NAICS 311920 Coffee and Tea Manufacturing definition",
+      "access_date": "2026-07-22",
+      "supports": "Census defines the industry to include coffee roasting, coffee and tea concentrates, tea blending, herbal tea, and coffee extracts, flavorings, and syrups, while bottled or canned iced tea is classified elsewhere."
+    },
+    {
+      "id": "S2",
+      "url": "https://www.bls.gov/oes/2024/may/ind_emp_chart/ind_emp_chart_data.htm",
+      "title": "Largest Occupations in Other Food Manufacturing, May 2024",
+      "access_date": "2026-07-22",
+      "supports": "BLS lists packaging-machine operators (31,240), food batchmakers (30,470), material movers (16,180), hand packers (11,280), and production supervisors (9,850) as the five largest occupations in NAICS 3119."
+    },
+    {
+      "id": "S3",
+      "url": "https://www.bls.gov/emp/tables/industry-occupation-matrix-industry.htm",
+      "title": "Industry-occupation matrix data by industry",
+      "access_date": "2026-07-22",
+      "supports": "BLS publishes occupation matrices for Other Food Manufacturing at the 311900 level, confirming that detailed public occupational projections are broader than 311920."
+    },
+    {
+      "id": "S4",
+      "url": "https://www.fda.gov/food/food-safety-modernization-act-fsma/fsma-final-rule-preventive-controls-human-food",
+      "title": "FSMA Final Rule for Preventive Controls for Human Food",
+      "access_date": "2026-07-22",
+      "supports": "FDA states covered facilities must implement written food-safety plans with hazard analysis and risk-based preventive controls and ensure food workers are qualified for their duties."
+    },
+    {
+      "id": "S5",
+      "url": "https://www.copancoffeeroasters.com/pages/manufacturing-services",
+      "title": "Copan Coffee Roasters Manufacturing Services",
+      "access_date": "2026-07-22",
+      "supports": "A US operator offers full-service private-label coffee manufacturing from green-bean sourcing through roasting, blending, packaging, custom blends, and wholesale programs."
+    },
+    {
+      "id": "S6",
+      "url": "https://www.mccullaghcoffee.com/pages/contract-roasting",
+      "title": "McCullagh Coffee Roasters Contract Roasting and Packaging",
+      "access_date": "2026-07-22",
+      "supports": "A US roaster offers private-label cups, bags, filter packs, proprietary roast-profile development, customer-supplied coffee co-packing, and contract manufacturing."
+    },
+    {
+      "id": "S7",
+      "url": "https://joesgaragecoffee.com/services/contract-manufacturing/",
+      "title": "Joe's Garage Coffee Contract Manufacturing",
+      "access_date": "2026-07-22",
+      "supports": "A contract manufacturer describes multi-location private-label programs, co-packaging in pods, bags, and portion packs, and FDA-registered, certified production."
+    },
+    {
+      "id": "S8",
+      "url": "https://www2.census.gov/ces/wp/2024/CES-WP-24-71.pdf",
+      "title": "The Metamorphosis of Women Business Owners: A Focus on Age",
+      "access_date": "2026-07-22",
+      "supports": "A Census working paper using 2021 ABS data reports that 62.4% of manufacturing employer-business owners were age 55 or older."
+    },
+    {
+      "id": "S9",
+      "url": "https://project-equity.org/press-releases/new-research-details-effects-of-silver-tsunami-on-local-washington-economies-and-what-to-do-about-it/",
+      "title": "New Research Details Effects of Silver Tsunami on Local Washington Economies",
+      "access_date": "2026-07-22",
+      "supports": "Project Equity reports six in ten Washington owners planned to sell within a decade, roughly 15% pass to family, one-third of owners over 50 had trouble finding a buyer, and only 20% of listed companies sold."
+    },
+    {
+      "id": "S10",
+      "url": "https://www.fda.gov/food/guidance-regulation-food-and-dietary-supplements/registration-food-facilities-and-other-submissions",
+      "title": "Registration of Food Facilities and Other Submissions",
+      "access_date": "2026-07-22",
+      "supports": "FDA states facilities manufacturing, processing, packing, or holding food for US consumption generally must register, permit inspection, and renew registration every other year."
+    },
+    {
+      "id": "S11",
+      "url": "https://www.ncausa.org/Newsroom/Coffee-tops-Americans-beverage-choices",
+      "title": "Coffee Tops Americans' Beverage Choices",
+      "access_date": "2026-07-22",
+      "supports": "NCA's Spring 2026 nationally representative survey of 1,850 adults reports past-day and past-week coffee participation unchanged since 2022 at 66% and 73%; specialty weekly participation rose from 53% to 58%."
+    },
+    {
+      "id": "S12",
+      "url": "https://teausa.org/teausa/images/Tea_Association_Fact_Sheet_2024.pdf",
+      "title": "Tea Association of the USA Fact Sheet 2024",
+      "access_date": "2026-07-22",
+      "supports": "The Tea Association reports almost 86 billion US tea servings, or nearly 4 billion gallons, in 2023; tea appears in more than 80% of US households and 75-80% of US tea is consumed iced."
+    }
+  ]
+}

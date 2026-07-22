@@ -1,0 +1,177 @@
+{
+  "identity": {
+    "naics": "311512",
+    "title": "Creamery Butter Manufacturing",
+    "run_id": "311512-a1-20260722",
+    "model_id": "claude-sonnet-5",
+    "run_date": "2026-07-22",
+    "methodology_version": "5.1",
+    "attempt": 1
+  },
+  "lens": {
+    "included_activities": "U.S. lower-middle-market operators that repeatedly manufacture and supply creamery butter from milk or processed milk products to external retail, foodservice, private-label, or industrial customers.",
+    "excluded_activities": "Margarine and butter-substitute manufacturing, dairy farming, captive plants without external customers, shells, and non-control financing vehicles.",
+    "customer_and_revenue_model": "Repeat product sales under distributor, retailer, foodservice, industrial-ingredient, or private-label relationships; pricing is typically per unit or pound rather than an explicit labor fee.",
+    "deviation_from_default": "none",
+    "heterogeneous": false
+  },
+  "primitives": {
+    "a": {
+      "evidence_state": "PROXY",
+      "low": 0.1,
+      "base": 0.18,
+      "high": 0.28,
+      "bridge": "BLS measures employment by occupation for the broader NAICS 311500 dairy-manufacturing group, not wage-weighted unautomated task exposure in 311512. The occupation mix is translated into an exposed wage share by assigning more exposure to planning, documentation, quality review, scheduling, customer service, and supervisory information work and little exposure to hands-on batching, filling, material movement, maintenance, and driving. Because butter plants may be more process-automated than the broader dairy group, the proxy can overstate remaining exposure; because it omits avoidable hiring enabled by better scheduling and inspection support, it can understate it.",
+      "rationale": "The largest dairy-manufacturing occupations are physical production and logistics roles: BLS reports 25,520 food batchmakers, 23,690 packaging/filling operators, 8,170 material movers, and 7,840 production supervisors in May 2024. AI can materially assist records, forecasting, quality triage, maintenance diagnosis, and administrative workflows, but only a minority of total wages appears substitutable without robotics or process-equipment investment.",
+      "change_evidence": "A 311512-specific payroll extract by SOC combined with time-and-motion interviews for QA, production planning, procurement, maintenance, sales, and plant administration, plus a current inventory of already automated ERP/MES/SCADA tasks.",
+      "source_ids": ["S2"],
+      "caveats": [
+        "The occupation source is NAICS 311500, not six-digit butter manufacturing.",
+        "Employment counts are not wage-weighted task shares and require judgmental task mapping.",
+        "The estimate excludes robotics-only substitution and assumes current, not-yet-automated tasks."
+      ]
+    },
+    "rho": {
+      "evidence_state": "ESTIMATE",
+      "low": 0.25,
+      "base": 0.45,
+      "high": 0.65,
+      "rationale": "Document handling, forecasting, maintenance support, and quality-data triage can be deployed within five years, while food-safety validation, integration with legacy plant controls, model reliability, workforce adoption, and the need for accountable human review constrain implementation. FDA recognizes computerized record and process-control functions but expects equivalence to regulatory intent and investigator review for safety-critical functions.",
+      "change_evidence": "Plant-level diligence on ERP/MES/SCADA architecture, five-year capex plans, deviation and rework logs, validated AI pilots, cybersecurity controls, and interviews with QA directors and state dairy inspectors.",
+      "source_ids": ["S3", "S4"],
+      "caveats": [
+        "FDA guidance demonstrates feasibility and control requirements but does not measure AI adoption or butter-plant implementation rates.",
+        "Small plants may lack clean data and integration staff; modern plants may implement faster than the base case."
+      ]
+    },
+    "e": {
+      "evidence_state": "ESTIMATE",
+      "low": 0.35,
+      "base": 0.55,
+      "high": 0.75,
+      "rationale": "The NAICS definition is a coherent manufacturing activity, but not every LMM firm fits a repeat outsourced-supply lens: eligible operators must have external recurring customers and transferable production, regulatory, and commercial capabilities. Captive cooperative plants, single-customer facilities, and strategically inseparable divisions reduce eligibility.",
+      "change_evidence": "A complete 311512 firm census matched to ownership, customer concentration, private-label/co-manufacturing revenue, plant autonomy, EBITDA normalization, and whether the plant is captive to a cooperative or parent.",
+      "source_ids": ["S1"],
+      "caveats": [
+        "The frozen firm-count estimate is not re-estimated here.",
+        "Public NAICS descriptions identify activities but not recurring external-customer eligibility or enterprise separability."
+      ]
+    },
+    "s5": {
+      "evidence_state": "PROXY",
+      "low": 0.08,
+      "base": 0.18,
+      "high": 0.3,
+      "bridge": "The Census Annual Business Survey infographic reports that 51% of responding owners of U.S. employer businesses were age 55 or older in 2018, a national cross-industry owner-age measure rather than five-year control transfers among eligible butter manufacturers. The estimate applies a judgmental fraction of that succession-exposed population to allow for actual sale timing, multi-owner structures, family transfers, recapitalizations, and owners who continue operating. It may overstate transfers if cooperative/corporate ownership dominates and understate them if this manufacturing niche has older owners than the national population.",
+      "rationale": "An aging owner base creates succession pressure, but age is not a transaction. Over five years, only a subset of eligible businesses is expected to complete a qualifying control transfer; strategic consolidation can add events while internal family succession and minority recapitalizations do not qualify.",
+      "change_evidence": "PitchBook, Capital IQ, or GF Data transaction histories tagged to butter/dairy processors; interviews with dairy-focused lenders and M&A advisers; and direct owner-age and succession-plan data for the eligible 311512 firm list.",
+      "source_ids": ["S5"],
+      "caveats": [
+        "The owner-age statistic is national and cross-industry, with 2018 vintage.",
+        "The source covers responding owners, not firms, and ownership age does not observe transfers."
+      ]
+    },
+    "q": {
+      "evidence_state": "ESTIMATE",
+      "low": 0.25,
+      "base": 0.48,
+      "high": 0.7,
+      "rationale": "Most revenue is product-priced, so an operator can initially retain workflow savings rather than mechanically pass them through as an hourly-rate reduction. Retention is nevertheless limited by commodity reference pricing, retailer and foodservice buyer bargaining power, private-label rebids, renewal repricing, and competitors adopting similar tools.",
+      "change_evidence": "Customer contracts and bid documents showing cost-plus clauses, indexation, open-book costing, productivity sharing, term and renewal mechanics; customer concentration; gross-margin bridges; and realized pricing after historical process improvements.",
+      "source_ids": [],
+      "caveats": [
+        "No public source directly measures five-year retention of AI-derived gross benefit in butter manufacturing.",
+        "Branded and differentiated specialty butter may retain more than commodity or private-label supply."
+      ]
+    },
+    "d5": {
+      "evidence_state": "PROXY",
+      "low": 0.94,
+      "base": 1.06,
+      "high": 1.16,
+      "bridge": "USDA-derived per-capita butter consumption is a product-demand quantity, not constant-quality demand for the exact current service basket supplied by eligible LMM operators. Reported consumption rose from 6.5 pounds in 2023 to a record 6.8 pounds in 2024 and was 21% higher over a decade; the five-year range tempers that trend for substitution, trade, foodservice mix, and share shifts between eligible firms and large integrated processors. The proxy may overstate lens demand if growth accrues to large plants or imports and understate it if specialty/private-label outsourcing gains share.",
+      "rationale": "Recent and decade-long consumption evidence supports modest positive real quantity demand rather than extrapolating the latest one-year jump. Population growth, continued consumer use, and foodservice demand support the base case; saturated-fat concerns, alternatives, price sensitivity, and processor concentration bound the downside and upside.",
+      "change_evidence": "USDA ERS five-year butter disappearance series, inflation-adjusted retail and foodservice shipment data, customer volume forecasts, import/export projections, and eligible-firm backlog or contracted-volume cohorts.",
+      "source_ids": ["S6", "S7"],
+      "caveats": [
+        "Apparent consumption does not account fully for waste and is not limited to U.S.-manufactured output.",
+        "The most recent figures are reported by an industry publication citing USDA/IDFA rather than extracted directly from the USDA file.",
+        "Product demand can grow while the eligible LMM supplier share declines."
+      ]
+    },
+    "o": {
+      "evidence_state": "ESTIMATE",
+      "low": 0.95,
+      "base": 0.98,
+      "high": 1.0,
+      "rationale": "Butter remains a physical, perishable, regulated food product requiring an accountable manufacturer to source inputs, operate sanitary processing and packaging equipment, validate controls, test product, release lots, and manage traceability. Software can automate records and decisions but cannot eliminate the plant operator; only limited self-production, substitution, or fully integrated customer production reduces the operator-required share.",
+      "change_evidence": "Customer make-versus-buy plans, announced vertical-integration projects, co-manufacturing share trends, plant-closure and capacity data, alternative-fat substitution by end market, and regulator guidance on autonomous release or remote supervision.",
+      "source_ids": ["S1", "S4"],
+      "caveats": [
+        "The estimate concerns accountable-operator need, not employment intensity.",
+        "Large customers may vertically integrate even though a responsible manufacturing operator remains somewhere in the chain."
+      ]
+    }
+  },
+  "narrative": {
+    "executive_view": "Creamery butter manufacturing has durable physical demand and an unavoidable accountable-operator role, but the implementable AI opportunity is confined mainly to information work around a capital-intensive production process. Commercial attractiveness depends on finding genuinely independent, repeat-supply operators rather than captive or strategically inseparable plants.",
+    "ai_impact": "AI is most relevant to production planning, procurement forecasts, quality-document review, deviation triage, maintenance troubleshooting, customer service, and administrative work. The dominant jobs remain batching, filling, moving, supervising, maintaining, and inspecting physical production, so large labor substitution would require conventional automation or robotics beyond this screen's AI construct.",
+    "value_capture": "Unit-priced product sales allow initial retention of efficiency benefits, but commodity benchmarks, concentrated buyers, private-label bids, and competitive renewal pricing can transfer a material share to customers over five years. Differentiated branded or specialty output should retain more than open-book or commodity supply.",
+    "firm_availability": "The frozen dataset identifies 15 LMM-band firms, but only an estimated subset will be independent, externally recurring suppliers with transferable operations. National owner-age evidence suggests succession pressure, while the absence of butter-specific transfer data makes timing uncertain.",
+    "demand_durability": "USDA-derived evidence shows record 2024 per-capita butter consumption and decade growth, supporting a modestly positive five-year volume base case. Demand can nevertheless migrate toward large integrated processors, imports, substitutes, or customer-owned capacity even if national consumption holds up.",
+    "risks_and_uncertainty": "The main uncertainties are six-digit occupation mix, existing automation, plant-level AI readiness, customer concentration and contract repricing, eligible ownership structure, and transaction incidence. Food-safety validation, cybersecurity, data quality, commodity input volatility, recalls, and buyer bargaining power can limit realized benefit.",
+    "principal_driver": "Durable physical consumption and the continuing need for a regulated manufacturing operator support the opportunity.",
+    "principal_weakness": "Most labor is hands-on production work and much of the small industry may be captive, concentrated, or commercially price-takers."
+  },
+  "sources": [
+    {
+      "id": "S1",
+      "url": "https://www.census.gov/naics/resources/archives/sect31-33.html",
+      "title": "North American Industry Classification System: 311512 Creamery Butter Manufacturing",
+      "access_date": "2026-07-22",
+      "supports": "Defines 311512 as establishments manufacturing creamery butter from milk or processed milk products and excludes margarine or margarine-butter blends."
+    },
+    {
+      "id": "S2",
+      "url": "https://www.bls.gov/oes/2024/may/ind_emp_chart/ind_emp_chart_data.htm",
+      "title": "BLS OEWS Data Tables for Industry Charts, May 2024",
+      "access_date": "2026-07-22",
+      "supports": "Reports the largest occupations in dairy product manufacturing, including 25,520 food batchmakers, 23,690 packaging and filling operators, 8,170 material movers, and 7,840 production supervisors."
+    },
+    {
+      "id": "S3",
+      "url": "https://www.fda.gov/inspections-compliance-enforcement-and-criminal-investigations/inspection-guides/computerized-systems-food-processing-industry",
+      "title": "FDA: Computerized Systems in the Food Processing Industry",
+      "access_date": "2026-07-22",
+      "supports": "Describes acceptable computerized record keeping and real-time control functions and the need to assess equivalence and safety-critical controls."
+    },
+    {
+      "id": "S4",
+      "url": "https://www.fda.gov/consumers/consumer-updates/keeping-your-milk-safe-grass-glass",
+      "title": "FDA: Keeping Your Milk Safe From the Grass to the Glass",
+      "access_date": "2026-07-22",
+      "supports": "Details operator responsibilities for process temperatures, equipment control and testing, worker safety, laboratory testing, and interstate dairy compliance."
+    },
+    {
+      "id": "S5",
+      "url": "https://www.census.gov/content/dam/Census/library/visualizations/2020/comm/business-owners-ages.pdf",
+      "title": "U.S. Census Bureau: Business Owners' Ages",
+      "access_date": "2026-07-22",
+      "supports": "Reports that 51% of responding owners of U.S. employer businesses were age 55 or older in the 2019 ABS covering data year 2018."
+    },
+    {
+      "id": "S6",
+      "url": "https://www.dairyprocessing.com/articles/3768-us-per-capita-butter-consumption-reaches-all-time-high",
+      "title": "US per capita butter consumption reaches all-time high",
+      "access_date": "2026-07-22",
+      "supports": "Reports USDA-derived U.S. per-capita butter consumption of 6.8 pounds in 2024 versus 6.5 pounds in 2023 and 21% growth over the prior decade."
+    },
+    {
+      "id": "S7",
+      "url": "https://www.ers.usda.gov/data-products/dairy-data/documentation",
+      "title": "USDA ERS Dairy Data Documentation",
+      "access_date": "2026-07-22",
+      "supports": "Explains that dairy per-capita consumption estimates cover butter and generally use domestic disappearance divided by population, without full accounting for spoilage and waste."
+    }
+  ]
+}

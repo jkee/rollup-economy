@@ -1,0 +1,154 @@
+{
+  "identity": {
+    "naics": "311213",
+    "title": "Malt Manufacturing",
+    "run_id": "311213-a1-20260722",
+    "model_id": "claude-sonnet-5",
+    "run_date": "2026-07-22",
+    "methodology_version": "5.1",
+    "attempt": 1
+  },
+  "lens": {
+    "included_activities": "Independent malt houses manufacturing barley, rye, or other-grain malt for repeat sale to external breweries, distillers, and food customers.",
+    "excluded_activities": "Captive malt operations inside breweries, brewing itself, malt extracts and syrups, shell entities, and businesses without transferable operating assets or external customers.",
+    "customer_and_revenue_model": "Recurring business-to-business sales of specification-grade malt, typically by shipment or supply agreement, with revenue tied to physical volume and negotiated product specifications.",
+    "deviation_from_default": "none",
+    "heterogeneous": false
+  },
+  "primitives": {
+    "a": {
+      "evidence_state": "PROXY",
+      "low": 0.18,
+      "base": 0.28,
+      "high": 0.4,
+      "bridge": "O*NET and BLS describe food batchmakers and food-processing equipment workers rather than the wage-weighted 311213 workforce. I map recordkeeping, monitoring, recipe control, scheduling, and inspection to AI-assistable work, while treating cleaning, material handling, equipment tending, and sensory or safety-critical decisions as weakly substitutable. This likely overstates remaining opportunity in large malt houses because malt testing and process control are already substantially automated.",
+      "rationale": "The relevant production proxy mixes information-heavy tasks such as recording batch data and monitoring instruments with substantial physical equipment operation, sanitation, loading, and quality work. Existing malt-lab automation further reduces the not-yet-automated base, leaving a bounded opportunity in documentation, exception detection, planning, maintenance triage, and customer/specification administration.",
+      "change_evidence": "A 311213-specific OEWS staffing table combined with time-and-motion interviews across production, laboratory, maintenance, logistics, sales, and administrative roles, explicitly identifying already automated tasks.",
+      "source_ids": ["S1", "S2", "S3"],
+      "caveats": ["No public wage-weighted task inventory specific to malt manufacturing was found.", "The Thermo Fisher paper is vendor-affiliated and describes laboratory automation, not the whole plant."]
+    },
+    "rho": {
+      "evidence_state": "ESTIMATE",
+      "low": 0.35,
+      "base": 0.55,
+      "high": 0.72,
+      "rationale": "Over five years, AI copilots and anomaly-detection tools can plausibly enter documentation, scheduling, quality review, and maintenance workflows, but food-safety accountability, validation against standard methods, integration with plant controls, small-industry scale, and limited tolerance for batch failures constrain implementation. The midpoint assumes augmentation and avoided hiring more often than unattended operation.",
+      "change_evidence": "Plant-level implementation records from maltsters showing baseline hours, validated use cases, adoption dates, false-alarm rates, quality deviations, and headcount or hiring effects over at least four production cycles.",
+      "source_ids": ["S2", "S3"],
+      "caveats": ["This is implementation judgment, not a measured adoption rate.", "Large modern plants and small craft maltsters may have very different control-system maturity."]
+    },
+    "e": {
+      "evidence_state": "ESTIMATE",
+      "low": 0.55,
+      "base": 0.75,
+      "high": 0.9,
+      "rationale": "A maltster with external repeat customers, separable plant assets, transferable permits and quality systems, and no dependence on a single owner can fit the lens. Eligibility is reduced by captive or vertically integrated operations, customer concentration, commodity exposure, and facilities whose economics or environmental liabilities do not support a standalone control acquisition.",
+      "change_evidence": "A complete establishment-to-firm map for NAICS 311213 with ownership, captive versus merchant status, revenue, normalized EBITDA, customer concentration, environmental liabilities, and owner dependence.",
+      "source_ids": ["S4"],
+      "caveats": ["The frozen dataset estimates zero firms in the $1-10M EBITDA band, so this conditional eligibility share does not imply an available target count.", "Public establishment counts do not reveal firm ownership, profitability, or captive status."]
+    },
+    "s5": {
+      "evidence_state": "PROXY",
+      "low": 0.12,
+      "base": 0.2,
+      "high": 0.28,
+      "bridge": "Gallup measured plans among U.S. business owners generally: 22% of employer-business owners planned to sell or transfer ownership within five years. I use that as the center, trim slightly for a capital-intensive, highly concentrated manufacturing niche where family transfers, strategic ownership, and non-qualifying transactions may not create an acquirable control opportunity. The broad survey could overstate qualifying maltster transfers, while unplanned sales could make it understate realized transfers.",
+      "rationale": "The employer-business survey provides a direct five-year ownership-plan anchor but not an industry-specific realized transaction rate. A wide range reflects both the tiny industry population and uncertainty about whether planned transfers are external, controlling, and operationally transferable.",
+      "change_evidence": "Five years of malt-manufacturing control transactions from PitchBook, Capital IQ, GF Data, and state business registries, paired with owner-age and succession interviews for every independent U.S. maltster.",
+      "source_ids": ["S5"],
+      "caveats": ["Gallup covers all U.S. employer businesses, not malt manufacturing or the LMM EBITDA band.", "Intentions may not become completed transfers and include gifts or rare public offerings."]
+    },
+    "q": {
+      "evidence_state": "ESTIMATE",
+      "low": 0.35,
+      "base": 0.55,
+      "high": 0.75,
+      "rationale": "Malt is a recurring physical input sold to sophisticated breweries and distillers. An operator can initially retain savings through better yield, scheduling, quality consistency, and lower overhead, but renewals, competing suppliers, raw-material formulas, and financially pressured brewery customers should pass through a meaningful share. Retention should be stronger for differentiated specialty malt and weaker for commodity base malt.",
+      "change_evidence": "Customer contracts and invoice cohorts showing indexation, cost-plus clauses, renewal repricing, gross margin by malt type, customer concentration, bid frequency, and realized price changes following documented productivity improvements.",
+      "source_ids": ["S6"],
+      "caveats": ["No public contract sample or post-productivity pricing study specific to U.S. maltsters was located.", "Craft-brewery conditions are only part of the customer base and may overstate pricing pressure for distilling or food customers."]
+    },
+    "d5": {
+      "evidence_state": "PROXY",
+      "low": 0.8,
+      "base": 0.88,
+      "high": 0.98,
+      "bridge": "USDA reports U.S. beer production down more than 13% from 2016/17 to 2023/24 and barley food/alcohol/industrial use forecast at 110.7 million bushels in 2024/25, 27% below 2016/17; the Brewers Association reports 2024 craft volume down 3.9% and overall beer volume down 1.2%. I translate these downstream and input-market trends into a five-year constant-quality demand ratio for U.S. merchant malt, allowing a less severe decline in the high case because distilling, food, specialty, exports, and share shifts can offset beer weakness. The proxies may overstate decline if merchant malt gains share from captive or imported supply, and understate it if beer contraction accelerates.",
+      "rationale": "Brewing is the primary demand channel and its long decline continued in recent data. Specialty uses and non-beer customers provide some diversification, but the central case remains a material real-volume contraction rather than stable demand.",
+      "change_evidence": "USDA malt production and disappearance by end use, TTB beer production through 2031, maltster shipment volumes split among brewing, distilling, food, export, and specialty applications, and customer forecasts under constant specifications.",
+      "source_ids": ["S6", "S7"],
+      "caveats": ["Barley FAI includes uses other than malt and is not identical to merchant malt shipments.", "Craft beer is a subset of beer demand and uses malt at a different intensity from large-scale brewing."]
+    },
+    "o": {
+      "evidence_state": "ESTIMATE",
+      "low": 0.92,
+      "base": 0.97,
+      "high": 1.0,
+      "rationale": "The service basket is physical grain conversion to specification-grade malt; software cannot steep, germinate, kiln, test, store, and ship the product. AI may reduce staffing but does not remove accountable plant operation. The residual loss reflects possible brewery self-supply, vertical integration, imports, or substitution toward extracts and other inputs.",
+      "change_evidence": "Customer make-versus-buy surveys, announced captive malting capacity, import-share forecasts, and brewer formulation studies measuring substitution away from externally supplied malt.",
+      "source_ids": ["S3", "S4"],
+      "caveats": ["This is a structural judgment rather than a measured five-year retention share.", "The construct separates operator requirement from declining end-market volume, which is captured in d5."]
+    }
+  },
+  "narrative": {
+    "executive_view": "Malt manufacturing is a physical, specification-driven business with repeat B2B demand, but the frozen dataset estimates no firms in the target EBITDA band and brewing demand is contracting. AI can improve information flows around a plant more readily than it can replace the plant's core work.",
+    "ai_impact": "The clearest opportunities are batch-record automation, certificate and specification handling, production scheduling, maintenance triage, anomaly detection, and assisted quality review. Core sanitation, material movement, equipment operation, sampling, and accountable food-safety decisions remain physical or tightly supervised, while much laboratory analysis is already automated.",
+    "value_capture": "Yield and consistency improvements can be retained where specialty products and customer-specific specifications matter. Commodity base-malt competition, contract renewal, raw-material indexation, and pressure on brewery margins create meaningful pass-through risk.",
+    "firm_availability": "Independent merchant maltsters can be transferable operating businesses, but the industry is tiny and may include captive or strategically owned plants. The frozen LMM count of zero is the central availability constraint; the broad employer-business succession survey cannot establish that a malt target will trade.",
+    "demand_durability": "Physical malt production remains operator-required, but quantity demand faces a persistent beer-volume headwind. Distilling, specialty malt, food uses, exports, and merchant-share gains can soften rather than erase that pressure.",
+    "risks_and_uncertainty": "Key risks are no actionable target in band, customer concentration, falling beer output, barley quality and crop variability, energy-intensive kilning, food-safety failures, environmental liabilities, incumbent process automation, and limited public evidence on contracts or labor mix. A plant-by-plant market map could materially change the conclusion.",
+    "principal_driver": "Recurring need for accountable physical conversion and quality assurance keeps most surviving malt demand operator-required.",
+    "principal_weakness": "The frozen estimate of zero LMM-band firms combines with declining brewing demand to make target availability exceptionally weak."
+  },
+  "sources": [
+    {
+      "id": "S1",
+      "url": "https://www.onetonline.org/link/details/51-3092.00",
+      "title": "O*NET OnLine: Food Batchmakers (51-3092.00)",
+      "access_date": "2026-07-22",
+      "supports": "Food-batchmaker tasks include recording production and test data, cleaning vats, operating processing equipment, following recipes, monitoring conditions, and evaluating product quality."
+    },
+    {
+      "id": "S2",
+      "url": "https://www.bls.gov/ooh/production/food-and-tobacco-processing-workers.htm",
+      "title": "BLS Occupational Outlook Handbook: Food Processing Equipment Workers",
+      "access_date": "2026-07-22",
+      "supports": "Food-processing workers set controls, monitor mixes and gauges, record batch data, clean equipment, and check quality; BLS also notes automated weighing and mixing can require fewer workers."
+    },
+    {
+      "id": "S3",
+      "url": "https://assets.thermofisher.com/TFS-Assets/CMD/Reference-Materials/execsum-061016-automated-malt-analysis-execsum-061016-v1-en.pdf",
+      "title": "Automated Malt Analysis using Discrete Analyzers",
+      "access_date": "2026-07-22",
+      "supports": "Commercial malt houses use analysis for process and product quality control and trade specifications; the paper says automation is used in most malt testing facilities and describes already automated routine assays."
+    },
+    {
+      "id": "S4",
+      "url": "https://data.census.gov/profile/311213_-_Malt_manufacturing?codeset=naics~311213",
+      "title": "U.S. Census Bureau profile: 311213 Malt manufacturing",
+      "access_date": "2026-07-22",
+      "supports": "Defines the industry as establishments manufacturing malt from barley, rye, or other grains; the fetched profile reports 42 employer establishments for 2023."
+    },
+    {
+      "id": "S5",
+      "url": "https://news.gallup.com/poll/657362/small-business-owners-lack-succession-plan.aspx",
+      "title": "Gallup: Most Small-Business Owners Lack a Succession Plan",
+      "access_date": "2026-07-22",
+      "supports": "Fall-2024 survey of 1,264 U.S. working business owners: 22% of employer-business owners planned to sell or transfer ownership within five years; 52.3% of employer businesses were owned by people age 55 or older."
+    },
+    {
+      "id": "S6",
+      "url": "https://www.brewersassociation.org/association-news/brewers-association-reports-2024-u-s-craft-brewing-industry-figures/",
+      "title": "Brewers Association Reports 2024 U.S. Craft Brewing Industry Figures",
+      "access_date": "2026-07-22",
+      "supports": "Craft beer volume fell 3.9% in 2024, overall U.S. beer volume fell 1.2%, and small brewers faced rising ingredient costs and competition in a saturated market."
+    },
+    {
+      "id": "S7",
+      "url": "https://www.ers.usda.gov/data-products/charts-of-note/112968",
+      "title": "USDA ERS: Barley use declining as U.S. beer production trends lower",
+      "access_date": "2026-07-22",
+      "supports": "Beer production fell more than 13% from 2016/17 to 2023/24; 2024/25 barley food, alcohol, and industrial use was forecast at 110.7 million bushels, 27% below 2016/17."
+    }
+  ]
+}

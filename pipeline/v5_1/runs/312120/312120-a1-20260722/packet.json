@@ -1,0 +1,196 @@
+{
+  "identity": {
+    "naics": "312120",
+    "title": "Breweries",
+    "run_id": "312120-a1-20260722",
+    "model_id": "claude-sonnet-5",
+    "run_date": "2026-07-22",
+    "methodology_version": "5.1",
+    "attempt": 1
+  },
+  "lens": {
+    "included_activities": "Lower-middle-market U.S. production breweries with recurring external wholesale, self-distribution, private-label, contract-brewing, or alternating-proprietor relationships, including microbreweries and regional breweries with material off-site sales.",
+    "excluded_activities": "Hospitality-dominant brewpubs and taproom breweries whose economics are principally restaurant or bar operations; brand-only contract-brewing marketers that do not operate a brewery; captive pilot facilities; shell entities; and firms outside the approximately $1-10M normalized EBITDA band.",
+    "customer_and_revenue_model": "Repeat beer production and supply to distributors, retailers, hospitality accounts, or brand owners through wholesale, self-distribution, contract-production, and shared-brewery arrangements, with some ancillary direct-to-consumer sales.",
+    "deviation_from_default": "NAICS 312120 combines distribution-focused production breweries with hospitality-focused brewpubs and taprooms. The latter depend on restaurant, bar, and venue labor and customer economics that would make one labor, retention, and demand screen incoherent, so the lens is narrowed to production breweries with material recurring external supply relationships.",
+    "heterogeneous": true
+  },
+  "primitives": {
+    "a": {
+      "evidence_state": "PROXY",
+      "low": 0.16,
+      "base": 0.28,
+      "high": 0.4,
+      "bridge": "BLS reports the broader NAICS 312000 occupation mix rather than breweries: production is 22.11%, transportation/material moving 12.33%, office support 4.87%, and sales 12.15% of employment. ILO task research finds clerical roles most exposed to GenAI. I map exposure in sales administration, account support, forecasting, purchasing, inventory, compliance drafting, scheduling, bookkeeping, marketing content, and management analysis, plus narrower vision and optimization uses, onto distribution-focused brewery work. The broad subsector includes unrelated tobacco and visitor-facing beverage activities, while brewery production, cellar, packaging, lab, maintenance, and delivery tasks are substantially physical, making the bridge uncertain in both directions.",
+      "rationale": "A production brewery has substantial physical and sensory work, but its SKU complexity, distributor and retailer coordination, demand planning, sales activity, inventory, quality records, and regulated paperwork create a meaningful digital task layer. The range counts task substitution and avoided hiring within jobs, not replacement of whole brewers, packaging crews, technicians, or drivers.",
+      "change_evidence": "A current six-digit payroll extract with wages by detailed occupation, paired with task diaries from production, cellar, packaging, quality, sales, finance, compliance, planning, and warehouse staff at at least fifteen LMM distribution breweries, would materially change this value.",
+      "source_ids": ["S4", "S5"],
+      "caveats": [
+        "The occupation mix is a three-digit beverage-and-tobacco proxy.",
+        "General GenAI exposure does not measure current brewery automation or labor substitution.",
+        "Owner labor and cross-trained small-brewery jobs blur wage-weighted task allocation."
+      ]
+    },
+    "rho": {
+      "evidence_state": "ESTIMATE",
+      "low": 0.32,
+      "base": 0.55,
+      "high": 0.72,
+      "rationale": "Within five years, breweries can implement AI-assisted sales and operations planning, production scheduling, inventory and purchasing, account support, marketing workflows, compliance preparation, and exception detection. Realization is constrained by legacy brewery systems, fragmented distributor depletion data, weak master data, change capacity, regulated approvals, quality accountability, and the need for people to perform physical work.",
+      "change_evidence": "Audited before-and-after labor hours, headcount, service levels, forecast error, out-of-stocks, write-offs, and compliance exceptions from AI-enabled ERP, sales, forecasting, and scheduling deployments at comparable breweries would narrow the range.",
+      "source_ids": ["S5", "S8"],
+      "caveats": [
+        "No representative brewery AI-adoption or realized-savings study was found.",
+        "Implementation capacity may be weaker at owner-operated firms than at scaled beverage manufacturers.",
+        "The estimate excludes autonomous delivery and speculative general-purpose robotics."
+      ]
+    },
+    "e": {
+      "evidence_state": "PROXY",
+      "low": 0.35,
+      "base": 0.52,
+      "high": 0.7,
+      "bridge": "The Brewers Association counted 1,994 microbreweries and 275 regional breweries versus 3,525 brewpubs and 3,784 taproom breweries in 2025, but these are establishment counts for its small-and-independent craft population, not the 95 dataset-estimated LMM firms. Microbreweries are defined by at least 75% off-site sales, whereas brewpubs and taprooms have at least 25% onsite sales. I infer that LMM scale selects more heavily toward distribution breweries than raw establishment shares do, while excluding hospitality-dominant models. This likely understates eligibility if larger taprooms have substantial wholesale operations and overstates it if many nominal microbreweries fall below the EBITDA band.",
+      "rationale": "The default outsourced-supply lens fits production breweries with repeat external distribution or contract-production relationships, but not the large hospitality-dominant population. LMM scale should make distribution models more common than among the full brewery count, yet the heterogeneous industry warrants only about half eligibility at base.",
+      "change_evidence": "A firm-level roster of the 95 margin-bridged candidates with EBITDA, beer production, onsite versus offsite revenue, contract-production revenue, operating licenses, and ownership would directly classify lens eligibility.",
+      "source_ids": ["S2", "S3"],
+      "caveats": [
+        "Craft segment counts are establishments or brewing companies, not necessarily firms in the dataset band.",
+        "Onsite sales thresholds do not reveal whether hospitality is economically dominant.",
+        "The frozen firm count uses a food-processing margin bridge that may be unsuitable for taproom and brewpub models."
+      ]
+    },
+    "s5": {
+      "evidence_state": "ESTIMATE",
+      "low": 0.14,
+      "base": 0.25,
+      "high": 0.38,
+      "rationale": "A contracting, mature craft market creates both distress sales and consolidation opportunities, while broad employer-business owner aging adds succession pressure. The 2025 craft closure count of 481 and net brewery decline show churn but do not distinguish sales from shutdowns; therefore the qualifying five-year control-transfer probability is bounded below total business exit pressure.",
+      "change_evidence": "A five-year matched dataset of brewery license changes, asset purchases, equity acquisitions, SBA loan files, broker closings, and ownership records for the validated LMM production-brewery roster would separate qualifying transfers from closures, family succession, and brand-only transactions.",
+      "source_ids": ["S3", "S7", "S8"],
+      "caveats": [
+        "Closures are not control transfers and may destroy rather than transfer operations.",
+        "The owner-age statistic is cross-industry and based on 2018 data.",
+        "Brand acquisitions without operating assets may not qualify under the lens."
+      ]
+    },
+    "q": {
+      "evidence_state": "ESTIMATE",
+      "low": 0.3,
+      "base": 0.5,
+      "high": 0.7,
+      "rationale": "Productivity gains are not mechanically passed through under fixed wholesale price lists, but a shrinking, crowded category and retailer rationalization increase promotion, pricing, and service pressure. Three-tier distribution inserts an independent wholesaler and retailer, while state franchise rules can lock breweries into distributor relationships. Savings should be partly retained through margin and better assortment decisions, but competitive reinvestment and distributor-retailer bargaining limit durable capture.",
+      "change_evidence": "SKU- and account-level net-price waterfalls, distributor agreements, promotion accruals, gross-margin bridges, renewal or reset histories, and elasticity tests around documented cost reductions would measure how much benefit is retained over five years.",
+      "source_ids": ["S3", "S6"],
+      "caveats": [
+        "Distribution and franchise rules vary materially by state.",
+        "Self-distributed and direct-to-consumer volume may retain more benefit than wholesaler-served volume.",
+        "Category contraction can turn cost savings into defensive trade spending rather than price cuts."
+      ]
+    },
+    "d5": {
+      "evidence_state": "PROXY",
+      "low": 0.68,
+      "base": 0.84,
+      "high": 1.0,
+      "bridge": "The Brewers Association measures industry beer volume, not five-year constant-quality demand for the narrowed LMM production-brewery basket. It reports 2025 craft production down 4.0%, overall beer volume down 5.7%, and 60% of craft breweries declining. I compound a moderated contraction rather than mechanically extrapolating one year, because firm mix, nonalcoholic beer, innovation, and share shifts may soften the decline. Craft data may overstate weakness for differentiated survivors or understate it if retailer rationalization accelerates.",
+      "rationale": "Recent evidence indicates structural volume pressure rather than simple price inflation: both total beer and craft beer contracted, distribution-focused microbreweries performed worse than onsite models, and capacity utilization was reported at only 55% for craft beer in 2025. A five-year decline is therefore more defensible than flat growth, with the high case allowing stabilization.",
+      "change_evidence": "Five years of NielsenIQ or Circana unit and equivalent-volume data by craft segment, channel, brewery size, and nonalcoholic status, combined with TTB taxable-removal and production data, would support a cohort-based constant-quality forecast.",
+      "source_ids": ["S3", "S9"],
+      "caveats": [
+        "Brewers Association craft definitions do not exactly match NAICS or the LMM lens.",
+        "A single recent year can be cyclical, and survivor cohorts may outperform category totals.",
+        "Product mix shifts toward nonalcoholic beer or adjacent beverages may not remain inside the current service basket."
+      ]
+    },
+    "o": {
+      "evidence_state": "ESTIMATE",
+      "low": 0.9,
+      "base": 0.96,
+      "high": 0.99,
+      "rationale": "Beer remains a physical, perishable regulated product requiring an accountable licensed operator to brew, ferment, condition, test, package, record, and release it. Software can support these activities but cannot replace the brewery operator. Some production may shift to larger contract breweries or imports, so not all surviving quantity must remain with an LMM operator of the lens's kind.",
+      "change_evidence": "TTB production and removals split by brewery size, contract-production volumes, alternating-proprietor activity, brewery-license exits, and import displacement would quantify how much demand migrates away from LMM production operators.",
+      "source_ids": ["S1", "S2", "S8"],
+      "caveats": [
+        "The estimate addresses required operator involvement, not survival of each independent brand.",
+        "Contract brewing can preserve operator-required production while shifting it to a different firm.",
+        "State and federal license structures and direct-sales permissions vary."
+      ]
+    }
+  },
+  "narrative": {
+    "executive_view": "Distribution-focused breweries offer AI-addressable commercial and planning work around an irreducibly physical, regulated production process. The main concern is demand: 2025 craft volume fell 4% and overall beer volume 5.7%, with microbreweries especially weak. The industry also mixes production suppliers with hospitality businesses, so a coherent screen must exclude hospitality-dominant brewpubs and taprooms.",
+    "ai_impact": "AI can improve SKU and account forecasting, production scheduling, raw-material and packaging purchasing, inventory control, distributor depletion analysis, sales prioritization, marketing production, customer support, bookkeeping, and compliance preparation. Human brewers, cellar and packaging crews, quality staff, maintenance workers, and drivers remain necessary for physical and accountable execution.",
+    "value_capture": "Wholesale price lists do not automatically pass through savings, but breweries compete for scarce distributor attention, retail placement, and consumer demand. Three-tier and franchise structures can weaken control over route to market. Savings are likely to be divided among retained margin, promotions, service, and price support rather than fully captured.",
+    "firm_availability": "A mature market with closings above openings creates more ownership events and distress, while broad owner aging adds succession pressure. Yet many closures are liquidations and many brewery transactions involve brands rather than transferable operating firms, so observed craft churn cannot be treated as an acquisition rate.",
+    "demand_durability": "Beer production remains operator-required, but category quantity is declining. A narrowed LMM production-brewery basket faces retailer rationalization, changing alcohol preferences, and underused capacity; differentiated brands, nonalcoholic offerings, contract production, and local strength can offset but not erase the base contraction case.",
+    "risks_and_uncertainty": "Major risks are sustained volume decline, distributor dependence, state franchise constraints, brand concentration, excess capacity, input and packaging costs, product recalls, alcohol regulation, and a mismatch between the frozen food-processing margin bridge and brewery economics. The six-digit task mix and transfer denominator are not observed.",
+    "principal_driver": "AI can improve complex forecasting, sales, inventory, compliance, and production-planning workflows without replacing licensed physical production.",
+    "principal_weakness": "A contracting beer category and distributor-retailer bargaining can absorb operational gains."
+  },
+  "sources": [
+    {
+      "id": "S1",
+      "url": "https://www.census.gov/newsroom/blogs/global-reach/2020/11/fancy_another_pint.html",
+      "title": "Fancy Another Pint?",
+      "access_date": "2026-07-23",
+      "supports": "States that NAICS 312120 comprises establishments primarily engaged in brewing beer, ale, malt liquors, and nonalcoholic beer."
+    },
+    {
+      "id": "S2",
+      "url": "https://www.brewersassociation.org/statistics-and-data/craft-beer-industry-market-segments/",
+      "title": "Craft Beer Industry Market Segments",
+      "access_date": "2026-07-23",
+      "supports": "Defines microbreweries, brewpubs, taproom breweries, regional breweries, contract brewing companies, and alternating proprietors, including onsite and offsite sales thresholds and production responsibility."
+    },
+    {
+      "id": "S3",
+      "url": "https://www.brewersassociation.org/association-news/a-year-of-correction-for-craft-beer-with-early-signals-of-recovery/",
+      "title": "A Year of Correction for Craft Beer, With Early Signals of Recovery",
+      "access_date": "2026-07-23",
+      "supports": "Reports 2025 craft production down 4%, overall beer down 5.7%, 9,578 operating craft breweries, 300 openings, 481 closures, segment counts, and segment production changes."
+    },
+    {
+      "id": "S4",
+      "url": "https://www.bls.gov/oes/2023/may/naics3_312000.htm",
+      "title": "May 2023 National Industry-Specific Occupational Employment and Wage Estimates: NAICS 312000",
+      "access_date": "2026-07-23",
+      "supports": "Reports the broader beverage-and-tobacco occupation mix, including production at 22.11%, transportation/material moving at 12.33%, office support at 4.87%, and sales at 12.15% of employment."
+    },
+    {
+      "id": "S5",
+      "url": "https://www.ilo.org/publications/generative-ai-and-jobs-refined-global-index-occupational-exposure",
+      "title": "Generative AI and Jobs: A Refined Global Index of Occupational Exposure",
+      "access_date": "2026-07-23",
+      "supports": "Finds clerical work has the highest GenAI exposure and that job transformation is generally more likely than full automation."
+    },
+    {
+      "id": "S6",
+      "url": "https://www.ftc.gov/system/files/documents/advocacy_documents/joint-comment-ftc-staff-doj-antitrust-division-staff-california-state-assembly-concerning-california/v200008_california_beer_distribution_advocacy_2020.pdf",
+      "title": "FTC and DOJ Staff Comment on California Beer Distribution",
+      "access_date": "2026-07-23",
+      "supports": "Describes the three-tier chain in which brewers sell to licensed wholesalers that sell onward to retailers and discusses competition and distribution constraints."
+    },
+    {
+      "id": "S7",
+      "url": "https://www.census.gov/content/dam/Census/library/visualizations/2020/comm/business-owners-ages.pdf",
+      "title": "Business Owners' Ages",
+      "access_date": "2026-07-23",
+      "supports": "Reports that 51% of responding employer-business owners were age 55 or older in the 2019 Annual Business Survey, data year 2018."
+    },
+    {
+      "id": "S8",
+      "url": "https://www.ttb.gov/business-central/industry-startup-tutorial/IS-B-0010",
+      "title": "Getting Started in the Beer Industry",
+      "access_date": "2026-07-23",
+      "supports": "Explains regulated brewery, brewpub, pilot brewery, and alternating-proprietorship operating types and federal application requirements."
+    },
+    {
+      "id": "S9",
+      "url": "https://www.brewersassociation.org/insights/green-shoots-where-craft-beer-goes-from-here/",
+      "title": "Green Shoots: Where Craft Beer Goes From Here",
+      "access_date": "2026-07-23",
+      "supports": "Reports 2025 craft volume down 4%, operating breweries down 2.9%, microbrewery production down 8.9%, and estimated craft brewing capacity utilization of only 55%."
+    }
+  ]
+}
