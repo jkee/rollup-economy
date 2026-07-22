@@ -1,0 +1,210 @@
+{
+  "identity": {
+    "naics": "424110",
+    "title": "Printing and Writing Paper Merchant Wholesalers",
+    "run_id": "424110-a1-20260722",
+    "model_id": "claude-sonnet-5",
+    "run_date": "2026-07-22",
+    "methodology_version": "5.1",
+    "attempt": 1
+  },
+  "lens": {
+    "included_activities": "Independent US merchant wholesalers in the EBITDA band that repeatedly source, stock, sell, and coordinate delivery of bulk printing or writing paper to printers, converters, publishers, and other external business customers.",
+    "excluded_activities": "Paper mills selling directly, stationery and office-supply wholesalers, industrial and personal-service paper wholesalers, commission-only agents, captive distribution, shells, noncontrol financing vehicles, and firms without transferable recurring customer operations.",
+    "customer_and_revenue_model": "Business customers purchase bulk paper repeatedly, generally by roll or other production quantity. The outsourced service combines sourcing, credit, inventory availability, specification matching, order coordination, and delivery, with revenue captured mainly in product gross margin.",
+    "deviation_from_default": "none",
+    "heterogeneous": false
+  },
+  "primitives": {
+    "a": {
+      "evidence_state": "PROXY",
+      "low": 0.18,
+      "base": 0.28,
+      "high": 0.39,
+      "bridge": "BLS evidence for wholesale employment identifies a mix of sales, operations, clerical, customer-service, bookkeeping, warehouse, and driving roles, while Anthropic measures occupation-level AI task coverage across the economy. I apply greater exposure to quote and order intake, specification retrieval, purchasing support, credit documents, invoice matching, and customer communication, partial exposure to sales and management administration, and little exposure to handling and driving. Broader wholesale staffing may overstate physical work for some paper distributors, while platform usage may overstate achievable substitution in firms with weak systems.",
+      "rationale": "Bulk-paper distribution contains repeatable document and transaction workflows, but physical material flow, commercial negotiation, credit judgment, inventory commitments, and exception resolution remain human-intensive. The range represents current not-yet-automated wage-weighted work rather than the share of jobs that could disappear.",
+      "change_evidence": "A six-digit staffing and payroll census combined with sampled task minutes across quotes, orders, purchasing, credit, customer service, warehouse, and delivery at at least twelve printing-paper distributors.",
+      "source_ids": ["S2", "S3"],
+      "caveats": [
+        "No public six-digit occupational matrix was located.",
+        "Anthropic coverage is platform-specific and not equivalent to removable payroll.",
+        "The frozen compensation-to-receipts input uses 2024 wages and 2022 receipts and is harmonized to the IPS basis."
+      ]
+    },
+    "rho": {
+      "evidence_state": "ESTIMATE",
+      "low": 0.32,
+      "base": 0.5,
+      "high": 0.67,
+      "rationale": "Within five years, structured order capture, specification lookup, quote drafting, replenishment alerts, invoice matching, credit-document preparation, and account summarization are implementable. Realization is constrained by legacy ERP data, varying grades and substitutions, freight and inventory exceptions, credit risk, customer-specific prices, and the need for human approval. Low historical AI adoption and limited observed workforce change after technology adoption counsel against assuming full conversion.",
+      "change_evidence": "Postimplementation workflow logs showing straight-through order rates, pricing and specification error rates, exception queues, human-review minutes, service failures, and avoided hiring at comparable distributors.",
+      "source_ids": ["S4", "S11"],
+      "caveats": [
+        "Historic adoption evidence predates capabilities expected later in the horizon.",
+        "Shrinking demand can prompt headcount reduction independently of AI and must not be attributed to implementation.",
+        "Small distributors may not have reliable item, contract, and customer-master data."
+      ]
+    },
+    "e": {
+      "evidence_state": "ESTIMATE",
+      "low": 0.72,
+      "base": 0.86,
+      "high": 0.94,
+      "rationale": "The NAICS definition is a coherent merchant-wholesale activity serving downstream processors, so most firms in the supplied band should fit the recurring outsourced-service lens. Ineligible firms include captive or effectively mill-controlled channels, firms dominated by one-off trades, operations without transferable customer relationships, and firms whose normalized EBITDA falls outside the band after cyclical and inventory adjustments.",
+      "change_evidence": "Firm-level classification of the supplied population using ownership, customer recurrence, gross-margin source, normalized EBITDA, mill affiliation, owner dependence, and customer concentration.",
+      "source_ids": ["S1"],
+      "caveats": [
+        "The Census definition is establishment based while the supplied count is firm based.",
+        "Eligibility depends on normalized profitability during a sharply contracting demand period.",
+        "The frozen count is an estimate using broad distributor margins rather than paper-specific EBITDA."
+      ]
+    },
+    "s5": {
+      "evidence_state": "PROXY",
+      "low": 0.1,
+      "base": 0.19,
+      "high": 0.29,
+      "bridge": "BizBuySell records voluntarily reported sales of wholesale and distribution businesses rather than this exact six-digit population or EBITDA band, while Federal Reserve evidence links older ownership to greater exit-strategy priority. I use the demonstrated distributor transfer market and succession direction to bound a five-year qualifying control-transfer probability, then discount for small-marketplace selection, sub-band transactions, closures in a declining market, and noncontrol outcomes. Voluntary reporting biases counts downward, but brokered-market and smaller-firm selection can bias turnover upward.",
+      "rationale": "A mature, consolidating paper channel should produce succession and strategic exits, but secular decline can also yield closures or wind-downs that are not transferable control events. Only a minority of eligible firms are therefore expected to complete a qualifying transfer within five years.",
+      "change_evidence": "PitchBook, GF Data, Axial, SBA acquisition-loan, paper-industry broker, and mill-distributor records matched to NAICS, enterprise value, normalized EBITDA, transfer type, and an eligible-firm denominator.",
+      "source_ids": ["S9", "S10"],
+      "caveats": [
+        "Marketplace transactions are voluntarily reported and broadly classified.",
+        "Owner-age evidence covers small businesses generally.",
+        "Distress sales and mill-direct absorption may not preserve a transferable standalone operator."
+      ]
+    },
+    "q": {
+      "evidence_state": "ESTIMATE",
+      "low": 0.26,
+      "base": 0.43,
+      "high": 0.62,
+      "rationale": "Paper is a specifiable input sold to commercially sophisticated buyers, so savings embedded in gross margin face customer negotiation and competitor repricing. A distributor can retain more when AI improves fill rate, substitution advice, responsiveness, and working-capital discipline rather than merely reducing visible administration. Ongoing volume contraction increases competitive pressure, lowering the central retained share.",
+      "change_evidence": "Customer-level price realization, rebates, quote-win rates, renewal discounts, gross margin, service levels, and churn before and after automation, separated by contract type, grade, customer size, and local inventory advantage.",
+      "source_ids": ["S6", "S7"],
+      "caveats": [
+        "No source directly measures pass-through of AI savings in paper distribution.",
+        "Mill pricing, freight, and customer concentration can overwhelm labor savings.",
+        "Demand-volume loss is excluded from this primitive."
+      ]
+    },
+    "d5": {
+      "evidence_state": "PROXY",
+      "low": 0.52,
+      "base": 0.71,
+      "high": 0.9,
+      "bridge": "AF&PA directly measures US printing-writing paper shipments and capacity, not the constant-price service quantity of wholesalers in this EBITDA band. Shipments fell 8 percent in 2025, year-to-date shipments were down 10 percent in April 2026, and printing-writing capacity fell 13.9 percent in 2025 to 7.7 million tons from nearly 18 million tons in 2015. USPS mail volumes also continue to decline. I translate these upstream and end-use indicators into a material five-year decline in distributor service quantity, while allowing a higher case because capacity rationalization, share shifts from mill-direct channels, or remaining print niches can support survivors. Shipment and capacity trends likely overstate decline for consolidating distributors that gain share but understate digital-substitution risk in exposed grades.",
+      "rationale": "The current service basket is tied to structurally shrinking print, mail, publishing, and communication uses. Capacity rationalization can stabilize operating rates and surviving distributors can consolidate volume, but it does not reverse the quantity decline of the underlying printing-and-writing paper basket.",
+      "change_evidence": "AF&PA grade-level shipment forecasts, Census AIES six-digit real sales, mill capacity announcements, printer and converter procurement forecasts, and SKU-tonnage cohorts for eligible distributors.",
+      "source_ids": ["S5", "S6", "S7", "S8"],
+      "caveats": [
+        "AF&PA data cover manufacturing shipments and capacity, not distributor value added.",
+        "USPS is only one downstream paper-use channel.",
+        "Price volatility and grade mix complicate constant-price and constant-quality translation."
+      ]
+    },
+    "o": {
+      "evidence_state": "ESTIMATE",
+      "low": 0.65,
+      "base": 0.81,
+      "high": 0.92,
+      "rationale": "The paper that remains in use must still be specified, sourced, financed, staged, and delivered, so software does not eliminate the accountable operating function. However, declining volumes, mill capacity consolidation, electronic procurement, standardized grades, and direct mill-to-converter relationships can remove independent distributors from part of the surviving quantity.",
+      "change_evidence": "Invoice-level channel-share data from mills and converters showing direct, independent-distributor, marketplace, and broker flows by grade and customer size, together with inventory-location and service-level requirements.",
+      "source_ids": ["S1", "S7"],
+      "caveats": [
+        "The estimate distinguishes operator displacement from underlying paper-demand decline.",
+        "Wholesaler share can rise among survivors even while the number of operators falls.",
+        "Direct-channel feasibility varies with order size, credit, local stock, and grade complexity."
+      ]
+    }
+  },
+  "narrative": {
+    "executive_view": "Printing and writing paper distribution offers automatable transaction work inside a coherent repeat B2B model, but it sits against a severe structural volume decline. AI can improve the economics of survivors; it does not solve digital substitution for print, mail, and documents. The opportunity therefore depends on consolidation, share capture, and disciplined working capital as much as on administrative efficiency.",
+    "ai_impact": "AI can ingest orders, normalize specifications, retrieve grade and account information, prepare quotes, flag inventory or credit exceptions, match invoices, and draft customer and supplier communication. Human operators still own substitutions, credit, freight, inventory risk, mill negotiation, key-account trust, and physical fulfillment. Reliable integration into ERP and item data is the gating factor.",
+    "value_capture": "The product is transparent enough that buyers can negotiate away visible cost savings, particularly as declining volume intensifies competition. Retention improves when automation delivers faster response, fewer errors, better substitution guidance, and working-capital gains that are not separately quoted. Customer concentration, mill terms, and freight can still dominate the benefit.",
+    "firm_availability": "Most in-band firms should fit the recurring service lens, and a broad distributor transaction market exists. Yet exact transfer probability is unobserved, and industry contraction turns some owner exits into closures rather than transferable operations. A viable target needs durable customer relationships, supplier access, clean inventory, and a credible path to absorb volume from weaker competitors.",
+    "demand_durability": "Printing-writing shipments, mail volumes, and domestic production capacity all point downward. Remaining physical demand still needs an operator, particularly for credit, local stock, specification, and exceptions, but direct mill relationships and electronic procurement can bypass independents. A base case should assume a smaller year-five service basket, not cyclical recovery to current quantity.",
+    "risks_and_uncertainty": "The main risks are secular demand erosion, capacity closures, customer and mill concentration, inventory write-downs, freight volatility, price pass-through, direct-channel bypass, legacy systems, and automation errors in specifications or pricing. Broad four-digit productivity data and marketplace transactions do not resolve the six-digit occupation or transfer questions.",
+    "principal_driver": "Consolidating survivors can automate repetitive order-to-cash work while continuing to provide credit, inventory, specification, and delivery accountability.",
+    "principal_weakness": "Rapid, persistent contraction in printing-writing paper quantity can overwhelm otherwise credible workflow savings."
+  },
+  "sources": [
+    {
+      "id": "S1",
+      "url": "https://www.census.gov/naics/?chart=2017&details=424110&input=424110",
+      "title": "NAICS definition for Printing and Writing Paper Merchant Wholesalers",
+      "access_date": "2026-07-22",
+      "supports": "Defines the industry as merchant wholesale distribution of bulk printing or writing paper, generally on rolls for further processing, and distinguishes office paper."
+    },
+    {
+      "id": "S2",
+      "url": "https://www.bls.gov/oes/2024/may/ind_emp_chart/ind_emp_chart_data.htm",
+      "title": "OEWS industry chart data",
+      "access_date": "2026-07-22",
+      "supports": "Shows wholesale work includes sales representatives, operations managers, material movers, stockers, drivers, office clerks, customer-service representatives, and bookkeeping clerks."
+    },
+    {
+      "id": "S3",
+      "url": "https://www.anthropic.com/research/labor-market-impacts",
+      "title": "Labor market impacts of AI: a new measure and early evidence",
+      "access_date": "2026-07-22",
+      "supports": "Measures actual AI task coverage by occupation and reports high coverage for customer-service and data-entry work while many physical occupations have zero observed coverage."
+    },
+    {
+      "id": "S4",
+      "url": "https://www.census.gov/library/stories/2023/11/businesses-use-ai.html",
+      "title": "Only 3.8 percent of Businesses Use AI to Produce Goods and Services",
+      "access_date": "2026-07-22",
+      "supports": "Reports representative nonfarm-employer survey evidence that 3.8 percent used AI in late 2023."
+    },
+    {
+      "id": "S5",
+      "url": "https://www.bls.gov/news.release/prin1.htm",
+      "title": "Productivity and Costs by Industry for Wholesale and Retail Trade",
+      "access_date": "2026-07-22",
+      "supports": "Reports paper and paper-product wholesaler output fell 2.1 percent in 2025 and employment was 112.8 thousand at the broader four-digit industry level."
+    },
+    {
+      "id": "S6",
+      "url": "https://www.afandpa.org/news/2026/afpa-releases-december-2025-printing-writing-monthly-report",
+      "title": "December 2025 Printing-Writing Monthly Report",
+      "access_date": "2026-07-22",
+      "supports": "Reports printing-writing paper shipments fell 11 percent in December and 8 percent for full-year 2025, while October purchases fell 14 percent."
+    },
+    {
+      "id": "S7",
+      "url": "https://www.afandpa.org/news/2026/afpa-releases-66th-annual-paper-industry-capacity-and-fiber-consumption-survey",
+      "title": "Paper Industry Capacity and Fiber Consumption Survey Release",
+      "access_date": "2026-07-22",
+      "supports": "Reports printing-writing capacity fell 13.9 percent in 2025 to 7.7 million tons from nearly 18 million tons in 2015, while operating rates rose to 82.8 percent."
+    },
+    {
+      "id": "S8",
+      "url": "https://about.usps.com/newsroom/national-releases/2025/1114-usps-reports-fiscal-year-2025-results.htm",
+      "title": "US Postal Service Fiscal Year 2025 Results",
+      "access_date": "2026-07-22",
+      "supports": "Reports total mail volume down 3.3 percent, First-Class Mail volume down 5 percent, Marketing Mail volume down 1.3 percent, and periodical volume down from 2.746 billion to 2.443 billion pieces."
+    },
+    {
+      "id": "S9",
+      "url": "https://www.bizbuysell.com/insight-report-data-tables/",
+      "title": "BizBuySell Insight Report Data Tables",
+      "access_date": "2026-07-22",
+      "supports": "Reports 2025 closed transactions for wholesale and distributor categories, including 28 durable-goods and 92 other-wholesaler sales, demonstrating an active but voluntarily reported transfer market."
+    },
+    {
+      "id": "S10",
+      "url": "https://www.fedsmallbusiness.org/categories/age-of-owners",
+      "title": "Federal Reserve Small Business: Age of Owners",
+      "access_date": "2026-07-22",
+      "supports": "States that older owners more often lead established firms and that exit strategies become a higher priority as they approach retirement."
+    },
+    {
+      "id": "S11",
+      "url": "https://www.census.gov/library/stories/2025/09/technology-impact.html",
+      "title": "Annual Business Survey Insight into Technology Adoption",
+      "access_date": "2026-07-22",
+      "supports": "Reports that businesses most often said worker counts did not change after adoption of tracked technologies, including AI, specialized software, robotics, cloud technology, and specialized equipment."
+    }
+  ]
+}

@@ -1,0 +1,154 @@
+{
+  "identity": {
+    "naics": "424470",
+    "title": "Meat and Meat Product Merchant Wholesalers",
+    "run_id": "424470-a1-20260722",
+    "model_id": "claude-sonnet-5",
+    "run_date": "2026-07-22",
+    "methodology_version": "5.1",
+    "attempt": 1
+  },
+  "lens": {
+    "included_activities": "Independent US meat and meat-product merchant wholesalers in the lower-middle-market band that repeatedly source, receive, hold, cut where incidental to wholesaling, sell, and distribute fresh, non-packaged frozen, cured, smoked, deli, and processed red-meat products to restaurants, retailers, institutions, and other food businesses.",
+    "excluded_activities": "Slaughter and primary meat processing establishments, boxed-beef assembly-line processors, poultry wholesalers, canned or packaged-frozen meat wholesalers, consumer-facing retailers and restaurants, pure commission agents, captive internal distributors, shells, and non-control financing vehicles.",
+    "customer_and_revenue_model": "Repeat B2B product sales using product markup and commonly bundling procurement, cold storage, lot control, order cutting or assembly, delivery, and recall or shortage response.",
+    "deviation_from_default": "none",
+    "heterogeneous": false
+  },
+  "primitives": {
+    "a": {
+      "evidence_state": "PROXY",
+      "low": 0.11,
+      "base": 0.2,
+      "high": 0.31,
+      "bridge": "BLS measures the occupation mix for the broader combined grocery/alcohol wholesale group, not six-digit meat-wholesaler wage shares or task exposure. I classify routine quoting, order capture, sales research, customer communication, document handling, reporting, scheduling, and parts of purchasing and forecasting as exposed, while treating driving, freight handling, stocking, cold storage, cutting, inspection, and sanitation as mostly unexposed. Broader-group headcounts may understate wage-weighted exposure because sales and managers earn more, but excluding meat-cutting occupations may overstate it.",
+      "rationale": "The broader wholesale mix contains large physical driving, freight, stocking, delivery, and equipment-operating workforces. Sales is the largest listed occupation and includes information-heavy duties that AI can assist, but this six-digit definition also includes some cutting of purchased carcasses, while food safety and cold-chain work remain physical and accountable.",
+      "change_evidence": "A NAICS 424470 OEWS special tabulation with wages by occupation, paired with task diaries from at least 15 independent meat wholesalers across sales, purchasing, quality, inventory, customer service, cutting, warehouse, and delivery roles.",
+      "source_ids": ["S1", "S2", "S3"],
+      "caveats": ["The occupation mix combines NAICS 4244 with beverage wholesalers and is not meat-specific.", "Exposure and current automation penetration are analyst judgments rather than measured quantities."]
+    },
+    "rho": {
+      "evidence_state": "ESTIMATE",
+      "low": 0.31,
+      "base": 0.5,
+      "high": 0.68,
+      "rationale": "Within five years, integrated AI can assist quoting, order entry, replenishment, purchase planning, invoice matching, customer service, sales administration, and recall-document searches. Implementation will be limited by legacy ERP systems, rapidly changing cuts and prices, catch-weight and substitution complexity, customer-specific specifications, lot data, and the need for accountable human review of quality, temperature, and food-safety exceptions.",
+      "change_evidence": "Twelve-month pre/post labor-hour, error, shrink, fill-rate, gross-margin, and recall-drill results from meat wholesalers implementing AI integrated with ERP, warehouse, scale, lot, temperature, and customer systems.",
+      "source_ids": ["S2", "S6"],
+      "caveats": ["No meat-wholesale AI implementation cohort was found.", "The estimate assumes workflow integration and reliable product-master data, not stand-alone generative AI usage."]
+    },
+    "e": {
+      "evidence_state": "ESTIMATE",
+      "low": 0.69,
+      "base": 0.84,
+      "high": 0.94,
+      "rationale": "Most merchant wholesalers provide a recurring external distribution function. Eligibility is reduced for vertically integrated or captive distributors, entities dominated by one-off commodity trading, firms that are effectively processors or retailers despite classification, and operations dependent on a single owner, supplier, or customer such that control transfer would not preserve the service business.",
+      "change_evidence": "A stratified review of 100 dataset-band firms using ownership, facilities, inspection status, processing share, customer and supplier concentration, revenue model, and interviews to classify independent repeat-service operators.",
+      "source_ids": ["S3"],
+      "caveats": ["Lens eligibility is not directly published.", "The frozen LMM count is margin-bridged using a broad distributor margin that may not reflect low-margin, high-throughput meat trading."]
+    },
+    "s5": {
+      "evidence_state": "PROXY",
+      "low": 0.15,
+      "base": 0.24,
+      "high": 0.35,
+      "bridge": "Census reports that 51% of responding US employer-business owners across all industries were age 55 or older in 2018, not the control-transfer rate for meat wholesalers. I translate that owner-age stock into a five-year probability after deductions for continued ownership, family succession, closure, minority recapitalization, and internal reorganization. Mature family-owned wholesalers may be older than average yet more likely to transfer internally, so net bias is uncertain.",
+      "rationale": "Owner age creates a meaningful succession pool, but only a fraction will produce a qualifying external control transfer in five years. The base below one quarter recognizes that age is neither intent to sell nor proof of a transferable operation.",
+      "change_evidence": "NAICS 424470 owner-age and succession-plan data plus five years of closed control deals from PitchBook, Axial, GF Data, BizBuySell, and food-distribution brokers, reconciled to the eligible-firm denominator.",
+      "source_ids": ["S4"],
+      "caveats": ["The source counts responding owners rather than firms and is all-industry, not current, and not meat-specific.", "It does not separate external sales from family transfers, closures, or non-control events."]
+    },
+    "q": {
+      "evidence_state": "ESTIMATE",
+      "low": 0.29,
+      "base": 0.48,
+      "high": 0.67,
+      "rationale": "AI benefits can arise from lower office labor, fewer errors, improved purchasing, and reduced shrink, but meat is frequently repriced and buyers can compare products and bids. Commodity cycles, yield, grade, cut mix, and freight dominate invoice values and make cost advantages contestable. Service differentiation through cutting capability, freshness, fill rate, delivery density, credit, and traceability supports partial retention.",
+      "change_evidence": "Customer-level margin bridges for AI adopters versus matched firms over three annual cycles, separating labor and shrink changes from livestock prices, grade and cut mix, yield, freight, rebates, churn, and bid repricing.",
+      "source_ids": ["S5", "S6"],
+      "caveats": ["No direct study of AI-benefit retention in meat distribution was found.", "Livestock price cycles and product mix can overwhelm the operating-cost signal."]
+    },
+    "d5": {
+      "evidence_state": "PROXY",
+      "low": 0.95,
+      "base": 1.01,
+      "high": 1.07,
+      "bridge": "USDA projects national per-capita red-meat disappearance, not constant-quality throughput for LMM meat wholesalers. Its February 2025 baseline places total red meat at 110.1 pounds in 2025, 106.8 in 2027, and 109.1 in 2030, with beef falling early and pork partly offsetting it. I combine that near-flat per-capita path with modest population growth and allow for channel-share changes; distributor quantity could underperform if processors sell directly or outperform if foodservice and specialty accounts gain share.",
+      "rationale": "USDA's species-level baseline indicates a cyclical beef decline followed by recovery and relatively stable pork, leaving per-capita red-meat demand close to current levels over five years. Modest population growth supports a base just above current total quantity, but health preferences, price, livestock disease, and direct sourcing justify downside.",
+      "change_evidence": "Updated USDA long-term projections and five years of pound or case shipments by beef, pork, veal, lamb, product form, and customer channel from Circana, NIQ, Technomic, and wholesaler systems, adjusted for quality and yield.",
+      "source_ids": ["S5"],
+      "caveats": ["USDA disappearance is a proxy for consumption rather than measured intake or wholesale throughput.", "The baseline was completed in October 2024 and may not capture subsequent disease, trade, feed-cost, or cattle-cycle changes."]
+    },
+    "o": {
+      "evidence_state": "ESTIMATE",
+      "low": 0.87,
+      "base": 0.95,
+      "high": 0.99,
+      "rationale": "Nearly all year-five physical meat quantity requires an accountable operator for approved sourcing, refrigeration, inventory and lot custody, optional cutting, sanitation, mixed-order assembly, delivery, condition checks, and recall execution. USDA guidance explicitly assigns cold-chain, traceability, and recall responsibilities across transport and wholesale distribution. Direct processor-to-chain shipments can bypass specialists, but software cannot replace physical custody and food-safety accountability.",
+      "change_evidence": "Channel-flow studies from processors and restaurant or retail buyers measuring five-year direct-shipment, broadliner, marketplace, and specialist-wholesaler shares, plus changes in outsourced cutting, storage, delivery, and recall services.",
+      "source_ids": ["S3", "S6", "S7"],
+      "caveats": ["No direct bypass-rate series for independent meat wholesalers was found.", "Large chains may source directly from packers more readily than independent restaurants, butcher shops, and institutions."]
+    }
+  },
+  "narrative": {
+    "executive_view": "Meat wholesaling contains useful sales, purchasing, order, planning, and administrative automation opportunities, but its exceptionally low compensation-to-receipts ratio and substantial physical cold-chain work limit the implementable economic pool. Product repricing and buyer power weaken retention. Demand should remain broadly stable, and most quantity will still require a responsible operator.",
+    "ai_impact": "AI can assist quotes, order ingestion, customer communication, substitution suggestions, purchase planning, invoice matching, inventory exception detection, sales reporting, and lot or recall searches. Cutting, inspection, sanitation, refrigerated handling, loading, delivery, and food-safety decisions remain physical or require accountable human review.",
+    "value_capture": "Operational savings are most defensible where they reduce shrink, errors, and purchasing leakage or improve service without immediate price concessions. Frequent commodity repricing and comparable bids let customers capture savings, while specialized cuts, reliable fill rates, local delivery density, credit, and traceability can defend margin.",
+    "firm_availability": "Most independent merchant wholesalers meet the repeat external-service lens, but vertically integrated processors, captive distributors, thin one-off traders, and owner-dependent businesses reduce eligibility. Broad owner-age evidence indicates succession potential, while the actual five-year external transfer rate remains unobserved.",
+    "demand_durability": "USDA projects red-meat disappearance to dip and then recover toward current levels, with pork offsetting part of the early beef decline. Population supports total volume, but health preferences, affordability, cattle cycles, disease, trade, and processor direct sales add risk. Cold-chain and recall duties make elimination by software unlikely.",
+    "risks_and_uncertainty": "Key gaps include six-digit occupational wages, actual AI deployment outcomes, eligibility audits, closed-deal denominators, and measured benefit pass-through. Livestock cycles, disease, recalls, supplier concentration, customer credit, working capital, refrigeration failure, shrink, tariffs, and processor consolidation may matter more than AI labor savings.",
+    "principal_driver": "Repeat refrigerated distribution combines automatable information workflows with durable physical and food-safety responsibilities.",
+    "principal_weakness": "Very low labor intensity and highly contestable commodity pricing sharply limit the retained benefit."
+  },
+  "sources": [
+    {
+      "id": "S1",
+      "url": "https://www.bls.gov/oes/2024/may/ind_emp_chart/ind_emp_chart_data.htm",
+      "title": "Data tables for OEWS industry charts, May 2024",
+      "access_date": "2026-07-22",
+      "supports": "For the combined NAICS 4244/4248 group, lists nontechnical wholesale sales representatives at 144,560 employment, heavy truck drivers at 101,620, material movers at 86,440, stockers/order fillers at 84,760, driver/sales workers at 73,980, and other physical distribution occupations among the largest jobs."
+    },
+    {
+      "id": "S2",
+      "url": "https://www.bls.gov/ooh/sales/wholesale-and-manufacturing-sales-representatives.htm",
+      "title": "Wholesale and Manufacturing Sales Representatives, Occupational Outlook Handbook",
+      "access_date": "2026-07-22",
+      "supports": "Documents prospecting, customer contact, product selection, price and availability questions, negotiation, contracts, orders, reporting, and administrative duties; says online wholesale sales should mostly complement face-to-face selling and AI/chatbots may limit employment growth."
+    },
+    {
+      "id": "S3",
+      "url": "https://www.census.gov/naics/?details=424470&input=424470&year=2022",
+      "title": "2022 NAICS definition: 424470 Meat and Meat Product Merchant Wholesalers",
+      "access_date": "2026-07-22",
+      "supports": "Defines the industry as merchant wholesale distribution of meats and meat products except canned and packaged frozen, and lard; index entries include fresh and frozen meats, deli and processed meats, and cutting purchased carcasses outside boxed-beef assembly-line processing."
+    },
+    {
+      "id": "S4",
+      "url": "https://www.census.gov/content/dam/Census/library/visualizations/2020/comm/business-owners-ages.pdf",
+      "title": "Business Owners' Ages",
+      "access_date": "2026-07-22",
+      "supports": "Reports that 51% of responding owners of US employer businesses were age 55 or older, 43% were 35-54, and 6% were 34 or younger, based on 2018 data from the 2019 Annual Business Survey."
+    },
+    {
+      "id": "S5",
+      "url": "https://ers.usda.gov/sites/default/files/_laserfiche/outlooks/110966/OCE-2025-1.pdf",
+      "title": "USDA Agricultural Projections to 2034",
+      "access_date": "2026-07-22",
+      "supports": "Projects per-capita total red-meat disappearance at 110.1 pounds in 2025, 106.8 in 2027, 109.1 in 2030, and 109.9 in 2034; projects beef falling from 57.5 pounds in 2025 to 52.8 in 2027 before partial recovery, while pork rises from 51.2 in 2025 to 53.5 in 2030."
+    },
+    {
+      "id": "S6",
+      "url": "https://www.ams.usda.gov/sites/default/files/media/FSIS%20Safety%20and%20Security%20Guidelines%20for%20the%20Transportation%20and%20Distribution%20of%20Meat%2C%20Poultry%2C%20and%20Egg%20Products.pdf",
+      "title": "FSIS Safety and Security Guidelines for the Transportation and Distribution of Meat, Poultry, and Egg Products",
+      "access_date": "2026-07-22",
+      "supports": "Addresses refrigerated storage and transport, inspection, sanitation, temperature monitoring, records, product tracking, and recalls; states that wholesale distributors should ensure traceability and recall and that wholesalers should quickly identify product sources."
+    },
+    {
+      "id": "S7",
+      "url": "https://www.fsis.usda.gov/food-safety/safe-food-handling-and-preparation/food-safety-basics/understanding-fsis-food-recalls",
+      "title": "Understanding FSIS Food Recalls",
+      "access_date": "2026-07-22",
+      "supports": "Explains that FSIS regulates meat products, that recalls remove adulterated or misbranded product from commerce, and that FSIS performs effectiveness checks throughout the distribution chain to verify notification and consignee response."
+    }
+  ]
+}

@@ -1,0 +1,217 @@
+{
+  "identity": {
+    "naics": "424120",
+    "title": "Stationery and Office Supplies Merchant Wholesalers",
+    "run_id": "424120-a1-20260722",
+    "model_id": "claude-sonnet-5",
+    "run_date": "2026-07-22",
+    "methodology_version": "5.1",
+    "attempt": 1
+  },
+  "lens": {
+    "included_activities": "Independent US merchant wholesalers in the EBITDA band that repeatedly source, stock, sell, and coordinate delivery of stationery, office supplies, nonbulk office paper, toner, greeting-card, social-stationery, or gift-wrap products to external business, institutional, reseller, or retail customers.",
+    "excluded_activities": "Retail stores, manufacturers selling directly, bulk printing-paper wholesalers, office-furniture or equipment specialists, commission-only agents, captive distribution, shells, noncontrol financing vehicles, and firms without transferable recurring customer operations.",
+    "customer_and_revenue_model": "Customers reorder consumable office and stationery products through sales representatives, catalogs, phone channels, electronic procurement, or websites. The outsourced service includes assortment, sourcing, inventory availability, order consolidation, account administration, credit, and delivery, monetized mainly through product gross margin and rebates.",
+    "deviation_from_default": "none",
+    "heterogeneous": false
+  },
+  "primitives": {
+    "a": {
+      "evidence_state": "PROXY",
+      "low": 0.2,
+      "base": 0.31,
+      "high": 0.43,
+      "bridge": "BLS wholesale occupation evidence identifies sales, operations, clerical, customer-service, bookkeeping, warehouse, and driving work, while Anthropic measures AI task coverage by occupation across the economy. I assign high exposure to order entry, product and contract lookup, quote drafting, customer response, purchasing support, catalog enrichment, and invoice matching, partial exposure to sales and management administration, and little exposure to warehouse and delivery work. Electronic ordering may mean some administrative work is already automated, biasing current remaining exposure downward, while broader platform usage can overstate substitution in firms with poor systems.",
+      "rationale": "The industry has a large repetitive transaction surface and standardized product data, but its physical flow, commercial relationships, contract pricing, inventory, credit, and exception handling remain operator work. The estimate concerns wage-weighted current tasks not already automated, not whole jobs or theoretical capability.",
+      "change_evidence": "A six-digit payroll-by-occupation file and time-and-motion study of quotes, orders, catalog maintenance, purchasing, customer service, credit, warehouse, and delivery across at least fifteen independent distributors, with already automated tasks removed.",
+      "source_ids": ["S2", "S3", "S4"],
+      "caveats": [
+        "No public six-digit occupational matrix was located.",
+        "Large distributors have more electronic ordering and automation than typical lower-middle-market firms.",
+        "The frozen compensation-to-receipts input combines 2024 wages with 2022 receipts and is harmonized to the IPS basis."
+      ]
+    },
+    "rho": {
+      "evidence_state": "ESTIMATE",
+      "low": 0.36,
+      "base": 0.55,
+      "high": 0.72,
+      "rationale": "Within five years, standardized SKUs and repeat orders make product retrieval, order ingestion, customer communication, replenishment, invoice matching, catalog work, and sales preparation implementable. Existing electronic channels provide integration surfaces. Conversion is limited by customer-specific contracts, rebates, substitutions, fragmented ERP data, cyber and pricing risk, exception-heavy fulfillment, and change capacity at small firms.",
+      "change_evidence": "Comparable-firm ERP, e-procurement, and customer-service logs showing straight-through processing, exception and error rates, review minutes, response time, adoption by staff and customers, and realized avoided hiring for a full year.",
+      "source_ids": ["S4", "S5", "S6"],
+      "caveats": [
+        "Census technology evidence is economy-wide and historical.",
+        "Electronic ordering already removes some of the easiest work from the current baseline.",
+        "Demand-driven headcount changes must be separated from AI implementation."
+      ]
+    },
+    "e": {
+      "evidence_state": "ESTIMATE",
+      "low": 0.68,
+      "base": 0.82,
+      "high": 0.92,
+      "rationale": "Merchant wholesalers generally provide repeated external supply, but some businesses are dominated by one-off seasonal gift products, effectively captive channels, obsolete product lines, owner-personal relationships, or economics outside the band after normalization. The code remains coherent enough for the default lens because all included products use a similar assortment-and-distribution model.",
+      "change_evidence": "Classify every supplied in-band firm using repeat-order share, external customer mix, product categories, normalized EBITDA, ownership, owner dependence, customer concentration, and gross-margin source.",
+      "source_ids": ["S1", "S7"],
+      "caveats": [
+        "NAICS classifies establishments, while the frozen count is firm based.",
+        "The frozen count is an estimate using broad distributor margins rather than office-supply-specific EBITDA.",
+        "Gift wrap and social stationery can have more seasonal or retail-dependent economics than core office supplies."
+      ]
+    },
+    "s5": {
+      "evidence_state": "PROXY",
+      "low": 0.11,
+      "base": 0.21,
+      "high": 0.32,
+      "bridge": "BizBuySell observes voluntarily reported wholesale and distributor sales rather than this exact six-digit population or EBITDA band. ODP reports acquiring more than twenty regional office-supply distributors to expand its network, demonstrating strategic transfer activity, while Federal Reserve evidence links older ownership to increased exit-strategy priority. I use these signals to bound five-year control-transfer probability, discounting marketplace undercoverage, transactions below the lens, closures, and internal or noncontrol outcomes. Broker and strategic-acquirer selection may bias observed activity upward even as voluntary reporting biases counts downward.",
+      "rationale": "A mature, consolidating channel has both succession exits and strategic buyers, but secular pressure can convert some exits into shutdowns rather than transferable operations. A qualifying control transfer remains a minority outcome over five years.",
+      "change_evidence": "PitchBook, GF Data, Axial, SBA acquisition-loan, office-products dealer-group, and broker records matched to exact NAICS, normalized EBITDA, transfer type, and an eligible-firm denominator, plus owner-age and succession-plan interviews.",
+      "source_ids": ["S7", "S8", "S9"],
+      "caveats": [
+        "ODP is much larger than the screened firms and its acquisitions are selectively disclosed.",
+        "Marketplace sales are voluntary and broadly categorized.",
+        "Owner-age evidence covers small businesses generally rather than office-supply wholesalers."
+      ]
+    },
+    "q": {
+      "evidence_state": "ESTIMATE",
+      "low": 0.25,
+      "base": 0.42,
+      "high": 0.61,
+      "rationale": "Standard SKUs, electronic procurement, competitive bids, rebates, and price visibility give customers substantial bargaining power, so visible cost savings can pass through in renewals or competitive repricing. Retention is better when AI improves service, contract compliance, assortment, fill rate, and working capital rather than merely cutting administration. Falling category demand and large competitors constrain the base case.",
+      "change_evidence": "Account-level gross margin, rebate, bid, renewal, price-realization, churn, service-level, and share-of-wallet cohorts before and after automation, segmented by contract type, customer size, SKU transparency, and local-delivery value.",
+      "source_ids": ["S7", "S10"],
+      "caveats": [
+        "No public study directly measures AI-savings pass-through in this industry.",
+        "Manufacturer rebates and procurement-contract terms can dominate labor savings.",
+        "Volume effects are excluded and addressed in the demand primitives."
+      ]
+    },
+    "d5": {
+      "evidence_state": "PROXY",
+      "low": 0.67,
+      "base": 0.83,
+      "high": 1.0,
+      "bridge": "BLS reports paper-and-paper-product wholesaler output down 2.1 percent in 2025, and office-supply, stationery, and gift-store output declined 2.0 percent annually over the long run. ODP Business Solutions sales fell 8 percent in 2024 and 7 percent year to date in 2025 because of lower B2B demand and reduced spending, while Census reports 13.3 percent of workers still worked from home in 2024 versus 5.7 percent in 2019. These measures cover broader wholesale, adjacent retail, a large mixed-product company, and workplace location rather than exact constant-price quantity for eligible firms. I combine them into a declining five-year service basket; adjacency expansion and return-to-office can make the high case flatter, while mix and price effects may overstate observed sales contraction relative to quantity.",
+      "rationale": "Digital documents, e-procurement, persistent home working, customer consolidation, and category substitution pressure traditional office consumables, though workplaces, schools, government, hospitality, gifting, and small businesses retain physical needs. The central case is managed decline rather than disappearance or renewed secular growth.",
+      "change_evidence": "Six-digit AIES real-sales and product-line data, unit-volume cohorts from independent distributors, customer workplace-occupancy and procurement plans, and five-year forecasts by core supplies, paper, toner, stationery, and gift-wrap category.",
+      "source_ids": ["S6", "S10", "S11", "S12"],
+      "caveats": [
+        "The BLS wholesale series includes industrial and personal-service paper as well as this code.",
+        "ODP Business Solutions includes furniture, cleaning, breakroom, technology, print, and other adjacent products.",
+        "Remote-work prevalence is only one driver of office-supply demand."
+      ]
+    },
+    "o": {
+      "evidence_state": "ESTIMATE",
+      "low": 0.57,
+      "base": 0.75,
+      "high": 0.9,
+      "rationale": "The surviving physical products need sourcing and fulfillment, but standardized SKUs are well suited to self-service procurement, large national platforms, marketplaces, direct manufacturer supply, and drop shipping. Independent operators remain more necessary where they consolidate vendors, integrate procurement, extend credit, provide local delivery, administer contracts, or handle product and service exceptions.",
+      "change_evidence": "Customer invoice and procurement-platform data measuring independent wholesaler, national distributor, marketplace, manufacturer-direct, and self-service shares by SKU and customer size, plus supplier drop-ship rates and service requirements.",
+      "source_ids": ["S1", "S7", "S10"],
+      "caveats": [
+        "Electronic ordering may strengthen an incumbent distributor rather than eliminate it.",
+        "The estimate is about operator requirement, not labor intensity.",
+        "Core office supplies and seasonal stationery have different channel-substitution risks."
+      ]
+    }
+  },
+  "narrative": {
+    "executive_view": "Stationery and office-supply distribution has a strong fit for transaction automation but weak underlying category momentum and intense channel competition. Standard SKUs and repeat orders make AI-enabled order-to-cash improvement plausible; the same standardization also lets customers self-serve and compare prices. A credible operator case therefore requires service differentiation, adjacency expansion, and consolidation rather than labor savings alone.",
+    "ai_impact": "AI can normalize emailed orders, map products and substitutions, retrieve contract prices, enrich catalogs, prepare quotes, answer routine questions, flag replenishment or credit exceptions, match invoices, and summarize accounts for sellers. Humans remain accountable for commercial terms, exceptions, inventory, rebates, supplier relationships, key accounts, warehouse work, delivery, and service recovery. Existing websites and e-procurement links make integration feasible but also mean the simplest tasks may already be automated.",
+    "value_capture": "Transparent products and competitive bids create substantial pass-through risk. Benefits are more defensible when they improve fill rate, response time, contract compliance, vendor consolidation, and working capital rather than appearing as a simple cost reduction. Customer-specific pricing, rebates, and national competitors make disciplined revenue management essential.",
+    "firm_availability": "The supplied population is meaningful and most firms should provide recurring external supply. Strategic acquisition of regional distributors and broad marketplace sales show that transfers occur, while older-owner succession adds a plausible exit channel. Exact transfer probability remains unobserved, and declining categories can turn weak firms into closures instead of transferable platforms.",
+    "demand_durability": "Physical office and stationery demand persists across workplaces, schools, government, hospitality, gifting, and small businesses, but digital workflows, persistent home work, procurement consolidation, and direct or marketplace channels reduce the current service basket. Large-company and broader industry evidence points to managed decline, with adjacency products and return-to-office providing upside rather than a full reversal.",
+    "risks_and_uncertainty": "Key risks are secular category decline, Amazon-like and national-platform competition, customer self-service, manufacturer direct supply, thin gross margins, rebates, customer concentration, obsolete inventory, legacy data, cyber exposure, and pricing or substitution errors from automation. Public evidence is broad and often mixes adjacent products, so exact task exposure, eligibility, transfer frequency, and channel displacement require primary diligence.",
+    "principal_driver": "Standardized SKUs and repetitive ordering create an unusually implementable administrative automation surface.",
+    "principal_weakness": "The same product standardization enables price transparency, self-service, and channel bypass amid declining core demand."
+  },
+  "sources": [
+    {
+      "id": "S1",
+      "url": "https://www.census.gov/naics/?details=424120&input=424120&year=2012",
+      "title": "NAICS definition for Stationery and Office Supplies Merchant Wholesalers",
+      "access_date": "2026-07-22",
+      "supports": "Defines the industry as merchant wholesale distribution of stationery, office supplies, and gift wrap, with examples including office paper, envelopes, pens, toner, greeting cards, and social stationery."
+    },
+    {
+      "id": "S2",
+      "url": "https://www.bls.gov/oes/2024/may/ind_emp_chart/ind_emp_chart_data.htm",
+      "title": "OEWS industry chart data",
+      "access_date": "2026-07-22",
+      "supports": "Shows wholesale work includes sales representatives, operations managers, material movers, stockers, drivers, office clerks, customer-service representatives, and bookkeeping clerks."
+    },
+    {
+      "id": "S3",
+      "url": "https://www.anthropic.com/research/labor-market-impacts",
+      "title": "Labor market impacts of AI: a new measure and early evidence",
+      "access_date": "2026-07-22",
+      "supports": "Measures actual AI task coverage by occupation and reports high coverage for customer-service and data-entry work while many physical occupations have zero observed coverage."
+    },
+    {
+      "id": "S4",
+      "url": "https://www.sec.gov/Archives/edgar/data/800240/000095017025027569/odp-20241228.htm",
+      "title": "ODP Corporation Annual Report",
+      "access_date": "2026-07-22",
+      "supports": "Describes B2B office-supply customers served through dedicated sales, catalogs, telesales, and websites, and more than twenty acquired regional distribution businesses."
+    },
+    {
+      "id": "S5",
+      "url": "https://www.census.gov/library/stories/2023/11/businesses-use-ai.html",
+      "title": "Only 3.8 percent of Businesses Use AI to Produce Goods and Services",
+      "access_date": "2026-07-22",
+      "supports": "Reports representative nonfarm-employer survey evidence that 3.8 percent used AI in late 2023."
+    },
+    {
+      "id": "S6",
+      "url": "https://www.census.gov/library/stories/2025/09/technology-impact.html",
+      "title": "Annual Business Survey Insight into Technology Adoption",
+      "access_date": "2026-07-22",
+      "supports": "Reports that businesses most often said worker counts did not change after adoption of tracked technologies, including AI, specialized software, robotics, cloud technology, and specialized equipment."
+    },
+    {
+      "id": "S7",
+      "url": "https://www.sec.gov/Archives/edgar/data/800240/000095017025027569/odp-20241228.htm",
+      "title": "ODP Business Solutions Distribution and Acquisition Disclosure",
+      "access_date": "2026-07-22",
+      "supports": "Reports that ODP's B2B division includes more than twenty regional office-supply distributors acquired to expand reach and that 2024 division sales fell 330 million dollars, or 8 percent, on lower B2B demand and fewer customers."
+    },
+    {
+      "id": "S8",
+      "url": "https://www.bizbuysell.com/insight-report-data-tables/",
+      "title": "BizBuySell Insight Report Data Tables",
+      "access_date": "2026-07-22",
+      "supports": "Reports 2025 closed transactions across wholesale and distributor categories, demonstrating an active but voluntarily reported small-business transfer market."
+    },
+    {
+      "id": "S9",
+      "url": "https://www.fedsmallbusiness.org/categories/age-of-owners",
+      "title": "Federal Reserve Small Business: Age of Owners",
+      "access_date": "2026-07-22",
+      "supports": "States that older owners more often lead established firms and that exit strategies become a higher priority as they approach retirement."
+    },
+    {
+      "id": "S10",
+      "url": "https://www.sec.gov/Archives/edgar/data/800240/000119312525266241/odp-20250927.htm",
+      "title": "ODP Corporation Quarterly Report",
+      "access_date": "2026-07-22",
+      "supports": "Reports Business Solutions sales down 185 million dollars, or 7 percent, year to date in 2025, driven by lower B2B demand and reduced spending across furniture, technology, and supplies."
+    },
+    {
+      "id": "S11",
+      "url": "https://www.bls.gov/news.release/prin1.htm",
+      "title": "Productivity and Costs by Industry for Wholesale and Retail Trade",
+      "access_date": "2026-07-22",
+      "supports": "Reports paper and paper-product wholesaler output fell 2.1 percent in 2025 and long-run office-supply, stationery, and gift-store output declined 2.0 percent annually."
+    },
+    {
+      "id": "S12",
+      "url": "https://www.census.gov/topics/employment/commuting/guidance/acs-1yr.html",
+      "title": "United States Commuting At A Glance",
+      "access_date": "2026-07-22",
+      "supports": "Reports 13.3 percent of workers worked from home in 2024, compared with 13.8 percent in 2023; related Census data place 2019 at 5.7 percent."
+    }
+  ]
+}

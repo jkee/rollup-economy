@@ -1,0 +1,217 @@
+{
+  "identity": {
+    "naics": "423990",
+    "title": "Other Miscellaneous Durable Goods Merchant Wholesalers",
+    "run_id": "423990-a1-20260722",
+    "model_id": "claude-sonnet-5",
+    "run_date": "2026-07-22",
+    "methodology_version": "5.1",
+    "attempt": 1
+  },
+  "lens": {
+    "included_activities": "Independent US merchant wholesalers in the EBITDA band that repeatedly source, hold, sell, and coordinate delivery of miscellaneous durable goods for external business customers, including recurring account service and order administration.",
+    "excluded_activities": "Consumer-only resellers, digital-media businesses with no physical distribution role, captive manufacturer distribution, shells, commission-only agents, financing vehicles, and firms whose economics are principally one-off liquidation or commodity speculation.",
+    "customer_and_revenue_model": "Revenue is principally product resale to business accounts; the recurring outsourced service is supplier aggregation, availability, ordering, inventory coordination, and delivery support, monetized through gross margin rather than a separately billed fee.",
+    "deviation_from_default": "The code is a residual collection of unrelated durable products, so the lens retains repeat B2B merchant-distribution firms with a common inventory-and-account-service model and excludes one-off or nonphysical models to keep the screen coherent.",
+    "heterogeneous": true
+  },
+  "primitives": {
+    "a": {
+      "evidence_state": "PROXY",
+      "low": 0.2,
+      "base": 0.31,
+      "high": 0.43,
+      "bridge": "BLS merchant-wholesale occupation evidence identifies sales, operations, warehouse, driving, clerical, customer-service, and bookkeeping work, while Anthropic measures task coverage in occupations across the economy rather than this six-digit industry. I assign high exposure to order entry, quote drafting, customer response, purchasing support, and bookkeeping, partial exposure to sales preparation and management administration, and little exposure to handling and driving. The residual-code product mix can shift the result in either direction, and Claude usage may overstate exposure at digitally mature firms.",
+      "rationale": "The work combines document-heavy commercial administration that current AI can assist or automate with relationship selling, inventory judgment, and physical fulfillment that it cannot substitute. The estimate is wage weighted and concerns current not-yet-automated tasks, not theoretical capability alone.",
+      "change_evidence": "A six-digit OEWS staffing matrix joined to payroll by occupation, followed by time-and-motion sampling of quotes, orders, purchasing, customer service, warehouse, and delivery tasks at at least fifteen representative firms.",
+      "source_ids": ["S2", "S3", "S4"],
+      "caveats": [
+        "Public occupation evidence is broader than this residual six-digit code.",
+        "Anthropic usage is platform-specific and is not a measure of removable payroll.",
+        "The frozen compensation-to-receipts input mixes 2024 wages with 2022 receipts and is harmonized to the IPS basis."
+      ]
+    },
+    "rho": {
+      "evidence_state": "ESTIMATE",
+      "low": 0.35,
+      "base": 0.53,
+      "high": 0.7,
+      "rationale": "Within five years, standard order capture, product-information retrieval, quote drafting, replenishment alerts, invoice matching, and customer-response workflows should be implementable, but fragmented catalogs, weak ERP data, exception handling, cybersecurity, relationship ownership, and human review limit conversion of exposure into avoided hiring or labor removal. Census evidence of low economy-wide AI use and little observed worker-count change after technology adoption supports a measured implementation assumption.",
+      "change_evidence": "ERP and CRM audit logs from acquired wholesalers showing automation rates, exception rates, human-review minutes, service errors, and realized headcount avoidance over twelve months.",
+      "source_ids": ["S4", "S5", "S7"],
+      "caveats": [
+        "The estimate assumes disciplined workflow redesign rather than stand-alone chatbot deployment.",
+        "Small firms may lack clean item masters and integration staff.",
+        "Observed historical technology adoption predates the full capability expected within the horizon."
+      ]
+    },
+    "e": {
+      "evidence_state": "ESTIMATE",
+      "low": 0.55,
+      "base": 0.72,
+      "high": 0.84,
+      "rationale": "Most merchant wholesalers serve external customers and perform repeat distribution, but the residual NAICS definition spans product lines with different recurrence, inventory intensity, transferability, and customer concentration. The estimate removes one-off, consumer-only, captive, speculative, and owner-personal-book firms from the frozen LMM-band count.",
+      "change_evidence": "A stratified sample of at least two hundred six-digit establishments using websites, customer mix, repeat-order share, gross-margin composition, owner dependence, and normalized EBITDA to classify exact lens eligibility.",
+      "source_ids": ["S1", "S6"],
+      "caveats": [
+        "The Census industry definition measures establishments, while the frozen opportunity count is firm based.",
+        "The frozen count is an estimate derived from size-class receipts and a broad distributor margin bridge.",
+        "Public sources do not quantify the share with genuinely recurring B2B accounts."
+      ]
+    },
+    "s5": {
+      "evidence_state": "PROXY",
+      "low": 0.12,
+      "base": 0.2,
+      "high": 0.3,
+      "bridge": "BizBuySell reports voluntarily disclosed sales of small wholesale and distribution businesses, including 28 durable-goods transactions in 2025 and market benchmarks based on sold firms from 2021 through 2025; it does not observe all eligible firms or this exact EBITDA band. I use the existence of an active market plus the older-owner succession direction as evidence for a five-year control-transfer probability, discounting for platform undercoverage and for many listed firms being smaller than the lens. Undercoverage biases observed deal counts downward, while marketplace selection and inclusion of smaller firms can bias turnover upward.",
+      "rationale": "A functioning transfer market and retirement-related exits make a qualifying control transfer plausible, but only a minority of eligible firms should transfer in five years after excluding failed closures, internal reorganizations, and noncontrol financings.",
+      "change_evidence": "PitchBook, GF Data, Axial, SBA loan, and business-broker transaction records matched to NAICS and normalized EBITDA, plus owner-age and succession-plan data for the eligible population.",
+      "source_ids": ["S6", "S8", "S9"],
+      "caveats": [
+        "Marketplace sales are voluntary reports and skew toward brokered small businesses.",
+        "Owner-age evidence covers small businesses broadly, not this industry.",
+        "The proxy cannot distinguish every qualifying control transfer from asset-only sales."
+      ]
+    },
+    "q": {
+      "evidence_state": "ESTIMATE",
+      "low": 0.34,
+      "base": 0.52,
+      "high": 0.7,
+      "rationale": "Savings initially accrue inside a product gross margin, but sophisticated accounts can demand discounts at renewal and competitors can copy better service or pricing. Retention should be stronger where automation raises speed, fill rate, and service consistency rather than simply reducing visible labor, and weaker in transparent commodity-like categories. The value is a discounted five-year retained share after repricing and competition.",
+      "change_evidence": "Customer-level gross-margin, quote-win, renewal, rebate, and price-realization cohorts before and after workflow automation, separated by fixed-price catalogs, negotiated accounts, tenders, and cost-plus contracts.",
+      "source_ids": ["S6", "S10"],
+      "caveats": [
+        "No public source directly measures pass-through of AI savings in this industry.",
+        "Product and customer concentration can dominate bargaining power.",
+        "The estimate excludes volume effects, which belong in demand primitives."
+      ]
+    },
+    "d5": {
+      "evidence_state": "PROXY",
+      "low": 0.9,
+      "base": 1.02,
+      "high": 1.14,
+      "bridge": "BLS projects wholesale-trade employment to grow 3.4 percent over ten years, while detailed BLS output data show miscellaneous durable-goods wholesaler output grew 0.5 percent annually from 2019 through 2024 and fell 1.6 percent in 2024. These are broader or historical measures, not a direct constant-price forecast for the screened service basket. I translate them into a near-flat five-year quantity outlook with a wide interval; employment can understate demand when productivity rises, while recent output volatility widens both directions.",
+      "rationale": "Businesses still need physical durable goods sourced and delivered, but this residual category includes mature and declining products as well as growing niches. Recent subsector output is roughly flat over a full cycle and volatile year to year, making modest real growth a reasonable center rather than a strong secular claim.",
+      "change_evidence": "AIES and Monthly Wholesale Trade real-sales series mapped to the exact six-digit product basket, plus five-year customer procurement forecasts and SKU-level unit volumes for representative firms.",
+      "source_ids": ["S10", "S11"],
+      "caveats": [
+        "Employment is not demand and may diverge with productivity.",
+        "The BLS detailed series is at the four-digit residual group, not six digits.",
+        "Constant-quality adjustment is unavailable for the heterogeneous product basket."
+      ]
+    },
+    "o": {
+      "evidence_state": "ESTIMATE",
+      "low": 0.7,
+      "base": 0.84,
+      "high": 0.94,
+      "rationale": "Digital ordering and manufacturer-direct channels can remove some intermediary activity, but stocked physical goods still require accountable sourcing, title or inventory risk, supplier coordination, exception handling, and fulfillment. The operator can become more software-enabled without disappearing; the largest displacement risk is standardized products where customers can self-serve and manufacturers can ship directly.",
+      "change_evidence": "Customer purchasing surveys and invoice-level channel migration showing manufacturer-direct, marketplace, self-service, and distributor shares by product family, paired with supplier drop-ship and distributor inventory data.",
+      "source_ids": ["S1", "S6", "S12"],
+      "caveats": [
+        "The code mixes products with very different direct-to-customer feasibility.",
+        "E-commerce can either bypass the wholesaler or be operated by the wholesaler.",
+        "The estimate addresses operator requirement, not headcount intensity."
+      ]
+    }
+  },
+  "narrative": {
+    "executive_view": "The coherent opportunity is the repeat B2B distributor, not every establishment in this catch-all code. Its administrative workflows offer a meaningful but bounded labor opportunity, while physical handling, commercial judgment, and customer relationships keep the accountable operator central. The largest uncertainty is not whether AI can draft and classify documents, but whether a fragmented small wholesaler can integrate those capabilities into reliable order-to-cash work and retain the resulting economics.",
+    "ai_impact": "AI can structure inbound orders, retrieve product information, draft quotes and customer replies, flag replenishment and invoice exceptions, summarize account history, and support sales preparation. Humans remain responsible for ambiguous specifications, supplier negotiation, credit, key-account trust, inventory commitments, warehouse work, driving, and service recovery. Implementation therefore looks like targeted workflow automation and avoided administrative hiring rather than autonomous distribution.",
+    "value_capture": "Benefits embedded in faster response, fewer errors, and better availability are less visible and potentially more retainable than an explicit labor surcharge. Pure cost reduction is vulnerable to negotiated discounts and competitive imitation, especially for transparent products. Durable capture depends on turning lower service cost into a differentiated response-time and reliability advantage while maintaining commercial discipline.",
+    "firm_availability": "The supplied firm count indicates a sizable potential population, but eligibility is reduced by the residual code's mixed models and by firms dependent on a single owner, customer, supplier, or fading product line. Public marketplace data demonstrate that durable-goods distributors do transfer, yet do not establish the probability for this exact band. Broker and lending records are the next practical route to a denominator-based transfer estimate.",
+    "demand_durability": "Underlying demand appears roughly stable rather than structurally high growth. Physical-product procurement, inventory coordination, and delivery remain necessary, but standardized categories face manufacturer-direct, marketplace, and customer self-service substitution. The strongest operators will likely retain an accountable role where assortment, availability, technical ambiguity, local stock, or exception resolution matters.",
+    "risks_and_uncertainty": "The central risks are residual-code heterogeneity, poor item and customer data, thin integration capacity, cyber and hallucination errors entering orders or quotes, customer and supplier concentration, inventory obsolescence, direct-channel bypass, and aggressive price competition. Public evidence is much broader than six digits, so occupation, eligibility, transfer, pass-through, and operator-requirement judgments need primary diligence before capital is committed.",
+    "principal_driver": "Repeat order-to-cash administration creates a practical AI workflow surface while physical distribution preserves an accountable operator role.",
+    "principal_weakness": "A catch-all product mix and thin six-digit evidence make eligibility, transfer frequency, and retained economics unusually uncertain."
+  },
+  "sources": [
+    {
+      "id": "S1",
+      "url": "https://www.census.gov/naics/?details=423&input=423&year=2012",
+      "title": "NAICS definition for Other Miscellaneous Durable Goods Merchant Wholesalers",
+      "access_date": "2026-07-22",
+      "supports": "Defines the industry as merchant wholesale distribution of durable goods outside enumerated specialist categories and illustrates the residual product mix."
+    },
+    {
+      "id": "S2",
+      "url": "https://www.bls.gov/oes/2024/may/ind_emp_chart/ind_emp_chart_data.htm",
+      "title": "OEWS industry chart data",
+      "access_date": "2026-07-22",
+      "supports": "Shows wholesale work includes sales representatives, operations managers, material movers, stockers, drivers, office clerks, customer-service representatives, and bookkeeping clerks."
+    },
+    {
+      "id": "S3",
+      "url": "https://www.bls.gov/ooh/sales/wholesale-and-manufacturing-sales-representatives.htm",
+      "title": "Wholesale and Manufacturing Sales Representatives",
+      "access_date": "2026-07-22",
+      "supports": "Describes the scale and work context of wholesale sales representatives, including product learning and customer-facing sales activity."
+    },
+    {
+      "id": "S4",
+      "url": "https://www.anthropic.com/research/labor-market-impacts",
+      "title": "Labor market impacts of AI: a new measure and early evidence",
+      "access_date": "2026-07-22",
+      "supports": "Measures actual task coverage by occupation; reports customer-service representatives among highly exposed occupations, data-entry keyers at 67 percent coverage, and zero coverage for many physical occupations."
+    },
+    {
+      "id": "S5",
+      "url": "https://www.census.gov/library/stories/2023/11/businesses-use-ai.html",
+      "title": "Only 3.8 percent of Businesses Use AI to Produce Goods and Services",
+      "access_date": "2026-07-22",
+      "supports": "Reports representative nonfarm-employer survey evidence that 3.8 percent used AI in late 2023, establishing a low historical adoption base."
+    },
+    {
+      "id": "S6",
+      "url": "https://www.bizbuysell.com/learning-center/valuation-benchmarks/wholesale-distribution/",
+      "title": "Wholesale and Distribution Business Valuation Benchmarks",
+      "access_date": "2026-07-22",
+      "supports": "Provides marketplace evidence for sold wholesale and distribution firms, including durable-goods median revenue of 1.8 million dollars, median earnings of 322 thousand dollars, and a five-year transaction benchmark population."
+    },
+    {
+      "id": "S7",
+      "url": "https://www.census.gov/library/stories/2025/09/technology-impact.html",
+      "title": "Annual Business Survey Insight into Technology Adoption",
+      "access_date": "2026-07-22",
+      "supports": "Reports that businesses most often said worker counts did not change after adoption of tracked technologies, including AI, specialized software, robotics, cloud technology, and specialized equipment."
+    },
+    {
+      "id": "S8",
+      "url": "https://www.bizbuysell.com/insight-report-data-tables/",
+      "title": "BizBuySell Insight Report Data Tables",
+      "access_date": "2026-07-22",
+      "supports": "Reports 28 durable-goods wholesaler and distributor sales during 2025, with median revenue of 1.762 million dollars and median cash flow of 434 thousand dollars."
+    },
+    {
+      "id": "S9",
+      "url": "https://www.fedsmallbusiness.org/categories/age-of-owners",
+      "title": "Federal Reserve Small Business: Age of Owners",
+      "access_date": "2026-07-22",
+      "supports": "States that older owners more often lead established firms and that exit strategies become a higher priority as they approach retirement."
+    },
+    {
+      "id": "S10",
+      "url": "https://www.bls.gov/news.release/archives/prin1_05292025.htm",
+      "title": "Productivity and Costs by Industry: Wholesale Trade and Retail Trade Industries",
+      "access_date": "2026-07-22",
+      "supports": "Reports miscellaneous durable-goods wholesaler output fell 1.6 percent in 2024 but grew 0.5 percent annually from 2019 through 2024; also reports durable-wholesale productivity and cost trends."
+    },
+    {
+      "id": "S11",
+      "url": "https://www.bls.gov/news.release/archives/ecopro_08282025.pdf",
+      "title": "Employment Projections",
+      "access_date": "2026-07-22",
+      "supports": "Projects wholesale-trade employment growth of 3.4 percent over the decade beginning in 2024."
+    },
+    {
+      "id": "S12",
+      "url": "https://www.census.gov/programs-surveys/awts/about.html",
+      "title": "About the Annual Wholesale Trade Survey",
+      "access_date": "2026-07-22",
+      "supports": "Explains that wholesale measurement includes sales, e-commerce sales, inventories, purchases, operating expenses, gross margins, and commissions, supporting the operator and channel framework."
+    }
+  ]
+}
