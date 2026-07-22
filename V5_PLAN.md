@@ -38,16 +38,16 @@ model output (Playbook lesson 5: hand-made fixtures lie).
 - [x] 2.4 Calibration diff vs v4.3 in `V5_CANARY_REPORT.md`: adapter H constants were generous (high `l` → near-cap H), elicited C constants harsh; fresh research compresses H, lifts C; top rank flips 541512 → 541214. No tuning
 - [x] 2.5 Compact report + acceptance recommendation: `V5_CANARY_REPORT.md` (recommend **accept**)
 
-**GATE — stopped, awaiting Victor's approval.** Per the frozen methodology, the canary
+**GATE — passed with Victor's approval on 2026-07-22.** Per the frozen methodology, the canary
 fails only for systemic construct errors, misleading evidence treatment,
 broken mechanics, or results useless for prioritization — not because
 estimates remain or ranges cross tiers.
 
 ## Phase 3 — Fleet (63 codes) · the bulk of the work
 
-- [ ] 3.1 Run the remaining 58 codes in waves (~10 per wave), one independent research session per code
-- [ ] 3.2 After each wave: `check` every run, commit the validated wave (v3 lesson: an outage may only cost one wave)
-- [ ] 3.3 One isolated review per attempt, wave by wave
+- [~] 3.1 Run the remaining 58 codes in waves (~10 per wave), one independent research session per code
+- [~] 3.2 After each wave: `check` every run, commit the validated wave (v3 lesson: an outage may only cost one wave)
+- [~] 3.3 One isolated review per attempt, wave by wave
 - [ ] 3.4 Single remediation wave at the end for all `reject`/`invalid`; remaining failures are excluded, not retried
 - [ ] 3.5 `build.py site` → `6digit/six_data_v5.json` (fail-closed gate); record counts by tier, readiness, action, outcome, and every exclusion with its findings
 
