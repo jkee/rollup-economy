@@ -1,0 +1,79 @@
+{
+  "run_id": "621420-a1-20260722",
+  "naics": "621420",
+  "reviewer_model_id": "claude-fable-5",
+  "review_date": "2026-07-22",
+  "methodology_version": "5.1",
+  "outcome": "publishable_with_caveats",
+  "mechanics": {
+    "identity_ok": true,
+    "score_reproduces": true,
+    "memo_reproduces": true,
+    "artifacts_sha256": "90fd0b014dfca40c975cf77d73bbc579e378c363de34fd805330e64e15f07c52"
+  },
+  "sources_audited": [
+    {
+      "source_id": "S1",
+      "reachable": true,
+      "support": "unsupported",
+      "note": "The cited Census URL resolves to the official 2022 NAICS search page, but the reopened page does not display the 621420 definition or exclusions that the packet attributes to it."
+    },
+    {
+      "source_id": "S2",
+      "reachable": true,
+      "support": "supported",
+      "note": "The May 2023 OEWS page is explicitly for broad NAICS 621400 and reports occupational employment across clinical, counseling, support, management, and administrative groups, including 15.71% office and administrative support employment; the packet discloses the broader-industry population."
+    },
+    {
+      "source_id": "S3",
+      "reachable": true,
+      "support": "supported",
+      "note": "O*NET lists counseling, crisis intervention, suicide-risk assessment, mandated forms, progress notes, treatment records, treatment planning, referral, and coordination tasks, supporting the packet's task split while not itself quantifying automation."
+    },
+    {
+      "source_id": "S4",
+      "reachable": true,
+      "support": "supported",
+      "note": "BLS supports counselor duties, outpatient-center employment, private-practice licensure, and the stated 17% national employment projection from 2024 to 2034."
+    },
+    {
+      "source_id": "S5",
+      "reachable": true,
+      "support": "partially_supported",
+      "note": "The CY 2025 CMS FAQ supports Medicare behavioral-health telehealth payment and remote delivery, including home, no geographic restriction, and audio-only provisions. It does not measure AI adoption or labor realization, a limitation the packet expressly discloses for rho."
+    },
+    {
+      "source_id": "S6",
+      "reachable": true,
+      "support": "supported",
+      "note": "The Medicare costs page states 20% beneficiary cost sharing for outpatient mental-health visits and partial-hospitalization professional services after the deductible, supporting the limited administered-payment and cost-sharing claim used for q."
+    },
+    {
+      "source_id": "S7",
+      "reachable": false,
+      "support": "unsupported",
+      "note": "The cited SAMHSA insurance-coverage page returned HTTP 403 on repeated reopening, so its asserted coverage and plan-variation content could not be independently verified."
+    },
+    {
+      "source_id": "S8",
+      "reachable": false,
+      "support": "unsupported",
+      "note": "The cited SAMHSA treatment-types page returned HTTP 403 on repeated reopening, so its asserted licensed-provider, therapy, counseling, telehealth, and setting content could not be independently verified."
+    },
+    {
+      "source_id": "S9",
+      "reachable": true,
+      "support": "supported",
+      "note": "Gallup's fall-2024 survey reports that 22% of employer-business owners planned to sell, transfer, or take public within five years; the take-public component rounds to 0%, and the packet appropriately treats the statistic as a broad intentions upper anchor rather than completed transfers."
+    }
+  ],
+  "material_findings": [],
+  "caveats": [
+    "S1's cited Census page is reachable but does not expose the claimed 621420 definition in the reopened content; other cited occupational sources corroborate the core outpatient behavioral-health scope, so this source defect does not require a primitive downgrade that changes the base tier or action.",
+    "S7 and S8 were not reopenable because both cited SAMHSA pages returned HTTP 403. Their absence weakens corroboration for coverage, treatment types, and licensed-provider context, but e and q are already honest estimates, while d5 and o retain relevant support from BLS, O*NET, CMS, and the disclosed bridges; the base action remains VALIDATE_ASSUMPTIONS.",
+    "S5 establishes behavioral-health telehealth feasibility and payment policy, not AI implementation or realized labor savings. The packet explicitly acknowledges this and labels rho ESTIMATE, so it is an evidentiary limitation rather than a material defect.",
+    "The d5 bridge converts a national ten-year counselor-employment projection into five-year real demand for outpatient centers. Population, quantity, and error directions are disclosed and the 0.98-1.24 range is appropriately broad, but direct constant-price center-volume evidence is absent.",
+    "The a, e, s5, q, and o bases remain substantially model-conditioned or proxy-driven across a heterogeneous mix of mental-health, substance-use, crisis, intensive-outpatient, payer, ownership, and affiliation models. The packet labels those states honestly, provides directional bridges where required, and already restricts the action to validation."
+  ],
+  "summary": "Mechanics pass. The lens is coherent and disclosed, evidence states are honest, factor semantics are not reversed or double-counted, and the narrative follows the registered evidence. Three cited pages did not independently support their attributed claims when reopened (S1 content absent; S7 and S8 blocked), and several score inputs depend on broad but disclosed transformations. Those weaknesses do not meet the validator brief's materiality test because correcting or honestly downgrading them on the remaining evidence would not change the PRIORITY base tier or the already model-conditioned VALIDATE_ASSUMPTIONS action."
+}
