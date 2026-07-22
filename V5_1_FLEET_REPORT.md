@@ -706,3 +706,42 @@ quantity. Evidence consistently supported automation direction more strongly
 than the magnitude or retention of LMM labor savings. These limitations were
 disclosed in proxy or estimate states; no review found a tier- or action-changing
 defect, and the predeclared pause trigger did not fire.
+
+## G6 — Manufacturing: wood through nonmetallic minerals
+
+**Closed:** 2026-07-22
+**Coverage:** 96 attempted, 96 deterministically valid, 96 published, 0 excluded
+**Independent review:** 10/96 (0 mandatory, 10 random, 0 canary)
+**Review outcomes:** 10 `publishable_with_caveats`; 0 `publishable`; 0 `reject`; 0 `invalid`
+**Material findings:** 0
+**Remediations:** 0
+
+### Screen distribution
+
+- Base tiers: 0 `HIGHEST_PRIORITY`, 0 `PRIORITY`, 1 `CONDITIONAL`,
+  18 `LOW_PRIORITY`, 74 `STRUCTURAL_OUT`, and 3 without a base tier.
+- Readiness: 93 `MODEL_CONDITIONED`; 3 `STRESS_TEST_ONLY`.
+- Actions: 93 `VALIDATE_ASSUMPTIONS`; 3 `EVIDENCE_FIRST`.
+- Robust tiers: 33/96, all `STRUCTURAL_OUT`.
+- Publication labels: 10 `accepted`; 86 `not_reviewed`.
+
+The random stratum consisted of `321212`, `321219`, `323117`, `323120`,
+`324191`, `325194`, `325212`, `325413`, `326122`, and `326299`.
+All ten were accepted with caveats and no material finding. These are sample
+observations only; no G6 defect rate is estimated.
+
+### Economic read
+
+The largest block remained strongly physical and process-bound: 74 records
+were `STRUCTURAL_OUT`, 18 were `LOW_PRIORITY`, and only one reached
+`CONDITIONAL`. Three missing-anchor records correctly routed to
+`STRESS_TEST_ONLY / EVIDENCE_FIRST`. Planning, formulation, inspection,
+maintenance, and administration offered automation potential, but plant,
+materials, safety, and throughput constraints limited transferable retained
+labor benefit.
+
+Validators emphasized broad occupation and subsector proxies, estimated
+implementation and eligibility, sparse transfer denominators, and indirect
+demand and retention bridges. All limitations were disclosed; no review found
+a tier- or action-changing defect, and the predeclared pause trigger did not
+fire.
