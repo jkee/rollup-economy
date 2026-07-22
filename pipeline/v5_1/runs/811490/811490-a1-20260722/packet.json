@@ -1,0 +1,177 @@
+{
+  "identity": {
+    "naics": "811490",
+    "title": "Other Personal and Household Goods Repair and Maintenance",
+    "run_id": "811490-a1-20260722",
+    "model_id": "claude-sonnet-5",
+    "run_date": "2026-07-22",
+    "methodology_version": "5.1",
+    "attempt": 1
+  },
+  "lens": {
+    "included_activities": "US LMM firms repairing or servicing personal and household goods not assigned to the excluded repair industries, including garments, watches, jewelry, musical instruments, bicycles, motorcycles, and recreational boats, when supplied as repeat outsourced services to external customers.",
+    "excluded_activities": "Retail of new goods, home and garden equipment repair, appliance repair, furniture repair or reupholstery, footwear and leather-goods repair, captive internal units, shells, non-control financing vehicles, and firms outside the roughly $1-10M normalized EBITDA band.",
+    "customer_and_revenue_model": "A heterogeneous mix of consumer and small-business repair revenue, usually per job or service event after inspection, with some maintenance plans, fleet or dealer relationships, storage-linked boat work, and repeat institutional accounts.",
+    "deviation_from_default": "none; the full NAICS scope is retained, but heterogeneity is flagged and reflected in wide ranges rather than selecting an attractive subsector.",
+    "heterogeneous": true
+  },
+  "primitives": {
+    "a": {
+      "evidence_state": "PROXY",
+      "low": 0.11,
+      "base": 0.24,
+      "high": 0.39,
+      "bridge": "O*NET task descriptions for tailors, musical-instrument repairers, and camera-equipment repairers proxy for only part of this broad industry's occupational mix. They show physical fitting, sewing, tuning, disassembly, calibration, testing, and hand-tool work, alongside diagnosis, planning, records, customer interaction, inventory, bookkeeping, CRM, and computer use. Applying a larger exposed share to cognitive and administrative labor and a small share to technician work yields the range; subsector and manager mix drive error in either direction.",
+      "rationale": "Core repair execution is physical and frequently bespoke, while intake, diagnosis support, quote preparation, service documentation, scheduling, parts research, customer messaging, and back-office work are meaningfully exposed to AI.",
+      "change_evidence": "A wage-weighted time study across garment, watch and jewelry, musical-instrument, bicycle and motorcycle, and recreational-boat repair firms, with task-level AI feasibility and current automation status.",
+      "source_ids": ["S1", "S2", "S3", "S4"],
+      "caveats": [
+        "No single occupation represents the NAICS code, and the cited occupations omit important bicycle, motorcycle, jewelry, watch, and boat-repair labor.",
+        "O*NET task importance is not an industry wage-weighted time share."
+      ]
+    },
+    "rho": {
+      "evidence_state": "ESTIMATE",
+      "low": 0.36,
+      "base": 0.55,
+      "high": 0.72,
+      "rationale": "Common office workflows can be implemented within five years, especially at scaled multi-location operators. Small-shop systems fragmentation, unstructured item condition, sparse failure data, safety and warranty exposure, and technician review limit implementation of more ambitious diagnostic uses.",
+      "change_evidence": "Workflow-level adoption and labor-outcome data from repair-management platforms and multi-location operators, segmented by subsector, including error, rework, warranty, and sustained-use rates.",
+      "source_ids": ["S2", "S3", "S4"],
+      "caveats": [
+        "The estimate is not a measured industry adoption rate.",
+        "Implementation will differ sharply between a tailor, a motorcycle shop, and a boat-service operator."
+      ]
+    },
+    "e": {
+      "evidence_state": "ESTIMATE",
+      "low": 0.32,
+      "base": 0.54,
+      "high": 0.73,
+      "rationale": "The industry serves external customers and many categories naturally generate repeat maintenance or repair. Eligibility is reduced by owner-dependent craft shops, retail-repair hybrids, highly episodic customer relationships, and firms whose economics or control structure fall outside the lens. The frozen n=48 indicates a small but nonzero LMM candidate population and is accepted unchanged.",
+      "change_evidence": "A verified census of the 48 frozen-dataset candidate firms with revenue mix, EBITDA, independence, customer repeat rates, retail share, location count, and owner dependence.",
+      "source_ids": ["S1"],
+      "caveats": [
+        "The frozen n=48 is a margin-bridged estimate and is not re-estimated here.",
+        "The eligibility share may vary more by subsector than the range captures."
+      ]
+    },
+    "s5": {
+      "evidence_state": "PROXY",
+      "low": 0.07,
+      "base": 0.14,
+      "high": 0.22,
+      "bridge": "Gallup measured five-year plans among US employer-business owners across industries: 22% planned to sell or transfer ownership. The base discounts that stated rate for noncompletion, internal or non-qualifying transfers, and owner-dependent firms that close rather than transact. Aging specialist ownership may raise intent, while buyer scarcity and key-person risk lower qualifying completion.",
+      "rationale": "The survey supplies a broad transfer-intent ceiling, not observed deal incidence. A substantial discount is appropriate for completed qualifying control changes in small specialist repair businesses.",
+      "change_evidence": "Five years of closed control transactions and ownership changes for NAICS 811490 firms from broker databases, SBA lending files, secretary-of-state records, and a subsector-stratified owner survey.",
+      "source_ids": ["S6"],
+      "caveats": [
+        "Gallup is cross-industry and not limited to LMM firms.",
+        "Stated plans do not measure completed transfers or distinguish all qualifying control outcomes."
+      ]
+    },
+    "q": {
+      "evidence_state": "ESTIMATE",
+      "low": 0.39,
+      "base": 0.58,
+      "high": 0.76,
+      "rationale": "Per-job and fixed-service pricing usually avoids automatic cost pass-through, allowing initial retention of implemented benefit. Competition, customer price visibility, insurer or dealer bargaining in some channels, and capacity expansion should share gains over time. Scarce technical skill and high-value items support more retention in specialist niches.",
+      "change_evidence": "Subsector-level gross-margin and price cohorts before and after workflow automation, including contract terms, repeat rates, turnaround, utilization, warranty costs, and competitor repricing.",
+      "source_ids": ["S1"],
+      "caveats": [
+        "No observed benefit-retention study was found.",
+        "Commercial retention for marine or motorcycle service may differ materially from tailoring or watch repair."
+      ]
+    },
+    "d5": {
+      "evidence_state": "PROXY",
+      "low": 0.85,
+      "base": 0.98,
+      "high": 1.11,
+      "bridge": "BLS 2024-2034 occupation projections span a 15.1% decline for camera-equipment repairers, a 4.5% decline for tailors and custom sewers, a 1.1% decline for watch and clock repairers, a 1.4% increase for musical-instrument repairers, and a 2.0% increase for other precision-equipment repairers. These employment series are translated qualitatively to a five-year constant-quality demand ratio for the broader industry. Employment can diverge from demand through productivity, self-employment, cross-industry staffing, replacement economics, and omitted bicycle, motorcycle, jewelry, and boat services.",
+      "rationale": "The measured occupation outlooks are mixed but center near stability, supporting a slightly declining base and broad tails. Replacement technology pressures some categories, while installed asset stocks, enthusiast demand, high-value goods, and repair or reuse interest support others.",
+      "change_evidence": "Inflation-adjusted five-year receipts and unit-service volumes for each major NAICS 811490 repair category, with price-quality adjustment and explicit repair-versus-replace rates.",
+      "source_ids": ["S5", "S7"],
+      "caveats": [
+        "BLS occupation employment is not constant-quality demand and only partially maps to NAICS 811490.",
+        "The NAICS code's subsector mix is unknown, so equal qualitative weighting can misstate the aggregate.",
+        "EPA repair context is directional and does not quantify consumer spending."
+      ]
+    },
+    "o": {
+      "evidence_state": "PROXY",
+      "low": 0.86,
+      "base": 0.95,
+      "high": 0.99,
+      "bridge": "O*NET task inventories for representative occupations show that surviving services require an operator to handle, fit, sew, tune, inspect, disassemble, calibrate, test, solder, fabricate, or reassemble physical goods. This is mapped to operator-required quantity across the broader industry. Software can support diagnosis and instructions, while self-service parts, modular replacement, automated calibration, or manufacturer exchange programs can remove some operator demand; omitted heavy repair categories may be even more operator-dependent.",
+      "rationale": "Most service output is an intervention on a physical object, often requiring custody, tools, skill, and accountability. AI is more likely to augment the repairer than eliminate the operator during the five-year horizon.",
+      "change_evidence": "Category-level data on self-repair, automated service equipment, manufacturer exchange programs, software-only fixes, and repair jobs completed without a professional operator.",
+      "source_ids": ["S2", "S3", "S4"],
+      "caveats": [
+        "Representative occupations do not cover every service in the code.",
+        "The estimate separates operator elimination from demand loss, but real repair-versus-replace behavior can blur that boundary."
+      ]
+    }
+  },
+  "narrative": {
+    "executive_view": "This is a broad collection of physically defensible repair services with moderate AI opportunity in administration and technician support. A small LMM acquisition population exists in the frozen data, but subsector heterogeneity and owner-dependent craft skill make a code-level thesis unreliable without firm-by-firm classification.",
+    "ai_impact": "AI can improve intake from text or images, quote and work-order drafting, troubleshooting support, parts research, customer updates, scheduling, records, inventory, marketing, and bookkeeping. Garment fitting and sewing, instrument tuning, precision calibration, mechanical disassembly, fabrication, and final quality control remain physical operator work.",
+    "value_capture": "Most per-job pricing permits initial retention, while competitive repair markets share some savings through price and turnaround. Scarce-skill and high-value-asset niches may retain more; dealer, insurer, fleet, or contract channels may retain less.",
+    "firm_availability": "The frozen dataset estimates 48 LMM-band firms, but only a bounded share is likely independent, repeat-service-oriented, and transferable without the owner. Boat, motorcycle, and multi-location repair operations are more likely to reach scale than tailoring, watch, or instrument crafts.",
+    "demand_durability": "Representative BLS outlooks range from material decline in camera repair to slight growth in musical-instrument and other precision repair. The aggregate base is near stable, but the result is highly sensitive to subsector mix and repair-versus-replace economics.",
+    "risks_and_uncertainty": "The NAICS definition combines radically different labor, safety, seasonality, ticket size, and customer models. Occupation proxies omit several major categories; there is no direct task-share, benefit-retention, transaction, or constant-quality demand series; and the 48-firm count is margin-bridged rather than observed.",
+    "principal_driver": "Physical intervention on valuable or specialized goods keeps most surviving demand tied to accountable operators.",
+    "principal_weakness": "The code's extreme subsector heterogeneity can make aggregate estimates poor guides to any actual acquisition candidate."
+  },
+  "sources": [
+    {
+      "id": "S1",
+      "url": "https://www.census.gov/naics/?details=811490&input=811490&year=2022",
+      "title": "2022 NAICS Definition: 811490 Other Personal and Household Goods Repair and Maintenance",
+      "access_date": "2026-07-22",
+      "supports": "Official industry scope and examples, including garments, watches, jewelry, musical instruments, bicycles, motorcycles, and recreational boats, used for the lens, a, e, and q."
+    },
+    {
+      "id": "S2",
+      "url": "https://www.onetonline.org/link/details/51-6052.00",
+      "title": "Tailors, Dressmakers, and Custom Sewers",
+      "access_date": "2026-07-22",
+      "supports": "Garment measuring, fitting, stitch removal, sewing, and alteration tasks plus bookkeeping, CAD, CRM, inventory, and office software used for a, rho, and o."
+    },
+    {
+      "id": "S3",
+      "url": "https://www.onetonline.org/link/details/49-9063.00",
+      "title": "Musical Instrument Repairers and Tuners",
+      "access_date": "2026-07-22",
+      "supports": "Physical tuning, testing, disassembly, soldering, part repair, fabrication, finishing, and reassembly tasks used for a, rho, and o."
+    },
+    {
+      "id": "S4",
+      "url": "https://www.onetonline.org/link/summary/49-9061.00",
+      "title": "Camera and Photographic Equipment Repairers",
+      "access_date": "2026-07-22",
+      "supports": "Physical adjustment, disassembly, testing, calibration, diagnosis, fabrication, documentation, computer use, and estimation activities used for a, rho, and o."
+    },
+    {
+      "id": "S5",
+      "url": "https://www.bls.gov/emp/tables/occupational-projections-and-characteristics.htm",
+      "title": "Occupational Projections and Worker Characteristics, 2024-2034",
+      "access_date": "2026-07-22",
+      "supports": "Ten-year employment projections of -15.1% for camera repairers, -4.5% for tailors and custom sewers, -1.1% for watch repairers, +1.4% for musical-instrument repairers, and +2.0% for other precision-equipment repairers, used as d5 proxies."
+    },
+    {
+      "id": "S6",
+      "url": "https://news.gallup.com/poll/657362/small-business-owners-lack-succession-plan.aspx",
+      "title": "Most Small-Business Owners Lack a Succession Plan",
+      "access_date": "2026-07-22",
+      "supports": "Fall 2024 US survey finding that 22% of employer-business owners planned to sell or transfer ownership within five years, used as the s5 proxy."
+    },
+    {
+      "id": "S7",
+      "url": "https://www.epa.gov/circulareconomy/about-model-recycling-program-toolkit",
+      "title": "About the Model Recycling Program Toolkit",
+      "access_date": "2026-07-22",
+      "supports": "Federal circular-economy context explicitly encompassing reuse and repair, used only as a directional d5 consideration."
+    }
+  ]
+}
