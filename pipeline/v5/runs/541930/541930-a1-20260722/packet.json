@@ -1,0 +1,215 @@
+{
+  "identity": {
+    "naics": "541930",
+    "title": "Translation and Interpretation Services",
+    "run_id": "541930-a1-20260722",
+    "model_id": "claude-sonnet-5",
+    "run_date": "2026-07-22",
+    "methodology_version": "5.0",
+    "attempt": 1
+  },
+  "lens": {
+    "included_activities": "Establishments primarily engaged in translating written material and/or interpreting speech (oral or sign language) from one language to another, sold as a recurring outsourced service to external customers -- corporate, legal, healthcare, media/localization, and government buyers -- and sitting in the roughly $1-10M normalized-EBITDA lower-middle-market band. Covers both asynchronous document/content translation (legal, medical, technical, marketing, website/software localization) and live interpretation (court, medical, conference, over-the-phone/video remote), typically delivered through a mix of a small in-house/PM core and a larger flexible network of contracted linguists.",
+    "excluded_activities": "Shell entities; non-control financing vehicles; captive in-house language departments (these are not actually classified under 541930 in the first place -- an interpreter employed directly by a hospital or court system is counted in that employer's own NAICS code, not here, so this exclusion is mostly definitional rather than a real carve-out); pure machine-translation software/technology vendors with no human service-delivery layer (these classify elsewhere, e.g. software publishing, and are excluded if any leak into count).",
+    "customer_and_revenue_model": "Project- or session-based billing: per-word or per-page for written translation, per-hour/per-minute/per-session for interpretation (on-site, over-the-phone, video-remote), with some managed-service/retainer contracts for large repeat buyers (hospital systems, courts, government agencies with statutory language-access obligations, multinational corporates). Revenue is largely pass-through-cost-heavy: firms pay contracted freelance linguists per word/hour and mark up a coordination/QA/account-management layer on top. Repeat/recurring relationships are common with regulated buyers (courts, healthcare systems, government) that have ongoing statutory or operational language-access needs; commodity content buyers (marketing, e-commerce) tend to be more transactional and more price-sensitive.",
+    "deviation_from_default": "none",
+    "heterogeneous": false
+  },
+  "primitives": {
+    "a": {
+      "evidence_state": "PROXY",
+      "low": 0.42,
+      "base": 0.58,
+      "high": 0.72,
+      "bridge": "Source population is the SOC 27-3091 (Interpreters and Translators) occupation scored nationally across all employing industries by human raters for the share of tasks where an LLM cuts completion time by >=50% (76.5% raw exposure; 82.4% with LLM-powered software) [S4]. Transformation: applied to NAICS 541930 because this occupation is the industry's dominant wage-weighted task input (O*NET's task list for 27-3091 is essentially translating, interpreting, terminology research, and proofreading [S8]), then discounted from the raw occupation-exposure score for two things it does not capture: (1) a meaningful slice of the theoretically-exposed task volume has already crossed from 'not yet automated' into 'automated' via machine-translation-post-editing (MTPE) workflows -- MTPE penetration among language service providers (LSPs) rose from 26% to 46% of firms between 2022 and 2024, and 69.4% of surveyed LSPs report increasing MT use in 2024 [S6] -- which by the primitive's own definition should be excluded from the numerator; (2) the industry's certified/high-stakes interpretation and legal/medical translation sub-segment has materially lower real-world exposure than the generic occupation score implies, given documented accuracy and reliability gaps in live AI interpretation [S7]. Direction of error is not one-sided: it likely overstates exposure for the certified/high-stakes slice and could understate exposure for the highest-volume commodity written-translation content, which is already substantially automated today and therefore already excluded from the 'not-yet-automated' base.",
+      "rationale": "The occupation this industry is built around scores among the highest of any occupation on direct LLM task-exposure measures (76.5-82.4%), and the industry itself is visibly mid-transition (MTPE adoption nearly doubling in two years, in-house staff cuts reported by over a quarter of surveyed LSPs in 2024). But a meaningful share of NAICS 541930 output is live interpretation and certified/legal/medical translation, where professional bodies and courts currently treat AI as unreliable for unsupervised use. Netting the occupation-level exposure score against (i) automation already implemented and (ii) the harder, liability-constrained sub-segment yields a mid-range base rather than the raw ~80% occupation score.",
+      "change_evidence": "A NAICS-541930-specific OEWS 'national industry-specific' occupational employment table (BLS publishes these but they were not successfully retrieved this pass) would show the actual occupational mix inside the industry (share of interpreters/translators vs. project managers, sales, and admin staff) instead of assuming the occupation dominates. A refreshed LSP task-time study (CSA Research or Nimdzi) quantifying what share of translation/interpretation task-hours run fully human end-to-end today, split by content type and by translation vs. interpretation, would sharpen the not-yet-automated boundary directly.",
+      "source_ids": ["S4", "S8", "S6", "S2"],
+      "caveats": [
+        "Occupation-level exposure score is generic to SOC 27-3091 across the whole economy, not specific to the lens population of external-facing lower-middle-market agencies.",
+        "Blends two sub-businesses with very different real exposure: asynchronous written translation (high, and already partly implemented via MTPE) and live interpretation (much lower today per court/medical-liability guidance).",
+        "The dataset-injected compensation-to-receipts ratio l is built from QCEW W-2 wage data over SUSB receipts; this industry pays a large share of its labor cost to 1099 freelance/independent-contractor linguists rather than W-2 employees, and QCEW payroll does not capture 1099 contractor payments. l is therefore likely to understate the industry's true labor-cost share of receipts, which would understate the dollar size of the labor opportunity this primitive feeds into."
+      ]
+    },
+    "rho": {
+      "evidence_state": "PROXY",
+      "low": 0.28,
+      "base": 0.42,
+      "high": 0.58,
+      "bridge": "Source population is LSP-industry-wide self-reported adoption behavior from an annual survey of ranked (mostly larger) language service providers: MTPE penetration rose from 26% to 46% of firms in two years, and firms reporting cuts to in-house staff rose from 13.2% to 26.9% year-over-year [S6]. This measures adoption intent/practice at large, tech-resourced LSPs, not the LMM-band lens population specifically, and it measures adoption of a workflow rather than end-to-end operational implementation net of quality/compliance rework. Transformation: treat the two-year adoption delta as a diffusion-rate signal and extrapolate a five-year implementation ceiling for the exposed opportunity, then discount for compliance/liability friction documented specifically for the harder half of tasks: national and bar guidance explicitly discourages unsupervised AI for real-time court interpretation and requires human review of AI-generated translation output [S7]. Error direction: likely overstates pace for smaller LMM-band operators, who have less capital for tooling and workflow redesign than the large LSPs surveyed, and could understate pace if commodity MT quality keeps improving faster than compliance guidance adapts.",
+      "rationale": "The observed two-year MTPE/staffing-cut trend is a fast, real diffusion curve for the commodity-translation half of the opportunity. But the compliance-constrained half (certified interpretation, legal/medical translation) faces explicit professional and judicial guidance against unsupervised AI use, and change-management/vendor-requalification cycles in government and healthcare contracts are typically slow. A blended five-year implementation share in the low-to-mid 40s percent balances a fast-moving commodity segment against a slow-moving regulated one.",
+      "change_evidence": "A time series of MTPE/AI-workflow adoption specifically among sub-$25M-revenue LSPs (rather than the ranked-100 large-LSP sample) would show whether the lens population is adopting at the same pace as the surveyed leaders. Any updated NCSC, ABA, or state-court guidance on AI use in interpretation, or a vendor requalification/certification standard for AI-assisted output, would be a concrete signal of the compliance ceiling moving.",
+      "source_ids": ["S6", "S3", "S7"],
+      "caveats": [
+        "Underlying adoption data comes from a survey skewed toward larger, ranked LSPs, not the LMM-band population.",
+        "Interpretation and legal/medical translation face materially slower plausible implementation than commodity written translation; a single blended figure understates the spread between the two."
+      ]
+    },
+    "e": {
+      "evidence_state": "ESTIMATE",
+      "low": 0.68,
+      "base": 0.85,
+      "high": 0.95,
+      "rationale": "NAICS 541930 is defined around establishments that sell translation/interpretation as an external service [S1]; an interpreter or translator employed directly by a hospital, court, or corporation is classified under that employer's own NAICS code, not here, so the population is structurally weighted toward exactly the kind of external-facing, recurring-service firm the lens targets, rather than toward captive internal units. The main source of leakage from full eligibility is not captive units but (i) firms whose 'recurring' revenue is really dependence on a single sole-sourced government or institutional contract, which is closer to a financing-vehicle risk than a lens-eligibility question, and (ii) very small or informally structured practices that lack real firm-level operating infrastructure -- though these are disproportionately below the $1-10M normalized-EBITDA band already filtered out by the dataset-injected firm count.",
+      "change_evidence": "A sample of LMM-band 541930 firms' customer-concentration and contract-type disclosures (e.g., from business-broker listings or M&A due-diligence teasers for language-services targets) would let eligibility be checked directly rather than inferred from the NAICS definition.",
+      "source_ids": ["S1", "S11"],
+      "caveats": [
+        "No source directly measures the share of LMM-band 541930 firms meeting the lens's recurring/external/non-captive test; this is inferred from the NAICS industry definition rather than observed firm-level data.",
+        "Single-contract dependency on one government or institutional buyer is common in this space and is a real eligibility-adjacent risk, but is treated here as a concentration risk (relevant to q and s5) rather than as excluding the firm from e."
+      ]
+    },
+    "s5": {
+      "evidence_state": "PROXY",
+      "low": 0.22,
+      "base": 0.38,
+      "high": 0.55,
+      "bridge": "Sources are (i) industry-specific M&A commentary describing the language-services market as 'a seller's market' for at least five years, with buy-side interest outweighing sell-side interest, and explicitly noting that 'founder-owned small and mid-size LSPs that struggle with revenues have been looking for exits, triggering consolidation in the middle ranks' [S6]; and (ii) an economy-wide small-business succession base rate (more than half of US small-business owners are over 55, and roughly 1 million of an estimated 6 million transferable small/mid businesses are viable sale candidates by 2035) [S12], which is generic and not industry-specific. Transformation: treat the industry-specific M&A commentary as evidence that this NAICS has above-average buyer appetite relative to the generic economy-wide base rate, and blend the two into a five-year change-of-control probability for an eligible LMM-band firm. Error direction: could overstate if the buyer appetite documented for Nimdzi's ranked top-100 LSPs does not reach down into the very small end of the LMM band; could understate given that multiple well-capitalized, repeat strategic and PE-backed acquirers (Propio, TransPerfect, RWS, Lionbridge, Sorenson) are actively and serially buying small and mid-size targets in this exact space.",
+      "rationale": "This is one of the more actively consolidating corners of professional services right now: several well-capitalized acquirers have each closed multiple deals within a single year, and the industry's own market report explicitly flags struggling founder-owned small/mid LSPs as a supply of willing sellers. Layered on top of generic boomer-owner succession pressure, a mid-30s-to-40s percent five-year change-of-control probability for an eligible firm is a defensible base case, with real uncertainty about how far down into the smallest end of the LMM band that buyer appetite actually reaches.",
+      "change_evidence": "A count of actual closed M&A transactions in 2024-2026 specifically involving 541930 targets in the $1-10M EBITDA range (rather than the larger deals visible in trade press) -- obtainable from a business-broker/M&A-advisor database (e.g., BizBuySell, PitchBook filtered to this NAICS and deal-size band) -- would replace this blended estimate with an observed deal-flow rate.",
+      "source_ids": ["S6", "S12"],
+      "caveats": [
+        "Industry-specific evidence of buyer appetite is drawn from commentary about the ranked top-100 LSPs, which skews larger than the LMM band.",
+        "The owner-age/succession base rate is economy-wide, not specific to language-services firms or owners."
+      ]
+    },
+    "q": {
+      "evidence_state": "PROXY",
+      "low": 0.15,
+      "base": 0.30,
+      "high": 0.45,
+      "bridge": "Sources measure (i) LSP-reported business challenges, where 'the need to increase revenue' and 'dealing with price pressures' are named among the top three challenges for 2024 [S6], and (ii) publicly quoted per-word pricing for human translation, commonly $0.15-$0.30/word in the US, alongside machine-translation pricing quoted by the character/token at a small fraction of that cost -- not a direct measurement of what share of an AI-driven efficiency gain an operator retains after a contract renewal. Transformation: treat the coexistence of (a) price pressure named as a leading business problem and (b) a large, publicly known gap between human and AI-assisted per-unit costs as evidence that sophisticated buyers (large corporate and government procurement) are aware of and negotiating toward the cheaper AI-enabled cost basis at renewal, i.e. that a large share of the gross efficiency benefit gets competed away rather than retained as margin. Error direction: likely understates retention in compliance-heavy government/court/hospital relationships, which typically re-bid on multi-year terms and value continuity, certification, and vendor-qualification status over lowest price; likely overstates erosion for commodity-content boutique shops most exposed to direct price shopping.",
+      "rationale": "This industry's billing structures (per-word, per-hour, per-session) make cost savings highly visible and easy for a customer to demand back at the next renewal or RFP cycle, and the base cost structure is already thin because most delivery cost is pass-through payment to contracted linguists rather than fixed operator infrastructure. Combined with an industry survey naming price pressure as a top-three 2024 challenge, a retained share in the high-20s-to-30s percent is a reasonable base case, with the regulated/certified niche plausibly retaining meaningfully more due to switching costs and compliance requirements.",
+      "change_evidence": "Contract-level repricing data at renewal for a sample of LMM-band LSPs (e.g., government or hospital-system contract renewal terms before/after MTPE adoption) would directly measure how much of an AI-driven cost reduction is passed through to the customer versus retained. A vendor survey asking LSPs directly what fraction of MT-driven cost savings they kept at their last major contract renewal would also target this primitive precisely.",
+      "source_ids": ["S6"],
+      "caveats": [
+        "No source directly measures retained-margin share after an AI-driven cost reduction; this is inferred from adjacent pricing and survey evidence.",
+        "A specific MTPE per-word discount percentage (commonly cited in marketing content as roughly 60-70% of full human rate) circulates widely online but could not be independently corroborated against a primary source in this research pass and was excluded from the cited figures.",
+        "Retention plausibly varies widely between commodity content (low) and certified/regulated engagements (higher) -- the range reflects that spread rather than precision within either segment."
+      ]
+    },
+    "d5": {
+      "evidence_state": "PROXY",
+      "low": 0.90,
+      "base": 1.08,
+      "high": 1.30,
+      "bridge": "Sources measure (i) US NAICS-541930-specific nominal industry revenue and its near-term forecast growth rate (1.89%/yr) [S1]; (ii) global language-services-industry nominal revenue and its AI-adjusted forward growth rate, downgraded from a pre-AI CAGR of 7.0% to 5.0%, reaching an estimated $92.3B by 2029 from $71.7B in 2024 [S6]; and (iii) growth in the US population with limited English proficiency and non-English use at home, an underlying demand driver (68 million non-English speakers at home and 29.6 million limited-English-proficient individuals per 2023 ACS data) [S9], compared against an older 2010-vintage baseline of roughly 25 million/9% of the population [S10]. None of these isolate constant-price, constant-quality quantity growth for the current service basket: the revenue figures are nominal and blend price with volume, in an industry where price is under documented downward pressure from AI; the Nimdzi figure is global, not US-specific; and the LSP-index evidence separately found organic (non-M&A) revenue growth across ~300 surveyed companies to be roughly flat in 2024, with essentially all headline growth attributable to consolidation [S5]. Transformation: use the IBISWorld US-specific figure as the base-case anchor for nominal-to-real conversion, and use the spread between pre- and post-AI-adjusted global CAGR, plus the flat/negative organic-growth finding, to bound the low case, with LEP-population and statutory language-access demand supporting the high case.",
+      "rationale": "Multiple sources point in different directions: a US industry forecaster projects modest continued nominal revenue growth; the most detailed language-industry report shows AI has already caused analysts to cut the forward growth rate meaningfully and finds real (organic) growth in 2024 was close to zero once M&A-driven share shifts are excluded; and underlying demographic/regulatory demand drivers (LEP population, statutory language-access mandates) are stable-to-growing but not fast-growing. A base case of modest cumulative growth over five years, with real downside risk that organic unit demand is closer to flat, is the most defensible reading.",
+      "change_evidence": "A constant-dollar (inflation- and AI-price-adjusted) volume series for 541930 receipts -- not currently published -- would directly answer this. In its absence, tracking the Slator LSP Index's organic-growth-versus-M&A-growth split over several more years, and any BLS/Census update to NAICS-541930-specific receipts (the next SUSB/Economic Census cycle), would materially sharpen this estimate.",
+      "source_ids": ["S1", "S6", "S5", "S9", "S10"],
+      "caveats": [
+        "Direct tension between IBISWorld's positive nominal growth forecast for the US industry and the Slator LSP Index's finding of roughly flat organic growth among ~300 surveyed companies in 2024 is not resolved by available sources and is reflected in the width of the range rather than resolved toward either figure.",
+        "LEP/non-English-at-home population data mixes a current ACS-sourced figure with an older 2010-vintage baseline; exact recent-year trend and growth rate could not be confirmed from a single consistent source in this pass.",
+        "Blends translation and interpretation, which industry commentary suggests have differing growth trajectories (interpreting reported growing faster, per over-the-phone/video-remote-interpreting-specific commentary, than the market average, though that data point was not independently corroborated to a primary source this pass and was not used quantitatively)."
+      ]
+    },
+    "o": {
+      "evidence_state": "ESTIMATE",
+      "low": 0.45,
+      "base": 0.60,
+      "high": 0.75,
+      "rationale": "The regulated/high-stakes share of this industry's demand -- certified court and medical interpretation, legal and regulatory-filing translation -- has a documented structural requirement for an accountable human operator: national and bar-association guidance explicitly discourages unsupervised AI for real-time court interpretation, professional certification bodies require human review of AI-generated translation output, and a World Health Organization test of a leading AI interpreting product reportedly passed only 1 of 90 trials [S7]. That points toward a majority of year-five demand still needing an accountable operator of the lens's kind. Pulling the other way, the industry's own market analysts expect the interpreting sub-segment specifically to face disruption from advancing real-time speech-recognition and machine-interpreting technology, and note that buyer-side adoption of GenAI/LLM tools directly (bypassing an intermediary LSP) is already a competitive dynamic for lower-stakes commodity content [S6]. Netting these against each other -- a large regulated/high-stakes floor against a growing self-serve/disintermediated commodity segment -- supports a base case of roughly three-fifths of year-five demand still requiring an accountable operator.",
+      "change_evidence": "A buyer-side survey asking enterprise and government language-services purchasers what share of their current outsourced volume they expect to bring in-house or self-serve via direct AI tools within five years would measure this primitive far more directly than the current mix of professional-guidance and market-commentary evidence.",
+      "source_ids": ["S7", "S6"],
+      "caveats": [
+        "No source directly measures the share of future demand that shifts to self-service or software-only fulfillment; this is a synthesized judgment from professional-liability guidance (which supports a higher figure) and market-disruption commentary (which supports a lower one).",
+        "The WHO/Wordly test result cited in support of the high end comes from an advocacy-organization article (the American Translators Association) rather than a neutral or peer-reviewed evaluation, and is a single-vendor, single-test-round data point rather than a systematic study."
+      ]
+    }
+  },
+  "narrative": {
+    "executive_view": "NAICS 541930 pairs a genuinely fast-consolidating, buyer-hungry market with a weak value-capture mechanism for whoever ends up owning the assets. Well-capitalized strategic and PE-backed acquirers (Propio, TransPerfect, RWS, Lionbridge, Sorenson) are already closing multiple deals a year apiece, and the industry's own analysts describe it as a seller's market with struggling founder-owned small/mid agencies actively looking for exits -- which is good news for deal flow (s5) but also means an LMM-focused roll-up would be competing for targets against buyers with more capital and faster integration playbooks. The demand floor is real and durable where statutory language-access obligations exist (courts, healthcare, government), but AI-driven price pressure is already visible in the industry's own top-three-challenges list, and this industry's billing structures (per-word, per-hour) make cost savings unusually easy for a customer to claw back at the next renewal. The most defensible thesis here is narrower than the full NAICS: certified/regulated interpretation and complex legal-medical translation, not commodity written translation, which is already substantially automated and priced accordingly.",
+    "ai_impact": "The occupation this industry is organized around scores among the highest of any occupation on direct LLM task-exposure measures (76.5% by human raters, 82.4% with LLM-powered software), and the industry is visibly living that out: machine-translation-post-editing (MTPE) adoption among language service providers nearly doubled in two years (26% to 46% of firms, 2022-2024), and more than a quarter of surveyed firms cut in-house staff in 2024 alone. But this is not a uniform story. Live interpretation -- especially certified court and medical interpretation -- is explicitly flagged by courts, bar associations, and interpreter-certification bodies as unsuitable for unsupervised AI today, with one cited test of a commercial AI interpreting product passing only 1 of 90 trials. The practical read: the commodity written-translation half of this industry is already well into automation; the live-interpretation and certified/regulated half is not, and professional/liability guidance is actively slowing it down.",
+    "value_capture": "Billing is per-word, per-hour, or per-session, and delivery cost is dominated by pass-through payments to a flexible network of contracted linguists rather than fixed operator infrastructure -- a structure that makes AI-driven cost savings unusually visible and easy for a sophisticated buyer to demand back at the next contract renewal or RFP. The industry's own 2024 survey names price pressure among the top three business challenges facing language service providers. Retention is likely to be meaningfully better in regulated/certified relationships (government, courts, healthcare) that re-bid on multi-year terms and value continuity and certification over lowest price, and meaningfully worse in commodity marketing/e-commerce content translation, where AI-assisted pricing is already competing directly with human rates.",
+    "firm_availability": "This is one of the more actively consolidating corners of professional services right now. Multiple well-capitalized acquirers -- Propio (backed by private equity, which absorbed United Language Group, Akorbi, ASL Services, and CyraCom within roughly a year), TransPerfect (nearly a dozen acquisitions in a recent year), RWS, Lionbridge, and Sorenson -- have each closed several deals in quick succession. The industry's own market report describes it explicitly as a seller's market, for at least five years running, with founder-owned small and mid-size agencies struggling on revenue and actively looking for exits. Layered on generic small-business succession pressure (more than half of US small-business owners are over 55), this points to real, above-average deal flow for eligible LMM-band firms -- with the caveat that the clearest evidence of buyer appetite is documented at the larger end of the market, and it is less certain how far down into the smallest end of the $1-10M EBITDA band that appetite reaches before a target is simply too small to be worth a strategic buyer's integration effort.",
+    "demand_durability": "Demand has a real regulatory/statutory floor: Title VI and related language-access law require federally funded courts, hospitals, and agencies to provide interpretation for limited-English-proficient individuals, and roughly 29.6 million US residents were limited English proficient as of 2023 ACS data, out of 68 million who speak a language other than English at home. On top of that floor, forecasts diverge on how fast the market actually grows: a US-specific industry forecaster projects modest continued nominal revenue growth (1.89%/yr), while the most detailed language-industry report shows analysts already cutting their forward growth estimate because of AI (from a pre-AI 7.0% CAGR to 5.0%), and a separate index of ~300 language service providers found organic (non-M&A) revenue growth was close to flat in 2024 once consolidation-driven share shifts are excluded. The honest read is a durable but not fast-growing demand base, with real risk that AI-enabled self-service further caps unit demand for outsourced human service even as the regulatory floor holds.",
+    "risks_and_uncertainty": "Three risks stand out. First, timing: the most obvious consolidation targets may already be getting absorbed by well-capitalized strategic and PE buyers faster than a new LMM-focused thesis could assemble a platform, and the clearest evidence of buyer appetite sits above the LMM band, not within it. Second, margin: this industry's cost structure (pass-through payments to freelance linguists) and billing structure (per-word/per-hour) make AI-driven cost savings unusually easy for sophisticated buyers to claw back at renewal, and price pressure is already a named top-three industry challenge -- the classic setup for a shrinking-margin business even where volume holds. Third, heterogeneity: this NAICS code blends commodity written translation (heavily AI-exposed, already partly automated, thin margins) with certified/regulated interpretation (much more resistant to automation, better margins, but a smaller and slower-growing pool of assets) -- a blended, NAICS-wide read risks steering diligence toward the wrong sub-segment. Evidentiary gaps compound this: the dataset-injected labor-cost ratio likely understates true labor cost given the industry's heavy reliance on 1099 freelance linguists not captured in QCEW wage data; several primitives rely on economy-wide (not industry-specific) succession base rates; and one piece of evidence for AI's current interpretation limitations comes from a single-test-round result reported by an advocacy organization rather than a neutral study.",
+    "principal_driver": "Statutory/regulatory language-access demand (Title VI, court and healthcare mandates) combined with unusually active, well-capitalized buyer demand already validating that firms in this space are investable and transferable.",
+    "principal_weakness": "Thin, pass-through-heavy economics in a per-word/per-hour billing structure make AI-driven cost savings easy for customers to claw back at renewal, so even where implementation succeeds, the operator may not keep much of the benefit."
+  },
+  "sources": [
+    {
+      "id": "S1",
+      "url": "https://www.ibisworld.com/classifications/naics/541930/translation-and-interpretation-services/",
+      "title": "NAICS Code 541930 - Translation and Interpretation Services | IBISWorld",
+      "access_date": "2026-07-22",
+      "supports": "US industry market size ($9.8B, 2026) and forecast growth rate (1.89%/yr); industry definition; qualitative market trends (trade-driven investment, lack of substitute ensuring consistent revenue). Used for d5, e, a."
+    },
+    {
+      "id": "S2",
+      "url": "https://www.bls.gov/ooh/media-and-communication/interpreters-and-translators.htm",
+      "title": "Interpreters and Translators : Occupational Outlook Handbook : U.S. Bureau of Labor Statistics",
+      "access_date": "2026-07-22",
+      "supports": "National employment (75,300 jobs, 2024), median wage ($59,440), 2024-2034 job growth (2%, slower than average), annual openings (~6,900, mostly replacement). Used for a."
+    },
+    {
+      "id": "S3",
+      "url": "https://slator.com/us-bureau-of-labor-statistics-job-outlook-for-translators-interpreters-worsens/",
+      "title": "US Bureau of Labor Statistics' Job Outlook for Translators and Interpreters Worsens - Slator",
+      "access_date": "2026-07-22",
+      "supports": "BLS employment-projection downgrade (3% to 2% growth) and demand drivers (population diversity, globalization, military/security, video relay services); BLS statement that translation work 'cannot yet' be fully automated. Used for a, rho, d5."
+    },
+    {
+      "id": "S4",
+      "url": "https://slator.com/translators-interpreters-among-most-vulnerable-large-language-models-openai/",
+      "title": "Translators, Interpreters Among Most 'Vulnerable' to Large Language Models, OpenAI Says - Slator",
+      "access_date": "2026-07-22",
+      "supports": "OpenAI/Penn 'GPTs are GPTs' occupation-level LLM exposure scores for translators/interpreters (76.5% human-rated, 82.4% with software), and methodological caveat that exposure measures time-savings potential, not full automation. Used for a."
+    },
+    {
+      "id": "S5",
+      "url": "https://slator.com/2025-language-service-provider-index/",
+      "title": "The Slator 2025 Language Service Provider Index",
+      "access_date": "2026-07-22",
+      "supports": "Combined revenue of ~300 surveyed language service providers ($8.4B, +6.6% in 2024); segment-level growth (Super Agencies +6.3%, Leaders +8.4%, Challengers +5.3%, Boutiques -3.7%); finding that organic growth was roughly flat with headline growth driven by M&A; share of providers with revenue declines by tier (25%/33.3%/40%/41%). Used for d5, s5."
+    },
+    {
+      "id": "S6",
+      "url": "https://www.nimdzi.com/nimdzi-100-2025/",
+      "title": "The 2025 Nimdzi 100 -- The size and state of the language services industry",
+      "access_date": "2026-07-22",
+      "supports": "Global language-services market size and growth ($71.7B 2024, +5.6%; projected $75.7B 2025; forward CAGR cut from pre-AI 7.0% to 5.0%; $92.3B by 2029); 'seller's market' M&A commentary and founder-owned small/mid LSPs seeking exits; MT/post-editing among fastest-growing revenue lines; in-house staff cuts (26.9% of LSPs in 2024 vs 13.2% prior year); price pressure named a top-three 2024 challenge; interpreting sector flagged as facing AI-driven disruption. Used for a, rho, q, d5, s5, o."
+    },
+    {
+      "id": "S7",
+      "url": "https://www.atanet.org/advocacy-outreach/think-ai-should-replace-interpreters/",
+      "title": "Think AI Should Replace Interpreters? Think Again. - American Translators Association (ATA)",
+      "access_date": "2026-07-22",
+      "supports": "Professional/liability case against unsupervised AI interpretation, including a cited WHO test of an AI interpreting product (reportedly 1 of 90 trials passed), National Center for State Courts guidance against AI for real-time court interpretation, and ABA reliability concerns. Used for rho, o."
+    },
+    {
+      "id": "S8",
+      "url": "https://www.onetonline.org/link/summary/27-3091.00",
+      "title": "27-3091.00 - Interpreters and Translators | O*NET OnLine",
+      "access_date": "2026-07-22",
+      "supports": "Core task list for the occupation (translating, interpreting, terminology research, proofreading/revision, confidentiality/ethics) and work-context data (92% report exactness 'extremely important'; 80% daily face-to-face discussion). Used for a."
+    },
+    {
+      "id": "S9",
+      "url": "https://slator.com/number-non-english-speaking-households-continues-to-rise-united-states/",
+      "title": "Number of Non-English Speaking Households Continues to Rise in the United States - Slator",
+      "access_date": "2026-07-22",
+      "supports": "2023 ACS-sourced figures: ~68 million US residents speak a language other than English at home; 29.6 million are limited English proficient (LEP). Used for d5."
+    },
+    {
+      "id": "S10",
+      "url": "https://www.migrationpolicy.org/research/limited-english-proficient-individuals-united-states-number-share-growth-and-linguistic",
+      "title": "Limited English Proficient Individuals in the United States: Number, Share, Growth, and Linguistic Diversity - Migration Policy Institute",
+      "access_date": "2026-07-22",
+      "supports": "Historical LEP baseline: LEP population exceeded 25 million (9% of US population) by 2010, having grown 80% from 1990 to 2010. Used for d5 as an older vintage comparison point; caveated as a 2011-published, 2010-data fact sheet."
+    },
+    {
+      "id": "S11",
+      "url": "https://www.averickmedia.com/naics-code/naics-code-541930-translation-interpretation-services",
+      "title": "NAICS Code 541930 - Translation and Interpretation Services | AverickMedia",
+      "access_date": "2026-07-22",
+      "supports": "Secondary aggregation of 2020 Census figures for the industry (2,709 businesses, 37,377 employees, ~$1.73B annual payroll), used only as qualitative color on industry fragmentation/firm-size structure for e; not used as the source of the dataset-injected firm count n."
+    },
+    {
+      "id": "S12",
+      "url": "https://www.forbes.com/sites/martinadilicosa/2026/02/26/millions-of-small-businesses-soon-changing-hands-as-baby-boomers-retire-in-great-ownership-transfer-report-says/",
+      "title": "Millions Of Small Businesses Soon Changing Hands As Baby Boomers Retire In 'Great Ownership Transfer,' Report Says - Forbes",
+      "access_date": "2026-07-22",
+      "supports": "Economy-wide small-business owner-age and succession base rates (McKinsey Institute for Economic Mobility report): over half of US small-business owners are 55+; roughly 1 million of ~6 million transferable small/mid businesses are viable sale candidates by 2035, representing ~$5 trillion in enterprise value. Used for s5 as a generic (non-industry-specific) base rate."
+    }
+  ]
+}
