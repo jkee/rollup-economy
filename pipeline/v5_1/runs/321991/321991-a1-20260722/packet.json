@@ -1,0 +1,154 @@
+{
+  "identity": {
+    "naics": "321991",
+    "title": "Manufactured Home (Mobile Home) Manufacturing",
+    "run_id": "321991-a1-20260722",
+    "model_id": "claude-sonnet-5",
+    "run_date": "2026-07-22",
+    "methodology_version": "5.1",
+    "attempt": 1
+  },
+  "lens": {
+    "included_activities": "Independent US manufacturers of HUD-code manufactured homes with repeat dealer, community-operator, or institutional-customer programs and sufficient standalone management to support a control transfer.",
+    "excluded_activities": "Captive plants, non-HUD modular construction, retailers and installers without manufacturing operations, project shells, and manufacturers whose sales are only isolated consumer transactions.",
+    "customer_and_revenue_model": "Homes are sold per unit, commonly through recurring dealer and distributor relationships; revenue is product and shipment based rather than a recurring service fee.",
+    "deviation_from_default": "The code is a product-manufacturing industry rather than an outsourced-service industry, so the lens retains only firms with repeat external B2B supply relationships; this narrowing is necessary to make eligibility coherent.",
+    "heterogeneous": true
+  },
+  "primitives": {
+    "a": {
+      "evidence_state": "PROXY",
+      "low": 0.07,
+      "base": 0.13,
+      "high": 0.22,
+      "bridge": "BLS measures occupations for broader NAICS 321900, not 321991, and physical requirements for production occupations generally. I treat management, business, office, scheduling, estimating, design-documentation, and selected quality/planning tasks as AI-exposed while assigning little exposure to hands-on assembly and material movement. Because manufactured-home plants may have more assembly labor than the broader wood-products group, this likely biases exposure upward.",
+      "rationale": "The broader industry is 51.76% production employment, including 20.49% assemblers/fabricators, and production workers spend 83.3% of the workday standing on average. Those facts constrain near-term language-model substitution. The plausible opportunity is concentrated in higher-wage planning, procurement, customer documentation, engineering support, compliance, and back-office work, plus avoidable hiring through better scheduling and quality triage.",
+      "change_evidence": "A wage-weighted employee roster and time study from three HUD-code plants, mapped to O*NET tasks and current software use, would materially change the estimate.",
+      "source_ids": ["S1", "S2"],
+      "caveats": ["Occupation evidence is for NAICS 321900, not the six-digit industry.", "The estimate excludes already-automated tasks but public occupational data do not identify current automation penetration."]
+    },
+    "rho": {
+      "evidence_state": "ESTIMATE",
+      "low": 0.25,
+      "base": 0.45,
+      "high": 0.65,
+      "rationale": "Document, estimating, procurement, scheduling, and customer-service workflows can be implemented within five years, but plant-system integration, variable product configurations, HUD-code accountability, data quality, and frontline adoption constrain realization. Physical assembly opportunity is already excluded from a, so this range focuses on implementability of the remaining digital and decision-support work.",
+      "change_evidence": "Plant-level pilots measuring accepted AI outputs, labor hours avoided, rework, warranty claims, and cycle time over at least two production quarters would materially change the estimate.",
+      "source_ids": ["S2"],
+      "caveats": ["No industry-wide five-year AI implementation study was located.", "Implementation may be harder in smaller plants with fragmented ERP and dealer-order systems."]
+    },
+    "e": {
+      "evidence_state": "ESTIMATE",
+      "low": 0.08,
+      "base": 0.18,
+      "high": 0.32,
+      "rationale": "Most firms in this NAICS sell capital goods rather than recurring outsourced services, so only the subset with repeat dealer, community, or institutional supply programs fits the narrowed lens. Eligibility is further reduced by concentration: the industry source counted only 38 manufacturers operating 152 plants in late 2024, which suggests that some establishments in the dataset are plants of larger enterprises rather than independently transferable firms.",
+      "change_evidence": "A firm-by-firm census matching HUD manufacturer identifiers and plant ownership to customer mix, recurring dealer revenue, EBITDA, and independent control would materially change the estimate.",
+      "source_ids": ["S3"],
+      "caveats": ["The injected n is a margin-bridged estimate based on size-class averages and may count establishments or firms that do not fit the recurring-service lens.", "No public dataset measures repeat-customer revenue by manufacturer."]
+    },
+    "s5": {
+      "evidence_state": "PROXY",
+      "low": 0.12,
+      "base": 0.21,
+      "high": 0.32,
+      "bridge": "Gallup measures plans of US employer-business owners across industries, not manufactured-home manufacturers or completed transfers. Its 22% five-year planned sell/transfer rate is used as the center, then bounded downward for concentration and transaction complexity and upward for owner-age pressure. Plans may overstate completed qualifying transfers, so the base is slightly below the observed intention rate.",
+      "rationale": "Gallup reports that 52.3% of employer businesses have owners age 55 or older and that 22% of employer-business owners planned to sell or transfer within five years. Manufactured-home plants are operationally and regulatorily complex, so not every intention becomes a qualifying control transfer.",
+      "change_evidence": "Manufacturer-specific ownership ages plus five years of closed control transactions from PitchBook, Capital IQ, Axial, and industry brokers would materially change the estimate.",
+      "source_ids": ["S4"],
+      "caveats": ["Cross-industry owner survey; intentions are not completed transactions.", "Internal family gifts and sales to strategic consolidators may not leave a standalone transferable operation."]
+    },
+    "q": {
+      "evidence_state": "ESTIMATE",
+      "low": 0.3,
+      "base": 0.5,
+      "high": 0.7,
+      "rationale": "Unit pricing and repeat dealer negotiations permit an operator to retain some process savings, especially between model-year repricings, but manufactured homes are a comparable, affordability-sensitive product. Renewal negotiation, dealer leverage, and competition should pass a meaningful share of gross benefit to customers over five years.",
+      "change_evidence": "Dealer contracts, price-change histories, bid win-loss data, gross-margin bridges, and interviews with purchasing managers at large retailers and communities would materially change the estimate.",
+      "source_ids": ["S3", "S5"],
+      "caveats": ["No public evidence directly measures pass-through of manufacturing productivity savings.", "Material-price volatility can obscure whether margin changes come from AI or input costs."]
+    },
+    "d5": {
+      "evidence_state": "PROXY",
+      "low": 0.9,
+      "base": 1.04,
+      "high": 1.2,
+      "bridge": "Shipment and BLS output evidence covers manufactured housing directly for recent volumes and broader NAICS 321900 for long-horizon real output, not a constant-quality five-year forecast for the eligible-firm service basket. I triangulate recent cyclicality with the broader industry's projected 1.7% annual real-output growth; the broader category may bias growth either way, while recent shipment softness argues against using its forecast mechanically.",
+      "rationale": "Manufactured-home shipments grew 7.3% in 2024 to a 103,571 SAAR in December, but March 2026 production was down 9.0% year to date and its shipment SAAR was 100,540. BLS projects broader other wood-product output from 56.8 to 67.3 billion chained dollars over 2024-34. The five-year range therefore allows a cyclical decline but centers on modest real growth supported by housing affordability needs.",
+      "change_evidence": "A five-year forecast of HUD-code shipments by price segment, adjusted for square footage and specifications, plus dealer backlog and financing approval data would materially change the estimate.",
+      "source_ids": ["S3", "S5", "S6"],
+      "caveats": ["Shipments are cyclical and sensitive to rates, chattel financing, zoning, and site availability.", "The BLS projection is for NAICS 321900, much broader than manufactured homes."]
+    },
+    "o": {
+      "evidence_state": "ESTIMATE",
+      "low": 0.94,
+      "base": 0.98,
+      "high": 1.0,
+      "rationale": "The year-five output is a federally inspected physical dwelling assembled, quality-controlled, shipped, warranted, and sold by an accountable manufacturer. Software can assist design, quoting, and coordination but cannot supply the current basket without a manufacturing operator; limited downside reflects possible vertical integration or alternative building systems displacing eligible independent firms.",
+      "change_evidence": "Evidence of dealer self-manufacturing, fully automated third-party production platforms, or substitution from panelized/modular systems in shipment data would materially change the estimate.",
+      "source_ids": ["S7"],
+      "caveats": ["This measures operator requirement, not labor intensity.", "Manufactured Housing Survey coverage excludes modular homes, so cross-system substitution is not directly observed."]
+    }
+  },
+  "narrative": {
+    "executive_view": "The opportunity is constrained by the mismatch between a recurring-service acquisition lens and a concentrated product-manufacturing industry. Eligible firms can still have repeat dealer programs and transferable plants, but AI affects only a minority of wage-weighted work because assembly, material movement, inspection, and installation remain physical.",
+    "ai_impact": "AI is most relevant to order configuration, estimating, procurement, production scheduling, engineering documentation, compliance preparation, dealer support, warranty triage, and administrative work. It is a decision-support and workflow layer rather than a replacement for the production line.",
+    "value_capture": "Savings may be retained between price resets and through improved throughput or lower rework, but a comparable and affordability-sensitive home product exposes gains to dealer negotiation and price competition. Product-level gross-margin evidence is needed before assuming durable capture.",
+    "firm_availability": "The injected LMM firm count is uncertain for this industry because published late-2024 industry data indicate only 38 manufacturers and 152 plants. A modest five-year ownership-transfer propensity is plausible, but the independently owned, recurring-B2B subset is likely much smaller than the dataset total.",
+    "demand_durability": "Demand benefits from the need for lower-cost housing, yet shipments remain highly sensitive to financing, rates, zoning, sites, and the broader housing cycle. Recent growth reversed into early-2026 softness, supporting a wide range around modest five-year real growth.",
+    "risks_and_uncertainty": "The main risks are lens ineligibility, manufacturer concentration, cyclical volumes, financing constraints, regulatory accountability, fragmented plant systems, and the possibility that apparent labor savings are offset by implementation and quality costs. The six-digit occupation mix and actual transfer history are not publicly observed.",
+    "principal_driver": "Repeat dealer programs can support transferable operations and AI-assisted planning, procurement, documentation, and warranty workflows.",
+    "principal_weakness": "Most value creation is physical product manufacturing, leaving a small exposed labor share and a poor fit with a recurring outsourced-service lens."
+  },
+  "sources": [
+    {
+      "id": "S1",
+      "url": "https://www.bls.gov/oes/2023/may/naics4_321900.htm",
+      "title": "Other Wood Product Manufacturing - May 2023 OEWS Industry-Specific Occupational Employment and Wage Estimates",
+      "access_date": "2026-07-22",
+      "supports": "Broader-industry occupation mix: 51.76% production, 20.49% assemblers and fabricators, 19.91% woodworkers, with management and business occupations much smaller."
+    },
+    {
+      "id": "S2",
+      "url": "https://www.bls.gov/ors/factsheet/productions-occupations.htm",
+      "title": "Production occupations - Occupational Requirements Survey",
+      "access_date": "2026-07-22",
+      "supports": "Physical and training requirements: production workers spent 83.3% of the workday standing on average; reaching was required for 87.8%; on-the-job training for 89.9%."
+    },
+    {
+      "id": "S3",
+      "url": "https://www.manufacturedhousing.org/news/mhi-economic-report-production-and-shipments-see-strong-year-end-finish/",
+      "title": "MHI Economic Report: Production and Shipments See Strong Year-End Finish",
+      "access_date": "2026-07-22",
+      "supports": "December 2024 shipment growth, 103,571 SAAR, 152 plants, 38 manufacturers, and manufactured housing share of single-family starts."
+    },
+    {
+      "id": "S4",
+      "url": "https://news.gallup.com/poll/657362/small-business-owners-lack-succession-plan.aspx",
+      "title": "Most Small-Business Owners Lack a Succession Plan",
+      "access_date": "2026-07-22",
+      "supports": "US employer-owner age and transfer intentions: 52.3% age 55 or older and 22% of employer-business owners planned a sale or transfer within five years."
+    },
+    {
+      "id": "S5",
+      "url": "https://www.manufacturedhousing.org/news/mhi-member-exclusive-march-2026-economic-report-production-and-shipment-trends-show-slowdown/",
+      "title": "MHI March 2026 Economic Report: Production and Shipment Trends Show Slowdown",
+      "access_date": "2026-07-22",
+      "supports": "March 2026 production down 2.3% year over year and 9.0% year to date; shipment SAAR 100,540, down 5.2% from 2025."
+    },
+    {
+      "id": "S6",
+      "url": "https://www.bls.gov/emp/tables/industry-employment-and-output.htm",
+      "title": "Employment and output by industry",
+      "access_date": "2026-07-22",
+      "supports": "BLS projects broader NAICS 321900 real output from 56.8 in 2024 to 67.3 billion chained 2017 dollars in 2034, a 1.7% annual rate."
+    },
+    {
+      "id": "S7",
+      "url": "https://www.census.gov/programs-surveys/mhs/about.html",
+      "title": "About the Manufactured Housing Survey",
+      "access_date": "2026-07-22",
+      "supports": "Survey scope covers all new manufactured homes receiving federal inspection and reports shipments, prices, and characteristics; modular homes are outside the survey."
+    }
+  ]
+}

@@ -1,0 +1,168 @@
+{
+  "identity": {
+    "naics": "325180",
+    "title": "Other Basic Inorganic Chemical Manufacturing",
+    "run_id": "325180-a1-20260723",
+    "model_id": "claude-sonnet-5",
+    "run_date": "2026-07-23",
+    "methodology_version": "5.1",
+    "attempt": 1
+  },
+  "lens": {
+    "included_activities": "US lower-middle-market firms classified in 325180 that repeatedly manufacture and supply basic inorganic chemicals to external customers, including contract or toll production where present.",
+    "excluded_activities": "Industrial gas and synthetic dye/pigment manufacturing, captive internal plants, shells, non-control financing vehicles, and establishments whose operations do not transfer with control.",
+    "customer_and_revenue_model": "Predominantly recurring business-to-business product sales under spot, formula, or negotiated supply arrangements; a small subset may earn toll-manufacturing or contract-processing fees.",
+    "deviation_from_default": "none",
+    "heterogeneous": false
+  },
+  "primitives": {
+    "a": {
+      "evidence_state": "PROXY",
+      "low": 0.08,
+      "base": 0.15,
+      "high": 0.25,
+      "bridge": "BLS describes industrial production managers as performing scheduling, supplier/customer communication, hiring, data analysis, reporting, budgeting, and compliance monitoring, while ILO finds clerical work most exposed to GenAI. I infer exposure for the industry's administrative, analytical, commercial, and supervisory task share, then reduce it because production work is physical and safety-critical. This likely overstates substitution if plant documentation is highly specialized or locked in validated systems.",
+      "rationale": "AI can draft compliance and quality documents, reconcile production and purchasing data, support scheduling, and automate routine commercial administration. Core chemical handling, maintenance, sampling, and control-room accountability remain physical or safety-critical, keeping wage-weighted exposure modest.",
+      "change_evidence": "A 325180-specific OEWS occupation-by-wage file combined with task-level O*NET exposure coding and time studies at chlor-alkali and other inorganic plants.",
+      "source_ids": ["S2", "S3", "S4"],
+      "caveats": ["OEWS evidence is broader than 325180.", "GenAI exposure is not the same as technically substitutable labor.", "No direct wage-weighted task study for this six-digit industry was found."]
+    },
+    "rho": {
+      "evidence_state": "ESTIMATE",
+      "low": 0.25,
+      "base": 0.45,
+      "high": 0.65,
+      "rationale": "Document, reporting, scheduling, procurement, and analytics use cases are implementable within five years, but chemical-process safety, data quality, integration with plant systems, cybersecurity, and human sign-off constrain deployment. The estimate assumes staged copilots and workflow automation rather than autonomous plant control.",
+      "change_evidence": "Structured interviews with plant managers, EHS leaders, and quality managers at 15 independent 325180 firms, plus audited pre/post deployment labor hours from comparable chemical plants.",
+      "source_ids": ["S2", "S3", "S5"],
+      "caveats": ["Bounded judgment rather than observed adoption.", "Implementation rates may vary sharply between modern continuous plants and older batch facilities.", "TSCA and environmental reporting increase both the document opportunity and the verification burden."]
+    },
+    "e": {
+      "evidence_state": "ESTIMATE",
+      "low": 0.001,
+      "base": 0.005,
+      "high": 0.02,
+      "rationale": "The NAICS definition is product manufacturing, not outsourced services. Only the uncommon toll-manufacturing or contract-processing operator with repeat external-customer service revenue fits the fixed lens; ordinary chemical producers selling their own output are ineligible.",
+      "change_evidence": "Manual classification of all 119 dataset-injected LMM-band firms using websites, revenue segmentation, customer contracts, and sale materials to identify recurring toll or contract-processing revenue.",
+      "source_ids": ["S1"],
+      "caveats": ["No census table separates toll manufacturers from principal-product manufacturers.", "Classification practices may place some contract processors in this code even when websites emphasize products.", "The dataset firm count is an estimate and is not re-estimated here."]
+    },
+    "s5": {
+      "evidence_state": "PROXY",
+      "low": 0.10,
+      "base": 0.20,
+      "high": 0.32,
+      "bridge": "BizBuySell reports small manufacturing-business transactions and Census ABS measures owner age across employer businesses, not five-year control-transfer incidence among eligible 325180 firms. I use active observed manufacturing deal flow and broad aging-owner evidence to bound a five-year probability, reducing the base for capital intensity, environmental diligence, and the rarity of eligible toll processors. Platform data likely overrepresents marketable small businesses and may bias the estimate upward.",
+      "rationale": "Manufacturing businesses do trade and aging ownership creates succession pressure, but many inorganic chemical assets are strategic, regulated, or embedded in larger groups. Eligible independents are so rare that transfer timing is especially uncertain.",
+      "change_evidence": "PitchBook or Capital IQ transaction screening for US 325180 control deals over 10 years, matched to private-company counts and supplemented with confidential owner-age and succession interviews.",
+      "source_ids": ["S6", "S7"],
+      "caveats": ["BizBuySell skews toward main-street transactions and is not NAICS-specific.", "Owner age does not imply a sale; family succession, internal transfer, or closure may occur.", "Strategic and sponsor deals may be absent from the platform."]
+    },
+    "q": {
+      "evidence_state": "ESTIMATE",
+      "low": 0.20,
+      "base": 0.40,
+      "high": 0.65,
+      "rationale": "Basic inorganic chemicals are generally specification-driven products with transparent input costs and meaningful domestic/import competition. Productivity benefits may be competed away or shared at contract renewal; retention is better where a toll processor is qualified into a customer's process, handles hazardous materials reliably, or embeds savings in fixed-fee arrangements.",
+      "change_evidence": "Review of 30 customer contracts and renewal histories from eligible toll processors, including price-reset clauses, open-book costing, indexation, gross-margin changes, and customer concentration.",
+      "source_ids": ["S8"],
+      "caveats": ["No observed pass-through study for 325180 was found.", "The BLS import-price series is broader than eligible service-like firms and indicates competitive pricing conditions rather than retained benefit directly.", "Retention varies by chemical, qualification burden, and contract form."]
+    },
+    "d5": {
+      "evidence_state": "PROXY",
+      "low": 0.82,
+      "base": 0.98,
+      "high": 1.15,
+      "bridge": "The Federal Reserve industrial-production index measures real US output for other basic inorganic chemicals, not future constant-quality demand for eligible outsourced toll processing. I anchor around recent depressed output and allow cyclical recovery or continued displacement/import pressure. Domestic production can understate US demand when imports gain share and can overstate lens demand if integrated producers internalize work.",
+      "rationale": "The product basket supplies many industrial processes and is unlikely to disappear, but recent real output is well below the 2017 index base and demand is cyclical. Five-year quantity may recover toward prior utilization or remain weak under import competition, plant closures, substitution, and efficiency gains.",
+      "change_evidence": "Chemical-by-chemical customer volume forecasts, capacity announcements and closures, import/export quantity data, and contracted backlog from eligible toll processors through 2031.",
+      "source_ids": ["S9"],
+      "caveats": ["Production is not demand and the series is 32518-part rather than exact lens firms.", "A single aggregate masks divergent chlorine, alkali, and specialty inorganic markets.", "The range does not model a specific macroeconomic cycle."]
+    },
+    "o": {
+      "evidence_state": "ESTIMATE",
+      "low": 0.93,
+      "base": 0.98,
+      "high": 1.00,
+      "rationale": "Physical chemical production, hazardous-material handling, quality release, maintenance, emergency response, and regulatory accountability continue to require an accountable operator. Software can improve planning and documentation but cannot itself deliver bulk inorganic chemicals; limited loss could come from customer insourcing or process substitution.",
+      "change_evidence": "Customer interviews on insourcing and material-substitution plans, announced autonomous-plant deployments, and a five-year analysis of toll-processing versus captive capacity additions.",
+      "source_ids": ["S1", "S2", "S5"],
+      "caveats": ["This is bounded judgment, not an observed operator-retention rate.", "The estimate concerns quantity still requiring an operator, not labor retained within the operator.", "Customer vertical integration could reduce outsourced volume without eliminating chemical demand."]
+    }
+  },
+  "narrative": {
+    "executive_view": "Other basic inorganic chemistry is a physical, regulated manufacturing activity with recurring industrial demand and some automatable information work. The central lens problem is eligibility: ordinary manufacturers sell products rather than a recurring outsourced service, leaving only a very small toll- or contract-processing subset.",
+    "ai_impact": "The plausible AI wedge is in production planning, purchasing, customer service, quality and EHS documentation, report preparation, and analysis of plant data. It is much weaker in chemical handling, maintenance, sampling, and accountable process control, where physical presence and safety disciplines dominate.",
+    "value_capture": "Savings can remain with an operator during a contract term or where reliability and qualification create switching friction. Commodity pricing, formula adjustments, open-book negotiations, imports, and renewal competition can transfer much of the benefit to customers.",
+    "firm_availability": "Manufacturing businesses do transfer, and broad owner-demographic evidence supports succession activity, but an eligible independent toll processor in the EBITDA band is likely rare. Environmental liabilities, specialized permits, working capital, and fixed assets further narrow practical transferability.",
+    "demand_durability": "Industrial customers will still require inorganic chemicals and an accountable physical operator in five years. Aggregate domestic output has been weak, however, and exact demand depends on the chemical mix, imports, customer insourcing, plant closures, substitution, and cyclical end markets.",
+    "risks_and_uncertainty": "The largest uncertainty is whether any meaningful share of firms actually earns recurring outsourced-service revenue. Other material risks are environmental legacy liability, process safety, energy and feedstock volatility, customer concentration, cyclicality, import pressure, and overestimating AI's relevance to physical plant labor.",
+    "principal_driver": "Recurring industrial need for physical, compliant chemical production supports operator-required demand.",
+    "principal_weakness": "The industry is fundamentally product manufacturing, so very few firms satisfy the fixed outsourced-service lens."
+  },
+  "sources": [
+    {
+      "id": "S1",
+      "url": "https://www.census.gov/naics/?details=325180&input=325180&year=2012",
+      "title": "NAICS 325180 Other Basic Inorganic Chemical Manufacturing definition",
+      "access_date": "2026-07-23",
+      "supports": "Defines the industry as establishments primarily engaged in manufacturing basic inorganic chemicals, excluding industrial gases and synthetic dyes and pigments."
+    },
+    {
+      "id": "S2",
+      "url": "https://www.bls.gov/OOH/management/industrial-production-managers.htm",
+      "title": "Industrial Production Managers",
+      "access_date": "2026-07-23",
+      "supports": "Lists plant-management duties including scheduling, supplier/customer communication, hiring, production-data analysis, report review, budgeting, quality, and safety oversight."
+    },
+    {
+      "id": "S3",
+      "url": "https://www.bls.gov/oes/2024/may/oessrci.htm",
+      "title": "May 2024 National Industry-Specific Occupational Employment and Wage Estimates",
+      "access_date": "2026-07-23",
+      "supports": "Shows that BLS publishes a Basic Chemical Manufacturing occupation table at NAICS 325100, the closest available listed industry aggregation."
+    },
+    {
+      "id": "S4",
+      "url": "https://www.ilo.org/resource/article/generative-ai-work-what-it-means-jobs-europe-and-beyond",
+      "title": "Generative AI at work: What it means for jobs in Europe and beyond",
+      "access_date": "2026-07-23",
+      "supports": "Reports that clerical occupations remain the most exposed to GenAI while noting practical automation is harder than theoretical exposure suggests."
+    },
+    {
+      "id": "S5",
+      "url": "https://www.epa.gov/chemical-data-reporting/basic-information-about-chemical-data-reporting",
+      "title": "Basic Information about Chemical Data Reporting",
+      "access_date": "2026-07-23",
+      "supports": "States that manufacturers and importers report based on chemical production volume and that the data cover manufacturing, processing, and possible exposure, evidencing regulated information workflows."
+    },
+    {
+      "id": "S6",
+      "url": "https://www.census.gov/data/tables/2022/econ/abs/2022-abs-characteristics-of-owners.html",
+      "title": "ABS Characteristics of Business Owners: 2022 Tables",
+      "access_date": "2026-07-23",
+      "supports": "Provides employer-business owner-characteristic tables including owner age, the basis for broad succession-age evidence."
+    },
+    {
+      "id": "S7",
+      "url": "https://www.bizbuysell.com/insight-report/",
+      "title": "BizBuySell Insight Report",
+      "access_date": "2026-07-23",
+      "supports": "Reports 2,345 US small businesses bought and sold in Q1 2026 and a 15 percent rise in manufacturing acquisitions, demonstrating active but non-NAICS-specific transfer flow."
+    },
+    {
+      "id": "S8",
+      "url": "https://fred.stlouisfed.org/series/IZ32518",
+      "title": "Import Price Index (NAICS): Other Basic Inorganic Chemical Manufacturing",
+      "access_date": "2026-07-23",
+      "supports": "Shows the BLS import price index at 65.4 in June 2026 with December 2022 equal to 100, evidencing substantial price pressure in competing imports."
+    },
+    {
+      "id": "S9",
+      "url": "https://fred.stlouisfed.org/series/IPG32518S",
+      "title": "Industrial Production: Other Basic Inorganic Chemical",
+      "access_date": "2026-07-23",
+      "supports": "Shows seasonally adjusted real US output at 76.3398 in May 2026 on a 2017-equals-100 index, with the Federal Reserve as source."
+    }
+  ]
+}

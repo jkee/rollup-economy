@@ -1,0 +1,168 @@
+{
+  "identity": {
+    "naics": "325193",
+    "title": "Ethyl Alcohol Manufacturing",
+    "run_id": "325193-a1-20260723",
+    "model_id": "claude-sonnet-5",
+    "run_date": "2026-07-23",
+    "methodology_version": "5.1",
+    "attempt": 1
+  },
+  "lens": {
+    "included_activities": "US lower-middle-market firms classified in 325193 that repeatedly manufacture nonpotable ethyl alcohol for external customers, including contract or toll fermentation and distillation where present.",
+    "excluded_activities": "Potable spirits and brandy producers, captive internal facilities, shells, non-control financing vehicles, and operations that would not transfer with control.",
+    "customer_and_revenue_model": "Predominantly commodity product sales of fuel or industrial ethanol and coproducts, with a small possible subset earning repeat tolling or contract-manufacturing fees.",
+    "deviation_from_default": "none",
+    "heterogeneous": false
+  },
+  "primitives": {
+    "a": {
+      "evidence_state": "PROXY",
+      "low": 0.07,
+      "base": 0.13,
+      "high": 0.22,
+      "bridge": "BLS descriptions of industrial production managers identify planning, reporting, supplier/customer, budgeting, and data-analysis tasks, while ILO identifies clerical work as highly GenAI-exposed. I apply those task patterns to ethanol plants and reduce exposure because a large share of operations, maintenance, logistics, laboratory, and safety work is physical. The bridge may overstate substitution where records and controls require specialist review.",
+      "rationale": "AI can support scheduling, commodity purchasing, yield analysis, documentation, customer administration, and reporting. It has much less direct leverage over fermentation, distillation, maintenance, loading, sampling, and accountable control-room work.",
+      "change_evidence": "A 325193 establishment occupation-and-wage census mapped to O*NET tasks, plus time studies separating physical plant work from administrative and analytical work.",
+      "source_ids": ["S3", "S4", "S5"],
+      "caveats": ["Occupation evidence is for broader manufacturing rather than 325193.", "Task exposure is not realized labor substitution.", "Low dataset labor intensity makes the primitive economically narrow even if some office tasks are exposed."]
+    },
+    "rho": {
+      "evidence_state": "ESTIMATE",
+      "low": 0.25,
+      "base": 0.45,
+      "high": 0.65,
+      "rationale": "Five years is sufficient for copilots, reporting automation, predictive analytics, and better planning, but operational implementation is constrained by legacy control systems, process safety, data quality, cyber risk, and human approval. Autonomous process control is not assumed.",
+      "change_evidence": "Verified labor-hour and error-rate outcomes from AI deployments at 10 independent ethanol plants, with interviews of plant managers, controllers, EHS leaders, and operators.",
+      "source_ids": ["S3", "S4"],
+      "caveats": ["Bounded judgment rather than observed five-year implementation.", "Modern large plants may implement faster than small or distressed facilities.", "Automation vendors may report technical capability without sustained workflow adoption."]
+    },
+    "e": {
+      "evidence_state": "ESTIMATE",
+      "low": 0.00,
+      "base": 0.01,
+      "high": 0.05,
+      "rationale": "Census defines this code as manufacturing nonpotable ethyl alcohol, so conventional producers sell a product rather than a recurring outsourced service. Only unusual contract or toll manufacturers meet the fixed lens, and the dataset contains just 14 estimated LMM-band firms before this filter.",
+      "change_evidence": "Firm-by-firm review of the 14 dataset firms' contracts, websites, revenue segmentation, and customer ownership of feedstock or finished product to identify genuine tolling revenue.",
+      "source_ids": ["S1", "S2"],
+      "caveats": ["No public industry table identifies toll-manufacturing revenue.", "Some ethanol plants may process customer-owned feedstock without describing it publicly.", "The injected firm count is an estimate and is not re-estimated here."]
+    },
+    "s5": {
+      "evidence_state": "PROXY",
+      "low": 0.08,
+      "base": 0.17,
+      "high": 0.28,
+      "bridge": "BizBuySell measures transfers among listed US small businesses, including manufacturing broadly, and Census ABS records owner age across employer firms; neither measures eligible 325193 firms. I use broad succession pressure and active manufacturing transactions, then reduce the base for ethanol plants' capital intensity, commodity cyclicality, strategic buyers, and very small eligible population. Platform selection likely biases transferability upward.",
+      "rationale": "Independent plants can change control, but a qualifying transfer of an eligible toll-oriented operator is uncommon. Environmental diligence, debt, feedstock and offtake contracts, and policy exposure can limit buyer pools or lead to asset sales rather than transferable operating-company sales.",
+      "change_evidence": "Ten-year PitchBook or Capital IQ control-deal history for US ethanol producers, matched against owners, plant continuity, EBITDA band, and presence of external toll contracts.",
+      "source_ids": ["S6", "S7"],
+      "caveats": ["Manufacturing-wide transaction data are not ethanol-specific.", "Owner age does not ensure an external control sale.", "Plant-level asset transactions may not transfer a lens-eligible firm."]
+    },
+    "q": {
+      "evidence_state": "ESTIMATE",
+      "low": 0.15,
+      "base": 0.35,
+      "high": 0.60,
+      "rationale": "Ethanol is a traded commodity with visible feedstock, energy, ethanol, coproduct, and RIN economics. Buyers can demand repricing and competitors can bid away savings. Retention improves under fixed tolling fees, customer qualification, logistics advantage, or contracts that do not immediately reopen conversion margins.",
+      "change_evidence": "A sample of customer and tolling agreements showing indexation, open-book provisions, conversion fees, renewal cadence, and realized margin changes after productivity projects.",
+      "source_ids": ["S8", "S9"],
+      "caveats": ["No observed benefit-retention study for ethanol toll manufacturers was found.", "Export growth and industry capacity evidence characterize market competition but do not measure contractual pass-through.", "RINs, corn basis, natural gas, coproduct credits, and freight can dominate AI-related savings."]
+    },
+    "d5": {
+      "evidence_state": "PROXY",
+      "low": 0.85,
+      "base": 1.02,
+      "high": 1.20,
+      "bridge": "EIA fuel-ethanol capacity and USDA export volumes measure the much larger ethanol product market, not constant-quality demand for recurring outsourced toll production by eligible firms. Stable-to-rising capacity and record exports support a near-flat to modest-growth anchor, while electrification, gasoline decline, blending limits, policy, and customer insourcing justify a wide downside. Product demand can grow without proportional outsourced-service demand, biasing the proxy upward.",
+      "rationale": "US capacity was about 18.35 billion gallons per year in late 2025, and 2024/25 exports reached a record 2.13 billion gallons. Those facts support durable near-term volumes, but domestic road-fuel exposure, blend constraints, policy dependence, and uncertainty around sustainable aviation fuel prevent assuming strong five-year growth.",
+      "change_evidence": "Customer-level five-year contracted volumes, EIA Annual Energy Outlook gasoline and ethanol forecasts, RFS final volumes, export contracts, SAF offtake, plant closures, and new capacity through 2031.",
+      "source_ids": ["S8", "S9"],
+      "caveats": ["Capacity is not utilization or demand.", "Exports are volatile and policy-sensitive.", "The sources primarily describe fuel ethanol, while 325193 also includes nonfuel industrial alcohol."]
+    },
+    "o": {
+      "evidence_state": "ESTIMATE",
+      "low": 0.94,
+      "base": 0.98,
+      "high": 1.00,
+      "rationale": "Fermentation, distillation, utilities, laboratory release, loading, maintenance, safety, and environmental accountability still require a physical plant operator. Software may reduce staffing and improve control, but it does not itself manufacture or deliver ethanol; limited loss could occur through customer insourcing or replacement of ethanol in end uses.",
+      "change_evidence": "Evidence on fully autonomous ethanol plants, customer insourcing plans, announced plant conversions or closures, and long-term toll-versus-captive capacity shares.",
+      "source_ids": ["S1", "S3", "S8"],
+      "caveats": ["This is a bounded judgment rather than a directly measured operator-retention share.", "It measures need for an accountable operator, not employment preservation.", "Demand substitution is separated into d5, while insourcing remains relevant to o for the lens operator."]
+    }
+  },
+  "narrative": {
+    "executive_view": "Ethyl alcohol manufacturing has durable physical production and measurable export support, but its business model is overwhelmingly commodity manufacturing rather than outsourced service. AI can improve information-heavy plant workflows, yet the eligible toll-processing population is probably close to nonexistent in a dataset of only 14 estimated LMM firms.",
+    "ai_impact": "Likely applications include production and maintenance planning, yield and energy analysis, purchasing support, compliance drafting, financial reconciliation, and customer administration. Physical operations, process safety, laboratory release, and plant accountability remain human- and equipment-intensive.",
+    "value_capture": "Commodity price discovery and transparent input economics make sustained retention difficult. A true toll processor could preserve more savings if conversion fees are fixed and switching is costly, but open-book formulas and renewals would share benefits with customers.",
+    "firm_availability": "Ethanol plants can transact, but environmental exposure, capital requirements, feedstock and offtake contracts, policy risk, and a narrow buyer universe complicate transfers. The already-small LMM population becomes much smaller after applying the outsourced-service eligibility test.",
+    "demand_durability": "Large US production capacity and record recent exports support continued ethanol volumes. The five-year range remains wide because road-fuel demand, blending policy, electric vehicles, exports, sustainable aviation fuel, plant economics, and industrial-alcohol uses can pull in different directions.",
+    "risks_and_uncertainty": "The decisive uncertainty is whether any firms in the band truly earn recurring toll-manufacturing revenue. Other risks include commodity margins, corn and energy costs, RIN and tax policy, environmental liabilities, customer and feedstock concentration, leverage, and overstating AI's relevance to low-labor-intensity plants.",
+    "principal_driver": "Physical ethanol production remains operator-required and is supported by a large installed base and recent export demand.",
+    "principal_weakness": "Almost all industry firms sell ethanol as a commodity product rather than providing a qualifying outsourced service."
+  },
+  "sources": [
+    {
+      "id": "S1",
+      "url": "https://www.census.gov/naics/?details=325&input=325&year=2022",
+      "title": "2022 NAICS definition: Ethyl Alcohol Manufacturing",
+      "access_date": "2026-07-23",
+      "supports": "Defines 325193 as establishments primarily engaged in manufacturing nonpotable ethyl alcohol."
+    },
+    {
+      "id": "S2",
+      "url": "https://data.census.gov/profile/325193_-_Ethyl_Alcohol_Manufacturing?codeset=naics~325193",
+      "title": "325193 Ethyl Alcohol Manufacturing Census Bureau Profile",
+      "access_date": "2026-07-23",
+      "supports": "Reports 207 employer establishments in 2023 and repeats the nonpotable-ethyl-alcohol industry definition."
+    },
+    {
+      "id": "S3",
+      "url": "https://www.bls.gov/OOH/management/industrial-production-managers.htm",
+      "title": "Industrial Production Managers",
+      "access_date": "2026-07-23",
+      "supports": "Describes manufacturing management duties including scheduling, production-data analysis, reporting, budgeting, quality, supplier/customer coordination, and safety oversight."
+    },
+    {
+      "id": "S4",
+      "url": "https://www.bls.gov/oes/2024/may/oes_ind.htm",
+      "title": "About May 2024 Industry-Specific Occupational Employment and Wage Estimates",
+      "access_date": "2026-07-23",
+      "supports": "Explains that OEWS industry estimates come from a national employer survey and cover selected NAICS levels, supporting use of broader manufacturing occupation evidence as a proxy."
+    },
+    {
+      "id": "S5",
+      "url": "https://www.ilo.org/resource/article/generative-ai-work-what-it-means-jobs-europe-and-beyond",
+      "title": "Generative AI at work: What it means for jobs in Europe and beyond",
+      "access_date": "2026-07-23",
+      "supports": "Finds clerical occupations most exposed to GenAI while cautioning that practical automation is harder than theoretical exposure."
+    },
+    {
+      "id": "S6",
+      "url": "https://www.census.gov/data/tables/2022/econ/abs/2022-abs-characteristics-of-owners.html",
+      "title": "ABS Characteristics of Business Owners: 2022 Tables",
+      "access_date": "2026-07-23",
+      "supports": "Provides employer-business owner characteristics including owner age for broad succession evidence."
+    },
+    {
+      "id": "S7",
+      "url": "https://www.bizbuysell.com/insight-report/",
+      "title": "BizBuySell Insight Report",
+      "access_date": "2026-07-23",
+      "supports": "Reports 2,345 US small-business transactions in Q1 2026 and a 15 percent rise in manufacturing acquisitions, showing active broad manufacturing deal flow."
+    },
+    {
+      "id": "S8",
+      "url": "https://www.eia.gov/dnav/pet/hist/LeafHandler.ashx?f=M&n=PET&s=M_EPOOXE_8BDPC_NUS_MMGL",
+      "title": "U.S. Fuel Ethanol Production Capacity",
+      "access_date": "2026-07-23",
+      "supports": "Reports monthly US fuel ethanol capacity near 18.35 billion gallons per year in late 2025, evidencing a large established production base."
+    },
+    {
+      "id": "S9",
+      "url": "https://ers.usda.gov/data-products/charts-of-note/114101",
+      "title": "U.S. ethanol exports continue to reach new highs",
+      "access_date": "2026-07-23",
+      "supports": "Reports record 2024/25 fuel-ethanol exports of 2.13 billion gallons, about 23 percent above the previous marketing year."
+    }
+  ]
+}

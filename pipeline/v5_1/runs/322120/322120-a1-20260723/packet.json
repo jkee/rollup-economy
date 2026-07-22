@@ -1,0 +1,155 @@
+{
+  "identity": {
+    "naics": "322120",
+    "title": "Paper Mills",
+    "run_id": "322120-a1-20260723",
+    "model_id": "claude-sonnet-5",
+    "run_date": "2026-07-23",
+    "methodology_version": "5.1",
+    "attempt": 1
+  },
+  "lens": {
+    "included_activities": "US lower-middle-market paper mills only where converters, distributors, brands, institutions, or industrial customers repeatedly outsource specialty, tissue, packaging-paper, technical-paper, private-label, or contract production.",
+    "excluded_activities": "Integrated captive production, spot-only commodity sales, one-off transactions, paperboard mills, converted-product manufacturing, shells, non-control vehicles, and firms outside the EBITDA band.",
+    "customer_and_revenue_model": "Qualifying mills earn repeated per-ton, per-roll, contract, or tolling revenue under fixed, indexed, market-linked, or cost-plus supply arrangements.",
+    "deviation_from_default": "Paper mills principally sell manufactured intermediate products, and many are integrated or commodity-oriented. The lens is narrowed to independent mills with recurring outsourced-production relationships.",
+    "heterogeneous": true
+  },
+  "primitives": {
+    "a": {
+      "evidence_state": "PROXY",
+      "low": 0.08,
+      "base": 0.15,
+      "high": 0.24,
+      "bridge": "BLS reports that other production occupations represent 42.60% of employment across pulp, paper, and paperboard mills, and EPA describes multiple physical papermaking and wastewater-control subcategories. I translate that embodied, continuous-process occupation mix into limited AI substitution, concentrated in planning, maintenance analysis, quality and laboratory documentation, purchasing, compliance, sales administration, and customer service. Broader 3221 employment may overstate pulp and paperboard roles and understate information work in specialty paper mills.",
+      "rationale": "Machine tending, process control, maintenance, utilities, material handling, testing, safety, and effluent treatment dominate. AI can reduce information-processing work and avoid some indirect hiring but cannot replace most continuous physical operation.",
+      "change_evidence": "A wage-weighted NAICS 322120 occupation table plus task-time studies at integrated and purchased-pulp mills across printing-writing, tissue, packaging, and technical grades.",
+      "source_ids": ["S1", "S2"],
+      "caveats": ["OEWS evidence is at NAICS 3221, not six-digit 322120, and is not a direct AI-exposure measure.", "The frozen labor ratio is inherited from ancestor NAICS 3221 rather than observed for paper mills alone."]
+    },
+    "rho": {
+      "evidence_state": "ESTIMATE",
+      "low": 0.28,
+      "base": 0.48,
+      "high": 0.68,
+      "rationale": "Predictive-maintenance triage, grade-change planning, energy and quality advisory, procurement, work orders, compliance reporting, and commercial administration are feasible within five years. Legacy control systems, cybersecurity, sparse failure data, uptime requirements, customer qualification, and environmental permits constrain implementation.",
+      "change_evidence": "Audited multi-mill deployments reporting sustained avoided hours and quality, downtime, energy, and compliance outcomes for AI-enabled systems.",
+      "source_ids": ["S2", "S3"],
+      "caveats": ["No representative five-year AI adoption study for US paper mills was found.", "The estimate excludes ordinary controls and capital automation unless AI directly enables the exposed task reduction."]
+    },
+    "e": {
+      "evidence_state": "ESTIMATE",
+      "low": 0.03,
+      "base": 0.12,
+      "high": 0.28,
+      "rationale": "Most output is commodity product sold by integrated or large mills, which does not meet the service lens. A minority of independent specialty, private-label, purchased-pulp, and tolling mills may repeatedly perform outsourced production for external customers.",
+      "change_evidence": "A facility census linking ownership, mill grade, integrated status, customer contracts, recurring revenue, and EBITDA-band eligibility.",
+      "source_ids": ["S2", "S4"],
+      "caveats": ["The frozen dataset declares the LMM firm count missing; this eligibility share cannot repair or substitute for that absent denominator.", "Repeated commodity sales are not automatically recurring outsourced services."]
+    },
+    "s5": {
+      "evidence_state": "PROXY",
+      "low": 0.05,
+      "base": 0.14,
+      "high": 0.27,
+      "bridge": "Gallup measures five-year ownership-transfer intentions for US employer businesses and BizBuySell records small-manufacturing sales. I use them only as a prior, discounted for paper mills' specialized assets, environmental history, energy and fiber dependencies, strategic ownership, consolidation, and potential closure rather than transfer. Marketplace transactions skew much smaller and less regulated, so they likely overstate liquidity.",
+      "rationale": "Specialty or nonintegrated mills may transfer through owner succession or corporate divestiture, but site-specific permits, machine condition, customer qualifications, working capital, and closure economics shrink the buyer pool. A missing LMM firm count prevents translating this probability into expected deal count.",
+      "change_evidence": "A ten-year facility-level deal, divestiture, closure, conversion, and restart census from Fastmarkets, PitchBook, permits, and corporate filings, paired with owner succession interviews.",
+      "source_ids": ["S5", "S6"],
+      "caveats": ["Neither proxy represents paper mills or the target EBITDA band.", "The frozen n input is missing and must remain missing; no availability total can be inferred."]
+    },
+    "q": {
+      "evidence_state": "ESTIMATE",
+      "low": 0.16,
+      "base": 0.34,
+      "high": 0.58,
+      "rationale": "Index-linked and negotiated per-ton pricing, excess capacity, grade substitution, and sophisticated converters pass much of a productivity gain to customers. Specialty qualification, private-label switching costs, service reliability, and fixed-price contract periods can preserve a portion.",
+      "change_evidence": "Contract samples and quote-to-margin histories by grade, including index formulas, fiber and energy surcharges, rebid cadence, minimum volumes, qualification duration, and customer concentration.",
+      "source_ids": ["S4", "S7"],
+      "caveats": ["Public sources describe grade trends, not the pricing terms of eligible private mills.", "Fiber, energy, chemical, freight, tariff, and capacity changes can swamp AI savings in realized prices."]
+    },
+    "d5": {
+      "evidence_state": "PROXY",
+      "low": 0.64,
+      "base": 0.86,
+      "high": 1.08,
+      "bridge": "The Federal Reserve's paper-mill industrial-production index was 56.2066 in May 2026 on a 2017=100 basis. AF&PA reports 2024 printing-writing capacity down 6.9%, tissue capacity down 1.7%, and packaging-paper capacity up 4.6%. I use these observed but broader output and capacity measures to build a grade-mix-weighted declining base with a wide range. They measure aggregate production/capacity, not constant-quality demand for qualifying LMM outsourced mills, and packaging paper may be stronger than printing-writing.",
+      "rationale": "Digital substitution continues to erode printing-writing and some newsprint demand. Tissue and packaging-paper uses are more durable, while specialty and technical grades vary; conversions and closures can tighten surviving niches even as total paper volume falls.",
+      "change_evidence": "AF&PA or Fastmarkets five-year tonnage forecasts by paper grade, reconciled with G.17 production, imports, exports, announced machine closures/conversions, and the eligible firms' actual customer mix.",
+      "source_ids": ["S4", "S7"],
+      "caveats": ["The G.17 series covers NAICS 32212 and is not isolated to the lens population.", "Capacity and production do not directly equal constant-price, constant-quality customer demand."]
+    },
+    "o": {
+      "evidence_state": "PROXY",
+      "low": 0.93,
+      "base": 0.99,
+      "high": 1.0,
+      "bridge": "EPA identifies physical processes spanning purchased-pulp fine and lightweight papers, tissue, filter and non-woven papers, secondary-fiber grades, and regulated effluent treatment. I translate those material processes and permit accountabilities into a near-total requirement for a mill operator for surviving quantity. This may overstate persistence of today's independent firm type if converters integrate or production consolidates.",
+      "rationale": "AI cannot form, dry, finish, test, and ship paper or hold the mill's environmental and product accountability. Staffing can fall and expertise can centralize, but nearly all surviving quantity still requires an operating mill organization.",
+      "change_evidence": "Customer make-versus-buy research, converter vertical-integration plans, autonomous-mill evidence, machine consolidation, and regulatory changes affecting operating responsibility.",
+      "source_ids": ["S2", "S3"],
+      "caveats": ["This is an inference from process and regulation rather than an observed five-year operator share.", "Consolidation can eliminate a current lens operator without eliminating the physical production function."]
+    }
+  },
+  "narrative": {
+    "executive_view": "Paper mills offer a focused AI-assistance opportunity in maintenance, quality, planning, energy, and compliance, but the recurring-service lens fits only a minority of independent specialty or contract mills. Demand is structurally mixed, and the missing LMM firm count prevents any defensible availability total.",
+    "ai_impact": "Near-term uses include failure and quality anomaly triage, grade-change planning, procurement, energy advisory, work-order knowledge, lab interpretation, compliance documentation, and customer administration. Machine operation, maintenance, utilities, testing, material handling, and wastewater control remain operator-required.",
+    "value_capture": "Commodity and index-linked pricing exposes benefits to customers and competitors. Specialty qualification, short runs, private label, consistency, and reliable service can retain more, but input and capacity cycles make AI savings hard to isolate.",
+    "firm_availability": "Potential transfers include specialty independents and divested machines or mills, subject to transferable customers, permits, machine condition, energy, fiber, and environmental diligence. The dataset provides no defensible target-band firm count, so even a transfer probability cannot be converted into expected deal volume.",
+    "demand_durability": "Printing-writing demand remains under structural digital pressure, while tissue, packaging papers, and some technical grades are more resilient. Almost all surviving paper volume still needs an accountable physical mill operator.",
+    "risks_and_uncertainty": "The decisive uncertainties are missing firm count, eligibility, grade mix, obsolete machines, energy and fiber costs, environmental liabilities, customer concentration, closures and conversions, and commodity pass-through. Aggregate industry data can conceal strong specialty niches and severe graphic-paper decline.",
+    "principal_driver": "Complex continuous operations create valuable AI-assisted maintenance, quality, energy, and compliance decisions.",
+    "principal_weakness": "The eligible LMM firm universe is unmeasured, while commodity pricing and shrinking graphic-paper demand limit durable benefit."
+  },
+  "sources": [
+    {
+      "id": "S1",
+      "url": "https://www.bls.gov/oes/2023/may/naics4_322100.htm",
+      "title": "Pulp, Paper, and Paperboard Mills - May 2023 OEWS Industry-Specific Occupational Employment and Wage Estimates",
+      "access_date": "2026-07-23",
+      "supports": "Reports the broader 3221 occupation mix, including other production occupations at 42.60% of employment, for the physical-work exposure proxy."
+    },
+    {
+      "id": "S2",
+      "url": "https://www.epa.gov/eg/pulp-paper-and-paperboard-effluent-guidelines",
+      "title": "Pulp, Paper and Paperboard Effluent Guidelines",
+      "access_date": "2026-07-23",
+      "supports": "Documents regulated pollutants, permits, and process subcategories including purchased-pulp fine papers, tissue, filter, non-woven, secondary-fiber, and integrated grades."
+    },
+    {
+      "id": "S3",
+      "url": "https://www.epa.gov/ghgreporting/subpart-aa-pulp-and-paper-manufacturing",
+      "title": "Subpart AA - Pulp and Paper Manufacturing",
+      "access_date": "2026-07-23",
+      "supports": "Defines integrated mills, paper production from purchased pulp, recycled-fiber processing, coating and laminating operations, and reporting responsibilities."
+    },
+    {
+      "id": "S4",
+      "url": "https://www.afandpa.org/news/2025/afpa-details-us-paper-production-and-capacity-trends",
+      "title": "AF&PA Details U.S. Paper Production and Capacity Trends",
+      "access_date": "2026-07-23",
+      "supports": "Reports 2024 production and capacity by grade, including printing-writing capacity down 6.9%, tissue down 1.7%, and packaging paper up 4.6%; survey coverage represents about 89% of US capacity with estimates completing the data set."
+    },
+    {
+      "id": "S5",
+      "url": "https://news.gallup.com/poll/657362/small-business-owners-lack-succession-plan.aspx",
+      "title": "Most Small-Business Owners Lack a Succession Plan",
+      "access_date": "2026-07-23",
+      "supports": "Provides a broad employer-business five-year transfer-intention proxy."
+    },
+    {
+      "id": "S6",
+      "url": "https://www.bizbuysell.com/insight-report-data-tables/",
+      "title": "BizBuySell Insight Report Data Tables",
+      "access_date": "2026-07-23",
+      "supports": "Provides broad small-manufacturing realized-transaction evidence, used only as a weak liquidity proxy for capital-intensive paper mills."
+    },
+    {
+      "id": "S7",
+      "url": "https://fred.stlouisfed.org/series/IPG32212N",
+      "title": "Industrial Production: Paper Mills (NAICS 32212)",
+      "access_date": "2026-07-23",
+      "supports": "Reports the Federal Reserve paper-mill industrial-production index at 56.2066 in May 2026 on a 2017=100, not-seasonally-adjusted basis, anchoring the demand proxy."
+    }
+  ]
+}
