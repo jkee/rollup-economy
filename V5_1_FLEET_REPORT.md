@@ -602,3 +602,55 @@ and one PDF was inaccessible, but the affected inputs were already disclosed
 as proxy or estimate evidence. No correction or honest downgrade changed a
 base tier or action, no review found a material defect, and the predeclared
 pause trigger did not fire.
+
+## G4 — Retail trade
+
+**Closed:** 2026-07-22
+**Coverage:** 57 attempted, 57 deterministically valid, 57 published, 0 excluded
+**Independent review:** 7/57 (0 mandatory, 6 random, 1 canary)
+**Review outcomes:** 7 `publishable_with_caveats`; 0 `publishable`; 0 `reject`; 0 `invalid`
+**Material findings:** 0
+**Remediations:** 0
+
+### Screen distribution
+
+- Base tiers: 0 `HIGHEST_PRIORITY`, 0 `PRIORITY`, 0 `CONDITIONAL`,
+  1 `LOW_PRIORITY`, 9 `STRUCTURAL_OUT`, and 47 without a base tier.
+- Readiness: 10 `MODEL_CONDITIONED`; 47 `STRESS_TEST_ONLY`.
+- Actions: 10 `VALIDATE_ASSUMPTIONS`; 47 `EVIDENCE_FIRST`.
+- Robust tiers: 17/57, all `STRUCTURAL_OUT`.
+- Publication labels: 7 `accepted`; 50 `not_reviewed` by the frozen sampling
+  contract.
+
+The random stratum consisted of `441330`, `445131`, `445320`, `455110`,
+`456191`, and `459999`. All six were accepted with caveats and carried no
+material finding. The previously reviewed canary `445110` also closed with the
+block. These are sample observations only; no G4 defect rate is estimated.
+
+### Economic read
+
+The block was economically uninformative for ranking most retail industries
+because 47 of 57 records lacked the required firm-count anchor and therefore
+correctly published without a base tier as `STRESS_TEST_ONLY / EVIDENCE_FIRST`.
+That gap-routing dominated specialty, general-merchandise, health, apparel,
+fuel, and miscellaneous retail; the resulting records remain provisional
+evidence packages rather than ranked opportunities.
+
+Among the ten records with complete anchors, paint and wallpaper retailers was
+the sole `LOW_PRIORITY` result. New and used car dealers, recreational-vehicle
+and boat dealers, home centers, supermarkets, and selected specialty food
+retailers were `STRUCTURAL_OUT`. Physical inventory and fulfillment, narrow
+eligible service tails, low transfer incidence, channel competition, and weak
+retention constrained the screen even where ordering, pricing, forecasting,
+customer service, and administration offered meaningful AI exposure. No retail
+record reached `CONDITIONAL` or better.
+
+Validators' caveats emphasized broad occupation mixes rather than wage-weighted
+six-digit task evidence, unmeasured eligible service tails, owner-age proxies
+without qualifying-transfer denominators, nominal or adjacent-market demand
+bridges, and large-chain technology examples that may not represent LMM
+operators. Several client-rendered Census definitions could not be fully
+reopened, and one aggregate-series endpoint differed slightly, but these issues
+were nonmaterial to already disclosed proxy/estimate states or to records
+deterministically gap-routed by missing firm counts. No review found a material
+defect, and the predeclared pause trigger did not fire.
