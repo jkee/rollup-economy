@@ -62,3 +62,50 @@ This is a researcher-to-researcher drift observation, not a calibration change
 or a reason to alter the frozen scorer. It reinforces the provisional label and
 the value of the future full-validation campaign; the v5.1 inputs are not tuned
 back toward v5.0 outcomes.
+
+## S2 — Administrative and support and waste management services
+
+**Closed:** 2026-07-22
+**Coverage:** 44 attempted, 44 deterministically valid, 44 published, 0 excluded
+**Independent review:** 12/44 (8 mandatory, 4 random, 0 canary)
+**Review outcomes:** 12 `publishable_with_caveats`; 0 `publishable`; 0 `reject`; 0 `invalid`
+**Material findings:** 0
+**Remediations:** 0
+
+### Screen distribution
+
+- Base tiers: 3 `HIGHEST_PRIORITY`, 5 `PRIORITY`, 20 `CONDITIONAL`,
+  14 `LOW_PRIORITY`, and 2 `STRUCTURAL_OUT`.
+- Readiness: 44 `MODEL_CONDITIONED`.
+- Actions: 44 `VALIDATE_ASSUMPTIONS`.
+- Robust tiers: 0/44.
+- Publication labels: 12 `accepted`; 32 `not_reviewed` by the frozen sampling
+  contract.
+
+The random stratum consisted of `561431`, `561520`, `561910`, and `562998`.
+All four were accepted with caveats and carried no material finding. These are
+sample observations only; no S2 defect rate is estimated.
+
+### Economic read
+
+The screen remained differentiating across this mixed terrain. Office
+administration, placement and executive search combined larger labor
+opportunity with plausible transferable-firm depth and reached the highest
+base tier. Contact centers, collection agencies, travel arrangement, guard
+services, and other nonhazardous treatment/disposal reached `PRIORITY` through
+different combinations of automation opportunity, firm availability,
+retention, and demand.
+
+Physical, route-, asset-, or site-intensive services concentrated lower:
+facilities support, armored cars, building services, waste collection,
+landfills, remediation, and materials recovery were mostly `LOW_PRIORITY`.
+Professional employer organizations and waste combustors were
+`STRUCTURAL_OUT`. Every record nevertheless remained model-conditioned, and no
+base tier proved robust across its research-input envelope, so the block
+produced no unconditional Stage 2 action.
+
+Validators' caveats centered on broad occupational or sector proxies,
+unobserved LMM implementation depth, weak direct transfer-rate denominators,
+and judgmental retention/operator-necessity estimates. No accepted review found
+a correction meeting the frozen base-tier-or-action materiality threshold, and
+the predeclared pause trigger did not fire.
