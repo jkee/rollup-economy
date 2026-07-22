@@ -1,0 +1,178 @@
+{
+  "identity": {
+    "naics": "621910",
+    "title": "Ambulance Services",
+    "run_id": "621910-a1-20260722",
+    "model_id": "claude-sonnet-5",
+    "run_date": "2026-07-22",
+    "methodology_version": "5.1",
+    "attempt": 1
+  },
+  "lens": {
+    "included_activities": "US lower-middle-market independent ambulance firms providing recurring or repeat ground or air emergency response, interfacility transport, standby, and medically necessary patient transport with clinical care to external patients, facilities, payers, municipalities, and other customers.",
+    "excluded_activities": "Government-owned or captive ambulance units, nonmedical special-needs transportation, vehicle-only services without medical care, one-off operations without a repeat payer or customer relationship, shells, and non-control financing vehicles.",
+    "customer_and_revenue_model": "Providers respond to emergency calls and scheduled medical transports under recurring payer enrollment, facility, health-system, municipal, managed-care, or event relationships; reimbursement commonly combines a service-level base payment, loaded mileage, geographic adjustments, negotiated rates, and patient cost sharing.",
+    "deviation_from_default": "none",
+    "heterogeneous": false
+  },
+  "primitives": {
+    "a": {
+      "evidence_state": "PROXY",
+      "low": 0.1,
+      "base": 0.18,
+      "high": 0.28,
+      "bridge": "BLS's May 2023 industry table covers all ambulance-services employers rather than a wage-weighted task study of lower-middle-market independent firms. It reports EMTs and paramedics as 70.56% of employment, ambulance drivers and attendants as 4.25%, and office and administrative support as 8.65%, including 3.63% dispatchers. I map dispatch triage assistance, routing, deployment, documentation, coding, billing, supply prediction, shift scheduling, quality review, and portions of clinical decision support to remaining AI exposure while leaving driving, lifting, scene safety, assessment, treatment, monitoring, equipment handling, and patient handoff largely unexposed. Employment shares underweight higher-paid managers and clinicians, while mature CAD, ePCR, navigation, and billing systems may mean some mapped work is already automated.",
+      "rationale": "The industry's dominant labor is mobile, physical, time-critical, and clinically accountable. AI can reduce documentation and coordination effort and improve deployment, but only a minority of current wage-weighted work is plausibly substitutable or avoidable hiring within five years.",
+      "change_evidence": "A wage-weighted time-and-motion study across independent ground and air ambulance firms separating response readiness, dispatch, driving, scene care, transport care, documentation, coding, billing, scheduling, vehicle work, and already automated tasks would materially change this estimate.",
+      "source_ids": ["S2", "S3", "S5"],
+      "caveats": [
+        "The occupation table includes ambulance employers of all sizes and ownership types, not only eligible LMM firms.",
+        "Employment shares are not wage-weighted task shares and do not measure current automation.",
+        "Ground emergency, nonemergency interfacility, specialty transport, and air ambulance workflows differ materially.",
+        "The injected compensation ratio combines 2024 wages with 2022 receipts."
+      ]
+    },
+    "rho": {
+      "evidence_state": "PROXY",
+      "low": 0.28,
+      "base": 0.48,
+      "high": 0.68,
+      "bridge": "BLS documents the industry's dispatch, administrative, and clinical occupation mix, and CMS's ground-ambulance data collection documents administration, management, dispatch, labor, vehicle, cost, and revenue workflows but does not measure AI adoption. I translate those structured operating workflows into five-year implementation of AI-assisted dispatch, deployment, reporting, coding, billing, scheduling, and quality review, then haircut for high-acuity clinical validation, fragmented public-safety interfaces, connectivity, cybersecurity, payer audit, medical-direction, labor, and liability constraints. The structured data may overstate implementation in small operators with legacy systems, while acute staffing pressure may accelerate tools that reduce paperwork and optimize deployment.",
+      "rationale": "Computer-aided dispatch, electronic patient-care records, fleet telemetry, and claims systems provide a digital base for incremental AI. Implementation will be slower for autonomous decisions affecting triage or care than for documentation and logistics because mistakes carry immediate safety and regulatory consequences.",
+      "change_evidence": "A five-year panel of independent ambulance firms reporting workflow-level AI deployment, override rates, response times, documentation time, coding accuracy, denials, clinical incidents, staff adoption, integration cost, and discontinued tools would materially change this value.",
+      "source_ids": ["S2", "S5"],
+      "caveats": [
+        "Neither source measures representative AI adoption or realized labor savings.",
+        "CMS ground-ambulance evidence includes government, nonprofit, volunteer, and public-safety organizations unlike the acquisition lens.",
+        "Medical-direction rules, dispatch integration, payer audits, and liability constraints vary by state and service type."
+      ]
+    },
+    "e": {
+      "evidence_state": "ESTIMATE",
+      "low": 0.6,
+      "base": 0.76,
+      "high": 0.88,
+      "rationale": "Private ambulance firms generally supply repeat services through payer enrollment, facility contracts, dispatch arrangements, and recurring emergency or interfacility demand, fitting the default lens. Ineligibility remains for owner-dependent operators, air-ambulance models outside the LMM band, firms reliant on nontransferable municipal awards or certificates, weakly documented billing, public or captive units, volunteer-dependent operations, and businesses without normalized transferable earnings.",
+      "change_evidence": "A firm-level 621910 roster matched to ownership type, state ambulance licenses, certificates of need, CMS enrollment, payer and facility contracts, transport mix, normalized EBITDA, municipal dependence, fleet ownership, billing audits, and change-of-control terms would directly establish the eligible share.",
+      "source_ids": ["S1", "S4", "S5"],
+      "caveats": [
+        "The NAICS definition does not measure recurring relationships, ownership eligibility, transferability, or normalized EBITDA.",
+        "CMS data include government, public-safety, nonprofit, volunteer, and institutional organizations outside the lens.",
+        "The injected count of 188 uses a broad healthcare-facilities margin bridge that may misclassify thin-margin ambulance firms into or out of the LMM band."
+      ]
+    },
+    "s5": {
+      "evidence_state": "PROXY",
+      "low": 0.06,
+      "base": 0.11,
+      "high": 0.18,
+      "bridge": "Gallup reports five-year sale or transfer intentions for US employer-business owners across industries, not completed external control acquisitions of ambulance firms. I haircut the 22% intention rate for plans that do not close, family or internal transfers, state licensure and certificate requirements, payer enrollment, municipal consent, fleet and liability diligence, billing exposure, and medical-director dependence. The broad survey may overstate qualifying external transfers, although succession pressure and consolidation could raise activity among established private operators.",
+      "rationale": "A private ambulance platform can transfer its fleet, workforce, payer enrollment, facility relationships, dispatch capacity, and operating licenses, but regulatory approvals, public contracts, clinical liabilities, and local market structure make completed qualifying transactions materially less common than stated owner intentions.",
+      "change_evidence": "A five-year transaction census from state EMS license and certificate records, CMS changes of ownership, PitchBook, Capital IQ, Irving Levin, municipal award notices, and ambulance brokers, matched to the eligible LMM roster, would materially change this probability.",
+      "source_ids": ["S6"],
+      "caveats": [
+        "Gallup is cross-industry and measures intentions rather than completed external control deals.",
+        "No source measures five-year transfer probability for eligible private ambulance firms.",
+        "Licensing, certificates, municipal contracts, payer enrollment, and billing liabilities can block intended sales."
+      ]
+    },
+    "q": {
+      "evidence_state": "ESTIMATE",
+      "low": 0.16,
+      "base": 0.3,
+      "high": 0.45,
+      "rationale": "Medicare pays through a national fee schedule based on service level, mileage, and geographic adjustments and requires participating suppliers to accept allowed charges, so a provider can retain some cost productivity while rates remain fixed but has little pricing discretion. Commercial, Medicare Advantage, Medicaid, facility, and municipal contracts add negotiated rates, rebids, cost sharing, and bad-debt exposure. Competition, public subsidies, annual fee updates, software and integration costs, wage pressure, and payer scrutiny limit durable retention.",
+      "change_evidence": "A representative payer and contract dataset showing reimbursement by service level and mileage, payer mix, assignment and pass-through terms, municipal subsidies, rebid cadence, denial and collection rates, technology costs, and gross-margin changes after automation would materially change this estimate.",
+      "source_ids": ["S4", "S5"],
+      "caveats": [
+        "No source directly measures retained AI-derived benefits for lower-middle-market ambulance firms.",
+        "Retention differs across Medicare fee schedule, Medicaid, managed care, commercial insurance, facilities, municipalities, and self-pay.",
+        "CMS ground-ambulance cost and revenue data combine ownership and operating models and therefore do not establish private-firm profitability."
+      ]
+    },
+    "d5": {
+      "evidence_state": "PROXY",
+      "low": 0.98,
+      "base": 1.04,
+      "high": 1.11,
+      "bridge": "BLS projects 5% growth in EMT and paramedic employment from 2024 to 2034 across ambulance services, local government, hospitals, and other employers and cites persistent emergencies plus population aging. I translate that occupation-wide ten-year employment forecast into modest five-year constant-price demand growth for the current private outsourced ambulance service basket, allowing downside from alternative transport, treat-in-place programs, public budgets, payer controls, and efficiency gains. The occupation forecast may overstate private ambulance quantity if government or hospital employment grows faster, or understate quantity if productivity offsets staffing shortages.",
+      "rationale": "Crashes, acute illness, disasters, overdoses, falls, strokes, cardiac events, and interfacility needs preserve demand, with aging providing a modest tailwind. Payer medical-necessity rules, alternative care pathways, public funding, and staffing constraints keep the outlook from being high growth.",
+      "change_evidence": "Five years of constant-price private ambulance revenue, emergency responses, transports by level and payer, loaded miles, nontransport calls, interfacility volumes, treat-in-place outcomes, response-time compliance, and lost-call data would materially change this value.",
+      "source_ids": ["S3", "S5"],
+      "caveats": [
+        "BLS forecasts occupations across private ambulance, government, hospital, and other settings rather than purchased 621910 service quantity.",
+        "Employment can diverge from service quantity as deployment and documentation productivity change.",
+        "Local public funding, hospital patterns, population density, disasters, and payer policy create substantial geographic variation."
+      ]
+    },
+    "o": {
+      "evidence_state": "PROXY",
+      "low": 0.9,
+      "base": 0.96,
+      "high": 0.99,
+      "bridge": "The Census definition requires patient transportation with medical care in equipped vehicles operated by trained personnel, and BLS describes scene response, assessment, treatment, safe transport, monitoring, documentation, and handoff, often with one clinician driving while another cares for the patient. I translate those defining duties into the share of year-five quantity still requiring an accountable ambulance operator. Occupational descriptions may overstate operator need for low-acuity calls redirected to alternative transport or treat-in-place, but such avoided calls belong primarily in d5; autonomous emergency transport and unsupervised clinical care are unlikely to replace more than a small share of the remaining service within five years.",
+      "rationale": "AI can support triage, navigation, dispatch, documentation, and clinical decisions, but it cannot broadly secure a scene, lift a patient, drive under emergency conditions, establish an airway, administer treatment, monitor deterioration, or transfer responsibility at a hospital. Nearly all surviving ambulance quantity therefore remains operator-required.",
+      "change_evidence": "Regulatory approvals, dispatch protocols, autonomous-vehicle safety data, treat-in-place and alternative-destination outcomes, staffing models, and service-level studies showing which transports can occur without an accountable ambulance crew would materially change this share.",
+      "source_ids": ["S1", "S3", "S4"],
+      "caveats": [
+        "The sources establish current duties and payment definitions, not a measured year-five operator-required share.",
+        "Low-acuity and scheduled transports may face more substitution than emergency advanced-life-support calls.",
+        "Air ambulance, specialty care transport, urban ground response, and rural response have different automation constraints."
+      ]
+    }
+  },
+  "narrative": {
+    "executive_view": "Ambulance services are labor- and asset-intensive, with most value tied to rapid physical response, transport, and accountable clinical care. AI can improve dispatch, deployment, documentation, coding, billing, and decision support, but only a modest share of work is substitutable and nearly all surviving service remains crew-operated.",
+    "ai_impact": "AI can prioritize and summarize calls, predict demand, stage vehicles, optimize routes and shifts, draft electronic patient-care reports, assist coding, flag protocol exceptions, forecast maintenance, and support clinical decisions. Crews still secure scenes, assess and lift patients, drive, treat, monitor, communicate, and hand off care under time pressure.",
+    "value_capture": "Fixed fee schedules can let providers retain cost savings before rate updates, but mandatory assignment, negotiated payer rates, municipal contracts, rebids, denials, bad debt, wage pressure, software cost, and public subsidy structures constrain durable retention.",
+    "firm_availability": "Private ambulance firms can offer transferable fleets, teams, payer enrollments, facility relationships, licenses, and dispatch capacity. Eligibility is narrowed by public and captive operations, certificates, municipal dependence, volunteer labor, billing liabilities, owner dependence, and uncertainty in the margin-bridged firm count.",
+    "demand_durability": "Emergency events, population aging, and interfacility care support a stable to modestly growing service core. Alternative transport, treat-in-place models, payer medical-necessity controls, public budgets, and workforce shortages limit growth, but they do not remove the physical response requirement for most remaining calls.",
+    "risks_and_uncertainty": "Key risks are reimbursement adequacy, payer mix, denied claims, self-pay collections, wage inflation, staffing shortages, vehicle and equipment capital, response-time obligations, medical liability, licensure, municipal contracting, cybersecurity, dispatch integration, and unsafe clinical automation. Ground, air, emergency, and scheduled services differ sharply, and the dataset margin bridge may misstate LMM availability.",
+    "principal_driver": "AI-assisted dispatch, deployment, documentation, coding, and scheduling can improve scarce-crew productivity across repeat payer and customer relationships.",
+    "principal_weakness": "Physical transport and emergency clinical responsibility dominate the work, while regulated fee schedules and payer contracts limit retained upside."
+  },
+  "sources": [
+    {
+      "id": "S1",
+      "url": "https://www.census.gov/naics/reference_files_tools/2022_NAICS_Manual.pdf",
+      "title": "2022 North American Industry Classification System Manual: 621910",
+      "access_date": "2026-07-22",
+      "supports": "Defines 621910 as ground or air patient transportation with medical care in lifesaving-equipped vehicles operated by trained personnel and distinguishes nonmedical special-needs transportation."
+    },
+    {
+      "id": "S2",
+      "url": "https://www.bls.gov/oes/2023/may/naics5_621910.htm",
+      "title": "May 2023 OEWS: Ambulance Services",
+      "access_date": "2026-07-22",
+      "supports": "Reports the ambulance-services occupation mix, including 70.56% EMTs and paramedics, 4.25% ambulance drivers and attendants, 8.65% office and administrative support, and 3.63% dispatchers."
+    },
+    {
+      "id": "S3",
+      "url": "https://www.bls.gov/ooh/healthcare/emts-and-paramedics.htm",
+      "title": "EMTs and Paramedics — Occupational Outlook Handbook",
+      "access_date": "2026-07-22",
+      "supports": "Describes response, assessment, treatment, transport, monitoring, documentation, supply, and handoff duties; reports substantial ambulance-industry employment and projects 5% occupation growth from 2024 to 2034, citing persistent emergencies and population aging."
+    },
+    {
+      "id": "S4",
+      "url": "https://www.cms.gov/medicare/payment/fee-schedules/ambulance",
+      "title": "Ambulance Fee Schedule and ZIP Code Files",
+      "access_date": "2026-07-22",
+      "supports": "Explains that Medicare Part B uses a national ambulance fee schedule across private, municipal, volunteer, independent, and institutional providers and requires providers and suppliers to accept allowed charges, with patient coinsurance and deductible."
+    },
+    {
+      "id": "S5",
+      "url": "https://www.cms.gov/files/document/medicare-ground-ambulance-data-collection-system-gadcs-report-year-1-and-year-2-cohort-analysis.pdf",
+      "title": "Medicare Ground Ambulance Data Collection System Report: Year 1 and Year 2 Cohort Analysis",
+      "access_date": "2026-07-22",
+      "supports": "Documents ground-ambulance organization, staffing, dispatch, labor, cost, revenue, response, and transport structures; reports 43.1% average labor share of total cost across weighted organizations and large variation by volume, ownership, and geography."
+    },
+    {
+      "id": "S6",
+      "url": "https://news.gallup.com/poll/657362/small-business-owners-lack-succession-plan.aspx",
+      "title": "Most Small-Business Owners Lack a Succession Plan",
+      "access_date": "2026-07-22",
+      "supports": "Reports that 22% of US employer-business owners planned to sell or transfer ownership within five years in a fall 2024 survey."
+    }
+  ]
+}

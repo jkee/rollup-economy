@@ -1,0 +1,178 @@
+{
+  "identity": {
+    "naics": "621610",
+    "title": "Home Health Care Services",
+    "run_id": "621610-a1-20260722",
+    "model_id": "claude-sonnet-5",
+    "run_date": "2026-07-22",
+    "methodology_version": "5.1",
+    "attempt": 1
+  },
+  "lens": {
+    "included_activities": "US lower-middle-market home health agencies providing recurring or repeat skilled nursing, therapy, home health aide, home infusion, in-home hospice, medical social, and related clinical services in patients' homes to external patients and payers.",
+    "excluded_activities": "Nonmedical homemaker and companion services classified outside 621610, independent practitioner offices, equipment-only rental or retail, facility-based care, captive internal programs, shells, and non-control financing vehicles.",
+    "customer_and_revenue_model": "Patients receive episodic or ongoing home-based clinical care ordered under plans of care; agencies are paid by Medicare, Medicare Advantage, Medicaid, commercial insurers, health systems, or private pay through prospective 30-day bundles, per-visit rates, case rates, or contracted fee schedules.",
+    "deviation_from_default": "none",
+    "heterogeneous": false
+  },
+  "primitives": {
+    "a": {
+      "evidence_state": "PROXY",
+      "low": 0.16,
+      "base": 0.26,
+      "high": 0.38,
+      "bridge": "BLS's 2023 NAICS 621600 occupation table covers employers of all sizes in the home-health family rather than a wage-weighted task study of lower-middle-market 621610 agencies. It shows 58.14% of employment in home health and personal care aides, 11.21% in registered nurses, 20.44% across healthcare practitioners and technical occupations, and 6.27% in office and administrative support. I map documentation, intake, coding, authorization, scheduling, routing, care-plan summarization, routine patient communication, and portions of monitoring to remaining AI exposure while leaving bathing, lifting, wound care, medication administration, examination, therapy, infusion, and in-home judgment largely unexposed. Employment shares underweight higher-paid clinicians and do not reveal time within occupations, so the mapping could understate exposure in documentation-heavy clinical work or overstate it where digital tools already automate administration.",
+      "rationale": "AI can reduce clerical coordination and the documentation burden carried by clinicians and supervisors, but most direct-care hours require travel, touch, observation, skilled intervention, and accountable judgment in an uncontrolled home environment. The base therefore treats about one-quarter of current wage-weighted work as exposed rather than treating the large aide workforce as broadly substitutable.",
+      "change_evidence": "A wage-weighted time-and-motion study from a representative panel of 621610 agencies separating travel, direct care, assessment, documentation, coding, intake, authorization, scheduling, supervision, communication, and already automated work would materially change this estimate.",
+      "source_ids": ["S2", "S3"],
+      "caveats": [
+        "The occupation table is for 2023 NAICS 621600 employers of all sizes, not the exact LMM acquisition lens.",
+        "Employment shares are not wage-weighted task shares and do not identify the current automation baseline.",
+        "Exposure varies materially among skilled nursing, therapy, aide, infusion, hospice, and administrative workflows.",
+        "The injected compensation ratio combines 2024 wages with 2022 receipts."
+      ]
+    },
+    "rho": {
+      "evidence_state": "PROXY",
+      "low": 0.3,
+      "base": 0.52,
+      "high": 0.72,
+      "bridge": "CMS payment and coverage materials describe structured OASIS assessment, plan-of-care, billing, and telecommunications rules, while MedPAC reports that only 1.2% of 2023 Medicare 30-day periods included telehealth or remote monitoring. I translate the presence of digital clinical and claims workflows into five-year implementation of AI-assisted documentation, intake, coding, scheduling, quality review, and monitoring, then haircut for privacy, clinical validation, interoperability, payer audit, consent, workforce training, and liability constraints. Medicare's low reported telehealth or monitoring use may understate back-office AI adoption but signals that patient-facing substitution could diffuse more slowly than administrative assistance.",
+      "rationale": "Structured records, recurring assessments, high documentation load, centralized scheduling, and prospective-payment workflows make assistance tools implementable. Implementation will be uneven because agencies must integrate multiple payer and referral systems, protect health information, validate clinical outputs, and keep licensed clinicians accountable.",
+      "change_evidence": "A five-year cohort of independent home health agencies reporting workflow-level AI deployment, clinician adoption, audit findings, documentation time, denied claims, visit productivity, patient outcomes, implementation cost, and tool retirement rates would materially change this value.",
+      "source_ids": ["S4", "S5"],
+      "caveats": [
+        "Telehealth and remote-monitoring claims are not a direct measure of AI use or back-office automation.",
+        "Medicare rules do not describe implementation across Medicaid, commercial, or private-pay business.",
+        "Clinical safety, HIPAA, state licensure, and integration constraints vary by service line and agency."
+      ]
+    },
+    "e": {
+      "evidence_state": "ESTIMATE",
+      "low": 0.65,
+      "base": 0.82,
+      "high": 0.93,
+      "rationale": "The NAICS definition is centered on agencies delivering skilled and related care in the home, which generally creates repeat visits, payer relationships, referral channels, and transferable operating infrastructure. Ineligibility remains for owner-dependent clinical practices, weakly documented agencies, predominantly one-off infusion or equipment relationships, nontransferable licenses or payer enrollments, highly concentrated referral sources, and firms lacking normalized LMM earnings.",
+      "change_evidence": "A firm-level 621610 roster matched to Medicare enrollment, state licenses, tax records, payer mix, visit recurrence, referral concentration, ownership independence, normalized EBITDA, quality sanctions, and change-of-ownership history would directly establish the eligible share.",
+      "source_ids": ["S1", "S4"],
+      "caveats": [
+        "The NAICS and Medicare definitions do not measure recurring-revenue quality, transferable payer contracts, or normalized EBITDA.",
+        "In-home hospice, infusion, therapy, and skilled home health can have different referral, reimbursement, and compliance economics.",
+        "The injected count of 1,983 relies on a broad healthcare-facilities margin bridge that may not represent agency-level home health margins."
+      ]
+    },
+    "s5": {
+      "evidence_state": "PROXY",
+      "low": 0.07,
+      "base": 0.13,
+      "high": 0.21,
+      "bridge": "Gallup measures stated five-year sale or transfer plans among US employer-business owners across industries, reporting 22%, rather than completed external control transactions for home health agencies. I haircut that intention rate for plans that do not close, family or internal transfers, payer-enrollment and license transfer requirements, quality liabilities, referral dependence, and owner clinical involvement. The all-industry proxy may overstate qualifying deals in compliance-troubled agencies but may understate activity in a fragmented healthcare segment with established strategic buyers.",
+      "rationale": "Home health agencies can be transferable operating platforms with clinicians, payer enrollments, referral relationships, and recurring census, but a qualifying control transfer must survive diligence on billing, quality, staffing, licenses, and ownership-change approvals. Completed external transactions should be materially below broad owner intentions.",
+      "change_evidence": "A five-year census of 621610 control deals from CMS change-of-ownership files, state license records, PitchBook, Capital IQ, Irving Levin, and healthcare brokers, matched to the eligible LMM firm roster and excluding internal reorganizations, would materially change this probability.",
+      "source_ids": ["S6"],
+      "caveats": [
+        "Gallup covers all US employer businesses and intentions rather than completed transactions.",
+        "No source measures five-year control-transfer probability for eligible LMM home health agencies.",
+        "Regulatory, payer, quality, and referral-concentration issues can prevent an intended sale from qualifying."
+      ]
+    },
+    "q": {
+      "evidence_state": "ESTIMATE",
+      "low": 0.22,
+      "base": 0.4,
+      "high": 0.58,
+      "rationale": "Medicare's case-mix-adjusted 30-day payment creates room to retain productivity gains within a payment period, especially from documentation, scheduling, authorization, and supervision rather than fewer required visits. Retention is reduced by annual rate updates and behavioral adjustments, Medicare Advantage and Medicaid contracting, competitive referral markets, quality requirements, wage pressure, software and integration expense, and payer audit or repricing responses. MedPAC's high aggregate Medicare margin for freestanding agencies indicates economic room in that payer segment but does not measure AI-derived retention or total-company profitability.",
+      "change_evidence": "A representative contract and claims dataset showing payer mix, unit of payment, rate-update clauses, denial rates, visit thresholds, contract renewal outcomes, technology costs, and gross-margin changes before and after workflow automation would materially change this estimate.",
+      "source_ids": ["S4", "S5"],
+      "caveats": [
+        "No source directly measures the discounted share of implemented AI benefits retained by LMM agencies.",
+        "Retention differs across Medicare prospective payment, Medicare Advantage, Medicaid, commercial, and private-pay contracts.",
+        "MedPAC's 20.2% aggregate 2023 FFS Medicare margin for freestanding agencies is not a total-company margin and varies widely across providers."
+      ]
+    },
+    "d5": {
+      "evidence_state": "PROXY",
+      "low": 0.98,
+      "base": 1.08,
+      "high": 1.18,
+      "bridge": "BLS projects 17% growth from 2024 to 2034 for home health and personal care aides across several industries and cites population aging and movement from institutions to home and community settings, while MedPAC reports declining FFS Medicare home health users and periods through 2023 amid migration to Medicare Advantage and fewer hospitalizations. I translate those offsetting occupation-wide and payer-specific indicators into modest five-year growth in constant-price demand for the current 621610 service basket. The BLS series includes nonmedical services outside 621610 and may overstate skilled-home-health growth; FFS data omit Medicare Advantage and may understate total demand.",
+      "rationale": "Aging, chronic disease, patient preference, and care migration support home-based demand, but payer authorization, workforce supply, reduced hospitalization, benefit design, and substitution toward less-skilled home and community services constrain realized volume. The base assumes growth, not the full occupation forecast.",
+      "change_evidence": "Five years of constant-price 621610 revenue, unique patients, completed visits by discipline, referral acceptance, Medicare Advantage and Medicaid utilization, private-pay hours, and hospital-to-home discharge rates would materially change this value.",
+      "source_ids": ["S3", "S5"],
+      "caveats": [
+        "The BLS forecast covers an occupation employed heavily outside skilled home health agencies.",
+        "MedPAC's volume series is limited to fee-for-service Medicare and does not measure total industry demand.",
+        "Demand can be capacity-constrained by clinician and aide availability rather than patient need."
+      ]
+    },
+    "o": {
+      "evidence_state": "PROXY",
+      "low": 0.78,
+      "base": 0.88,
+      "high": 0.95,
+      "bridge": "BLS describes hands-on aide work and in-home monitoring, medication support, recordkeeping, and physical assistance, while CMS allows telecommunications in the plan of care only when it does not substitute for an ordered in-person visit. I map those occupational and Medicare rules to the share of year-five service quantity still requiring an accountable home health agency and its clinicians or aides. Medicare may overstate in-person requirements relative to other payers, while patient acuity, liability, and the uncontrolled home setting may preserve even more operator involvement.",
+      "rationale": "AI can support monitoring, education, triage, and documentation, but it cannot generally bathe or transfer a patient, assess a wound in context, administer an infusion, perform therapy, reconcile a complex home situation, or carry clinical accountability. Some check-ins and low-acuity monitoring can be removed or self-served, leaving a large agency-operated core.",
+      "change_evidence": "Payer rules, plan-of-care audits, patient-level visit substitutions, adverse-event data, and controlled before-and-after studies showing which in-person nursing, therapy, aide, and monitoring services can be safely eliminated or self-served would materially change this share.",
+      "source_ids": ["S3", "S4", "S5"],
+      "caveats": [
+        "Medicare's in-person rule does not govern all payer segments or every service in the NAICS code.",
+        "The source evidence does not quantify the fraction of visits that technology can safely replace.",
+        "Operator requirement varies by acuity, discipline, state scope-of-practice rules, caregiver availability, and home conditions."
+      ]
+    }
+  },
+  "narrative": {
+    "executive_view": "Home health combines a large hands-on clinical workforce with documentation-heavy, centralized administrative workflows. AI can improve intake, scheduling, coding, care-plan review, monitoring, and clinician documentation, while most direct nursing, therapy, infusion, and aide visits remain physically and legally operator-dependent.",
+    "ai_impact": "AI can summarize referrals and records, draft notes and care plans, support OASIS and coding review, predict scheduling gaps, optimize routes, flag deterioration, automate routine patient communication, and assist quality audits. Clinicians and aides still travel, observe the home, touch and move patients, administer care, exercise licensed judgment, and own escalation decisions.",
+    "value_capture": "Prospective 30-day Medicare payment can let agencies retain workflow productivity within the payment period, but payer rate updates, behavior adjustments, Medicare Advantage and Medicaid negotiation, denials, quality obligations, competition, software cost, and wage pressure share or absorb the benefit.",
+    "firm_availability": "The industry definition fits repeat external care, and agencies can carry transferable payer enrollments, staff, referral channels, and patient census. Eligibility is reduced by compliance history, owner dependence, referral concentration, fragile staffing, nontransferable approvals, and uncertainty in the margin-bridged LMM count.",
+    "demand_durability": "Aging and preference for home-based care support growth, while declining FFS Medicare use, fewer hospitalizations, authorization controls, and labor shortages temper the outlook. Patient-facing service remains durable because in-person clinical and personal care cannot broadly be replaced by software.",
+    "risks_and_uncertainty": "Key risks are reimbursement cuts, payer concentration, claim denials, audit and recoupment exposure, clinician shortages, wage inflation, turnover, referral concentration, state licensing, privacy, weak interoperability, unsafe automation, and service-line heterogeneity. The firm-count margin bridge and mixed vintages in the compensation ratio add dataset uncertainty.",
+    "principal_driver": "AI can remove meaningful documentation and coordination burden from a large recurring home-based care workforce under partly bundled reimbursement.",
+    "principal_weakness": "Hands-on care, travel, clinical accountability, payer oversight, and workforce scarcity limit substitutable labor and complicate implementation."
+  },
+  "sources": [
+    {
+      "id": "S1",
+      "url": "https://www.census.gov/naics/reference_files_tools/2022_NAICS_Manual.pdf",
+      "title": "2022 North American Industry Classification System Manual: 621610",
+      "access_date": "2026-07-22",
+      "supports": "Defines 621610 around skilled nursing in the home with personal care, therapy, medical social, medication, equipment, counseling, 24-hour, nutrition, speech, audiology, infusion, hospice, and related services, and distinguishes nonmedical home care and equipment-only businesses."
+    },
+    {
+      "id": "S2",
+      "url": "https://www.bls.gov/oes/2023/may/naics4_621600.htm",
+      "title": "May 2023 OEWS: Home Health Care Services",
+      "access_date": "2026-07-22",
+      "supports": "Reports the home-health occupation mix, including 58.14% home health and personal care aides, 11.21% registered nurses, 20.44% healthcare practitioner and technical occupations, and 6.27% office and administrative support."
+    },
+    {
+      "id": "S3",
+      "url": "https://www.bls.gov/ooh/healthcare/home-health-aides-and-personal-care-aides.htm",
+      "title": "Home Health and Personal Care Aides — Occupational Outlook Handbook",
+      "access_date": "2026-07-22",
+      "supports": "Describes hands-on daily living, housekeeping, medication, vital-sign, exercise, recordkeeping, and reporting duties; projects 17% occupation growth from 2024 to 2034 and cites aging and movement toward home and community care."
+    },
+    {
+      "id": "S4",
+      "url": "https://www.cms.gov/medicare/payment/prospective-payment-systems/home-health",
+      "title": "Home Health Prospective Payment System",
+      "access_date": "2026-07-22",
+      "supports": "Explains case-mix-adjusted 30-day payments, per-visit low-utilization payments, OASIS assessment, bundled services, and the rule that telecommunications may be included in a plan of care but cannot substitute for an ordered in-person visit."
+    },
+    {
+      "id": "S5",
+      "url": "https://www.medpac.gov/wp-content/uploads/2025/03/Mar25_Ch7_MedPAC_Report_To_Congress_SEC.pdf",
+      "title": "March 2025 Report to Congress, Chapter 7: Home Health Care Services",
+      "access_date": "2026-07-22",
+      "supports": "Reports 2.7 million FFS Medicare users and $15.7 billion of spending in 2023, 12,057 participating agencies, declining FFS users and periods, only 1.2% of 2023 periods with telehealth or remote monitoring, and a 20.2% aggregate FFS Medicare margin for freestanding agencies."
+    },
+    {
+      "id": "S6",
+      "url": "https://news.gallup.com/poll/657362/small-business-owners-lack-succession-plan.aspx",
+      "title": "Most Small-Business Owners Lack a Succession Plan",
+      "access_date": "2026-07-22",
+      "supports": "Reports that 22% of US employer-business owners planned to sell or transfer ownership within five years in a fall 2024 survey."
+    }
+  ]
+}
