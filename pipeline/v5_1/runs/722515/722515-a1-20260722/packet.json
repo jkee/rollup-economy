@@ -1,0 +1,190 @@
+{
+  "identity": {
+    "naics": "722515",
+    "title": "Snack and Nonalcoholic Beverage Bars",
+    "run_id": "722515-a1-20260722",
+    "model_id": "claude-sonnet-5",
+    "run_date": "2026-07-22",
+    "methodology_version": "5.1",
+    "attempt": 1
+  },
+  "lens": {
+    "included_activities": "U.S. lower-middle-market employer firms whose primary activity is fixed-location preparation or serving of specialty snacks or nonalcoholic beverages for immediate consumption, including coffee shops, juice bars, ice cream parlors, and on-premise-baking bagel, doughnut, cookie, and pretzel shops.",
+    "excluded_activities": "Mobile food services, street vendors, packaged-food retail without immediate-consumption service, captive internal foodservice units, shells, non-control financing vehicles, firms outside the specified EBITDA band, and operations that cannot continue independently of the seller's personal labor.",
+    "customer_and_revenue_model": "Primarily per-transaction sales to external consumers, with recurring demand expressed through repeat visits, loyalty programs, digital ordering, and local traffic rather than long-term contracts; some firms also sell related packaged goods.",
+    "deviation_from_default": "none",
+    "heterogeneous": false
+  },
+  "primitives": {
+    "a": {
+      "evidence_state": "PROXY",
+      "low": 0.14,
+      "base": 0.23,
+      "high": 0.34,
+      "bridge": "The measured population is all establishments in NAICS 722500, not the target six-digit industry. I use its occupation shares and wages, then map O*NET tasks to AI-addressable order capture, payment, customer communication, inventory, scheduling, bookkeeping, training, and marketing work; I discount tasks already digitized using the restaurant technology survey. The proxy may understate exposure because snack and beverage bars are unusually counter-service and app-friendly, but may overstate it because their core beverage preparation, cleaning, stocking, and handoff work is physical.",
+      "rationale": "At the broad restaurant level, food-preparation and serving occupations are 88.97% of employment, including 28.16% fast-food and counter workers and 8.34% first-line supervisors. O*NET shows that order taking, billing, payment, customer communication, receipt balancing, and inventory coexist with manual preparation, serving, cleaning, stocking, and food-safety tasks. Wage weighting therefore leaves a meaningful but minority current task pool for AI substitution or avoided hiring.",
+      "change_evidence": "Obtain payroll hours and task-level time studies from a stratified sample of independent coffee, juice, frozen-dessert, and bakery-snack operators, split by POS, kiosk, and mobile-order penetration, then wage-weight the not-yet-automated minutes by role.",
+      "source_ids": ["S1", "S2", "S3"],
+      "caveats": [
+        "The available occupation mix is four-digit restaurant data and includes full-service and meal-focused concepts unlike the target industry.",
+        "O*NET reports occupation tasks rather than time shares, so task exposure is model judgment rather than a directly measured industry quantity.",
+        "The frozen compensation-to-receipts input uses 2024 wages over 2022 receipts and is harmonized to the IPS basis, so the labor intensity combined with this primitive has vintage and methodology uncertainty."
+      ]
+    },
+    "rho": {
+      "evidence_state": "PROXY",
+      "low": 0.32,
+      "base": 0.49,
+      "high": 0.67,
+      "bridge": "The National Restaurant Association survey measures stated technology investment intentions and consumer willingness across broad limited-service restaurants, not completed five-year implementation of AI-exposed work in NAICS 722515. I translate near-term investment in self-ordering, AI, labor management, inventory, and back-office tools, together with customer acceptance and the predominance of augmentation, into the implemented share of the exposed task pool. Stated intentions may overstate execution, while a five-year window and falling tool costs may make a one-year survey understate adoption.",
+      "rationale": "Limited-service operators reported planned investment in self-ordering, AI integration, labor management, inventory, and back-office technology, while consumers showed broad willingness to use apps and kiosks. Implementation is capped below full exposure because integrations, menu exceptions, food safety, service recovery, franchise systems, staff change, and the physical workflow remain binding; 69% of surveyed operators expected technology to augment rather than replace labor.",
+      "change_evidence": "Collect a five-year cohort study from restaurant POS and workforce-management vendors showing go-live rates, sustained labor hours removed, exception rates, and abandonment by independent multi-unit snack and beverage operators.",
+      "source_ids": ["S2", "S3"],
+      "caveats": [
+        "The technology survey combines quick-service restaurants, delis, and coffee shops and reports intentions rather than realized operating changes.",
+        "Large chains likely have better integration resources than the lower-middle-market firms in the lens, which can make observed sector enthusiasm optimistic for implementation.",
+        "This primitive excludes pricing, demand, and valuation effects and addresses only operational implementation."
+      ]
+    },
+    "e": {
+      "evidence_state": "ESTIMATE",
+      "low": 0.7,
+      "base": 0.82,
+      "high": 0.92,
+      "rationale": "The NAICS definition is dominated by fixed-location firms serving external consumers, and repeat visits make the service recurring even though revenue is transactional. Most firms already in the frozen EBITDA-derived count should therefore fit the lens; exclusions are mainly owner-dependent concepts, captive or mixed operations, nontransferable lease or franchise situations, and firms whose economics do not survive normalization.",
+      "change_evidence": "Audit a random sample of firms from a six-digit establishment database against normalized EBITDA, owner labor, lease assignability, franchise transfer rights, customer repeat behavior, and stand-alone operating capability.",
+      "source_ids": ["S0", "S5"],
+      "caveats": [
+        "No source directly measures eligibility under this bespoke roll-up lens.",
+        "Franchise consent and location-specific leases may make control transfers less feasible than ordinary restaurant sale records imply.",
+        "The frozen count of 507 firms is itself an ESTIMATE based on size classes and a broad restaurant EBITDA margin bridge, so applying eligibility compounds classification uncertainty."
+      ]
+    },
+    "s5": {
+      "evidence_state": "PROXY",
+      "low": 0.14,
+      "base": 0.22,
+      "high": 0.3,
+      "bridge": "Gallup measures five-year sale or ownership-transfer intentions among U.S. employer-business owners across industries, while BizBuySell measures reported restaurant sales that skew far below the lens's EBITDA band. I use the 22% employer-owner intention rate as the center, with observed restaurant transaction depth supporting transferability. Intentions can overstate completed qualifying transfers, but the larger and more operationally independent firms in the lens may transfer more often than the all-employer sample.",
+      "rationale": "Gallup found 22% of employer-business owners planned to sell or transfer ownership within five years, rising to 30% among older employer owners, and 52.3% of employer businesses were owned by people at least 55. BizBuySell analyzed 8,692 completed restaurant listings, confirming active control-transfer infrastructure, although the typical sold restaurant is much smaller than the lens.",
+      "change_evidence": "Acquire closed-deal data from Axial, GF Data, BizBuySell, SBA 7(a) change-of-ownership loans, and restaurant brokers, filtered to snack and beverage concepts with normalized EBITDA in the target band and tagged for true control transfer.",
+      "source_ids": ["S4", "S5"],
+      "caveats": [
+        "Gallup measures stated plans across industries, not completed transactions in this NAICS code.",
+        "BizBuySell's median restaurant economics are below the lower-middle-market band and its marketplace does not capture private off-market deals.",
+        "Closures, internal reorganizations, minority investments, and transfers of only a lease or equipment do not qualify and are excluded from the estimate."
+      ]
+    },
+    "q": {
+      "evidence_state": "ESTIMATE",
+      "low": 0.42,
+      "base": 0.59,
+      "high": 0.76,
+      "rationale": "Customer billing is direct menu pricing rather than cost-plus contracting, so there is no automatic contractual pass-through of labor savings. Operators can retain early gains through staffing avoidance, throughput, upselling, loyalty, and service quality, but local competition, franchise promotions, delivery-platform economics, renewal-like repricing through repeat purchase, and value-sensitive consumers progressively share the benefit. The estimate discounts this erosion over five years.",
+      "change_evidence": "Run matched-store studies using unit-level P&Ls and transaction data before and after AI deployment, separating labor savings from price, mix, traffic, promotions, royalties, and delivery commissions, and follow retention for at least twelve quarters.",
+      "source_ids": ["S3", "S7"],
+      "caveats": [
+        "There are no long-duration customer contracts to observe pass-through or renewal repricing directly.",
+        "The 2026 restaurant survey found persistent margin pressure and 42% of operators unprofitable in 2025, but this is a broad-sector condition rather than a measurement of benefit retention.",
+        "Brand strength, local density, franchise rules, and delivery mix can move retention materially across firms."
+      ]
+    },
+    "d5": {
+      "evidence_state": "PROXY",
+      "low": 0.94,
+      "base": 1.07,
+      "high": 1.15,
+      "bridge": "The sources cover the whole restaurant industry and food-and-beverage-serving employment, not constant-quality quantity in NAICS 722515. I compound the National Restaurant Association's 1.3% real 2026 sales growth as a central five-year demand path and cross-check it against BLS's positive decade employment outlook, widening for soft traffic, concept churn, and the target industry's beverage exposure. Real sales may overstate quantity if quality or mix rises, while employment may understate demand if productivity improves.",
+      "rationale": "Restaurant demand has near-term real growth support: the association projects 1.3% inflation-adjusted sales growth in 2026, 61% of adults consider dining out essential to their lifestyle, and beverages are widely cited as traffic drivers. BLS also projects positive employment growth for food and beverage serving work. Soft traffic, budget pressure, and discretionary snack purchases keep the downside below current demand.",
+      "change_evidence": "Obtain Circana or Technomic five-year traffic and item-volume forecasts specifically for coffee, specialty beverage, frozen dessert, and snack-shop channels, with price and menu-mix effects removed.",
+      "source_ids": ["S6", "S7"],
+      "caveats": [
+        "The central path extrapolates a single-year broad-restaurant real-sales forecast rather than a direct five-year quantity forecast.",
+        "Employment growth is an imperfect demand proxy because labor productivity and automation can change.",
+        "Coffee, juice, frozen dessert, and bakery-snack concepts can have materially different traffic cycles."
+      ]
+    },
+    "o": {
+      "evidence_state": "ESTIMATE",
+      "low": 0.8,
+      "base": 0.9,
+      "high": 0.97,
+      "rationale": "Software can shift ordering, payment, loyalty, forecasting, and parts of customer interaction to self-service, but the current service basket still requires an accountable operator for food and beverage preparation, sanitation, stocking, equipment, premises, food safety, exceptions, and service recovery. O*NET's task list is heavily physical, and surveyed operators predominantly expect technology to augment human labor, so outright elimination or pure-software supply should remain limited.",
+      "change_evidence": "Interview operators of highly automated coffee and dessert units and inspect labor rosters, unattended operating hours, food-safety accountability, exception logs, and unit economics to identify what quantity can genuinely be delivered without a lens-type operator.",
+      "source_ids": ["S2", "S3"],
+      "caveats": [
+        "Robotics and unattended formats may progress faster than current restaurant surveys indicate.",
+        "Self-service changes who performs ordering and payment but does not necessarily eliminate the accountable operating firm, so those effects are not treated as full demand loss.",
+        "This estimate concerns the current service basket at constant quality, not newly invented automated formats."
+      ]
+    }
+  },
+  "narrative": {
+    "executive_view": "Snack and nonalcoholic beverage bars combine high repeat consumer frequency with a labor model dominated by counter service and physical preparation. The credible AI opportunity is selective: order capture, payment, scheduling, inventory, marketing, training, bookkeeping, and service recovery can reduce hiring needs, while brewing, assembling, cleaning, stocking, and food-safety execution remain operator work. The industry has an active small-business transfer market, but target-sized deals are less directly evidenced than Main Street restaurant sales.",
+    "ai_impact": "AI can improve digital and voice ordering, menu recommendations, demand forecasting, workforce scheduling, inventory replenishment, local marketing, loyalty personalization, training, bookkeeping, and complaint triage. Its labor effect is constrained because the dominant occupations combine these information tasks with manual production and customer-facing work; implementation should be designed around fewer exceptions and better throughput rather than assuming a largely staffless shop.",
+    "value_capture": "Because consumers pay menu prices, there is no contractual clause that automatically returns savings to customers. A capable operator can initially retain benefits through avoided hires, better scheduling, higher throughput, reduced waste, and improved mix. Over time, however, local competition, franchise promotions, delivery commissions, and price-sensitive repeat customers are likely to convert part of those gains into lower effective prices, loyalty offers, or better service.",
+    "firm_availability": "Most target-sized employer firms should satisfy the repeat external-service lens, but lease transferability, franchise consent, owner dependence, and normalized earnings require diligence. Employer-owner surveys indicate meaningful five-year transfer intent, and thousands of completed restaurant sales demonstrate transaction infrastructure, yet typical marketplace transactions are much smaller than the specified EBITDA band. The frozen firm count also relies on a broad restaurant margin bridge rather than direct target-band observation.",
+    "demand_durability": "Demand is supported by convenience, habitual coffee and snack occasions, beverage innovation, and the social value of going out. Broad restaurant research points to modest real growth even amid tighter budgets. Self-service will alter the front end, but physical preparation, sanitation, location operation, and accountable food-safety oversight make pure-software displacement of the current service basket unlikely within five years.",
+    "risks_and_uncertainty": "The largest evidence gaps are the absence of a six-digit wage-weighted task study, completed AI labor-removal cohorts for independent operators, target-band transfer data, and channel-specific constant-price traffic forecasts. Broad restaurant proxies may miss differences among coffee, juice, dessert, and bakery concepts. Thin margins and soft traffic can both motivate automation and prevent funding it. The frozen labor ratio has a wage-receipts vintage mismatch and IPS harmonization, while the frozen firm count is an EBITDA-margin-bridged estimate.",
+    "principal_driver": "Repeat consumer occasions and digitizable counter-service workflows create a practical path to labor avoidance without requiring the physical service itself to disappear.",
+    "principal_weakness": "Most labor remains tied to physical preparation, sanitation, stocking, and in-person exception handling, while intense menu-price competition limits long-run retention of savings."
+  },
+  "sources": [
+    {
+      "id": "S0",
+      "url": "https://www.census.gov/naics/reference_files_tools/2022_NAICS_Manual.pdf",
+      "title": "2022 North American Industry Classification System Manual: NAICS 722515",
+      "access_date": "2026-07-22",
+      "supports": "Defines the target industry as fixed-location establishments preparing or serving specialty snacks or nonalcoholic beverages for consumption on or near the premises and lists coffee shops, juice bars, frozen-dessert parlors, and bakery-snack concepts."
+    },
+    {
+      "id": "S1",
+      "url": "https://www.bls.gov/oes/2023/may/naics4_722500.htm",
+      "title": "May 2023 OEWS Industry-Specific Estimates: Restaurants and Other Eating Places",
+      "access_date": "2026-07-22",
+      "supports": "Measures broad-restaurant occupation employment shares and wages, including 88.97% in food preparation and serving, 28.16% fast-food and counter workers, and 8.34% first-line food-service supervisors."
+    },
+    {
+      "id": "S2",
+      "url": "https://www.onetonline.org/link/summary/35-3023.00",
+      "title": "O*NET OnLine: Fast Food and Counter Workers",
+      "access_date": "2026-07-22",
+      "supports": "Documents the occupation's digital and cognitive tasks such as order entry, payment, receipt balancing, customer communication, and inventory alongside physical serving, preparation, cleaning, stocking, and food-safety work."
+    },
+    {
+      "id": "S3",
+      "url": "https://go.restaurant.org/rs/078-ZLA-461/images/NatRestAssoc_TechLandscapeReport_2024.pdf",
+      "title": "Restaurant Technology Landscape Report 2024",
+      "access_date": "2026-07-22",
+      "supports": "Reports limited-service customer acceptance of apps and kiosks, operator plans for self-ordering, AI, labor management, inventory, and back-office technology, and the expectation among 69% of limited-service operators that technology will augment rather than replace labor."
+    },
+    {
+      "id": "S4",
+      "url": "https://news.gallup.com/poll/657362/small-business-owners-lack-succession-plan.aspx",
+      "title": "Most Small-Business Owners Lack a Succession Plan",
+      "access_date": "2026-07-22",
+      "supports": "Finds 22% of employer-business owners planned a sale or ownership transfer within five years, 30% among older employer owners, and 52.3% of employer businesses owned by people at least 55."
+    },
+    {
+      "id": "S5",
+      "url": "https://www.bizbuysell.com/learning-center/valuation-benchmarks/restaurants/",
+      "title": "Restaurant Business Valuation Multiples and Financial Benchmarks",
+      "access_date": "2026-07-22",
+      "supports": "Reports 8,692 analyzed sold restaurant listings, a 178-day median time on market, and median revenue and owner earnings that reveal active but predominantly Main Street transaction flow."
+    },
+    {
+      "id": "S6",
+      "url": "https://www.bls.gov/ooh/food-preparation-and-serving/food-and-beverage-serving-and-related-workers.htm",
+      "title": "Food and Beverage Serving and Related Workers: Occupational Outlook Handbook",
+      "access_date": "2026-07-22",
+      "supports": "Projects 5% employment growth for food and beverage serving and related workers and explains that growing dining-out, takeout, and delivery demand supports the occupation."
+    },
+    {
+      "id": "S7",
+      "url": "https://restaurant.org/research-and-media/research/research-reports/state-of-the-industry",
+      "title": "State of the Restaurant Industry 2026",
+      "access_date": "2026-07-22",
+      "supports": "Projects 1.3% real restaurant sales growth in 2026, reports that 61% of adults consider dining out essential, and describes soft traffic, rising costs, technology investment, and profitability pressure."
+    }
+  ]
+}
