@@ -1,0 +1,211 @@
+{
+  "identity": {
+    "naics": "312112",
+    "title": "Bottled Water Manufacturing",
+    "run_id": "312112-a1-20260722",
+    "model_id": "claude-sonnet-5",
+    "run_date": "2026-07-22",
+    "methodology_version": "5.1",
+    "attempt": 1
+  },
+  "lens": {
+    "included_activities": "Independent US bottled-water plants in NAICS 312112 that repeatedly purify, bottle, label, package, or prepare water for external brands, retailers, exchange programs, home-and-office-delivery systems, hospitality customers, or other beverage companies, within the lower-middle-market EBITDA band.",
+    "excluded_activities": "Own-brand manufacturers without a recurring third-party production stream, captive plants, brands that outsource all production, pure water delivery or exchange operators without manufacturing, self-service refill operators, public water utilities, wholesalers, soft-drink plants classified in 312111, non-control financings, and non-operating facilities.",
+    "customer_and_revenue_model": "Recurring B2B co-packing, private-label, and independent bottler programs priced per case, bottle, gallon, or production run; agreements may include minimum volumes, take-or-pay commitments, packaging and resin indexation, customer-supplied materials, quality specifications, and periodic repricing.",
+    "deviation_from_default": "Narrowed to independent contract, private-label, and program bottlers because NAICS 312112 includes own-brand and vertically integrated water manufacturers that sell products rather than an outsourced service; recurring third-party bottling is the coherent service-like subset.",
+    "heterogeneous": true
+  },
+  "primitives": {
+    "a": {
+      "evidence_state": "PROXY",
+      "low": 0.12,
+      "base": 0.21,
+      "high": 0.31,
+      "bridge": "BLS measures occupations for all NAICS 312100 beverage manufacturing, not wage-weighted tasks at LMM bottled-water co-packers, and the table includes breweries, wineries, integrated brands, and hospitality-like employment. I assign high exposure to planning, ordering, invoicing, customer service, records, and reporting; partial exposure to laboratory review, visual inspection, maintenance diagnostics, scheduling, and supervision; and low exposure to physical bottling, sanitation, loading, changeover, testing execution, and repair. Bottled-water lines may be more automated and production-heavy than the source population, which reduces residual task exposure but increases the relevance of diagnostics and optimization.",
+      "rationale": "The broader beverage table reports 21.59% production, 5.29% installation and maintenance, 5.33% management, 4.68% office and administrative support, and 3.48% business and financial occupations, but also 26.40% food-preparation and serving employment that is mostly irrelevant here. AI can assist forecasts, schedules, specifications, quality records, test-result review, customer communication, downtime diagnosis, inventory, and billing. The core process is repetitive and already mechanically automated, while sanitation, sampling, testing, material handling, and line intervention remain physical. A base near one-fifth captures this mix.",
+      "change_evidence": "Obtain wage, headcount, and time-on-task data from at least 15 independent bottled-water co-packers; distinguish already-automated line work from remaining QA, lab, maintenance, warehouse, planning, sanitation, changeover, and administrative tasks and map each to deployable AI.",
+      "source_ids": ["S2", "S4", "S5"],
+      "caveats": [
+        "The occupation proxy is four-digit beverage manufacturing and is materially distorted by brewery, winery, hospitality, and integrated-brand activity.",
+        "Employment shares are not wage-weighted task shares.",
+        "Mature bottling automation means some apparently exposed machine tasks may already be automated and therefore excluded by definition."
+      ]
+    },
+    "rho": {
+      "evidence_state": "PROXY",
+      "low": 0.3,
+      "base": 0.5,
+      "high": 0.7,
+      "bridge": "Census measures any-function AI use across US firms and NIST summarizes all-manufacturing adoption and applications, not the five-year implemented share of exposed labor in LMM bottled-water plants. I translate current adoption and applicable use cases into a five-year implementation rate, then discount for small-firm skills, data availability, legacy integration, cybersecurity, customer qualification, and FDA validation and record duties. Broad definitions including chatbots overstate deep operational implementation; repetitive sensor-rich lines and focused owner investment provide offsetting upside.",
+      "rationale": "Census observed 17%-20% current business AI use from December 2025 to May 2026 and 20%-23% expected use within six months, with larger firms adopting more. NIST lists active manufacturing uses in predictive maintenance, quality, document management, inventory, forecasting, and scheduling, alongside data, cost, skills, cybersecurity, and legacy-system barriers. Bottled-water production is standardized and produces regular process and test data, but FDA requires sanitary operation, source and final-product testing, documented corrective measures, and accountable quality control. Half of exposed opportunity implemented within five years is therefore plausible, not automatic.",
+      "change_evidence": "Audit MES, SCADA, ERP, CMMS, laboratory, vision, and warehouse data at representative plants; inspect actual AI pilots, exception rates, validated labor-hour savings, cybersecurity controls, retraining plans, and customer or regulatory acceptance.",
+      "source_ids": ["S3", "S4", "S5", "S6"],
+      "caveats": [
+        "The adoption evidence is cross-sector or cross-manufacturing rather than bottled-water-specific.",
+        "NIST figures include light uses and draw on cited industry surveys.",
+        "Automation of records and testing support cannot remove regulatory responsibility for sampling, corrective action, and release."
+      ]
+    },
+    "e": {
+      "evidence_state": "ESTIMATE",
+      "low": 0.2,
+      "base": 0.35,
+      "high": 0.5,
+      "rationale": "Filed agreements and issuer disclosures establish that independent bottlers manufacture purified water to external specifications under recurring programs, including exclusive multi-year commitments. Yet the NAICS definition also captures numerous spring, regional, premium, and integrated own-brand producers that fail the outsourced-service lens. In the absence of a firm-level revenue classification, the base treats about one-third of LMM firms as principally or materially engaged in recurring contract or private-label bottling.",
+      "change_evidence": "Create a firm-level roster of the 44 dataset-estimated LMM firms using FDA registrations, state bottled-water licenses, IBWA directories, customer filings, retailer labels, websites, and interviews; verify ownership and third-party manufacturing revenue for each firm.",
+      "source_ids": ["S1", "S8", "S9"],
+      "caveats": [
+        "No source measures the independent co-packer share of NAICS 312112 LMM firms.",
+        "Older filed contracts prove the business model exists but may not represent current market prevalence.",
+        "Manufacturing and delivery or exchange activities can coexist, complicating classification under the fixed lens."
+      ]
+    },
+    "s5": {
+      "evidence_state": "ESTIMATE",
+      "low": 0.1,
+      "base": 0.17,
+      "high": 0.27,
+      "rationale": "No transaction source supplies a five-year qualifying-control-transfer numerator and a verified eligible bottled-water co-packer denominator. The range corresponds to a sustained annual qualifying-transfer hazard of approximately 2.1%-6.1%, allowing for founder succession and consolidation while excluding minority investments, internal reorganizations, closures, real-estate-only sales, and facilities whose customers or licenses do not transfer.",
+      "change_evidence": "Match five years of PitchBook, Capital IQ, GF Data, Axial, and beverage-broker deals to the verified eligible roster; confirm control, going-concern status, owner age, succession intent, customer change-of-control provisions, water rights or source permits, and regulatory-license transferability.",
+      "source_ids": [],
+      "caveats": [
+        "This is a bounded hazard estimate rather than an observed transfer probability.",
+        "Small private plant transactions are underreported and frequently lack six-digit NAICS coding.",
+        "Water-source rights, customer concentration, environmental permits, and aging lines can make a nominal firm non-transferable."
+      ]
+    },
+    "q": {
+      "evidence_state": "PROXY",
+      "low": 0.18,
+      "base": 0.34,
+      "high": 0.52,
+      "bridge": "One filed bottled-water agreement documents a five-year exclusive take-or-pay arrangement with indexed case pricing and scrap accountability, while an older bottler disclosure gives the brand customer unilateral pricing modification on 30 days' notice. These are real contract examples, not a distribution of discounted benefit retention across current LMM NAICS 312112 firms. I use them to bound capture: minimum volumes and exclusivity improve it, whereas indexation, customer control, commodity-like competition, and renewal pricing reduce it. Large or distressed counterparties in the filings may understate or overstate typical LMM retention.",
+      "rationale": "The Niagara agreement required at least 3.2 million cases annually, imposed a $2-per-case shortfall option, provided an initial five-year exclusive term, adjusted 60% of case price to the soft-drink PPI and 20% to PET resin, and made the packer absorb material loss above a 3% allowance. Those terms protect volume and leave some room to retain operational improvements, but most price is indexed and customers can recover visible gains in renewals. A separate independent-bottler disclosure says the brand could modify bottler pricing on 30 days' notice. With water and private label highly price-sensitive, a five-year retained share near one-third is appropriate.",
+      "change_evidence": "Review at least 25 active bottling MSAs for conversion fees, indexation weights, audit rights, productivity sharing, customer-supplied inputs, scrap and yield thresholds, take-or-pay, exclusivity, repricing cadence, renewal bids, and termination rights; reconcile contract terms to five-year gross-margin bridges.",
+      "source_ids": ["S8", "S9"],
+      "caveats": [
+        "The observed contracts are older and issuer-specific, not a current representative sample.",
+        "Terms vary by run length, package, freight geography, source-water access, capacity, and customer scale.",
+        "The estimate excludes demand loss and implementation failure."
+      ]
+    },
+    "d5": {
+      "evidence_state": "PROXY",
+      "low": 0.98,
+      "base": 1.08,
+      "high": 1.18,
+      "bridge": "Beverage Marketing Corporation measures total US bottled-water gallons across branded, imported, sparkling, home-and-office-delivery, vended, retail bulk, and single-serve channels, not constant-quality outsourced output from LMM NAICS 312112 plants. I extrapolate the observed 2021-2024 volume increase and stated per-capita trajectory to five years, then discount for substitution toward tap filtration and reusable containers and allow outsourcing share to diverge from end demand. Total gallons may overstate contract-manufacturing growth if integrated brands gain share, while continued private-label outsourcing could produce the opposite error.",
+      "rationale": "US bottled-water volume increased from 15.70 billion gallons in 2021 to 16.40 billion in 2024; 2024 growth was 2.9% after 1.1% in 2022 and 0.4% in 2023. Per-capita consumption reached 47.3 gallons, and the research provider expects it to reach 50 gallons by the end of the decade or shortly thereafter. These data support moderate five-year quantity growth, tempered by mature single-serve penetration, reusable-bottle and tap-filter substitution, packaging rules, and possible customer insourcing. The base is 8% real-quantity growth by year five.",
+      "change_evidence": "Acquire BMC or Circana gallons by package, brand/private label, producer, and channel; match them to plant shipment data and customer sourcing plans, separating population, price, mix, imports, in-house bottling, co-packing, vended water, and home-and-office delivery.",
+      "source_ids": ["S7", "S10"],
+      "caveats": [
+        "The demand source is an industry research provider and trade-publication data set rather than a government series.",
+        "The market totals include imports, vended water, and channels not wholly produced by the screened operator population.",
+        "Environmental policy and consumer reuse behavior can change faster than the historical volume trend."
+      ]
+    },
+    "o": {
+      "evidence_state": "ESTIMATE",
+      "low": 0.93,
+      "base": 0.98,
+      "high": 0.995,
+      "rationale": "Bottled water is a physical product requiring source control or purification, containers, sanitary filling, packaging, warehousing, testing, and release by an accountable facility. FDA requires source and final-product sampling, quality control, sanitary processing, and corrective-action records. Software can automate records, scheduling, vision, and analytical support but cannot eliminate the plant or legally accountable bottler. Some quantity can migrate to tap filtration, reusable containers, vending, or customer-owned plants, which keeps the estimate below one.",
+      "change_evidence": "Survey retail and brand customers on insourcing, refill, filtration, reusable-packaging, and package-elimination plans; examine historical contract terminations to separate shifts to another physical bottler from true elimination of bottled-water quantity.",
+      "source_ids": ["S5", "S6", "S8", "S10"],
+      "caveats": [
+        "This is a bounded operator-necessity judgment rather than an observed substitution rate.",
+        "A customer switching to another bottler does not reduce operator-required demand under the construct.",
+        "Vended refill and tap filtration can eliminate some packaged production rather than merely change the supplier."
+      ]
+    }
+  },
+  "narrative": {
+    "executive_view": "Independent contract and private-label water bottlers combine durable physical demand with repetitive, data-rich operations. AI opportunity is concentrated in planning, records, quality review, inventory, customer service, and maintenance rather than core filling, sanitation, testing, or accountable release. Demand history is constructive, but commoditized contracts, resin and packaging indexation, customer bargaining power, and environmental pressure limit the share of benefits retained.",
+    "ai_impact": "Useful applications include forecast and production scheduling, EDI and purchase-order handling, specification extraction, laboratory-result review, exception detection, lot and quality records, visual inspection triage, inventory reconciliation, invoice processing, and predictive maintenance. Mature mechanical automation already handles much line work. Physical sampling, sanitation, changeovers, material movement, repairs, validation, corrective action, and product release remain human- and asset-dependent.",
+    "value_capture": "Multi-year exclusivity, minimum commitments, take-or-pay, and scarce geographic capacity can protect economics. Capture erodes when case prices are mostly indexed, customers supply packaging, buyers can change pricing, scrap or yield improvements are contractually shared, or programs are rebid. Operational savings outside auditable direct costs and within fixed-price periods are more retainable than visible resin, packaging, or unit-labor reductions.",
+    "firm_availability": "Recurring external bottling clearly exists, but the eligible denominator is obscured by own-brand spring-water firms, integrated national producers, delivery networks, and refill operators. Private transfer probability is not observed. Target diligence must establish customer and brand ownership, change-of-control rights, source-water permissions, state and FDA compliance, packaging equipment ownership, environmental permits, recall history, and deferred maintenance.",
+    "demand_durability": "Bottled-water gallons have grown over decades and reached a new high in 2024, supported by hydration, convenience, and displacement of sugary beverages. Private-label and contract bottling can benefit brands and retailers that avoid plant capital. Offsetting risks include mature single-serve penetration, tap filtration, reusable containers, refill systems, plastic regulation, source-water controversy, local restrictions, imports, and insourcing by scaled customers.",
+    "risks_and_uncertainty": "The largest evidence gaps are the eligible-firm share, qualifying transfer rate, contract-term distribution, and actual plant task mix. Additional risks include concentrated customers, freight radius, low product differentiation, PET and recycled-resin volatility, water rights, drought or source challenges, testing failures, contamination, recalls, underutilized lines, packaging mandates, cybersecurity, and older equipment that cannot generate reliable data.",
+    "principal_driver": "Growing physical hydration demand and recurring bottling programs support durable operator need, while standardized planning, quality, record, and maintenance workflows offer targeted AI efficiency.",
+    "principal_weakness": "Commodity-like buyer leverage and indexed packaging economics can pass visible productivity back to customers, while the eligible independent co-packer population is unmeasured."
+  },
+  "sources": [
+    {
+      "id": "S1",
+      "url": "https://www.census.gov/naics/resources/archives/sect31-33.html",
+      "title": "NAICS Sector 31-33 Archive: 312112 Bottled Water Manufacturing",
+      "access_date": "2026-07-22",
+      "supports": "Official definition of 312112 as purifying and bottling water, including naturally carbonated water, with cross-references separating artificially carbonated water and purchased-water bottling."
+    },
+    {
+      "id": "S2",
+      "url": "https://www.bls.gov/oes/2023/may/naics4_312100.htm",
+      "title": "May 2023 National Industry-Specific Occupational Employment and Wage Estimates: NAICS 312100",
+      "access_date": "2026-07-22",
+      "supports": "Broader beverage occupation mix, including 21.59% production, 5.29% installation/maintenance, 5.33% management, 4.68% office/administrative, 3.48% business/financial, and 26.40% food-preparation/serving employment."
+    },
+    {
+      "id": "S3",
+      "url": "https://www.census.gov/library/stories/2026/05/ai-use-businesses.html",
+      "title": "Large Firms With at Least 20 Employees Biggest AI Users",
+      "access_date": "2026-07-22",
+      "supports": "BTOS evidence of 17%-20% current US business AI use from December 2025 to May 2026, 20%-23% expected use within six months, and higher use at larger firms."
+    },
+    {
+      "id": "S4",
+      "url": "https://www.nist.gov/mep/rise-artificial-intelligence-ai-us-manufacturing-text-only",
+      "title": "The Rise of Artificial Intelligence in U.S. Manufacturing: Text Only",
+      "access_date": "2026-07-22",
+      "supports": "Manufacturing AI applications in predictive maintenance, quality, forecasting, document management, inventory, supply chain, and scheduling, plus adoption evidence and barriers involving data, cost, skills, cybersecurity, and legacy systems."
+    },
+    {
+      "id": "S5",
+      "url": "https://www.fda.gov/food/buy-store-serve-safe-food/fda-regulates-safety-bottled-water-beverages-including-flavored-water-and-nutrient-added-water",
+      "title": "FDA Regulates the Safety of Bottled Water Beverages",
+      "access_date": "2026-07-22",
+      "supports": "Bottled-water-specific CGMP duties covering sanitary processing, source protection, quality control, source and final-product testing, and FDA plant inspection."
+    },
+    {
+      "id": "S6",
+      "url": "https://www.fda.gov/regulatory-information/search-fda-guidance-documents/small-entity-compliance-guide-bottled-water-and-total-coliform-and-e-coli",
+      "title": "Small Entity Compliance Guide: Bottled Water and Total Coliform and E. coli",
+      "access_date": "2026-07-22",
+      "supports": "Binding bottled-water requirements for weekly source testing when the source is not a public system, follow-up E. coli testing, corrective measures, finished-product testing, and corrective-action records."
+    },
+    {
+      "id": "S7",
+      "url": "https://www.beveragemarketing.com/news-detail.asp?id=825",
+      "title": "Bottled Water Volume Growth Quickens in 2024",
+      "access_date": "2026-07-22",
+      "supports": "US bottled-water volume grew 2.9% in 2024 after 0.4% in 2023 and 1.1% in 2022; per-capita consumption reached 47.3 gallons, with an expectation of 50 gallons around decade-end."
+    },
+    {
+      "id": "S8",
+      "url": "https://www.sec.gov/Archives/edgar/data/1134765/000141588915003511/ex10-1.htm",
+      "title": "True Drinks and Niagara Bottling Agreement filed with the SEC",
+      "access_date": "2026-07-22",
+      "supports": "Observed bottled-water contract with five-year exclusivity, a 3.2 million-case annual minimum, $2-per-case take-or-pay shortfall, pricing indexed 60% to soft-drink PPI and 20% to PET resin, and a 3% material-loss allowance."
+    },
+    {
+      "id": "S9",
+      "url": "https://www.sec.gov/Archives/edgar/data/1365101/000095012310101733/g22358b4e424b4.htm",
+      "title": "Primo Water Corporation Registration Statement",
+      "access_date": "2026-07-22",
+      "supports": "Evidence of recurring independent bottler arrangements requiring customer specifications and quality compliance, brand-supplied packaging inputs, generally three-year terms, and customer pricing modification on 30 days' notice."
+    },
+    {
+      "id": "S10",
+      "url": "https://bottledwater.org/wp-content/uploads/2025/07/BWR_BWstats_June2025_FinalwithBMCad.pdf",
+      "title": "Bottled Water Reporter: 2024 U.S. Bottled Water Market Statistics",
+      "access_date": "2026-07-22",
+      "supports": "BMC market table showing total gallons of 15.70 billion in 2021, 15.88 billion in 2022, 15.95 billion in 2023, and 16.40 billion in 2024; single-serve PET was 70.7% of 2024 volume."
+    },
+    {
+      "id": "S11",
+      "url": "https://calrecycle.ca.gov/bevcontainer/bevdistman/plasticcontent/",
+      "title": "Plastic Minimum Content Standards and Reporting for Beverage Manufacturers",
+      "access_date": "2026-07-22",
+      "supports": "California requires covered plastic beverage containers to average 25% postconsumer recycled content from 2025 and 50% from 2030, with annual manufacturer reporting and penalties for noncompliance."
+    }
+  ]
+}

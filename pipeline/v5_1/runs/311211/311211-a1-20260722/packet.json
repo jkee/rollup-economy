@@ -1,0 +1,176 @@
+{
+  "identity": {
+    "naics": "311211",
+    "title": "Flour Milling",
+    "run_id": "311211-a1-20260722",
+    "model_id": "claude-sonnet-5",
+    "run_date": "2026-07-22",
+    "methodology_version": "5.1",
+    "attempt": 1
+  },
+  "lens": {
+    "included_activities": "Independent toll and contract flour millers and recurring private-label or custom flour producers that mill customer-supplied grain or produce to external customer specifications at roughly $1-10M normalized EBITDA.",
+    "excluded_activities": "Commodity or proprietary-brand flour sellers without material outsourced production, captive bakery mills, grain traders, packaging-only businesses, financing vehicles, and firms outside the LMM band.",
+    "customer_and_revenue_model": "Recurring B2B milling, blending, testing, packing, and delivery for food manufacturers, bakeries, distributors, retailers, and brands, priced per hundredweight, ton, batch, package, or supply agreement.",
+    "deviation_from_default": "Narrowed to toll, contract, custom-specification, co-manufacturing, and private-label flour production because NAICS 311211 otherwise consists largely of product sales rather than outsourced services.",
+    "heterogeneous": true
+  },
+  "primitives": {
+    "a": {
+      "evidence_state": "PROXY",
+      "low": 0.18,
+      "base": 0.29,
+      "high": 0.4,
+      "bridge": "BLS reports occupations and wages for four-digit grain and oilseed milling, not task exposure in 311211 LMM contract flour mills. I map planning, procurement, quality analytics, documentation, customer service, inspection review, process optimization, and predictive maintenance to exposed tasks, while discounting physical cleaning, milling intervention, sanitation, packing, material handling, and already-automated control. Oilseed operations may be more process-intensive than flour milling, which could bias the physical share upward and the exposure estimate downward.",
+      "rationale": "In 2023 grain and oilseed milling, production was 44.79% of employment, transportation/material moving 14.20%, and maintenance/repair 10.25%; office support was 7.42%, management 7.13%, business/financial operations 4.67%, science 3.00%, and engineering 2.60%. AI can affect office and professional work plus portions of inspection, control-room, and maintenance tasks. The physical core and existing mill automation keep wage-weighted exposure below one-third in the base case.",
+      "change_evidence": "A wage-weighted time study at 8-12 U.S. toll/private-label flour mills, separating already automated control from human tasks in receiving, lab, milling, maintenance, packing, scheduling, compliance, sales, and administration.",
+      "source_ids": ["S1", "S2"],
+      "caveats": ["BLS covers NAICS 311200, not 311211 or the narrowed lens.", "Occupation mix is not a direct task-exposure measure.", "Some AI-enabled process functions may improve yield or uptime without reducing labor."]
+    },
+    "rho": {
+      "evidence_state": "PROXY",
+      "low": 0.3,
+      "base": 0.48,
+      "high": 0.65,
+      "bridge": "Commercial smart-milling capabilities and regulatory requirements describe feasible workflows and constraints, not the five-year implemented share of exposed labor at LMM mills. I translate real-time quality data, vibration monitoring, roll-change optimization, traceability, reporting, and predictive maintenance into implementation potential, then discount for legacy controls, sensor gaps, capital, validation, cyber risk, and food-safety oversight. Vendor descriptions likely bias feasibility upward.",
+      "rationale": "Available systems target real-time yield and quality management, vibration and temperature monitoring, roll-exchange timing, energy optimization, silo-to-bag traceability, and audit reporting. These can be deployed incrementally, but FDA requires documented hazard controls, monitoring, corrections, verification, supplier programs, and recall plans. Roughly half of exposed wage opportunity is implementable in five years, with better results in digitally instrumented mills than in older small facilities.",
+      "change_evidence": "Comparable-mill deployment data showing sensor coverage, capital cost, integration time, validation and override rates, baseline labor hours, and realized labor-hour reductions for quality, maintenance, scheduling, and reporting after 12-24 months.",
+      "source_ids": ["S2", "S3"],
+      "caveats": ["The technology source is a vendor rather than an independent adoption study.", "Food-safety and quality accountability constrain autonomous operation.", "Implementation benefits often include yield, energy, and downtime rather than labor alone."]
+    },
+    "e": {
+      "evidence_state": "ESTIMATE",
+      "low": 0.12,
+      "base": 0.25,
+      "high": 0.4,
+      "rationale": "Toll milling, custom specifications, co-manufacturing, and private-label flour are established business models: Panhandle describes customer-supplied grain or specifications, milling, blending, private label, and packaging, while Wilkins Rogers serves major grocery-chain sourcing managers with multi-mill private-label production. Yet most flour mills primarily sell their own commodity, ingredient, or branded output. Without a firm-by-firm revenue split, one-quarter of LMM firms is a bounded estimate of those whose core recurring activity fits the outsourced lens.",
+      "change_evidence": "A verified U.S. 311211 company census with percentage of revenue from toll milling, co-manufacturing, private label, custom-spec production, proprietary brands, commodity flour, and captive supply, matched to normalized EBITDA.",
+      "source_ids": ["S4", "S5"],
+      "caveats": ["Company examples establish existence, not population share.", "Private-label manufacturing can be a secondary line at otherwise ineligible commodity mills.", "Packaging-only co-packers may not be classified in 311211 and should remain excluded."]
+    },
+    "s5": {
+      "evidence_state": "PROXY",
+      "low": 0.08,
+      "base": 0.15,
+      "high": 0.25,
+      "bridge": "Industry transaction cases and ownership commentary concern flour millers of varied sizes and business models, not the five-year control-transfer probability for eligible U.S. LMM outsourced mills. I use a recent acquisition and evidence of family/employee ownership and competitive buyer interest as proof of marketability, while giving substantial weight to the advisory observation that stable family-owned flour mills rarely change hands. Selected deal publicity biases frequency upward.",
+      "rationale": "Grain Craft acquired employee-owned Central Milling in 2024 and retained its leadership and workforce, demonstrating a functioning control market. However, an industry M&A case study describes flour milling as a relatively small set of family-owned companies and large corporations whose ownership rarely changes and says large mills are seldom for sale. Long family tenure elsewhere reinforces the scarcity. The five-year base is therefore below broader small-business turnover assumptions.",
+      "change_evidence": "PitchBook, CapIQ, GF Data, and Grain & Milling Annual records for 2016-2026 matched to a verified denominator of independent U.S. flour millers in the frozen EBITDA band, plus owner-age, ESOP, and succession-plan interviews.",
+      "source_ids": ["S6", "S7", "S8"],
+      "caveats": ["Recent acquisitions may be outside the LMM band and outside the outsourced-service lens.", "The statement that ownership rarely changes is qualitative and advisory, not a measured hazard rate.", "Employee-owned and multi-generation family structures can either delay sale or create eventual succession events."]
+    },
+    "q": {
+      "evidence_state": "ESTIMATE",
+      "low": 0.28,
+      "base": 0.46,
+      "high": 0.65,
+      "rationale": "A toll or private-label mill can retain savings during a fixed pricing period, especially where customer qualification, traceability, specialty certifications, and packaging create switching friction. But wheat and flour benchmarks are transparent, large industrial bakers and retailers procure professionally, and regional mill competition constrains prices. Renewal and rebid pressure should pass through more than half of mature labor savings in the base case.",
+      "change_evidence": "Customer contracts and bid histories showing toll fee, wheat-index and freight formulas, cost-openers, term, volume commitments, productivity clauses, audit rights, switching costs, and gross-margin changes after automation projects.",
+      "source_ids": ["S4", "S5", "S9"],
+      "caveats": ["No representative contract dataset was found.", "Retention varies between toll milling, industrial bulk flour, specialty custom blends, and retail private label.", "Regional concentration may raise current price levels but does not guarantee that incremental cost savings remain with the operator."]
+    },
+    "d5": {
+      "evidence_state": "PROXY",
+      "low": 0.95,
+      "base": 1.01,
+      "high": 1.07,
+      "bridge": "USDA projects domestic wheat food use and broader crop and population trends, not constant-quality demand for outsourced flour-milling services. I treat its expectation of slow food-use growth below population growth as the physical-demand anchor, then widen for specialty flour share, exports, flour substitution, diet shifts, and customer insourcing. Wheat food use may overstate domestic flour-milling demand when imported flour or non-flour uses are included and understate alternative-grain milling.",
+      "rationale": "USDA's 2026 baseline says domestic wheat use, especially food use, should grow more slowly than population over the long term, while U.S. population is projected to grow about 0.4% annually. This is a mature staple market: a near-flat to modestly growing five-year constant-quality quantity is more defensible than extrapolating nominal flour prices or specialty-product growth.",
+      "change_evidence": "USDA NASS quarterly flour production and wheat-ground data through 2031, reconciled to Census shipments, imports/exports, package-size and flour-quality mix, and actual outsourced volumes at contract/private-label mills.",
+      "source_ids": ["S10"],
+      "caveats": ["Wheat food use is broader than outsourced 311211 service demand.", "Gluten avoidance, low-carbohydrate diets, bakery demand, exports, and alternative grains can move segments in opposite directions.", "Customer insourcing or mill consolidation can reduce eligible demand despite stable national flour volume."]
+    },
+    "o": {
+      "evidence_state": "ESTIMATE",
+      "low": 0.89,
+      "base": 0.96,
+      "high": 0.99,
+      "rationale": "Flour is a physical food ingredient requiring milling, blending, testing, traceability, packing or bulk load-out, and accountable food-safety controls. Software can optimize the mill but cannot supply the product. FDA's CGMP, hazard-analysis, preventive-control, monitoring, verification, supplier, and recall requirements preserve an accountable operator. The main displacement risk is customer insourcing or consolidation into large mills, so the outsourced-operator share remains high but not complete.",
+      "change_evidence": "Five-year make-versus-buy plans from industrial bakers, retailers, and brands; announcements of captive milling capacity; and shipment data splitting independent toll/private-label volume from vertically integrated and proprietary mill production.",
+      "source_ids": ["S3", "S10"],
+      "caveats": ["The estimate concerns the narrowed outsourced operator, not the physical necessity of flour milling overall.", "Large customers may bring standardized flour production in-house or switch to integrated suppliers.", "Automation can reduce operator staffing without eliminating the accountable firm."]
+    }
+  },
+  "narrative": {
+    "executive_view": "The investable lens is toll, contract, custom-spec, and private-label milling, a minority of flour milling rather than the whole commodity industry. The demand base is durable but mature, and labor intensity is low. AI can improve quality, planning, maintenance, traceability, reporting, and administration, but the larger uncertainty is finding eligible transferable firms and retaining savings against sophisticated flour buyers.",
+    "ai_impact": "AI-enabled mill systems can monitor quality and yield, predict roll and equipment maintenance, connect laboratory and process data, automate compliance reporting, and improve planning and traceability. Office and professional workflows add exposure. Physical grain handling, sanitation, packing, maintenance intervention, and food-safety decisions remain operator-dependent, so the central opportunity is selective labor avoidance rather than autonomous milling.",
+    "value_capture": "Savings are most retainable in specialty custom blends, certified products, private label, and qualified toll relationships. Standard bulk flour buyers can compare regional suppliers and negotiate against transparent grain and freight economics. Renewal timing, formula pricing, customer concentration, and the cost of requalification determine whether the operator keeps the benefit.",
+    "firm_availability": "Contract and private-label models are clearly present, including full-service milling, blending, packaging, and delivery. Recent transactions show strategic demand, but flour milling has long-lived family and employee ownership, relatively few operators, and infrequent sales. The dataset firm count must be filtered sharply for both outsourced revenue and actual transfer readiness.",
+    "demand_durability": "Flour remains a staple input, but USDA expects domestic wheat food use to grow more slowly than population. That supports roughly flat to modest five-year real quantity. Specialty and alternative-grain categories may grow faster, while diet shifts, consolidation, imports, and customer insourcing can weaken specific mills.",
+    "risks_and_uncertainty": "The most important gaps are outsourced-revenue share, contract terms, customer concentration, and plant-level labor baselines. Grain quality and price volatility, contamination, allergens, recalls, dust explosions, energy cost, mill downtime, and capital-heavy modernization can dominate labor savings. Regional concentration and limited targets can also make acquisition entry expensive.",
+    "principal_driver": "Essential recurring flour demand plus practical AI uses in quality, predictive maintenance, yield control, traceability, and administrative workflows.",
+    "principal_weakness": "Eligible outsourced firms are a minority in a concentrated, rarely traded industry, and sophisticated customers can reclaim efficiency gains at renewal."
+  },
+  "sources": [
+    {
+      "id": "S1",
+      "url": "https://www.bls.gov/oes/2023/may/naics4_311200.htm",
+      "title": "May 2023 National Industry-Specific Occupational Employment and Wage Estimates: NAICS 311200 Grain and Oilseed Milling",
+      "access_date": "2026-07-23",
+      "supports": "Broader grain/oilseed milling occupation and wage mix used to bridge wage-weighted task exposure, including production, material moving, maintenance, office, management, business, science, and engineering shares."
+    },
+    {
+      "id": "S2",
+      "url": "https://advactory.com/milling-line/",
+      "title": "Milling Line",
+      "access_date": "2026-07-23",
+      "supports": "Commercially available flour-mill capabilities for real-time yield and quality data, vibration and temperature monitoring, roll-change optimization, traceability, reporting, predictive maintenance, and AI-driven management."
+    },
+    {
+      "id": "S3",
+      "url": "https://www.fda.gov/food/food-safety-modernization-act-fsma/fsma-final-rule-preventive-controls-human-food",
+      "title": "FSMA Final Rule for Preventive Controls for Human Food",
+      "access_date": "2026-07-23",
+      "supports": "Human-food CGMP, food-safety plan, hazard analysis, preventive controls, monitoring, corrective action, verification, supplier program, training, documentation, and recall-plan requirements."
+    },
+    {
+      "id": "S4",
+      "url": "https://panhandlemilling.com/wp-content/uploads/2021/08/Product-Catalog-Aug2021-Web_compressed.pdf",
+      "title": "Panhandle Milling Product Catalog and Custom Co-Manufacturing Services",
+      "access_date": "2026-07-23",
+      "supports": "Explicit toll milling model using customer grain or specifications plus milling, blending, private label, packaging, and relationships with food manufacturers and retailers."
+    },
+    {
+      "id": "S5",
+      "url": "https://www.wrmills.com/products/private-label/",
+      "title": "Private Label Flours and Milling Solutions",
+      "access_date": "2026-07-23",
+      "supports": "Longstanding private-label flour relationships with grocery chains, multi-mill infrastructure, package formats, quality testing, delivery, and full-service capabilities."
+    },
+    {
+      "id": "S6",
+      "url": "https://www.foodbusinessnews.net/articles/26891-grain-craft-acquires-utah-based-milling-company",
+      "title": "Grain Craft acquires Utah-based milling company",
+      "access_date": "2026-07-23",
+      "supports": "Completed 2024 acquisition of employee-owned Central Milling, its three mills, customers, capacity, leadership continuity, traceability, and specialty flour position."
+    },
+    {
+      "id": "S7",
+      "url": "https://www.fourbridgescapital.com/resources/success-stories/milner-milling-pendleton-flour-mills-become-grain-craft/",
+      "title": "Milner Milling/Pendleton Flour Mills Become Grain Craft",
+      "access_date": "2026-07-23",
+      "supports": "Qualitative industry ownership structure, family-company prevalence, rare ownership changes, scarcity of mills for sale, buyer competition, and an observed acquisition process."
+    },
+    {
+      "id": "S8",
+      "url": "https://www.world-grain.com/articles/20136-bay-state-milling-marks-125-years-in-business",
+      "title": "Bay State Milling marks 125 years in business",
+      "access_date": "2026-07-23",
+      "supports": "Evidence of exceptionally long-lived fifth-generation family ownership and continued operation across multiple U.S. grain-milling facilities."
+    },
+    {
+      "id": "S9",
+      "url": "https://www.justice.gov/archives/opa/pr/justice-department-requires-conagra-cargill-chs-horizon-milling-divest-four-significant-flour",
+      "title": "Justice Department Requires Flour Mill Divestitures for Ardent Mills Joint Venture",
+      "access_date": "2026-07-23",
+      "supports": "Regional flour competition, customer groups, concentration among major millers, and evidence that competition affects prices paid by industrial bakers and food-service customers."
+    },
+    {
+      "id": "S10",
+      "url": "https://ers.usda.gov/sites/default/files/_laserfiche/outlooks/113817/OCE-2026-1.pdf?v=39134",
+      "title": "USDA Agricultural Projections to 2035",
+      "access_date": "2026-07-23",
+      "supports": "Projection that domestic wheat use, especially food use, grows more slowly than population, plus the U.S. population growth assumption used to anchor five-year demand."
+    }
+  ]
+}

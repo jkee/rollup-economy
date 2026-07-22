@@ -1,0 +1,204 @@
+{
+  "identity": {
+    "naics": "312111",
+    "title": "Soft Drink Manufacturing",
+    "run_id": "312111-a1-20260722",
+    "model_id": "claude-sonnet-5",
+    "run_date": "2026-07-22",
+    "methodology_version": "5.1",
+    "attempt": 1
+  },
+  "lens": {
+    "included_activities": "Independent US beverage co-packers and contract bottlers in NAICS 312111 that repeatedly blend, carbonate, fill, label, package, or warehouse soft drinks for external beverage brands, retailers, or other beverage companies, within the lower-middle-market EBITDA band.",
+    "excluded_activities": "Brand owners that outsource all manufacturing, own-brand manufacturers without a recurring third-party production stream, captive plants, controlled franchise bottlers operating primarily as part of a brand system, distributors, vending operations, bottled-water plants classified in 312112, alcoholic beverage plants, non-control financings, and failed or non-operating facilities.",
+    "customer_and_revenue_model": "Recurring B2B production programs and purchase orders priced per case, unit, batch, or run; contracts can combine conversion margin with direct ingredient and packaging costs, volume tiers, minimum quantities, equipment support, and negotiated cost pass-throughs.",
+    "deviation_from_default": "Narrowed to independent co-packers and contract bottlers because NAICS 312111 includes brand-led and integrated soft-drink producers that sell their own products rather than an outsourced service; recurring third-party manufacturing is the coherent service-like subset.",
+    "heterogeneous": true
+  },
+  "primitives": {
+    "a": {
+      "evidence_state": "PROXY",
+      "low": 0.14,
+      "base": 0.23,
+      "high": 0.33,
+      "bridge": "BLS reports occupations for all NAICS 312100 beverage manufacturing, including breweries, wineries, distilleries, integrated brands, hospitality-like jobs, and firms outside soft-drink co-packing; it does not measure wage-weighted task exposure. I map high exposure to planning, ordering, customer service, documentation, reporting, and forecasting; partial exposure to inspection, maintenance diagnostics, production supervision, and formulation support; and low exposure to physical filling, sanitation, changeover, handling, and repair. The broad table's tasting-room and serving employment likely understates the production intensity of soft-drink co-packers and therefore widens the range.",
+      "rationale": "The broad beverage table reports 21.59% production, 5.29% installation and maintenance, 5.33% management, 4.68% office and administrative support, and 3.48% business and financial occupations, but also 26.40% food-preparation and serving jobs that are largely irrelevant to the co-packer lens. AI can assist scheduling, batch and quality records, procurement, invoice and order processing, demand planning, customer communications, visual inspection triage, and predictive maintenance. Most line operation, cleaning, changeovers, material handling, and accountable QA remain physical or control-system work, supporting a wage-weighted midpoint below one-quarter.",
+      "change_evidence": "Collect employee-level wages, task logs, and time studies from at least 15 independent soft-drink co-packers; separately code formulation, QA, planning, warehouse, maintenance, sanitation, changeover, and line tasks against already-deployed and feasible AI capabilities.",
+      "source_ids": ["S2", "S4"],
+      "caveats": [
+        "The occupation proxy is four-digit beverage manufacturing and is materially contaminated by winery, brewery, hospitality, and integrated-brand employment.",
+        "The source reports employment and wages, not task exposure or a wage-weighted exposure total.",
+        "AI exposure does not imply that an entire job can be eliminated."
+      ]
+    },
+    "rho": {
+      "evidence_state": "PROXY",
+      "low": 0.28,
+      "base": 0.47,
+      "high": 0.67,
+      "bridge": "Census measures any-function AI use across US businesses and NIST summarizes all-manufacturing adoption and use cases, not the five-year implemented share of exposed labor in LMM soft-drink co-packers. I translate current adoption, expected growth, and applicable plant use cases into implementation potential, then discount for legacy equipment, small-firm skills, customer validation, data quality, cybersecurity, and FDA-required human accountability. Broad survey definitions that include chatbots bias reported adoption upward relative to deep workflow implementation; a focused post-acquisition program and five-year horizon offset part of that bias.",
+      "rationale": "Census observed 17%-20% current business AI use and 20%-23% expected use within six months in late 2025 through May 2026, with higher adoption at larger firms. NIST identifies predictive maintenance, quality control, demand forecasting, document management, supply-chain optimization, and scheduling as active manufacturing applications, but lists data, cost, skills, cybersecurity, and legacy-system barriers. Beverage plants have repeated, sensor-rich processes that favor focused deployment, yet validated food-safety controls, line integration, customer specifications, and small-firm change capacity constrain conversion. About half of exposed opportunity implemented in five years is a defensible midpoint.",
+      "change_evidence": "Review MES, ERP, CMMS, lab, and line-control architecture; audit data completeness; inspect validated pilots and realized labor-hour changes; and interview plant, maintenance, QA, and customer technical teams at a representative LMM co-packer sample.",
+      "source_ids": ["S3", "S4", "S5"],
+      "caveats": [
+        "AI-use surveys are cross-sector or cross-manufacturing and do not isolate beverage co-packers.",
+        "NIST adoption figures include light uses such as chatbots and rely on cited industry surveys.",
+        "Food-safety monitoring and verification create useful data but also require validation, documentation, and accountable review."
+      ]
+    },
+    "e": {
+      "evidence_state": "ESTIMATE",
+      "low": 0.18,
+      "base": 0.3,
+      "high": 0.45,
+      "rationale": "Independent beverage brands demonstrably rely on third-party bottlers and co-packers, and Monster reports that a majority of its nonalcohol finished goods are made by such providers. However, NAICS 312111 also contains large integrated bottlers, captive franchise operations, and own-brand manufacturers that do not qualify as external outsourced-service firms. With no firm-level revenue split for the dataset population, the base assumes roughly three in ten LMM firms principally provide recurring third-party production.",
+      "change_evidence": "Create a verified roster of the 63 dataset-estimated LMM firms using FDA facility registrations, beverage certification directories, websites, customer filings, and interviews; classify ownership and require recurring third-party co-packing revenue to be a majority or strategically material stream.",
+      "source_ids": ["S1", "S8", "S9"],
+      "caveats": [
+        "There is no observed denominator for independent co-packers within NAICS 312111.",
+        "Brand filings show demand for co-packing but not the share or size distribution of eligible suppliers.",
+        "Franchise bottlers and branded manufacturers can look service-like while remaining economically captive or own-account."
+      ]
+    },
+    "s5": {
+      "evidence_state": "ESTIMATE",
+      "low": 0.1,
+      "base": 0.16,
+      "high": 0.25,
+      "rationale": "No source provides qualifying five-year control transfers divided by the eligible LMM co-packer population. The range corresponds to an annual qualifying-transfer hazard of roughly 2.1%-5.6%, reflecting founder succession and strategic or sponsor acquisitions while excluding minority investments, internal franchise restructurings, plant-only asset sales without transferable operations, closures, and customer-driven failures.",
+      "change_evidence": "Match five years of PitchBook, Capital IQ, GF Data, Axial, and beverage-industry broker transactions to a verified eligible-firm roster; confirm control status, continuing customer contracts, owner age, succession plans, and whether facilities transferred as going concerns.",
+      "source_ids": [],
+      "caveats": [
+        "This is a bounded judgment rather than an observed industry transfer probability.",
+        "Private LMM transactions are underreported and frequently coded only as beverage or food manufacturing.",
+        "Customer concentration, change-of-control consent, line-specific capital, and food-safety history can impair transferability."
+      ]
+    },
+    "q": {
+      "evidence_state": "PROXY",
+      "low": 0.1,
+      "base": 0.24,
+      "high": 0.42,
+      "bridge": "One filed beverage manufacturing agreement explicitly invoices direct costs plus a supplier margin and requires direct pass-through of material manufacturing cost decreases; brand filings describe other co-packing arrangements and competitive capacity but do not measure five-year benefit retention across LMM NAICS 312111 firms. I treat the filed contract as evidence of a real low-retention structure, not as an industry average, and widen upward for fixed per-case terms, temporary timing benefits, savings outside defined direct costs, and scarce capacity. A transparent cost-plus example likely understates retention relative to fixed-price contracts, while large-brand bargaining power may overstate pressure relative to smaller customers.",
+      "rationale": "The filed example prices beverages at direct costs plus a 75% markup, permits lower markup on larger orders, passes verified cost increases through, and requires material cost decreases to be passed directly to the customer. Monster reports varying co-pack agreements, possible minimum quantities, brand-funded equipment, and limited suitable facilities for some products, while another brand says competition for co-packing capacity can affect terms. Savings in overhead, planning, uptime, and avoided hires can be retained, but open-book or formula pricing and frequent customer scrutiny can return direct-cost productivity to customers. Discounted five-year retention near one-quarter is therefore appropriate.",
+      "change_evidence": "Review at least 25 customer MSAs and purchase-order programs for cost definitions, conversion fees, productivity sharing, indexation, audit rights, volume tiers, rebates, repricing cadence, renewal bids, equipment credits, and historic margin response to process improvements.",
+      "source_ids": ["S8", "S9", "S10"],
+      "caveats": [
+        "The directly observed contract is one issuer-specific agreement and may not represent current LMM market terms.",
+        "Contract economics vary sharply with capacity scarcity, run size, customer concentration, ingredient ownership, and capital support.",
+        "The estimate excludes demand loss and implementation failure, which are represented elsewhere."
+      ]
+    },
+    "d5": {
+      "evidence_state": "PROXY",
+      "low": 0.9,
+      "base": 1.01,
+      "high": 1.12,
+      "bridge": "Federal Reserve industrial production covers combined soft drink and ice NAICS 31211, and Coca-Cola reports global unit cases for a branded portfolio, neither of which measures constant-quality US outsourced co-packing quantity in 312111. I use the Fed's recent production level around the 2017 base and Coca-Cola's flat 2025 sparkling volume as anchors for mature category quantity, while allowing outsourcing share, energy/functional launches, and customer wins to move co-packer demand differently. Ice inclusion and global brand scope can distort both level and direction, so the range is deliberately broad.",
+      "rationale": "The Fed's seasonally adjusted soft-drink-and-ice production index was 94.1, 94.3, 95.2, and 94.2 in September through December 2025 against 2017=100, before reaching 97.3 and 99.4 in January and February 2026. Coca-Cola reported global sparkling soft-drink unit volume even in 2025, with Coca-Cola Zero Sugar up 14% but sparkling flavors down 1%. Mature carbonated volume is therefore approximately stable, while product innovation and brands that avoid plant investment can support co-packing. The midpoint is near flat real quantity over five years, with meaningful downside from health, packaging, or insourcing shifts and upside from outsourced innovation.",
+      "change_evidence": "Obtain US case-volume data by carbonated soft drink, energy, functional, and flavored-water segment from Beverage Marketing Corporation or Circana; match five years of plant shipments to customer sourcing changes and separate price, package size, quality mix, insourcing, and outsourcing share.",
+      "source_ids": ["S6", "S7"],
+      "caveats": [
+        "The Fed series combines soft drinks with ice and uses production-worker hours for the monthly series.",
+        "Coca-Cola is global and brand-specific rather than a US contract-manufacturing population.",
+        "Co-packer demand can grow even when end-market quantity is flat if brands outsource more, or decline if they insource."
+      ]
+    },
+    "o": {
+      "evidence_state": "ESTIMATE",
+      "low": 0.92,
+      "base": 0.97,
+      "high": 0.99,
+      "rationale": "Soft drinks require physical blending, carbonation where applicable, filling, packaging, sanitation, storage, and release by an accountable food facility. FDA rules require written food-safety plans, hazard controls, monitoring, documented corrective action, and verification. Software can automate support and control layers but cannot supply the plant, line, packaging, physical transformation, certifications, or product-liability accountability. A small share can disappear through customer insourcing or business-model changes, keeping the estimate below one.",
+      "change_evidence": "Interview brand customers on five-year insourcing plans, owned-capacity projects, direct-to-consumer format substitution, and qualification requirements; analyze historical co-packer terminations to distinguish replacement by another operator from true elimination of outsourced production.",
+      "source_ids": ["S5", "S8", "S9"],
+      "caveats": [
+        "This is a bounded operator-necessity judgment, not an observed substitution rate.",
+        "A customer may switch plants without eliminating operator-required demand; the construct concerns the service basket, not incumbent retention.",
+        "High automation still requires accountable plant and food-safety management."
+      ]
+    }
+  },
+  "narrative": {
+    "executive_view": "Independent soft-drink co-packers are the coherent target, not the full branded and franchise bottling industry. Their repetitive, sensor-rich production and document-heavy QA, planning, order, and maintenance workflows support targeted AI implementation, while physical production and food-safety accountability remain durable. The central commercial constraint is transparent, frequently renegotiated pricing that can pass direct-cost savings back to brand customers.",
+    "ai_impact": "AI can improve production and material scheduling, forecast demand, process purchase orders and invoices, extract specifications, support batch and preventive-control records, triage inspection images, diagnose downtime, and draft investigations or customer responses. It is less able to replace sanitation, line changeovers, maintenance execution, physical handling, blending, packaging, and final QA accountability. Deployment depends on clean plant data and integration with MES, ERP, CMMS, lab, and line-control systems.",
+    "value_capture": "Benefits in overhead, avoided hiring, reduced scrap, better yields, uptime, and working capital can initially accrue to the operator. Direct-cost-plus-margin agreements, documented cost-change clauses, volume discounts, open-book audits, and competitive rebids can rapidly share savings with customers. Scarce compatible capacity, customer switching cost, and fixed-price periods improve capture, but the working estimate assumes procurement eventually recovers much of the visible benefit.",
+    "firm_availability": "Brand filings confirm material reliance on co-packers, yet the number of independent LMM suppliers is obscured by integrated bottlers, captive systems, and own-brand manufacturers within 312111. Qualifying control-transfer evidence is not available with a reliable denominator. Any target must be screened for change-of-control consents, customer concentration, line ownership, formula and tooling rights, equipment condition, and a clean regulatory and recall history.",
+    "demand_durability": "Mature sparkling volume is broadly flat, with growth shifting among zero-sugar, energy, functional, and flavored formats. Outsourcing remains valuable for brands that need flexible capacity, geographic coverage, specialized packages, or launches without owning plants. Program-level demand is volatile: brands can fail, redesign packages, shift co-packers, bring volume in-house, or require unplanned capital even when aggregate beverage consumption is stable.",
+    "risks_and_uncertainty": "The largest gaps are the eligible-firm denominator, private transfer rate, contract-term distribution, and actual soft-drink co-packer task mix. Additional risks include concentrated customers, formula or package complexity, aluminum and ingredient volatility, low utilization, short production runs, food-safety failures, recalls, aging lines, wastewater constraints, weak cybersecurity, and customer-funded equipment that may leave at termination.",
+    "principal_driver": "Recurring physical production cannot become software-only, while planning, records, quality triage, forecasting, and maintenance offer repeatable AI-assisted efficiency.",
+    "principal_weakness": "Cost-plus and open-book beverage contracts can directly pass productivity to customers, and the eligible independent co-packer population is not observed."
+  },
+  "sources": [
+    {
+      "id": "S1",
+      "url": "https://www.census.gov/naics/?details=31211&input=31211&year=2022",
+      "title": "2022 NAICS Definition: 312111 Soft Drink Manufacturing",
+      "access_date": "2026-07-22",
+      "supports": "Official definition that 312111 comprises establishments manufacturing soft drinks and artificially carbonated waters, distinct from bottled water manufacturing."
+    },
+    {
+      "id": "S2",
+      "url": "https://www.bls.gov/oes/2023/may/naics4_312100.htm",
+      "title": "May 2023 National Industry-Specific Occupational Employment and Wage Estimates: NAICS 312100",
+      "access_date": "2026-07-22",
+      "supports": "Broader beverage occupation mix, including 21.59% production, 5.29% installation/maintenance, 5.33% management, 4.68% office/administrative, 3.48% business/financial, and 26.40% food-preparation/serving employment."
+    },
+    {
+      "id": "S3",
+      "url": "https://www.census.gov/library/stories/2026/05/ai-use-businesses.html",
+      "title": "Large Firms With at Least 20 Employees Biggest AI Users",
+      "access_date": "2026-07-22",
+      "supports": "BTOS evidence of 17%-20% current business AI use from December 2025 to May 2026, 20%-23% expected six-month use, and higher usage at larger firms."
+    },
+    {
+      "id": "S4",
+      "url": "https://www.nist.gov/mep/rise-artificial-intelligence-ai-us-manufacturing-text-only",
+      "title": "The Rise of Artificial Intelligence in U.S. Manufacturing: Text Only",
+      "access_date": "2026-07-22",
+      "supports": "Manufacturing AI uses in predictive maintenance, quality, demand forecasting, document management, supply chain, and scheduling, plus adoption evidence and barriers involving data, cost, skills, cybersecurity, and legacy systems."
+    },
+    {
+      "id": "S5",
+      "url": "https://www.fda.gov/food/food-safety-modernization-act-fsma/fsma-final-rule-preventive-controls-human-food",
+      "title": "FSMA Final Rule for Preventive Controls for Human Food",
+      "access_date": "2026-07-22",
+      "supports": "Registered food facilities generally require written food-safety plans, hazard analysis, preventive controls, monitoring, corrective actions, verification, documented records, supply-chain controls where applicable, and recall plans."
+    },
+    {
+      "id": "S6",
+      "url": "https://www.federalreserve.gov/Releases/g17/20260316/table1a_sup.htm",
+      "title": "Industrial Production: Industry Subtotals and Individual Series, March 2026",
+      "access_date": "2026-07-22",
+      "supports": "Seasonally adjusted soft-drink-and-ice production index values of 94.1, 94.3, 95.2, and 94.2 in September-December 2025 and 97.3 and 99.4 in January-February 2026, with 2017=100."
+    },
+    {
+      "id": "S7",
+      "url": "https://www.coca-colacompany.com/media-center/coca-cola-reports-fourth-quarter-and-full-year-2025-results",
+      "title": "Coca-Cola Reports Fourth Quarter and Full Year 2025 Results",
+      "access_date": "2026-07-22",
+      "supports": "Global 2025 sparkling soft-drink unit volume was even; Coca-Cola Zero Sugar grew 14%, sparkling flavors declined 1%, and total price/mix grew 4%."
+    },
+    {
+      "id": "S8",
+      "url": "https://www.sec.gov/Archives/edgar/data/865752/000110465926020831/mnst-20251231x10k.htm",
+      "title": "Monster Beverage Corporation 2025 Form 10-K",
+      "access_date": "2026-07-22",
+      "supports": "A majority of nonalcohol finished goods are made by third-party bottlers and co-packers; arrangements vary and may include minimum quantities, customer-funded equipment, per-case credits, and capacity limitations."
+    },
+    {
+      "id": "S9",
+      "url": "https://www.sec.gov/Archives/edgar/data/1083522/000164117225001951/form10-k.htm",
+      "title": "Reed's, Inc. 2024 Form 10-K",
+      "access_date": "2026-07-22",
+      "supports": "Brand dependence on third-party bottlers and independent co-packers, intense competition for co-packing capacity, terminable agreements, demand-planning risk, and contract-manufacturer charges that can rise with costs."
+    },
+    {
+      "id": "S10",
+      "url": "https://www.sec.gov/Archives/edgar/data/1670869/000166357719000090/ex10_1.htm",
+      "title": "Beverage Manufacturing Agreement filed with the SEC",
+      "access_date": "2026-07-22",
+      "supports": "Observed contract example with a 75% markup on direct costs, possible lower markup at higher volume, direct-cost-plus-margin invoicing, verified cost-increase pass-through, and direct pass-through of material cost decreases."
+    }
+  ]
+}
