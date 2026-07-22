@@ -1,7 +1,8 @@
 # v5 Plan — to completion
 
-**Companion to:** [pipeline/v5/methodology.md](pipeline/v5/methodology.md) (frozen at `9c8d5ad`, gate hardened at `0bfcde8`, branch `codex/v5`).
+**Companion to:** [pipeline/v5/methodology.md](pipeline/v5/methodology.md) (frozen at `9c8d5ad`, gate hardened at `0bfcde8`; developed on historical branch `codex/v5`, merged to `main`).
 **Replaces:** [V3_PLAN.md](V3_PLAN.md) as the working tracker; V3_PLAN, V3_PRODUCT, and V3_PLAYBOOK remain historical records of the shipped v3.1.2 product.
+**Campaign status:** closed on 2026-07-22; final ledger in [V5_CLOSURE_REPORT.md](V5_CLOSURE_REPORT.md).
 **Status legend:** `[ ]` todo · `[x]` done · `[~]` in progress. Update checkboxes as work lands.
 
 Standing rules for every phase: simplicity first; models own research and
@@ -43,7 +44,7 @@ fails only for systemic construct errors, misleading evidence treatment,
 broken mechanics, or results useless for prioritization — not because
 estimates remain or ranges cross tiers.
 
-## Phase 3 — Fleet (63 codes) · the bulk of the work
+## Phase 3 — Fleet (63 codes) · done
 
 - [x] 3.1 Run the remaining 58 codes in waves (~10 per wave), one independent research session per code
 - [x] 3.2 After each wave: `check` every run, commit the validated wave (v3 lesson: an outage may only cost one wave)
@@ -56,7 +57,7 @@ estimates remain or ranges cross tiers.
 **Result:** done. The fail-closed build published 63/63 with zero exclusions.
 Counts and remediation details are recorded in `V5_PHASE3_REPORT.md`.
 
-## Phase 4 — Dashboard, docs, and repo hygiene · ~1–2 days
+## Phase 4 — Dashboard, docs, and repo hygiene · done
 
 - [x] 4.1 Point the `6digit` dashboard at `six_data_v5.json`: tier + interval + readiness/action badges, factor chain → primitives → rationale → sources → caveats → validator findings → `change_evidence`; memo as the primary readable explanation
 - [x] 4.2 Replace the v4 adapter view; v3/v4 JSON and documents remain archived comparisons, not live dashboard columns
@@ -69,13 +70,17 @@ Counts and remediation details are recorded in `V5_PHASE3_REPORT.md`.
 packet and validator evidence through each source, and the generated README
 identifies the governing v5 documents and historical artifacts.
 
-## Phase 5 — Close and maintain · ~half a day
+## Phase 5 — Close and maintain · done
 
-- [ ] 5.1 Campaign closure note: attempted/reviewed/remediated/published/excluded counts, tier and readiness distributions, the calibration-diff verdict from 2.4
-- [ ] 5.2 Refresh cadence stated in README: dataset vintages on new SUSB/QCEW releases (annual); market-sensitive evidence stale after ~12 months → new run series, same methodology
-- [ ] 5.3 Final push; v5 campaign closed
+- [x] 5.1 Campaign closure note: attempted/reviewed/remediated/published/excluded counts, tier and readiness distributions, the calibration-diff verdict from 2.4
+- [x] 5.2 Refresh cadence stated in README: rebuild for newer applicable SUSB/QCEW vintages; market-sensitive evidence stale after ~12 months → new run series, same methodology
+- [x] 5.3 Final push; v5 campaign closed
 
 **Done when:** the closure note is committed and the repo needs no session context to understand.
+
+**Result:** done. `V5_CLOSURE_REPORT.md` is the final campaign ledger; README
+records the immutable-artifact and refresh policy. The complete reviewed fleet
+remains published through the fail-closed v5 build.
 
 ---
 
@@ -92,9 +97,9 @@ alter v5 while it runs.
   assumptions are validated). Target-level evidence, separate methodology;
   the screen's `change_evidence` fields are its shopping list.
 - **Dataset upgrade:** observed-quality LMM firm counts (today every `n_band`
-  is a margin-bridged estimate, so readiness is uniformly
-  `MODEL_CONDITIONED`). Better data differentiates readiness with zero code
-  changes.
+  is a margin-bridged estimate, so all 61 scored records are
+  `MODEL_CONDITIONED`; the two base-input gaps are `STRESS_TEST_ONLY`). Better
+  data differentiates readiness with zero code changes.
 
 ## Cost and calendar (rough)
 

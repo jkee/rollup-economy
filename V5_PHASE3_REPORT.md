@@ -1,6 +1,7 @@
 # v5 Phase 3 fleet report
 
-**Status:** complete on 2026-07-22. Phase 4 has not started.
+**Status:** complete on 2026-07-22. This report captures the Phase 3 gate before
+the subsequently completed dashboard, documentation, and closure phases.
 
 Victor approved the Phase 2 gate before the first fleet wave launched. The
 remaining 58 codes were researched in independent sessions, finalized with the
