@@ -1,0 +1,190 @@
+{
+  "identity": {
+    "naics": "522110",
+    "title": "Commercial Banking",
+    "run_id": "522110-a1-20260722",
+    "model_id": "claude-sonnet-5",
+    "run_date": "2026-07-22",
+    "methodology_version": "5.1",
+    "attempt": 1
+  },
+  "lens": {
+    "included_activities": "US lower-middle-market commercial banks providing recurring deposit, transaction-account, payment, cash-management, commercial and consumer lending, and related relationship-banking services to external households and businesses under a bank charter.",
+    "excluded_activities": "Central banks, credit unions, savings institutions, nondepository lenders, securities firms, trust-only institutions, captive finance units, shells, non-control financing vehicles, money-center institutions outside the approximate $1-10M normalized EBITDA band, and operations without a transferable chartered customer franchise.",
+    "customer_and_revenue_model": "Banks earn net interest income from the spread between loans and other earning assets and deposits or other funding, plus account, payment, card, treasury-management, origination, servicing, and other fees; customer relationships are recurring and control transfers require regulatory approval.",
+    "deviation_from_default": "none",
+    "heterogeneous": false
+  },
+  "primitives": {
+    "a": {
+      "evidence_state": "PROXY",
+      "low": 0.3,
+      "base": 0.45,
+      "high": 0.6,
+      "bridge": "BLS reports employment and wages for broad NAICS 522000 Credit Intermediation and Related Activities rather than wage-weighted task exposure in 522110, while GAO documents financial-institution AI uses and risks. I assign high exposure to teller transactions, customer-service triage, document intake, data entry, reconciliation, monitoring, routine underwriting support, compliance review, fraud-alert triage, reporting, marketing, and internal knowledge work; moderate exposure to credit analysis and relationship support; and low exposure to accountable credit decisions, complex relationship origination, governance, cybersecurity response, and executive risk judgment. The broader industry includes noncommercial-bank activities and employment shares are not task hours, which can move the estimate in either direction.",
+      "rationale": "In May 2023, broad credit intermediation had 2.59 million jobs: office and administrative support was 39.76%, business and financial operations 26.16%, sales 13.26%, management 11.70%, and computer and mathematical work 7.66%. Tellers alone were 12.74%, customer service representatives 6.71%, and loan officers 10.22%. GAO identifies AI use in credit decisions, customer service, trading, fraud, compliance, and risk management, supporting meaningful exposure while leaving high-stakes decisions accountable to bank staff.",
+      "change_evidence": "An exact-522110 time-and-wage study segmented by bank asset size and function, with current automation, task exposure, review requirements, and avoided hiring for branches, operations, lending, risk, compliance, technology, and relationship management, would replace this proxy.",
+      "source_ids": ["S1", "S2"],
+      "caveats": [
+        "OEWS covers all credit intermediation and related activities, all employer sizes, and jobs rather than task hours or exact commercial banks.",
+        "Many teller and service transactions are already digitized, so current occupation shares can overstate not-yet-automated opportunity.",
+        "Credit, compliance, fraud, cybersecurity, and customer communications require controls and human accountability even when AI assists."
+      ]
+    },
+    "rho": {
+      "evidence_state": "PROXY",
+      "low": 0.4,
+      "base": 0.6,
+      "high": 0.78,
+      "bridge": "GAO and the ABA describe current financial-services AI applications and bank implementation behavior, not the five-year share of exposed labor opportunity implemented in LMM commercial banks. I translate existing use in service, credit, fraud, compliance, analytics, document review, research, and internal communications into broad but controlled five-year deployment. Smaller-bank vendor dependence, legacy cores, data readiness, model risk, fair-lending duties, privacy, cybersecurity, third-party risk, validation, and regulatory uncertainty push implementation down; rapid embedding by core and software vendors can push it up.",
+      "rationale": "ABA reports uneven and cautious bank engagement, with traditional AI relatively mature and generative AI early, low-risk human-support applications prioritized, and data, governance, regulatory, and security constraints prominent. GAO reports benefits alongside bias, privacy, cyber, hallucination, data-quality, model, and third-party risks. Five years supports substantial use in bounded workflows but not autonomous capture of the full exposed opportunity.",
+      "change_evidence": "A longitudinal survey of US community and lower-middle-market commercial banks measuring production deployment by workflow, users, transaction coverage, exception rates, model incidents, regulatory findings, vendor integration, and labor hours avoided would materially change the range.",
+      "source_ids": ["S2", "S3"],
+      "caveats": [
+        "The ABA findings are qualitative and do not provide a representative implementation-depth statistic by bank size.",
+        "GAO covers financial services broadly, including securities and credit unions, rather than exact NAICS 522110.",
+        "Vendor deployment does not guarantee workflow adoption, reliable output, or removable labor."
+      ]
+    },
+    "e": {
+      "evidence_state": "ESTIMATE",
+      "low": 0.62,
+      "base": 0.8,
+      "high": 0.92,
+      "rationale": "Commercial banks generally provide recurring external deposit, payment, lending, and relationship services and can undergo regulated control transfers. The discount covers institutions in the frozen size-derived count that do not actually fit the normalized EBITDA band, special-purpose or captive operations, entities without a transferable local franchise, and banks whose charter, capital, ownership, or regulatory condition makes a control transaction impractical. FDIC reported 3,815 commercial banks at year-end 2025, but the injected 2,033 LMM count is margin-bridged using a non-bank EBITDA margin because EBITDA is not meaningful for banks, so eligibility is especially uncertain.",
+      "change_evidence": "A bank-level match of the injected population to FDIC call reports, charters, ownership, normalized pre-provision earnings, capital, enforcement status, deposit franchise, and control-transfer feasibility would materially change the eligible share.",
+      "source_ids": ["S4"],
+      "caveats": [
+        "The frozen n estimate applies a non-bank EBITDA margin to banks even though bank economics are balance-sheet and spread driven; the inferred $1-10M band may be materially misleading.",
+        "FDIC institution counts do not identify which banks fall within the screen's normalized economic band.",
+        "A chartered bank may serve external customers yet still be captive, special purpose, mutually owned, or impractical to acquire."
+      ]
+    },
+    "s5": {
+      "evidence_state": "PROXY",
+      "low": 0.1,
+      "base": 0.19,
+      "high": 0.3,
+      "bridge": "The Federal Reserve reports approved M&A applications across bank holding companies, state member banks, savings and loan holding companies, foreign banking organizations, and other applicants, not unique qualifying control transfers among eligible 522110 LMM firms. It approved 145 M&A applications in 2025 versus 99 in 2024. FDIC found voluntary unaffiliated mergers were the primary cause of institution decline in 2012-2019, when community banks fell from 6,802 to 4,750. Applications can double-count transaction structures or include noncommercial-bank entities, while Federal Reserve jurisdiction misses some transactions; converting this activity to a five-year firm probability supports a material minority range rather than treating applications as a direct numerator.",
+      "rationale": "Bank consolidation is persistent, regulatory burden contributes to scale economies, and 2025 M&A application approvals increased. Regulatory review, capital and credit conditions, mutual structures, integration risk, and the distinction between applications and completed control sales keep the five-year probability below a majority.",
+      "change_evidence": "FDIC and Federal Reserve transaction-level data matched to unique eligible commercial-bank charters, with announcement and closing dates, control status, seller earnings, asset size, ownership form, withdrawals, failures, and internal reorganizations removed, would materially tighten the range.",
+      "source_ids": ["S5", "S6"],
+      "caveats": [
+        "Federal Reserve M&A applications cover multiple regulated entity types and are not a one-for-one count of completed commercial-bank control transfers.",
+        "The FDIC structural study ends in 2019 and reports institution decline, not a current five-year hazard for the injected LMM population.",
+        "The eligible denominator is uncertain because the frozen bank n estimate uses non-bank EBITDA economics."
+      ]
+    },
+    "q": {
+      "evidence_state": "ESTIMATE",
+      "low": 0.32,
+      "base": 0.56,
+      "high": 0.76,
+      "rationale": "Bank pricing is largely spread- and fee-based rather than cost-plus, so reduced processing, service, compliance, fraud-review, underwriting-support, and reporting cost can initially accrue to the operator. Retention is discounted for competition on loan spreads and deposit rates, customer-service reinvestment, vendor and model-governance cost, regulatory capital and compliance requirements, shared fraud savings, and the possibility that productivity expands capacity rather than payroll reduction. The January 2026 lending survey found competition drove easing by some banks, illustrating repricing pressure.",
+      "change_evidence": "Matched bank cohorts with AI implementation cost, noninterest expense by function, headcount, loss and fraud outcomes, loan spreads, deposit betas, fee changes, customer attrition, and renewal pricing over five years would materially change the estimate.",
+      "source_ids": ["S2", "S7"],
+      "caveats": [
+        "No source directly measures the retained share of implemented AI benefit in commercial banks.",
+        "Benefits may appear as faster decisions, loss avoidance, control improvement, or capacity rather than removable expense.",
+        "Loan and deposit competition can pass efficiency to customers even without contractual pass-through."
+      ]
+    },
+    "d5": {
+      "evidence_state": "PROXY",
+      "low": 0.97,
+      "base": 1.1,
+      "high": 1.23,
+      "bridge": "BLS projects chained-2017-dollar output for the combined monetary-authority and credit-intermediation sector from $1,015.0 billion in 2024 to $1,264.9 billion in 2034, a 2.2% annual increase; the square root of that ten-year ratio is about 1.116 over five years. The population includes central banking, nondepository credit, and related activities rather than exact 522110. FDIC community-bank assets and loans grew in 2025, while the January 2026 SLOOS found stronger recent large and middle-market C&I demand and expected strengthening across loan categories in 2026. Broad output may overstate commercial-bank demand if nonbanks gain share, or understate franchise demand if deposit and payment activity expands.",
+      "rationale": "Recurring deposits, payments, credit, and treasury services remain needed, and current official indicators show asset and loan growth plus near-term loan-demand strength. The base is slightly below the broad real-output transformation to allow continued nonbank competition and interest-rate cyclicality, with a low capturing recession or disintermediation and a high capturing sustained credit and payment growth.",
+      "change_evidence": "Exact-522110 constant-price revenue, account, payment, deposit, and loan-volume series by bank size, combined with five-year Federal Reserve and FDIC forecasts and nonbank share shifts, would materially tighten the range.",
+      "source_ids": ["S4", "S7", "S8"],
+      "caveats": [
+        "The BLS output series combines monetary authorities and credit intermediation rather than isolating commercial banks.",
+        "FDIC balance-sheet growth is nominal and does not directly measure constant-price, constant-quality service demand.",
+        "SLOOS is a short-horizon survey of 60 domestic banks and cannot anchor a five-year quantity ratio by itself."
+      ]
+    },
+    "o": {
+      "evidence_state": "ESTIMATE",
+      "low": 0.62,
+      "base": 0.8,
+      "high": 0.92,
+      "rationale": "Software and nonbank providers can self-serve payments, basic account interactions, underwriting intake, budgeting, and some credit distribution, reducing branch and manual-service content. However, insured deposit taking, charter accountability, balance-sheet lending, capital and liquidity management, fair-lending compliance, fraud responsibility, and relationship decisions continue to require an accountable bank operator. FDIC evidence that community banks hold disproportionate shares of small-business, CRE, and agricultural lending supports persistence of local operator relationships, while GAO's account of AI risks supports ongoing human and institutional accountability.",
+      "change_evidence": "Customer-flow and regulatory data measuring deposits, payments, and credit fully shifted from commercial banks to nonbanks, embedded finance, decentralized systems, or autonomous software, along with charter changes and loss outcomes, would materially change the range.",
+      "source_ids": ["S2", "S6"],
+      "caveats": [
+        "The operator-required share is not the human-labor share; highly automated banks can still be accountable operators.",
+        "Fintechs may own the interface while a chartered bank remains the regulated balance-sheet or deposit operator.",
+        "Service mix varies materially across community, regional, retail, and commercial-focused banks."
+      ]
+    }
+  },
+  "narrative": {
+    "executive_view": "Commercial banking combines a large administrative and analytical workforce with recurring spread- and fee-based customer relationships. AI can improve service, document, risk, fraud, compliance, and credit-support workflows, but legacy cores, regulation, model risk, and intense pricing competition constrain implementation and capture.",
+    "ai_impact": "AI can triage service requests, summarize policies and files, extract documents, monitor transactions, flag fraud and anomalies, support underwriting and portfolio review, draft reports, test compliance, retrieve knowledge, and assist staff. Accountable credit, fair-lending, risk, cyber, governance, and complex relationship decisions remain with the bank.",
+    "value_capture": "Efficiency is not contractually passed through in most banking products and can support lower noninterest expense, loss avoidance, or additional capacity. Loan-spread and deposit-rate competition, vendor costs, control requirements, and service reinvestment erode durable retention.",
+    "firm_availability": "Thousands of commercial and community banks remain, and regulated M&A is persistent. The decisive uncertainty is that the injected LMM count uses a non-bank EBITDA margin even though bank earnings are not well represented by EBITDA, so target-band membership needs bank-level reconstruction.",
+    "demand_durability": "Deposits, payments, credit, and cash-management services remain durable, with recent loan growth and near-term demand expectations supportive. Cycles, nonbank competition, embedded finance, and digital self-service can shift volume and economics without eliminating chartered-bank accountability.",
+    "risks_and_uncertainty": "A weak outcome would combine a misleading target count, expensive core integration, vendor dependence, regulatory or model failures, limited removable headcount, aggressive deposit and loan repricing, credit losses, and customer migration to larger banks or nonbanks. Exact task exposure, implementation depth, retention, and target eligibility remain unobserved.",
+    "principal_driver": "Information-heavy recurring banking workflows and spread- or fee-based revenue create multiple avenues for AI-assisted efficiency and service capacity.",
+    "principal_weakness": "The frozen LMM firm count rests on non-bank EBITDA economics, while regulation, legacy technology, and competition can prevent technical productivity from becoming transferable cash flow."
+  },
+  "sources": [
+    {
+      "id": "S1",
+      "url": "https://www.bls.gov/oes/2023/may/naics3_522000.htm",
+      "title": "May 2023 National Industry-Specific Occupational Employment and Wage Estimates: Credit Intermediation and Related Activities",
+      "access_date": "2026-07-22",
+      "supports": "Broad credit-intermediation employment, occupational shares, and wages used to structure the task-exposure proxy."
+    },
+    {
+      "id": "S2",
+      "url": "https://files.gao.gov/reports/GAO-25-107197/index.html",
+      "title": "Artificial Intelligence: Use and Oversight in Financial Services",
+      "access_date": "2026-07-22",
+      "supports": "Financial-institution AI applications, efficiency and service benefits, and bias, privacy, cyber, data-quality, model, third-party, and accountability constraints."
+    },
+    {
+      "id": "S3",
+      "url": "https://bankingjournal.aba.com/2026/03/aba-survey-banks-view-doing-nothing-with-ai-as-greatest-risk/",
+      "title": "ABA survey: Banks view doing nothing with AI as greatest risk",
+      "access_date": "2026-07-22",
+      "supports": "Bank AI adoption posture, priority low-risk use cases, productivity observations, and governance, data, regulatory, and information-security constraints."
+    },
+    {
+      "id": "S4",
+      "url": "https://www.fdic.gov/quarterly-banking-profile/quarterly-banking-profile-fourth-quarter-2025.pdf",
+      "title": "FDIC Quarterly Banking Profile, Fourth Quarter 2025",
+      "access_date": "2026-07-22",
+      "supports": "Commercial-bank and community-bank institution counts, employment, assets, deposits, loans, and recent balance-sheet activity."
+    },
+    {
+      "id": "S5",
+      "url": "https://www.federalreserve.gov/publications/2026-june-supervision-and-regulation-report-bank-applications-and-MA.htm",
+      "title": "Federal Reserve Supervision and Regulation Report: Bank Applications and M&A",
+      "access_date": "2026-07-22",
+      "supports": "2023-2025 regulated application activity and approved merger-and-acquisition applications."
+    },
+    {
+      "id": "S6",
+      "url": "https://www.fdic.gov/news/press-releases/2020/pr20139.html",
+      "title": "FDIC Releases New 2020 Community Banking Study",
+      "access_date": "2026-07-22",
+      "supports": "Community-bank consolidation, voluntary unaffiliated mergers, regulatory scale pressure, technology adoption context, and relationship-lending importance."
+    },
+    {
+      "id": "S7",
+      "url": "https://www.federalreserve.gov/data/sloos/sloos-202601.htm",
+      "title": "January 2026 Senior Loan Officer Opinion Survey on Bank Lending Practices",
+      "access_date": "2026-07-22",
+      "supports": "Recent and expected loan demand, competitive pricing pressure, and survey population used as demand and retention context."
+    },
+    {
+      "id": "S8",
+      "url": "https://www.bls.gov/emp/tables/industry-employment-and-output.htm",
+      "title": "Employment and Output by Industry, 2024-2034",
+      "access_date": "2026-07-22",
+      "supports": "Broad monetary-authority and credit-intermediation chained-2017-dollar output projection used for the five-year demand proxy."
+    }
+  ]
+}

@@ -1,0 +1,203 @@
+{
+  "identity": {
+    "naics": "524127",
+    "title": "Direct Title Insurance Carriers",
+    "run_id": "524127-a1-20260722",
+    "model_id": "claude-sonnet-5",
+    "run_date": "2026-07-22",
+    "methodology_version": "5.1",
+    "attempt": 1
+  },
+  "lens": {
+    "included_activities": "Privately controllable direct title insurance carriers in the lower-middle-market EBITDA band that repeatedly underwrite owner or lender title policies for external real-estate customers and institutional referral channels, including their carrier-operated title examination, commitment, policy, escrow, closing, and claims workflows.",
+    "excluded_activities": "Independent title agents and abstractors that do not bear policy risk, law firms issuing attorney opinions, captive internal title units, reinsurers, passive holding companies, software vendors, public title-guaranty programs, and entities without transferable control economics.",
+    "customer_and_revenue_model": "A carrier generally earns a one-time premium when a property is purchased or refinanced, often through affiliated or non-affiliated title agents; related search, examination, escrow, and closing fees may be bundled or separately charged. Repeat volume comes from lenders, agents, attorneys, builders, and transaction channels rather than recurring premiums on the same policy.",
+    "deviation_from_default": "none",
+    "heterogeneous": false
+  },
+  "primitives": {
+    "a": {
+      "evidence_state": "PROXY",
+      "low": 0.45,
+      "base": 0.62,
+      "high": 0.75,
+      "bridge": "O*NET describes title examiners, abstractors, and searchers employed by title companies and related firms, not the wage-weighted occupation mix of direct title carriers. I map record retrieval, document classification, chain-of-title assembly, lien and exception extraction, comparison, report drafting, commitment preparation, policy production, file checking, scheduling, and routine communications to exposed work. I retain legal interpretation, ambiguous exception resolution, fraud investigation, escrow control, closing accountability, underwriting approval, and claims judgment as less exposed. The proxy may overstate exposure where local records are incomplete or non-digitized and understate it in standardized high-volume residential files.",
+      "rationale": "The production workflow is unusually document- and search-intensive, with repeat patterns across deeds, liens, mortgages, judgments, maps, and recorded instruments. AI can accelerate retrieval, extraction, comparison, summarization, and quality control, but title defects are sparse, consequential, jurisdiction-specific, and vulnerable to fraud, preserving expert review.",
+      "change_evidence": "A wage-weighted time study across at least 20 direct title carriers, separated into residential and commercial files, measuring current automation and time spent on search, examination, curative work, commitment and policy production, escrow, closing, claims, compliance, sales, and management.",
+      "source_ids": ["S2", "S3", "S5"],
+      "caveats": [
+        "The occupation proxy includes title agencies, law firms, and real-estate service employers, not only risk-bearing carriers.",
+        "County-level record quality, digitization, indexing, and legal practice vary widely.",
+        "A fast document review does not remove responsibility for missed defects, escrow errors, fraud, or underwriting exceptions."
+      ]
+    },
+    "rho": {
+      "evidence_state": "PROXY",
+      "low": 0.4,
+      "base": 0.58,
+      "high": 0.72,
+      "bridge": "NAIC documents AI uses and governance expectations across insurance generally, while Fannie Mae attributes the viability of attorney title opinions partly to widespread digitization of real-estate records and technological advances. Neither source measures five-year implementation of exposed work at LMM direct title carriers. I translate the highly digital workflow into above-median implementation but discount fragmented public records, legacy title plants, integration cost, low-volume jurisdictions, model-error liability, cybersecurity, wire fraud, state rules, and mandatory human approval. Large national underwriters likely implement faster than the LMM subset, biasing broad insurance evidence upward.",
+      "rationale": "Commercial tools can be inserted into search, extraction, file assembly, exception spotting, and quality assurance without delegating final underwriting authority. Implementation should be slower in complex commercial chains, curative work, probate, litigation, and fraud-sensitive escrow or closing activity.",
+      "change_evidence": "A 2026 baseline and annual carrier panel reporting production AI by workflow, share of orders touched, title-plant coverage, exception and override rates, missed-defect claims, cycle time, human-review minutes, and verified labor hours avoided.",
+      "source_ids": ["S4", "S10"],
+      "caveats": [
+        "No direct-title-carrier AI adoption survey was found.",
+        "Digitized records make automation feasible but do not establish production implementation or error tolerance.",
+        "Escrow, closing, and policy decisions face different implementation constraints from document retrieval."
+      ]
+    },
+    "e": {
+      "evidence_state": "ESTIMATE",
+      "low": 0.22,
+      "base": 0.45,
+      "high": 0.68,
+      "rationale": "True direct carriers fit the risk-bearing external-service lens, but the industry is concentrated in a small number of large underwriting families, while much local operating activity sits in title agencies rather than carrier entities. Eligibility is reduced for affiliated legal entities that cannot transfer independently, public or mutual ownership, inactive or runoff licenses, and firms for which statutory capital and agency economics make the dataset's receipts-derived EBITDA classification unreliable.",
+      "change_evidence": "Reconcile all 92 dataset firms to NAIC company codes, active certificates of authority, 2025 direct premiums and policies, family ownership, affiliated-agent relationships, statutory surplus, operating status, normalized earnings, and independent transferability.",
+      "source_ids": ["S1", "S6", "S7", "S9"],
+      "caveats": [
+        "The ten largest individual underwriters represented most 2025 premium, but concentration does not directly reveal the eligible share of the dataset's LMM firms.",
+        "Title agents and abstractors may appear operationally similar but belong outside this direct-carrier code and lens.",
+        "The dataset's general-insurance EBITDA margin bridge may not align with title-carrier statutory and agency economics."
+      ]
+    },
+    "s5": {
+      "evidence_state": "ESTIMATE",
+      "low": 0.03,
+      "base": 0.08,
+      "high": 0.15,
+      "rationale": "A qualifying independent title carrier can be acquired or merged, but the concentrated family structure leaves fewer standalone targets and carrier control transfers require domiciliary-state Form A filings and regulatory approval. Agency acquisitions and changes in underwriting relationships are more common-looking events but do not necessarily transfer control of the risk-bearing carrier and are excluded.",
+      "change_evidence": "A five-year census of NAIC Form A filings, statutory ownership changes, and S&P Capital IQ or PitchBook deals matched to the eligible carrier list, hand-coded to exclude agency-only purchases, intra-family reorganizations, portfolios, and licenses without a continuing operating business.",
+      "source_ids": ["S7"],
+      "caveats": [
+        "No observed five-year control-transfer rate for independent LMM title carriers was found.",
+        "The visible transaction market often concerns title agencies or technology vendors rather than direct carriers.",
+        "Announced transactions may not receive regulatory approval or close."
+      ]
+    },
+    "q": {
+      "evidence_state": "ESTIMATE",
+      "low": 0.28,
+      "base": 0.48,
+      "high": 0.68,
+      "rationale": "Per-order labor savings can be retained through a one-time premium or closing fee, additional capacity, and faster turnaround. Retention is limited by state rate filing or approval regimes, customer shopping, lender and agent bargaining, affiliated and non-affiliated agent compensation, and the possibility that technology-enabled attorney opinions offer lower-cost substitutes. NAIC reports that amounts paid to or retained by title agents represented 72.6% of 2025 operating expense, limiting the share of carrier-level workflow savings that reaches the consolidated operator.",
+      "change_evidence": "Order-level evidence from at least 15 carriers linking implemented labor savings to title and closing charges, agent splits, filed rates, concessions, cycle time, conversion, claims, and contribution margin over renewal relationships and transaction cohorts for five years.",
+      "source_ids": ["S3", "S8", "S9", "S10"],
+      "caveats": [
+        "State title-rate systems and the mix of premium, search, escrow, and closing charges vary materially.",
+        "The NAIC expense split is industry-wide and does not isolate the LMM carrier subset or AI savings.",
+        "One-time transaction pricing makes customer and channel sharing different from renewal repricing in recurring-premium insurance."
+      ]
+    },
+    "d5": {
+      "evidence_state": "PROXY",
+      "low": 0.78,
+      "base": 1.08,
+      "high": 1.35,
+      "bridge": "NAIC reports 2025 title policy count increasing 8.0% to 13.6 million, with residential policies up 8.3% and non-residential policies up 5.3%, while housing starts, permits, and completions were mixed or declining. These are one-year transaction and construction indicators, not a five-year constant-price forecast for the current service basket. I use the policy rebound as evidence that demand can recover with purchases, refinancings, and commercial transactions, but widen the range for mortgage rates, affordability, inventory, construction, and refinancing cycles. A rebound year may overstate trend growth; a depressed starting market may make flat extrapolation conservative.",
+      "rationale": "Title demand is tied to real-estate transfers and mortgage origination rather than the installed stock of policies. A normalization of transaction and refinancing volumes can lift orders, while persistently high rates, constrained inventory, recession, or broader use of title alternatives can keep volume below current levels.",
+      "change_evidence": "A five-year cohort forecast combining NAIC policy counts by channel, MBA purchase and refinance originations, NAR existing-home sales, Census new-home sales and completions, commercial transaction counts, and state-level title alternative adoption, all normalized to constant quality.",
+      "source_ids": ["S6", "S9"],
+      "caveats": [
+        "The 2025 increase follows a volatile mortgage and transaction cycle and is not a stable growth rate.",
+        "Premium growth exceeds policy-count growth and therefore cannot be read as constant-price demand.",
+        "Residential, refinance, new construction, and commercial title volumes have different drivers."
+      ]
+    },
+    "o": {
+      "evidence_state": "ESTIMATE",
+      "low": 0.75,
+      "base": 0.9,
+      "high": 0.97,
+      "rationale": "Most financed transactions still use an accountable title insurer or other regulated professional to examine title, clear exceptions, support closing, and stand behind defects. Software can self-serve parts of search and production but not eliminate responsibility. Substitution is real because Fannie Mae permits attorney title opinion letters for eligible purchases and refinances and reports meaningful borrower savings; cash transactions, public guaranty systems, and future alternatives can also bypass a conventional carrier.",
+      "change_evidence": "Loan-level GSE and private-market data on the share of purchases and refinances using attorney opinions or other title alternatives, cash-sale coverage rates, lender acceptance, defect losses, state restrictions, and the share of files completed without a direct title carrier.",
+      "source_ids": ["S5", "S10"],
+      "caveats": [
+        "No national adoption share for attorney title opinions or other alternatives was found.",
+        "An attorney opinion still requires an accountable professional and may use an insurance wrapper, but it can remove the direct title carrier from the current service basket.",
+        "Owner's coverage is optional and may respond differently from lender coverage."
+      ]
+    }
+  },
+  "narrative": {
+    "executive_view": "Direct title insurance combines an unusually automatable public-record and document workflow with a regulated promise against infrequent but consequential defects. The operating opportunity is strongest in search, extraction, file assembly, exception spotting, policy production, and quality control, while the carrier remains exposed to transaction cycles, concentrated distribution, legal accountability, and alternative title products.",
+    "ai_impact": "AI can retrieve and classify records, assemble chains of title, extract liens and exceptions, compare legal descriptions, draft commitments, check closing files, and prioritize curative work. Humans remain central for ambiguous records, probate and litigation, fraud, escrow control, commercial complexity, exception clearance, underwriting authority, and claims.",
+    "value_capture": "One-time per-order pricing and faster throughput permit some benefit retention, but state rate rules, shopping, lender and agent bargaining, and large agent compensation shares can transmit savings outside the carrier. Lower-cost attorney opinions create an additional price and substitution channel.",
+    "firm_availability": "The frozen firm count requires legal-entity diligence. Premium is concentrated among a few underwriting families, many local title businesses are agents rather than carriers, and affiliated or dormant licensed entities may not be independently transferable operating companies.",
+    "demand_durability": "Demand rebounds when purchases, refinancings, construction, and commercial transactions increase, but it is much more cyclical than an annual-renewal insurance line. Five-year volume depends heavily on mortgage rates, affordability, inventory, construction, commercial liquidity, and adoption of title alternatives.",
+    "risks_and_uncertainty": "Major risks include incomplete or inconsistent county records, missed defects, deed and wire fraud, cyberattack, escrow loss, model hallucination, state-by-state legal practice, rate regulation, agent dependence, housing-cycle contraction, and mistaking a rebound year for durable growth. The eligible independent-carrier denominator is also uncertain.",
+    "principal_driver": "Searchable legal records and repetitive policy-production workflows create a large AI-addressable administrative surface.",
+    "principal_weakness": "Cyclical transaction volume, concentrated underwriting families, agent-heavy economics, and attorney-opinion alternatives constrain durable carrier-level capture."
+  },
+  "sources": [
+    {
+      "id": "S1",
+      "url": "https://www.census.gov/naics/resources/archives/sect52.html",
+      "title": "U.S. Census Bureau NAICS definition: 524127 Direct Title Insurance Carriers",
+      "access_date": "2026-07-22",
+      "supports": "Defines the industry as establishments initially underwriting policies protecting real-estate owners or creditors against loss from title defects and excludes title reinsurers."
+    },
+    {
+      "id": "S2",
+      "url": "https://www.onetonline.org/link/details/23-2093.00",
+      "title": "O*NET OnLine: Title Examiners, Abstractors, and Searchers",
+      "access_date": "2026-07-22",
+      "supports": "Documents record search, title examination, document summarization, encumbrance reporting, accuracy checks, title commitment and policy preparation, communication, and regulatory judgment."
+    },
+    {
+      "id": "S3",
+      "url": "https://www.consumerfinance.gov/owning-a-home/close/shop-for-title-insurance-and-other-closing-services/",
+      "title": "CFPB: Shop for title insurance and other closing services",
+      "access_date": "2026-07-22",
+      "supports": "Explains that title services include insurance, search, and often closing-agent work, and that consumers can generally shop among providers."
+    },
+    {
+      "id": "S4",
+      "url": "https://content.naic.org/insurance-topics/artificial-intelligence",
+      "title": "NAIC Insurance Topics: Artificial Intelligence",
+      "access_date": "2026-07-22",
+      "supports": "Documents insurer AI use cases and regulatory expectations for compliant governance, risk mitigation, and examination of AI-supported operations."
+    },
+    {
+      "id": "S5",
+      "url": "https://content.naic.org/insurance-topics/title-insurance",
+      "title": "NAIC Insurance Topics: Title Insurance",
+      "access_date": "2026-07-22",
+      "supports": "Describes record search, chain-of-ownership documentation, lien clearance, escrow and closing services, one-time premiums, lender requirements, and the enduring liability of owner and lender policies."
+    },
+    {
+      "id": "S6",
+      "url": "https://www.alta.org/news-and-publications/press-release/ALTA-Reports-2025-Market-Share-and-Title-Insurance-Premium-Volume",
+      "title": "ALTA reports 2025 title insurance premium volume and market share",
+      "access_date": "2026-07-22",
+      "supports": "Reports $18.5 billion of 2025 premiums, 13.8% annual growth, $667 million of claims paid, and individual-underwriter market shares showing concentration among the leading firms."
+    },
+    {
+      "id": "S7",
+      "url": "https://content.naic.org/industry/ucaa/form-a",
+      "title": "NAIC Uniform Certificate of Authority Application: Form A",
+      "access_date": "2026-07-22",
+      "supports": "States that a Form A filing is made to the domestic state when acquiring or merging one or more insurance companies."
+    },
+    {
+      "id": "S8",
+      "url": "https://content.naic.org/insurance-topics/mccarran-ferguson-act",
+      "title": "NAIC Insurance Topics: McCarran-Ferguson Act",
+      "access_date": "2026-07-22",
+      "supports": "Explains state-led insurance regulation and rating laws requiring rates not to be excessive, inadequate, or unfairly discriminatory, with filing and approval rules."
+    },
+    {
+      "id": "S9",
+      "url": "https://content.naic.org/sites/default/files/2025-annual-property-and-casualty-and-title-insurance-industries-analysis-report.pdf",
+      "title": "NAIC U.S. Property & Casualty and Title Insurance Industries: 2025 Full Year Results",
+      "access_date": "2026-07-22",
+      "supports": "Reports title premiums, policy counts and channel mix, including 13.6 million policies in 2025, 8.0% policy growth, 62.7% of premium through non-affiliated agencies, mixed housing indicators, and agent compensation as 72.6% of operating expense."
+    },
+    {
+      "id": "S10",
+      "url": "https://singlefamily.fanniemae.com/initiative-updates/attorney-opinion-letter",
+      "title": "Fannie Mae: Attorney Opinion Letter",
+      "access_date": "2026-07-22",
+      "supports": "Explains eligible use of attorney title opinion letters instead of lender title policies, cites record digitization and technology, and reports average refinance borrower savings above $1,000 when an opinion was used."
+    }
+  ]
+}
