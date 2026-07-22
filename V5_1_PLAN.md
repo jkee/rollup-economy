@@ -252,7 +252,7 @@ and move on.
 | closed | S1 | Professional, scientific, technical | 54 | 49 | 29/49 | v5.0 rerun territory — doubles as drift check vs `six_data_v5.json` |
 | closed | S2 | Administrative & support, waste | 56 | 44 | 12/44 | |
 | closed | S3 | Health care & social assistance | 62 | 39 | 12/39 | |
-| research | S4 | Finance & insurance | 52 | 35 | – | 5251x labor_share gaps |
+| review | S4 | Finance & insurance | 52 | 35 | – | 5251x labor_share gaps |
 | todo | S5 | Real estate + mgmt of companies | 53, 55 | 27 | – | `551114` anomaly |
 | todo | S6 | Other services | 81 | 44 | – | `814110` gap |
 | todo | S7 | Information | 51 | 29 | – | n_total proxies |
