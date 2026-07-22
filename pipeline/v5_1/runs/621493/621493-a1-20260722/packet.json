@@ -1,0 +1,193 @@
+{
+  "identity": {
+    "naics": "621493",
+    "title": "Freestanding Ambulatory Surgical and Emergency Centers",
+    "run_id": "621493-a1-20260722",
+    "model_id": "claude-sonnet-5",
+    "run_date": "2026-07-22",
+    "methodology_version": "5.1",
+    "attempt": 1
+  },
+  "lens": {
+    "included_activities": "Lower-middle-market freestanding ambulatory surgery centers, urgent care centers, emergency medical centers, and trauma centers repeatedly delivering outpatient procedures or immediate medical care to external patients and payors.",
+    "excluded_activities": "Hospital outpatient departments, licensed hospitals, physician offices without a separately operated center, captive internal units, shells, non-control financing vehicles, nonprofit or government facilities without transferable control economics, and real-estate or equipment owners without the clinical operating service.",
+    "customer_and_revenue_model": "Centers deliver facility-based episodes of care to patients, with payment commonly coming from Medicare or Medicaid administered rates, commercial insurer contracts, and patient cost sharing. Surgery centers earn facility fees for covered procedures; emergency and urgent centers bill visit, facility, diagnostic, and treatment services subject to network, coverage, and state rules.",
+    "deviation_from_default": "none",
+    "heterogeneous": true
+  },
+  "primitives": {
+    "a": {
+      "evidence_state": "PROXY",
+      "low": 0.18,
+      "base": 0.28,
+      "high": 0.4,
+      "bridge": "BLS measures the broader NAICS 621400 workforce rather than 621493 and reports substantial practitioner, nursing, healthcare-support, and office employment. I map billing, coding, scheduling, intake, chart summaries, prior authorization, patient messaging, discharge-document drafting, compliance review, and supply or capacity planning to exposed work, while heavily discounting diagnosis, procedures, anesthesia, nursing intervention, sterilization, imaging operation, monitoring, and emergency response. The broader outpatient mix likely understates the clinical and procedural share of 621493, so it may overstate exposure for surgery and emergency centers while understating exposure for administration-heavy urgent care platforms.",
+      "rationale": "BLS reports that broader outpatient care centers employ large clinical cohorts, including registered nurses at 15.39% of employment and all healthcare practitioners and technical occupations at 41.13%, alongside office and administrative support at 15.71%. AMA's 2026 survey shows AI concentrated in research summaries, documentation, chart summaries, discharge and care-plan drafting, portal responses, translation, and assistive diagnosis. Those uses can reduce clerical and clinician documentation time, but the high-wage core of surgery and emergency care remains physical, licensed, safety-critical, and accountable to clinicians.",
+      "change_evidence": "A six-digit payroll-weighted time study for independent ASCs, urgent care centers, and freestanding emergency centers, separating procedure, nursing, anesthesia, imaging, front-office, revenue-cycle, supply, quality, and management hours and measuring current automation by workflow.",
+      "source_ids": ["S2", "S3", "S7"],
+      "caveats": [
+        "The occupation table covers all outpatient care centers and not the surgery-versus-emergency mix within 621493.",
+        "Physician AI use does not establish avoided labor hours or safe substitution in procedural settings.",
+        "Contracted physician and anesthesia labor may not appear in an establishment payroll mix even when economically central."
+      ]
+    },
+    "rho": {
+      "evidence_state": "PROXY",
+      "low": 0.32,
+      "base": 0.5,
+      "high": 0.68,
+      "bridge": "AMA surveys U.S. physicians across specialties and practice settings, not independent 621493 centers or the share of exposed wages implemented in production. I translate reported current use and near-term adoption intentions into a five-year implementation range, then discount for EHR and revenue-cycle integration, validation, privacy, liability, clinician oversight, downtime resilience, cybersecurity, payer rules, and the greater consequence of errors around surgery and emergencies. The physician sample may overstate readiness at well-resourced centers and understate adoption where multi-site operators standardize workflows.",
+      "rationale": "AMA reports that 72% of physicians explicitly incorporated at least one AI use case in 2026, with use and enthusiasm led by documentation and summarization. It also reports that 88% consider validated safety and efficacy important, 86% prioritize privacy assurance, physicians rank clear liability frameworks first among regulatory priorities, and 27% had received no AI training. These findings support meaningful implementation of exposed administrative work but not autonomous clinical substitution.",
+      "change_evidence": "A five-year cohort of independent ASCs and urgent or freestanding emergency centers reporting deployed workflows, vendor and EHR integration, baseline and post-deployment labor hours, clinician review, error and denial rates, incidents, training cost, downtime, and avoided hiring.",
+      "source_ids": ["S3"],
+      "caveats": [
+        "Self-reported use includes research summaries and experimentation rather than enterprise deployment.",
+        "The AMA sample does not identify facility size, NAICS code, or lower-middle-market ownership.",
+        "Clinical validation and liability requirements constrain implementation more than generic office automation."
+      ]
+    },
+    "e": {
+      "evidence_state": "PROXY",
+      "low": 0.59,
+      "base": 0.76,
+      "high": 0.88,
+      "bridge": "MedPAC measures Medicare-participating ASCs rather than all LMM firms across surgery, urgent care, and freestanding emergency centers. I use its finding that 95.3% of ASCs are for profit as evidence that the surgical portion commonly has commercial operating form, then deduct hospital or payer ownership, nonprofit and government facilities, captive arrangements, entities whose economics depend on nontransferable physician relationships, and firms whose dataset-band receipts do not correspond to transferable service EBITDA. This likely overstates eligibility where hospital joint ventures dominate and may understate it for independent urgent care chains.",
+      "rationale": "Census defines the industry around freestanding centers with medical staff serving external patients and excludes hospital facilities. MedPAC reports that more than 95% of Medicare ASCs are for profit, that physician ownership is common, and that hospitals, corporations, payers, and private equity also own centers. Most firms in the supplied band should therefore operate an external clinical service, but not every legal entity represents an independently transferable control opportunity.",
+      "change_evidence": "A firm-level census joining SUSB-band entities to CMS enrollment and ownership records, state facility licenses, tax status, hospital affiliations, physician equity, management-service agreements, and normalized facility-level EBITDA for both surgical and emergency or urgent centers.",
+      "source_ids": ["S1", "S7"],
+      "caveats": [
+        "MedPAC's ownership evidence covers Medicare ASCs, not urgent care or freestanding emergency centers.",
+        "A for-profit facility may still be captive to a hospital, payer, physician group, or national chain.",
+        "The supplied firm count is margin-bridged and the 15.8% reference margin may not fit each center type."
+      ]
+    },
+    "s5": {
+      "evidence_state": "PROXY",
+      "low": 0.14,
+      "base": 0.24,
+      "high": 0.36,
+      "bridge": "Gallup measures stated five-year sale or transfer plans among U.S. employer-business owners across industries, while MedPAC measures ASC ownership concentration and facility openings or closures rather than completed qualifying control transfers in the LMM band. I center near Gallup's 22% intention rate, add a modest channel for increasing corporate stakes in ASCs, and offset for failed plans, internal physician buy-ins or buy-outs, hospital affiliations, de novo openings, closures, regulatory approvals, and transactions of practices or real estate without facility control. The broad owner survey may overstate completed transfers, while ASC consolidation may make the upper range too low for attractive specialties.",
+      "rationale": "Gallup reports that 22% of employer-business owners planned to sell or transfer ownership within five years. MedPAC reports that the share of ASCs with ownership by five major corporate entities rose from 20.0% in 2019 to 21.5% in 2024, and it identifies hospital, payer, corporate, and private-equity ownership. This confirms an active acquisition channel but provides no denominator of qualifying LMM control sales.",
+      "change_evidence": "A five-year transaction census linking CMS and state change-of-ownership records to PitchBook, LevinPro HC, Irving Levin Associates, facility licenses, and purchase agreements, separating control sales from physician stake changes, de novos, hospital affiliations, closures, and asset-only deals and matching the frozen EBITDA band.",
+      "source_ids": ["S4", "S7"],
+      "caveats": [
+        "Owner intentions do not equal completed arm's-length control transfers.",
+        "Corporate ownership stakes and facility counts do not identify transaction frequency or deal size.",
+        "Healthcare ownership, certificate-of-need, and corporate-practice rules can change the feasible transaction structure."
+      ]
+    },
+    "q": {
+      "evidence_state": "PROXY",
+      "low": 0.31,
+      "base": 0.52,
+      "high": 0.7,
+      "bridge": "CMS and MedPAC describe Medicare ASC administered payment and broad commercial consolidation effects, not the five-year retention of AI-derived benefit by LMM 621493 operators. I treat fixed procedure or visit reimbursement as allowing near-term retention of lower internal cost, then discount for annual public-rate updates, commercial contract renewal, value-based arrangements, patient competition, payer utilization controls, clinician compensation, added throughput cost, compliance, and reinvestment in safety or access. ASC evidence may overstate retention for urgent and emergency centers exposed to network disputes and may understate it for scarce, high-demand specialties.",
+      "rationale": "CMS sets ASC facility payment by covered procedure and finalized a 2.6% 2026 rate update, while MedPAC reports that Medicare pays less in ASCs than hospital outpatient departments and lacks national ASC cost data. GAO finds that consolidation can raise commercial prices in some physician specialties but effects vary. A center can retain some administrative productivity within an episode payment, yet payers and regulators can recapture savings and clinicians may use freed capacity for more care rather than lower payroll.",
+      "change_evidence": "Payer-contract and center-level contribution-margin data showing allowed amounts, facility and professional fees, labor cost by workflow, denial and prior-authorization expense, reimbursement changes, volume, patient acquisition, and realized margin before and after automation across Medicare, Medicaid, commercial, and self-pay cases.",
+      "source_ids": ["S5", "S7", "S8"],
+      "caveats": [
+        "No source directly measures retention of AI-derived gross benefit by independent centers.",
+        "Facility, professional, anesthesia, device, drug, and diagnostic payments may accrue to different entities.",
+        "Emergency, urgent care, and ambulatory surgery reimbursement and competitive dynamics differ materially."
+      ]
+    },
+    "d5": {
+      "evidence_state": "PROXY",
+      "low": 0.99,
+      "base": 1.16,
+      "high": 1.28,
+      "bridge": "MedPAC directly measures Medicare ASC supply and utilization, while BLS projects real output for broader NAICS 621400; neither isolates constant-quality demand across the combined 621493 surgery and emergency-center basket. I translate the observed ASC volume trend and broader 3.5% real-output growth into a five-year ratio, tempering for mature procedures, Medicare Advantage migration, payer site-of-care controls, elective-care cyclicality, workforce constraints, emergency-center regulation, and substitution among hospitals, physician offices, telehealth, and centers. The strong ASC trend may overstate emergency-center growth but understate continued migration of appropriate procedures out of hospitals.",
+      "rationale": "MedPAC reports about 6,400 ASCs in 2024, 2.2% average annual facility growth from 2019 to 2024, 1.3% annual growth in services per FFS beneficiary from 2019 to 2023, and 3.5% growth in 2024. CMS is phasing procedures off the inpatient-only list and continues to study outpatient migration. BLS projects broader outpatient-care-center real output from $217.8 billion in 2024 to $307.4 billion in 2034. These support higher five-year quantity, with a low case near flat because the code includes emergency and urgent centers and site shifts do not guarantee total market growth.",
+      "change_evidence": "Six-digit constant-price revenue, visit, case, and procedure indexes split among ASCs, urgent care, and freestanding emergency centers, with payer mix, acuity, same-center price indexes, hospital migration, closure and opening cohorts, and five-year forecasts from CMS claims and commercial all-payer databases.",
+      "source_ids": ["S6", "S7", "S8"],
+      "caveats": [
+        "MedPAC volume excludes Medicare Advantage and non-Medicare patients and covers ASCs only.",
+        "BLS output combines all outpatient care center industries and is not a six-digit forecast.",
+        "Procedure migration from hospitals can raise center volume without equal growth in underlying clinical need."
+      ]
+    },
+    "o": {
+      "evidence_state": "PROXY",
+      "low": 0.84,
+      "base": 0.92,
+      "high": 0.97,
+      "bridge": "Census defines the physical and medical scope and MedPAC describes ASC facility requirements and site-of-care substitution; neither measures the year-five share requiring a 621493 operator after software substitution. I preserve the operator for surgery, anesthesia support, sterile facilities, imaging, monitoring, triage, immediate treatment, emergency response, regulatory accountability, and quality reporting, while allowing some low-acuity urgent visits, intake, follow-up, and decision support to move to telehealth, self-service, physician offices, or hospital systems. This may understate software-enabled diversion of low-acuity care but overstate displacement where regulations require a licensed facility.",
+      "rationale": "Census describes specialized operating and recovery rooms, anesthetic and X-ray equipment, surgical services, and immediate treatment for injury and trauma. MedPAC describes ASCs as facilities for outpatient surgical procedures and documents continuing movement among ASCs, hospital outpatient departments, and offices. AI can change access, documentation, and triage, but cannot independently deliver the facility-based clinical episode or bear medical accountability.",
+      "change_evidence": "A longitudinal claims and patient-pathway study classifying current 621493 episodes in 2031 as still center-operated, shifted to hospitals or offices, delivered through telehealth or home pathways, or eliminated, with separate results by ASC specialty and urgent versus emergency acuity.",
+      "source_ids": ["S1", "S3", "S7"],
+      "caveats": [
+        "The code combines elective procedural facilities with urgent and emergency care, which have different substitution paths.",
+        "A shift to a hospital or physician office removes a freestanding operator even when the clinical service persists.",
+        "AI-enabled triage may redirect low-acuity cases without substituting for higher-acuity center operations."
+      ]
+    }
+  },
+  "narrative": {
+    "executive_view": "Freestanding surgical and emergency centers contain meaningful administrative, documentation, coding, scheduling, authorization, and communication work that AI can compress, but most wages and value remain bound to licensed, physical, safety-critical care. Procedure-based and visit-based reimbursement can preserve some benefit, while payer contracting, annual public-rate updates, regulation, and clinical reinvestment constrain capture. The industry has a visible acquisition channel and supportive outpatient migration, but its surgery, urgent care, and emergency components require separate diligence.",
+    "ai_impact": "AI can draft visit and procedure notes, code suggestions, discharge instructions, chart summaries, portal messages, translations, prior-authorization packages, schedule and capacity plans, supply forecasts, and quality reviews. It can assist diagnosis and triage under clinician oversight. It is much less able to replace surgery, anesthesia, nursing intervention, imaging operation, sterile processing, patient monitoring, trauma response, or accountable clinical judgment.",
+    "value_capture": "Savings inside a fixed procedure or visit payment can initially improve center economics or support more cases. Retention leaks through Medicare and Medicaid rate updates, commercial renewal and utilization management, network competition, clinician compensation, additional consumables and staffing for throughput, compliance, and reinvestment in access or safety. Ownership scale and bargaining leverage may improve commercial capture but also invite payer and regulatory scrutiny.",
+    "firm_availability": "Most ASCs are for profit and physician ownership is common, while hospital, payer, corporate, and private-equity stakes create an established transaction channel. The usable LMM pool is smaller than the legal entity count because some centers are hospital or chain affiliates, physician-dependent joint ventures, nonprofit facilities, or entities whose receipts and facility assets do not translate into transferable operating EBITDA.",
+    "demand_durability": "Aging, clinical advances, patient convenience, lower cost sharing, and continued migration of suitable procedures away from hospitals support outpatient center volume. Immediate and procedural care still requires physical delivery. Demand can nevertheless shift among ASCs, hospitals, offices, telehealth, and home pathways, and the emergency or urgent portion faces different regulation and payer economics than ambulatory surgery.",
+    "risks_and_uncertainty": "The largest uncertainties are the six-digit workforce and payor mix, contracted clinical labor, the surgery-versus-emergency composition, facility-level ownership, transaction denominators, and actual retained savings after payer response. Documentation or triage errors, privacy breaches, biased decision support, cybersecurity incidents, downtime, staffing shortages, certificate-of-need rules, surprise-billing restrictions, and changes in site-neutral payment can outweigh administrative gains.",
+    "principal_driver": "Repeatable revenue-cycle and documentation workflows sit inside a growing, facility-based outpatient care channel whose clinical delivery cannot be digitized away.",
+    "principal_weakness": "The high-wage core is licensed hands-on care, while heterogeneous center types, payer-administered prices, regulation, and physician or hospital ownership limit implementable savings and clean control targets."
+  },
+  "sources": [
+    {
+      "id": "S1",
+      "url": "https://www.census.gov/naics/reference_files_tools/2022_NAICS_Manual.pdf",
+      "title": "U.S. Census Bureau: 2022 NAICS Manual, 621493",
+      "access_date": "2026-07-22",
+      "supports": "Defines 621493 as freestanding centers with physicians and other medical staff providing outpatient surgery or emergency care and identifies specialized facilities, equipment, examples, and hospital exclusions."
+    },
+    {
+      "id": "S2",
+      "url": "https://www.bls.gov/oes/2023/may/naics4_621400.htm",
+      "title": "BLS May 2023 OEWS: Outpatient Care Centers",
+      "access_date": "2026-07-22",
+      "supports": "Reports the broader outpatient-center occupation mix, including 41.13% healthcare practitioners and technical occupations, 15.39% registered nurses, 11.19% healthcare support, and 15.71% office and administrative support."
+    },
+    {
+      "id": "S3",
+      "url": "https://www.ama-assn.org/system/files/physician-ai-sentiment-report.pdf/",
+      "title": "AMA 2026 Physician Survey on Augmented Intelligence",
+      "access_date": "2026-07-22",
+      "supports": "Reports physician AI adoption, documentation and summarization use cases, anticipated automation of clinical and administrative tasks, and privacy, validation, liability, training, and workflow constraints."
+    },
+    {
+      "id": "S4",
+      "url": "https://news.gallup.com/poll/657362/small-business-owners-lack-succession-plan.aspx",
+      "title": "Gallup: Most Small-Business Owners Lack a Succession Plan",
+      "access_date": "2026-07-22",
+      "supports": "Reports that 22% of U.S. employer-business owners planned to sell or transfer ownership within five years, based on a survey fielded in fall 2024."
+    },
+    {
+      "id": "S5",
+      "url": "https://files.gao.gov/reports/GAO-25-107450/index.html",
+      "title": "GAO-25-107450: Health Care Consolidation",
+      "access_date": "2026-07-22",
+      "supports": "Documents physician consolidation and roll-up structures, acquisition channels, varied commercial price effects, and uncertainty in access and quality outcomes."
+    },
+    {
+      "id": "S6",
+      "url": "https://www.bls.gov/emp/tables/industry-employment-and-output.htm",
+      "title": "BLS Employment and Output by Industry, 2024 to 2034",
+      "access_date": "2026-07-22",
+      "supports": "Projects broader NAICS 621400 real output from $217.8 billion in 2024 to $307.4 billion in 2034, a 3.5% annual increase."
+    },
+    {
+      "id": "S7",
+      "url": "https://www.medpac.gov/wp-content/uploads/2026/03/Mar26_Ch11_MedPAC_Report_To_Congress_SEC.pdf",
+      "title": "MedPAC March 2026: Ambulatory Surgical Center Services",
+      "access_date": "2026-07-22",
+      "supports": "Reports ASC supply, ownership, corporate stakes, utilization, payments, site-of-care economics, procedure concentration, and the absence of national ASC cost reporting."
+    },
+    {
+      "id": "S8",
+      "url": "https://www.cms.gov/newsroom/fact-sheets/calendar-year-2026-hospital-outpatient-prospective-payment-system-opps-ambulatory-surgical-center",
+      "title": "CMS CY 2026 OPPS and ASC Final Rule Fact Sheet",
+      "access_date": "2026-07-22",
+      "supports": "Reports the 2026 ASC payment update, affected facility count, quality reporting changes, and policies supporting migration of clinically appropriate procedures to outpatient settings."
+    }
+  ]
+}
