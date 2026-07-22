@@ -495,3 +495,55 @@ competitive rebidding. One cited industry AI page could not be reopened, but
 the affected primitives were already explicit estimates and the correction did
 not change the base tier or action. No review found a material defect, and the
 predeclared pause trigger did not fire.
+
+## G2 — Transportation and warehousing
+
+**Closed:** 2026-07-22
+**Coverage:** 57 attempted, 57 deterministically valid, 57 published, 0 excluded
+**Independent review:** 9/57 (2 mandatory, 6 random, 1 canary)
+**Review outcomes:** 9 `publishable_with_caveats`; 0 `publishable`; 0 `reject`; 0 `invalid`
+**Material findings:** 0
+**Remediations:** 0
+
+### Screen distribution
+
+- Base tiers: 1 `HIGHEST_PRIORITY`, 1 `PRIORITY`, 13 `CONDITIONAL`,
+  16 `LOW_PRIORITY`, 22 `STRUCTURAL_OUT`, and 4 without a base tier.
+- Readiness: 53 `MODEL_CONDITIONED`; 4 `STRESS_TEST_ONLY`.
+- Actions: 53 `VALIDATE_ASSUMPTIONS`; 4 `EVIDENCE_FIRST`.
+- Robust tiers: 7/57, all `STRUCTURAL_OUT`.
+- Publication labels: 9 `accepted`; 48 `not_reviewed` by the frozen sampling
+  contract.
+
+The random stratum consisted of `481212`, `483111`, `485310`, `487110`,
+`488310`, and `488410`. All six were accepted with caveats and carried no
+material finding. The previously reviewed canary `484110` also closed with the
+block. These are sample observations only; no G2 defect rate is estimated.
+
+### Economic read
+
+The screen sharply separated standardized warehousing workflows from transport
+modes dominated by regulated physical operation, public ownership, thin firm
+pools, or competitive pass-through. General warehousing and storage was the
+block's sole `HIGHEST_PRIORITY` record, and refrigerated warehousing reached
+`PRIORITY`. Both combine large repeat physical and information workflows with
+identifiable software, robotics, and decision-support applications while the
+custody and storage service remains operator-required.
+
+Thirteen records reached `CONDITIONAL`, mainly selected passenger services,
+transit, support activities, towing, couriers, and residual warehousing where
+dispatch, planning, documentation, inspection, or coordination creates a
+meaningful digital layer. Twenty-two were `STRUCTURAL_OUT`, reflecting very
+small or nontransferable operator pools, safety-critical labor, cost-plus or
+public contracting, platform displacement, or weak retention of productivity
+gains. Line-haul and short-line railroads, deep-sea passenger transport, and
+postal service had no base tier and correctly routed to `STRESS_TEST_ONLY /
+EVIDENCE_FIRST` because firm or transfer denominators were missing.
+
+Validators' caveats emphasized broad modal and occupational proxies,
+assumption-heavy implementation and retention bridges, sparse direct LMM
+transfer evidence, public or captive ownership, and uncertainty over whether
+contract repricing passes savings to customers. One Census archive page could
+not be reopened, but the affected industry-boundary caveat did not alter the
+record's already conservative evidence states, tier, or action. No review found
+a material defect, and the predeclared pause trigger did not fire.
