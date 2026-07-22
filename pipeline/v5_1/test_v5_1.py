@@ -419,6 +419,50 @@ class SamplingSentinels(unittest.TestCase):
             with self.assertRaises(ValueError):
                 compute_sample("B", fleet_targets(), runs=tmp / "runs")
 
+    def test_duplicate_attempt1_refused(self):
+        # Silently picking one of two attempt-1 runs would bake an arbitrary
+        # choice into the frozen sample.
+        with tempfile.TemporaryDirectory() as tmpdir:
+            tmp = Path(tmpdir)
+            self._fleet_runs(tmp)
+            naics = FLEET_CODES[0]
+            p = packet(**{"identity.naics": naics, "identity.run_id": f"{naics}-dup"})
+            dup = tmp / "runs" / naics / f"{naics}-dup"
+            dup.mkdir(parents=True)
+            (dup / "packet.json").write_text(json.dumps(p, indent=1), encoding="utf-8")
+            finalize_path(dup / "packet.json")
+            with self.assertRaises(ValueError) as ctx:
+                compute_sample("B", fleet_targets(), runs=tmp / "runs")
+            self.assertIn("duplicate attempt-1", str(ctx.exception))
+
+    def test_write_sample_idempotent_and_refuses_replacement(self):
+        from assignment import write_sample
+        with tempfile.TemporaryDirectory() as tmpdir:
+            tmp = Path(tmpdir)
+            self._fleet_runs(tmp)
+            state_path = tmp / "campaign_state.json"
+            state_path.write_text(json.dumps(
+                {"blocks": {"B": {"status": "review"}}}), encoding="utf-8")
+            targets = fleet_targets()
+            first = write_sample("B", state_path=state_path, runs=tmp / "runs",
+                                 targets=targets)
+            self.assertEqual(json.loads(state_path.read_text())["blocks"]["B"]["sample"], first)
+            second = write_sample("B", state_path=state_path, runs=tmp / "runs",
+                                  targets=targets)
+            self.assertEqual(first, second)
+            tampered = json.loads(state_path.read_text())
+            tampered["blocks"]["B"]["sample"]["random"] = []
+            state_path.write_text(json.dumps(tampered), encoding="utf-8")
+            with self.assertRaises(SystemExit):
+                write_sample("B", state_path=state_path, runs=tmp / "runs",
+                             targets=targets)
+            # Incomplete runs surface as a clean SystemExit, not a traceback.
+            state_path.write_text(json.dumps(
+                {"blocks": {"B": {"status": "review"}}}), encoding="utf-8")
+            with self.assertRaises(SystemExit):
+                write_sample("B", state_path=state_path, runs=tmp / "empty",
+                             targets=targets)
+
 
 class PublicationGateSentinels(unittest.TestCase):
     """End-to-end ledger gate: only closed blocks publish; a sampled record
@@ -582,6 +626,78 @@ class PublicationGateSentinels(unittest.TestCase):
             p2, dir2, mech2 = self._run(tmp, victim, f"{victim}-t2", attempt=2)
             (dir2 / "review.json").write_text(
                 json.dumps(review_for(p2, mech2)), encoding="utf-8")
+            with self.assertRaises(SystemExit):
+                build_site(runs=tmp / "runs", site_out=tmp / "six.json",
+                           targets=targets, state=state)
+
+    def test_garbage_attempt1_review_cannot_unlock_remediation(self):
+        # A raw {"outcome": "reject"} file — schema-invalid, unbound to bytes —
+        # must never satisfy the remediation predicate.
+        with tempfile.TemporaryDirectory() as tmpdir:
+            tmp = Path(tmpdir)
+            targets, state, sample, meta = self._fleet(tmp)
+            victim = sorted(sampled_codes(sample))[0]
+            for naics in sampled_codes(sample):
+                if naics != victim:
+                    self._review(meta, naics)
+            (meta[victim][1] / "review.json").write_text(
+                json.dumps({"outcome": "reject"}), encoding="utf-8")
+            p2, dir2, mech2 = self._run(tmp, victim, f"{victim}-t2", attempt=2)
+            (dir2 / "review.json").write_text(
+                json.dumps(review_for(p2, mech2)), encoding="utf-8")
+            with self.assertRaises(SystemExit):
+                build_site(runs=tmp / "runs", site_out=tmp / "six.json",
+                           targets=targets, state=state)
+
+    def test_invalid_review_forms_terminal_exclusion(self):
+        # A mechanically broken run with a bound `invalid` review must become a
+        # reviewed exclusion that closes the block — never a permanent blocker.
+        with tempfile.TemporaryDirectory() as tmpdir:
+            tmp = Path(tmpdir)
+            targets, state, sample, meta = self._fleet(tmp)
+            victim = sorted(sampled_codes(sample))[0]
+            for naics in sampled_codes(sample):
+                if naics != victim:
+                    self._review(meta, naics)
+            p, run_dir, _ = meta[victim]
+            (run_dir / "memo.md").write_text("tampered\n", encoding="utf-8")
+            broken = check(run_dir)
+            self.assertTrue(broken["errors"])
+            (run_dir / "review.json").write_text(
+                json.dumps(review_for(p, broken, outcome="invalid")), encoding="utf-8")
+            site = build_site(runs=tmp / "runs", site_out=tmp / "six.json",
+                              targets=targets, state=state)
+            self.assertEqual(site["summary"]["published"], 3)
+            self.assertEqual(site["exclusions"][0]["naics"], victim)
+            self.assertEqual(site["exclusions"][0]["outcome"], "invalid")
+
+    def test_review_on_unsampled_code_fails_closed(self):
+        # A stray review — accept or reject — on an unsampled code may not
+        # silently alter publication.
+        for outcome_kwargs in ({}, {"outcome": "reject", "material_findings": [
+                {"category": "unsupported_claim", "finding": "x",
+                 "materiality": "correcting q would change the base tier"}]}):
+            with tempfile.TemporaryDirectory() as tmpdir:
+                tmp = Path(tmpdir)
+                targets, state, sample, meta = self._fleet(tmp)
+                for naics in sampled_codes(sample):
+                    self._review(meta, naics)
+                unsampled = (set(FLEET_CODES) - sampled_codes(sample)).pop()
+                self._review(meta, unsampled, **outcome_kwargs)
+                with self.assertRaises(SystemExit):
+                    build_site(runs=tmp / "runs", site_out=tmp / "six.json",
+                               targets=targets, state=state)
+
+    def test_malformed_attempt_is_integrity_error_not_crash(self):
+        with tempfile.TemporaryDirectory() as tmpdir:
+            tmp = Path(tmpdir)
+            targets, state, sample, meta = self._fleet(tmp)
+            for naics in sampled_codes(sample):
+                self._review(meta, naics)
+            stray = tmp / "runs" / FLEET_CODES[0] / "stray"
+            stray.mkdir()
+            (stray / "packet.json").write_text(json.dumps({"identity": {}}), encoding="utf-8")
+            (stray / "score.json").write_text(json.dumps({}), encoding="utf-8")
             with self.assertRaises(SystemExit):
                 build_site(runs=tmp / "runs", site_out=tmp / "six.json",
                            targets=targets, state=state)

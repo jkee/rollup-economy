@@ -64,6 +64,11 @@ RANDOM_MINIMUM = 3
 MANDATORY_TIERS = ("HIGHEST_PRIORITY", "PRIORITY")
 BLOCK_STATUSES = ("todo", "research", "review", "remedy", "closed", "descoped")
 # The frozen contract surface covered by contract_sha256, in fixed order.
+# Known limitation (documented, accepted): the hash stored in an artifact is
+# self-attested — it detects honest staleness, not deliberate tampering (the
+# field itself can be edited). Score CONTENT still cannot drift undetected
+# (check() byte-reproduces it under the current code); git history is the
+# tamper-evidence layer, per the frozen governance model.
 CONTRACT_FILES = ("methodology.md", "research_brief.md", "validator_brief.md",
                   "research_packet.schema.json", "review.schema.json",
                   "thresholds.json", "score.py", "build.py", "assignment.py",
@@ -162,14 +167,20 @@ def load_state(state: dict | None = None) -> dict:
 def attempt1_score(code_dir: Path) -> dict | None:
     """The attempt-1 score is the frozen sampling basis: the sample is computed
     when a block's research completes, before any remediation, and must
-    recompute identically afterwards."""
+    recompute identically afterwards. Duplicate attempt-1 runs are rejected —
+    silently picking one would bake an arbitrary choice into the frozen sample."""
+    matches = []
     for run_dir in sorted(code_dir.iterdir()) if code_dir.is_dir() else []:
         score_path = run_dir / "score.json"
         if score_path.exists():
             score = load_json(score_path)
             if score.get("identity", {}).get("attempt") == 1:
-                return score
-    return None
+                matches.append((run_dir, score))
+    if len(matches) > 1:
+        raise ValueError(
+            f"{code_dir.name}: duplicate attempt-1 runs "
+            f"{sorted(d.name for d, _ in matches)} — remove the stray run before sampling")
+    return matches[0][1] if matches else None
 
 
 def compute_sample(block_id: str, targets: dict | None = None,
@@ -424,7 +435,7 @@ def render_memo(packet: dict, score: dict) -> str:
     lines = [
         f"# {identity['naics']} — {identity['title']}",
         "",
-        f"*v5 Stage 1 research memo. Run `{identity['run_id']}`, model `{identity['model_id']}`, "
+        f"*v5.1 Stage 1 research memo. Run `{identity['run_id']}`, model `{identity['model_id']}`, "
         f"{identity['run_date']}, attempt {identity['attempt']}.*",
         "",
         f"**Base tier:** {score['tier'] or 'no base (evidence-first)'} · "
@@ -638,21 +649,38 @@ def collect_attempts(code_dir: Path, integrity_errors: list[str]):
         if not (run_dir / "packet.json").exists() or not (run_dir / "score.json").exists():
             continue
         review_path = run_dir / "review.json"
-        attempts.append((load_json(run_dir / "packet.json"), load_json(run_dir / "score.json"),
-                         load_json(review_path) if review_path.exists() else None, run_dir))
+        try:
+            attempts.append((load_json(run_dir / "packet.json"), load_json(run_dir / "score.json"),
+                             load_json(review_path) if review_path.exists() else None, run_dir))
+        except json.JSONDecodeError as exc:
+            integrity_errors.append(f"{run_dir}: unparseable artifact JSON: {exc}")
+            return None
     if not attempts:
         integrity_errors.append(f"{code_dir}: no finalized run")
         return None
-    numbers = sorted(a[0].get("identity", {}).get("attempt") for a in attempts)
+    numbers = [a[0].get("identity", {}).get("attempt") for a in attempts]
+    if any(not isinstance(n, int) or isinstance(n, bool) for n in numbers):
+        integrity_errors.append(f"{code_dir}: every attempt must be an integer, got {numbers}")
+        return None
+    numbers = sorted(numbers)
     if numbers not in ([1], [1, 2]):
         integrity_errors.append(f"{code_dir}: attempt numbers must be [1] or [1, 2], got {numbers}")
         return None
     if numbers == [1, 2]:
-        first = next(a for a in attempts if a[0]["identity"]["attempt"] == 1)
-        outcome1 = (first[2] or {}).get("outcome")
-        if outcome1 not in ("reject", "invalid"):
+        # The remediation predicate must hold against a VALID attempt-1 review
+        # bound to attempt-1's exact bytes — never against a raw outcome string.
+        packet1, _, review1, dir1 = next(a for a in attempts if a[0]["identity"]["attempt"] == 1)
+        if review1 is None:
+            integrity_errors.append(f"{code_dir}: attempt 2 requires a reviewed attempt 1")
+            return None
+        review1_errors = validate_review(review1, packet1, check(dir1))
+        if review1_errors:
+            integrity_errors += [f"{dir1}: attempt-1 review invalid: {e}" for e in review1_errors]
+            return None
+        if review1.get("outcome") not in ("reject", "invalid"):
             integrity_errors.append(
-                f"{code_dir}: attempt 2 requires attempt 1 reviewed reject/invalid, got {outcome1!r}")
+                f"{code_dir}: attempt 2 requires attempt 1 reviewed reject/invalid, "
+                f"got {review1.get('outcome')!r}")
             return None
     return max(attempts, key=lambda a: a[0]["identity"]["attempt"])
 
@@ -699,28 +727,41 @@ def build_site(runs: Path = RUNS, site_out: Path = SITE_OUT,
             # deterministic integrity check, and any review must itself be
             # valid and bound to the exact current bytes.
             mechanics = check(run_dir)
-            if mechanics["errors"]:
-                integrity_errors += [f"{run_dir}: {e}" for e in mechanics["errors"]]
-                continue
             if review is not None:
+                if naics not in sampled:
+                    integrity_errors.append(
+                        f"{run_dir}: review present on a code outside the frozen sample — "
+                        "unsampled records publish not_reviewed by design; a stray review "
+                        "may not alter publication")
+                    continue
                 review_errors = validate_review(review, packet, mechanics)
                 if review_errors:
                     integrity_errors += [f"{run_dir}: {e}" for e in review_errors]
                     continue
                 if review["outcome"] not in ACCEPTED:
-                    # Terminal reviewed exclusion — closes the block, listed.
+                    # Terminal reviewed exclusion — closes the block, listed. The
+                    # only path where check() errors are tolerated: an `invalid`
+                    # review exists precisely because mechanics failed, and
+                    # validate_review has bound it to those exact mechanics.
                     exclusions.append({"naics": naics, "block": block_id,
                                        "run_id": run_dir.name,
                                        "outcome": review["outcome"],
                                        "material_findings": review.get("material_findings", []),
                                        "summary": review.get("summary")})
                     continue
-            elif naics in sampled:
-                integrity_errors.append(
-                    f"closed block {block_id}: sampled code {naics} ({run_dir.name}) "
-                    "has no review — a sampled record needs an accepted review or a "
-                    "reviewed exclusion")
-                continue
+                if mechanics["errors"]:
+                    integrity_errors += [f"{run_dir}: {e}" for e in mechanics["errors"]]
+                    continue
+            else:
+                if mechanics["errors"]:
+                    integrity_errors += [f"{run_dir}: {e}" for e in mechanics["errors"]]
+                    continue
+                if naics in sampled:
+                    integrity_errors.append(
+                        f"closed block {block_id}: sampled code {naics} ({run_dir.name}) "
+                        "has no review — a sampled record needs an accepted review or a "
+                        "reviewed exclusion")
+                    continue
 
             records.append({
                 **{k: score[k] for k in ("A", "L", "tier", "tier_interval", "robust_tier",
@@ -822,6 +863,9 @@ def audit_state(runs: Path = RUNS) -> dict:
         if upstream.returncode == 0:
             behind, ahead = upstream.stdout.split()
             info["vs_upstream"] = {"behind": int(behind), "ahead": int(ahead)}
+            if int(behind):
+                warnings.append(f"branch is {behind} commit(s) behind upstream — pull "
+                                "before continuing the campaign")
         else:
             warnings.append("no upstream configured for the current branch")
         dirty = subprocess.run(
@@ -851,12 +895,19 @@ def audit_state(runs: Path = RUNS) -> dict:
             errors.append(f"runs/{code_dir.name}: not a code in targets.json")
         elif code_dir.is_dir():
             for run_dir in sorted(code_dir.iterdir()):
+                if not run_dir.is_dir():
+                    continue
                 score_path = run_dir / "score.json"
                 if score_path.exists():
                     stored = load_json(score_path).get("contract_sha256")
                     if stored != current:
                         errors.append(f"{run_dir}: score contract_sha256 does not match "
                                       "the current frozen contract surface")
+                elif (run_dir / "packet.json").exists():
+                    warnings.append(f"{run_dir}: partial attempt — packet without a "
+                                    "finalized score; finalize or remove it")
+                else:
+                    warnings.append(f"{run_dir}: run directory with no artifacts")
 
     if any(s.get("status") == "closed" for s in state.get("blocks", {}).values()):
         import tempfile
@@ -865,6 +916,8 @@ def audit_state(runs: Path = RUNS) -> dict:
                 build_site(runs=runs, site_out=Path(tmp) / "site.json")
             except SystemExit as exc:
                 errors.append(f"closed blocks fail the publication gate: {exc}")
+            except Exception as exc:  # a crash here is itself an audit finding
+                errors.append(f"publication gate crashed on current state: {exc!r}")
 
     return {"errors": errors, "warnings": warnings, "info": info}
 
@@ -910,11 +963,12 @@ def main() -> int:
         if not review_path.exists():
             print("ERROR: no review.json in", args.run_dir)
             return 1
+        # The review is validated against the mechanics as they ARE — a failing
+        # check is not itself a review error: that is exactly the state an
+        # `invalid` review must bind to (false mechanics require outcome invalid).
         mechanics = check(args.run_dir)
-        if mechanics["errors"]:
-            for error in mechanics["errors"]:
-                print("ERROR:", error)
-            return 1
+        for note in mechanics["errors"]:
+            print("NOTE (check):", note)
         errors = validate_review(load_json(review_path),
                                  load_json(args.run_dir / "packet.json"), mechanics)
         for error in errors:

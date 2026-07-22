@@ -211,23 +211,29 @@ finding count, and caveat count.
 """
 
 
-def write_sample(block_id: str) -> dict:
+def write_sample(block_id: str, state_path: Path | None = None,
+                 runs: Path | None = None, targets: dict | None = None) -> dict:
     """Compute and record one block's validation sample (frozen contract,
     code-owned). Idempotent; refuses to replace a different recorded sample."""
+    from build import RUNS as BUILD_RUNS
     from build import STATE_PATH, compute_sample  # noqa: E402
 
-    state = load_json(STATE_PATH)
+    state_path = state_path or STATE_PATH
+    state = load_json(state_path)
     entry = state.get("blocks", {}).get(block_id)
     if entry is None:
         raise SystemExit(f"unknown block {block_id!r}")
-    sample = compute_sample(block_id)
+    try:
+        sample = compute_sample(block_id, targets, runs or BUILD_RUNS)
+    except ValueError as exc:
+        raise SystemExit(str(exc)) from exc
     recorded = entry.get("sample")
     if recorded is not None and recorded != sample:
         raise SystemExit(
             f"block {block_id}: a different sample is already recorded — samples are "
             "never replaced; investigate with build.py audit-state")
     entry["sample"] = sample
-    STATE_PATH.write_text(json.dumps(state, indent=1, ensure_ascii=False) + "\n",
+    state_path.write_text(json.dumps(state, indent=1, ensure_ascii=False) + "\n",
                           encoding="utf-8")
     return sample
 

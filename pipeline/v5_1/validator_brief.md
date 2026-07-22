@@ -2,7 +2,7 @@
 
 You are the independent reviewer of **one** finalized v5 record. You receive
 exactly: `packet.json`, `score.json`, `memo.md`, the frozen
-`methodology.md`, and this brief. You must not see other industries'
+`methodology.md`, `review.schema.json`, and this brief. You must not see other industries'
 results, prior version outputs, or the fleet distribution. You were not the
 research author. Your deliverable is one `review.json` conforming to
 `review.schema.json`.

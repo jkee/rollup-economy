@@ -9,7 +9,9 @@ completes this folder; every artifact records the runtime commit
 (`methodology_commit`) **and** a `contract_sha256` over the frozen contract
 surface (this file, both briefs, both schemas, thresholds, scorer,
 `build.py`, `assignment.py`, `targets.json`) — the hash, not HEAD, is the
-drift check. Changing a formula, anchor, cut, evidence rule, default lens,
+drift check. The stored hash detects honest staleness, not tampering (the
+field is self-attested); score content is separately byte-reproduced by
+`check`, and git history remains the tamper-evidence layer. Changing a formula, anchor, cut, evidence rule, default lens,
 or fleet scope after this commit requires a new version folder and a full
 rerun.
 **Supersedes:** v5.0 as the active workflow; the v5.0 63-code publication
@@ -247,8 +249,9 @@ brief or a better validator, not more machinery.
 ```
 pipeline/v5_1/
   methodology.md                this file
-  research_brief.md             verbatim researcher contract (inherited from v5.0)
-  validator_brief.md            verbatim validator contract (inherited from v5.0)
+  research_brief.md             verbatim researcher contract (byte-inherited from v5.0)
+  validator_brief.md            validator contract (inherited from v5.0; deltas:
+                                build-path reference, schema listed among inputs)
   research_packet.schema.json   formal packet reference (enforced by build.py)
   review.schema.json            formal review reference
   thresholds.json               anchors + tier cuts, one source of truth

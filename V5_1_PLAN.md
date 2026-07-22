@@ -5,9 +5,9 @@
 `claude-sonnet-5`, review `claude-fable-5`, session ceiling 1,400, budget
 ceiling $8k) and the `pipeline/v5_1/` freeze is committed. The one
 remaining unconditional stop is the **canary gate**: `canary_approved`
-gates fleet blocks; the plan's predeclared pause trigger is the only other
-stop. Gates are committed records in `campaign_state.json` — prose edits to
-this file authorize nothing.
+gates fleet blocks; the only other stops are the predeclared pause trigger
+and the launch-fixed session/budget ceilings. Gates are committed records
+in `campaign_state.json` — prose edits to this file authorize nothing.
 **Companion to:** [pipeline/v5/methodology.md](pipeline/v5/methodology.md) (frozen v5.0).
 **Proposed under:** [V5_PLAN.md](V5_PLAN.md) "Beyond v5", which permits proposing scope expansion as a new governed version (methodology §7.4: "Expanding beyond the 63 codes is a new version") — it does not itself authorize launch.
 **Prior ledger:** [V5_CLOSURE_REPORT.md](V5_CLOSURE_REPORT.md) — v5.0 closed 2026-07-22, 63/63 published, 0 excluded.
@@ -115,9 +115,11 @@ contract).
         runtime `methodology_commit` (which is HEAD at run time, **not**
         the freeze identity), a `contract_sha256` over the full frozen v5_1
         contract surface — methodology, briefs, schemas, thresholds,
-        scorer, `build.py`, `assignment.py` (sampling seed and selection
-        code included), and `targets.json`; `check` and `site` recompute it
-        and fail on any drift
+        scorer, `build.py` (home of the sampling seed and selection code),
+        `assignment.py`, and `targets.json`; `check` and `site` recompute
+        it and fail on any drift. The stored hash detects honest staleness,
+        not tampering (self-attested field); git history is the
+        tamper-evidence layer
 - [x] Dataset check (the V5_PLAN prerequisite — validation, not derivation;
       `pipeline/datasets/derived/` already covers all 1,012): `derive.py`
       rerun reproduced byte-identical output; per-block gaps recorded in
