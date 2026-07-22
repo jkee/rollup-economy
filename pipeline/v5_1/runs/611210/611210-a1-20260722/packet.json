@@ -1,0 +1,199 @@
+{
+  "identity": {
+    "naics": "611210",
+    "title": "Junior Colleges",
+    "run_id": "611210-a1-20260722",
+    "model_id": "claude-sonnet-5",
+    "run_date": "2026-07-22",
+    "methodology_version": "5.1",
+    "attempt": 1
+  },
+  "lens": {
+    "included_activities": "Privately controlled two-year colleges that provide recurring academic or academic-technical instruction to external students, award associate degrees or equivalent credentials, and operate in the approximately $1-10M normalized EBITDA band.",
+    "excluded_activities": "Public community-college systems, four-year colleges and universities, non-degree trade schools classified elsewhere, software-only courseware, captive corporate academies, non-control financing vehicles, and institutions without transferable operations.",
+    "customer_and_revenue_model": "Students purchase term- or program-based education, commonly funded through a mix of tuition, federal or state student aid, employer support, and private payment; enrollment recurs across terms until completion or withdrawal.",
+    "deviation_from_default": "none",
+    "heterogeneous": false
+  },
+  "primitives": {
+    "a": {
+      "evidence_state": "PROXY",
+      "low": 0.18,
+      "base": 0.28,
+      "high": 0.39,
+      "bridge": "BLS measures employment and wages for four-digit NAICS 611200, dominated by public junior colleges, while higher-education surveys cover mixed institution types in the United States and Canada. I mapped exposure in course preparation, assessment, advising, recruiting, student support, records, finance, and compliance to private six-digit operators, then excluded live teaching, relationship judgment, laboratories, physical operations, and already automated work. Public institutions may have more administrative layers, which could overstate the private opportunity, while smaller private operators may have more manual workflows, which could understate it.",
+      "rationale": "BLS reports 57.89% of junior-college employment in educational instruction and library occupations, including 46.29% postsecondary teachers, plus 12.20% office and administrative support, 6.92% management, and 4.69% business and financial operations. These categories contain substantial text, analysis, communications, and records work, but only portions are substitutable because instruction, student judgment, and regulated accountability remain human-led.",
+      "change_evidence": "Private two-year-college time-and-motion and payroll data that separate course design, delivery, grading, advising, admissions, financial-aid processing, compliance, and facilities work, matched to production telemetry from deployed AI workflows.",
+      "source_ids": ["S1", "S2"],
+      "caveats": [
+        "OEWS is four-digit NAICS 611200 and includes public institutions, whereas the lens is private six-digit firms.",
+        "Higher-education AI surveys do not isolate junior colleges or measure wage-weighted task substitution.",
+        "The frozen compensation ratio has a 2024-wage/2022-receipts vintage mismatch and an IPS harmonization adjustment."
+      ]
+    },
+    "rho": {
+      "evidence_state": "PROXY",
+      "low": 0.43,
+      "base": 0.61,
+      "high": 0.76,
+      "bridge": "EDUCAUSE and Ellucian measure current attitudes, institutional provisions, and expected expansion of AI across higher education, not five-year implementation of exposed labor in private junior colleges. I translate broad adoption momentum into operational implementation and discount for privacy, bias, academic-integrity, accreditation, integration, training, and human-review constraints. Vendor-sponsored and self-selected respondents may bias adoption expectations upward.",
+      "rationale": "Ellucian's survey found 84% of respondents used AI professionally or personally, 93% expected work use to expand over two years, and 80% of administrators cited efficiency and productivity. Yet EDUCAUSE found 55% of respondents' institutions provided none of the listed AI tools, only 6% offered an integrated suite, and fewer than half had begun an enterprise strategy. Five years supports material diffusion, but regulated workflows and learning-quality controls prevent complete realization.",
+      "change_evidence": "A longitudinal sample of private two-year colleges reporting workflow-level deployment, percentage of transactions handled without rework, hours saved, student outcomes, audit findings, and realized headcount avoidance by institution size.",
+      "source_ids": ["S2", "S3"],
+      "caveats": [
+        "Surveyed intent and mixed personal/professional use are not realized labor savings.",
+        "The Ellucian source is vendor-sponsored and includes four-year institutions and Canada.",
+        "Implementation excludes pricing, enrollment, and valuation effects."
+      ]
+    },
+    "e": {
+      "evidence_state": "PROXY",
+      "low": 0.64,
+      "base": 0.75,
+      "high": 0.85,
+      "bridge": "IPEDS classifies Title IV two-year institutions by public, private nonprofit, and private for-profit control, not by transferability or EBITDA. Among private institutions, 498 of 622 are for-profit; I use that 80.1% as the anchor, subtracting proprietary institutions with accreditation, regulatory, concentration, founder-dependence, or transfer restrictions, while allowing some nonprofit operator or asset transfers. IPEDS counts institutions rather than firms and excludes non-Title-IV schools, so either direction of error is possible.",
+      "rationale": "In academic year 2023-24, IPEDS counted 858 public, 124 private nonprofit, and 498 private for-profit two-year Title IV institutions. The private universe is therefore predominantly proprietary and structurally more compatible with control transfer than K-12 or nonprofit higher education. Eligibility remains below the for-profit share because a regulated school must also have sustainable programs, transferable approvals, and separable operations.",
+      "change_evidence": "Institution-to-firm mapping of all private two-year colleges using IPEDS unit IDs, OPE ownership records, accreditation, state authorization, corporate parents, normalized EBITDA, cohort-default and outcome data, and change-of-control restrictions.",
+      "source_ids": ["S4", "S7"],
+      "caveats": [
+        "IPEDS counts campuses or institutions, while the frozen n is an estimated firm count.",
+        "Title IV participation excludes some private institutions and may overweight aid-dependent models.",
+        "For-profit status does not by itself establish financial quality or transferable accreditation."
+      ]
+    },
+    "s5": {
+      "evidence_state": "PROXY",
+      "low": 0.1,
+      "base": 0.17,
+      "high": 0.25,
+      "bridge": "Exit Planning Institute describes the broad U.S. private-business market rather than junior colleges, and its zero-to-ten-year transition statement includes events other than qualifying control sales. I convert the broad transition pressure to five years and discount for internal succession, closure, failed sales, regulatory denials, and non-control restructurings. Regulated education transfers could occur less often than general-business transfers, though the high proprietary share supports a somewhat higher base than nonprofit-dominated education segments.",
+      "rationale": "EPI states that 51% of the current American business market is baby-boomer owned and set to transition over zero to ten years, while only 20-30% of businesses brought to market sell. Eligible junior colleges are mostly proprietary, but accreditation, state authorization, Title IV recertification, and student-outcome diligence narrow which owner transitions become qualifying control transfers.",
+      "change_evidence": "Five years of Department of Education change-in-ownership applications, accreditor approvals, state authorization records, PitchBook or Capital IQ transactions, and closures for private two-year institutions, linked to the eligible-firm denominator.",
+      "source_ids": ["S7", "S8"],
+      "caveats": [
+        "The owner-readiness source is broad-market and produced by an exit-planning organization.",
+        "An institutional ownership change can require multiple regulatory approvals and may not close.",
+        "No industry-specific five-year transaction denominator was found."
+      ]
+    },
+    "q": {
+      "evidence_state": "ESTIMATE",
+      "low": 0.42,
+      "base": 0.57,
+      "high": 0.72,
+      "rationale": "Tuition is normally fixed for a term or program rather than mechanically cost-plus, so an operator can retain initial workflow savings. Over five years, however, price competition with low-cost public colleges and online alternatives, student-aid rules, program-outcome obligations, employee reinvestment, and retention spending share the benefit. High aid dependence also makes regulatory compliance and student outcomes economically inseparable from cost reduction.",
+      "change_evidence": "Program-level contribution-margin cohorts before and after automation, showing tuition and discounting, Title IV receipts, refunds, marketing cost, completion, placement, employee reinvestment, and renewal or persistence by student segment.",
+      "source_ids": ["S5", "S7"],
+      "caveats": [
+        "No source directly measures retention of AI-derived gross benefit in private junior colleges.",
+        "IPEDS shows 91,923 of 105,397 full-time first-time students at private for-profit two-year institutions receiving some aid, but does not measure pricing pass-through.",
+        "Demand volume is handled in d5 and implementation difficulty in rho."
+      ]
+    },
+    "d5": {
+      "evidence_state": "PROXY",
+      "low": 0.95,
+      "base": 1.03,
+      "high": 1.12,
+      "bridge": "National Student Clearinghouse measures recent enrollment across the broader community-college sector, primarily public institutions, not five-year constant-price demand for private LMM junior-college services. I temper the 5.4% one-year growth with the fact that undergraduate enrollment remained 2.4% below spring 2020 and with private operators' different program and pricing mix. The public-heavy recovery may overstate private demand, while workforce-oriented proprietary programs could share vocational growth.",
+      "rationale": "Spring 2025 undergraduate enrollment grew 3.5% year over year and community colleges grew 5.4%, while vocational public two-year institutions grew 11.7%; total undergraduate enrollment nevertheless remained 2.4% below spring 2020. The base case assumes recovery and workforce reskilling roughly offset demographic and public-price pressure, producing slight five-year real quantity growth with substantial downside and upside.",
+      "change_evidence": "Current IPEDS and National Student Clearinghouse enrollment and completion cohorts isolated to private for-profit and nonprofit two-year institutions, split by program, online status, geography, age, employer funding, and net price, plus five-year adult-population and labor-demand forecasts.",
+      "source_ids": ["S5", "S6"],
+      "caveats": [
+        "The strongest recent growth cited is in public community colleges and vocational public two-year institutions.",
+        "Enrollment is an imperfect proxy for constant-quality demand when program length, intensity, and modality change.",
+        "Private two-year institutions are a small and volatile share of national postsecondary enrollment."
+      ]
+    },
+    "o": {
+      "evidence_state": "PROXY",
+      "low": 0.88,
+      "base": 0.95,
+      "high": 0.99,
+      "bridge": "Federal rules and accreditation guidance establish the responsibilities of a Title IV institution but do not measure the future quantity share requiring an operator. I infer a high operator-required share because recognized credentials, aid eligibility, state authorization, complaints, quality assurance, records, and program accountability attach to the institution; I allow some demand to migrate to software, employer credentials, self-study, or unbundled alternatives. This could overstate durability if employers rapidly accept noninstitutional credentials.",
+      "rationale": "The Federal Student Aid Handbook requires an eligible institution to be state-authorized, accredited by a nationally recognized agency or meet an alternative, and admit qualified students. The Department describes accreditation as a quality-assurance gatekeeper for federal aid. AI can deliver or support much content and service work, but it cannot itself hold authorization, award recognized degrees, administer aid, or bear institutional accountability.",
+      "change_evidence": "Employer acceptance and wage-return studies comparing accredited associate degrees with software-only credentials, together with state and federal data on direct assessment, unbundled providers, aid eligibility, and institutional responsibility for AI-delivered programs.",
+      "source_ids": ["S7", "S9"],
+      "caveats": [
+        "Not all demand depends on Title IV aid, and accreditation reform may change the gatekeeping model.",
+        "The evidence supports institutional accountability qualitatively, not the numeric quantity share.",
+        "Nondegree substitutes may erode more demand in technology and business programs than in licensed health programs."
+      ]
+    }
+  },
+  "narrative": {
+    "executive_view": "Private junior colleges have an unusually transferable ownership mix for education because most private Title IV two-year institutions are for-profit. They also carry meaningful AI-addressable work in course preparation, assessment, advising, enrollment, financial aid, records, and administration. The opportunity is bounded by a low frozen labor-to-receipts ratio and by accreditation, authorization, student outcomes, and aid compliance that require an accountable institution.",
+    "ai_impact": "AI can accelerate curriculum drafts, formative assessment, tutoring support, advising triage, admissions communications, document review, aid-service workflows, scheduling, and reporting. Human faculty and staff still need to validate learning, handle exceptions, supervise clinical or laboratory work, protect academic integrity, and make high-stakes student decisions. Implementation should be tied to cycle time, capacity, error rates, completion, and avoided hiring rather than tool licenses.",
+    "value_capture": "Term and program tuition permits initial retention of workflow savings, especially when faster service improves persistence. Over repeated cohorts, public-college competition, online substitutes, financial-aid scrutiny, refund risk, and the need to reinvest in student outcomes reduce retention. Savings that weaken completion, placement, or accreditation would destroy rather than create commercial value.",
+    "firm_availability": "IPEDS counted 498 private for-profit and 124 private nonprofit Title IV two-year institutions in 2023-24, making the private segment structurally more transferable than nonprofit-dominated education categories. The investable count is smaller because campuses must be mapped to parents, and change of ownership can require Department, accreditor, and state approvals. Broad owner aging creates supply, but direct industry deal-rate evidence is limited.",
+    "demand_durability": "Two-year enrollment was recovering in spring 2025, with community colleges leading growth and vocational programs particularly strong, although undergraduate enrollment remained below 2020. Private operators compete against subsidized public tuition and nondegree alternatives, so the base case is only slight real quantity growth. Recognized degrees and aid access keep an accountable institution relevant even as delivery becomes more digital.",
+    "risks_and_uncertainty": "Public institutions dominate the occupation and enrollment proxies; vendor-sponsored AI surveys may overstate momentum; institution counts do not equal firms; and the 93-firm LMM estimate is margin-bridged rather than observed. Accreditation loss, Title IV recertification, poor completion or placement, refund liabilities, student-debt scrutiny, and program-level regulation can overwhelm labor savings. A poor outcome would pair weak demand with high marketing cost or regulatory restrictions on ownership and program delivery.",
+    "principal_driver": "A predominantly for-profit private institution base combines transferable control with repeat, workflow-rich student service and instruction.",
+    "principal_weakness": "Regulatory, accreditation, and student-outcome obligations make both transfers and labor realization materially more fragile than ordinary service-business operations."
+  },
+  "sources": [
+    {
+      "id": "S1",
+      "url": "https://www.bls.gov/oes/2023/may/naics4_611200.htm",
+      "title": "May 2023 National Industry-Specific Occupational Employment and Wage Estimates: NAICS 611200 Junior Colleges",
+      "access_date": "2026-07-22",
+      "supports": "Occupation and wage mix for 628,020 jobs, including 57.89% educational instruction/library, 46.29% postsecondary teachers, 12.20% office/administrative support, 6.92% management, and 4.69% business/financial operations."
+    },
+    {
+      "id": "S2",
+      "url": "https://er.educause.edu/articles/2024/4/educause-quickpoll-results-a-growing-need-for-generative-ai-strategy",
+      "title": "EDUCAUSE QuickPoll Results: A Growing Need for Generative AI Strategy",
+      "access_date": "2026-07-22",
+      "supports": "Higher-education AI provision and readiness: 55% reported none of the listed institutional AI tools, 6% an integrated suite, and 48% an enterprise strategy in development; poll methodology and sample limitations are disclosed."
+    },
+    {
+      "id": "S3",
+      "url": "https://www.educause.edu/about/corporate-participation/member-press-releases/ellucians-ai-survey-of-higher-education-professionals-reveals-surge-in-ai-adoption",
+      "title": "Ellucian AI Survey of Higher Education Professionals Reveals Surge in AI Adoption",
+      "access_date": "2026-07-22",
+      "supports": "Survey of 445 faculty and administrators at more than 330 U.S. and Canadian institutions: 84% used AI professionally or personally, 93% expected work use to expand, and privacy and bias concerns increased."
+    },
+    {
+      "id": "S4",
+      "url": "https://nces.ed.gov/ipeds/search/viewtable?returnUrl=%2F&tableId=36556",
+      "title": "IPEDS Table 4: Number of Title IV 4-year and 2-year Institutions by Control, 2023-24",
+      "access_date": "2026-07-22",
+      "supports": "Two-year institution counts by control: 858 public, 124 private nonprofit, and 498 private for-profit; also reports distance-learning availability."
+    },
+    {
+      "id": "S5",
+      "url": "https://nces.ed.gov/ipeds/search/viewtable?returnUrl=%2F&tableId=36532",
+      "title": "IPEDS Table 4: Financial Aid at Title IV Institutions by Control and Level, 2023-24",
+      "access_date": "2026-07-22",
+      "supports": "Among 105,397 full-time first-time students at private for-profit two-year institutions, 91,923 received some financial aid and 73,957 received Pell Grants."
+    },
+    {
+      "id": "S6",
+      "url": "https://www.studentclearinghouse.org/news/postsecondary-spring-enrollment-continues-progress-toward-pre-pandemic-highs/",
+      "title": "Postsecondary Spring Enrollment Continues Progress Toward Pre-Pandemic Highs",
+      "access_date": "2026-07-22",
+      "supports": "Spring 2025 enrollment trends: undergraduate enrollment up 3.5% year over year but 2.4% below 2020, community colleges up 5.4%, and high-vocational public two-year institutions up 11.7%."
+    },
+    {
+      "id": "S7",
+      "url": "https://fsapartners.ed.gov/knowledge-center/fsa-handbook/2025-2026/vol2/ch1-institutional-eligibility",
+      "title": "2025-2026 Federal Student Aid Handbook: Institutional Eligibility",
+      "access_date": "2026-07-22",
+      "supports": "Requirements for state authorization, recognized accreditation, student eligibility, nonprofit definition, and state approval or licensure of for-profit postsecondary institutions."
+    },
+    {
+      "id": "S8",
+      "url": "https://exit-planning-institute.org/state-of-owner-readiness",
+      "title": "State of Owner Readiness Research",
+      "access_date": "2026-07-22",
+      "supports": "Broad-market proxy stating 51% of the American business market is baby-boomer owned and expected to transition over zero to ten years, while only 20-30% of businesses brought to market sell."
+    },
+    {
+      "id": "S9",
+      "url": "https://www.ed.gov/laws-and-policy/higher-education-laws-and-policy/college-accreditation/overview-of-accreditation-united-states",
+      "title": "Overview of Accreditation in the United States",
+      "access_date": "2026-07-22",
+      "supports": "Accreditation's role in postsecondary quality assurance and as a gatekeeper for federal student aid."
+    }
+  ]
+}

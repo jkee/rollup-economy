@@ -1,0 +1,194 @@
+{
+  "identity": {
+    "naics": "713210",
+    "title": "Casinos (except Casino Hotels)",
+    "run_id": "713210-a1-20260722",
+    "model_id": "claude-sonnet-5",
+    "run_date": "2026-07-22",
+    "methodology_version": "5.1",
+    "attempt": 1
+  },
+  "lens": {
+    "included_activities": "Lower-middle-market operators that repeatedly manage and staff a regulated stand-alone, floating, riverboat, or racetrack casino for an external property, tribal, or governmental license holder.",
+    "excluded_activities": "Owner-operated casinos selling gambling directly to patrons without an external operating customer; casino hotels; passive real-estate or license interests; captive internal operating units; financing vehicles; and firms outside the roughly $1-10M normalized EBITDA band.",
+    "customer_and_revenue_model": "The qualifying customer is an external casino property or license holder paying a recurring management or operating fee; the casino itself earns gross gaming revenue from repeat patron wagering and may also earn food-and-beverage revenue.",
+    "deviation_from_default": "The default eligibility gate is applied strictly: only externally contracted casino management and operating relationships qualify. Direct-to-patron owner-operators are excluded because they do not supply an outsourced service to an external customer. This narrowing is required to keep the screen coherent, not to select for attractiveness.",
+    "heterogeneous": true
+  },
+  "primitives": {
+    "a": {
+      "evidence_state": "ESTIMATE",
+      "low": 0.15,
+      "base": 0.24,
+      "high": 0.34,
+      "rationale": "A wage-weighted task judgment starts from the broad gambling-industry mix: office and administrative support was 11.06% of employment, protective service 11.13%, food service 17.78%, and personal care/service 25.78% in 2022. AI can assist reconciliation, reporting, customer communications, promotion, scheduling, and first-pass video review, but the largest casino-specific roles remain physical and patron-facing. O*NET describes dealers as operating games, handling bets, greeting patrons, and inspecting equipment; cage workers combine record reconciliation with secure cash handling; surveillance officers combine video review and logs with accountable investigation.",
+      "change_evidence": "Obtain a payroll-weighted task inventory from 10-15 stand-alone casino operators, including time studies for cage, surveillance, marketing, finance, compliance, scheduling, and dealer roles, plus current production-AI usage by task.",
+      "source_ids": ["S2", "S3", "S4", "S5"],
+      "caveats": [
+        "The BLS occupation mix is NAICS 713200, which also includes other gambling industries, rather than six-digit NAICS 713210 alone.",
+        "Employment shares are not wage weights; the estimate qualitatively adjusts for higher-paid administrative and management work.",
+        "O*NET task descriptions identify work content but do not measure AI exposure or remaining automation headroom."
+      ]
+    },
+    "rho": {
+      "evidence_state": "ESTIMATE",
+      "low": 0.3,
+      "base": 0.5,
+      "high": 0.7,
+      "rationale": "Within the exposed task pool, document drafting, transaction exception triage, customer-service assistance, scheduling, and surveillance prioritization can be implemented within five years. Implementation is constrained by cash controls, extreme accuracy requirements, face-to-face service, security, gaming regulation, audit trails, and the need for licensed accountable personnel. O*NET reports that 97% of surveyed cage workers rated exactness as extremely important and describes surveillance work as monitoring regulatory adherence and reporting suspicious behavior.",
+      "change_evidence": "Collect regulator-approved deployment records and before-and-after labor hours from casino cage, surveillance, finance, compliance, and loyalty operations; interview state gaming control staff and casino internal-audit leaders about permissible human-in-the-loop designs.",
+      "source_ids": ["S4", "S5", "S8"],
+      "caveats": [
+        "No source measures five-year implementation for contract-managed stand-alone casinos.",
+        "State rules differ, and the Arkansas transfer rule is evidence of regulated control rather than a technology rule.",
+        "Current automation maturity is not measured, so the remaining opportunity may be overstated."
+      ]
+    },
+    "e": {
+      "evidence_state": "ESTIMATE",
+      "low": 0.0,
+      "base": 0.02,
+      "high": 0.05,
+      "rationale": "The Census definition centers on establishments operating gambling facilities for patrons, not on outsourced business services. The strict default lens therefore excludes the ordinary owner-operated casino. A small residual allows for operators classified with the facility that manage and staff a casino under contract for an external property, tribal, or governmental license holder, but no source measures that population.",
+      "change_evidence": "Build a census of the 120 dataset-implied LMM-band firms from state license-holder lists, Secretary of State records, management agreements, tribal gaming disclosures, and company filings; classify each as owner-operated, captive, or externally contracted manager.",
+      "source_ids": ["S1", "S7"],
+      "caveats": [
+        "The 120-firm dataset estimate may include entities whose receipts or legal structure do not map cleanly to operating companies.",
+        "AGA's 492 commercial-casino count spans facilities and business models and is not a count of eligible firms.",
+        "The estimate could be exactly zero if contract managers are classified outside NAICS 713210."
+      ]
+    },
+    "s5": {
+      "evidence_state": "ESTIMATE",
+      "low": 0.07,
+      "base": 0.14,
+      "high": 0.25,
+      "rationale": "Qualifying control transfers are possible, but the eligible population is tiny and highly regulated. Arkansas, for example, permits a casino-license transfer only to a buyer demonstrating casino experience and only with commission approval, while changes to officers or directors also require prior approval. Those constraints reduce the buyer pool and can delay or defeat otherwise economic transfers; no owner-age or eligible-firm deal-flow series was found.",
+      "change_evidence": "Compile five years of state gaming commission change-of-control dockets and license-transfer approvals, match them to eligible operating firms, and interview specialist gaming M&A advisers about withdrawn transactions and succession-driven sales.",
+      "source_ids": ["S8"],
+      "caveats": [
+        "The Arkansas rule is one jurisdiction and cannot establish a national transfer rate.",
+        "No evidence on owner age, succession readiness, or denominator-consistent eligible-firm deals was found.",
+        "A transfer of a property, license, or passive interest may not be a qualifying transfer of the operating firm."
+      ]
+    },
+    "q": {
+      "evidence_state": "ESTIMATE",
+      "low": 0.45,
+      "base": 0.68,
+      "high": 0.85,
+      "rationale": "An implemented labor saving is not mechanically passed through to casino patrons because the end product is wagered gambling and the operator's revenue is the house win, not billed labor hours. Under the qualifying contract-management model, however, contract renewal, owner bargaining, performance-fee formulas, competing managers, reinvestment in comps, and gaming taxes can share some benefit with the external property owner, patrons, or government. The base retains a majority but not all of the gross benefit.",
+      "change_evidence": "Review 20 casino management agreements and renewal amendments, including fixed versus cost-plus fees, incentive formulas, staffing covenants, savings-sharing clauses, and termination rights; compare realized EBITDA retention after automation programs.",
+      "source_ids": ["S6", "S7"],
+      "caveats": [
+        "No representative management-contract dataset was found.",
+        "AGA revenue and tax figures cover commercial gaming broadly, not the narrow contract-managed LMM population.",
+        "The result is sensitive to whether labor savings accrue to the manager or the property/license owner under the contract."
+      ]
+    },
+    "d5": {
+      "evidence_state": "PROXY",
+      "low": 0.88,
+      "base": 1.02,
+      "high": 1.15,
+      "bridge": "Source population: AGA reports nominal U.S. commercial brick-and-mortar slot-and-table gross gaming revenue, including many casinos outside NAICS 713210 and outside the LMM contract-managed lens. Transformation: recent nominal traditional-gaming growth (0.82% in 2024 and 2.3% in 2025) is treated as a demand signal, then translated judgmentally to constant-price, constant-quality five-year quantity by allowing for inflation, new openings, local-market maturity, and online substitution. Error direction: headline nominal revenue and market expansion likely overstate same-service real quantity growth, while excluding tribal gaming may understate national resilience.",
+      "rationale": "Traditional casino revenue was $49.78 billion in 2024, up only 82 basis points, while online gaming already represented 30.0% of total commercial gaming revenue and iGaming grew 28.7%. Traditional gaming then reached $50.94 billion in 2025, up 2.3%. This supports roughly flat real demand at mature properties, with a wide range for recession, legalization, new capacity, and online cannibalization.",
+      "change_evidence": "Acquire same-store, inflation-adjusted admissions, active-player, table-drop, slot-coin-in, and gaming-position utilization for stand-alone casinos by state through 2031 forecasts, separating new openings and regulatory expansions from organic volume.",
+      "source_ids": ["S6", "S9"],
+      "caveats": [
+        "Gross gaming revenue is price, mix, hold, and quantity combined; it is not a direct constant-quality quantity measure.",
+        "AGA commercial data do not cover all tribal gaming and include properties outside NAICS 713210.",
+        "Two annual growth observations are a weak basis for a five-year forecast."
+      ]
+    },
+    "o": {
+      "evidence_state": "ESTIMATE",
+      "low": 0.78,
+      "base": 0.9,
+      "high": 0.97,
+      "rationale": "Most surviving physical casino quantity still requires an accountable licensed operator to secure cash and chips, enforce game rules, monitor cheating, satisfy surveillance and reporting duties, and serve patrons. Slots and electronic transactions can reduce direct labor, and some demand can migrate to self-service online channels, but even heavily automated casino facilities remain controlled regulated operations. Arkansas explicitly ties the casino license to the named entity and requires commission approval for transfer.",
+      "change_evidence": "Obtain five-year operator staffing and license-condition forecasts from state gaming commissions and major gaming-system vendors, plus facility-level data on unmanned gaming positions, cashless play, remote surveillance, and migration from land-based to online play.",
+      "source_ids": ["S3", "S4", "S5", "S6", "S8"],
+      "caveats": [
+        "The estimate separates operator requirement from headcount; an operator can remain necessary with far fewer employees.",
+        "Online substitution is reflected here only when it eliminates physical-facility quantity, while general demand change is assigned to d5.",
+        "Regulatory requirements vary materially by state and tribal jurisdiction."
+      ]
+    }
+  },
+  "narrative": {
+    "executive_view": "Stand-alone casinos contain useful AI-assistable workflows in finance, cage operations, surveillance, compliance, marketing, and scheduling, but the ordinary casino is a direct-to-consumer venue rather than an outsourced-service provider. Under the fixed lens, only a rare externally contracted operating company qualifies, and that eligibility problem dominates the opportunity. The surviving eligible firms also face unusually consequential licensing and control-transfer review.",
+    "ai_impact": "AI is best suited to exception triage, reconciliation support, report drafting, loyalty communications, workforce scheduling, fraud-pattern detection, and prioritizing surveillance footage. It is less able to replace the physical and social core: dealing table games, handling secured cash, responding to patrons, maintaining facilities, providing food service, and exercising accountable compliance judgment. Human review remains important because mistakes can create loss, regulatory exposure, and customer distrust.",
+    "value_capture": "Casino patrons do not receive a labor-hours invoice, so savings are not automatically passed through. The manager may still share value through owner contract economics, renewal repricing, incentive formulas, comps, competitive reinvestment, and taxes. Retention depends far more on the unseen management agreement than on the casino's posted game economics.",
+    "firm_availability": "Most establishments in the code operate their own patron-facing gambling facility and therefore fail the outsourced-service gate. A small set of contract managers may qualify, but their classification and independence need name-by-name verification. Even when an eligible owner wants to sell, gaming experience requirements, regulator approval, license linkage, and scrutiny of officers and directors narrow the buyer pool.",
+    "demand_durability": "Land-based slots and table games remain large and recently grew in nominal dollars, but growth was modest compared with iGaming. Mature-market physical demand is likely roughly flat in real terms over five years, with legalization and new properties supporting some markets while recession, saturation, and online migration pressure others. Physical casino quantity that survives still generally needs an accountable licensed operator.",
+    "risks_and_uncertainty": "The largest uncertainty is whether any meaningful LMM population actually meets the lens; eligible count could be zero. Additional risks are a broad four-digit occupation proxy, no representative management-contract sample, no denominator-consistent control-transfer history, regulatory variation, already-automated slot operations, online substitution, and using gross gaming revenue as a noisy demand proxy. A direct operator census and contract review could materially change the conclusion.",
+    "principal_driver": "Administrative, cage, compliance, and surveillance workflows offer bounded AI labor leverage while physical gaming demand remains operator-dependent.",
+    "principal_weakness": "Nearly all casinos appear to be owner-operated direct-to-consumer venues, leaving very few firms eligible under the outsourced-service lens."
+  },
+  "sources": [
+    {
+      "id": "S1",
+      "url": "https://www.census.gov/naics/?details=7132&input=7132&year=2022",
+      "title": "2022 NAICS Definition: 713210 Casinos (except Casino Hotels)",
+      "access_date": "2026-07-22",
+      "supports": "Defines 713210 as establishments operating gambling facilities with table wagering plus slots or sports betting, often with food and beverage, and includes floating casinos and casinos with racetracks."
+    },
+    {
+      "id": "S2",
+      "url": "https://www.bls.gov/oes/2022/may/naics4_713200.htm",
+      "title": "May 2022 National Industry-Specific Occupational Employment and Wage Estimates: NAICS 713200 Gambling Industries",
+      "access_date": "2026-07-22",
+      "supports": "Reports 201,540 workers and the detailed occupation mix, including 25.78% personal care/service, 17.78% food service, 11.13% protective service, 11.06% office/administrative support, and casino-specific roles."
+    },
+    {
+      "id": "S3",
+      "url": "https://www.onetonline.org/link/details/39-3011.00",
+      "title": "O*NET OnLine: Gambling Dealers",
+      "access_date": "2026-07-22",
+      "supports": "Describes dealer tasks including paying winnings, greeting customers, handling chips and wagers, inspecting equipment, dealing games, applying rules, and answering patron questions."
+    },
+    {
+      "id": "S4",
+      "url": "https://www.onetonline.org/link/summary/43-3041.00",
+      "title": "O*NET OnLine: Gambling Cage Workers",
+      "access_date": "2026-07-22",
+      "supports": "Describes secure patron financial transactions, credit verification, reconciliation, record checking, computer use, and very high accuracy and customer-contact requirements."
+    },
+    {
+      "id": "S5",
+      "url": "https://www.onetonline.org/link/details/33-9031.00",
+      "title": "O*NET OnLine: Gambling Surveillance Officers and Gambling Investigators",
+      "access_date": "2026-07-22",
+      "supports": "Describes regulatory monitoring, video observation and review, suspicious-behavior reporting, surveillance logs, equipment inspection, investigation, and accountable oversight."
+    },
+    {
+      "id": "S6",
+      "url": "https://www.americangaming.org/2024-commercial-gaming-revenue-reaches-71-9b-marking-fourth-straight-year-of-record-revenue/",
+      "title": "2024 Commercial Gaming Revenue Reaches $71.9B",
+      "access_date": "2026-07-22",
+      "supports": "Reports $49.78 billion of 2024 brick-and-mortar slot and table revenue, up 82 basis points; online gaming at 30.0% of commercial gaming revenue; iGaming growth of 28.7%; and $15.66 billion in gaming taxes."
+    },
+    {
+      "id": "S7",
+      "url": "https://www.americangaming.org/resources/state-of-the-states-2025/",
+      "title": "State of the States 2025",
+      "access_date": "2026-07-22",
+      "supports": "Reports 492 U.S. commercial casinos, $49.89 billion in 2024 traditional casino revenue, $15.91 billion of direct gaming taxes, and state-by-state regulatory coverage."
+    },
+    {
+      "id": "S8",
+      "url": "https://codeofarrules.arkansas.gov/Rules/Rule?chapterID=238&levelType=section&partID=1258&sectionID=52159&subChapterID=295&subPartID=7965&titleID=23",
+      "title": "23 CAR Section 358-217: Transfer of license",
+      "access_date": "2026-07-22",
+      "supports": "States that a casino license is effective only for the named entity; transfer requires a buyer with casino gaming experience and Arkansas Racing Commission approval; officer and director changes also require prior approval."
+    },
+    {
+      "id": "S9",
+      "url": "https://www.americangaming.org/commercial-gaming-revenue-hits-78-7-billion-in-2025-driving-record-18-1-billion-in-gaming-taxes-nationwide/",
+      "title": "Commercial Gaming Revenue Hits $78.7 Billion in 2025",
+      "access_date": "2026-07-22",
+      "supports": "Reports $50.94 billion of 2025 traditional gaming revenue, up 2.3%, alongside much faster sports-betting and iGaming growth."
+    }
+  ]
+}

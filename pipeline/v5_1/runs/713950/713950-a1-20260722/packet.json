@@ -1,0 +1,189 @@
+{
+  "identity": {
+    "naics": "713950",
+    "title": "Bowling Centers",
+    "run_id": "713950-a1-20260722",
+    "model_id": "claude-sonnet-5",
+    "run_date": "2026-07-22",
+    "methodology_version": "5.1",
+    "attempt": 1
+  },
+  "lens": {
+    "included_activities": "US operators of commercial bowling centers selling repeat lane use, league play, group events, food and beverage, and related on-site amusements to external consumers and organizations, within the roughly $1-10M normalized EBITDA band.",
+    "excluded_activities": "Captive lanes inside casinos, hotels, clubs, or other venues where bowling is not a transferable operating business; equipment manufacturers; governing bodies; professional tours; non-control financing vehicles; and non-operating property shells.",
+    "customer_and_revenue_model": "Primarily direct-to-consumer, per-game or time-based lane sales, recurring league play, prepaid or contracted group events, and on-site food, beverage, and amusement spend; revenue is repeat but generally not long-term contracted.",
+    "deviation_from_default": "none",
+    "heterogeneous": false
+  },
+  "primitives": {
+    "a": {
+      "evidence_state": "PROXY",
+      "low": 0.24,
+      "base": 0.34,
+      "high": 0.45,
+      "bridge": "Data USA measures the industry workforce rather than AI-exposed tasks: in 2024 the three largest occupations were entertainment attendants (4,889), supervisors of personal care/service workers (3,657), and cooks (3,267) out of 37,544 workers. I map reservation, checkout, scheduling, marketing, event-sales, customer-query, reporting, and supervisory paperwork within those and other roles to task exposure, while treating cooking, cleaning, lane maintenance, safety, and most live guest service as unexposed. Lucky Strike's disclosed kiosks, robotic process automation, online reservations, and data-driven offers validate the task categories but likely overstate independent-center readiness. Direction of error is ambiguous: the occupation grouping hides clerical tasks, while a scaled chain has more standardized work and technology than the LMM lens.",
+      "rationale": "The occupation mix is dominated by on-site attendants, supervisors, and cooks, so most labor remains embodied and customer-facing. The exposed share is concentrated in transaction handling, reservations and event leads, scheduling, marketing, routine management reporting, customer messaging, and portions of food ordering rather than lane operations or hospitality delivery.",
+      "change_evidence": "A BPAA time-and-motion survey by job title, paired with payroll dollars and task-level adoption data from bowling-center POS/reservation vendors, would materially change the wage-weighted exposure estimate.",
+      "source_ids": ["S2", "S3"],
+      "caveats": [
+        "Data USA's workforce count differs from BLS industry employment concepts and does not publish task time or wage weights on the fetched page.",
+        "Lucky Strike is a large, digitally mature chain and may not represent LMM independents.",
+        "The frozen compensation ratio l=0.4024 is direct 2022 BLS evidence, but it does not identify which labor tasks are exposed."
+      ]
+    },
+    "rho": {
+      "evidence_state": "PROXY",
+      "low": 0.35,
+      "base": 0.55,
+      "high": 0.7,
+      "bridge": "Lucky Strike reports actual deployment of self-service kiosks, robotic process automation, online reservations and event sales, data-driven offers, and a leaner staffing model, plus a one-percentage-point reduction in location payroll and benefits as a share of revenue in fiscal 2025. This establishes operational feasibility at a large chain, not the five-year implementation share of exposed tasks at LMM firms. I haircut for fragmented systems, change capacity, service-quality constraints, and the capital required for integrated POS and kiosks. The chain proxy likely biases implementation upward for independents, although cheaper packaged AI tools could narrow that gap.",
+      "rationale": "More than half of the exposed opportunity appears implementable within five years because reservation, marketing, event-sales, scheduling, and reporting workflows already have deployed analogues. Implementation remains bounded by legacy scoring/POS integration, peak-period service requirements, manager bandwidth, and the risk that aggressive self-service degrades the social hospitality product.",
+      "change_evidence": "Center-level before/after payroll hours, service scores, exception rates, and deployment costs from QubicaAMF, Brunswick, or leading bowling POS/reservation vendors across at least 30 independent centers would materially move this range.",
+      "source_ids": ["S3"],
+      "caveats": [
+        "The filing attributes staffing optimization to a bundle of technologies and management actions, not AI alone.",
+        "Fiscal 2025 payroll data include acquisition and non-bowling venue effects.",
+        "Implementation is estimated for current not-yet-automated tasks, so technology already deployed at a target should not be counted again."
+      ]
+    },
+    "e": {
+      "evidence_state": "ESTIMATE",
+      "low": 0.75,
+      "base": 0.88,
+      "high": 0.96,
+      "rationale": "Most firms in the frozen LMM count should be operating businesses serving external customers and therefore eligible. Exclusions arise where the apparent firm is chiefly a real-estate holding vehicle, a captive amenity, a non-control structure, a distressed closure without transferable operations, or a mixed entertainment business whose bowling service is incidental.",
+      "change_evidence": "A manual classification of all 49 frozen-band firms using Secretary of State ownership records, property/lease records, websites, and venue-level revenue mix would directly establish eligibility.",
+      "source_ids": ["S1", "S8"],
+      "caveats": [
+        "Census establishment and legal-form data do not identify the frozen EBITDA-band firms or distinguish operating companies from property entities.",
+        "The frozen n=49 is a margin-bridged estimate, so e should not be interpreted as correcting its size-band uncertainty."
+      ]
+    },
+    "s5": {
+      "evidence_state": "PROXY",
+      "low": 0.1,
+      "base": 0.2,
+      "high": 0.32,
+      "bridge": "An SBA-hosted article reports a cross-industry survey in which 29% of business owners expected to exit within five years and 37% wanted a family transfer, while Lucky Strike reports 75 location-based entertainment venue acquisitions since fiscal 2022. I reduce the generic 29% exit intention because family succession, closure, minority recapitalization, and non-transferable distressed outcomes do not qualify, then use the observed strategic acquisition program only as confirmation that venue control deals occur. The SBA proxy may overstate qualifying transfers; Lucky Strike's count may overstate bowling activity because it includes other entertainment venues and may understate total market activity because private deals are omitted.",
+      "rationale": "Bowling centers are durable, asset-backed local operations for which strategic acquisitions are demonstrably active, but the observable deal count is location-based and concentrated in one large buyer. A one-in-five five-year control-transfer probability balances general owner exit intent with the substantial leakage to family succession, closures, and nonqualifying transactions.",
+      "change_evidence": "A five-year transaction census from bowling-specialist brokers, BPAA membership changes, venue deeds and liquor-license control changes, with firm matching and transaction-type coding, would materially change s5.",
+      "source_ids": ["S3", "S7"],
+      "caveats": [
+        "The SBA survey is old, cross-industry, and measures expected exits rather than completed qualifying control transfers.",
+        "Lucky Strike's 75 acquisitions include non-bowling location-based entertainment venues and do not identify seller firm size.",
+        "A location sale may be an asset transfer within a multi-location firm rather than a qualifying firm-level control transfer."
+      ]
+    },
+    "q": {
+      "evidence_state": "ESTIMATE",
+      "low": 0.58,
+      "base": 0.72,
+      "high": 0.84,
+      "rationale": "Direct consumer pricing, event packages, and recurring leagues allow an operator to retain a meaningful portion of implemented labor savings without contractual cost pass-through. Retention is reduced over time by local entertainment competition, discounting and promotions, customer expectations for reinvestment in experience, and renewal repricing for corporate or league business; higher-margin food and amusement cross-sell can support retention when service quality holds.",
+      "change_evidence": "Five-year center cohorts linking labor-saving deployments to realized price, game volume, event conversion, customer satisfaction, and EBITDA—segmented by league, walk-in, event, and food/beverage revenue—would directly test retained benefit.",
+      "source_ids": ["S3"],
+      "caveats": [
+        "Lucky Strike's revenue mix and brand strength may confer more pricing power than independent LMM centers.",
+        "The range is a judgment about retention of gross implemented benefit, not a margin forecast and not a demand assumption.",
+        "Mandatory gratuities passed through to employees are explicitly non-contributing revenue in the filing and should not be treated as retained savings."
+      ]
+    },
+    "d5": {
+      "evidence_state": "PROXY",
+      "low": 0.88,
+      "base": 1.02,
+      "high": 1.14,
+      "bridge": "BLS real sectoral output measures historical constant-price industry output, including a 47.5% pandemic decline in 2020 followed by 50.3% and 20.1% rebounds in 2021 and 2022; USBC measures only sanctioned-member participation, which held near 1.05-1.09 million from 2021-22 through 2024-25; and Lucky Strike's nominal same-store revenue fell 3.7% in fiscal 2025. I use stable recent membership as the anchor, temper it with weak large-chain same-store results, and allow modest experiential-entertainment growth and material cyclical downside. The membership proxy omits casual demand and likely overweights leagues; nominal same-store revenue overstates real demand when prices rise, so it biases the demand signal upward absent deflation.",
+      "rationale": "The current service basket has a stable core of league and repeat play plus events and casual entertainment, but it is discretionary and exposed to household budgets and competing experiences. Recent sanctioned membership is broadly flat, while one major operator reported a same-store decline; the base therefore assumes roughly flat to modestly higher constant-quality quantity over five years rather than extrapolating the pandemic rebound.",
+      "change_evidence": "A BPAA or payment-processor panel reporting inflation-adjusted games, occupied lane-hours, event counts, and food/beverage transactions per same center through 2026, segmented by independent versus chain, would materially change d5.",
+      "source_ids": ["S3", "S4", "S5"],
+      "caveats": [
+        "BLS real-output observations on the fetched series end in 2022 and are dominated by pandemic disruption.",
+        "USBC membership excludes most casual bowlers and is not a measure of visits or spend.",
+        "Lucky Strike includes non-bowling entertainment venues and its same-store revenue figure is nominal, not constant price or constant quality."
+      ]
+    },
+    "o": {
+      "evidence_state": "ESTIMATE",
+      "low": 0.93,
+      "base": 0.97,
+      "high": 0.99,
+      "rationale": "Nearly all surviving demand still requires a venue operator to maintain lanes and pinsetting equipment, manage safety and certification, host leagues and events, serve food and beverages, clean the facility, and resolve guest exceptions. Software and kiosks can remove portions of booking, payment, scoring, and coordination, but they do not deliver the physical bowling experience; only a small share could migrate to unattended or self-served formats.",
+      "change_evidence": "Operating data from unattended or minimally staffed bowling concepts—labor hours, safety incidents, uptime, food attachment, repeat visits, and customer satisfaction—compared with staffed centers would test the eliminable operator share.",
+      "source_ids": ["S1", "S3", "S4"],
+      "caveats": [
+        "The estimate assumes the current physical service basket, not adjacent digital games or at-home substitutes.",
+        "String pinsetters, remote monitoring, kiosks, and app-based service could reduce staffing more than expected without eliminating accountable ownership.",
+        "USBC certification applies to certified centers and is not itself proof of the required staffing model."
+      ]
+    }
+  },
+  "narrative": {
+    "executive_view": "Bowling centers combine a high labor share with recurring league, event, and casual demand, but the automatable work is mainly the administrative and transactional layer around a physical hospitality operation. A scaled operator has already shown that kiosks, online sales, workflow automation, and data-driven offers can support leaner staffing. The opportunity depends on transferring those systems into independent centers without weakening the in-person experience.",
+    "ai_impact": "AI can qualify and respond to event leads, manage reservations and customer messages, assist scheduling and purchasing, personalize promotions, forecast traffic, monitor exceptions, and automate routine reporting. It is much less able to replace cooks, cleaners, mechanics, safety oversight, lane care, or the visible guest service needed during peak periods. The practical program is therefore avoidable hiring and better manager leverage, not a largely unattended bowling center.",
+    "value_capture": "Most sales are direct to consumers or groups rather than cost-plus contracts, so savings are not mechanically passed through. Operators can retain value through steadier published prices, service improvements, targeted promotions, and more event conversion, but local entertainment competition and customer expectations will share some benefit through discounts or reinvestment. Retention is strongest when automation removes back-office friction while preserving hospitality.",
+    "firm_availability": "The industry has thousands of establishments and a large base of S-corporations and proprietorships, while the frozen estimate identifies 49 firms in the target EBITDA band. Strategic venue acquisitions are active, but public disclosure does not establish a firm-level transfer rate and includes non-bowling venues. Owner exits, family succession, real-estate structures, and closures create substantial uncertainty between apparent availability and a clean control transfer.",
+    "demand_durability": "Bowling remains a location-based social activity with stable recent sanctioned membership and recurring league play, supplemented by parties, corporate events, food, and amusements. Demand is discretionary and cyclical, and the major public operator reported a fiscal 2025 same-store revenue decline. Over five years, roughly flat to modestly growing real service quantity is plausible, but a consumer downturn or failure to refresh the venue can produce meaningful downside.",
+    "risks_and_uncertainty": "The largest evidence gaps are task-level wage weights at independent centers, verified post-deployment labor savings, private transaction data, and inflation-adjusted same-center demand. Large-chain disclosures may overstate technology readiness and pricing power. Other risks include legacy equipment integration, maintenance and insurance costs, real-estate dependence, food-service complexity, local competition, and customer backlash if self-service becomes visibly worse service.",
+    "principal_driver": "A substantial labor cost base contains repeatable reservation, event-sales, marketing, scheduling, checkout, and management workflows that a scaled operator can standardize across centers.",
+    "principal_weakness": "Most work and nearly all demand remain tied to a capital-intensive physical venue and live hospitality, limiting substitution and exposing results to local discretionary spending and execution quality."
+  },
+  "sources": [
+    {
+      "id": "S1",
+      "url": "https://www.census.gov/naics/?details=71395&input=71395&year=2022",
+      "title": "2022 NAICS Definition: 713950 Bowling Centers",
+      "access_date": "2026-07-22",
+      "supports": "Defines bowling centers as establishments operating bowling centers and notes that they often provide food and beverage services; supports the lens and the physical-service basis for operator requirement."
+    },
+    {
+      "id": "S2",
+      "url": "https://datausa.io/profile/naics/bowling-centers?redirect=true",
+      "title": "Bowling centers industry profile",
+      "access_date": "2026-07-22",
+      "supports": "Reports 37,544 workers in 2024 and identifies the three largest occupations as entertainment attendants (4,889), supervisors of personal care/service workers (3,657), and cooks (3,267); supports the occupation-mix bridge for a."
+    },
+    {
+      "id": "S3",
+      "url": "https://www.sec.gov/Archives/edgar/data/1840572/000184057225000012/bowl-20250629.htm",
+      "title": "Lucky Strike Entertainment Corporation Form 10-K for fiscal year ended June 29, 2025",
+      "access_date": "2026-07-22",
+      "supports": "Discloses recurring league revenue, group events, kiosks, robotic process automation, online reservations and event sales, data-driven offers, leaner staffing, 75 venue acquisitions since fiscal 2022, fiscal 2025 revenue mix, 24% location payroll and benefits, a 3.7% same-store revenue decline, and staffing optimization."
+    },
+    {
+      "id": "S4",
+      "url": "https://bowl.com/a-future-for-the-sport/2026-state-of-the-association",
+      "title": "USBC 2026 State of the Association",
+      "access_date": "2026-07-22",
+      "supports": "Reports USBC membership of 1,053,129 in 2021-22, 1,093,909 in 2022-23, 1,093,000 in 2023-24, and 1,075,194 in 2024-25, plus inspection of more than 3,400 centers and 73,000 lanes; supports demand and physical oversight proxies."
+    },
+    {
+      "id": "S5",
+      "url": "https://fred.stlouisfed.org/series/IPUSN713950T011000000",
+      "title": "Real Sectoral Output for Bowling Centers (NAICS 713950)",
+      "access_date": "2026-07-22",
+      "supports": "BLS Industry Productivity series showing real sectoral output changes of 3.7% in 2018, 8.1% in 2019, -47.5% in 2020, 50.3% in 2021, and 20.1% in 2022; supports historical demand volatility and recovery context."
+    },
+    {
+      "id": "S6",
+      "url": "https://fred.stlouisfed.org/series/IPUSN713950W200000000",
+      "title": "Employment for Bowling Centers (NAICS 713950)",
+      "access_date": "2026-07-22",
+      "supports": "BLS Industry Productivity series defining industry employment and reporting 70.8 thousand jobs in 2025, supporting the continuing labor-intensive scale of the physical operating model."
+    },
+    {
+      "id": "S7",
+      "url": "https://www.sba.gov/blog/5-reasons-hire-your-child",
+      "title": "5 Reasons to Hire Your Child",
+      "access_date": "2026-07-22",
+      "supports": "SBA-hosted article cites a survey in which 29% of business owners expected to exit within five years, 54% within ten years, and 37% wanted a family transfer; supports the cross-industry exit-intent proxy for s5."
+    },
+    {
+      "id": "S8",
+      "url": "https://data.census.gov/table/CBP2023.CB2300CBP?q=713950",
+      "title": "2023 County Business Patterns: Bowling centers (NAICS 713950)",
+      "access_date": "2026-07-22",
+      "supports": "Reports 3,154 establishments, including 1,397 S-corporation establishments and 290 individual-proprietorship establishments, with employment-size distributions; supports firm-form and eligibility context without replacing frozen n."
+    }
+  ]
+}

@@ -1,0 +1,228 @@
+{
+  "identity": {
+    "naics": "611310",
+    "title": "Colleges, Universities, and Professional Schools",
+    "run_id": "611310-a1-20260722",
+    "model_id": "claude-sonnet-5",
+    "run_date": "2026-07-22",
+    "methodology_version": "5.1",
+    "attempt": 1
+  },
+  "lens": {
+    "included_activities": "Privately controlled four-year colleges, universities, and professional schools providing recurring degree or professional education to external students and operating in the approximately $1-10M normalized EBITDA band.",
+    "excluded_activities": "Public institutions, two-year junior colleges, non-degree trade schools, software-only course providers, captive corporate academies, research units without an external recurring education service, non-control financing vehicles, and institutions without transferable operations.",
+    "customer_and_revenue_model": "Students purchase term- or program-based education funded by tuition, institutional grants, federal or state student aid, employer support, and private payment; some institutions also earn recurring auxiliary, research, clinical, or contract revenue tied to the operating institution.",
+    "deviation_from_default": "none",
+    "heterogeneous": false
+  },
+  "primitives": {
+    "a": {
+      "evidence_state": "PROXY",
+      "low": 0.2,
+      "base": 0.31,
+      "high": 0.42,
+      "bridge": "BLS measures the four-digit NAICS 611300 occupation and wage mix across public and private institutions of all sizes, while higher-education AI surveys span institution types and do not report wage-weighted task exposure. I map exposure in course preparation, feedback, research support, advising, admissions, advancement, communications, finance, HR, records, and compliance to private LMM institutions, then exclude live instruction, original scholarly judgment, laboratories, clinical supervision, student safeguarding, physical operations, and already automated work. Large research universities may overstate research and administrative complexity relative to the lens, while smaller private schools may retain more manual work.",
+      "rationale": "BLS reports 40.98% of employment in educational instruction and library occupations, including 32.52% postsecondary teachers; office and administrative support is 13.82%, management 8.63%, business and financial operations 6.67%, and life, physical, and social science occupations 3.86%. Much of the wage base includes language and analytic tasks exposed to AI, but only task slices are counted because accountable teaching, research, clinical, and relationship work remain human-led.",
+      "change_evidence": "Payroll-weighted time-and-motion evidence from private small and mid-sized institutions separating teaching delivery, course preparation, grading, advising, recruiting, financial aid, advancement, compliance, research, and facilities tasks, matched to deployed AI workflow telemetry.",
+      "source_ids": ["S1", "S2"],
+      "caveats": [
+        "OEWS combines public and private institutions and includes large research universities unlike the LMM lens.",
+        "AI surveys describe adoption and intent, not current unautomated wage-weighted task exposure.",
+        "The frozen compensation ratio has a 2024-wage/2022-receipts vintage mismatch and an IPS harmonization adjustment."
+      ]
+    },
+    "rho": {
+      "evidence_state": "PROXY",
+      "low": 0.39,
+      "base": 0.56,
+      "high": 0.72,
+      "bridge": "EDUCAUSE and Ellucian measure current AI availability, strategy, attitudes, and expected expansion across higher education, not five-year operational implementation of exposed labor in private LMM colleges and professional schools. I increase current adoption for five years of diffusion but discount for decentralized governance, faculty autonomy, privacy, research confidentiality, academic integrity, bias, accreditation, integration, and human review. Vendor sponsorship and self-selection may bias expectations upward.",
+      "rationale": "Ellucian found 84% of respondents used AI professionally or personally, 93% expected work use to expand over two years, and 80% of administrators cited efficiency and productivity. EDUCAUSE nevertheless found 55% of respondents' institutions provided none of the listed AI tools, only 6% offered an integrated suite, and 48% had begun an enterprise strategy. Colleges have strong technical potential but slower institutional change and higher quality-control needs than ordinary service firms.",
+      "change_evidence": "A five-year private-institution panel reporting use-case production volume, straight-through processing, faculty and staff hours saved, error and appeal rates, learning and research outcomes, audit findings, and realized hiring avoidance by workflow.",
+      "source_ids": ["S2", "S3"],
+      "caveats": [
+        "Mixed personal and professional use does not establish operational labor realization.",
+        "Survey populations include public institutions, larger universities, and Canadian respondents.",
+        "Implementation excludes tuition pricing, enrollment, research demand, and valuation effects."
+      ]
+    },
+    "e": {
+      "evidence_state": "PROXY",
+      "low": 0.1,
+      "base": 0.17,
+      "high": 0.27,
+      "bridge": "IPEDS classifies Title IV four-year institutions by public, private nonprofit, and private for-profit control, not by firm transferability or EBITDA. Private for-profit institutions are 298 of 1,818 private four-year institutions, or 16.4%; I use that as the anchor, subtracting proprietary institutions with accreditation, regulatory, scale, or transfer problems and adding a limited set of nonprofit affiliations or transactions that convey effective operating control. Institution-to-firm aggregation and the exclusion of non-Title-IV schools create uncertain error direction.",
+      "rationale": "IPEDS counted 796 public, 1,520 private nonprofit, and 298 private for-profit four-year Title IV institutions in 2023-24. Most private institutions therefore lack transferable equity ownership, while proprietary schools are subject to additional change-of-ownership diligence. Some nonprofit combinations can transfer operating control, but conventional acquisition eligibility remains a minority of the estimated LMM firm population.",
+      "change_evidence": "Institution-to-parent mapping using IPEDS, IRS Form 990, OPE ownership records, accreditation, state authorization, corporate filings, normalized EBITDA, governance documents, and transaction-specific restrictions for all private four-year and professional schools.",
+      "source_ids": ["S4", "S7"],
+      "caveats": [
+        "IPEDS institutions or campuses do not map one-for-one to the frozen estimated firm count.",
+        "Nonprofit status precludes private earnings but does not always preclude a change in operating control.",
+        "For-profit status alone does not establish program quality, financial health, or approval transferability."
+      ]
+    },
+    "s5": {
+      "evidence_state": "PROXY",
+      "low": 0.09,
+      "base": 0.16,
+      "high": 0.24,
+      "bridge": "Exit Planning Institute measures broad U.S. private-business transition pressure, not colleges, and its zero-to-ten-year transition category includes closures, family succession, and other nonqualifying events. I convert that pressure to five years and discount for failed sales, internal events, regulatory approvals, accreditation continuation, and Title IV recertification. Eligible proprietary professional schools may have founder succession above the general institutional average, while sector regulation reduces completed transfers.",
+      "rationale": "EPI states that 51% of the American business market is baby-boomer owned and expected to transition over zero to ten years, but only 20-30% of businesses brought to market sell. Federal Student Aid requires advance notice and extensive documentation for a change in ownership, and the school loses Title IV approval at the change until provisional participation is granted. Those frictions support a mid-teens qualifying five-year transfer probability for already eligible institutions.",
+      "change_evidence": "Five years of Department of Education change-in-ownership applications and approvals, accreditor and state authorization decisions, PitchBook or Capital IQ deals, nonprofit affiliations, and closures, linked to the eligible private LMM institution denominator.",
+      "source_ids": ["S8", "S13"],
+      "caveats": [
+        "The owner-readiness source is broad-market and produced by an exit-planning organization.",
+        "Nonprofit affiliations, governance restructurings, and campus sales may not constitute qualifying control transfers.",
+        "No complete industry-specific denominator of attempted and completed qualifying transfers was found."
+      ]
+    },
+    "q": {
+      "evidence_state": "PROXY",
+      "low": 0.34,
+      "base": 0.49,
+      "high": 0.66,
+      "bridge": "NACUBO measures institutional tuition discounting and net tuition revenue at private nonprofit colleges, not the discounted five-year share of AI benefit retained by LMM operators. I use very high discount rates and falling real net tuition per student as evidence of competitive sharing pressure, while recognizing that fixed term tuition does not automatically pass individual cost savings through. The nonprofit population may understate retention for proprietary professional schools but accurately signals the dominant private-sector pricing environment.",
+      "rationale": "For 2025-26, NACUBO reported estimated tuition discount rates of 57.1% for first-time full-time undergraduates and 51.3% for all undergraduates at surveyed private nonprofits; inflation-adjusted net tuition and fee revenue per student fell in 2024-25. Operators can initially retain fixed-price workflow savings, but aid, discounting, retention investment, faculty reinvestment, public alternatives, and competitive tuition resets share much of the benefit over five years.",
+      "change_evidence": "Institution and program cohort financials linking documented automation to net tuition, discounting, grants, persistence, auxiliary revenue, staffing reinvestment, research recovery, and contribution margins over repeated renewal cycles.",
+      "source_ids": ["S6"],
+      "caveats": [
+        "Tuition discounting is not a direct measure of AI-benefit pass-through.",
+        "The NACUBO sample is private nonprofit and may not represent proprietary professional schools.",
+        "Demand volume is handled in d5 and implementation difficulty in rho."
+      ]
+    },
+    "d5": {
+      "evidence_state": "PROXY",
+      "low": 0.9,
+      "base": 0.98,
+      "high": 1.06,
+      "bridge": "Enrollment sources measure student counts in broader private four-year sectors rather than constant-price, constant-quality demand for LMM colleges, universities, and professional schools. I balance NCES's older projection of 5% private-sector growth from 2020 to 2030 and spring 2025 gains against fall 2025 private four-year declines and WICHE's post-2025 high-school-graduate contraction. Enrollment can overstate service quantity when intensity falls and understate demand where graduate, adult, international, or professional programs grow.",
+      "rationale": "Private nonprofit four-year enrollment grew 1.9% and private for-profit enrollment 3.3% in spring 2025, but fall 2025 undergraduate enrollment declined 1.6% and 2.0%, respectively. NCES projected private degree-granting enrollment 5% higher in 2030 than 2020, while WICHE projects high-school graduates to decline steadily after a 2025 peak. The combined five-year outlook is near-flat with material institution and geography dispersion.",
+      "change_evidence": "Current IPEDS and Clearinghouse enrollment, credit-load, persistence, and completion data isolated to private four-year and professional institutions by degree level, program, geography, age, international status, online modality, and net price, combined with updated demographic projections.",
+      "source_ids": ["S9", "S10", "S11", "S12"],
+      "caveats": [
+        "Spring and fall 2025 estimates point in different directions and reflect seasonal and coverage differences.",
+        "The NCES model was prepared in 2022 and excludes cost, value, and distance-learning effects.",
+        "High-school graduate projections do not capture adult, graduate, or international demand and vary sharply by region."
+      ]
+    },
+    "o": {
+      "evidence_state": "PROXY",
+      "low": 0.9,
+      "base": 0.97,
+      "high": 0.995,
+      "bridge": "Federal authorization and accreditation rules establish institutional accountability but do not directly measure the future quantity share requiring an operator. I infer that recognized degrees, federal aid, state authorization, accreditation, research and clinical governance, records, and complaints continue to attach to a legal institution, while allowing some demand to move to software, direct employer credentials, self-study, or unbundled research and learning. The estimate could be high if employers and regulators rapidly accept noninstitutional credentials.",
+      "rationale": "Federal Student Aid requires eligible institutions to be state-authorized and accredited by a nationally recognized agency or meet an alternative, and the Department describes accreditation as a quality-assurance gatekeeper for federal aid. AI can perform or support more instruction and administration, but it cannot independently hold accreditation, confer a recognized degree, administer aid, supervise licensed professional education, or bear institutional responsibility.",
+      "change_evidence": "Longitudinal evidence on employer and licensure acceptance of software-only credentials, direct assessment, and unbundled providers, plus changes in federal aid, accreditation, state authorization, research oversight, and professional-school requirements.",
+      "source_ids": ["S5", "S7"],
+      "caveats": [
+        "Not all institutions or programs depend on Title IV participation, and accreditation policy is changing.",
+        "The evidence is qualitative on operator accountability rather than a measured quantity share.",
+        "Software substitution may be greater in general education and continuing education than in clinical, laboratory, and licensed professional programs."
+      ]
+    }
+  },
+  "narrative": {
+    "executive_view": "Colleges, universities, and professional schools contain a large wage base of instruction, administration, finance, records, advising, advancement, and research-support work exposed to AI. Yet the dominant private ownership form is nonprofit, sharply limiting conventional control transfer. Accreditation, federal aid, professional standards, and institutional accountability preserve the operator even as many workflows become more automated.",
+    "ai_impact": "AI can draft learning materials, provide formative feedback, assist research and literature work, triage advising, personalize communications, review documents, support admissions and advancement, and automate finance, HR, scheduling, and compliance tasks. Faculty, clinicians, researchers, and administrators still must validate knowledge, protect integrity and privacy, supervise high-stakes learning, adjudicate exceptions, and own institutional decisions. Decentralized governance makes consistent implementation harder than technical capability alone implies.",
+    "value_capture": "Tuition is generally fixed by term, so initial labor savings are not automatically rebated. Private-college discounting and declining real net tuition show that customer acquisition, aid, and retention pressures already share a large part of sticker price. Durable capture therefore depends on converting automation into better persistence, service, and capacity without triggering quality, faculty, accreditation, or reputation damage.",
+    "firm_availability": "IPEDS shows 1,520 private nonprofit versus only 298 private for-profit four-year institutions. Nonprofit combinations may shift operating control but usually do not offer transferable equity economics, and proprietary transfers require Department, accreditor, and state approvals. Broad owner-aging pressure exists for eligible schools, but the economically transferable pool is a small minority of the estimated LMM firm base.",
+    "demand_durability": "Private four-year enrollment recovered in spring 2025 but fell in fall 2025, and the high-school graduate population has begun a long national decline after its 2025 peak. Adult, graduate, international, online, and licensed professional demand can offset undergraduate demographics for selected operators. The base case is approximately flat five-year service quantity, with large differences by program, geography, reputation, and net price.",
+    "risks_and_uncertainty": "Occupation data include large public and research institutions; AI surveys are mixed and partly vendor-sponsored; institution counts do not equal firms; and the frozen 861-firm estimate is margin-bridged. Tuition discounting, accreditation, Title IV recertification, professional licensing, research integrity, faculty resistance, privacy, bias, enrollment volatility, and reputational harm can absorb or reverse savings. A poor outcome would involve a structurally weak institution using cost reduction to mask falling demand or degraded outcomes.",
+    "principal_driver": "A large concentration of high-wage knowledge and administrative work creates substantial scope for AI-assisted capacity and avoided hiring.",
+    "principal_weakness": "Private nonprofit dominance leaves only a small minority of institutions compatible with conventional transferable control economics."
+  },
+  "sources": [
+    {
+      "id": "S1",
+      "url": "https://www.bls.gov/oes/2023/May/naics4_611300.htm",
+      "title": "May 2023 National Industry-Specific Occupational Employment and Wage Estimates: NAICS 611300 Colleges, Universities, and Professional Schools",
+      "access_date": "2026-07-22",
+      "supports": "Occupation and wage mix for 3,093,330 jobs: 40.98% educational instruction/library, 32.52% postsecondary teachers, 13.82% office/administrative support, 8.63% management, 6.67% business/financial operations, and 3.86% life/physical/social science."
+    },
+    {
+      "id": "S2",
+      "url": "https://er.educause.edu/articles/2024/4/educause-quickpoll-results-a-growing-need-for-generative-ai-strategy",
+      "title": "EDUCAUSE QuickPoll Results: A Growing Need for Generative AI Strategy",
+      "access_date": "2026-07-22",
+      "supports": "Higher-education AI readiness: 55% reported none of the listed institutional tools, 6% an integrated suite, and 48% an enterprise strategy in development; methodology notes 278 complete self-selected responses."
+    },
+    {
+      "id": "S3",
+      "url": "https://www.educause.edu/about/corporate-participation/member-press-releases/ellucians-ai-survey-of-higher-education-professionals-reveals-surge-in-ai-adoption",
+      "title": "Ellucian AI Survey of Higher Education Professionals Reveals Surge in AI Adoption",
+      "access_date": "2026-07-22",
+      "supports": "Survey of 445 faculty and administrators at more than 330 U.S. and Canadian institutions: 84% used AI professionally or personally, 93% expected work use to expand, and privacy and bias concerns increased."
+    },
+    {
+      "id": "S4",
+      "url": "https://nces.ed.gov/ipeds/search/viewtable?returnUrl=%2F&tableId=36556",
+      "title": "IPEDS Table 4: Number of Title IV 4-year and 2-year Institutions by Control, 2023-24",
+      "access_date": "2026-07-22",
+      "supports": "Four-year institution counts by control: 796 public, 1,520 private nonprofit, and 298 private for-profit."
+    },
+    {
+      "id": "S5",
+      "url": "https://www.ed.gov/laws-and-policy/higher-education-laws-and-policy/college-accreditation/overview-of-accreditation-united-states",
+      "title": "Overview of Accreditation in the United States",
+      "access_date": "2026-07-22",
+      "supports": "Accreditation's role in quality assurance and as a gatekeeper for federal student aid."
+    },
+    {
+      "id": "S6",
+      "url": "https://www.nacubo.org/Press-Releases/2026/Most-Undergraduates-Receive-Grants-at-Private-Colleges-NACUBO-Research-Shows",
+      "title": "Most Undergraduates Receive Grants at Private Colleges, NACUBO Research Shows",
+      "access_date": "2026-07-22",
+      "supports": "2025-26 estimated private nonprofit tuition discount rates of 57.1% for first-time full-time undergraduates and 51.3% for all undergraduates; real net tuition revenue per student fell in 2024-25."
+    },
+    {
+      "id": "S7",
+      "url": "https://fsapartners.ed.gov/knowledge-center/fsa-handbook/2025-2026/vol2/ch1-institutional-eligibility",
+      "title": "2025-2026 Federal Student Aid Handbook: Institutional Eligibility",
+      "access_date": "2026-07-22",
+      "supports": "State authorization, recognized accreditation, nonprofit definition, and approval or licensure requirements for eligible postsecondary institutions."
+    },
+    {
+      "id": "S8",
+      "url": "https://fsapartners.ed.gov/knowledge-center/fsa-handbook/2025-2026/vol2/ch5-updating-application-information",
+      "title": "2025-2026 Federal Student Aid Handbook: Updating Application Information",
+      "access_date": "2026-07-22",
+      "supports": "Change-of-ownership notice, documentation, audited financial statements, accreditation and state authorization continuation, liability assumption, and temporary Title IV approval requirements."
+    },
+    {
+      "id": "S9",
+      "url": "https://www.studentclearinghouse.org/nscblog/data-dive-have-four-year-universities-turned-the-corner/",
+      "title": "Data Dive: Have Four-Year Universities Turned the Corner?",
+      "access_date": "2026-07-22",
+      "supports": "Spring 2025 private four-year undergraduate enrollment: nonprofit up 1.9% year over year and for-profit up 3.3%."
+    },
+    {
+      "id": "S10",
+      "url": "https://nscresearchcenter.org/final-fall-enrollment-trends/",
+      "title": "Clearinghouse Final Fall Enrollment Trends: Fall 2025",
+      "access_date": "2026-07-22",
+      "supports": "Fall 2025 private four-year undergraduate enrollment declined 1.6% at nonprofits and 2.0% at for-profits; private-sector freshman counts also declined."
+    },
+    {
+      "id": "S11",
+      "url": "https://www.wiche.edu/knocking/",
+      "title": "Knocking at the College Door, 11th Edition",
+      "access_date": "2026-07-22",
+      "supports": "Projection that U.S. high-school graduates peak in 2025 and decline steadily through 2041, ending 13% below the peak, with major regional variation."
+    },
+    {
+      "id": "S12",
+      "url": "https://nces.ed.gov/programs/PES/section-5.asp",
+      "title": "Projections of Education Statistics to 2030: Enrollment in Degree-Granting Postsecondary Institutions",
+      "access_date": "2026-07-22",
+      "supports": "Private degree-granting enrollment projected to increase 5% from 2020 to 2030; model scope, assumptions, exclusions, and lack of error estimates for the new model."
+    },
+    {
+      "id": "S13",
+      "url": "https://exit-planning-institute.org/state-of-owner-readiness",
+      "title": "State of Owner Readiness Research",
+      "access_date": "2026-07-22",
+      "supports": "Broad-market proxy stating 51% of the American business market is baby-boomer owned and expected to transition over zero to ten years, while only 20-30% of businesses brought to market sell."
+    }
+  ]
+}
