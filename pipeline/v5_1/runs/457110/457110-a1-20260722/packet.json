@@ -1,0 +1,195 @@
+{
+  "identity": {
+    "naics": "457110",
+    "title": "Gasoline Stations with Convenience Stores",
+    "run_id": "457110-a1-20260722",
+    "model_id": "claude-sonnet-5",
+    "run_date": "2026-07-22",
+    "methodology_version": "5.1",
+    "attempt": 1
+  },
+  "lens": {
+    "included_activities": "U.S. lower-middle-market gasoline stations with convenience stores that also provide a substantive repeat automotive inspection, maintenance, and repair service to external vehicle owners or fleets.",
+    "excluded_activities": "Stations limited to fuel, grocery, prepared-food, lottery, tobacco, or other merchandise sales; fuel-card accounts without a supplied service; standalone charging sites; incidental air or vacuum machines; captive fleet facilities; shells; and non-control financing vehicles.",
+    "customer_and_revenue_model": "Included firms combine high-frequency retail fuel and convenience sales with externally purchased repeat automotive service, typically billed as flat-rate or actual-time labor plus parts and sometimes through fleet-account arrangements.",
+    "deviation_from_default": "none",
+    "heterogeneous": false
+  },
+  "primitives": {
+    "a": {
+      "evidence_state": "PROXY",
+      "low": 0.16,
+      "base": 0.25,
+      "high": 0.36,
+      "bridge": "BLS measures occupations for all gasoline stations rather than the repair-service subset, while O*NET and BLS describe cashier and automotive-technician duties rather than wage-weighted task time. I map payment, reconciliation, customer Q&A, scheduling, estimate drafting, diagnostic assistance, inventory, and routine records to AI exposure, then discount for stocking, food handling, forecourt safety, inspection, wrench work, test driving, and physical repairs. Because included stations likely employ more mechanics than the parent, the cashier-heavy parent mix may overstate exposure; conversely, it omits some automatable service-office work.",
+      "rationale": "Gasoline-station employment is dominated by cashiers, whose transaction and information tasks are already technology-susceptible, while the qualifying repair service involves computer-assisted diagnosis but extensive physical inspection and repair. The resulting not-yet-automated wage opportunity is material but clearly a minority.",
+      "change_evidence": "Payroll and time-on-task data for qualifying station-repair businesses, split among store, forecourt, service writer, technician, parts, bookkeeping, and management work and net of existing pay-at-pump, POS, and diagnostic automation, would materially change the range.",
+      "source_ids": ["S2", "S3", "S4", "S5"],
+      "caveats": [
+        "The occupation source covers all gasoline stations, not specifically 457110 establishments with substantive repair operations.",
+        "Task sources do not supply industry wage weights or current automation penetration.",
+        "The supplied compensation-to-receipts ratio is a low-quality retail-sector ancestor and may dilute the labor intensity of repair service."
+      ]
+    },
+    "rho": {
+      "evidence_state": "ESTIMATE",
+      "low": 0.42,
+      "base": 0.57,
+      "high": 0.7,
+      "rationale": "Within five years, operators can implement AI-assisted service intake, call handling, maintenance reminders, estimate explanations, parts lookup, diagnostic suggestions, scheduling, bookkeeping review, loss-prevention review, and inventory forecasting. Realization is constrained by legacy POS and shop systems, fragmented vehicle data, small-firm change capacity, liability, cybersecurity, false diagnoses, theft and exception handling, and the physical nature of repairs.",
+      "change_evidence": "A 12- to 24-month matched study of station-repair operators deploying AI, reporting labor hours, estimate accuracy, rework, safety incidents, shrink, customer complaints, and realized hiring avoidance by workflow, would materially move the range.",
+      "source_ids": ["S3", "S4", "S5"],
+      "caveats": [
+        "No implementation study specific to gasoline-station repair businesses was found.",
+        "The estimate excludes pricing, demand, and valuation effects and applies only to exposed tasks in a."
+      ]
+    },
+    "e": {
+      "evidence_state": "ESTIMATE",
+      "low": 0.02,
+      "base": 0.06,
+      "high": 0.15,
+      "rationale": "The official industry is primarily retail fuel plus a limited grocery line and says establishments may also provide automotive repair. Fuel and merchandise transactions are not outsourced services, so most firms fail the fixed lens; eligibility is confined to the small, unmeasured minority where repeat repair and maintenance is a substantive operating activity rather than a trivial amenity.",
+      "change_evidence": "A 457110 establishment census reporting repair bays, technician payroll, repair revenue, repeat or fleet-service customers, and LMM EBITDA would materially change the eligible share.",
+      "source_ids": ["S1", "S2"],
+      "caveats": [
+        "Public data do not report the share of 457110 firms with substantive automotive repair operations.",
+        "Repeat fuel purchase and fuel-card billing are treated as recurring merchandise, not an outsourced service.",
+        "Repair-heavy gasoline stations without convenience stores may instead be classified in 457120, which depresses eligibility in this code."
+      ]
+    },
+    "s5": {
+      "evidence_state": "PROXY",
+      "low": 0.13,
+      "base": 0.22,
+      "high": 0.34,
+      "bridge": "Census measures the age of responding owners of employer businesses across all U.S. industries, not 457110 sellers or completed transfers. I use the 51% age-55-or-older share as succession-pressure evidence and assume only a minority becomes an external five-year control transfer after closures, family or internal succession, environmental diligence failures, franchise restrictions, real-estate separation, and non-LMM outcomes. Forecourt contamination and fuel-supply complexity likely make the all-business proxy overstate transferable-sale probability.",
+      "rationale": "Owner aging supports recurring sale opportunities, and repair customers, site traffic, fuel contracts, and real estate can be transferable. Tanks, environmental liability, franchise and supply agreements, low-margin product exposure, owner dependence, and mixed property/operating-company structures reduce the probability that an eligible firm completes a qualifying control transaction.",
+      "change_evidence": "Five years of closed sales, closures, and failed processes for gasoline stations with repair bays from fuel-property brokers, SBA lending, environmental diligence providers, and transaction databases, matched to owner age and control outcome, would materially change the estimate.",
+      "source_ids": ["S9"],
+      "caveats": [
+        "The owner-age source is all-industry and data year 2018.",
+        "No qualifying-transfer denominator for the narrow eligible subset was found.",
+        "A real-estate sale, fuel-brand change, or lease transfer is not necessarily a control transfer of the service operating company."
+      ]
+    },
+    "q": {
+      "evidence_state": "ESTIMATE",
+      "low": 0.38,
+      "base": 0.55,
+      "high": 0.7,
+      "rationale": "Repair labor is commonly priced using a flat published rate based on standard labor time or actual technician time, so faster administrative work and better scheduling need not be contractually passed through immediately. Local quote comparison, fleet negotiation, parts transparency, warranty expectations, and competition cause some sharing at renewal or the next visit. Fuel and convenience prices are highly visible, but the estimate concerns the implemented benefit in the qualifying service.",
+      "change_evidence": "Job-level data linking documented automation to billed hours, posted labor rates, realized technician and service-writer hours, discounts, fleet-contract repricing, customer retention, and contribution margin over subsequent years would materially change q.",
+      "source_ids": ["S8"],
+      "caveats": [
+        "No source directly measures AI cost pass-through in station-based automotive repair.",
+        "Retention differs between walk-in consumers, fleets, warranty work, and insurer-influenced repairs.",
+        "The range excludes demand loss and implementation difficulty."
+      ]
+    },
+    "d5": {
+      "evidence_state": "PROXY",
+      "low": 0.9,
+      "base": 0.98,
+      "high": 1.05,
+      "bridge": "BLS projects employment of automotive service technicians across all repair settings to grow 4% from 2024 to 2034, while EIA reports gasoline consumption fell 1% in 2025 and expects declines through 2027, and DOE finds battery-electric vehicles have substantially lower scheduled maintenance costs than conventional vehicles. I convert these adjacent signals into a near-flat five-year constant-quality repair-service quantity for station-based operators, with downside for declining fuel visits and EV maintenance and upside from the large aging combustion-vehicle stock. Technician employment can understate volume if productivity rises and overstate this subset if work migrates to dealerships or specialized shops.",
+      "rationale": "The existing gasoline vehicle fleet will still require repair over five years, supporting a near-flat base, but improving fuel economy reduces station visits and all-electric vehicles require less routine maintenance. Convenience-store traffic, vehicle age, repair complexity, and technician demand cushion the transition, while the co-located service model may lose share to specialized repair networks.",
+      "change_evidence": "Inflation-adjusted repair orders and standardized labor operations per qualifying 457110 site for five years, segmented by powertrain, fleet versus consumer, and same-store location, would materially change the demand ratio.",
+      "source_ids": ["S5", "S6", "S7"],
+      "caveats": [
+        "Occupational employment is not direct service quantity and covers all automotive repair settings.",
+        "National gasoline consumption is not a direct measure of demand for station-based repair.",
+        "Powertrain transition, vehicle age, miles traveled, and local station closures may move in offsetting directions."
+      ]
+    },
+    "o": {
+      "evidence_state": "ESTIMATE",
+      "low": 0.78,
+      "base": 0.89,
+      "high": 0.96,
+      "rationale": "Customers can self-pay at pumps and self-check out merchandise, and software can handle booking, reminders, basic triage, quotes, and records. The qualifying service still requires an accountable operator to inspect vehicles, authorize safe work, control parts, perform physical repairs, test outcomes, handle hazardous materials and exceptions, and stand behind workmanship; AI is more likely to augment than eliminate that entity within five years.",
+      "change_evidence": "Field evidence from highly automated repair sites measuring the share of complete repair orders delivered without on-site skilled labor or accountable human review, together with safety, rework, insurance, and regulatory outcomes, would materially move the estimate.",
+      "source_ids": ["S5", "S7"],
+      "caveats": [
+        "The operator may use centralized or remote support, so this estimate does not imply current store staffing remains unchanged.",
+        "Simple diagnostics and software resets are more substitutable than mechanical inspection and repair.",
+        "The estimate applies to year-five service quantity after d5, not fuel or grocery transaction volume."
+      ]
+    }
+  },
+  "narrative": {
+    "executive_view": "Gasoline stations with convenience stores are overwhelmingly product retailers, so the outsourced-service screen applies only to the small minority with substantive repeat automotive repair and maintenance. That edge has some administrative and diagnostic AI potential, but physical work, environmental and site complexity, and a gradual powertrain transition bound the opportunity.",
+    "ai_impact": "AI can assist intake, scheduling, customer explanations, maintenance reminders, parts lookup, diagnostics, bookkeeping, inventory, and surveillance review. Existing pay-at-pump and checkout automation already remove some easy work, while vehicle inspection, repair, forecourt operations, food handling, and safety exceptions remain human and physical.",
+    "value_capture": "Flat-rate repair pricing can let operators retain administrative and productivity gains initially. Local competition, fleet-account negotiation, visible parts prices, rework obligations, and customer switching share some benefit over time; fuel-price competition is economically important to the firm but is outside the qualifying repair benefit.",
+    "firm_availability": "Only an unmeasured minority of 457110 businesses appear eligible because the official definition requires fuel plus convenience retail and only optionally repair. Broad owner aging supports succession supply, but tanks, contamination, fuel agreements, franchise rules, and mixed real-estate structures complicate control transfers.",
+    "demand_durability": "The five-year repair basket is likely near flat: a large combustion-vehicle fleet continues to age, while fuel consumption trends down and battery-electric vehicles require less routine maintenance. The accountable service operator remains durable because safe diagnosis and physical repair cannot be reduced to software alone.",
+    "risks_and_uncertainty": "The principal empirical risk is mistaking repeat product transactions for a recurring service and therefore overstating eligibility. Other material risks are environmental liabilities, declining fuel visits, EV adoption, technician scarcity, theft, low product margins, fuel-supplier and franchise constraints, real-estate entanglement, and AI-driven diagnostic or safety errors.",
+    "principal_driver": "A repair-bearing station can use AI in customer and shop administration while retaining indispensable physical service work.",
+    "principal_weakness": "Substantive outsourced repair is optional and probably rare in this product-retail NAICS, leaving a very small eligible population."
+  },
+  "sources": [
+    {
+      "id": "S1",
+      "url": "https://www.census.gov/naics/?details=457110&input=457110&year=2022",
+      "title": "2022 NAICS Definition: 457110 Gasoline Stations with Convenience Stores",
+      "access_date": "2026-07-22",
+      "supports": "Defines the industry as retail automotive fuels combined with a limited grocery line and states that establishments may also provide automotive repair services."
+    },
+    {
+      "id": "S2",
+      "url": "https://www.bls.gov/oes/2024/may/ind_emp_chart/ind_emp_chart_data.htm",
+      "title": "Data Tables for OEWS Industry Charts, May 2024",
+      "access_date": "2026-07-22",
+      "supports": "Reports gasoline-station employment concentrated in 586,370 cashiers, 104,010 first-line retail supervisors, 52,710 retail salespersons, 41,360 fast-food/counter workers, 33,820 general and operations managers, and 17,470 service attendants."
+    },
+    {
+      "id": "S3",
+      "url": "https://www.onetonline.org/link/summary/41-2011.00",
+      "title": "O*NET OnLine: Cashiers 41-2011.00",
+      "access_date": "2026-07-22",
+      "supports": "Lists cashier tasks including receiving payments, refunds, customer questions, complaints, phone calls, pricing, transaction reconciliation, reporting, stocking, bagging, and cleaning."
+    },
+    {
+      "id": "S4",
+      "url": "https://www.bls.gov/ooh/sales/cashiers.htm",
+      "title": "Occupational Outlook Handbook: Cashiers",
+      "access_date": "2026-07-22",
+      "supports": "Projects cashier employment to decline 10% from 2024 to 2034 and attributes the decline to technology such as self-service checkout and increasing online sales."
+    },
+    {
+      "id": "S5",
+      "url": "https://www.bls.gov/ooh/installation-maintenance-and-repair/automotive-service-technicians-and-mechanics.htm",
+      "title": "Occupational Outlook Handbook: Automotive Service Technicians and Mechanics",
+      "access_date": "2026-07-22",
+      "supports": "States that technicians inspect, maintain, and repair cars and light trucks, often diagnose with computers but work with physical parts and tools, and projects 4% employment growth from 2024 to 2034."
+    },
+    {
+      "id": "S6",
+      "url": "https://www.eia.gov/todayinenergy/detail.php?id=67426",
+      "title": "Increasing Fuel Efficiency Leads to Decreasing Gasoline Consumption",
+      "access_date": "2026-07-22",
+      "supports": "Reports U.S. motor-gasoline consumption averaged 8.9 million barrels per day in 2025, 1% below 2024 and 4% below 2019, and forecasts continued decline in 2026 and 2027."
+    },
+    {
+      "id": "S7",
+      "url": "https://www.energy.gov/cmei/vehicles/articles/fotw-1190-june-14-2021-battery-electric-vehicles-have-lower-scheduled",
+      "title": "Battery-Electric Vehicles Have Lower Scheduled Maintenance Costs Than Other Light-Duty Vehicles",
+      "access_date": "2026-07-22",
+      "supports": "Reports estimated scheduled maintenance cost of 6.1 cents per mile for battery-electric vehicles versus 10.1 cents for conventional internal-combustion vehicles, reflecting fewer service items."
+    },
+    {
+      "id": "S8",
+      "url": "https://consumer.ftc.gov/sites/default/files/articles/pdf/pdf-0078-auto-repair.pdf",
+      "title": "Auto Repair Basics",
+      "access_date": "2026-07-22",
+      "supports": "Explains that some repair shops charge a flat labor rate based on independent or manufacturer time estimates, while others charge for actual technician time, supporting the value-capture billing analysis."
+    },
+    {
+      "id": "S9",
+      "url": "https://www.census.gov/content/dam/Census/library/visualizations/2020/comm/business-owners-ages.pdf",
+      "title": "Business Owners' Ages",
+      "access_date": "2026-07-22",
+      "supports": "Reports that 51% of responding owners of U.S. employer businesses were age 55 or older in the 2019 Annual Business Survey, data year 2018."
+    }
+  ]
+}

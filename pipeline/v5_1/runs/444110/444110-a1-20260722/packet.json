@@ -1,0 +1,198 @@
+{
+  "identity": {
+    "naics": "444110",
+    "title": "Home Centers",
+    "run_id": "444110-a1-20260722",
+    "model_id": "claude-sonnet-5",
+    "run_date": "2026-07-22",
+    "methodology_version": "5.1",
+    "attempt": 1
+  },
+  "lens": {
+    "included_activities": "Lower-middle-market home-center firms that repeatedly serve external homeowners, contractors, property managers, and institutions through broad-line building-material retail plus material advice, quoting, account service, project fulfillment, delivery, rental, returns, and installation coordination.",
+    "excluded_activities": "National-chain corporate stores, pure online marketplaces, captive procurement units, passive real-estate entities, stores whose activity is only one-off product resale without a repeat service relationship, and firms without transferable operating systems or customer relationships.",
+    "customer_and_revenue_model": "Predominantly transaction-based product revenue with repeat contractor and homeowner demand; services such as delivery, rental, project quoting, credit, and installation coordination support merchandise sales and may be charged directly or embedded in product margin.",
+    "deviation_from_default": "none",
+    "heterogeneous": false
+  },
+  "primitives": {
+    "a": {
+      "evidence_state": "PROXY",
+      "low": 0.19,
+      "base": 0.30,
+      "high": 0.41,
+      "bridge": "BLS reports occupations for the broader Building Material and Supplies Dealers industry rather than 444110 alone. I treat cashiering, product lookup, routine advice, quote preparation, customer service, scheduling, purchasing, merchandising analysis, and administration as partly exposed, while treating loading, stocking, delivery, equipment handling, and complex project advice as less substitutable; broader-industry specialty dealers may employ more expert salespeople than home centers, which can overstate exposure to AI-mediated advice.",
+      "rationale": "The broader industry's largest occupations include 411,080 retail salespersons and 145,390 cashiers, but also 102,980 material movers and 101,670 stockers. Conversational and information tasks create a meaningful opportunity, while store-floor presence, handling bulky goods, shelf work, and fulfillment keep most wage-weighted work physical or interpersonal.",
+      "change_evidence": "A 444110 payroll-by-SOC file joined to task-level time studies for sales associates, pro desks, cashiers, receiving, delivery, merchandising, purchasing, and back office, with existing self-checkout and digital-tool use removed.",
+      "source_ids": ["S2", "S3", "S5"],
+      "caveats": [
+        "The occupation mix is for a broader industry that includes specialized building-material retailers.",
+        "Home Depot is a large-chain proxy with more technology and process standardization than LMM operators.",
+        "Exposure does not imply that customers will accept automated trade advice or that staffing can be reduced."
+      ]
+    },
+    "rho": {
+      "evidence_state": "PROXY",
+      "low": 0.31,
+      "base": 0.49,
+      "high": 0.66,
+      "bridge": "Census BTOS measures any-function AI use across all Retail Trade, not the portion of exposed home-center labor implemented within five years. Current retail use near 14% and expected six-month use near 17% establish a low base; I project higher five-year implementation for packaged search, quoting, service, inventory, scheduling, and workforce tools, but discount for LMM data quality, integration, training, safety, and customer-service constraints.",
+      "rationale": "Large home-center practice shows that computer vision, associate tasking, mobile product lookup, personalization, and self-help tools can be integrated into stores. LMM firms should be able to adopt narrower vendor-delivered capabilities, though fragmented point-of-sale and inventory data and limited IT capacity slow implementation.",
+      "change_evidence": "Vendor and operator cohorts showing deployment, active usage, override rates, training time, realized labor hours, and five-year retention of AI features across independent and regional home centers.",
+      "source_ids": ["S4", "S5"],
+      "caveats": [
+        "BTOS measures adoption breadth rather than implementation depth or labor impact.",
+        "Large-chain capabilities may not be economical or interoperable for LMM firms.",
+        "Implementation is likely uneven between customer-facing, merchandising, and physical workflows."
+      ]
+    },
+    "e": {
+      "evidence_state": "ESTIMATE",
+      "low": 0.03,
+      "base": 0.11,
+      "high": 0.23,
+      "rationale": "NAICS 444110 is defined around broad-line merchandise retail, not outsourced services. Only a minority of firms should have sufficiently material repeat contractor accounts, delivery, rental, project fulfillment, or installation coordination to fit the recurring-service lens, and eligibility is further reduced by chain ownership, weak transferability, commodity-only retail, and owner-dependent operations.",
+      "change_evidence": "A firm-level 444110 census identifying ownership, EBITDA, service and delivery revenue, repeat-account share, installation model, customer concentration, franchise restrictions, and owner dependence, followed by a review of the 276 dataset-inferred LMM firms.",
+      "source_ids": ["S1", "S5", "S8"],
+      "caveats": [
+        "The dataset firm count is margin-bridged and may misclassify firms when EBITDA margins differ materially from the sector assumption.",
+        "Product revenue often embeds service value, so accounting classifications may understate qualifying activity.",
+        "Large chains demonstrate the service model but are excluded from the LMM lens."
+      ]
+    },
+    "s5": {
+      "evidence_state": "PROXY",
+      "low": 0.10,
+      "base": 0.19,
+      "high": 0.29,
+      "bridge": "Gallup reports five-year sale or transfer plans for U.S. businesses, including 22% of employer owners, rather than completed control transfers of eligible home centers. I reduce the center for failed, deferred, family-internal, asset-only, and closure outcomes, while recognizing unplanned sales and observed building-material/hardware transactions; intention data likely overstates completion and marketplace data undercounts private transfers.",
+      "rationale": "Aging employer ownership supports transfer supply, and BizBuySell reported 29 building-material and hardware-store sales in 2025. Home centers can be harder to transfer than asset-light services because inventory, leases or owned real estate, working capital, supplier terms, and chain competition narrow the buyer pool.",
+      "change_evidence": "Five-year cohort data for 444110 firms covering listings, completed control sales, internal and family transfers, closures, failed deals, seller age, inventory financing, and the denominator of eligible firms.",
+      "source_ids": ["S7", "S8"],
+      "caveats": [
+        "Gallup spans all industries and measures plans, not completed transactions.",
+        "BizBuySell combines building-material and hardware stores and captures only reported small-business sales.",
+        "The qualifying LMM service-oriented subset may transfer at a different rate from the overall industry."
+      ]
+    },
+    "q": {
+      "evidence_state": "ESTIMATE",
+      "low": 0.24,
+      "base": 0.44,
+      "high": 0.64,
+      "rationale": "Operators can retain benefits from better labor scheduling, fewer service contacts, improved quote follow-up, tighter inventory, delivery routing, and lower administrative hiring. Retention is constrained by transparent product prices, bid-sensitive contractor accounts, large-chain competition, supplier bargaining, and rapid diffusion of similar retail tools; differentiated delivery, availability, and project support preserve some margin.",
+      "change_evidence": "Matched store-level evidence on gross margin, labor cost, delivery cost, inventory turns, quote conversion, contractor retention, price changes, and competitor response following specific AI deployments.",
+      "source_ids": ["S5", "S8"],
+      "caveats": [
+        "No source directly measures pass-through of AI benefits in LMM home centers.",
+        "Capture differs sharply between commodity merchandise, private-label products, delivery, rental, and installation coordination.",
+        "The estimate excludes implementation failure and demand-volume changes."
+      ]
+    },
+    "d5": {
+      "evidence_state": "PROXY",
+      "low": 0.85,
+      "base": 0.99,
+      "high": 1.12,
+      "bridge": "Census/FRED retail sales cover the broader building-material and garden-equipment subsector and are nominal, while construction spending includes labor and projects that may not flow through home centers. I use recent positive retail sales alongside flat-to-weak construction and transaction indicators to infer approximately flat constant-price, constant-quality five-year demand; nominal growth likely overstates real quantity and channel shifts can reduce home-center share.",
+      "rationale": "The broad subsector's March 2026 sales were 5.7% above a year earlier in nominal, unadjusted terms, while May 2026 total construction spending was 1.5% below a year earlier and Home Depot's fiscal-2025 comparable transactions fell 1.0%. Repair and maintenance create a recurring base, but housing turnover, rates, project deferrals, online competition, and professional-channel consolidation limit real growth confidence.",
+      "change_evidence": "A five-year constant-dollar forecast for 444110 sales and service work orders by DIY, do-it-for-me, and professional customer, with housing turnover, repair spending, new construction, inflation, and online/direct-distribution share modeled separately.",
+      "source_ids": ["S5", "S6", "S9"],
+      "caveats": [
+        "Retail sales and construction spending are short-horizon, broad-sector proxies rather than five-year 444110 quantity forecasts.",
+        "Nominal sales can rise even when physical volume falls because building-material prices are volatile.",
+        "Home Depot includes acquisitions and businesses outside stand-alone home centers."
+      ]
+    },
+    "o": {
+      "evidence_state": "PROXY",
+      "low": 0.58,
+      "base": 0.74,
+      "high": 0.88,
+      "bridge": "BLS ORS describes current retail-sales job requirements, and Home Depot describes current store and omnichannel operations, rather than the year-five share of home-center quantity requiring an accountable operator. I infer persistence from bulky-goods inventory, pickup, returns, delivery, credit, installation coordination, and frequent verbal interaction, while allowing self-service search, checkout, quoting, and direct-to-jobsite channels to remove a material share; large-chain omnichannel maturity may overstate displacement at LMM firms.",
+      "rationale": "Software can self-serve product discovery and routine transactions, but broad-line assortments still require procurement, physical availability, handling, delivery, returns, safety controls, exception resolution, and accountability for installation partners. The operator remains important, though more demand can bypass the store than in a hands-on repair service.",
+      "change_evidence": "Channel forecasts and operator-level data on online-only sales, direct manufacturer and distributor fulfillment, self-checkout, autonomous inventory handling, delivery outsourcing, installation attach rates, and store closures.",
+      "source_ids": ["S2", "S3", "S5"],
+      "caveats": [
+        "Retail-sales requirements do not directly measure all home-center workflows or future channel substitution.",
+        "Operator-required quantity is not the same as store labor intensity.",
+        "Contractor and consumer customers have different abilities to self-serve or buy direct."
+      ]
+    }
+  },
+  "narrative": {
+    "executive_view": "Home centers offer substantial workflow repetition but only a narrow fit with the recurring outsourced-service lens because merchandise retail remains the core business. AI can improve customer support, project quoting, inventory, delivery, and administration, yet large-chain competition and transparent prices make both eligibility and retained economics more difficult than the raw task opportunity suggests.",
+    "ai_impact": "The most implementable uses are conversational product lookup, quote assembly and follow-up, contractor-account service, demand forecasting, purchasing support, workforce scheduling, delivery routing, marketing, invoice handling, and management reporting. Store-floor selling, loading, stocking, equipment operation, delivery, returns, and complex project judgment remain tied to people and physical assets.",
+    "value_capture": "Better availability, faster quotes, lower contact cost, tighter inventory, and avoided back-office hiring can improve gross profit and working capital. Commodity price comparison and well-funded national chains press benefits toward lower prices or higher service levels, while local delivery reliability, trade credit, scarce stock, and installation coordination create more defensible capture.",
+    "firm_availability": "The dataset supplies 276 margin-bridged LMM firms, but only a minority are likely to have a meaningful recurring service relationship rather than one-off product retail. Observed small-business sales confirm transferability, while inventory financing, real estate, supplier terms, franchise or affiliation agreements, chain exposure, and owner dependence complicate deals.",
+    "demand_durability": "Repair and maintenance of the housing stock provide a durable floor, and professional customers repeatedly need materials and fulfillment. Real quantity is sensitive to housing turnover, interest rates, construction cycles, project deferral, material-price inflation, and migration to online or specialized professional distribution, so flat five-year demand is more defensible than extrapolating recent nominal sales growth.",
+    "risks_and_uncertainty": "The biggest uncertainties are the share of LMM firms that genuinely meet the service lens, the true 444110 occupation mix, and whether large-chain technology patterns transfer to smaller operators. Weak housing activity, tariff-driven price volatility, inventory errors, cybersecurity, unsafe automated advice, installer quality, customer migration to direct channels, and aggressive chain pricing could erase benefits.",
+    "principal_driver": "Repeat contractor and homeowner workflows across quoting, fulfillment, delivery, inventory, and account service create a practical AI operations surface.",
+    "principal_weakness": "The industry is primarily broad-line product retail, leaving only a small share of firms eligible under a recurring outsourced-service lens."
+  },
+  "sources": [
+    {
+      "id": "S1",
+      "url": "https://www2.census.gov/programs-surveys/retail/tables/2011/mrts/naicsdef.pdf",
+      "title": "U.S. Census Bureau Retail NAICS Definitions",
+      "access_date": "2026-07-22",
+      "supports": "Defines home centers as establishments primarily retailing a broad general line of home repair and improvement materials with no one merchandise line predominating."
+    },
+    {
+      "id": "S2",
+      "url": "https://www.bls.gov/oes/2024/may/ind_emp_chart/ind_emp_chart_data.htm",
+      "title": "BLS Data Tables for OEWS Industry Charts, May 2024",
+      "access_date": "2026-07-22",
+      "supports": "Reports the largest occupations and employment counts in Building Material and Supplies Dealers, including retail sales, cashiers, material movers, stockers, supervisors, merchandisers, and customer service."
+    },
+    {
+      "id": "S3",
+      "url": "https://www.bls.gov/ors/factsheet/retail-salespersons.htm",
+      "title": "BLS Occupational Requirements Survey: Retail Salespersons",
+      "access_date": "2026-07-22",
+      "supports": "Shows intensive external verbal interaction, speaking for more than 99.5% of workers, routine telework below 5%, and an average 83% of the workday standing."
+    },
+    {
+      "id": "S4",
+      "url": "https://www.census.gov/library/stories/2026/05/ai-use-businesses.html",
+      "title": "Census Bureau: Large Firms With at Least 20 Employees Biggest AI Users",
+      "access_date": "2026-07-22",
+      "supports": "Reports approximately 14% current and 17% expected AI use in Retail Trade and materially higher use at larger firms."
+    },
+    {
+      "id": "S5",
+      "url": "https://ir.homedepot.com/~/media/Files/H/HomeDepot-IR/2026/thd-annualreport-2025.pdf",
+      "title": "The Home Depot 2025 Annual Report",
+      "access_date": "2026-07-22",
+      "supports": "Documents installation and rental services, 30,000-40,000 items in a typical store, omnichannel fulfillment, store technology, physical service operations, competition, and a 1.0% decline in fiscal-2025 comparable customer transactions."
+    },
+    {
+      "id": "S6",
+      "url": "https://fred.stlouisfed.org/series/MSRSUSA444",
+      "title": "FRED/Census Monthly State Retail Sales: Building Material and Garden Equipment and Supplies Dealers",
+      "access_date": "2026-07-22",
+      "supports": "Reports broad-subsector nominal sales 5.7% above a year earlier in March 2026 and identifies the included retail categories."
+    },
+    {
+      "id": "S7",
+      "url": "https://news.gallup.com/poll/657362/small-business-owners-lack-succession-plan.aspx",
+      "title": "Gallup: Most Small-Business Owners Lack a Succession Plan",
+      "access_date": "2026-07-22",
+      "supports": "Reports that 52.3% of employer businesses have owners age 55 or older and that 22% of employer owners planned a sale or transfer within five years."
+    },
+    {
+      "id": "S8",
+      "url": "https://www.bizbuysell.com/news/bizbuysell-2025-fourth-quarter-insight-report/",
+      "title": "BizBuySell 2025 Fourth Quarter Insight Report",
+      "access_date": "2026-07-22",
+      "supports": "Reports 29 completed Building Material and Hardware Store transactions in 2025, with median revenue of $1.63 million and median cash flow of $305,000; the category is broader than home centers."
+    },
+    {
+      "id": "S9",
+      "url": "https://www.census.gov/construction/c30/current/index.html",
+      "title": "U.S. Census Bureau Monthly Construction Spending, May 2026",
+      "access_date": "2026-07-22",
+      "supports": "Reports total construction spending 1.5% below May 2025 and residential construction approximately flat month over month, providing a broad demand-cycle proxy."
+    }
+  ]
+}

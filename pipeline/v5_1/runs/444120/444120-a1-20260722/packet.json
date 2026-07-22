@@ -1,0 +1,198 @@
+{
+  "identity": {
+    "naics": "444120",
+    "title": "Paint and Wallpaper Retailers",
+    "run_id": "444120-a1-20260722",
+    "model_id": "claude-sonnet-5",
+    "run_date": "2026-07-22",
+    "methodology_version": "5.1",
+    "attempt": 1
+  },
+  "lens": {
+    "included_activities": "Lower-middle-market paint and wallpaper retailers that repeatedly serve external painting contractors, property managers, commercial accounts, and homeowners through product selection, color advice and matching, tinting, quote and account service, trade credit, order fulfillment, and local delivery.",
+    "excluded_activities": "Manufacturer-owned national chains, captive distribution branches, pure online marketplaces, passive entities, one-off product sellers without a recurring service relationship, painting contractors classified elsewhere, and stores without transferable operations or customer accounts.",
+    "customer_and_revenue_model": "Primarily transaction-based paint, coating, wallpaper, and accessory sales, with repeat professional accounts and recurring repaint cycles; advisory, tinting, delivery, and account services are usually embedded in product margin rather than separately billed.",
+    "deviation_from_default": "none",
+    "heterogeneous": false
+  },
+  "primitives": {
+    "a": {
+      "evidence_state": "PROXY",
+      "low": 0.20,
+      "base": 0.32,
+      "high": 0.44,
+      "bridge": "BLS reports occupations for the broader Building Material and Supplies Dealers industry, not 444120. I treat routine color and product guidance, takeoffs and quantity calculation, quotes, account service, order entry, delivery scheduling, purchasing, marketing, bookkeeping, and management reporting as partly AI-exposed, while physical tinting, matching verification, stocking, lifting, loading, delivery, and complex specification judgment are less substitutable; broader home-center employment likely overweights cashiers and material movers relative to specialty paint stores, making the net error direction uncertain.",
+      "rationale": "The broader industry combines very large retail-sales and cashier populations with substantial stocking and material-handling employment. Paint stores add information-rich product, color, and contractor-account workflows that AI can assist, but frequent customer interaction and physical preparation and fulfillment keep the wage-weighted opportunity to a minority of work.",
+      "change_evidence": "A 444120-specific payroll-by-occupation extract plus time-and-motion studies for counter sales, color matching, tinting, outside sales, delivery, credit, purchasing, and back office, net of current point-of-sale and color-system automation.",
+      "source_ids": ["S2", "S3", "S5"],
+      "caveats": [
+        "The occupation mix is a broader four-digit proxy and does not isolate paint stores.",
+        "Sherwin-Williams is a vertically integrated large-chain proxy excluded from the target population.",
+        "Product and color advice may be technically exposed but still require accountable human confirmation."
+      ]
+    },
+    "rho": {
+      "evidence_state": "PROXY",
+      "low": 0.32,
+      "base": 0.51,
+      "high": 0.68,
+      "bridge": "Census BTOS measures use of AI in any business function across Retail Trade, not the implemented share of exposed paint-store work over five years. Current retail use near 14% and six-month expected use near 17% anchor present adoption; I allow diffusion of packaged product search, quoting, color visualization, account service, forecasting, scheduling, and administration, but discount for LMM system fragmentation, training, hazardous-product rules, color accuracy, and customer trust.",
+      "rationale": "Many exposed workflows are structured and can be added around existing point-of-sale, customer, and tinting systems. Implementation should outpace full physical automation, yet low current retail adoption and the need to integrate customer history, product specifications, inventory, pricing, and credit limit the five-year share.",
+      "change_evidence": "Independent-dealer cohorts from paint-industry software vendors showing feature deployment, active usage, override and error rates, training time, labor hours avoided, and persistence after rollout.",
+      "source_ids": ["S4", "S5"],
+      "caveats": [
+        "BTOS measures adoption, not labor implementation depth or savings.",
+        "Retail Trade is much broader than specialty paint retail.",
+        "Large manufacturer-owned chains may receive tools earlier than LMM independents."
+      ]
+    },
+    "e": {
+      "evidence_state": "ESTIMATE",
+      "low": 0.07,
+      "base": 0.18,
+      "high": 0.35,
+      "rationale": "The NAICS is defined as retailing paint, wallpaper, and related supplies, so product resale alone does not meet the recurring outsourced-service lens. A meaningful minority should qualify through durable professional accounts, tinting and matching, trade credit, delivery, specification support, and repeat property-maintenance demand, while manufacturer-owned stores, micro-retailers, one-off consumer shops, and owner-dependent firms are ineligible.",
+      "change_evidence": "A review of the 132 dataset-inferred LMM firms using ownership, normalized EBITDA, professional-account share, service activity, delivery, trade credit, repeat revenue, manufacturer affiliation, customer concentration, and owner dependence.",
+      "source_ids": ["S1", "S5", "S9"],
+      "caveats": [
+        "The firm count is margin-bridged from receipts using a broader retail EBITDA margin and may misclassify firms.",
+        "Embedded services are rarely reported separately from merchandise sales.",
+        "The largest visible specialty-store network is manufacturer-owned and outside the acquisition lens."
+      ]
+    },
+    "s5": {
+      "evidence_state": "PROXY",
+      "low": 0.11,
+      "base": 0.20,
+      "high": 0.30,
+      "bridge": "Gallup measures five-year sale or transfer plans among U.S. business owners, including 22% of employer owners, rather than completed qualifying control transfers of eligible paint retailers. I trim for closures, failed or deferred sales, internal transfers, and manufacturer roll-ins, while observed building-material and hardware transactions and unplanned exits partly offset that trim; intention data likely overstates completions and marketplace reports undercount private deals.",
+      "rationale": "Aging ownership and an active adjacent retail transaction market support transfer supply. Paint stores can be transferable when contractor accounts, staff, supplier access, tinting equipment, and delivery processes survive the owner, but manufacturer concentration, customer relationships, inventory, leases, credit exposure, and affiliation agreements narrow qualifying outcomes.",
+      "change_evidence": "Five-year longitudinal deal data for 444120 firms, including the eligible denominator, listings, completed control transfers, manufacturer acquisitions, family transfers, closures, failed deals, and seller age.",
+      "source_ids": ["S8", "S9"],
+      "caveats": [
+        "Gallup spans all industries and measures plans rather than completed control changes.",
+        "The transaction source combines building-material and hardware stores and does not isolate paint retail.",
+        "Independent paint retailers may face buyer and supplier constraints not present in other retail categories."
+      ]
+    },
+    "q": {
+      "evidence_state": "ESTIMATE",
+      "low": 0.29,
+      "base": 0.50,
+      "high": 0.69,
+      "rationale": "Operators can retain benefit through faster contractor service, more accurate ordering, improved follow-up, lower administrative hiring, better delivery routing, reduced stockouts, and tighter credit control. Branded-product price comparison, negotiated contractor discounts, manufacturer-owned chain competition, and easy diffusion of customer-service tools force sharing, while color history, urgent jobsite needs, trusted advice, trade credit, and local availability provide some stickiness.",
+      "change_evidence": "Matched store-level pre/post deployment data on gross margin, realized prices, labor hours, quote conversion, repeat professional-account spend, delivery economics, inventory losses, bad debt, and customer churn.",
+      "source_ids": ["S5", "S9"],
+      "caveats": [
+        "No source directly measures AI benefit pass-through in independent paint retail.",
+        "Capture differs between national brands, private label, contractor pricing, consumer purchases, and delivery.",
+        "The estimate excludes demand effects and implementation failure."
+      ]
+    },
+    "d5": {
+      "evidence_state": "PROXY",
+      "low": 0.89,
+      "base": 1.02,
+      "high": 1.15,
+      "bridge": "The American Coatings Association forecast measures U.S. architectural-coatings volume, including channels beyond paint retailers, and BLS projects painter employment rather than constant-quality retail service demand. I translate modest coatings-volume and painter growth into broadly stable-to-slightly-higher store demand, then widen for construction cycles, DIY shifts, repaint intervals, manufacturer-direct sales, and channel share; coatings forecasts may overstate retailer quantity if other channels gain share.",
+      "rationale": "ACA estimated architectural-paint volume down 2.5% in 2025 but forecast a 1.7% rebound in 2026. BLS projects painter employment to rise 4% from 2024 to 2034 and notes recurring demand from construction and property sale or lease. Repainting and maintenance provide a durable base, but current weakness and channel competition argue against strong five-year growth.",
+      "change_evidence": "A five-year constant-volume architectural-coatings forecast by independent paint store, manufacturer-owned store, home-center, e-commerce, and direct channels, split between professional repaint, new construction, maintenance, and DIY.",
+      "source_ids": ["S6", "S7", "S5"],
+      "caveats": [
+        "The coatings outlook is short-horizon and covers manufacturers and channels outside 444120.",
+        "Painter employment is an indirect demand indicator and excludes much DIY activity.",
+        "Paint volume does not directly measure retailer advisory, tinting, delivery, or account-service quantity."
+      ]
+    },
+    "o": {
+      "evidence_state": "PROXY",
+      "low": 0.64,
+      "base": 0.79,
+      "high": 0.91,
+      "bridge": "BLS ORS measures current requirements for retail salespersons, and Sherwin-Williams describes a current large-chain service model, rather than the year-five share of eligible paint-retail quantity needing an accountable operator. Frequent external interaction, store-based contractor service, physical tinting and fulfillment, trade credit, and inventory support persistence, while online ordering, visualization, automated advice, and direct delivery can self-serve some demand; the large-chain proxy may overstate both automation and service sophistication for LMM firms.",
+      "rationale": "Customers can increasingly choose colors, estimate quantities, and order online, but accurate tinting, color matching, specification, urgent pickup, hazardous-material handling, delivery exceptions, returns, trade credit, and professional-account accountability still require an operating retailer over five years.",
+      "change_evidence": "Channel and workflow evidence on online-only paint sales, automated tinting and matching, direct-to-jobsite manufacturer fulfillment, error and return rates, professional-account migration, store closures, and remotely operated retail formats.",
+      "source_ids": ["S3", "S5", "S7"],
+      "caveats": [
+        "Retail-sales requirements are not paint-store-specific or forward-looking.",
+        "Operator-required quantity is distinct from labor hours per order.",
+        "Wallpaper and decorative consumer sales may shift online faster than professional coatings demand."
+      ]
+    }
+  },
+  "narrative": {
+    "executive_view": "Paint and wallpaper retailers have a narrower acquisition population than their retail label suggests because many professional-facing stores provide recurring color, tinting, account, credit, fulfillment, and delivery services. AI can materially improve the information and coordination layer, but the industry remains product-led, physically fulfilled, and exposed to manufacturer-owned chains.",
+    "ai_impact": "Useful workflows include product and color guidance, quantity estimation, quote generation, contractor-account service, reorder prediction, order intake, delivery scheduling, credit monitoring, marketing, purchasing, invoice processing, and store reporting. Physical tinting, sample and match verification, stocking, lifting, loading, delivery, returns, and high-stakes coating specification remain human and location dependent.",
+    "value_capture": "Faster response, remembered color histories, fewer order errors, better stock, lower contact cost, and avoided administrative hiring can deepen professional relationships. Contractor discounts and branded-product transparency share value with customers, while manufacturer-owned networks can copy technology; urgency, local availability, advice, credit, and reliable delivery support retention.",
+    "firm_availability": "The dataset estimates 132 firms in the LMM EBITDA band, but only a minority likely satisfy the recurring-service lens and remain independent of manufacturers or large chains. Aging owners create supply, yet buyer access to brands, tinting assets, leases, contractor relationships, working capital, trade credit, and key staff determines whether a store is truly transferable.",
+    "demand_durability": "Repainting, maintenance, weather protection, property turnover, and contractor activity create recurring product need. Near-term architectural-coatings volume has been weak but is expected to recover modestly, and painter employment is projected to grow; the main threats are housing cycles, longer repaint intervals, DIY changes, and loss of retailer share to home centers, manufacturer-owned stores, and direct channels.",
+    "risks_and_uncertainty": "The largest gaps are the exact independent-firm denominator, 444120-specific occupation weights, service and professional-account mix, and realized AI labor outcomes. Manufacturer consolidation, aggressive contractor pricing, inaccurate automated color or specification advice, tinting errors, raw-material inflation, bad debt, cybersecurity, supplier restrictions, and channel migration could erode benefits.",
+    "principal_driver": "Repeat professional accounts create information-rich quoting, color, order, credit, inventory, and delivery workflows that can be improved without automating the physical product.",
+    "principal_weakness": "Product retail dominates the NAICS, and manufacturer-owned chains constrain both eligible-firm availability and competitive value capture."
+  },
+  "sources": [
+    {
+      "id": "S1",
+      "url": "https://www2.census.gov/programs-surveys/retail/tables/2011/mrts/naicsdef.pdf",
+      "title": "U.S. Census Bureau Retail NAICS Definitions",
+      "access_date": "2026-07-22",
+      "supports": "Defines Paint and Wallpaper Stores as establishments primarily engaged in retailing paint, wallpaper, and related supplies."
+    },
+    {
+      "id": "S2",
+      "url": "https://www.bls.gov/oes/2024/may/ind_emp_chart/ind_emp_chart_data.htm",
+      "title": "BLS Data Tables for OEWS Industry Charts, May 2024",
+      "access_date": "2026-07-22",
+      "supports": "Reports the largest occupations in the broader Building Material and Supplies Dealers industry, including retail sales, cashiers, material movers, stockers, supervisors, merchandisers, and customer service."
+    },
+    {
+      "id": "S3",
+      "url": "https://www.bls.gov/ors/factsheet/retail-salespersons.htm",
+      "title": "BLS Occupational Requirements Survey: Retail Salespersons",
+      "access_date": "2026-07-22",
+      "supports": "Reports constant external verbal interaction for 73.8% of retail salespersons, routine telework below 5%, and an average 83% of the day standing."
+    },
+    {
+      "id": "S4",
+      "url": "https://www.census.gov/library/stories/2026/05/ai-use-businesses.html",
+      "title": "Census Bureau: Large Firms With at Least 20 Employees Biggest AI Users",
+      "access_date": "2026-07-22",
+      "supports": "Reports approximately 14% current and 17% expected AI use in Retail Trade and materially higher use at larger firms."
+    },
+    {
+      "id": "S5",
+      "url": "https://s2.q4cdn.com/918177852/files/doc_financials/2025/ar/SHW_2025AR_FINAL_ADA.pdf",
+      "title": "Sherwin-Williams 2025 Annual Report",
+      "access_date": "2026-07-22",
+      "supports": "Describes 4,853 specialty stores serving contractors and DIY customers, trade credit, product distribution and logistics, 2025 Paint Stores Group sales growth driven by pricing despite lower volume, and the operating importance of stores and fleet."
+    },
+    {
+      "id": "S6",
+      "url": "https://www.paint.org/coatingstech-magazine/articles/adjusted-expectations-updating-relevant-data-in-the-state-of-the-u-s-paint-and-coatings-industry/",
+      "title": "American Coatings Association: Adjusted Expectations for the U.S. Paint and Coatings Industry",
+      "access_date": "2026-07-22",
+      "supports": "Estimates architectural-paint volume down 2.5% in 2025 and forecasts a 1.7% volume increase in 2026, documenting recent weakness and modest recovery."
+    },
+    {
+      "id": "S7",
+      "url": "https://www.bls.gov/ooh/Construction-and-Extraction/Painters-construction-and-maintenance.htm",
+      "title": "BLS Occupational Outlook Handbook: Painters, Construction and Maintenance",
+      "access_date": "2026-07-22",
+      "supports": "Projects painter employment growth of 4% from 2024 to 2034 and identifies construction, property sale or lease, and DIY behavior as demand drivers."
+    },
+    {
+      "id": "S8",
+      "url": "https://news.gallup.com/poll/657362/small-business-owners-lack-succession-plan.aspx",
+      "title": "Gallup: Most Small-Business Owners Lack a Succession Plan",
+      "access_date": "2026-07-22",
+      "supports": "Reports that 52.3% of employer businesses have owners age 55 or older and that 22% of employer owners planned a sale or transfer within five years."
+    },
+    {
+      "id": "S9",
+      "url": "https://www.bizbuysell.com/news/bizbuysell-2025-fourth-quarter-insight-report/",
+      "title": "BizBuySell 2025 Fourth Quarter Insight Report",
+      "access_date": "2026-07-22",
+      "supports": "Reports 29 completed Building Material and Hardware Store transactions in 2025; the adjacent category demonstrates marketability but does not isolate paint retailers."
+    }
+  ]
+}
