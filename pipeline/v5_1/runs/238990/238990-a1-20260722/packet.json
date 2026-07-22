@@ -1,0 +1,214 @@
+{
+  "identity": {
+    "naics": "238990",
+    "title": "All Other Specialty Trade Contractors",
+    "run_id": "238990-a1-20260722",
+    "model_id": "claude-sonnet-5",
+    "run_date": "2026-07-22",
+    "methodology_version": "5.1",
+    "attempt": 1
+  },
+  "lens": {
+    "included_activities": "US lower-middle-market firms in NAICS 238990 that repeatedly provide outsourced specialty site and structure work to external customers, including private-area paving and sealing, fence and playground installation or repair, crane rental with operator, rigging, scaffolding and shoring, and similar physical specialty services.",
+    "excluded_activities": "One-off consumer-only operators without a repeatable customer base, firms whose economics are primarily equipment rental without an operator, captive internal crews, shells, non-control financing vehicles, and activities classified to other specialty-trade codes.",
+    "customer_and_revenue_model": "Project, work-order, or recurring maintenance revenue from property owners, facilities operators, general contractors, businesses, and government customers; pricing is commonly lump-sum or unit-price, with some multi-year task-order and maintenance arrangements.",
+    "deviation_from_default": "The default recurring-or-repeat outsourced-service lens is applied, but the included population is explicitly limited to firms with repeat customers or repeat work-order potential because NAICS 238990 mixes many unrelated, often one-off construction activities.",
+    "heterogeneous": true
+  },
+  "primitives": {
+    "a": {
+      "evidence_state": "PROXY",
+      "low": 0.08,
+      "base": 0.13,
+      "high": 0.2,
+      "bridge": "BLS measures the occupation mix and wages for the broader NAICS 238900 parent, not task-level AI substitution in 238990. I wage-weighted a judgmental task exposure across major groups: higher exposure in management, business, sales, and office work, and low exposure in construction, repair, driving, and material-moving work. OpenAI's task-exposure study and Anthropic's observed-use evidence inform those task shares. The parent-industry mix may overstate field-heavy 238990 office exposure, while unmeasured multimodal estimating and site-documentation tools could make it understate future exposure.",
+      "rationale": "The parent industry's workforce is dominated by physical roles: construction and extraction occupations are 62.30% of employment, transportation and material moving 9.78%, and installation/maintenance/repair 4.73%. Office and administrative support is 8.50%, management 5.85%, and business and financial operations 3.61%. The implementable exposure is therefore concentrated in estimating, bid drafting, scheduling, dispatch, bookkeeping, compliance documentation, customer service, and project reporting, with only small assistive exposure in field work. BLS reports construction laborers stand 89.2% of the workday and routinely perform physical site tasks; Anthropic likewise finds construction occupations under-represented in actual AI use.",
+      "change_evidence": "A task-level time-and-wage study of 238990 firms, split by paving, fencing, crane-with-operator, rigging, and other activities, measuring current automation and validated AI time savings in estimating, project management, dispatch, billing, and field documentation.",
+      "source_ids": ["S1", "S2", "S3", "S4", "S5"],
+      "caveats": [
+        "OEWS is available at NAICS 238900 rather than 238990 and excludes self-employed workers.",
+        "The calculation maps occupations to task exposure judgmentally and is not a direct measurement of avoidable labor.",
+        "The OpenAI study measures theoretical task impact, while Anthropic usage is product-specific and not representative of all workers."
+      ]
+    },
+    "rho": {
+      "evidence_state": "PROXY",
+      "low": 0.22,
+      "base": 0.4,
+      "high": 0.62,
+      "bridge": "Census BTOS measures whether construction-sector firms use any AI, not the five-year fraction of exposed 238990 labor opportunity operationally implemented. I translate very low 2023-24 construction adoption, rising economy-wide adoption by 2025-26, and the limited functional breadth and mostly augmentative current use into a five-year implementation range. Sector aggregation and the earlier adoption vintage bias the proxy downward; counting any AI use rather than production-grade labor substitution biases it upward.",
+      "rationale": "Construction had only 1.4% current AI use in the 2023-24 BTOS snapshot and 1.9% of construction workers were at AI-using firms. By November 2025-January 2026, 18% of firms economy-wide used AI in a business function, but 57% of adopters used it in no more than three functions, 66% used it solely to augment tasks, and only 2% reported AI-related employment decreases. Five years permits material diffusion into back-office workflows, but fragmented systems, small-firm capacity, site-specific data, review needs, and safety or quality accountability limit conversion of exposure into avoided labor.",
+      "change_evidence": "A longitudinal panel of LMM specialty contractors reporting workflow-level deployment, review time, error and rework rates, software integration costs, and verified hours or hires avoided after 12-24 months.",
+      "source_ids": ["S6", "S7"],
+      "caveats": [
+        "BTOS construction data cover NAICS 23, not 238990 or the LMM lens.",
+        "The 2023-24 and 2025-26 surveys use different adoption vintages and question framing.",
+        "Adoption does not itself establish durable labor substitution."
+      ]
+    },
+    "e": {
+      "evidence_state": "PROXY",
+      "low": 0.34,
+      "base": 0.5,
+      "high": 0.68,
+      "bridge": "The Census-derived construction owner/customer statistics cover all construction employer firms, not LMM firms in 238990. I use the reported 42.1% serving other businesses and 15.1% serving government, together with the 238990 mix of commercial parking, fencing, crane-with-operator, and consumer activities, to estimate the share with repeat outsourced-service relationships. Customer categories overlap, so they are not added mechanically; the broad construction proxy may overstate eligibility if 238990 contains more one-off residential work, or understate it where general-contractor relationships recur despite project-based contracts.",
+      "rationale": "The code includes both repeat-capable B2B or government services and one-off residential projects. Construction-wide data show 69.8% of employer firms serve individuals, 42.1% serve other businesses, and 15.1% serve government, with categories nonexclusive. Approximately half of LMM firms are judged to have recurring customers, repeat work orders, or maintenance potential and transferable operations under the lens.",
+      "change_evidence": "Firm-level customer and revenue concentration data for the dataset's LMM 238990 firms, including repeat-customer revenue, maintenance or master-service agreements, residential share, owner dependence, licensing, and equipment ownership.",
+      "source_ids": ["S1", "S8"],
+      "caveats": [
+        "Customer-type percentages are construction-sector proxies and firms can report multiple customer types.",
+        "Repeat customers do not guarantee contractually recurring revenue.",
+        "The provided firm-count estimate is margin-bridged and may not match the operating subsegments represented by this eligibility share."
+      ]
+    },
+    "s5": {
+      "evidence_state": "PROXY",
+      "low": 0.12,
+      "base": 0.23,
+      "high": 0.37,
+      "bridge": "Construction-wide owner age and brokered-sale evidence indicate succession pressure and actual transferability but do not measure a five-year control-transfer probability for eligible LMM 238990 firms. I convert the 50.4% share of construction employer-firm owners over age 55, including 18.9% age 65 or older, into a bounded five-year transfer estimate, moderated because retirement does not always lead to a third-party control sale. Brokered transactions may overrepresent clean, smaller businesses; the owner-age proxy omits younger-owner and strategic sales.",
+      "rationale": "Half of construction employer-firm owners were over 55 in 2021, creating meaningful succession pressure, and BizBuySell reports 3,142 sold building and construction listings in its 2021-25 benchmark sample. However, many firms close, transfer internally, remain owner-operated, or lack management depth, licenses, customer continuity, and clean financials needed for a qualifying control transfer.",
+      "change_evidence": "A denominator-based five-year cohort of 238990 LMM firms from PitchBook, GF Data, Axial, BizBuySell, SBA 7(a) change-of-ownership loans, and business-broker records, matched to owner age and separating third-party control sales from closures and family transfers.",
+      "source_ids": ["S8", "S9"],
+      "caveats": [
+        "Owner age is for all construction employer firms and is not a transaction rate.",
+        "BizBuySell sales are voluntarily reported and skew far below the stated EBITDA band.",
+        "Licenses, bonding, key-person relationships, and equipment financing may impair transferability."
+      ]
+    },
+    "q": {
+      "evidence_state": "PROXY",
+      "low": 0.34,
+      "base": 0.54,
+      "high": 0.72,
+      "bridge": "Federal construction pricing rules measure contract form, not the discounted share of AI benefit retained by 238990 operators. I infer retention from the predominance of firm-fixed-price lump-sum or unit-price construction contracts: an operator keeps cost savings during an awarded job, while competitive rebids, renewals, negotiated change orders, and customer demands pass part of the benefit through over time. Federal practice may overstate formal fixed-price use relative to private work but is directionally representative of project contracting.",
+      "rationale": "Firm-fixed-price work allows near-term savings in estimating, administration, coordination, and rework prevention to accrue to the contractor when scope and price are already set. Retention fades at renewal or rebid because specialty work is price-competitive and many customers compare unit prices. Differentiated response time, documentation quality, and execution reliability can preserve some benefit beyond pure cost pass-through.",
+      "change_evidence": "Contract-level gross-margin cohorts before and after workflow deployment, split by lump-sum, unit-price, time-and-materials, negotiated, and cost-plus work, with renewal repricing, win rates, discounts, and customer concentration.",
+      "source_ids": ["S10"],
+      "caveats": [
+        "Federal rules are a proxy for a market spanning private commercial, general-contractor, residential, and government work.",
+        "The estimate does not separately observe bid competition or renewal cadence in 238990.",
+        "Benefits from greater throughput may be competed away differently from direct cost savings."
+      ]
+    },
+    "d5": {
+      "evidence_state": "PROXY",
+      "low": 0.95,
+      "base": 1.027,
+      "high": 1.08,
+      "bridge": "BLS projects wage-and-salary employment in the broader Other Specialty Trade Contractors industry to rise 5.5% from 2023 to 2033, not constant-price, constant-quality demand for 238990. The base is the five-year compound equivalent, sqrt(1.055) = 1.027. Employment may understate demand if productivity rises and overstate it if labor intensity rises; the broader 2389 industry also includes site preparation contractors.",
+      "rationale": "The official projection moves broader-industry employment from 780,000 in 2023 to 823,000 in 2033. Population and building activity support modest structural growth, while private paving, pools, fencing, and other discretionary projects remain cyclical and interest-rate sensitive. The range allows a mild construction downturn or stronger repair, infrastructure, and property-investment demand.",
+      "change_evidence": "A 238990-specific constant-dollar forecast based on Census value-of-construction-put-in-place components, private parking and paving volumes, fence and crane utilization, repair versus new-work mix, backlog, and price indexes.",
+      "source_ids": ["S11"],
+      "caveats": [
+        "Employment is an input proxy, not a direct quantity-demand measure.",
+        "The BLS category is broader than NAICS 238990 and the projection horizon is ten years.",
+        "The industry is cyclical and heterogeneous, so subsegments can diverge sharply."
+      ]
+    },
+    "o": {
+      "evidence_state": "PROXY",
+      "low": 0.86,
+      "base": 0.94,
+      "high": 0.98,
+      "bridge": "The occupation mix and physical-requirements evidence measure how work is currently performed, not the year-five share of demand requiring an accountable operator. I translate the dominance of construction, equipment-operation, installation, driving, and material-moving roles into a high operator-required share. This may overstate durability if robotic equipment or customer self-service advances quickly, but may understate it because site safety, supervision, insurance, permits, and responsibility remain with operating contractors.",
+      "rationale": "The service basket is physical: paving, fence erection, crane operation, rigging, scaffolding, shoring, and similar work must occur at variable customer sites. In the broader parent industry, 62.30% of employment is construction and extraction, 9.78% transportation and material moving, and 4.73% installation, maintenance, and repair. Construction laborers stand 89.2% of the workday and almost never telework. Software can improve planning and documentation but is unlikely to eliminate the accountable field operator within five years.",
+      "change_evidence": "Field trials and insurer or regulator acceptance data for autonomous paving, crane, fence-installation, inspection, and site robotics, plus customer procurement studies showing substitution toward self-service or software-only delivery.",
+      "source_ids": ["S1", "S2", "S3"],
+      "caveats": [
+        "Current occupational intensity is not proof of future technical necessity.",
+        "OEWS is for NAICS 238900, not only 238990.",
+        "Some estimating, monitoring, and coordination quantities can become software-mediated even while field execution remains operator-required."
+      ]
+    }
+  },
+  "narrative": {
+    "executive_view": "This is a broad collection of physical specialty contractors with a limited but usable AI opportunity in office and coordination work. The attraction is not autonomous construction; it is reducing estimating, scheduling, dispatch, billing, compliance, and reporting effort around crews and equipment that remain essential. Heterogeneity, project cyclicality, owner dependence, and uneven transferability are the main constraints.",
+    "ai_impact": "AI can draft bids and submittals, extract scope from plans and correspondence, assist takeoffs, schedule crews and equipment, triage inbound requests, prepare safety and job documentation, reconcile field records, and accelerate invoicing. Field labor is much less exposed because the occupation mix is dominated by construction and equipment roles, and construction laborers perform overwhelmingly physical, site-bound work.",
+    "value_capture": "Fixed-price and unit-price contracts let contractors retain cost savings on already-awarded work, especially where faster administration increases crew utilization or shortens billing cycles. Competitive bids and periodic renewals should return part of those gains to customers, so durable capture depends on service reliability, response time, documentation quality, scarce capabilities, and customer relationships rather than software alone.",
+    "firm_availability": "Succession supply should be meaningful because 50.4% of construction employer-firm owners were over 55 in 2021, and construction businesses demonstrably transact. Yet only a portion of the provided LMM firm population combines repeat customers, transferable licenses and relationships, management below the owner, clean financials, and an acceptable equipment and bonding profile.",
+    "demand_durability": "BLS projects 5.5% ten-year employment growth for the broader Other Specialty Trade Contractors industry. Physical site work, maintenance, repair, and new construction continue to require operators, although private paving, pools, fencing, and similar activities are exposed to property cycles, interest rates, and customer capital budgets.",
+    "risks_and_uncertainty": "The six-digit code mixes unrelated activities, while most occupational, owner, adoption, and outlook evidence is available only for broader construction populations. AI adoption may remain shallow at fragmented contractors; benefits may be lost to implementation friction or rebidding; and acquisitions can fail when licenses, estimator knowledge, foremen, customer relationships, or bonding capacity are tied to the seller. A severe construction downturn would also reduce utilization and obscure workflow gains.",
+    "principal_driver": "Repeatable savings in estimating, coordination, administration, and billing around field crews that remain necessary to deliver the service.",
+    "principal_weakness": "The code's heterogeneity and project-based, owner-dependent firms make both eligibility and transferability difficult to infer from aggregate data."
+  },
+  "sources": [
+    {
+      "id": "S1",
+      "url": "https://bhs.econ.census.gov/ombpdfs2022/export/2022_CC-23890_su.pdf",
+      "title": "2022 Economic Census Construction Questionnaire: Specialty Trade Contractors",
+      "access_date": "2026-07-22",
+      "supports": "Defines 238990 examples as driveway paving, residential and commercial parking lots, sidewalks, patios, outdoor pools, fence and playground installation, and crane rental with operator; also distinguishes construction workers from office and supervisory staff."
+    },
+    {
+      "id": "S2",
+      "url": "https://www.bls.gov/oes/2023/may/naics4_238900.htm",
+      "title": "May 2023 OEWS: NAICS 238900 Other Specialty Trade Contractors",
+      "access_date": "2026-07-22",
+      "supports": "Reports 777,250 workers and the parent-industry occupation mix, including 62.30% construction and extraction, 9.78% transportation and material moving, 8.50% office support, 5.85% management, 4.73% installation/repair, and 3.61% business and financial operations, with occupation-level wages."
+    },
+    {
+      "id": "S3",
+      "url": "https://www.bls.gov/ors/factsheet/construction-laborers.htm",
+      "title": "BLS Occupational Requirements Survey: Construction Laborers",
+      "access_date": "2026-07-22",
+      "supports": "Documents physical site tasks, less than 0.5% routine telework, greater than 99.5% reaching and low-posture requirements, and an average 89.2% of the workday standing in 2025."
+    },
+    {
+      "id": "S4",
+      "url": "https://openai.com/index/gpts-are-gpts/",
+      "title": "GPTs are GPTs: An Early Look at the Labor Market Impact Potential of Large Language Models",
+      "access_date": "2026-07-22",
+      "supports": "Provides a task-based theoretical exposure framework and reports that roughly 80% of US workers could have at least 10% of tasks affected and 19% could have at least half affected, with higher-income work more exposed."
+    },
+    {
+      "id": "S5",
+      "url": "https://www.anthropic.com/research/economic-index-june-2026-report",
+      "title": "Anthropic Economic Index Report: Cadences",
+      "access_date": "2026-07-22",
+      "supports": "Finds construction and extraction occupations under-represented in both the AI-user survey and Claude sessions and explains that theoretical exposure is an upper bound that systematically exceeds reported exposure."
+    },
+    {
+      "id": "S6",
+      "url": "https://www.census.gov/hfp/btos/downloads/CES-WP-24-16.pdf",
+      "title": "Tracking Firm Use of AI in Real Time: A Snapshot from the Business Trends and Outlook Survey",
+      "access_date": "2026-07-22",
+      "supports": "Reports 1.4% firm-level AI use in Construction in September 2023-February 2024, 1.9% employment-weighted use, common applications, organizational changes, and limited reported employment reductions."
+    },
+    {
+      "id": "S7",
+      "url": "https://www.census.gov/library/working-papers/2026/adrm/CES-WP-26-25.html",
+      "title": "The Microstructure of AI Diffusion: Evidence from Firms, Business Functions, and Worker Tasks",
+      "access_date": "2026-07-22",
+      "supports": "Reports 18% economy-wide firm adoption in November 2025-January 2026, limited functional breadth, 66% augmentation-only use among adopters, and AI-related employment decreases at only 2% of firms."
+    },
+    {
+      "id": "S8",
+      "url": "https://stacks.cdc.gov/view/cdc/213055/cdc_213055_DS1.pdf",
+      "title": "The Construction Chart Book, Seventh Edition",
+      "access_date": "2026-07-22",
+      "supports": "Census-derived construction statistics show 50.4% of employer-firm owners over 55 in 2021 and customer incidence of 69.8% individuals, 42.1% other businesses, and 15.1% government."
+    },
+    {
+      "id": "S9",
+      "url": "https://www.bizbuysell.com/learning-center/valuation-benchmarks/building-construction/",
+      "title": "Construction Business Valuation Multiples and Financial Benchmarks",
+      "access_date": "2026-07-22",
+      "supports": "Reports 3,142 sold construction listings in its 2021-25 analysis, median days on market of 207, and observed transaction pricing and financial benchmarks, demonstrating an active but selected brokered market."
+    },
+    {
+      "id": "S10",
+      "url": "https://www.acquisition.gov/far/36.207",
+      "title": "FAR 36.207 Pricing Fixed-Price Construction Contracts",
+      "access_date": "2026-07-22",
+      "supports": "States that construction generally uses firm-fixed-price contracts and may be priced on lump-sum, unit-price, or combined bases, with unit pricing especially relevant for paving and uncertain quantities."
+    },
+    {
+      "id": "S11",
+      "url": "https://www.bls.gov/opub/btn/volume-14/whats-behind-the-projected-construction-employment-growth-from-2023-to-2033.htm",
+      "title": "BLS: What's Behind the Projected Construction Employment Growth from 2023 to 2033?",
+      "access_date": "2026-07-22",
+      "supports": "Projects Other Specialty Trade Contractors wage-and-salary employment from 780,000 in 2023 to 823,000 in 2033, a 5.5% increase, and discusses long-run construction demand drivers and cyclicality."
+    }
+  ]
+}

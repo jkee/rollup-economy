@@ -1,0 +1,209 @@
+{
+  "identity": {
+    "naics": "238330",
+    "title": "Flooring Contractors",
+    "run_id": "238330-a1-20260722",
+    "model_id": "claude-sonnet-5",
+    "run_date": "2026-07-22",
+    "methodology_version": "5.1",
+    "attempt": 1
+  },
+  "lens": {
+    "included_activities": "US lower-middle-market contractors installing, replacing, sanding, finishing, and refinishing resilient flooring, carpet, linoleum, and hardwood for property owners, general contractors, retailers, property managers, and other external customers, including residential and commercial new work, alterations, maintenance, and repair.",
+    "excluded_activities": "Retail-led sale and installation classified outside NAICS 238330; ceramic tile, stone, terrazzo, concrete, and epoxy-flooring trades classified elsewhere; captive internal crews; shell entities; non-control financing vehicles; and operations outside the stated EBITDA band.",
+    "customer_and_revenue_model": "Project revenue is earned through competitively quoted lump-sum or unit-price installation, replacement, repair, and refinishing work. Individual projects are episodic, but the service recurs through flooring wear, tenant turnover, remodeling, new construction, and repeat relationships with general contractors, retailers, property managers, and owners.",
+    "deviation_from_default": "none",
+    "heterogeneous": false
+  },
+  "primitives": {
+    "a": {
+      "evidence_state": "PROXY",
+      "low": 0.12,
+      "base": 0.18,
+      "high": 0.28,
+      "bridge": "BLS measures the occupation and wage mix for parent industry NAICS 238300, not 238330, while O*NET describes tasks for floor layers rather than measuring AI substitution. I grouped management, business, sales, office, field-supervision, and installation work, assigned bounded task exposure to estimating, takeoff, scheduling, dispatch, documentation, customer communication, billing, bookkeeping, and marketing, and weighted those judgments by the BLS employment shares and mean wages. Parent-industry inclusion of drywall, painting, and other finish trades may bias the estimate either way; assigning only a small exposed share to manual installation is intended to limit upward bias.",
+      "rationale": "In BLS's parent-industry data, construction and extraction occupations are 70.96% of employment, while management is 5.32%, business and financial operations 4.63%, sales 2.94%, and office support 8.59%. O*NET shows that core floor-layer work is site-bound preparation, cutting, inspection, fitting, adhesion, and finishing, but also identifies estimating and project-management software. The resulting wage-weighted opportunity is concentrated in overhead and field coordination rather than physical installation.",
+      "change_evidence": "Obtain payroll dollars and time-on-task by occupation from a representative sample of NAICS 238330 firms, then run task-level workflow studies for estimating, measurement and takeoff, scheduling, dispatch, purchasing, customer service, billing, and field documentation, recording which tasks are already automated.",
+      "source_ids": [
+        "S2",
+        "S3"
+      ],
+      "caveats": [
+        "OEWS publishes the needed mix at parent NAICS 238300 and excludes self-employed workers.",
+        "Task exposure is a bounded translation from occupational duties, not a measured displacement share.",
+        "Computer vision and measurement tools may expand exposure, but unstructured job sites constrain substitution of installation labor."
+      ]
+    },
+    "rho": {
+      "evidence_state": "PROXY",
+      "low": 0.3,
+      "base": 0.5,
+      "high": 0.7,
+      "bridge": "Census BTOS measures recent AI use across all nonfarm businesses and firm sizes, not the five-year implemented share of exposed tasks in flooring contractors. I use its 19.8% May 2026 all-business adoption reading and the finding that usage remained below 20% among the smallest firms as a starting point, then allow five years for diffusion while discounting for fragmented systems, variable job-site data, review requirements, and small-firm change capacity. Cross-industry adoption likely overstates construction readiness, while rapid improvement in estimating and office tools could make the base conservative.",
+      "rationale": "Half of the identified opportunity is expected to become operational because common office workflows can use packaged AI without changing installation methods, but estimate accuracy, material ordering, customer commitments, safety, quality control, and field exceptions still require accountable review. Current small-firm adoption is meaningful but far from universal.",
+      "change_evidence": "Survey at least 30 LMM flooring contractors annually on production use, workflow penetration, exception rates, avoided hires, error costs, and staff adoption; corroborate with anonymized usage telemetry from flooring estimating, CRM, scheduling, and accounting vendors.",
+      "source_ids": [
+        "S4"
+      ],
+      "caveats": [
+        "BTOS covers all nonfarm sectors and asks whether any business function used AI, not how much labor opportunity was implemented.",
+        "Small flooring contractors may have weaker data integration and training capacity than the national business population.",
+        "The range excludes pricing, demand, and valuation effects."
+      ]
+    },
+    "e": {
+      "evidence_state": "ESTIMATE",
+      "low": 0.78,
+      "base": 0.9,
+      "high": 0.97,
+      "rationale": "The frozen firm count is already bridged into the stated EBITDA band. Census defines 238330 around externally contracted installation, replacement, maintenance, repair, and refinishing, and separates retail-led installation and adjacent tile, concrete, and epoxy trades. Most band-qualified firms should therefore fit the lens; the deduction covers miscoding, owner-dependent practices without transferable systems, captive-like arrangements, and firms whose normalized economics fall outside the band on diligence.",
+      "change_evidence": "Draw a stratified sample from the NAICS 238330 business register and verify revenue source, customer concentration, owner labor, subcontractor dependence, normalized EBITDA, standalone systems, and correct NAICS classification using tax returns and job-level ledgers.",
+      "source_ids": [
+        "S1"
+      ],
+      "caveats": [
+        "No source directly measures eligibility under the frozen lens.",
+        "The supplied count is an estimate created from broader datasets and margin assumptions.",
+        "Project-based revenue can still meet the repeat-outsourcing lens, but repeat-customer intensity varies materially by residential, commercial, and channel mix."
+      ]
+    },
+    "s5": {
+      "evidence_state": "PROXY",
+      "low": 0.1,
+      "base": 0.2,
+      "high": 0.32,
+      "bridge": "Census observed that 51% of responding owners of employer businesses were at least 55 in 2018, while BizBuySell documents actual construction-business sales but not the population denominator or flooring-only transfer rate. I translate broad aging pressure and visible construction deal flow into a bounded five-year control-transfer probability, excluding closures, inherited continuity without a control event, and internal reorganizations. Marketplace transactions select for sale-ready firms and bias upward; the old all-industry age distribution and unobserved off-market transfers can bias in either direction.",
+      "rationale": "A substantial aging-owner cohort supports transfer supply, and BizBuySell analyzed 3,142 reported sold construction businesses with a median 207 days on market, confirming that the category can transact. However, many owner exits end in closure or family continuity, and many flooring firms depend heavily on the owner, so only a minority of eligible firms are expected to complete a qualifying control transfer within five years.",
+      "change_evidence": "Match five years of Secretary of State control changes, SBA acquisition-loan records, broker closing data, and PitchBook or GF Data transactions to a denominator of LMM NAICS 238330 firms; interview owners about exit timing, successor readiness, and willingness to sell control.",
+      "source_ids": [
+        "S6",
+        "S7"
+      ],
+      "caveats": [
+        "The Census owner-age figure covers responding owners across employer industries and has a 2018 reference year.",
+        "BizBuySell transactions are voluntarily reported, span broad building and construction categories, and skew toward marketable firms.",
+        "Owner retirement intent does not imply a completed qualifying transfer."
+      ]
+    },
+    "q": {
+      "evidence_state": "PROXY",
+      "low": 0.35,
+      "base": 0.55,
+      "high": 0.72,
+      "bridge": "CoConstruct measures contract choice and project margins among residential builders and remodelers using its software, not flooring contractors' five-year retention of AI benefits. I use its finding that fixed-price contracts were used 80% of the time and the contractual distinction between fixed price and open book to infer strong in-project retention, then discount for competitive rebidding, unit-price resets, general-contractor negotiation, customer sharing, and renewal repricing. The builder sample may overstate both fixed-price prevalence and retained benefit for commercial flooring subcontractors.",
+      "rationale": "A contractor can retain cost savings on an already signed lump-sum job, but flooring work is frequently rebid project by project and buyers compare unit prices. Benefits that improve response time, accuracy, close rates, or capacity may be retained longer than visible labor-rate savings, while recurring commercial buyers and general contractors are likely to capture part of the gain at later bids.",
+      "change_evidence": "Collect contract-type and bid-history data from LMM flooring firms, then compare realized gross margin, win rate, price revisions, and renewal pricing before and after specific AI workflow deployments by customer channel and contract type.",
+      "source_ids": [
+        "S5"
+      ],
+      "caveats": [
+        "The source population is residential builders and remodelers using one software platform, not a representative flooring-contractor sample.",
+        "Retention varies with residential versus commercial mix, subcontractor channel, backlog, local competition, and whether customers can observe the cost change.",
+        "This estimate addresses benefit sharing and repricing only, not implementation difficulty or demand loss."
+      ]
+    },
+    "d5": {
+      "evidence_state": "PROXY",
+      "low": 0.92,
+      "base": 1.03,
+      "high": 1.12,
+      "bridge": "BLS projects employment for flooring installers and tile and stone setters, not constant-price, constant-quality demand for NAICS 238330's service basket. I convert its 6% ten-year employment growth to an approximately 3% five-year increase and widen the bounds for productivity, construction cycles, material substitution, and the inclusion of tile occupations outside 238330. Employment can understate demand if productivity rises and can overstate it if labor intensity rises.",
+      "rationale": "BLS expects overall flooring-installer and tile-setter employment to grow 6% from 2024 to 2034 and identifies new homes and renovation as the primary demand sources. Its detailed outlook is mixed, with carpet installers declining while resilient-flooring layers and tile setters grow, supporting a near-flat to modestly growing service basket rather than a uniform expansion.",
+      "change_evidence": "Obtain a five-year constant-dollar forecast for installed flooring square footage by product and end market from Catalina Research, FMI, or Freedonia, and reconcile it with Census construction put-in-place, housing completions, remodeling expenditure, and commercial renovation forecasts.",
+      "source_ids": [
+        "S8"
+      ],
+      "caveats": [
+        "The BLS occupational group includes tile and stone setters, while tile and stone contracting is classified outside NAICS 238330.",
+        "Employment is affected by productivity and labor supply and is not a direct quantity-demand measure.",
+        "Construction demand is cyclical and differs sharply across carpet, resilient flooring, hardwood, residential, and commercial work."
+      ]
+    },
+    "o": {
+      "evidence_state": "PROXY",
+      "low": 0.85,
+      "base": 0.94,
+      "high": 0.98,
+      "bridge": "O*NET and BLS describe current occupation duties and physical requirements, not the year-five share of service quantity still requiring an accountable flooring operator. I infer persistence from site-specific inspection, substrate preparation, measuring, cutting, fitting, adhesion, finishing, and customer-facing quality responsibility, with a deduction for do-it-yourself products, prefabrication, retailer coordination, and limited robotic assistance. Current-duty evidence may overstate persistence if field robotics advances unexpectedly, but software alone cannot perform the documented physical tasks.",
+      "rationale": "The present service basket is dominated by physical work in varied occupied and construction environments. O*NET reports that 89% of floor layers use their hands continually or almost continually, and BLS describes preparation, cutting, placement, finishing, stamina, strength, and visual-quality requirements. AI can change coordination and planning without removing the need for an accountable contractor on most outsourced jobs.",
+      "change_evidence": "Track the share of installed square footage completed by do-it-yourself customers, retailer-managed gig crews, prefabricated systems, and robotic installation; interview major flooring manufacturers, installation networks, insurers, and large contractors about five-year commercialization and warranty accountability.",
+      "source_ids": [
+        "S3",
+        "S8"
+      ],
+      "caveats": [
+        "Current task content is not a forecast.",
+        "Click-lock products and retailer-led installation can shift some demand away from standalone contractors.",
+        "The estimate concerns continued need for an accountable operator, not the amount of human labor inside that operator."
+      ]
+    }
+  },
+  "narrative": {
+    "executive_view": "Flooring contracting remains a site-bound trade whose most plausible AI gains sit around the crew: estimating and takeoff, lead response, scheduling, purchasing, customer communication, billing, collections, and project documentation. The underlying installation service should persist, but the physical labor base limits the share of wages addressable by current AI, and project-by-project competition limits long-run retention of visible cost savings.",
+    "ai_impact": "AI can turn plans, photos, measurements, product specifications, and historical jobs into draft takeoffs, quotes, schedules, purchase lists, customer updates, and closeout records. It can also triage leads, draft bid responses, flag job-cost variance, and reduce clerical workload. Human review remains essential because substrate condition, moisture, pattern, waste, occupied-site constraints, material availability, and workmanship determine final cost and quality, while cutting, fitting, adhesion, sanding, and finishing remain physical.",
+    "value_capture": "Signed fixed-price work can preserve a near-term productivity gain, especially when the benefit appears as faster response, fewer errors, better crew utilization, or avoided overhead hiring. Later bids expose the gain to unit-price competition and procurement pressure, and cost-plus or open-book work shares savings more directly. Retention therefore depends on customer channel, backlog, local competition, and whether the operator converts efficiency into service quality and capacity rather than price cuts.",
+    "firm_availability": "The NAICS definition is tightly aligned with outsourced installation and repair, so most firms in the supplied LMM band should be eligible after excluding miscoded, captive, or nontransferable operations. Broad owner-aging evidence and reported construction-business sales support a real transfer pipeline, but neither source gives a flooring-specific denominator. Owner dependence, informal books, subcontractor relationships, licensing, and customer concentration may turn apparent firms into closures rather than transferable operations.",
+    "demand_durability": "Floor replacement, renovation, tenant turnover, damage repair, and new construction create repeat industry demand. BLS projects modest overall occupational growth while showing product substitution away from carpet toward resilient flooring and continued tile demand. The current outsourced basket should still require a responsible installer in five years because the work is physical, local, variable, and warranty-sensitive, though cycles and do-it-yourself products create downside.",
+    "risks_and_uncertainty": "The occupation mix is available only at a parent NAICS level, AI adoption evidence is cross-industry, owner-age evidence is broad and dated, reported sales lack a denominator, and contract evidence comes from residential builders using a particular platform. Flooring firms also vary by residential versus commercial mix, employees versus subcontractors, product mix, retailer relationships, and owner involvement. A weak case would emerge if firm-level time studies show little overhead labor, if efficiency is rapidly competed into bids, or if sale-ready companies are much rarer than the supplied count implies.",
+    "principal_driver": "The principal driver is the ability to automate estimating and project administration around a durable, locally delivered physical service.",
+    "principal_weakness": "The principal weakness is that hands-on installation dominates employment while transfer and benefit-retention evidence is indirect."
+  },
+  "sources": [
+    {
+      "id": "S1",
+      "url": "https://data.census.gov/profile/238330_-_Flooring_Contractors?codeset=naics~238330&g=010XX00US",
+      "title": "238330: Flooring Contractors - Census Bureau Profile",
+      "access_date": "2026-07-22",
+      "supports": "Defines NAICS 238330 as installation of resilient floor tile, carpeting, linoleum, and hardwood, including new work, alterations, maintenance, and repairs; lists adjacent and retail-led activities classified elsewhere."
+    },
+    {
+      "id": "S2",
+      "url": "https://www.bls.gov/oes/2023/may/naics4_238300.htm",
+      "title": "Building Finishing Contractors - May 2023 OEWS Industry-Specific Occupational Employment and Wage Estimates",
+      "access_date": "2026-07-22",
+      "supports": "Reports parent-industry employment and wages, including construction and extraction at 70.96% of employment, management at 5.32%, business and financial operations at 4.63%, sales at 2.94%, and office support at 8.59%."
+    },
+    {
+      "id": "S3",
+      "url": "https://www.onetonline.org/link/details/47-2042.00",
+      "title": "47-2042.00 - Floor Layers, Except Carpet, Wood, and Hard Tiles",
+      "access_date": "2026-07-22",
+      "supports": "Documents core floor-layer tasks such as surface preparation, cutting, inspecting, measuring, fitting, applying adhesive, and finishing; reports continual hand use for 89% of respondents and identifies estimating and project-management software."
+    },
+    {
+      "id": "S4",
+      "url": "https://www.census.gov/library/stories/2026/05/ai-use-businesses.html",
+      "title": "Large Firms With at Least 20 Employees Biggest AI Users",
+      "access_date": "2026-07-22",
+      "supports": "Reports nationally representative BTOS evidence: 19.8% of businesses used AI as of May 3, 2026, adoption rose with firm size, and fewer than 20% of firms with at most four employees reported use."
+    },
+    {
+      "id": "S5",
+      "url": "https://www.coconstruct.com/blog/fixed-price-projects-have-28-higher-average-profit-margins",
+      "title": "Fixed Price Projects Have 28% Higher Average Profit Margins",
+      "access_date": "2026-07-22",
+      "supports": "Analyzes more than 60,000 US residential construction projects, reports builders used fixed-price contracts 80% of the time, defines fixed-price and open-book contracts, and shows different project-margin behavior."
+    },
+    {
+      "id": "S6",
+      "url": "https://www.census.gov/content/dam/Census/library/visualizations/2020/comm/business-owners-ages.pdf",
+      "title": "Business Owners' Ages",
+      "access_date": "2026-07-22",
+      "supports": "Reports that 51% of responding owners of employer businesses were at least age 55 in the 2019 Annual Business Survey, with data year 2018 and stated population limitations."
+    },
+    {
+      "id": "S7",
+      "url": "https://www.bizbuysell.com/learning-center/valuation-benchmarks/building-construction/",
+      "title": "Construction Business Valuation Multiples & Financial Benchmarks",
+      "access_date": "2026-07-22",
+      "supports": "Reports 3,142 building and construction businesses sold on or reported to BizBuySell, a median 207 days on market, and transaction observations that include flooring among the represented specialty services."
+    },
+    {
+      "id": "S8",
+      "url": "https://www.bls.gov/ooh/construction-and-extraction/tile-and-marble-setters.htm",
+      "title": "Flooring Installers and Tile and Stone Setters",
+      "access_date": "2026-07-22",
+      "supports": "Describes physical duties and requirements, projects 6% employment growth from 2024 to 2034, identifies new homes and renovation as primary demand sources, and reports divergent outlooks across carpet, resilient flooring, and tile occupations."
+    }
+  ]
+}
