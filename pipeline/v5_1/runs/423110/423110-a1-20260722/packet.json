@@ -1,0 +1,174 @@
+{
+  "identity": {
+    "naics": "423110",
+    "title": "Automobile and Other Motor Vehicle Merchant Wholesalers",
+    "run_id": "423110-a1-20260722",
+    "model_id": "claude-sonnet-5",
+    "run_date": "2026-07-22",
+    "methodology_version": "5.1",
+    "attempt": 1
+  },
+  "lens": {
+    "included_activities": "Independent US merchant wholesalers that repeatedly source, take title to, market, and distribute new or used passenger vehicles, trucks, trailers, motorcycles, recreational vehicles, and similar motor vehicles to dealers, fleets, and other business buyers.",
+    "excluded_activities": "Manufacturer-owned or otherwise captive sales branches, retail dealerships, auction-only agents and brokers classified outside merchant wholesale, shells, internal reorganizations, and firms without transferable operating relationships.",
+    "customer_and_revenue_model": "Business customers buy vehicles for resale or fleet use; the wholesaler earns an inventory spread or gross margin and may bundle inspection, reconditioning coordination, title administration, financing support, and transport coordination into repeat account relationships.",
+    "deviation_from_default": "none",
+    "heterogeneous": false
+  },
+  "primitives": {
+    "a": {
+      "evidence_state": "PROXY",
+      "low": 0.16,
+      "base": 0.24,
+      "high": 0.33,
+      "bridge": "BLS measures employment and wages for four-digit NAICS 423100, not wage-weighted task exposure for 423110. I map office, customer-service, order, recordkeeping, pricing, prospecting, and portions of sales work to partial AI exposure, while treating vehicle movement, material handling, inspection, repair, and relationship negotiation as mostly unexposed; using employment shares rather than a complete task-by-wage matrix may overstate exposure if 423110 is more logistics-heavy than the four-digit group and understate it if its vehicle pricing and documentation work is more intensive.",
+      "rationale": "In the 423100 proxy, sales occupations are 19.66% and office/administrative support is 13.83% of employment, including customer service, order processing, bookkeeping, shipping records, and general office work. These roles contain document, communication, search, matching, and pricing-support tasks suited to AI, but exposure is bounded by the 29.96% transportation/material-moving and 16.10% installation/repair shares and by the human work of negotiating and maintaining accounts.",
+      "change_evidence": "A payroll-weighted task inventory from 15-25 independent 423110 wholesalers, separating sourcing, appraisal, pricing, title, CRM, dispatch, reconditioning, and physical movement hours, plus system logs showing what is already automated.",
+      "source_ids": ["S2", "S3"],
+      "caveats": [
+        "OEWS is for NAICS 423100, combining vehicle wholesalers with new-parts, tire, and used-parts wholesalers.",
+        "OEWS occupation shares do not directly measure tasks, task time, current automation, or wage-weighted exposure.",
+        "The vehicle-wholesale mix ranges from relationship-led fleet sales to highly transactional used-vehicle trading."
+      ]
+    },
+    "rho": {
+      "evidence_state": "ESTIMATE",
+      "low": 0.32,
+      "base": 0.5,
+      "high": 0.68,
+      "rationale": "Within five years, practical implementation should be strongest in lead qualification, vehicle/specification matching, market-price monitoring, document extraction, listing creation, order entry, customer communications, and exception triage. BLS notes that wholesale selling is increasingly online and that AI and chatbots may limit sales employment, but also expects online sales mostly to complement face-to-face selling. Title accuracy, inventory risk, condition disputes, negotiated terms, data integration, and adoption by small firms keep realized implementation below full task exposure.",
+      "change_evidence": "Twelve-month before/after workflow studies from independent vehicle wholesalers using AI-enabled CRM, appraisal, title, and order tools, reporting adoption, exception rates, rework, customer retention, and labor hours by workflow.",
+      "source_ids": ["S3"],
+      "caveats": [
+        "No industry study measures five-year implementation of AI in 423110.",
+        "Vendor demonstrations may omit integration, data-rights, and exception-handling costs.",
+        "Implementation will differ sharply between digitally mature auction-linked firms and small relationship-led wholesalers."
+      ]
+    },
+    "e": {
+      "evidence_state": "ESTIMATE",
+      "low": 0.12,
+      "base": 0.32,
+      "high": 0.5,
+      "rationale": "Merchant wholesalers take title and sell on their own account, so the code contains real operating businesses rather than only commission agents. Eligibility is nevertheless limited to independent, transferable firms with repeat external dealer or fleet relationships; captive branches, one-off traders, thinly staffed inventory vehicles, and businesses whose value depends almost entirely on one owner's buying relationships do not fit the lens.",
+      "change_evidence": "A firm-level census or commercial directory for the 1,569 dataset-estimated LMM firms, tagged for ultimate ownership, customer recurrence, employee count, inventory/title activity, customer concentration, and owner dependence, validated through 40 operator interviews.",
+      "source_ids": ["S1", "S6"],
+      "caveats": [
+        "No public source measures the eligible share of LMM 423110 firms.",
+        "NAICS establishment definitions do not identify captive status, transferability, recurring customers, or normalized EBITDA.",
+        "The dataset n is margin-bridged and may be particularly noisy in a high-revenue, inventory-intensive vehicle trade."
+      ]
+    },
+    "s5": {
+      "evidence_state": "ESTIMATE",
+      "low": 0.1,
+      "base": 0.19,
+      "high": 0.31,
+      "rationale": "A five-year control-transfer probability around one fifth is a bounded underwriting judgment for eligible independent firms: retirement, succession gaps, strategic consolidation, and ordinary sale processes create supply, but many owners retain control, transfer internally, close, or sell only inventory rather than a going concern. The estimate excludes deaths, reorganizations, and asset liquidations that do not transfer the operating platform.",
+      "change_evidence": "Five years of closed transaction records from automotive distribution-focused brokers, Axial/DealStats/Capital IQ searches mapped to 423110, and a representative survey of independent owners covering age, intended exit date, successor availability, and willingness to sell control.",
+      "source_ids": [],
+      "caveats": [
+        "No public 423110 control-transfer rate was found.",
+        "Observed broker listings would be selection-biased toward sale-ready firms.",
+        "Owner age alone would not distinguish a qualifying control sale from closure or family succession."
+      ]
+    },
+    "q": {
+      "evidence_state": "ESTIMATE",
+      "low": 0.25,
+      "base": 0.45,
+      "high": 0.65,
+      "rationale": "Because merchant wholesalers buy and sell on their own account, an operator can initially retain workflow savings through lower overhead, faster turns, fewer errors, and better matching rather than a contractual cost-plus pass-through. Over renewals and repeated transactions, transparent auction and market prices, dealer bargaining, competitive bidding, and employee or vendor costs should return a substantial share to customers or counterparties, leaving less than half of implemented gross benefit in the base case.",
+      "change_evidence": "Customer-level gross-margin and retention panels before and after workflow automation, segmented by contract or pricing mechanism, plus win/loss data and competitor quote histories from 15 independent wholesalers.",
+      "source_ids": ["S6"],
+      "caveats": [
+        "There is no observed benefit-sharing study for this industry.",
+        "Inventory gains and losses can swamp operating savings and obscure retention.",
+        "Capture may be lower in transparent commodity-like channels and higher in specialized vehicles or constrained supply."
+      ]
+    },
+    "d5": {
+      "evidence_state": "PROXY",
+      "low": 0.88,
+      "base": 1.03,
+      "high": 1.16,
+      "bridge": "BLS projects employment for broad NAICS 423100 from 381,100 in 2024 to 398,400 in 2034, a 4.5% ten-year increase, and reports 2.9% average annual real output growth for motor-vehicle-and-parts wholesale over 1987-2025. I use the forward employment signal as the conservative anchor and historical real output only as an upper-direction check, translating them into a five-year constant-price demand judgment for 423110. The proxy may overstate vehicle-wholesale demand if parts distribution drives growth and understate it if vehicle transactions grow while labor productivity rises.",
+      "rationale": "The direct definition covers distribution of new and used automobiles, trucks, trailers, recreational vehicles, and other vehicles, a broad basket tied to replacement, dealer inventory, fleet investment, and resale turnover. The 423100 employment projection indicates modest expansion rather than structural disappearance, while long-run real output growth supports a positive but volatile demand range. A near-flat five-year base is more defensible than extrapolating the faster historical output rate through a cyclical vehicle market.",
+      "change_evidence": "BLS or BEA real-output projections at six-digit 423110, or five-year unit-volume forecasts for wholesale transfers split among passenger vehicles, commercial trucks, trailers, RVs, and other vehicles, adjusted for channel share and quality mix.",
+      "source_ids": ["S1", "S4", "S5"],
+      "caveats": [
+        "The forward BLS figure is employment, not constant-price demand, and covers all of 423100.",
+        "The historical output series spans multiple cycles and does not isolate 423110.",
+        "Interest rates, tariffs, vehicle supply, fleet cycles, and changes in dealer inventory practices create substantial five-year volatility."
+      ]
+    },
+    "o": {
+      "evidence_state": "ESTIMATE",
+      "low": 0.68,
+      "base": 0.82,
+      "high": 0.92,
+      "rationale": "Most year-five vehicle distribution quantity should still require an accountable operator to take title or inventory risk, verify vehicle and title condition, arrange movement, resolve exceptions, and stand behind negotiated terms. Digital marketplaces and AI can automate discovery, matching, communications, and paperwork and can eliminate some intermediary touches, but Census describes merchant wholesalers as taking title, while the broad industry occupation mix has nearly 30% transportation/material-moving and 16% installation/repair employment. Those physical and accountability functions limit complete self-service or pure-software substitution.",
+      "change_evidence": "Channel-share data showing the fraction of wholesale vehicle units completed end-to-end through self-service software without a merchant taking title or providing accountable inspection, logistics, condition, or dispute-resolution functions, tracked annually by vehicle segment.",
+      "source_ids": ["S2", "S6"],
+      "caveats": [
+        "The physical occupation shares are for 423100 and may reflect parts and tire distribution more than vehicle wholesaling.",
+        "Some accountable functions can be supplied by auctions, logistics firms, or platforms rather than the merchant wholesaler itself.",
+        "Legal and market conventions around digital title, remote inspection, and platform guarantees could change faster than assumed."
+      ]
+    }
+  },
+  "narrative": {
+    "executive_view": "Vehicle merchant wholesaling combines a modest AI-addressable commercial and administrative layer with a much larger physical, inventory-risk, and relationship-intensive operating core. The clearest opportunity is workflow augmentation in sourcing, pricing, documentation, customer service, and order handling, not removal of the accountable distributor.",
+    "ai_impact": "AI can monitor markets, draft listings and communications, match vehicle specifications to buyer needs, extract title and condition data, prioritize leads, and triage order or logistics exceptions. It is less able to replace physical inspection, movement, repair coordination, inventory financing, negotiation, and responsibility for condition or title disputes.",
+    "value_capture": "Taking title creates room to retain savings through overhead reduction, faster inventory turns, fewer errors, and improved matching. Retention is constrained by transparent market prices, auctions and digital platforms, dealer bargaining, and repeated repricing, so a material part of gross benefit is likely competed into spreads or service levels.",
+    "firm_availability": "The code includes true merchant operators, but only a subset of LMM firms are independent, recurring-account businesses with a transferable organization beyond the owner. Public evidence does not reveal control-transfer frequency; succession and consolidation may create supply, while closures, family transfers, and inventory-only liquidations do not qualify.",
+    "demand_durability": "Vehicle replacement, fleet needs, dealer inventory, and resale turnover support continuing wholesale demand, with BLS's broader 423100 outlook pointing to modest employment growth. The channel is cyclical and sensitive to financing, supply, and trade policy, but physical transfer, title, inspection, and exception accountability make full software elimination unlikely within five years.",
+    "risks_and_uncertainty": "The largest evidence weakness is that public occupation and outlook data aggregate all motor-vehicle and parts wholesalers, while the target code mixes passenger vehicles, trucks, trailers, motorcycles, RVs, and other vehicles. The estimated eligible and transferable populations are unobserved, and inventory economics can dominate labor savings. A platform-led shift in title, inspection, and guarantees could reduce the operator-required share.",
+    "principal_driver": "Repeat dealer and fleet workflows create automatable pricing, documentation, matching, and customer-service work around a durable physical transaction.",
+    "principal_weakness": "The dataset labor ratio is only 1.7%, and neither the eligible independent-firm share nor qualifying five-year control-transfer rate is directly observed."
+  },
+  "sources": [
+    {
+      "id": "S1",
+      "url": "https://www.census.gov/naics/?details=423110&input=423110&year=2022",
+      "title": "2022 NAICS Definition: 423110 Automobile and Other Motor Vehicle Merchant Wholesalers",
+      "access_date": "2026-07-22",
+      "supports": "Defines 423110 as merchant wholesale distribution of new and used passenger automobiles, trucks, trailers, motorcycles, motor homes, snowmobiles, and other motor vehicles."
+    },
+    {
+      "id": "S2",
+      "url": "https://www.bls.gov/oes/2023/may/naics4_423100.htm",
+      "title": "May 2023 National Industry-Specific Occupational Employment and Wage Estimates: NAICS 423100",
+      "access_date": "2026-07-22",
+      "supports": "Reports 367,580 total jobs; 19.66% sales, 13.83% office/administrative support, 16.10% installation/maintenance/repair, and 29.96% transportation/material-moving employment, with detailed occupations and wages."
+    },
+    {
+      "id": "S3",
+      "url": "https://www.bls.gov/ooh/sales/wholesale-and-manufacturing-sales-representatives.htm",
+      "title": "Occupational Outlook Handbook: Wholesale and Manufacturing Sales Representatives",
+      "access_date": "2026-07-22",
+      "supports": "Describes prospecting, needs analysis, price and term negotiation, contracts, orders, follow-up, reporting, and web-enabled selling; states that online sales mostly complement face-to-face selling and that AI and chatbots may limit employment growth."
+    },
+    {
+      "id": "S4",
+      "url": "https://www.bls.gov/emp/tables/industry-employment-and-output.htm",
+      "title": "BLS Employment and Output by Industry, 2024-2034",
+      "access_date": "2026-07-22",
+      "supports": "Projects employment in NAICS 423100 from 381,100 in 2024 to 398,400 in 2034, an increase of 17,300 or 4.5%."
+    },
+    {
+      "id": "S5",
+      "url": "https://www.bls.gov/charts/productivity-wholesale-retail/long-term-percent-change-hours-and-output-and-employment.htm",
+      "title": "BLS Long-term Percent Change in Hours, Output, and Employment",
+      "access_date": "2026-07-22",
+      "supports": "Reports 2.9% average annual output growth for motor vehicles and parts wholesale over 1987-2025 and current employment of 379,100."
+    },
+    {
+      "id": "S6",
+      "url": "https://www.census.gov/econ/overview/wh0200.html",
+      "title": "Annual Wholesale Trade Survey: Purpose, Coverage, and Content",
+      "access_date": "2026-07-22",
+      "supports": "States that covered merchant wholesalers take title to goods they sell and reports sales, inventories, purchases, operating expenses, and e-commerce; excludes agents, brokers, commission merchants, and non-wholesale businesses."
+    }
+  ]
+}

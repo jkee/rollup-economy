@@ -1,0 +1,169 @@
+{
+  "identity": {
+    "naics": "424710",
+    "title": "Petroleum Bulk Stations and Terminals",
+    "run_id": "424710-a1-20260722",
+    "model_id": "claude-sonnet-5",
+    "run_date": "2026-07-22",
+    "methodology_version": "5.1",
+    "attempt": 1
+  },
+  "lens": {
+    "included_activities": "Independent US lower-middle-market operators of bulk liquid storage stations or terminals that repeatedly receive, store, meter, document, sell, and transfer crude petroleum, refined petroleum products, biofuel blends, or liquefied petroleum gas to external customers.",
+    "excluded_activities": "Captive refinery or integrated-oil terminals, pipeline-only transportation, retail fuel stations, passive real-estate or tank-lease vehicles without operating control, shells, and non-control financing vehicles.",
+    "customer_and_revenue_model": "Recurring B2B wholesale distribution and throughput operations earning commodity spreads and, where applicable, storage, handling, throughput, blending, loading, or ancillary service fees; working capital and inventory values are large relative to labor.",
+    "deviation_from_default": "none",
+    "heterogeneous": false
+  },
+  "primitives": {
+    "a": {
+      "evidence_state": "PROXY",
+      "low": 0.10,
+      "base": 0.19,
+      "high": 0.30,
+      "bridge": "O*NET describes petroleum pump-system operators, refinery operators, and gaugers, a broader occupation than terminal-only 424710 employment, as monitoring instruments, operating pumps and valves, verifying meters, coordinating flow, and patrolling for safe regulatory compliance. BLS describes the broader nondurable-wholesale workforce as containing sales, shipping, driving, and material-moving roles. I translate these task and occupation descriptions into a wage-weighted exposed share: reporting, scheduling, reconciliation, order/dispatch coordination, anomaly triage, and commercial administration are AI-exposed, while field rounds, maintenance, loading, emergency response, and accountable control are not. The estimate could be high if LMM terminal payroll is operator-heavy and low if commercial and administrative wages dominate.",
+      "rationale": "Terminal work combines digital signals and documentation with safety-critical physical operations. AI can support scheduling, inventory reconciliation, nominations, document extraction, invoice review, customer communication, and alarm prioritization, but most core operator tasks require direct control, site presence, or human judgment. A 19% base gives the information layer meaningful weight without treating physical terminal control as substitutable.",
+      "change_evidence": "A 424710 payroll-weighted occupation table plus task-level time studies from at least 10 independent bulk stations and terminals, separating control-room monitoring, field rounds, maintenance, loading, dispatch, compliance, accounting, and sales.",
+      "source_ids": ["S2", "S3"],
+      "caveats": ["The occupation task source includes refinery operators as well as terminal pump operators and gaugers.", "The broader NAICS 424 employment mix is not a six-digit 424710 wage distribution.", "The injected compensation-to-receipts ratio is exceptionally low because receipts include high-value fuel throughput, so it should not be interpreted as a direct task mix."]
+    },
+    "rho": {
+      "evidence_state": "ESTIMATE",
+      "low": 0.25,
+      "base": 0.46,
+      "high": 0.64,
+      "rationale": "Five-year implementation is plausible for forecasting, scheduling, reconciliation, document workflows, commercial administration, and decision support around alarms. It is slower for control-room or transfer decisions because terminals need validated integration with operational technology, cybersecurity, deterministic safeguards, trained operators, and auditable spill-prevention procedures. Implementation should therefore capture under half of the exposed base opportunity, with humans retaining control of safety-critical actions.",
+      "change_evidence": "Documented terminal deployments from terminal-management-system and industrial-control vendors reporting hours removed, false-alarm rates, manual overrides, downtime, cyber controls, audit findings, and spill or near-miss outcomes for at least 24 months.",
+      "source_ids": ["S4", "S5"],
+      "caveats": ["No representative five-year AI adoption cohort for independent petroleum terminals was found.", "Operational-technology integration and insurance approval may dominate model capability."]
+    },
+    "e": {
+      "evidence_state": "ESTIMATE",
+      "low": 0.35,
+      "base": 0.57,
+      "high": 0.74,
+      "rationale": "An independent operating company with repeat external throughput or wholesale customers can fit the lens, but the industry includes facilities tied economically or operationally to integrated suppliers, owners whose economics are mostly commodity inventory rather than outsourced service, and asset or lease structures without transferable operating control. Environmental history, permits, pipeline and supplier connections, land rights, and working-capital requirements can also make an otherwise active firm ineligible for a conventional control roll-up.",
+      "change_evidence": "A hand-coded census of the injected firm population using EIA terminal records, EPA facility databases, corporate ownership trees, customer and supplier concentration, throughput contracts, permits, land control, and environmental liabilities.",
+      "source_ids": ["S1", "S4"],
+      "caveats": ["The Census definition is establishment-oriented, while eligibility is a firm-level construct.", "The injected margin-bridged count may be distorted by volatile fuel receipts and may include firms whose normalized EBITDA lies outside the target band."]
+    },
+    "s5": {
+      "evidence_state": "PROXY",
+      "low": 0.06,
+      "base": 0.13,
+      "high": 0.23,
+      "bridge": "BizBuySell measures marketplace sales of broad wholesale/distribution businesses, not LMM petroleum terminals, and reports sold-business pricing and marketing-time statistics without a population denominator. I use it only to establish that small wholesale control transfers recur, then reduce and widen the five-year probability for 424710 because real estate, tanks, inventory finance, environmental diligence, permits, and counterparty approvals make terminal transfers more complex. Marketplace undercoverage biases observed volume downward, while successful Main Street listings bias apparent transferability upward.",
+      "rationale": "A qualifying control transfer should remain a minority event over five years. Retirement and consolidation can create supply, but a petroleum terminal may be held as strategic infrastructure, sold within a larger portfolio, or fail diligence because of environmental and title risks. The base is therefore below a generic small-wholesale turnover expectation.",
+      "change_evidence": "A deduplicated five-year set of control deals from PitchBook, S&P Capital IQ, Axial, SBA 7(a), EPA ownership-change records, and specialist terminal brokers, matched to a verified denominator of eligible 424710 firms.",
+      "source_ids": ["S6"],
+      "caveats": ["No six-digit control-transfer rate or owner-age series was found.", "Asset purchases and portfolio transactions may not map cleanly to firm control transfers."]
+    },
+    "q": {
+      "evidence_state": "ESTIMATE",
+      "low": 0.20,
+      "base": 0.39,
+      "high": 0.58,
+      "rationale": "Savings in scheduling, reconciliation, back office, and exception handling can be retained inside fixed storage or throughput contracts until repricing, and operational improvements can reduce loss and downtime. Yet fuel wholesaling has highly visible commodity benchmarks, competitive tenders, negotiated throughput charges, and customers capable of demanding lower fees. Over five discounted years, much of a pure labor gain is likely shared; safety, reliability, and inventory-loss improvements should be more defensible than clerical savings.",
+      "change_evidence": "Contract-level panels covering throughput and storage fees, escalation clauses, repricing dates, inventory gains/losses, demurrage, service levels, customer churn, and contribution margin before and after workflow automation.",
+      "source_ids": ["S7"],
+      "caveats": ["No causal study directly measures pass-through of terminal automation savings.", "Commodity-price volatility can swamp labor benefits in reported gross margins."]
+    },
+    "d5": {
+      "evidence_state": "PROXY",
+      "low": 0.85,
+      "base": 0.97,
+      "high": 1.10,
+      "bridge": "EIA reports U.S. motor-gasoline consumption at 8.9 million barrels per day in 2025, 1% below 2024 and 4% below 2019, and forecasts further near-term decline; separately, EIA reports January 2026 refined-product maritime exports of 6.3 million barrels per day, 10% above January 2025, and long-run petroleum-export resilience. I combine these product-market quantities as directional proxies for five-year bulk-station and terminal throughput. Domestic gasoline weakness can overstate total decline because distillate, jet fuel, LPG, crude, biofuel blends, and exports also use terminals; unusually strong exports can overstate durable growth because they are volatile and concentrated geographically.",
+      "rationale": "The service basket faces mixed demand. Efficiency and electrification pressure domestic gasoline, but terminals also handle diesel, jet fuel, LPG, crude, intermediates, asphalt, lubricants, and blended fuels, while exports support coastal throughput. A slightly declining base with a wide range is more defensible than extrapolating either gasoline decline or a single export surge across the entire industry.",
+      "change_evidence": "EIA product-by-product terminal receipts, stocks, shipments, and exports mapped to 424710 facilities and regions, combined with contract renewals, announced closures or expansions, and five-year customer throughput nominations.",
+      "source_ids": ["S1", "S7", "S8", "S9"],
+      "caveats": ["Fuel volumes are proxies for terminal service quantity and can bypass merchant-owned facilities.", "Export growth is concentrated and sensitive to geopolitics, refinery runs, and foreign demand.", "Constant-quality aggregation across crude, refined products, LPG, and biofuel blends is inherently approximate."]
+    },
+    "o": {
+      "evidence_state": "PROXY",
+      "low": 0.90,
+      "base": 0.97,
+      "high": 0.995,
+      "bridge": "The Census definition requires bulk liquid storage facilities, O*NET assigns human operators physical control, monitoring, metering, maintenance coordination, and safety patrol tasks, and EPA requires covered facilities to implement spill-prevention plans and containment. These sources establish physical and accountable operating duties but do not measure the five-year share remaining with LMM operators. I translate them into a very high operator-required share; this may overstate the lens's share if volume migrates to captive, larger, or more automated terminals, but software-only elimination is unlikely.",
+      "rationale": "Petroleum volume cannot be stored, metered, blended, loaded, contained, inspected, or transferred by software alone. Automation can reduce staffing and move monitoring remote, but a legal and operational entity must own or control equipment, maintain containment, respond to incidents, and coordinate physical transfers. Nearly all surviving demand therefore still requires an accountable operator, though not necessarily the same independent operator.",
+      "change_evidence": "Facility-level evidence on fully remote or lights-out terminals, operator staffing per million barrels, outsourcing of control and compliance, ownership consolidation, and whether customers shift throughput to captive or manufacturer-controlled assets.",
+      "source_ids": ["S1", "S3", "S4", "S5"],
+      "caveats": ["Operator-required does not mean labor-intensive; control systems may sharply reduce headcount.", "Demand can migrate from LMM independents to integrated or large-network operators without being eliminated."]
+    }
+  },
+  "narrative": {
+    "executive_view": "Petroleum bulk stations and terminals are indispensable physical infrastructure but an unusually low labor-share setting. AI can improve the information layer around scheduling, reconciliation, nominations, dispatch, compliance records, and alarm triage; it cannot replace tanks, pumps, containment, field inspections, or accountable operating control. The opportunity therefore depends more on operational quality than on large labor substitution.",
+    "ai_impact": "Useful applications include demand and inventory forecasting, automated document capture, scheduling and berth or rack optimization, reconciliation of meter and invoice data, predictive-maintenance support, and prioritized exception review. Safety-critical pump, valve, loading, and emergency actions should remain behind deterministic controls and trained human authorization.",
+    "value_capture": "Fixed-term storage and throughput arrangements can temporarily preserve savings, and fewer losses, outages, or demurrage events can create customer value. Transparent fuel markets and sophisticated counterparties make clerical cost savings difficult to retain indefinitely, while commodity inventory swings can overwhelm the contribution of labor productivity.",
+    "firm_availability": "The injected population is meaningful but likely overstates clean targets. Captive facilities, strategic infrastructure, asset-only structures, environmental liabilities, permits, land rights, pipeline links, and large inventory-finance needs reduce eligibility and complicate control transfers. Marketplace wholesale data show transactions occur but are a weak proxy for petroleum terminals.",
+    "demand_durability": "Domestic gasoline volumes are declining with fuel efficiency, but export flows and other petroleum products support continued throughput. Over five years, service quantity is more likely to edge down than collapse. Almost all surviving quantity still needs physical storage and transfer infrastructure plus a responsible operator.",
+    "risks_and_uncertainty": "Material risks include spills, legacy contamination, tank integrity, fire, cyber intrusion into operational technology, permits, climate and transition policy, geographic concentration, customer and supplier dependence, basis and inventory exposure, and catastrophic working-capital needs. Evidence is weakest on six-digit task weights, firm eligibility, private transfer incidence, and retained automation economics.",
+    "principal_driver": "Persistent physical storage and transfer needs make demand strongly operator-required even as workflows become more automated.",
+    "principal_weakness": "The labor base is tiny relative to receipts and safety, environmental, and asset-transfer complexity constrain both realizable AI savings and target availability."
+  },
+  "sources": [
+    {
+      "id": "S1",
+      "url": "https://www.census.gov/naics/?details=4247&input=4247&year=2017",
+      "title": "2017 NAICS Definition: 424710 Petroleum Bulk Stations and Terminals",
+      "access_date": "2026-07-22",
+      "supports": "Defines the industry as establishments with bulk liquid storage facilities primarily engaged in merchant wholesale distribution of crude petroleum and petroleum products, including liquefied petroleum gas."
+    },
+    {
+      "id": "S2",
+      "url": "https://www.bls.gov/iag/tgs/iag424.htm",
+      "title": "Merchant Wholesalers, Nondurable Goods: NAICS 424",
+      "access_date": "2026-07-22",
+      "supports": "Reports the broader subsector's 2025 employment in common occupations, including 269,740 nontechnical sales representatives, 174,610 heavy truck drivers, 162,830 material movers, 54,000 technical sales representatives, and 43,040 shipping/receiving/traffic clerks."
+    },
+    {
+      "id": "S3",
+      "url": "https://www.onetonline.org/link/details/51-8093.00",
+      "title": "Petroleum Pump System Operators, Refinery Operators, and Gaugers",
+      "access_date": "2026-07-22",
+      "supports": "Lists core tasks including monitoring instruments, operating pumps and valves, coordinating flow, verifying meters, maintaining or reporting equipment problems, and patrolling tanks for safe and compliant operations."
+    },
+    {
+      "id": "S4",
+      "url": "https://www.epa.gov/oil-spills-prevention-and-preparedness-regulations/overview-spill-prevention-control-and",
+      "title": "Overview of the Spill Prevention, Control, and Countermeasure Regulation",
+      "access_date": "2026-07-22",
+      "supports": "States that covered facilities must prevent, prepare for, and respond to oil discharges; develop and implement SPCC plans; and follow procedures, methods, and equipment requirements."
+    },
+    {
+      "id": "S5",
+      "url": "https://www.epa.gov/oil-spills-prevention-and-preparedness-regulations/secondary-containment-each-container-under-spcc",
+      "title": "Secondary Containment for Each Container under SPCC",
+      "access_date": "2026-07-22",
+      "supports": "States that covered facilities must provide containment or diversionary structures and that bulk storage installations must contain the largest single container plus precipitation freeboard."
+    },
+    {
+      "id": "S6",
+      "url": "https://www.bizbuysell.com/learning-center/valuation-benchmarks/wholesale-distribution/",
+      "title": "Wholesale/Distribution Business Valuation Multiples and Financial Benchmarks",
+      "access_date": "2026-07-22",
+      "supports": "Reports sold wholesale/distribution business data for 2021-2025, including $600,000 median sale price, $1,378,849 median revenue, $236,484 median owner earnings, and 199 median days on market."
+    },
+    {
+      "id": "S7",
+      "url": "https://www.eia.gov/todayinenergy/detail.php?id=67426",
+      "title": "Increasing Fuel Efficiency Leads to Decreasing Gasoline Consumption",
+      "access_date": "2026-07-22",
+      "supports": "Reports 2025 US motor-gasoline consumption of 8.9 million barrels per day, 1% below 2024 and 4% below 2019, and forecasts continued declines in 2026 and 2027 as fuel efficiency rises."
+    },
+    {
+      "id": "S8",
+      "url": "https://www.eia.gov/Todayinenergy/detail.php?id=67184",
+      "title": "Maritime Exports of Petroleum Products Increased in January 2026",
+      "access_date": "2026-07-22",
+      "supports": "Reports refined-product exports on clean tankers of 6.3 million barrels per day in January 2026, about 10% above January 2025, with diesel, gasoline, and LPG driving growth."
+    },
+    {
+      "id": "S9",
+      "url": "https://www.eia.gov/pressroom/releases/press587.php",
+      "title": "EIA Releases the Annual Energy Outlook 2026",
+      "access_date": "2026-07-22",
+      "supports": "States that US energy consumption is flat or slightly lower through 2050 in most cases, crude production is 12.4-12.7 million barrels per day in most 2050 cases versus 13.6 in 2025, and the United States remains a net petroleum exporter in nearly all cases with liquids exports increasing."
+    }
+  ]
+}

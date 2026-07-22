@@ -1,0 +1,176 @@
+{
+  "identity": {
+    "naics": "424720",
+    "title": "Petroleum and Petroleum Products Merchant Wholesalers (except Bulk Stations and Terminals)",
+    "run_id": "424720-a1-20260722",
+    "model_id": "claude-sonnet-5",
+    "run_date": "2026-07-22",
+    "methodology_version": "5.1",
+    "attempt": 1
+  },
+  "lens": {
+    "included_activities": "Independent US lower-middle-market merchant wholesalers repeatedly sourcing, selling, coordinating, and where applicable packaging or delivering gasoline, fuel oil, lubricants and grease, bottled liquefied petroleum gas, and other petroleum products without operating a qualifying bulk liquid storage station or terminal.",
+    "excluded_activities": "Bulk stations and terminals, integrated producer or refinery sales branches, retail-only fuel or propane dealers, commission-only agents, captive internal distributors, shells, and non-control financing vehicles.",
+    "customer_and_revenue_model": "Repeat B2B distribution to retailers, commercial fleets, industrial and agricultural users, and other enterprises, earning a product spread and sometimes delivery, packaging, credit, equipment, route, or account-service economics; prices often reference volatile wholesale fuel markets.",
+    "deviation_from_default": "none",
+    "heterogeneous": false
+  },
+  "primitives": {
+    "a": {
+      "evidence_state": "PROXY",
+      "low": 0.16,
+      "base": 0.28,
+      "high": 0.40,
+      "bridge": "BLS reports a broader nondurable-wholesale occupation mix containing sales representatives, drivers, material movers, and shipping clerks; separate BLS pages describe wholesale sales and delivery/driver-sales work nationwide. I translate these broader occupations into 424720 tasks: quoting, price-file updates, order intake, route and dispatch planning, credit review, invoice reconciliation, account research, replenishment suggestions, and routine customer support are exposed, while driving, cylinder or package handling, on-site transfer, vehicle inspection, and relationship selling are much less exposed. The proxy can overstate exposure where driver payroll dominates and understate it in desk-based fuel marketers.",
+      "rationale": "Compared with a bulk terminal, a non-terminal petroleum wholesaler generally has more commercial, order, route, and account work relative to fixed infrastructure operation. That makes a meaningful share of tasks AI-addressable, but delivery and hazardous-product handling remain physical and customer relationships and exceptions still require people. A 28% base reflects partial exposure across a mixed sales-logistics workforce.",
+      "change_evidence": "A payroll-weighted 424720 occupation extract plus task-level time studies at at least 15 fuel, lubricant, and bottled-LPG wholesalers, separated by desk marketing, inside and outside sales, dispatch, accounting, warehouse, and driver roles.",
+      "source_ids": ["S2", "S3", "S4"],
+      "caveats": ["BLS does not publish the cited occupational evidence specifically for 424720.", "Firm business models range from desk-based fuel marketers to route-heavy packaged-product distributors.", "The injected compensation ratio uses high and volatile petroleum receipts, so it should not be read as a stable task share."]
+    },
+    "rho": {
+      "evidence_state": "ESTIMATE",
+      "low": 0.32,
+      "base": 0.55,
+      "high": 0.73,
+      "rationale": "Within five years, firms can implement AI-supported quoting, order capture, dispatch assistance, route planning, customer messaging, invoice matching, credit document review, and sales prioritization using existing ERP, telematics, and communications systems. Constraints include fragmented price feeds, legacy software, thin IT teams, cybersecurity, product and tax complexity, customer-specific terms, and the need for people to approve hazardous-material delivery and credit exceptions.",
+      "change_evidence": "Cohort data from petroleum-distribution ERP, routing, cardlock, pricing, and telematics vendors reporting adoption, straight-through order rates, dispatch hours, route miles, invoice exceptions, errors, overrides, and verified headcount avoidance over 24 months.",
+      "source_ids": ["S5"],
+      "caveats": ["No representative longitudinal AI implementation study for 424720 was found.", "Technical feasibility may exceed realized adoption at owner-operated firms with legacy systems."]
+    },
+    "e": {
+      "evidence_state": "ESTIMATE",
+      "low": 0.42,
+      "base": 0.63,
+      "high": 0.79,
+      "rationale": "Independent firms with repeat commercial customers, transferable supply arrangements, route or account density, and documented compliance fit the lens. Eligibility is reduced by captive or effectively captive marketers, spot traders, owner-only relationship books, retail-dominant dealers, severe customer or supplier concentration, untransferable brand or supply contracts, and firms whose normalized earnings are mostly inventory or commodity bets rather than repeat distribution service.",
+      "change_evidence": "A stratified sample of all firms in the injected count, linked to ownership trees, revenue by customer and product, repeat-order rate, supply contracts, route density, licenses, owner dependence, retail share, and historical gross profit excluding inventory-price effects.",
+      "source_ids": ["S1", "S6"],
+      "caveats": ["The Census definition identifies establishment activity but not recurring-revenue quality or firm transferability.", "The injected margin bridge may misclassify EBITDA band because petroleum revenue and gross profit vary greatly with commodity prices."]
+    },
+    "s5": {
+      "evidence_state": "PROXY",
+      "low": 0.08,
+      "base": 0.17,
+      "high": 0.29,
+      "bridge": "BizBuySell reports actual sold wholesale/distribution businesses nationwide from 2021 through 2025, including nondurable distributors, but not a 424720 transaction rate or eligible-firm denominator. I use the recurring sales and 199-day median marketing period as evidence of broad small-distributor liquidity, then bound the five-year probability for petroleum wholesalers after allowing for inventory finance, hazardous-product diligence, supply and brand approvals, environmental exposure, and route/customer concentration. Marketplace omissions bias activity downward, while its smaller successful listings and asset-sale mix can bias transferability upward.",
+      "rationale": "Independent route and account books can transfer, and broad wholesale businesses transact regularly, but a five-year sale remains a minority outcome. Some owners will retain, internally succeed, merge without a qualifying control event, or close; other deals will fail because credit lines, supply agreements, or key customer relationships do not transfer.",
+      "change_evidence": "Five years of PitchBook, Axial, SBA 7(a), GF Data, broker, state fuel-license ownership-change, and supplier approval records matched to a verified denominator of eligible 424720 firms, with internal reorganizations and asset liquidations removed.",
+      "source_ids": ["S7"],
+      "caveats": ["No industry-specific owner-age or succession-rate evidence was found.", "Broad marketplace transactions skew smaller than the target EBITDA band and omit private strategic deals."]
+    },
+    "q": {
+      "evidence_state": "ESTIMATE",
+      "low": 0.20,
+      "base": 0.40,
+      "high": 0.61,
+      "rationale": "Automation savings can be retained through lower overhead, denser routes, fewer billing errors, improved credit discipline, and better sales coverage. Yet product prices are transparent and frequently reset, many accounts negotiate spreads or solicit bids, and manufacturers, terminals, and competing jobbers can pressure margins. Over five discounted years, a large share of pure clerical savings should pass through, while route-density, service-level, loss-prevention, and credit improvements are more defensible.",
+      "change_evidence": "Customer- and route-level panels showing quoted versus realized spread, freight and surcharge treatment, contract repricing, gross profit per stop, bad debt, churn, delivery frequency, and contribution margin before and after verified workflow automation.",
+      "source_ids": ["S6", "S8"],
+      "caveats": ["No causal pass-through study for AI savings in petroleum wholesaling was found.", "Nominal sales and gross margin can be dominated by fuel-price changes rather than retained productivity."]
+    },
+    "d5": {
+      "evidence_state": "PROXY",
+      "low": 0.82,
+      "base": 0.96,
+      "high": 1.10,
+      "bridge": "EIA reports motor-gasoline consumption of 8.9 million barrels per day in 2025, 1% below 2024 and 4% below 2019, with further near-term decline expected; it also reports growing refined-product exports and substantial propane demand and inventory. These product quantities span markets served by 424720 but do not isolate wholesaler service volume or distinguish direct, terminal, and non-terminal channels. Gasoline trends can overstate decline for lubricant, LPG, and specialty-product distributors, while export growth can overstate opportunity for local wholesalers because much of it moves through large terminals.",
+      "rationale": "Real demand is mixed. Efficiency and electrification weigh on gasoline and heating-oil quantity, but commercial delivery, lubricant, LPG, agricultural, fleet, backup-power, and specialty uses persist. A modestly declining base is appropriate, with the lower bound reflecting accelerated substitution and direct sourcing and the upper bound reflecting economic activity, product mix, exports, and gains by service-intensive distributors.",
+      "change_evidence": "Inflation-adjusted, product-level sales gallons and gross profit for 424720 firms from EIA prime-supplier data, Census microdata, and distributor panels, combined with five-year customer fleet, heating, industrial, agricultural, and direct-sourcing forecasts.",
+      "source_ids": ["S1", "S8", "S9", "S10"],
+      "caveats": ["National product supplied is not the same as service quantity handled by independent non-terminal wholesalers.", "Weather materially affects heating oil and propane, while commodity-price changes distort nominal industry sales.", "Exports may bypass the screened population."]
+    },
+    "o": {
+      "evidence_state": "PROXY",
+      "low": 0.66,
+      "base": 0.81,
+      "high": 0.92,
+      "bridge": "BLS expects online wholesale sales mostly to complement face-to-face sales and expects business demand for local delivery services to remain strong; OSHA requires a competent attendant to remain through LP-gas dispensing. These observations concern broader occupations and one regulated product rather than the five-year quantity share for 424720. I translate them into a high but not near-total need for an accountable distributor: physical delivery, credit, product responsibility, and service remain, while direct manufacturer/terminal supply, electronic self-service, third-party carriers, and customer consolidation can bypass this specific merchant-wholesaler layer. The LP-gas rule may overstate human-presence needs for other petroleum products.",
+      "rationale": "Software can automate ordering and reduce sales touches but cannot itself take title, extend trade credit, package product, deliver fuel or cylinders, manage returns, or bear product and contractual responsibility. Nonetheless this intermediary layer is more bypassable than bulk infrastructure: customers may contract directly with refiners or terminals and outsource transport separately. The base therefore preserves most operator need while allowing meaningful disintermediation.",
+      "change_evidence": "Customer procurement surveys and shipment data tracking direct-refiner and direct-terminal purchases, marketplace orders, third-party carrier use, drop shipment, distributor-of-record responsibility, and local route penetration by product through 2031.",
+      "source_ids": ["S3", "S4", "S5"],
+      "caveats": ["Physical delivery may remain operator-required while migrating to a carrier outside NAICS 424720.", "Requirements for bottled LP gas do not apply uniformly across gasoline, fuel oil, and lubricants."]
+    }
+  },
+  "narrative": {
+    "executive_view": "Non-terminal petroleum wholesaling has a more automatable commercial and dispatch layer than bulk-terminal operation but remains a thin-spread, physical distribution business. AI can improve quoting, orders, price updates, routing, reconciliation, credit, and customer service. The strongest case is avoided administrative hiring and better route and margin execution, not replacement of drivers or elimination of accountable product distribution.",
+    "ai_impact": "AI can ingest orders, update CRM and ERP records, reconcile supplier and customer invoices, maintain price files, propose routes and replenishment, draft customer messages, summarize credit documents, and prioritize sales or collections. Human work remains essential for delivery, product handling, account negotiation, exceptions, safety, and incident response.",
+    "value_capture": "Firms can retain value from route density, fewer errors, lower bad debt, faster service, and temporarily reduced overhead. Transparent commodity benchmarks and competitive rebidding make straightforward labor savings hard to retain for five years, and fuel-price volatility can obscure whether an operating improvement created economic value.",
+    "firm_availability": "The injected population is modest. Independent account- or route-based wholesalers can be transferable, but captive relationships, retail-heavy dealers, spot traders, owner dependence, supply approvals, credit facilities, and commodity-distorted earnings shrink the clean target set. Broad marketplace sales show some liquidity but are not an industry transfer rate.",
+    "demand_durability": "Domestic gasoline demand faces gradual pressure, while lubricants, LPG, commercial fuels, agriculture, backup generation, and service-intensive local delivery provide offsets. Most surviving quantity still needs an accountable commercial and physical operator, though direct sourcing and third-party logistics can bypass the merchant wholesaler itself.",
+    "risks_and_uncertainty": "Key risks are commodity and basis volatility, thin spreads, customer and supplier concentration, credit losses, working-capital stress, environmental and product liability, driver availability, severe weather, electrification, direct supplier sales, tax complexity, and cybersecurity. Evidence gaps are acute at six-digit level for task mix, transfer incidence, eligibility, and retained automation economics.",
+    "principal_driver": "Repeat ordering, pricing, dispatch, route, credit, and reconciliation workflows offer practical AI-enabled operating leverage around a necessary physical product flow.",
+    "principal_weakness": "Commodity transparency, direct-sourcing risk, low labor intensity, and a small uncertain pool of transferable firms limit the size and durability of the opportunity."
+  },
+  "sources": [
+    {
+      "id": "S1",
+      "url": "https://www.census.gov/naics/?details=424&input=424&year=2022",
+      "title": "2022 NAICS Definition: 424720 Petroleum and Petroleum Products Merchant Wholesalers (except Bulk Stations and Terminals)",
+      "access_date": "2026-07-22",
+      "supports": "Defines 424720 as petroleum-product merchant wholesale distribution except from bulk liquid storage facilities and lists gasoline, lubricating oil and grease, bottled LP gas, and fuel oil merchant wholesalers as examples."
+    },
+    {
+      "id": "S2",
+      "url": "https://www.bls.gov/iag/tgs/iag424.htm",
+      "title": "Merchant Wholesalers, Nondurable Goods: NAICS 424",
+      "access_date": "2026-07-22",
+      "supports": "Reports broader-subsector 2025 employment including 269,740 nontechnical sales representatives, 174,610 heavy truck drivers, 162,830 material movers, 54,000 technical sales representatives, and 43,040 shipping/receiving/traffic clerks."
+    },
+    {
+      "id": "S3",
+      "url": "https://www.bls.gov/ooh/sales/wholesale-and-manufacturing-sales-representatives.htm",
+      "title": "Wholesale and Manufacturing Sales Representatives",
+      "access_date": "2026-07-22",
+      "supports": "Projects overall wholesale/manufacturing sales-representative employment to grow 1% from 2024 to 2034; says online sales mostly complement face-to-face selling and AI and chatbots may limit employment growth."
+    },
+    {
+      "id": "S4",
+      "url": "https://www.bls.gov/ooh/transportation-and-material-moving/delivery-truck-drivers-and-driver-sales-workers.htm",
+      "title": "Delivery Truck Drivers and Driver/Sales Workers",
+      "access_date": "2026-07-22",
+      "supports": "Projects 8% employment growth from 2024 to 2034 and says business demand for local delivery remains strong, while e-commerce and demand for convenient delivery support driver needs."
+    },
+    {
+      "id": "S5",
+      "url": "https://www.osha.gov/laws-regs/regulations/standardnumber/1910/1910.110_2",
+      "title": "29 CFR 1910.110 Storage and Handling of Liquefied Petroleum Gases",
+      "access_date": "2026-07-22",
+      "supports": "Specifies LP-gas equipment, pump, valve, hose, emergency-shutoff, and dispensing safeguards and requires a competent attendant to remain at an LP-gas dispenser during the entire vehicle transfer operation."
+    },
+    {
+      "id": "S6",
+      "url": "https://www.census.gov/newsroom/press-releases/2024/annual-wholesale-trade-survey.html",
+      "title": "2022 Annual Wholesale Trade Survey",
+      "access_date": "2026-07-22",
+      "supports": "Reports NAICS 4247 sales of $2,089.5 billion in 2022, up 45.4% from $1,436.8 billion in 2021, illustrating the scale and commodity-price sensitivity of petroleum-wholesale nominal revenue; notes the survey samples about 8,400 wholesale firms."
+    },
+    {
+      "id": "S7",
+      "url": "https://www.bizbuysell.com/learning-center/valuation-benchmarks/wholesale-distribution/",
+      "title": "Wholesale and Distribution Business Valuation Benchmarks",
+      "access_date": "2026-07-22",
+      "supports": "Reports actual wholesale/distribution business sales from 2021-2025, including $600,000 median sale price, $1,378,849 median revenue, $236,484 median owner earnings, 199 median days on market, and $573,500 median sale price for nondurable distributors."
+    },
+    {
+      "id": "S8",
+      "url": "https://www.eia.gov/todayinenergy/detail.php?id=67426",
+      "title": "Increasing Fuel Efficiency Leads to Decreasing Gasoline Consumption",
+      "access_date": "2026-07-22",
+      "supports": "Reports US motor-gasoline consumption of 8.9 million barrels per day in 2025, 1% below 2024 and 4% below 2019, and forecasts continued decline in 2026 and 2027."
+    },
+    {
+      "id": "S9",
+      "url": "https://www.eia.gov/Todayinenergy/detail.php?id=67184",
+      "title": "Maritime Exports of Petroleum Products Increased in January 2026",
+      "access_date": "2026-07-22",
+      "supports": "Reports refined-product exports on clean tankers of 6.3 million barrels per day in January 2026, about 10% above January 2025, with diesel, gasoline, and LPG contributing to growth."
+    },
+    {
+      "id": "S10",
+      "url": "https://www.eia.gov/tODAyinenergy/detail.php?id=66284",
+      "title": "U.S. Propane Inventories Are Well Stocked Heading into the Winter Heating Season",
+      "access_date": "2026-07-22",
+      "supports": "Reports 103 million barrels of propane inventory for the week ending September 26, 2025, 13 million above the five-year average; says propane is the main heating fuel for about 5% of US homes and gas-plant propane production grew 5% in the first seven months of 2025."
+    }
+  ]
+}

@@ -1,0 +1,161 @@
+{
+  "identity": {
+    "naics": "424480",
+    "title": "Fresh Fruit and Vegetable Merchant Wholesalers",
+    "run_id": "424480-a1-20260722",
+    "model_id": "claude-sonnet-5",
+    "run_date": "2026-07-22",
+    "methodology_version": "5.1",
+    "attempt": 1
+  },
+  "lens": {
+    "included_activities": "Independent merchant wholesalers that repeatedly procure, sell, and often receive, store, repack, ripen, or deliver fresh fruits and vegetables for external retail, foodservice, institutional, and wholesale customers.",
+    "excluded_activities": "Manufacturer-owned sales branches, brokers that do not own or handle product, captive internal distribution units, shell entities, non-control financing vehicles, and firms outside the roughly $1-10M normalized EBITDA band.",
+    "customer_and_revenue_model": "Recurring B2B product resale with a gross merchant margin, often augmented by cold-chain handling, repacking, delivery, category knowledge, and availability assurance; customer orders and commodity prices can reset frequently.",
+    "deviation_from_default": "none",
+    "heterogeneous": false
+  },
+  "primitives": {
+    "a": {
+      "evidence_state": "PROXY",
+      "low": 0.18,
+      "base": 0.27,
+      "high": 0.36,
+      "bridge": "The source measures headcount shares, not wage-weighted task exposure: 20% sales, 22% office/administrative support, 7% management, 6% production, and 30% transportation/material moving in NAICS 42448. I apply higher task exposure to quoting, ordering, customer service, scheduling, documentation, and management analysis, and low exposure to driving and physical handling. Wage weighting likely raises the result relative to a simple headcount calculation because management and sales are better paid; the absence of task-level and wage microdata leaves two-sided error.",
+      "rationale": "The largest implementable opportunity is in order intake, quote preparation, account correspondence, invoice and PACA-document checks, demand forecasting, purchasing support, and dispatch planning. Physical inspection, spoilage decisions, warehouse movement, and driving remain much less substitutable, limiting the whole-workforce share.",
+      "change_evidence": "A payroll-weighted occupation file for sampled 424480 firms mapped to O*NET tasks, plus time-and-motion logs separating transactional sales/admin work from relationship selling and exception handling.",
+      "source_ids": ["S1", "S2", "S3"],
+      "caveats": ["The occupation source is secondary and reports employment rather than payroll weights.", "Published occupation shares are for NAICS 42448 and include firms of all sizes.", "Exposure is to tasks not yet automated, which the source does not measure directly."]
+    },
+    "rho": {
+      "evidence_state": "ESTIMATE",
+      "low": 0.35,
+      "base": 0.55,
+      "high": 0.72,
+      "rationale": "Within exposed work, mainstream tools should automate routine order capture, document extraction, pricing recommendations, replenishment forecasts, and customer communications within five years. Adoption is held back by fragmented systems, thin data, freshness and substitution exceptions, rapid commodity changes, customer-specific terms, and the need for accountable review of PACA-sensitive transactions.",
+      "change_evidence": "Pre/post deployment studies from produce distributors showing task-level hours, exception rates, forecast error, shrink, customer complaints, and headcount avoided over at least twelve months.",
+      "source_ids": ["S2", "S3", "S4"],
+      "caveats": ["No industry-wide five-year implementation study was found.", "Implementation varies sharply with ERP quality, SKU complexity, and customer integration."]
+    },
+    "e": {
+      "evidence_state": "ESTIMATE",
+      "low": 0.68,
+      "base": 0.8,
+      "high": 0.9,
+      "rationale": "Most merchant wholesalers in the supplied LMM count sell repeatedly to external businesses and fit the lens. Ineligible cases include quasi-captive operations, entities economically dependent on one grower or customer, businesses without a transferable operating organization, and firms whose economics are principally brokerage despite their classification.",
+      "change_evidence": "A stratified review of 424480 firms in commercial databases, with ownership, customer concentration, related-party sales, physical handling, recurring-customer revenue, and normalized EBITDA verified from confidential financials.",
+      "source_ids": ["S2", "S4"],
+      "caveats": ["The supplied firm count is itself an estimate and may include borderline business models.", "The ERS channel data are older and cover grocery wholesaling broadly rather than the LMM band alone."]
+    },
+    "s5": {
+      "evidence_state": "PROXY",
+      "low": 0.12,
+      "base": 0.2,
+      "high": 0.3,
+      "bridge": "Gallup measured plans among U.S. business owners across industries in fall 2024: 22% of employer-business owners planned to sell or transfer ownership within five years. I use that employer-firm rate as the center, reduce it slightly for failures to execute and non-control gifts or reorganizations, and allow upward error because established produce wholesalers may have older owners and transferable assets. The proxy is not specific to NAICS 424480, EBITDA size, or completed transactions.",
+      "rationale": "A meaningful minority of eligible firms should transfer control, but expressed intent overstates completed qualifying deals and some owners will close, retain family control, or defer. The base therefore sits below the observed employer-owner plan rate.",
+      "change_evidence": "Five years of closed control transactions for 424480 from PitchBook, Capital IQ, Axial, BizBuySell, and produce-industry advisers, deduplicated and divided by an eligible-firm cohort; owner-age tabulations by detailed NAICS would refine the prior.",
+      "source_ids": ["S5"],
+      "caveats": ["The Gallup sample spans all industries and business sizes.", "Plans are not completed transfers, and gifts or public offerings may not meet the qualifying-control definition."]
+    },
+    "q": {
+      "evidence_state": "ESTIMATE",
+      "low": 0.28,
+      "base": 0.45,
+      "high": 0.62,
+      "rationale": "AI savings initially accrue to the operator, but recurring B2B orders, transparent commodity markets, buyer consolidation, frequent repricing, and competing distributors should return much of the benefit to customers. Specialized service, reliability, cold-chain execution, and customer-specific assortment allow partial retention; the estimate refers only to implemented gross benefit and does not subtract implementation difficulty again.",
+      "change_evidence": "Customer-contract samples and invoice-level panel data linking realized gross margin to cost-to-serve reductions across renewals, including win/loss behavior, rebates, shrink, and customer concentration.",
+      "source_ids": ["S2", "S6", "S7"],
+      "caveats": ["No direct study measures AI-benefit pass-through in produce distribution.", "Retention will be lower for spot-like commodity accounts and higher for differentiated service bundles."]
+    },
+    "d5": {
+      "evidence_state": "PROXY",
+      "low": 0.96,
+      "base": 1.02,
+      "high": 1.09,
+      "bridge": "USDA food-availability data proxy physical produce demand rather than wholesaler service-basket quantity. Fresh vegetable availability rose from 142 pounds per person in 1996 to 148 in 2024 even as total vegetables weakened, while imports supplied 59% of fresh-fruit and 35% of fresh-vegetable availability in 2023. I combine roughly stable per-capita fresh demand with U.S. population growth and allow direct sourcing or channel-share shifts to create downside; availability includes loss and is not actual consumption.",
+      "rationale": "The physical fresh-produce basket is mature but essential. Modest population growth and year-round imported assortment support slight volume growth, while affordability, changing diets, waste reduction, retailer consolidation, and direct procurement create downside.",
+      "change_evidence": "USDA five-year forecasts for fresh fruit and vegetable domestic disappearance by commodity, paired with Census channel sales and customer procurement-share data separating merchant-wholesaler volume from direct grower-to-retailer flows.",
+      "source_ids": ["S6", "S8"],
+      "caveats": ["Fresh-fruit and fresh-vegetable trends differ by commodity.", "Availability is a consumption proxy and does not isolate the merchant-wholesale channel.", "Constant-quality service demand can diverge from food tonnage as value-added handling changes."]
+    },
+    "o": {
+      "evidence_state": "ESTIMATE",
+      "low": 0.82,
+      "base": 0.91,
+      "high": 0.97,
+      "rationale": "Even with better software and more direct trading, fresh produce still requires accountable procurement, quality acceptance, food-safety and payment compliance, assortment decisions, exception management, and often cold-chain handling and delivery. Some quantity can bypass independent wholesalers through direct retailer sourcing, integrated distribution, brokers, or digital marketplaces, but software alone does not perform the physical and legal operator role.",
+      "change_evidence": "Longitudinal Census of Wholesale Trade channel shares, major-retailer supplier filings, and interviews with growers and buyers quantifying volume moved direct, through integrated distribution, through brokers, and through independent merchant wholesalers.",
+      "source_ids": ["S2", "S3", "S4", "S8"],
+      "caveats": ["The value is the operator-required share of year-five quantity, not the independent-wholesaler market share.", "Large customers can internalize procurement and logistics even when the functions remain necessary."]
+    }
+  },
+  "narrative": {
+    "executive_view": "Fresh-produce wholesaling combines repeat external demand with a sizeable transactional office and sales layer, creating a credible but bounded AI labor opportunity. The indispensable physical, freshness, compliance, and relationship functions protect operator need, while commodity transparency and concentrated buyers limit how much efficiency can be retained.",
+    "ai_impact": "AI can capture orders from email and voice, normalize SKUs, suggest substitutions, draft quotes, forecast demand, flag invoice and payment exceptions, and prioritize purchasing and dispatch. Human judgment remains central for quality disputes, volatile supply, customer-specific substitutions, spoilage, food safety, credit, and physical execution.",
+    "value_capture": "Savings can improve gross margin or fund better availability and service, but frequent price resets and competitive bids make pass-through likely. Retention should be strongest where the distributor owns a hard-to-replicate service bundle, dense routes, sourcing relationships, ripening or repacking capability, and high service reliability.",
+    "firm_availability": "Most LMM merchant wholesalers appear operationally transferable, although customer concentration, owner dependence, related-party supply, and working-capital quality require screening. Broad employer-owner survey evidence suggests a material five-year transfer pool, but completed produce-specific control deals are not directly observed.",
+    "demand_durability": "Fresh fruit and vegetables remain an essential physical basket with broadly stable per-capita demand and growing year-round import complexity. The current functions persist, but some volume may migrate to direct grower-retailer relationships or integrated customer distribution.",
+    "risks_and_uncertainty": "The main uncertainties are task-level payroll exposure, actual implementation performance in fragmented distributor systems, customer pass-through, customer and supplier concentration, shrink and working-capital volatility, and the absence of a completed-deal denominator. A business with thin spot margins, one dominant customer, weak systems, or owner-held relationships could fail the investment case despite industry-level opportunity.",
+    "principal_driver": "Repeat, exception-heavy ordering and coordination work sits beside an enduring physical cold-chain service requirement.",
+    "principal_weakness": "Transparent commodity pricing and powerful buyers can rapidly compete away operator savings."
+  },
+  "sources": [
+    {
+      "id": "S1",
+      "url": "https://www.pellresearch.com/fresh-fruit-and-vegetable-merchant-wholesalers",
+      "title": "Fresh Fruit and Vegetable Merchant Wholesalers - Market Size, Financial Statistics, Industry Trends",
+      "access_date": "2026-07-22",
+      "supports": "Industry occupation mix: sales 20%, office and administrative support 22%, management 7%, production 6%, and transportation/material moving 30%."
+    },
+    {
+      "id": "S2",
+      "url": "https://www.ers.usda.gov/topics/food-markets-prices/retailing-wholesaling/wholesaling",
+      "title": "Retailing & Wholesaling - Wholesaling",
+      "access_date": "2026-07-22",
+      "supports": "Defines third-party merchant wholesalers as buying and reselling to businesses; describes specialty distributors, their niche knowledge, customer types, and wholesale channel shares."
+    },
+    {
+      "id": "S3",
+      "url": "https://www.ams.usda.gov/rules-regulations/paca/paca-trust",
+      "title": "PACA Trust",
+      "access_date": "2026-07-22",
+      "supports": "Documents produce sellers' statutory trust, transaction records, typical 10-day prompt payment, written alternative terms, and 30-day maximum terms for trust protection."
+    },
+    {
+      "id": "S4",
+      "url": "https://www.ams.usda.gov/rules-regulations/paca",
+      "title": "Perishable Agricultural Commodities Act (PACA)",
+      "access_date": "2026-07-22",
+      "supports": "Explains that PACA protects fresh and frozen produce businesses through fair-practice rules and dispute resolution."
+    },
+    {
+      "id": "S5",
+      "url": "https://news.gallup.com/poll/657362/small-business-owners-lack-succession-plan.aspx",
+      "title": "Most Small-Business Owners Lack a Succession Plan",
+      "access_date": "2026-07-22",
+      "supports": "Fall 2024 survey: 22% of employer-business owners planned to sell or transfer ownership within five years; distinguishes closure and longer-term intentions."
+    },
+    {
+      "id": "S6",
+      "url": "https://ers.usda.gov/data-products/charts-of-note/112836",
+      "title": "Vegetable availability declined in 2024",
+      "access_date": "2026-07-22",
+      "supports": "Fresh vegetable availability increased from 142 pounds per person in 1996 to 148 in 2024, while total vegetable and pulse availability fell to 376 pounds."
+    },
+    {
+      "id": "S7",
+      "url": "https://www.bls.gov/opub/btn/volume-1/wholesale-and-retail-producer-price-indexes-margin-prices.htm",
+      "title": "Wholesale and retail Producer Price Indexes: margin prices",
+      "access_date": "2026-07-22",
+      "supports": "Explains that trade-industry output prices are wholesaler and retailer margins and illustrates their sensitivity to small selling-price changes."
+    },
+    {
+      "id": "S8",
+      "url": "https://www.ers.usda.gov/data-products/charts-of-note/110713",
+      "title": "U.S. fresh fruit and vegetable supplies continue to rely on imports",
+      "access_date": "2026-07-22",
+      "supports": "Imports rose from 50% to 59% of fresh-fruit availability and from 20% to 35% of fresh-vegetable availability between 2007 and 2023."
+    }
+  ]
+}

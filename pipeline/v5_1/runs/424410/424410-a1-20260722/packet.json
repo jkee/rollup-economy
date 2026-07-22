@@ -1,0 +1,199 @@
+{
+  "identity": {
+    "naics": "424410",
+    "title": "General Line Grocery Merchant Wholesalers",
+    "run_id": "424410-a1-20260722",
+    "model_id": "claude-sonnet-5",
+    "run_date": "2026-07-22",
+    "methodology_version": "5.1",
+    "attempt": 1
+  },
+  "lens": {
+    "included_activities": "Independent US general-line grocery merchant wholesalers that repeatedly source, take title to, warehouse, sell, finance, and deliver a wide grocery assortment to independent retailers, convenience stores, institutions, and other business customers, with normalized EBITDA of roughly $1-10 million.",
+    "excluded_activities": "Retailer-owned or cooperative captive distribution systems, manufacturer-owned sales branches, commission-only brokers, pure marketplaces, non-operating shells, specialty single-category food wholesalers outside the code, and firms without transferable customer, supplier, warehouse, and food-safety operations.",
+    "customer_and_revenue_model": "High-frequency B2B product sales earn a markup or fee over vendor cost while the distributor supplies aggregation, assortment, procurement, inventory availability, trade credit, ordering, compliant storage and transport, delivery, and recall or exception response.",
+    "deviation_from_default": "none",
+    "heterogeneous": false
+  },
+  "primitives": {
+    "a": {
+      "evidence_state": "PROXY",
+      "low": 0.17,
+      "base": 0.29,
+      "high": 0.40,
+      "bridge": "BLS May 2024 data for the combined grocery and alcoholic-beverage merchant-wholesaler grouping show 144,560 nontechnical wholesale sales representatives and 22,900 general and operations managers, but also 101,620 heavy truck drivers, 86,440 hand freight/material movers, 84,760 stockers/order fillers, 73,980 driver/sales workers, 48,800 merchandise displayers, 31,780 light truck drivers, and other physical logistics roles. BLS separately expects generative AI to raise wholesale-sales-representative productivity. I map sales support, customer service, purchasing, promotion, forecasting, routing and back-office information work to wage-weighted exposure, with low substitution for driving, handling, and food-safety execution. The published occupation group includes beverage wholesalers and employment counts are not wage weights; alcohol route-sales intensity could make the proxy overstate physical work for general-line grocery or understate it where grocery delivery is fleet-heavy.",
+      "rationale": "Exposed tasks include account and promotion analysis, order suggestions, customer-service drafting, purchasing support, demand forecasting, replenishment, route and load planning, invoice and deduction matching, traceability-document preparation, and exception triage. Warehouse handling, driving, sanitation, temperature checks, receiving, and delivery remain physical, and experienced humans retain responsibility for food-safety, credit, and high-impact exceptions.",
+      "change_evidence": "A payroll-weighted time-and-task inventory from 15-20 independent general-line grocery wholesalers, segmented by warehouse automation, fleet ownership, customer type, and existing ERP/WMS/EDI maturity, would materially change the range.",
+      "source_ids": ["S1", "S2"],
+      "caveats": [
+        "BLS combines NAICS 4244 grocery with NAICS 4248 alcoholic-beverage wholesaling in the cited occupation chart.",
+        "Occupation counts are converted to wage-weighted not-yet-automated task exposure through judgment.",
+        "Route density, warehouse automation, and private-fleet intensity vary substantially across firms."
+      ]
+    },
+    "rho": {
+      "evidence_state": "PROXY",
+      "low": 0.27,
+      "base": 0.44,
+      "high": 0.60,
+      "bridge": "Census BTOS measured all US employer businesses rather than grocery wholesalers: 18% used AI in a business function in Nov. 2025-Jan. 2026, 22% expected use within six months, 57% of adopters used no more than three functions, 66% used AI only to augment tasks, and only 2% reported AI-related employment decreases. I translate this early and augmentation-heavy diffusion into the share of exposed grocery-distribution opportunity implementable by an active operator over five years. Standardized ownership and large transaction volumes could enable greater realization than the broad-business average, while legacy systems, thin margins, 24/7 uptime, and food-safety controls could reduce it.",
+      "rationale": "Forecasting, order recommendations, service copilots, purchasing support, routing, deduction matching, and document workflows can be deployed within five years. Realization is capped by fragmented item and customer data, EDI and WMS integration, union or labor practices, operational uptime, explainability for purchasing and credit, cybersecurity, and human accountability for food safety and recalls.",
+      "change_evidence": "Controlled pilots at grocery wholesalers reporting sustained user adoption, fill rate, spoilage, forecast error, route miles, service quality, exception rates, avoided hiring, and payroll savings would materially update the range.",
+      "source_ids": ["S3", "S9"],
+      "caveats": [
+        "BTOS measures use rather than the realized fraction of exposed labor opportunity and is not industry-specific.",
+        "The range assumes investment in master data, integration, controls, training, and resilient fallback processes.",
+        "Traceability requirements can create automatable records work but also add non-automatable verification and accountability."
+      ]
+    },
+    "e": {
+      "evidence_state": "ESTIMATE",
+      "low": 0.40,
+      "base": 0.58,
+      "high": 0.74,
+      "rationale": "Many general-line grocery wholesalers provide a recurring external service and have transferable routes, facilities, customer accounts, and supplier relationships. Eligibility is reduced by retailer cooperatives and captive systems, customer- or supplier-dominated entities, operators lacking scalable compliance and systems, and businesses whose economics depend on an owner, a single banner, or non-transferable buying arrangements.",
+      "change_evidence": "A coded review of the 512 supplied candidates using ownership, cooperative or captive status, customer and supplier concentration, route density, warehouse and fleet capabilities, food-safety history, contract transferability, and normalized EBITDA would replace this judgment.",
+      "source_ids": ["S4", "S6"],
+      "caveats": [
+        "The supplied n is a margin-bridged estimate and firms assigned to the EBITDA band may not actually generate $1-10 million of normalized EBITDA.",
+        "Public classifications do not reliably separate independent distributors from cooperative, captive, retail-affiliated, or mixed wholesale-retail operations.",
+        "Working-capital and facility requirements may make some otherwise eligible firms impractical control acquisitions."
+      ]
+    },
+    "s5": {
+      "evidence_state": "PROXY",
+      "low": 0.10,
+      "base": 0.19,
+      "high": 0.30,
+      "bridge": "The 2019 Census Annual Business Survey found that 51% of responding owners of employer businesses were age 55 or older, across industries and size classes. I translate that broad demographic pool to a much smaller five-year qualifying-control-transfer probability after allowing for delayed retirement, family or cooperative succession, closure, minority recapitalization, and consolidation into larger strategic distributors. The all-business proxy may misstate grocery-distributor owner age and does not measure transactions.",
+      "rationale": "Aging ownership and consolidation create sale opportunities, but facilities, fleet, working capital, food-safety liabilities, customer concentration, and thin margins can impede financing or produce strategic absorption rather than a clean transferable control event.",
+      "change_evidence": "PitchBook, Capital IQ, GF Data, Axial, trade-press, and broker records coded for US general-line grocery distributor control deals, paired with owner-age and succession-plan interviews across the eligible population, would materially change the range.",
+      "source_ids": ["S5", "S6"],
+      "caveats": [
+        "The owner-age evidence is from data year 2018 and not industry-specific.",
+        "No observed denominator of eligible LMM grocery wholesalers or qualifying control events is available.",
+        "Internal cooperative reorganizations, minority investments, and closures without transferable operations are excluded."
+      ]
+    },
+    "q": {
+      "evidence_state": "PROXY",
+      "low": 0.25,
+      "base": 0.42,
+      "high": 0.60,
+      "bridge": "UNFI's fiscal-2025 Form 10-K describes grocery distribution as high-volume and low-margin, says gross margins are typically a percentage markup or fee over vendor listed base cost, and identifies intense competition, retailer consolidation, volume discounts, direct purchasing, self-distribution, and low-cost channels as margin pressures. I use this large public grocery wholesaler's commercial structure to estimate the discounted share of labor benefit retained by smaller general-line wholesalers. Larger customers and public-company scale may make UNFI more price-sensitive than local niche distributors, but local firms may have weaker buying power and less contractual protection.",
+      "rationale": "A markup-over-product-cost model does not mechanically rebate labor savings, so some benefit can remain in operating profit. Thin margins, frequent competitive pricing, volume discounts, customer negotiations, service-level expectations, and retailer self-distribution should pass through a large share over five years. Dense routes, high fill rates, private label, proprietary data, and differentiated service improve retention.",
+      "change_evidence": "Customer- and item-level cohorts linking verified labor savings to subsequent markup, fee, discount, rebate, service-level, retention, and bid outcomes would directly estimate pass-through.",
+      "source_ids": ["S6"],
+      "caveats": [
+        "UNFI is much larger than the target population and operates natural, conventional, specialty, fresh, retail, and manufacturing activities.",
+        "No public evidence directly measures pass-through of AI-derived savings in LMM general-line grocery wholesalers.",
+        "Retention varies by customer size, contract type, route density, private-label mix, and local competitive intensity."
+      ]
+    },
+    "d5": {
+      "evidence_state": "PROXY",
+      "low": 0.96,
+      "base": 1.04,
+      "high": 1.12,
+      "bridge": "BEA's real US quantity index for food and beverages purchased for off-premises consumption was 115.624 in 2022, 113.576 in 2023, 115.338 in 2024, and 117.009 in 2025. I use this stable-to-modestly-growing real end-market quantity as a five-year anchor. The series includes retail channels not served by independent general-line wholesalers and excludes some foodservice demand, so it can overstate distributor demand if chains self-distribute and understate it for wholesalers with institutional or foodservice customers.",
+      "rationale": "Food-at-home quantity is defensive and supported by population, with modest real growth more plausible than rapid expansion. Channel shifts between at-home and away-from-home consumption, retailer consolidation, private-label mix, and customer closures can change the service basket even if aggregate food quantity remains stable.",
+      "change_evidence": "Five years of monthly case shipments, active customer locations, cases per stop, and same-customer volume from independent general-line grocery wholesalers, separated from price, mix, acquisitions, and customer channel, would materially improve the estimate.",
+      "source_ids": ["S7"],
+      "caveats": [
+        "Consumer off-premises food quantity is not a direct measure of independent wholesale-distributor volume.",
+        "The BEA series includes alcoholic beverages and multiple retail supply channels.",
+        "Constant-quality measurement can be affected by substitution among brands, package sizes, and private label."
+      ]
+    },
+    "o": {
+      "evidence_state": "PROXY",
+      "low": 0.82,
+      "base": 0.91,
+      "high": 0.97,
+      "bridge": "FDA's Sanitary Transportation Rule imposes requirements on covered shippers, loaders, carriers, and receivers for equipment, temperature control, operations, training, and records; FDA's Food Traceability Rule requires covered supply-chain entities to maintain key data elements for critical tracking events and provide information to FDA rapidly. These rules evidence accountable physical and recordkeeping functions rather than directly measuring operator-required demand. I infer that most year-five grocery volume still needs an accountable distributor or an equivalent retailer/manufacturer operator, while allowing for the independent-wholesaler role to be absorbed by customer self-distribution, vendor direct-store delivery, platforms, or automated facilities. Regulation likely raises the need for accountability but does not guarantee it remains with the current lens.",
+      "rationale": "Wide assortments of physical food require aggregation, storage, inventory ownership, credit, route delivery, sanitation, temperature control, lot and recall response, and operational exception handling. Software and robotics can reduce labor, but cannot remove legal and commercial accountability; the main displacement risk is vertical integration or direct distribution, not pure software substitution.",
+      "change_evidence": "Retailer and manufacturer surveys on planned self-distribution and direct-store-delivery share, together with distributor data on volume migrating to direct, marketplace, and automated fulfillment channels, would materially change this estimate.",
+      "source_ids": ["S6", "S8", "S9"],
+      "caveats": [
+        "Regulatory obligations apply only to covered activities and include exemptions; they do not specify which supply-chain party must own the distributor role.",
+        "UNFI documents retailer self-distribution and direct supplier purchasing, which can eliminate an independent wholesaler even when operator accountability persists elsewhere.",
+        "The estimate is operator-required quantity, not the share of current jobs that remain."
+      ]
+    }
+  },
+  "narrative": {
+    "executive_view": "General-line grocery wholesaling has exceptionally durable physical demand and a meaningful operational-data layer, but only a minority of its labor is plausibly substitutable by AI. The opportunity centers on forecasting, ordering, routing, service, purchasing, deductions, and compliance records. Thin margins, customer power, and self-distribution constrain value capture, while the large supplied candidate count is tempered by cooperative and captive structures and heavy working-capital requirements.",
+    "ai_impact": "AI can improve order suggestions, promotion and demand forecasts, purchasing, customer-service responses, route and load planning, invoice and deduction matching, traceability-document preparation, and exception prioritization. Integration with ERP, WMS, TMS, EDI, item masters, and customer systems is essential. Driving, receiving, picking, sanitation, temperature verification, delivery, and recall execution remain physical, with humans accountable for food safety, credit, and consequential exceptions.",
+    "value_capture": "The markup or fee over vendor cost permits some productivity benefit to remain with the distributor, but grocery distribution is intensely price- and service-competitive. Larger customers obtain discounts, many accounts lack long-term purchase commitments, and retailer consolidation, direct buying, and self-distribution continually test margins. Dense routes, excellent fill rates, private label, differentiated assortment, and superior data can defend capture.",
+    "firm_availability": "The supplied n suggests a broad potential pool, but it is estimated from size-class receipts and an external margin bridge. Eligibility must remove cooperatives and captive networks, mixed retailers, principal- or customer-dominated entities, weak compliance operators, and firms without transferable facilities, routes, or relationships. Aging-owner evidence supports succession, though financing, liability, and consolidation dynamics make a qualifying sale much less likely than owner age alone implies.",
+    "demand_durability": "Real food-at-home quantity has been stable to modestly growing, and physical grocery demand is defensive. Food safety, temperature control, traceability, inventory availability, credit, and last-mile business delivery sustain operator need. The principal threat is not software eliminating food distribution but large retailers or suppliers internalizing it through self-distribution, direct-store delivery, marketplaces, and automated networks.",
+    "risks_and_uncertainty": "The largest gaps are six-digit task weights, current automation, realized AI savings, true LMM candidate count, cooperative and captive status, qualifying transfer frequency, and pass-through. Thin margins amplify forecast, spoilage, service, cyber, labor, fuel, recall, food-safety, and working-capital errors. The supplied labor ratio combines 2024 wages with 2022 receipts and a statistical harmonization; the supplied n uses a cross-industry distributor margin assumption that may be optimistic for low-margin grocery operators.",
+    "principal_driver": "High-frequency, data-rich ordering and logistics workflows sit atop recurring essential demand and a legally accountable physical supply chain.",
+    "principal_weakness": "Low-margin competitive pricing and retailer self-distribution can pass through savings or remove the independent wholesaler even when food demand remains intact."
+  },
+  "sources": [
+    {
+      "id": "S1",
+      "url": "https://www.bls.gov/oes/2024/may/ind_emp_chart/ind_emp_chart_data.htm",
+      "title": "Data tables for OEWS industry charts, May 2024",
+      "access_date": "2026-07-22",
+      "supports": "For the combined merchant-wholesaler grouping covering NAICS 4244 and 4248, BLS reports 144,560 nontechnical wholesale sales representatives, 101,620 heavy truck drivers, 86,440 hand freight/material movers, 84,760 stockers/order fillers, 73,980 driver/sales workers, 48,800 merchandise displayers, 31,780 light truck drivers, 28,550 first-line transportation/material-moving supervisors, 26,930 industrial truck operators, and 22,900 general and operations managers. Supports the occupation-mix proxy for a."
+    },
+    {
+      "id": "S2",
+      "url": "https://www.bls.gov/emp/tables/factors-affecting-occupational-utilization.htm",
+      "title": "Factors affecting occupational utilization",
+      "access_date": "2026-07-22",
+      "supports": "BLS expects the employment share of nontechnical wholesale and manufacturing sales representatives to decrease as generative AI is integrated into sales processes and permits greater focus on direct selling. Supports task exposure in a."
+    },
+    {
+      "id": "S3",
+      "url": "https://www.census.gov/library/working-papers/2026/adrm/CES-WP-26-25.html",
+      "title": "The Microstructure of AI Diffusion: Evidence from Firms, Business Functions, and Worker Tasks",
+      "access_date": "2026-07-22",
+      "supports": "Census researchers report 18% of firms used AI in a business function in Nov. 2025-Jan. 2026, 22% expected use within six months, 57% of users integrated AI in three or fewer functions, 66% used AI only to augment tasks, and AI-related employment decreases occurred in 2% of firms. Supports the implementation proxy for rho."
+    },
+    {
+      "id": "S4",
+      "url": "https://www.census.gov/naics/?details=424&input=424&year=2022",
+      "title": "2022 NAICS definition: General Line Grocery Merchant Wholesalers",
+      "access_date": "2026-07-22",
+      "supports": "Census defines NAICS 424410 as establishments primarily engaged in merchant wholesale distribution of a general line, or wide range, of groceries. Supports the lens and eligibility framing without estimating the supplied firm count."
+    },
+    {
+      "id": "S5",
+      "url": "https://www.census.gov/content/dam/Census/library/visualizations/2020/comm/business-owners-ages.pdf",
+      "title": "Business Owners' Ages",
+      "access_date": "2026-07-22",
+      "supports": "The Census infographic based on the 2019 Annual Business Survey reports that 51% of responding owners of employer businesses were age 55 or older, using data year 2018. Used as the broad demographic proxy for s5."
+    },
+    {
+      "id": "S6",
+      "url": "https://www.sec.gov/Archives/edgar/data/1020859/000102085925000054/unfi-20250802.htm",
+      "title": "United Natural Foods, Inc. fiscal 2025 Form 10-K",
+      "access_date": "2026-07-22",
+      "supports": "UNFI states that grocery distribution is high-volume and low-margin; margins typically derive from a percentage markup or fee over vendor listed base cost; competition, consolidation, volume discounts, direct supplier purchasing, retailer self-distribution, and low-cost channels pressure margins; and many customers have no long-term purchase commitment. Supports e, s5, q, and o."
+    },
+    {
+      "id": "S7",
+      "url": "https://fred.stlouisfed.org/series/DFXARA3A086NBEA",
+      "title": "Real personal consumption expenditures: Food and beverages purchased for off-premises consumption (chain-type quantity index)",
+      "access_date": "2026-07-22",
+      "supports": "The BEA series shown by FRED reports a real quantity index of 115.624 in 2022, 113.576 in 2023, 115.338 in 2024, and 117.009 in 2025 (2017=100). Used as the end-market proxy for d5."
+    },
+    {
+      "id": "S8",
+      "url": "https://www.fda.gov/food/food-safety-modernization-act-fsma/fsma-final-rule-sanitary-transportation-human-and-animal-food",
+      "title": "FSMA Final Rule on Sanitary Transportation of Human and Animal Food",
+      "access_date": "2026-07-22",
+      "supports": "FDA states that the rule covers shippers, loaders, motor or rail carriers, and receivers and imposes requirements for vehicles and equipment, transportation operations, temperature control, training, and records. Supports the accountable physical-operator proxy for o."
+    },
+    {
+      "id": "S9",
+      "url": "https://www.fda.gov/food/food-safety-modernization-act-fsma/fsma-final-rule-requirements-additional-traceability-records-certain-foods",
+      "title": "FSMA Final Rule on Requirements for Additional Traceability Records for Certain Foods",
+      "access_date": "2026-07-22",
+      "supports": "FDA says covered persons that manufacture, process, pack, or hold listed foods must maintain key data elements for critical tracking events and provide information to FDA within 24 hours or an agreed reasonable time. FDA also notes the Congressional direction not to enforce before July 20, 2028. Supports workflow and accountability reasoning for rho and o."
+    }
+  ]
+}

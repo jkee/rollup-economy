@@ -1,0 +1,168 @@
+{
+  "identity": {
+    "naics": "424510",
+    "title": "Grain and Field Bean Merchant Wholesalers",
+    "run_id": "424510-a1-20260722",
+    "model_id": "claude-sonnet-5",
+    "run_date": "2026-07-22",
+    "methodology_version": "5.1",
+    "attempt": 1
+  },
+  "lens": {
+    "included_activities": "Independently controllable merchant wholesalers repeatedly buying and reselling corn, soybeans, wheat, other grains, and field beans to external processors, exporters, feed users, and other trade customers, including country or terminal elevators operated primarily for wholesaling.",
+    "excluded_activities": "Farmer-member cooperatives not available for a conventional qualifying control sale, captive or vertically integrated units of large agribusinesses, pure brokers, standalone storage businesses not primarily wholesaling, farms, shells, non-control financing vehicles, and firms outside the roughly $1-10M normalized EBITDA band.",
+    "customer_and_revenue_model": "Recurring commodity origination and resale earning merchandising or basis margins, often combined with receiving, weighing, grading coordination, drying, storage, blending, hedging, and loading services.",
+    "deviation_from_default": "The default lens is narrowed to independently controllable merchant wholesalers because farmer-member cooperatives and captive agribusiness locations have governance and control-transfer mechanics that are not coherent with conventional firm acquisition; the operating activities remain otherwise unchanged.",
+    "heterogeneous": true
+  },
+  "primitives": {
+    "a": {
+      "evidence_state": "PROXY",
+      "low": 0.16,
+      "base": 0.25,
+      "high": 0.34,
+      "bridge": "The industry occupation source reports headcount rather than wage-weighted, not-yet-automated task exposure: 16% office/administrative support, 9% sales, 6% management, 16% farming occupations, 6% production, and 35% transportation/material moving. I assign substantial exposure to contracting, document entry, market synthesis, customer communication, reconciliation, and scheduling, with low exposure to sampling, physical handling, maintenance, and transport. Wage weighting raises the contribution of management and commercial roles, but existing automatic weighing and control systems reduce remaining exposure, creating two-sided error.",
+      "rationale": "AI can assist bid and contract preparation, market and basis analysis, producer communications, settlement reconciliation, logistics scheduling, quality-document review, and compliance records. The majority physical workforce and already automated scale and conveyor controls sharply limit exposure across total payroll.",
+      "change_evidence": "Current payroll-weighted SOC and O*NET task data from independent grain merchants, combined with application logs identifying work already handled by trading, elevator-control, scale, and settlement systems.",
+      "source_ids": ["S1", "S2", "S3"],
+      "caveats": ["The occupation source is secondary and covers all firm sizes.", "Occupation shares are headcount, not payroll, and do not isolate independent targets.", "The supplied compensation-to-receipts ratio uses gross commodity receipts, so even genuine labor savings are structurally small relative to sales."]
+    },
+    "rho": {
+      "evidence_state": "ESTIMATE",
+      "low": 0.3,
+      "base": 0.5,
+      "high": 0.68,
+      "rationale": "Commercial copilots, document extraction, reconciliation, and logistics planning are feasible within five years, but implementation must integrate with commodity trading, hedging, grading, scale, inventory, and settlement systems. Financial exposure from quantity, quality, timing, or hedge errors and the legal weight of official records keep humans in approval loops.",
+      "change_evidence": "Audited deployments at independent grain merchants measuring hours per contract and settlement, reconciliation exceptions, hedge mismatches, demurrage, grade disputes, control failures, and avoided hiring over multiple crop cycles.",
+      "source_ids": ["S2", "S3", "S4"],
+      "caveats": ["No grain-merchant-specific five-year AI implementation study was found.", "One harvest season is insufficient to assess reliability across commodity cycles."]
+    },
+    "e": {
+      "evidence_state": "ESTIMATE",
+      "low": 0.38,
+      "base": 0.56,
+      "high": 0.72,
+      "rationale": "A meaningful part of the supplied firm population should be recurring external merchant businesses, but grain marketing has a large cooperative presence and also includes facilities controlled by integrated agribusiness groups. Those structures are not conventionally transferable control targets, while some nominal merchants are too owner-dependent or lack durable origination relationships.",
+      "change_evidence": "A full ownership and governance classification of the supplied 424510 firm universe using USDA cooperative records, state elevator licenses, corporate linkage data, and confidential financials, followed by verification of normalized EBITDA and recurring external trade.",
+      "source_ids": ["S1", "S5", "S6"],
+      "caveats": ["USDA counted 312 grain-and-oilseed cooperatives in 2024 but does not state their share of 424510 LMM firms.", "Some cooperatives can merge or sell assets even though ordinary third-party control acquisition is unavailable.", "The supplied firm count is an estimate based on a broad distributor margin bridge that may poorly represent thin-margin grain merchants."]
+    },
+    "s5": {
+      "evidence_state": "PROXY",
+      "low": 0.1,
+      "base": 0.18,
+      "high": 0.28,
+      "bridge": "Gallup measured five-year intentions across U.S. employer-business owners, 22% of whom planned to sell or transfer ownership in fall 2024. I apply that rate only after excluding nonconventional cooperative and captive structures through eligibility, then reduce the center for plans that do not close or do not create a qualifying change of control. Rural owner age could create upward error, while cyclical economics and family or strategic continuity could create downward error.",
+      "rationale": "Independent country merchants can transfer, but intended sales do not all execute and no detailed-industry closed-deal denominator was found. Strategic consolidation supports some transfers, while family succession, asset-only closures, and deferral reduce qualifying events.",
+      "change_evidence": "Five years of closed 424510 control transactions from PitchBook, Capital IQ, state elevator-license changes, cooperative and agribusiness announcements, lenders, and rural M&A advisers, deduplicated against a validated eligible-firm cohort.",
+      "source_ids": ["S7"],
+      "caveats": ["The Gallup survey is not specific to grain merchants, rural firms, or the LMM band.", "Survey intentions include transfers that may not qualify or close."]
+    },
+    "q": {
+      "evidence_state": "ESTIMATE",
+      "low": 0.18,
+      "base": 0.32,
+      "high": 0.5,
+      "rationale": "Implemented savings initially improve the operator's merchandising margin, but commodity benchmarks, visible local bids, producer choice, processor and exporter bargaining, and highly competitive transport routes should pass much of the gain through basis or service terms. Local origination density, scarce storage, quality blending, logistics execution, and trust can preserve a minority of the benefit.",
+      "change_evidence": "Contract-, bid-, and lot-level data linking measured cost reductions to basis, storage and handling fees, producer retention, buyer terms, and realized gross margin through several crop and renewal cycles.",
+      "source_ids": ["S6", "S8"],
+      "caveats": ["No source directly measures AI-benefit pass-through in grain merchandising.", "Local storage scarcity and crop conditions can dominate pricing power.", "The estimate excludes volume effects and implementation difficulty."]
+    },
+    "d5": {
+      "evidence_state": "PROXY",
+      "low": 0.92,
+      "base": 0.99,
+      "high": 1.07,
+      "bridge": "USDA projects planted acreage for eight major row crops to decline 2.4% from 2026/27 to 2035/36, with corn acreage easing, soybeans slipping after an initial rise, and wheat flat. Acreage is not merchant-service quantity: yield, inventory turns, exports, domestic crushing and feed use, and channel share can move handled bushels differently. I translate the stable-to-soft acreage outlook into approximately flat five-year service demand, allowing yield and trade growth to raise throughput or direct and integrated channels to lower it.",
+      "rationale": "Grain and bean use for food, feed, fuel, processing, and export remains large, but USDA's current baseline does not indicate broad acreage expansion. Productivity can sustain bushels on fewer acres, while trade policy, biofuel rules, weather, and processor integration create material variance.",
+      "change_evidence": "USDA baseline bushel-level production, domestic-use, stocks, crush, feed, ethanol, and export projections by commodity, combined with Census and state data on the independent merchant share of throughput.",
+      "source_ids": ["S4", "S6"],
+      "caveats": ["Acreage is an imperfect proxy for handled volume.", "Five-year outcomes are highly sensitive to weather, yields, trade policy, and biofuel demand.", "The source includes cotton and rice in addition to the main 424510 crops."]
+    },
+    "o": {
+      "evidence_state": "ESTIMATE",
+      "low": 0.84,
+      "base": 0.93,
+      "high": 0.98,
+      "rationale": "Year-five grain flows still require accountable operators to take title or custody, manage credit and hedges, receive and store bulk product, control commingling, coordinate grading and weighing, and load trucks, railcars, barges, or ships. Software can automate matching and administration, and some farmers or processors can contract directly, but it cannot eliminate physical custody, certified measurements, quality accountability, and logistics execution.",
+      "change_evidence": "Commodity-specific flow studies quantifying farm-direct delivery, on-farm storage, processor integration, cooperative handling, electronic-market transactions, and independent merchant throughput, plus interviews with processors, exporters, and producers.",
+      "source_ids": ["S2", "S3", "S4", "S6"],
+      "caveats": ["The necessary operator may be integrated, cooperative, or public rather than an independent LMM merchant.", "Official inspection is not required for every domestic movement, though measurement and quality control remain necessary."]
+    }
+  },
+  "narrative": {
+    "executive_view": "Grain and field bean merchandising has durable physical and accountable operating functions, but payroll is already small relative to gross commodity receipts and much handling control is automated. AI can improve commercial and administrative workflows, while transparent commodity economics, cooperative ownership, and integrated competitors constrain both the target pool and retained benefit.",
+    "ai_impact": "AI can summarize markets, prepare bids and contracts, extract scale and grade documents, reconcile settlements, monitor exceptions, draft producer communications, and coordinate transport. Humans remain essential for hedge and credit authority, quality disputes, official processes, equipment and safety, relationship-based origination, and physical elevator operations.",
+    "value_capture": "Cost savings can support better basis bids, faster settlements, and fewer logistics errors, but competitive local bids and benchmarked commodity markets should return much of the gain to producers or buyers. Defensible retention depends on origination density, storage position, execution, and trusted relationships rather than software alone.",
+    "firm_availability": "The apparent LMM count overstates conventionally acquirable targets because farmer-owned cooperatives are numerous and major agribusinesses operate captive locations. Independents remain, but each target requires ownership, governance, origination, environmental, safety, working-capital, hedge-control, and asset-condition diligence.",
+    "demand_durability": "The service basket remains necessary as crops move from farms to domestic processors and export markets. USDA projects a stable-to-soft acreage base, so five-year quantity is closer to flat than structurally growing, with yields, trade, crushing, feed, and biofuel policy driving the outcome.",
+    "risks_and_uncertainty": "The largest uncertainties are the independent share of the firm universe, whether the distributor EBITDA-margin bridge fits grain economics, task-level payroll exposure, and benefit pass-through through local basis competition. A target with weak hedge controls, obsolete assets, environmental liabilities, one processor outlet, poor origination density, or cooperative/captive governance could be unsuitable.",
+    "principal_driver": "Physical custody, quality accountability, and transport coordination remain indispensable even as commercial workflows become more automated.",
+    "principal_weakness": "Very low labor intensity and a large cooperative or captive footprint limit both savings and conventional acquisition availability."
+  },
+  "sources": [
+    {
+      "id": "S1",
+      "url": "https://www.pellresearch.com/grain-and-field-bean-merchant-wholesalers",
+      "title": "Grain and Field Bean Merchant Wholesalers - Market Size, Financial Statistics, Industry Trends",
+      "access_date": "2026-07-22",
+      "supports": "Industry occupation mix: 16% office/administrative support, 9% sales, 6% management, 16% farming, 6% production, and 35% transportation/material moving; also identifies main product lines."
+    },
+    {
+      "id": "S2",
+      "url": "https://www.ams.usda.gov/services/fgis/official-grain-inspection-weighing-system",
+      "title": "Official Grain Inspection & Weighing System",
+      "access_date": "2026-07-22",
+      "supports": "Describes uniform official grain inspection and weighing, authorized service providers, official certificates, quality attributes, equipment verification, and appeal processes."
+    },
+    {
+      "id": "S3",
+      "url": "https://www.ams.usda.gov/resources/operation-bulk-weighing-scale",
+      "title": "Operation of a Bulk Weighing Scale",
+      "access_date": "2026-07-22",
+      "supports": "Shows that modern official loose-grain weighing uses load cells and a scale-control computer to automate gates, readings, tare, gross, and net weights."
+    },
+    {
+      "id": "S4",
+      "url": "https://www.ers.usda.gov/data-products/charts-of-note/114033",
+      "title": "U.S. major field crop acreage projected to decline",
+      "access_date": "2026-07-22",
+      "supports": "USDA projects eight-crop acreage down 2.4% from 2026/27 to 2035/36, with corn declining, soybeans easing after an initial rise, and wheat flat."
+    },
+    {
+      "id": "S5",
+      "url": "https://content.govdelivery.com/accounts/USDARD/bulletins/4033d4c",
+      "title": "USDA Ag Co-op Statistics",
+      "access_date": "2026-07-22",
+      "supports": "USDA counted 1,620 agricultural cooperatives in 2024, including 312 whose major commodity was grain and oilseeds; it describes member ownership, mergers, locations, and services."
+    },
+    {
+      "id": "S6",
+      "url": "https://www.ams.usda.gov/services/transportation-analysis/modal",
+      "title": "Transportation of U.S. Grains: A Modal Share Analysis",
+      "access_date": "2026-07-22",
+      "supports": "States that U.S. grain moves to domestic and foreign markets through truck, rail, and barge in a highly competitive transportation market."
+    },
+    {
+      "id": "S7",
+      "url": "https://news.gallup.com/poll/657362/small-business-owners-lack-succession-plan.aspx",
+      "title": "Most Small-Business Owners Lack a Succession Plan",
+      "access_date": "2026-07-22",
+      "supports": "Fall 2024 survey found 22% of employer-business owners planned to sell or transfer ownership within five years and separately measured closure and uncertainty."
+    },
+    {
+      "id": "S8",
+      "url": "https://www.bls.gov/opub/btn/volume-1/wholesale-and-retail-producer-price-indexes-margin-prices.htm",
+      "title": "Wholesale and retail Producer Price Indexes: margin prices",
+      "access_date": "2026-07-22",
+      "supports": "Explains that trade-industry output prices are margins received by wholesalers and retailers and illustrates their sensitivity to small selling-price changes."
+    },
+    {
+      "id": "S9",
+      "url": "https://www.ams.usda.gov/rules-regulations/uswa",
+      "title": "United States Warehouse Act",
+      "access_date": "2026-07-22",
+      "supports": "Explains federal licensing and standards for agricultural warehouse operators."
+    }
+  ]
+}

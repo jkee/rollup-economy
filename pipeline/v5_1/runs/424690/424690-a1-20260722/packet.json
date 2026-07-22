@@ -1,0 +1,162 @@
+{
+  "identity": {
+    "naics": "424690",
+    "title": "Other Chemical and Allied Products Merchant Wholesalers",
+    "run_id": "424690-a1-20260722",
+    "model_id": "claude-sonnet-5",
+    "run_date": "2026-07-22",
+    "methodology_version": "5.1",
+    "attempt": 1
+  },
+  "lens": {
+    "included_activities": "Independent US merchant wholesalers repeatedly sourcing, storing, documenting, selling, and delivering industrial chemicals and allied products to external business customers, in the roughly $1-10M normalized EBITDA band.",
+    "excluded_activities": "Captive manufacturer branches, commission-only agents, internal distribution units, shells, non-control financing vehicles, and businesses primarily classified as agricultural or medicinal chemical, paint, plastics-form, or petroleum wholesalers.",
+    "customer_and_revenue_model": "Repeat B2B product distribution, generally earning a gross spread and sometimes delivery, handling, blending, packaging, inventory-management, or technical-service fees; customer relationships range from negotiated accounts to spot orders.",
+    "deviation_from_default": "none",
+    "heterogeneous": false
+  },
+  "primitives": {
+    "a": {
+      "evidence_state": "PROXY",
+      "low": 0.18,
+      "base": 0.29,
+      "high": 0.41,
+      "bridge": "BLS describes the broader NAICS 424 workforce as heavily represented by sales, material-moving, driving, and shipping/receiving roles, while its occupation pages identify information-processing duties and potential AI limits on sales employment. I translate those broader-industry occupations into a wage-weighted task opportunity for 424690: quoting, account research, order entry, document retrieval, inventory reporting, scheduling, and routine customer responses are exposed, while driving, handling, relationship selling, and physical inspection are not. This may overstate exposure where technical chemical selling and compliance work dominate, and understate it where back-office work is still manual.",
+      "rationale": "The practical opportunity is concentrated in information work surrounding physical distribution, not the physical movement of chemicals. BLS says material-recording clerks keep shipment and inventory records, compile reports, prepare invoices, and increasingly use automatic tracking tools; BLS also says AI and chatbots may limit sales-representative growth while online selling mostly complements face-to-face work. A 29% base therefore recognizes meaningful document, sales-support, and coordination exposure without treating technical sales or warehouse labor as substitutable.",
+      "change_evidence": "A payroll-weighted occupation extract for NAICS 424690 paired with O*NET task frequencies, plus time-and-motion samples from at least 10 independent chemical distributors separating quoting, order entry, SDS handling, technical selling, warehousing, and driving.",
+      "source_ids": ["S2", "S3", "S4"],
+      "caveats": ["The BLS occupation mix is for broader nondurable-goods wholesaling, not 424690.", "General LLM exposure does not measure current automation, feasibility, or labor elimination.", "Wage weights are inferred rather than directly observed for this six-digit industry."]
+    },
+    "rho": {
+      "evidence_state": "ESTIMATE",
+      "low": 0.30,
+      "base": 0.52,
+      "high": 0.70,
+      "rationale": "Within five years, distributors can plausibly implement copilots and workflow automation for quoting, CRM updates, order exception triage, invoice/SDS retrieval, purchasing suggestions, and routine customer service. Implementation will be bounded by fragmented ERP data, exception-heavy orders, cybersecurity, customer-specific terms, and the need for accountable review of hazardous-material documentation. OSHA's explicit labeling, SDS, training, and downstream communication duties make unsupervised automation less credible for compliance-critical steps.",
+      "change_evidence": "ERP and AI deployment cohorts from chemical-distribution software vendors showing adoption, straight-through-processing rates, error rates, hours removed, override frequency, and audited compliance outcomes over 24 months.",
+      "source_ids": ["S5"],
+      "caveats": ["No industry-level five-year implementation cohort was found.", "Firm capability will vary sharply with ERP cleanliness and product hazard complexity."]
+    },
+    "e": {
+      "evidence_state": "ESTIMATE",
+      "low": 0.48,
+      "base": 0.67,
+      "high": 0.82,
+      "rationale": "Most independent merchant wholesalers in the injected LMM count should have repeat external customers and transferable supplier, inventory, logistics, and account-management operations. Eligibility is reduced by owner-dependent brokers misclassified as merchants, captive or effectively captive distributors, highly concentrated single-product books, spot-only traders, and operations whose permits, supplier authorizations, leases, or customer relationships would not survive control transfer.",
+      "change_evidence": "A stratified sample of at least 100 NAICS 424690 firms from commercial business databases, hand-coded for independence, repeat-customer revenue, owner dependence, customer and supplier concentration, licenses, and transfer restrictions.",
+      "source_ids": ["S1", "S5"],
+      "caveats": ["The injected firm count is margin-bridged and may include business models outside the operational lens.", "The Census definition identifies activities, not transferability or recurring-revenue quality."]
+    },
+    "s5": {
+      "evidence_state": "PROXY",
+      "low": 0.09,
+      "base": 0.17,
+      "high": 0.29,
+      "bridge": "BizBuySell reports realized sales for marketplace-listed wholesale/distribution businesses, a broader and generally smaller population than eligible LMM chemical distributors. I use the visible existence of repeated wholesale transactions, 2021-2025 sale-price history, and a 199-day median marketing period as directional evidence, then bound a five-year control-transfer probability rather than dividing sales by an unavailable population denominator. Marketplace coverage omissions bias observed activity downward, while its Main Street and successful-sale selection biases can make liquidity look easier than it is for regulated chemical distributors.",
+      "rationale": "A five-year base of 17% implies a meaningful but minority turnover pool. Wholesale/distribution businesses do transact, but chemical inventory, environmental diligence, supplier approvals, working-capital needs, and owner-held customer knowledge can block or delay qualifying control transfers. The range includes both succession-driven supply and the possibility that many firms remain owner-held or close without a transferable sale.",
+      "change_evidence": "Five years of PitchBook, GF Data, Axial, SBA 7(a), and broker transaction records filtered to NAICS 424690, deduplicated and divided by eligible firms, plus owner-age and succession-plan microdata for this six-digit industry.",
+      "source_ids": ["S6"],
+      "caveats": ["BizBuySell does not provide a denominator or six-digit chemical-distributor cut.", "Reported marketplace sales omit private off-market deals and may include asset sales that are not operating-company control transfers."]
+    },
+    "q": {
+      "evidence_state": "ESTIMATE",
+      "low": 0.28,
+      "base": 0.49,
+      "high": 0.68,
+      "rationale": "A distributor should retain part of an implemented labor benefit through lower overhead, faster response, fewer errors, and better working-capital decisions, especially during existing contract terms. Over five years, however, competitive bids, transparent product pricing, sales-force concessions, and renewal negotiation should share much of the gain with customers. Compliance improvements may be stickier than pure order-entry savings because they reduce risk and service failures rather than only unit cost.",
+      "change_evidence": "Customer- and SKU-level gross-margin panels before and after documented automation at independent chemical distributors, including contract type, repricing dates, service levels, churn, rebates, freight treatment, and competitor price response.",
+      "source_ids": ["S7"],
+      "caveats": ["No causal industry study was found linking automation savings to realized distributor gross margin.", "The Census e-commerce statistic is contextual evidence of digital channel pressure, not a direct retention measure."]
+    },
+    "d5": {
+      "evidence_state": "PROXY",
+      "low": 0.93,
+      "base": 1.03,
+      "high": 1.14,
+      "bridge": "BLS projects wholesale/manufacturing sales-representative employment to grow 1% from 2024 to 2034 and states that rising sales volume and wider product ranges create demand. I use that broad occupational and sector signal, together with the recurring industrial uses embedded in the Census industry definition, as a conservative proxy for constant-price quantity of 424690 distribution services over five years. Employment can diverge from output because of productivity, and chemical end markets may be more cyclical than wholesaling overall; both directions are reflected in the range.",
+      "rationale": "Industrial chemicals, salts, acids, dyestuffs, rosin, and related products remain recurring physical inputs, so the current service basket is unlikely to disappear. The base assumes roughly flat-to-slightly-growing real quantity over five years, while the lower bound allows recession, reshoring reversal, substitution, and direct sourcing and the upper bound allows greater industrial activity and product complexity.",
+      "change_evidence": "Inflation-adjusted 424690 sales and physical-volume histories by product from Census AWTS/Economic Census microdata or an industry distributor panel, combined with five-year customer production forecasts and direct-versus-distributor sourcing shares.",
+      "source_ids": ["S1", "S3"],
+      "caveats": ["The projection is for occupations nationwide, not 424690 service quantity.", "Nominal chemical sales are volatile with feedstock prices and should not be mistaken for real demand."]
+    },
+    "o": {
+      "evidence_state": "PROXY",
+      "low": 0.76,
+      "base": 0.89,
+      "high": 0.96,
+      "bridge": "OSHA requires chemical distributors to participate in hazard communication, labeling, and SDS delivery, and its warehousing guidance describes safe management duties for chemical distribution facilities. BLS says online wholesale sales are expected mostly to complement rather than replace face-to-face selling. These are direct observations about operator duties and channel evolution but not a measured five-year operator-required share for 424690; I translate them into a high residual need for an accountable distributor, with possible overstatement where manufacturers sell direct or customers self-serve through marketplaces.",
+      "rationale": "Software can reduce touch labor but cannot itself take title, hold hazardous inventory, operate warehouses, deliver product, manage spills and labels, extend credit, or bear contractual and regulatory accountability. Some simple ordering and brokerage can move direct or self-service, so the value is below one, but most year-five quantity should still require a responsible operator.",
+      "change_evidence": "Customer procurement surveys and distributor/manufacturer shipment data measuring direct sourcing, marketplace/self-service penetration, drop-shipping, warehouse ownership, and accountable-party arrangements by product hazard class through 2031.",
+      "source_ids": ["S3", "S5", "S8"],
+      "caveats": ["Regulatory responsibility does not guarantee that an independent LMM distributor remains the operator; a manufacturer or larger consolidator could assume it.", "BLS channel commentary covers wholesale sales representatives broadly."]
+    }
+  },
+  "narrative": {
+    "executive_view": "Other chemical wholesaling combines durable physical distribution with an information-rich commercial and compliance layer. The credible AI opportunity is operational: faster quoting and customer response, cleaner order and inventory workflows, and better retrieval and review of product and safety documents. It is not a thesis that software replaces chemical handling, technical relationships, or accountable distribution.",
+    "ai_impact": "AI can draft quotes and correspondence, extract orders, update CRM and ERP records, summarize account history, retrieve SDS data, forecast routine replenishment, and prioritize exceptions. Human review remains important for product compatibility, nonstandard terms, hazard communication, credit, and physical fulfillment. Benefits therefore depend on workflow integration and data quality more than on a standalone chatbot.",
+    "value_capture": "Savings can initially accrue as lower back-office effort, avoided hires, fewer errors, and improved sales capacity. Competitive product markets and negotiated accounts should pass part of those gains through at renewal or during bids, while risk reduction, service reliability, and working-capital improvements are more defensible sources of retained value.",
+    "firm_availability": "The injected count indicates a sizeable LMM population, but only a portion will combine independence, repeat external demand, manageable concentration, transferable supplier rights, and compliance-ready operations. Broad marketplace data show wholesale businesses do sell, yet regulated inventory and working capital make chemical-distributor transfers more demanding than typical Main Street wholesale deals.",
+    "demand_durability": "Customers will continue needing recurring delivery of physical industrial inputs. Demand is cyclical and product-specific, and some procurement can move direct or online, but software alone cannot fulfill, store, transport, label, or take responsibility for chemicals. The likely outcome is modest real demand growth with high continuing operator need.",
+    "risks_and_uncertainty": "The central evidence gaps are six-digit occupation weights, realized AI labor removal, private transaction incidence, and causal margin retention. Additional risks include hazardous-material liability, environmental legacy issues, supplier and customer concentration, commodity price swings, direct manufacturer sales, ERP fragmentation, and the possibility that nominal growth masks flat physical volume.",
+    "principal_driver": "Repeat physical distribution plus document-heavy quoting, order, inventory, and compliance workflows creates a meaningful implementable productivity opportunity.",
+    "principal_weakness": "Most quantitative evidence is broader-wholesale proxy evidence rather than observed 424690 outcomes, especially for control transfers and retained economics."
+  },
+  "sources": [
+    {
+      "id": "S1",
+      "url": "https://www.census.gov/naics/?details=424690&input=4246&year=2017",
+      "title": "2017 NAICS Definition: 424690 Other Chemical and Allied Products Merchant Wholesalers",
+      "access_date": "2026-07-22",
+      "supports": "Defines 424690 as merchant wholesale distribution of chemicals and allied products excluding specified adjacent categories, and lists illustrative products including acids, industrial chemicals, salts, dyestuffs, rosin, explosives, and turpentine."
+    },
+    {
+      "id": "S2",
+      "url": "https://www.bls.gov/iag/tgs/iag424.htm",
+      "title": "Merchant Wholesalers, Nondurable Goods: NAICS 424",
+      "access_date": "2026-07-22",
+      "supports": "Reports 2025 employment in common broader-industry occupations including 269,740 nontechnical sales representatives, 54,000 technical/scientific sales representatives, 162,830 material movers, 174,610 heavy truck drivers, and 43,040 shipping/receiving/traffic clerks."
+    },
+    {
+      "id": "S3",
+      "url": "https://www.bls.gov/ooh/sales/wholesale-and-manufacturing-sales-representatives.htm",
+      "title": "Wholesale and Manufacturing Sales Representatives",
+      "access_date": "2026-07-22",
+      "supports": "Projects overall wholesale/manufacturing sales-representative employment to grow 1% from 2024 to 2034; says rising sales volume and wider product ranges create demand, online sales mostly complement face-to-face selling, and AI/chatbots may limit employment growth."
+    },
+    {
+      "id": "S4",
+      "url": "https://www.bls.gov/ooh/office-and-administrative-support/material-recording-clerks.htm",
+      "title": "Material Recording Clerks",
+      "access_date": "2026-07-22",
+      "supports": "Describes shipment, inventory, reporting, scheduling, cost-estimation, invoice, and recordkeeping duties; reports 13% of these workers are in wholesale trade and projects occupation employment to decline 6% from 2024 to 2034."
+    },
+    {
+      "id": "S5",
+      "url": "https://www.osha.gov/laws-regs/regulations/standardnumber/1910/1910.1200",
+      "title": "29 CFR 1910.1200 Hazard Communication",
+      "access_date": "2026-07-22",
+      "supports": "Requires chemical hazard classification and communication through written programs, labels, safety data sheets, and training, and expressly addresses chemical manufacturers, importers, and distributors."
+    },
+    {
+      "id": "S6",
+      "url": "https://www.bizbuysell.com/learning-center/valuation-benchmarks/wholesale-distribution/",
+      "title": "Wholesale/Distribution Business Valuation Multiples and Financial Benchmarks",
+      "access_date": "2026-07-22",
+      "supports": "Reports marketplace data for sold wholesale/distribution businesses from 2021-2025, including a $600,000 overall median sale price, $1,378,849 median revenue, $236,484 median owner earnings, and 199 median days on market; reports annual median sale prices and a 41% decline in 2025."
+    },
+    {
+      "id": "S7",
+      "url": "https://www.census.gov/programs-surveys/awts/technical-documentation/methodology.html",
+      "title": "Annual Wholesale Trade Survey Methodology",
+      "access_date": "2026-07-22",
+      "supports": "Reports 2022 total quantity response rates of 40.4% for NAICS 42 merchant-wholesaler e-commerce sales and 37.3% for merchant wholesalers excluding manufacturers' branches and offices, documenting both channel measurement and substantial response uncertainty."
+    },
+    {
+      "id": "S8",
+      "url": "https://www.osha.gov/warehousing/hazards-solutions",
+      "title": "Warehousing: Hazards and Solutions",
+      "access_date": "2026-07-22",
+      "supports": "States that chemical warehouses and distribution facilities that process, blend, repackage, store, transport, and market chemical products must manage chemicals safely and securely and comply with applicable HCS, PSM, and HAZWOPER requirements."
+    }
+  ]
+}
