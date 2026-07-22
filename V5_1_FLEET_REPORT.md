@@ -295,3 +295,53 @@ estimated implementation and eligibility, sparse transaction denominators,
 and judgmental retention/operator-necessity bridges. No review found a
 correction meeting the frozen materiality test, and the predeclared pause
 trigger did not fire.
+
+## S7 — Information
+
+**Closed:** 2026-07-22
+**Coverage:** 29 attempted, 29 deterministically valid, 29 published, 0 excluded
+**Independent review:** 3/29 (0 mandatory, 3 random, 0 canary)
+**Review outcomes:** 3 `publishable_with_caveats`; 0 `publishable`; 0 `reject`; 0 `invalid`
+**Material findings:** 0
+**Remediations:** 0
+
+### Screen distribution
+
+- Base tiers: 0 `HIGHEST_PRIORITY`, 0 `PRIORITY`, 5 `CONDITIONAL`,
+  4 `LOW_PRIORITY`, 3 `STRUCTURAL_OUT`, and 17 without a base tier.
+- Readiness: 12 `MODEL_CONDITIONED`; 17 `STRESS_TEST_ONLY`.
+- Actions: 12 `VALIDATE_ASSUMPTIONS`; 17 `EVIDENCE_FIRST`.
+- Robust tiers: 2/29, both `STRUCTURAL_OUT`.
+- Publication labels: 3 `accepted`; 26 `not_reviewed` by the frozen sampling
+  contract.
+
+The random stratum consisted of `512250`, `513110`, and `518210`. All three
+were accepted with caveats and carried no material finding. These are sample
+observations only; no S7 defect rate is estimated.
+
+### Economic read
+
+The screen was conservative but remained informative across a terrain with
+large product, platform, infrastructure, and regulated-network components.
+Motion-picture production and distribution, postproduction, sound-recording
+studios, and computing infrastructure reached `CONDITIONAL`; music publishing,
+record production and distribution, other sound-recording industries, and
+satellite telecommunications reached `LOW_PRIORITY`. No information record
+reached `PRIORITY` or an unconditional Stage 2 action.
+
+Seventeen records had no base tier and correctly routed to `STRESS_TEST_ONLY /
+EVIDENCE_FIRST`. Those gaps concentrated in publishing, broadcasting,
+telecommunications, libraries, search portals, and adjacent residual codes,
+where the frozen firm-count input was missing or no defensible transferable
+LMM denominator could be established. The three motion-picture theater and
+specialty-video records that screened `STRUCTURAL_OUT` were constrained by
+physical delivery, a very small eligible operator pool, or both.
+
+Validators' caveats centered on broad occupation and sector proxies,
+judgmental implementation and retention bridges, missing LMM denominators,
+aggregate demand evidence, and transfer-rate proxies that did not directly
+measure qualifying control transactions. Two official Census sources could
+not be reopened during review, but the affected records already disclosed the
+relevant uncertainty and no correction or honest downgrade changed a base tier
+or action. No review found a material defect, and the predeclared pause trigger
+did not fire.
