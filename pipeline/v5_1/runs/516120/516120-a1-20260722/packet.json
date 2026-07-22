@@ -1,0 +1,176 @@
+{
+  "identity": {
+    "naics": "516120",
+    "title": "Television Broadcasting Stations",
+    "run_id": "516120-a1-20260722",
+    "model_id": "claude-sonnet-5",
+    "run_date": "2026-07-22",
+    "methodology_version": "5.1",
+    "attempt": 1
+  },
+  "lens": {
+    "included_activities": "US lower-middle-market television-station operators selling recurring local advertising and digital campaigns, retransmission or affiliation distribution, and locally produced programming to external audiences, advertisers, and distributors.",
+    "excluded_activities": "National television networks, captive or internal-only operations, shell license holders without operating activity, non-control financing vehicles, and stations whose licenses or operations cannot be transferred with regulatory approval.",
+    "customer_and_revenue_model": "Recurring and repeat revenue from local and regional advertising, negotiated retransmission consent or affiliation economics, sponsored content, and related digital media services; the accountable operator controls programming, sales, distribution, and compliance.",
+    "deviation_from_default": "none",
+    "heterogeneous": false
+  },
+  "primitives": {
+    "a": {
+      "evidence_state": "PROXY",
+      "low": 0.3,
+      "base": 0.45,
+      "high": 0.61,
+      "bridge": "BLS measures employment shares by occupation, not wage-weighted task exposure: 61.37% of NAICS 516120 employment is in arts, design, entertainment, sports, and media; 21.08% is producers/directors, 13.39% reporters/journalists, 4.42% writers/editors, 7.91% sales, 5.89% business/financial, and 3.37% computer/math. I map the drafting, research, editing, scheduling, ad-operations, sales-support, analytics, and routine production task portions of those occupations to avoidable hiring, while leaving field reporting, live production, relationship selling, engineering, and management largely unexposed. Employment rather than wages likely overstates exposure where exposed editorial roles pay less than management, while occupational labels likely understate exposed administrative tasks inside mixed roles; the range allows error in both directions.",
+      "rationale": "Local television has a large content-production and newsroom labor base plus recurring sales and administrative workflows. Generative tools can substitute portions of scripting, clipping, transcription, graphics, research, repurposing, trafficking, and reporting, but not entire jobs or live and accountable work.",
+      "change_evidence": "A station-level payroll and task-time study that links employee wages to current automation status across newsroom, production, traffic, sales, digital, engineering, and administration would materially revise this range.",
+      "source_ids": ["S2"],
+      "caveats": [
+        "The May 2023 occupation mix predates much of the industry's generative-AI adoption and measures employees rather than tasks or wages by workflow.",
+        "The estimate concerns current not-yet-automated work; stations that already automate traffic, transcription, clipping, or master control have less remaining exposure."
+      ]
+    },
+    "rho": {
+      "evidence_state": "PROXY",
+      "low": 0.32,
+      "base": 0.5,
+      "high": 0.68,
+      "bridge": "The Reuters Institute survey covers news publishers internationally rather than US local television stations and reports adoption priorities rather than completed task implementation: 60% call back-end automation very important, while 75% explore text-to-audio, 70% AI summaries, 65% translation, and 56% chatbots or search. I use those stated plans as an upper anchor, then discount for broadcast accuracy, brand, labor, live-workflow, FCC-accountability, integration, and change constraints. Publisher respondents may overstate implementation because they are innovation-focused, but television's repeatable multimodal production could make the proxy understate eventual implementation; the range admits both directions.",
+      "rationale": "Within five years, standardized post-production, metadata, transcription, clipping, repackaging, ad operations, research, and administrative tasks should be implementable. Human review and slower deployment remain necessary for local-news accuracy, editorial judgment, live broadcasts, complex sales, and technical compliance.",
+      "change_evidence": "A representative 2026-2028 NAB or RTDNA survey measuring production deployment, percent of workflow automated, quality incidents, union restrictions, and realized labor-hour changes at local television stations would materially change this value.",
+      "source_ids": ["S3"],
+      "caveats": [
+        "The Reuters sample is publishers rather than a probability sample of US local television stations.",
+        "Exploration and perceived importance are not equivalent to operational implementation or labor substitution."
+      ]
+    },
+    "e": {
+      "evidence_state": "ESTIMATE",
+      "low": 0.5,
+      "base": 0.7,
+      "high": 0.86,
+      "rationale": "A substantial share of television-station businesses in the relevant size band should have recurring external advertiser and distributor revenue and transferable operations. Eligibility is reduced by network-owned or captive stations, group structures where a station is not independently controllable, shell license entities, distress without a viable operation, and transfers unlikely to receive regulatory approval.",
+      "change_evidence": "FCC LMS ownership and license records joined to BIA station revenue, owner grouping, shared-services agreements, and normalized station-level EBITDA would identify the actual independently transferable LMM denominator.",
+      "source_ids": ["S1", "S6"],
+      "caveats": [
+        "The frozen dataset provides no defensible LMM firm-count band, so the population size cannot be checked and this estimates only the conditional eligible share.",
+        "Licensee, operating company, station, and broadcast group are not interchangeable units; shared-services and affiliation contracts can impair transferability."
+      ]
+    },
+    "s5": {
+      "evidence_state": "PROXY",
+      "low": 0.09,
+      "base": 0.17,
+      "high": 0.27,
+      "bridge": "Gallup's fall-2024 survey measures owner intentions across US small businesses: 22% of employer-business owners planned to sell or transfer within five years, not completed qualifying television-station control transfers. BIA's March 2026 examples demonstrate active station acquisitions, including a 23-station Scripps transaction and the larger Nexstar-Tegna transaction, but provide no eligible-firm denominator. I center below the 22% intention rate because intentions may not close and internal or non-control events do not qualify; active consolidation could make this too low, while licensing, financing, and seller-price barriers could make even the low case too high.",
+      "rationale": "Employer-owner succession intent and continued station deal activity support a nontrivial five-year transfer probability, but a qualifying control transfer requires a viable operation, willing seller and buyer, financing, contractual consents, and FCC approval.",
+      "change_evidence": "Five years of FCC consummation notices and BIA or S&P transaction data, de-duplicated to eligible independent LMM station owners and classified by qualifying control transfer, would provide the required event rate.",
+      "source_ids": ["S6", "S7"],
+      "caveats": [
+        "Owner plans are not completed deals and Gallup is not industry-specific.",
+        "Prominent broadcast transactions are value-weighted examples and may overrepresent large groups relative to LMM owners."
+      ]
+    },
+    "q": {
+      "evidence_state": "ESTIMATE",
+      "low": 0.38,
+      "base": 0.58,
+      "high": 0.74,
+      "rationale": "Most ad inventory and retransmission arrangements are sold for negotiated market prices rather than explicit cost-plus reimbursement, so an operator can initially retain labor-productivity gains. Five-year retention is eroded by renewal repricing, advertiser competition, sales commissions, network and content economics, customer sharing, and investment needed to sustain local and digital products.",
+      "change_evidence": "Station acquisition models and seller quality-of-earnings reports showing contracts, rate-card realization, retransmission renewals, labor savings, sales commissions, technology spend, and post-automation margins over several renewal cycles would materially alter the range.",
+      "source_ids": ["S4", "S5"],
+      "caveats": [
+        "Retention varies sharply between advertising, retransmission, affiliation, and digital-service revenue.",
+        "This range excludes volume loss, which is represented in demand and operator-required primitives."
+      ]
+    },
+    "d5": {
+      "evidence_state": "PROXY",
+      "low": 0.78,
+      "base": 0.94,
+      "high": 1.1,
+      "bridge": "PwC forecasts global traditional television revenue declining at a 1.1% compound annual rate through 2030, implying a roughly 0.95 five-year revenue ratio, while BIA forecasts 2026 US local advertising of $184.5 billion, up 8.1% versus 2025, with growth led by social, video, streaming, political advertising, and ad technology. Neither source measures constant-price quantity for the current service basket of US LMM television stations. I treat PwC's decline as the core linear-TV anchor and allow station digital services and local/political demand to offset it. Global revenue may overstate US local broadcast durability, while excluding station digital extensions and cyclical political spend may understate it.",
+      "rationale": "Linear audience and traditional television revenue face structural pressure, but local news, sports, political advertising, emergency information, retransmission, and station-operated digital video preserve a material service basket. The base therefore assumes modest real quantity contraction rather than collapse.",
+      "change_evidence": "BIA or S&P station-level five-year forecasts decomposing real local spot, political, retransmission, and station digital volume for independent LMM stations would materially change this ratio.",
+      "source_ids": ["S4", "S5"],
+      "caveats": [
+        "Revenue forecasts confound price, mix, currency, and quantity and therefore require a proxy bridge.",
+        "Political advertising creates a four-year cycle, making endpoints unusually sensitive to election timing."
+      ]
+    },
+    "o": {
+      "evidence_state": "ESTIMATE",
+      "low": 0.6,
+      "base": 0.78,
+      "high": 0.9,
+      "rationale": "Advertisers and viewers can increasingly self-serve through digital platforms and software can automate parts of content and ad delivery, but local editorial accountability, rights and affiliate management, live production, community relationships, advertiser service, broadcast engineering, and regulatory responsibility still require an operating station organization for most surviving demand.",
+      "change_evidence": "Interviews with local advertisers, MVPDs, station managers, and FCC counsel, plus cohort data on direct-platform substitution and fully automated local channels, would reveal how much year-five volume can bypass a station operator.",
+      "source_ids": ["S3", "S4", "S5"],
+      "caveats": [
+        "The boundary between an operator-required station service and self-served platform distribution may shift rapidly.",
+        "This is conditional on surviving demand and does not repeat the volume decline captured in d5."
+      ]
+    }
+  },
+  "narrative": {
+    "executive_view": "Local television combines a labor-intensive newsroom and production base with recurring advertising, retransmission, and digital workflows. AI can reduce routine production and support work, but the opportunity remains constrained by secular linear-TV pressure, regulatory transfer requirements, group ownership, and a missing defensible count of LMM firms.",
+    "ai_impact": "The most plausible five-year changes are assisted research and scripting, transcription, clipping, captioning, graphics, versioning, metadata, content repurposing, ad trafficking, analytics, and administrative support. Live reporting, editorial judgment, relationship sales, engineering, and accountable compliance remain human-led, with review especially important for news accuracy.",
+    "value_capture": "Negotiated advertising and retransmission prices are not direct labor-cost pass-throughs, enabling initial margin retention. Competitive ad markets, renewal repricing, network and content payments, commissions, and reinvestment in digital products share away a meaningful portion over five years.",
+    "firm_availability": "Station transactions and general employer-owner succession intent indicate potential supply, but neither provides a denominator for independently transferable LMM station firms. The declared dataset gap for firm count is material; FCC licenses, ownership groups, shared-services contracts, and network relationships must be resolved asset by asset.",
+    "demand_durability": "Traditional television demand is declining, yet local news, sports, political advertising, emergency information, retransmission, and station digital extensions support continued use. The surviving service basket should still need an accountable operator, though audience and advertiser migration to direct digital platforms creates downside.",
+    "risks_and_uncertainty": "The main risks are faster cord-cutting and audience fragmentation, ad-price pressure, network affiliation changes, retransmission disputes, content and sports-rights costs, FCC transfer limits, labor or newsroom quality failures, and overestimating remaining tasks where automation already exists. Proxy evidence is not a substitute for station-level payroll, transaction, and contract diligence.",
+    "principal_driver": "Repeatable newsroom, production, sales-support, and ad-operations workflows create meaningful implementable labor opportunity while local accountability remains necessary.",
+    "principal_weakness": "Secular linear-TV contraction and uncertain availability of independently transferable LMM stations can overwhelm operational gains."
+  },
+  "sources": [
+    {
+      "id": "S1",
+      "url": "https://www.census.gov/naics/?details=516120&input=516120&year=2022",
+      "title": "2022 NAICS 516120: Television Broadcasting Stations",
+      "access_date": "2026-07-22",
+      "supports": "Official industry scope for establishments operating television broadcasting studios and facilities for programming and transmission."
+    },
+    {
+      "id": "S2",
+      "url": "https://www.bls.gov/oes/2023/may/naics5_516120.htm",
+      "title": "May 2023 National Industry-Specific Occupational Employment and Wage Estimates: NAICS 516120",
+      "access_date": "2026-07-22",
+      "supports": "Industry employment total and detailed occupation shares, including arts/media, producers/directors, reporters, writers/editors, sales, business/financial, and computer/math occupations."
+    },
+    {
+      "id": "S3",
+      "url": "https://reutersinstitute.politics.ox.ac.uk/journalism-media-and-technology-trends-and-predictions-2025",
+      "title": "Journalism, Media, and Technology Trends and Predictions 2025",
+      "access_date": "2026-07-22",
+      "supports": "Publisher survey evidence on back-end automation and planned AI product and workflow uses, including audio, summaries, translation, and chat or search."
+    },
+    {
+      "id": "S4",
+      "url": "https://www.bia.com/press-releases/bia-revises-2026-local-ad-forecast-total-spend-to-reach-184-5-billion-2/",
+      "title": "BIA Revises 2026 Local Ad Forecast; Total Spend to Reach $184.5 Billion",
+      "access_date": "2026-07-22",
+      "supports": "US local advertising forecast, its 2026 growth rate, political-ad component, and the mix shift toward social, video, streaming, and ad technology while broadcast remains relevant."
+    },
+    {
+      "id": "S5",
+      "url": "https://www.pwc.com/gx/en/news-room/press-releases/2026/pwc-2026-global-entertainment-media-outlook.html",
+      "title": "PwC 2026 Global Entertainment & Media Outlook",
+      "access_date": "2026-07-22",
+      "supports": "Traditional television revenue decline forecast and contrasting growth in internet advertising and OTT advertising through 2030."
+    },
+    {
+      "id": "S6",
+      "url": "https://www.bia.com/blog/march-2026-broadcast-media-transactions-steady-activity-led-by-strategic-tv-acquisitions/",
+      "title": "March 2026 Broadcast Media Transactions: Steady Activity Led by Strategic TV Acquisitions",
+      "access_date": "2026-07-22",
+      "supports": "Recent television-station transaction examples and evidence of ongoing strategic broadcast consolidation."
+    },
+    {
+      "id": "S7",
+      "url": "https://news.gallup.com/poll/657362/small-business-owners-lack-succession-plan.aspx",
+      "title": "Small-Business Owners Lack a Succession Plan",
+      "access_date": "2026-07-22",
+      "supports": "Fall-2024 US small-business survey finding that 22% of employer-business owners planned to sell or transfer their business within five years."
+    }
+  ]
+}
