@@ -1,6 +1,11 @@
 # v5.1 Plan — scope expansion to the full 1,012-code universe
 
-**Status: FLEET APPROVED.** `launch_approved` is recorded in
+**Status: PAUSED — S1 researcher-session provenance breach.** S1 was published
+before the operator detected that 39 records reused researcher threads across
+codes, violating the independent single-purpose-session rule. The executable
+audit does not cover session provenance. See `V5_1_INCIDENT_REPORT.md`; no S2
+research has launched and no further spend is authorized pending Victor.
+`launch_approved` is recorded in
 `pipeline/v5_1/campaign_state.json` (2026-07-22: research
 `claude-sonnet-5`, review `claude-fable-5`, session ceiling 1,400, budget
 ceiling $8k) and the `pipeline/v5_1/` freeze is committed. Victor approved
