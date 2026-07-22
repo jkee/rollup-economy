@@ -1,0 +1,212 @@
+{
+  "identity": {
+    "naics": "561491",
+    "title": "Repossession Services",
+    "run_id": "561491-a1-20260722",
+    "model_id": "claude-sonnet-5",
+    "run_date": "2026-07-22",
+    "methodology_version": "5.1",
+    "attempt": 1
+  },
+  "lens": {
+    "included_activities": "US lower-middle-market firms whose principal service is recovering tangible collateral for creditors after delinquency, including assignment intake, skip tracing, field recovery, transport coordination, storage, condition reporting, compliance documentation, invoicing, and lender status communication.",
+    "excluded_activities": "Monetary debt collection without tangible-asset recovery, creditor-owned servicing operations, software-only platforms, auction-only remarketing, ordinary towing without creditor repossession assignments, and businesses outside the $1 million to $10 million normalized EBITDA lens.",
+    "customer_and_revenue_model": "Creditors, auto-finance servicers, equipment lenders, and forwarding companies place repeat assignments; agencies generally earn transaction or recovery fees plus ancillary charges for field attempts, transport, storage, keys, personal-property handling, and related services.",
+    "deviation_from_default": "none",
+    "heterogeneous": true
+  },
+  "primitives": {
+    "a": {
+      "evidence_state": "PROXY",
+      "low": 0.14,
+      "base": 0.25,
+      "high": 0.38,
+      "bridge": "O*NET's private-investigator occupation is used for the skip-tracing and case-documentation slice, while broad NAICS 561400 OEWS data and repossession-platform feature lists indicate the administrative workflow. I map database search, assignment triage, compliance review, status communication, reports, and invoices to AI-exposed work, then weight them below the physical locating, seizure, transport, storage, and inspection work that defines repossession. The investigator proxy can overstate information work for field-heavy agencies, while broad 561400 can also overstate office work because it contains call centers and collection agencies; the range is widened in both directions.",
+      "rationale": "AI can draft and summarize case notes, search structured and public records, prioritize assignments, check documentation, compose status updates, and assist invoices and condition reports. It cannot ordinarily execute safe physical recovery, drive or tow collateral, secure lots, make on-scene judgments, or manage personal property. The result is a meaningful but minority share of total labor task-time.",
+      "change_evidence": "Time-and-motion data from repossession agencies separating skip tracing, dispatch, compliance, reporting, billing, driving, field recovery, and storage would materially change this estimate.",
+      "source_ids": ["S2", "S3", "S4", "S5"],
+      "caveats": [
+        "There is no public six-digit occupational task matrix for repossession services.",
+        "Firm mix varies between desk-intensive forwarding and skip-tracing operations and field-heavy direct recovery agencies.",
+        "AI exposure is task-time, not headcount reduction or EBITDA uplift."
+      ]
+    },
+    "rho": {
+      "evidence_state": "PROXY",
+      "low": 0.42,
+      "base": 0.6,
+      "high": 0.75,
+      "bridge": "Commercial repossession platforms demonstrate that assignments, status data, compliance records, condition reports, invoices, and client communication can already flow through integrated web and mobile systems. I treat this as evidence of technical workflow readiness, then discount for small-agency data quality, fragmented lender integrations, state-specific rules, human review, and the absence of published AI adoption or realized-savings data. Vendor evidence likely overstates best-case readiness, so the base is below full realization and the low case is materially lower.",
+      "rationale": "A reasonably digitized operator can realize a majority of the exposed administrative and information-work opportunity because the underlying records and handoffs are already electronic. Realization is limited by erroneous assignment risk, required human authorization, integration costs, irregular legacy records, cybersecurity, and the need for accurate audit trails.",
+      "change_evidence": "Agency-level AI deployment studies reporting implementation rates, false-positive and exception rates, integration costs, hours saved, and sustained savings after compliance review would materially change this value.",
+      "source_ids": ["S4", "S5", "S6"],
+      "caveats": [
+        "Platform capability is not evidence of industry-wide adoption or realized savings.",
+        "Wrongful-repossession findings increase the need for human controls around cancellation, lien, and payment status.",
+        "Small independent agencies may have less-integrated systems than national forwarders."
+      ]
+    },
+    "e": {
+      "evidence_state": "ESTIMATE",
+      "low": 0.82,
+      "base": 0.92,
+      "high": 0.97,
+      "rationale": "The included business model is predominantly repeat outsourced work from lenders, servicers, and forwarders under assignments rather than walk-in consumer work. The lower bound allows for towing, storage, auction transport, one-off investigations, or other adjacent revenue that is not qualifying repeat outsourced repossession service.",
+      "change_evidence": "Revenue-by-customer and service-line data from a representative sample of qualifying agencies, including repeat-assignment share and ancillary non-repossession revenue, would materially change this estimate.",
+      "source_ids": ["S1", "S4", "S5"],
+      "caveats": [
+        "No representative public revenue-mix survey was found.",
+        "Some agencies combine repossession with towing, storage, transport, or remarketing.",
+        "Customer concentration can be high even when revenue is recurring."
+      ]
+    },
+    "s5": {
+      "evidence_state": "PROXY",
+      "low": 0.07,
+      "base": 0.14,
+      "high": 0.23,
+      "bridge": "Gallup reports that 22% of US employer-business owners planned to sell or transfer ownership within five years. I use that all-industry employer intention as an upper neighborhood, then discount because intentions may not become transactions and because repossession buyers must diligence client concentration, licensing, insurance, compliance history, physical assets, and lender approval or re-vetting. The all-industry source may overstate completed transfers, while aging owner-operators and transferable lender relationships could make the low case too conservative.",
+      "rationale": "Qualifying agencies can be transferable through contracts or repeat client relationships, trained teams, trucks, storage capacity, systems, and local coverage, but regulatory exposure and reliance on owner relationships reduce the share likely to transact cleanly within five years.",
+      "change_evidence": "A census of closed repossession-agency acquisitions and ownership transfers, with seller population denominators and transaction completion rates, would materially change this value.",
+      "source_ids": ["S11"],
+      "caveats": [
+        "The source measures stated plans, not completed transactions.",
+        "It covers all US employer businesses rather than repossession agencies or the target EBITDA band.",
+        "Transfers to family and external sales have different investability implications."
+      ]
+    },
+    "q": {
+      "evidence_state": "PROXY",
+      "low": 0.35,
+      "base": 0.52,
+      "high": 0.68,
+      "bridge": "Repossession software shows assignment-level charges and electronic invoices, while CFPB materials show repossession and property-retrieval fees are discrete charges and subject to scrutiny. I infer that transaction-based pricing lets agencies retain some administrative savings until lender procurement, forwarders, or competitors reprice contracts. Because consumer-facing fees are not the same as agency compensation and the physical cost base is large, the evidence can overstate both pricing opacity and the share of savings available to retain; the range is therefore broad.",
+      "rationale": "Flat or transaction fees are less immediately transparent than hourly billing, supporting partial retention of faster desk work. Capture is capped by lender sophistication, forwarder bargaining power, competitive bidding, fee regulation, and the fact that trucks, fuel, insurance, storage, and field labor remain necessary and visible.",
+      "change_evidence": "Actual lender-agency rate cards, renewal histories after workflow automation, contribution margins by assignment, and evidence on how savings were shared would materially change this value.",
+      "source_ids": ["S5", "S8"],
+      "caveats": [
+        "Consumer fees reported by the CFPB do not identify the recovery agency's net price or margin.",
+        "Ancillary and unsuccessful-attempt pricing varies by contract and jurisdiction.",
+        "Large lenders and forwarders may capture more savings than local agencies."
+      ]
+    },
+    "d5": {
+      "evidence_state": "PROXY",
+      "low": 0.92,
+      "base": 1.06,
+      "high": 1.17,
+      "bridge": "BLS projects real output for broad NAICS 561400 Business Support Services from 87.4 in 2024 to 108.6 in 2034, equivalent to about 1.115 over five years if growth compounds evenly. I center repossession below that broad five-year extrapolation because demand depends on credit performance and can fall with better underwriting or borrower relief, while the Federal Reserve's recent evidence that auto delinquencies remained above their ten-year average and CFPB's documentation of more than 100 million active auto-finance accounts support durable scale. The broad forecast may overstate repossession growth because it includes faster-growing support services; cyclical credit stress may instead make it understate a stressed five-year period.",
+      "rationale": "Secured lending creates persistent recovery demand, and a very large stock of auto-finance accounts supplies recurring assignments. Volume is cyclical rather than structurally guaranteed: delinquencies, used-vehicle values, lender loss-mitigation practices, remote-disable technology, voluntary surrender, regulation, and underwriting standards can all move demand.",
+      "change_evidence": "A six-digit five-year forecast for repossession revenue or assignment volume, segmented by collateral type and tied to loan vintages, delinquency transitions, cures, and lender recovery policy, would materially change this value.",
+      "source_ids": ["S7", "S9", "S10"],
+      "caveats": [
+        "The BLS projection is for broad NAICS 561400, not six-digit repossession services.",
+        "Auto finance is the best-documented collateral class but the industry also serves equipment, boats, aircraft, furniture, and appliances.",
+        "Above-average delinquency does not map one-for-one to completed repossessions."
+      ]
+    },
+    "o": {
+      "evidence_state": "ESTIMATE",
+      "low": 0.88,
+      "base": 0.95,
+      "high": 0.99,
+      "rationale": "For the included service, an operator must still coordinate and usually perform lawful physical recovery, custody, transport, storage, condition documentation, and exception handling. AI and software can reduce administrative labor but do not independently possess collateral. The discount reflects voluntary surrender, lender insourcing, connected-vehicle location or disablement, and software or forwarding layers that can remove some operator-mediated steps.",
+      "change_evidence": "Observed assignment outcomes showing the shares completed by field recovery, voluntary surrender, creditor self-help, automated location or disablement, and fully outsourced forwarding would materially change this estimate.",
+      "source_ids": ["S1", "S4", "S6"],
+      "caveats": [
+        "The estimate concerns required operator mediation, not the fraction of labor that remains manual.",
+        "Collateral type and state law materially affect the physical process.",
+        "Connected-asset technology could reduce field search without eliminating custody and transport."
+      ]
+    }
+  },
+  "narrative": {
+    "executive_view": "Repossession is a physical, compliance-sensitive outsourced service with a real but bounded AI opportunity. The best fit is to augment skip tracing, assignment administration, exception routing, reporting, and billing around a field operation whose core act cannot be digitized away.",
+    "ai_impact": "AI can improve search and prioritization, extract and cross-check assignment documents, detect cancellation or lien exceptions, draft status notes and condition summaries, and automate routine communications and invoices. Human authorization and auditable controls remain essential because an incorrect recovery creates acute consumer, legal, and lender risk.",
+    "value_capture": "Transaction pricing and ancillary charges permit partial retention of desk-work efficiencies, particularly for operators with dense routes and integrated lender feeds. Sophisticated lenders and forwarders can renegotiate rates, while physical labor, trucks, fuel, storage, insurance, and compliance costs prevent administrative savings from translating fully into margin.",
+    "firm_availability": "The frozen dataset indicates a small qualifying population, and public evidence on actual agency transfers is weak. Owner-operated local coverage, client relationships, staff, trucks, lots, and compliance infrastructure are transferable, but concentration and licensing can narrow the practical buyer pool.",
+    "demand_durability": "Demand persists because secured consumer and commercial credit produces delinquent collateral across cycles. Auto-finance scale and recently above-average auto delinquency support near-term work, but volumes can reverse with cures, relief programs, underwriting changes, used-vehicle prices, regulation, and creditor recovery strategy.",
+    "risks_and_uncertainty": "The largest uncertainties are the absence of six-digit labor and output data, limited public rate-card evidence, and no representative AI adoption or realized-savings study. Wrongful repossession, data security, personal-property handling, state rules, insurance, safety, and lender concentration are material operating risks.",
+    "principal_driver": "Repeat lender demand for lawful physical collateral recovery, combined with digitizable case administration around each assignment.",
+    "principal_weakness": "Most delivery remains physical and locally regulated, while the industry-specific evidence base for workflow shares, transaction frequency, and margin capture is sparse."
+  },
+  "sources": [
+    {
+      "id": "S1",
+      "url": "https://www.census.gov/naics/resources/archives/sect56.html",
+      "title": "North American Industry Classification System: Sector 56",
+      "access_date": "2026-07-22",
+      "supports": "Defines 561491 as repossessing tangible assets for creditors because of delinquent debts and separates it from monetary debt collection."
+    },
+    {
+      "id": "S2",
+      "url": "https://www.onetonline.org/link/summary/33-9021.00",
+      "title": "O*NET OnLine: Private Detectives and Investigators",
+      "access_date": "2026-07-22",
+      "supports": "Documents adjacent investigative tasks including database and public-record search, analysis, reporting, observation, communication, compliance evaluation, and administrative work."
+    },
+    {
+      "id": "S3",
+      "url": "https://www.bls.gov/oes/2023/may/naics4_561400.htm",
+      "title": "BLS May 2023 OEWS: NAICS 561400 Business Support Services",
+      "access_date": "2026-07-22",
+      "supports": "Provides the broad-industry occupational benchmark and demonstrates why it is a weak proxy for repossession: 750,760 total employees but only 410 private detectives and investigators in the four-digit aggregate."
+    },
+    {
+      "id": "S4",
+      "url": "https://www.mbsicorp.com/",
+      "title": "MBSi RecoveryConnect",
+      "access_date": "2026-07-22",
+      "supports": "Shows existing repossession case management, data-driven automation, mobile workflow, compliance tools, and lender-forwarder-agency integration."
+    },
+    {
+      "id": "S5",
+      "url": "https://www.autoims.com/jsp/repo/repo-home.jsp",
+      "title": "RecoveryIMS",
+      "access_date": "2026-07-22",
+      "supports": "Shows electronic assignment, tracking, communications, condition reports, charges, invoices, documentation requirements, performance measurement, and auction handoff."
+    },
+    {
+      "id": "S6",
+      "url": "https://www.consumerfinance.gov/archive/newsroom/cfpb-takes-action-against-wrongful-auto-repossessions-and-loan-servicing-breakdowns/",
+      "title": "CFPB Takes Action Against Wrongful Auto Repossessions and Loan Servicing Breakdowns",
+      "access_date": "2026-07-22",
+      "supports": "Documents wrongful repossessions after payments or loan extensions, supporting the need for reliable cancellation, payment-status, and compliance controls."
+    },
+    {
+      "id": "S7",
+      "url": "https://www.consumerfinance.gov/data-research/research-reports/repossession-in-auto-finance/",
+      "title": "CFPB: Repossession in Auto Finance",
+      "access_date": "2026-07-22",
+      "supports": "Provides public research on auto repossession and notes the limited availability of market data; accompanying CFPB materials describe more than 100 million active auto-finance accounts and over $1.64 trillion in balances through 2024."
+    },
+    {
+      "id": "S8",
+      "url": "https://www.consumerfinance.gov/archive/newsroom/cfpb-uncovers-illegal-junk-fees-on-bank-accounts-mortgages-and-student-and-auto-loans/",
+      "title": "CFPB Uncovers Illegal Junk Fees on Bank Accounts, Mortgages, and Student and Auto Loans",
+      "access_date": "2026-07-22",
+      "supports": "Shows that repossession and personal-property retrieval are separately charged services and that fee practices face contractual and regulatory scrutiny."
+    },
+    {
+      "id": "S9",
+      "url": "https://www.bls.gov/emp/tables/industry-employment-and-output.htm",
+      "title": "BLS Employment and Output by Industry",
+      "access_date": "2026-07-22",
+      "supports": "Projects broad NAICS 561400 real output from 87.4 in 2024 to 108.6 in 2034, with 2.2% annual growth, while employment declines 2.8%."
+    },
+    {
+      "id": "S10",
+      "url": "https://www.federalreserve.gov/publications/2025-december-supervision-and-regulation-report-banking-system-conditions.htm",
+      "title": "Federal Reserve: Banking System Conditions",
+      "access_date": "2026-07-22",
+      "supports": "Reports that auto-loan delinquency declined from a year earlier but remained above its ten-year quarterly average in the first half of 2025."
+    },
+    {
+      "id": "S11",
+      "url": "https://news.gallup.com/poll/657362/small-business-owners-lack-succession-plan.aspx",
+      "title": "Gallup: Most Small-Business Owners Lack a Succession Plan",
+      "access_date": "2026-07-22",
+      "supports": "Reports that 22% of US employer-business owners planned to sell or transfer ownership within five years, used as a broad intention-based transfer proxy."
+    }
+  ]
+}

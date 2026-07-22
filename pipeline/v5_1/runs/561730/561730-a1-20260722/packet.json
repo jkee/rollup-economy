@@ -1,0 +1,198 @@
+{
+  "identity": {
+    "naics": "561730",
+    "title": "Landscaping Services",
+    "run_id": "561730-a1-20260722",
+    "model_id": "claude-sonnet-5",
+    "run_date": "2026-07-22",
+    "methodology_version": "5.1",
+    "attempt": 1
+  },
+  "lens": {
+    "included_activities": "LMM firms providing recurring or repeat outsourced landscape maintenance, mowing, edging, pruning, planting, fertilization, irrigation care, seasonal cleanup, tree care, snow service, and customer-requested enhancement or installation work to external customers.",
+    "excluded_activities": "Captive grounds crews, shell entities, non-control financing vehicles, pure landscape architecture without installation, retail garden centers, construction-only contractors, and operators whose work is solely one-off rather than recurring or repeat outsourced service.",
+    "customer_and_revenue_model": "Commercial, institutional, government, multifamily, homeowners-association, and residential customers buy recurring maintenance through fixed-fee or per-occurrence arrangements and commission repeat enhancement or installation projects. Route density, renewal retention, labor scheduling, and equipment utilization drive economics.",
+    "deviation_from_default": "none",
+    "heterogeneous": true
+  },
+  "primitives": {
+    "a": {
+      "evidence_state": "PROXY",
+      "low": 0.18,
+      "base": 0.3,
+      "high": 0.43,
+      "bridge": "BLS measures employment shares by occupation, not wage-weighted task exposure, for NAICS 561730. I map office, sales, management, supervisory, estimating, routing, documentation, and selected routine mowing or monitoring tasks into exposure while leaving most planting, trimming, tree, chemical, irrigation, and terrain-dependent work unexposed. This may overstate exposure where reported occupations spend substantial time on physical execution and understate it where autonomous equipment can cover standardized sites.",
+      "rationale": "Grounds-maintenance workers account for most industry employment, so the central case does not treat the industry as primarily digital. Exposure comes from dispatch, scheduling, quoting, customer communication, invoicing, route design, property measurement, work verification, and a bounded share of repetitive mowing or monitoring. Industry reporting documents current use of AI for field operations, routing, scheduling, and satellite-image estimates, while BLS duties show that many core tasks remain physical and site-specific.",
+      "change_evidence": "A NAICS-specific O*NET task-to-wage crosswalk combined with contractor time studies separating mowing, travel, trimming, treatments, installation, supervision, estimating, and administration would materially change the estimate.",
+      "source_ids": ["S2", "S3", "S4", "S5"],
+      "caveats": [
+        "Occupation shares are employment-weighted rather than wage-weighted task shares.",
+        "The technology survey emphasizes commercial contractors and may overrepresent software-engaged firms.",
+        "Autonomous-mower interest is not equivalent to deployable substitution across irregular or safety-sensitive properties."
+      ]
+    },
+    "rho": {
+      "evidence_state": "PROXY",
+      "low": 0.3,
+      "base": 0.5,
+      "high": 0.68,
+      "bridge": "The Aspire survey measures current adoption, priorities, and expected technology impact among commercial landscaping professionals rather than the five-year implemented share of exposed labor opportunity for LMM firms. I translate broad software use, low current AI use, staffing pressure, and stated interest in field, routing, scheduling, property-intelligence, and autonomous-mowing tools into a moderate implementation fraction. Selection toward technology-aware respondents likely biases the result upward, while rapid vendor improvement could make it conservative.",
+      "rationale": "Implementation is plausible for office workflows, estimating, dispatch, route optimization, documentation, and customer service because these can layer onto existing systems. Physical automation faces fragmented routes, variable terrain, weather, theft, safety, maintenance, fleet integration, and customer-acceptance constraints. The low current AI adoption reported by the industry survey argues against assuming rapid full conversion, even though staffing difficulty gives operators a reason to invest.",
+      "change_evidence": "A longitudinal survey of LMM landscaping firms reporting production hours, autonomous-equipment deployment, workflow-level AI usage, realized labor-hour reduction, exceptions, and implementation failures would materially change this value.",
+      "source_ids": ["S4", "S5", "S3"],
+      "caveats": [
+        "Stated technology expectations are not realized implementation outcomes.",
+        "Commercial landscaping respondents may not represent residential route operators or installation-heavy firms.",
+        "Implementation depends on data quality, standard operating procedures, fleet replacement cycles, and local labor economics."
+      ]
+    },
+    "e": {
+      "evidence_state": "ESTIMATE",
+      "low": 0.55,
+      "base": 0.72,
+      "high": 0.85,
+      "rationale": "The NAICS definition combines recurring maintenance with installation and related construction. Most LMM operators are likely to have recurring maintenance, repeat enhancement work, or repeat institutional and commercial relationships, but a meaningful minority may be project-only, captive-like, shell-like, owner-dependent, or otherwise outside the fixed lens. The estimate therefore keeps a majority while allowing substantial exclusion.",
+      "change_evidence": "A firm-level sample from a business database, coded for revenue mix, contract recurrence, external customers, control ownership, operating status, and normalized EBITDA, would directly estimate eligibility.",
+      "source_ids": ["S1", "S6"],
+      "caveats": [
+        "No source measures eligibility within the supplied LMM count.",
+        "The injected firm-count estimate may include many small operators whose normalized EBITDA or transferability is uncertain.",
+        "Business-model mix varies sharply between maintenance, tree care, treatment, irrigation, snow, and design-build operators."
+      ]
+    },
+    "s5": {
+      "evidence_state": "PROXY",
+      "low": 0.1,
+      "base": 0.17,
+      "high": 0.25,
+      "bridge": "Gallup measures stated five-year sell-or-transfer plans among U.S. employer-business owners across industries, while Sequeira reports announced facility-services deals in a broad exterior-services category that includes landscaping. I start below the employer-owner intention rate and use the active but broad deal evidence only as confirmation that buyers exist, then haircut for plans that do not close, internal transfers, non-control deals, and firms that fail diligence. Broad facility-services activity can overstate landscaping transfer probability, while private small transactions missing from databases can bias observed deal flow downward.",
+      "rationale": "Landscaping is highly fragmented and recurring route density attracts tuck-in buyers, supporting a real transfer market. Yet owner intentions are not completed qualifying control transfers, and many sole proprietors lack institutional systems or transferable customer relationships. The central case therefore remains below the broad employer-owner stated transfer incidence.",
+      "change_evidence": "A landscaping-specific transaction database matched to the eligible LMM denominator, plus owner-age and succession survey data for landscaping employers, would materially change the probability.",
+      "source_ids": ["S6", "S7", "S8"],
+      "caveats": [
+        "The owner survey is cross-industry and measures plans rather than completed transactions.",
+        "The M&A report combines landscaping with several other exterior building services.",
+        "Private tuck-ins and failed transactions are incompletely observed."
+      ]
+    },
+    "q": {
+      "evidence_state": "PROXY",
+      "low": 0.48,
+      "base": 0.64,
+      "high": 0.78,
+      "bridge": "BrightView discloses recurring, often fixed-fee maintenance structures for one large commercial provider, not the discounted retention of implemented gross benefit across LMM landscaping firms. I infer that fixed-price periods let operators retain near-term labor savings, then apply a haircut for short cancellation rights, competitive renewals, customer sharing, bid repricing, and per-occurrence or project work. A scaled public provider may have more pricing power and contract discipline than LMM firms, biasing retention upward.",
+      "rationale": "Recurring fixed-fee contracts permit operators to keep a meaningful portion of productivity gains before renewal. Retention is incomplete because customers can rebid, contracts can be cancellable on short notice, local markets are fragmented, and future bids can incorporate lower expected cost. Service improvements and avoided hiring may be less visible to customers than explicit price cuts, supporting a central value above one-half but well below full retention.",
+      "change_evidence": "A representative contract review and cohort analysis linking automation savings to renewal pricing, churn, gross-margin persistence, contract type, and customer segment would directly measure retained benefit.",
+      "source_ids": ["S6", "S4"],
+      "caveats": [
+        "BrightView is much larger than the screened firms.",
+        "Residential, per-visit, and project billing may pass savings through faster than commercial fixed-fee maintenance.",
+        "The estimate excludes implementation difficulty and volume effects, which belong in other primitives."
+      ]
+    },
+    "d5": {
+      "evidence_state": "PROXY",
+      "low": 0.98,
+      "base": 1.1,
+      "high": 1.2,
+      "bridge": "BLS publishes projected employment for exact NAICS 561730 and real-output growth for the broader services-to-buildings-and-dwellings group, not constant-price, constant-quality year-five demand for the lens's current service basket. I use the exact industry's slow positive employment path as a floor signal and the broader group's stronger real-output path, alongside commercial market evidence, to center five-year quantity growth near ten percent. Productivity gains can make employment understate demand, while the broader output series can overstate landscaping-specific growth.",
+      "rationale": "Routine landscape maintenance is recurring and often viewed as non-discretionary by commercial buyers. BLS projects modest exact-industry employment growth and stronger real output for the broader building-services group; occupational projections also remain positive. Urban green space, property upkeep, outsourcing, and staffing constraints support growth, while construction cycles, drought restrictions, weather, and customer budget pressure keep the downside near flat.",
+      "change_evidence": "A BLS or BEA real-output series for exact NAICS 561730, decomposed between recurring maintenance and installation and supplemented with acreage or property counts under contract, would materially change the ratio.",
+      "source_ids": ["S3", "S6", "S9"],
+      "caveats": [
+        "Exact-industry employment is not quantity demand and embeds productivity assumptions.",
+        "The real-output projection is for a broader industry group.",
+        "BrightView's cited commercial-market outlook relies on third-party research and is not representative of all customer segments."
+      ]
+    },
+    "o": {
+      "evidence_state": "ESTIMATE",
+      "low": 0.72,
+      "base": 0.86,
+      "high": 0.94,
+      "rationale": "Most year-five work still needs an accountable local operator to manage crews and machines, inspect property conditions, handle safety and chemicals, trim and plant, repair irrigation, perform tree work, respond to weather, and own customer outcomes. Autonomous mowing and property intelligence can reduce visits or labor on standardized sites, and some customers may self-serve, but the present service basket is broader than mowing and requires physical execution plus exception handling.",
+      "change_evidence": "Customer-level trials comparing fully autonomous or self-served properties with contractor-operated properties across mowing, horticulture, irrigation, tree care, treatments, cleanup, safety incidents, and customer satisfaction would materially change the operator-required share.",
+      "source_ids": ["S2", "S3", "S4", "S5"],
+      "caveats": [
+        "This is bounded judgment rather than an observed displacement rate.",
+        "Large simple turf areas are more substitutable than complex residential, institutional, or ornamental properties.",
+        "The estimate may be high if customers accept narrower service baskets or equipment vendors assume outcome accountability."
+      ]
+    }
+  },
+  "narrative": {
+    "executive_view": "Landscaping combines a large physical field workforce with recurring route-based maintenance and fragmented ownership. AI can improve the coordination layer and autonomous equipment can address selected repetitive work, but horticultural variety, property exceptions, weather, safety, and customer accountability limit full labor substitution. The opportunity is therefore operationally meaningful only when workflow discipline and site selection are strong.",
+    "ai_impact": "The near-term changes are quoting from imagery, scheduling, route design, dispatch, customer communication, invoicing, documentation, procurement, and supervisor decision support. Computer vision and autonomous mowing can extend into standardized properties. Crews remain necessary for edging, trimming, planting, treatments, irrigation diagnosis, tree work, debris, complex terrain, and exception handling.",
+    "value_capture": "Fixed-fee recurring maintenance can preserve productivity gains during the contract period, while better routing and avoided hiring can improve service reliability without an explicit customer price concession. Renewal bids, easy cancellation, fragmented competition, per-occurrence billing, and customer procurement eventually share part of the gain, so durable capture depends on retention, density, service quality, and differentiated execution.",
+    "firm_availability": "The industry is highly fragmented and has active tuck-in logic around route density, customer relationships, and multi-service coverage. Broad owner-succession evidence and exterior-services deal activity support a recurring supply of sellers, but the qualifying share is reduced by owner dependence, weak systems, project-heavy mixes, internal transfers, and firms too small or informal to support a control transaction.",
+    "demand_durability": "Commercial and institutional grounds require recurring upkeep, and outsourcing provides a stable base. Positive employment and broader real-output projections support modest growth rather than contraction. Demand remains exposed to weather, drought and water rules, construction and property cycles, budget pressure, and customers substituting simpler grounds or self-service equipment.",
+    "risks_and_uncertainty": "The largest uncertainties are the wage-weighted task split within field occupations, actual autonomous-equipment performance on mixed properties, adoption by LMM firms, maintenance-versus-project revenue mix, and firm-level transaction incidence. A roll-up can fail if route density is poor, acquisitions lack transferable customer relationships, equipment creates new supervision burdens, or renewal competition gives savings back to customers.",
+    "principal_driver": "Recurring route-based work creates repeated opportunities to compound gains from dispatch, estimating, scheduling, documentation, and selective equipment autonomy.",
+    "principal_weakness": "Most production is physical, variable, outdoors, and exception-heavy, which caps substitution and makes implementation depend on property mix and operational discipline."
+  },
+  "sources": [
+    {
+      "id": "S1",
+      "url": "https://www.census.gov/naics/resources/archives/sect56.html",
+      "title": "NAICS Sector 56: Administrative and Support and Waste Management and Remediation Services",
+      "access_date": "2026-07-22",
+      "supports": "Official Census scope for Landscaping Services, including landscape care, maintenance, installation, and listed exclusions for construction-only, architecture-only, and retail activities."
+    },
+    {
+      "id": "S2",
+      "url": "https://www.bls.gov/oes/2023/may/naics5_561730.htm",
+      "title": "May 2023 National Industry-Specific Occupational Employment and Wage Estimates: NAICS 561730",
+      "access_date": "2026-07-22",
+      "supports": "Exact-industry occupational mix and wages; grounds-maintenance occupations dominate employment, with smaller management, sales, and office-support shares."
+    },
+    {
+      "id": "S3",
+      "url": "https://www.bls.gov/ooh/building-and-grounds-cleaning/grounds-maintenance-workers.htm",
+      "title": "Grounds Maintenance Workers",
+      "access_date": "2026-07-22",
+      "supports": "Physical task content, outdoor conditions, hazards, employment concentration, occupational openings, and positive demand outlook for grounds-maintenance work."
+    },
+    {
+      "id": "S4",
+      "url": "https://blog.landscapeprofessionals.org/where-technology-meets-opportunities-inside-aspires-2025-industry-report/",
+      "title": "Where Technology Meets Opportunities: Inside Aspire's 2025 Industry Report",
+      "access_date": "2026-07-22",
+      "supports": "Survey of more than one thousand commercial landscaping professionals on staffing difficulty, repeat customers, software use, AI adoption, property intelligence, autonomous mowers, routing, scheduling, and field operations."
+    },
+    {
+      "id": "S5",
+      "url": "https://blog.landscapeprofessionals.org/ai-trailblazers-how-landscape-pros-are-increasing-their-efficiency/",
+      "title": "AI Trailblazers: How Landscape Pros Are Increasing Their Efficiency",
+      "access_date": "2026-07-22",
+      "supports": "Industry examples of AI in administration, design, marketing, estimating from satellite imagery, and staged deployment, together with reported low current AI adoption."
+    },
+    {
+      "id": "S6",
+      "url": "https://www.sec.gov/Archives/edgar/data/1734713/000119312525288109/bv-20250930.htm",
+      "title": "BrightView Holdings, Inc. 2025 Form 10-K",
+      "access_date": "2026-07-22",
+      "supports": "Recurring annual landscape-maintenance contracts, fixed-fee and per-occurrence structures, short customer cancellation rights, essential-service characterization, market fragmentation, and maintenance-versus-development business models."
+    },
+    {
+      "id": "S7",
+      "url": "https://news.gallup.com/poll/657362/small-business-owners-lack-succession-plan.aspx",
+      "title": "Most Small-Business Owners Lack a Succession Plan",
+      "access_date": "2026-07-22",
+      "supports": "Cross-industry U.S. employer-business owner plans to sell or transfer ownership within five years and broader succession-plan limitations."
+    },
+    {
+      "id": "S8",
+      "url": "https://www.sequeirapartners.com/wp-content/uploads/2026/02/Sequeira-Partners-Facility-Services-Q4-2025_F.pdf",
+      "title": "Facility Services M&A Update: Q4 2025",
+      "access_date": "2026-07-22",
+      "supports": "North American facility-services transaction activity and buyer interest in exterior building services, a broad category explicitly including landscaping and grounds maintenance."
+    },
+    {
+      "id": "S9",
+      "url": "https://www.bls.gov/emp/tables/industry-employment-and-output.htm",
+      "title": "Employment and Output by Industry",
+      "access_date": "2026-07-22",
+      "supports": "BLS projections show positive exact-industry employment growth for Landscaping Services and stronger real-output growth for the broader Services to Buildings and Dwellings group."
+    }
+  ]
+}

@@ -1,0 +1,227 @@
+{
+  "identity": {
+    "naics": "561450",
+    "title": "Credit Bureaus",
+    "run_id": "561450-a1-20260722",
+    "model_id": "claude-sonnet-5",
+    "run_date": "2026-07-22",
+    "methodology_version": "5.1",
+    "attempt": 1
+  },
+  "lens": {
+    "included_activities": "US lower-middle-market credit bureaus and specialty consumer or commercial reporting agencies that repeatedly compile credit, employment, payment, identity, or related histories and sell reports, scores, monitoring, batch data, decision support, or credit-investigation services to external customers.",
+    "excluded_activities": "Debt collection, credit repair and counseling, lending, captive bank credit departments, general background investigation without a credit-reporting function, generic data-broker or software products not operated as a bureau, the nationwide bureaus themselves when outside the LMM band, shells, non-control financing vehicles, and one-off investigations without a recurring or repeat reporting service.",
+    "customer_and_revenue_model": "Financial institutions, landlords, employers, insurers, utilities, retailers, governments, and other permissible users purchase bureau data through per-report or other transaction fees, fixed-term data contracts, recurring licenses and subscriptions, batch services, monitoring, implementation, support, and occasional analytics or governance consulting. Bureau products are commonly delivered in real time or embedded in customer decision workflows.",
+    "deviation_from_default": "none",
+    "heterogeneous": false
+  },
+  "primitives": {
+    "a": {
+      "evidence_state": "PROXY",
+      "low": 0.28,
+      "base": 0.42,
+      "high": 0.56,
+      "bridge": "BLS reports occupations for four-digit NAICS 561400, which is dominated by call centers and also includes collection agencies and other support services, while O*NET describes credit-authorizer work rather than the full six-digit bureau workforce. I map information intake, record matching, document extraction, dispute triage, correspondence, report preparation, routine analysis, coding, testing, monitoring, and first-line customer support to higher AI exposure; I map data governance, security, model validation, regulatory judgment, complex reinvestigation, sales, client integration, and final accuracy accountability to lower exposure. The broad BLS mix likely overstates low-wage call-center work and understates the software, data-science, security, and compliance share of credit bureaus, biasing an unadjusted exposure estimate upward.",
+      "rationale": "Credit bureaus already automate data ingestion, matching, scoring, fulfillment, and many customer decisions, so the primitive measures only the exposed work that remains. Generative and predictive AI can still compress document-heavy disputes, anomaly review, correspondence, data quality investigation, analytics development, software work, and support. The high legal cost of inaccurate files, cyber risk, source-data ambiguity, and the need to defend models and adverse outcomes keep the base below half of current wage-weighted work.",
+      "change_evidence": "A six-digit 561450 payroll occupation table combined with workflow-level time, wage, current-automation, rework, and error data from specialty bureaus and nationwide-bureau business units would materially move the estimate.",
+      "source_ids": ["S2", "S3", "S4", "S7", "S8"],
+      "caveats": [
+        "The BLS occupation table is for NAICS 561400 and is heavily shaped by call centers and collection agencies rather than credit bureaus.",
+        "O*NET credit-authorizer tasks include lending and collection work and do not measure time, wages, feasibility, or current automation inside bureaus.",
+        "TransUnion's technology disclosures describe a large incumbent whose automation and technical occupation mix may exceed those of LMM specialists.",
+        "The sharp growth in complaints includes automated, duplicate, and abusive submissions and is not a clean measure of legitimate bureau labor demand.",
+        "The injected labor ratio uses 2024 wages over 2022 receipts and may understate controllable labor where bureau receipts monetize proprietary data or include large nonlabor technology and data costs."
+      ]
+    },
+    "rho": {
+      "evidence_state": "PROXY",
+      "low": 0.4,
+      "base": 0.58,
+      "high": 0.75,
+      "bridge": "TransUnion reports internal and product use of AI, a centralized AI-enabled data and analytics platform, and migration of its US credit business, while Experian reports largely completed North American cloud migration. These are large, sophisticated incumbents rather than LMM bureaus, so I use them to establish technical feasibility and industry direction, then discount implementation for smaller-firm capital, data engineering, governance, security, model-risk, and change constraints. Incumbent evidence may overstate LMM implementation capacity, while smaller platforms with less legacy technology may move faster.",
+      "rationale": "The industry's products are already digital, structured, high-volume, and embedded in automated decisions, which makes workflow integration more feasible than in analog services. However, the remaining opportunity is concentrated in exceptions and controlled processes: FCRA reinvestigation, accuracy, privacy, cybersecurity, explainability, bias, and client validation require auditable deployment and human escalation. These constraints support meaningful but incomplete implementation within five years.",
+      "change_evidence": "Before-and-after operating data from US specialty bureaus showing AI coverage by workflow, straight-through processing, analyst and dispute hours, false-match and correction rates, compliance exceptions, model approvals, and headcount avoided would materially change this value.",
+      "source_ids": ["S4", "S5", "S7", "S8"],
+      "caveats": [
+        "Public-company platform migration demonstrates capability, not audited labor avoidance or representative LMM adoption.",
+        "Current high automation means the marginal workflows left to implement may be unusually exception-heavy and difficult.",
+        "Accuracy, privacy, discrimination, cybersecurity, and FCRA reinvestigation requirements can slow deployment or require human review.",
+        "Complaint-volume growth can create an implementation incentive while also overwhelming quality-control systems."
+      ]
+    },
+    "e": {
+      "evidence_state": "ESTIMATE",
+      "low": 0.78,
+      "base": 0.9,
+      "high": 0.97,
+      "rationale": "The NAICS definition is intrinsically an outsourced information service sold to financial institutions, retailers, and other evaluators, and CFPB documents both nationwide and specialty consumer reporting companies serving repeat decision use cases. Most LMM employer firms should therefore satisfy the external recurring-or-repeat lens. Ineligibility remains for project-only credit investigations, adjacent data or software businesses, captive units, misclassified firms, and companies whose normalized EBITDA is outside the band despite the dataset bridge.",
+      "change_evidence": "A six-digit establishment census or commercial company database segmented by independence, normalized EBITDA, principal service, recurring revenue, contract duration, and repeat-customer share would directly establish eligibility.",
+      "source_ids": ["S1", "S6"],
+      "caveats": [
+        "No source measures eligibility under the frozen LMM recurring-or-repeat outsourced-service lens.",
+        "NAICS 561450 includes consumer and commercial bureaus, credit rating, and investigation services with different degrees of recurring revenue.",
+        "The injected firm count uses a broad 15.65% Business & Consumer Services margin; data-rich bureaus can have materially different margins and therefore different implied EBITDA-band membership.",
+        "The three nationwide bureaus dominate general-purpose consumer credit reporting but are outside the LMM target band; the relevant population is the smaller specialist tail."
+      ]
+    },
+    "s5": {
+      "evidence_state": "PROXY",
+      "low": 0.07,
+      "base": 0.14,
+      "high": 0.23,
+      "bridge": "Gallup found that 22% of US employer-business owners planned to sell or transfer ownership within five years, while TransUnion discloses a strategy and record of acquiring complementary data, credit, and decisioning businesses. I use the owner-plan rate as a broad upper anchor and the incumbent acquisition record as evidence that strategic transfers occur, then discount gifts, internal transfers, unexecuted plans, non-US or above-LMM transactions, regulatory and data-license consent risk, security diligence, and specialist firms too dependent on founders or unique data access. Gallup is broader than the industry and the public-company examples bias toward larger strategic assets, so either can overstate qualifying LMM control-sale probability.",
+      "rationale": "Proprietary datasets, bureau memberships, permissible-purpose workflows, recurring contracts, and embedded integrations can attract strategic buyers, and large incumbents actively acquire data and decisioning capabilities. The addressable LMM population is small, highly specialized, and exposed to regulatory, cyber, data-rights, and integration diligence; some owner transitions will not produce a qualifying control sale. A five-year probability below the broad employer-owner plan rate is therefore appropriate.",
+      "change_evidence": "PitchBook, Capital IQ, GF Data, or an industry adviser dataset isolating completed and failed US control-sale processes for LMM consumer and commercial reporting bureaus by eligible-firm denominator over five years would materially change the estimate.",
+      "source_ids": ["S4", "S10"],
+      "caveats": [
+        "Gallup covers all US employer businesses and includes transfers or gifts rather than only completed control sales.",
+        "TransUnion's disclosed acquisitions are not a representative count of US LMM 561450 deals and include international or adjacent businesses.",
+        "No source supplies an eligible-firm denominator, failed-process rate, owner-age distribution, or LMM transaction completion rate.",
+        "Consumer data rights, cybersecurity history, regulatory exposure, and portability of data-supply contracts can impair transferability."
+      ]
+    },
+    "q": {
+      "evidence_state": "PROXY",
+      "low": 0.42,
+      "base": 0.62,
+      "high": 0.79,
+      "bridge": "Equifax describes transactional, tier-priced, annual subscription, and multi-year subscription contracts, while Experian describes transactional and fixed-term data contracts, recurring licenses, batch services, and recurring support. I map fixed subscriptions, licenses, and support to higher initial retention of an implemented labor benefit, and transaction or volume contracts to neutral-to-moderate retention because prices are based on reports or access rather than labor hours. I then discount renewal repricing, concentrated-customer procurement, competitive data products, regulatory service obligations, and price pressure. Large-bureau contract structures may be more embedded and defensible than those of LMM specialists, biasing retention upward.",
+      "rationale": "Customers generally buy data access, reports, scores, reliability, and compliant decisions rather than staff hours, so labor productivity does not mechanically reduce billing. Recurring licenses and multi-year contracts can preserve near-term gains as margin or capacity. Over five years, renewals, volume tiers, buyer concentration, alternative data, direct score licensing, and competition should share some benefit, while regulatory and data-quality spending absorbs another portion.",
+      "change_evidence": "A representative set of current US specialty-bureau contracts and account P&Ls showing pricing basis, term, renewal uplift, volume tiers, service levels, dispute obligations, gross margin, and customer concessions before and after automation would materially move retention.",
+      "source_ids": ["S9", "S12"],
+      "caveats": [
+        "The cited contract disclosures come from global public incumbents, not LMM specialty bureaus.",
+        "Neither source measures the share of AI benefit retained after renewal or competition.",
+        "High implementation and compliance spending may consume productivity without appearing as customer pass-through.",
+        "Retention can differ sharply between proprietary recurring datasets, commodity report resellers, consulting, and one-off investigations."
+      ]
+    },
+    "d5": {
+      "evidence_state": "PROXY",
+      "low": 0.98,
+      "base": 1.1,
+      "high": 1.2,
+      "bridge": "BLS projects real output for four-digit NAICS 561400 to grow 2.2% annually from 2024 to 2034, implying about 1.11 over five years. Experian reported 10% North American and 8% B2B organic revenue growth in FY2026 and describes broad credit, fraud, identity, and verification use cases, but those figures are nominal company growth across businesses and geographies. I center on the BLS five-year implication, use incumbent growth and expanding decision uses as directional support, and widen downward for the broad-code mismatch, credit cycles, customer concentration, regulation, and direct or alternative data competition. The public-company results likely overstate typical LMM growth.",
+      "rationale": "Credit, employment, rental, insurance, utility, fraud, identity, and verification decisions create repeat demand, while more digital transactions and alternative data expand the service basket around reporting. Mortgage and lending cycles, regulatory restrictions, free consumer access, customer consolidation, direct score licensing, and open-banking or first-party data create downside. The range therefore spans flat real demand to moderate growth for the current service basket.",
+      "change_evidence": "A six-digit BLS or Census real-output series for 561450, supported by inflation-adjusted US specialty-bureau report volumes, contract values, renewals, inquiry volumes, and customer cohorts by end market, would materially change the ratio.",
+      "source_ids": ["S5", "S11", "S12"],
+      "caveats": [
+        "The BLS forecast is for NAICS 561400, which includes call centers, collection agencies, document preparation, and other support services.",
+        "Experian's growth is nominal, global-company evidence and includes adjacent fraud, analytics, health, automotive, marketing, and consumer services.",
+        "Demand is cyclical with mortgage, consumer credit, hiring, rental, and insurance activity.",
+        "The estimate holds the current service basket and quality constant; new analytics products are not treated as guaranteed demand."
+      ]
+    },
+    "o": {
+      "evidence_state": "ESTIMATE",
+      "low": 0.69,
+      "base": 0.83,
+      "high": 0.93,
+      "rationale": "Many report-generation, monitoring, identity-matching, and decision-support steps can be automated or accessed through software, and customers may use first-party, open-banking, direct-score, or alternative data. Most current quantity should nevertheless require a bureau operator because the service depends on continuously aggregated multi-source histories, permissible-purpose controls, consumer access, dispute intake, reasonable investigation, correction, auditability, security, and contractual accountability. Embedded bureau data and feedback loops are difficult for an individual customer to recreate, especially in regulated adverse decisions.",
+      "change_evidence": "Customer-level cohort data showing five-year bureau-spend retention, direct-data substitution, open-banking adoption, score-licensing bypass, software self-service, insourcing, and vendor consolidation by credit, tenant, employment, insurance, and commercial-reporting use case would materially move this share.",
+      "source_ids": ["S1", "S4", "S6", "S8", "S12"],
+      "caveats": [
+        "No source directly measures the future share of credit-reporting quantity requiring a bureau operator.",
+        "FCRA obligations support accountable operation but do not guarantee that today's specialist firm, delivery channel, or data product remains necessary.",
+        "Direct score licensing, consumer-permissioned data, open banking, lender consortiums, and inexpensive public data can bypass parts of the bureau value chain.",
+        "Large incumbents' scale, proprietary files, and workflow embedding may overstate the operator-required share for small report resellers or narrow specialists."
+      ]
+    }
+  },
+  "narrative": {
+    "executive_view": "Credit bureaus sell repeat access to regulated data and decision infrastructure, often through recurring or transaction-based contracts that are not tied to labor hours. AI can still compress remaining dispute, data-quality, support, analytics, and engineering work, but the sector is already highly automated and the LMM target population is small. Attractive targets would own differentiated lawful data, recurring embedded customer workflows, strong accuracy and security controls, and limited dependence on any nationwide bureau or single data supplier.",
+    "ai_impact": "AI can triage disputes and documents, match identities and records, detect anomalies, draft correspondence, assist data-quality investigations, accelerate model and software development, summarize regulatory material, and automate routine support. It is less able to replace accountable reinvestigation, model-risk governance, cybersecurity decisions, ambiguous identity resolution, data-rights management, complex client implementation, and final responsibility for accurate consumer files.",
+    "value_capture": "Per-report, volume, fixed-term, subscription, and recurring-license pricing allows productivity to remain as margin or added capacity because customers buy information and reliable decisions rather than hours. Multi-year workflow embedding supports near-term retention, while renewal negotiation, concentrated buyers, volume tiers, regulatory service obligations, direct licensing, and alternative data should pass through or absorb part of the benefit over five years.",
+    "firm_availability": "Most firms in the LMM band should be eligible external repeat-service providers, but the dataset's margin bridge is unusually consequential for data-rich businesses and the nationwide bureaus themselves sit outside the target band. Strategic acquisitions show that data and decisioning assets transfer, yet no source supplies a US LMM deal denominator; regulatory liabilities, cyber history, data-license consent, and incumbent dependence can make a nominal bureau difficult to buy.",
+    "demand_durability": "Credit, rental, employment, insurance, utility, fraud, identity, and verification decisions sustain repeat demand, and digital channels create more real-time checks and monitoring. Lending and hiring cycles, regulation, customer consolidation, free or inexpensive information, open banking, direct score licensing, and first-party data constrain growth and can shift value away from report resellers.",
+    "risks_and_uncertainty": "The largest gaps are a six-digit occupation mix, current automation by workflow, LMM implementation outcomes, specialty-bureau contract economics, the true EBITDA-band firm count, and completed control deals by denominator. Accuracy failures, biased or opaque models, cyber breaches, improper data use, weak reinvestigations, or dependence on a nationwide-bureau feed can destroy customer trust and create liability. Public-company evidence may materially overstate LMM technology maturity, data defensibility, growth, and buyer access.",
+    "principal_driver": "Recurring, workflow-embedded data products can retain AI-enabled savings from dispute, data-quality, support, and analytics work without billing by labor hour.",
+    "principal_weakness": "The industry is already heavily automated, and the small LMM specialist population faces severe data, regulatory, cyber, and incumbent-dependence risks."
+  },
+  "sources": [
+    {
+      "id": "S1",
+      "url": "https://www.census.gov/naics/reference_files_tools/2022_NAICS_Manual.pdf",
+      "title": "2022 North American Industry Classification System Manual: NAICS 561450 Credit Bureaus",
+      "access_date": "2026-07-22",
+      "supports": "Defines the industry as compiling credit and employment histories and providing them to financial institutions, retailers, and others evaluating individual or business creditworthiness; examples include credit rating, investigation, and reporting services."
+    },
+    {
+      "id": "S2",
+      "url": "https://www.bls.gov/oes/2023/may/naics4_561400.htm",
+      "title": "May 2023 National Industry-Specific Occupational Employment and Wage Estimates: Business Support Services",
+      "access_date": "2026-07-22",
+      "supports": "Provides the four-digit NAICS 561400 occupation mix, including a 59.44% office-support share, 35.85% customer-service representatives, and smaller computer, data-entry, compliance, and credit-clerk groups."
+    },
+    {
+      "id": "S3",
+      "url": "https://www.onetonline.org/link/summary/43-4041.00?redir=43-4041.01",
+      "title": "O*NET OnLine: Credit Authorizers, Checkers, and Clerks",
+      "access_date": "2026-07-22",
+      "supports": "Documents compiling and analyzing credit information, computerized-record review, public-record checks, interviewing, subscriber reporting, complaint resolution, transaction verification, and report preparation."
+    },
+    {
+      "id": "S4",
+      "url": "https://www.sec.gov/Archives/edgar/data/1552033/000155203326000012/tru-20251231.htm",
+      "title": "TransUnion 2025 Annual Report on Form 10-K",
+      "access_date": "2026-07-22",
+      "supports": "Describes real-time and batch credit products, SaaS automated decisions, subscription and transaction products, internal and product AI use, the OneTru AI-enabled platform and US credit migration, embedded client workflows, and strategic acquisitions."
+    },
+    {
+      "id": "S5",
+      "url": "https://www.experianplc.com/newsroom/press-releases/2026/full-year-results-fy26",
+      "title": "Experian Full-Year Results FY2026",
+      "access_date": "2026-07-22",
+      "supports": "Reports 10% North American organic growth, 8% B2B organic growth, largely completed North American cloud migration, and $792 million invested in acquisitions during FY2026."
+    },
+    {
+      "id": "S6",
+      "url": "https://www.consumerfinance.gov/consumer-tools/credit-reports-and-scores/consumer-reporting-companies/",
+      "title": "CFPB 2025 List of Consumer Reporting Companies",
+      "access_date": "2026-07-22",
+      "supports": "Documents the three nationwide bureaus plus specialty consumer reporting companies serving credit, employment, rental, insurance, utilities, check screening, and other decisions, along with FCRA access and dispute obligations."
+    },
+    {
+      "id": "S7",
+      "url": "https://www.consumerfinance.gov/about-us/newsroom/the-cfpb-is-correcting-flaws-to-restore-integrity-and-utility-to-the-consumer-complaint-system/",
+      "title": "CFPB: Correcting Flaws in the Consumer Complaint System",
+      "access_date": "2026-07-22",
+      "supports": "Reports credit and consumer reporting complaints rising from more than 150,000 in 2019 to more than five million in 2025, 2.1 million 2025 closures with non-monetary relief, AI-assisted and abusive submissions, manual-review needs, and API and validation automation."
+    },
+    {
+      "id": "S8",
+      "url": "https://www.consumerfinance.gov/enforcement/actions/experian-information-solutions-inc/",
+      "title": "CFPB Enforcement Action: Experian Information Solutions, Inc.",
+      "access_date": "2026-07-22",
+      "supports": "Describes FCRA duties to forward and reinvestigate disputes, correct or remove inaccurate or unverifiable information, provide notices, and maintain reasonable accuracy procedures, along with pending allegations of deficient execution."
+    },
+    {
+      "id": "S9",
+      "url": "https://investor.equifax.com/sec-filings/annual-reports/content/0000033185-25-000025/0000033185-25-000025.pdf",
+      "title": "Equifax 2024 Annual Report on Form 10-K",
+      "access_date": "2026-07-22",
+      "supports": "Describes transactional and tier-priced information services, generally annual subscriptions with preset or unlimited transactions, multi-year subscription contracts, and bundled data, decisioning, training, model, and service obligations."
+    },
+    {
+      "id": "S10",
+      "url": "https://news.gallup.com/poll/657362/small-business-owners-lack-succession-plan.aspx",
+      "title": "Gallup: Most Small-Business Owners Lack a Succession Plan",
+      "access_date": "2026-07-22",
+      "supports": "Finds that 22% of US employer-business owners planned to sell or transfer ownership within five years, providing a broad succession anchor."
+    },
+    {
+      "id": "S11",
+      "url": "https://www.bls.gov/emp/tables/industry-employment-and-output.htm",
+      "title": "BLS Employment and Output by Industry, 2024-2034",
+      "access_date": "2026-07-22",
+      "supports": "Projects four-digit NAICS 561400 real output from $87.4 billion in 2024 to $108.6 billion in 2034, a 2.2% annual increase, while employment declines 2.8%."
+    },
+    {
+      "id": "S12",
+      "url": "https://www.experianplc.com/what-we-do/our-business-model",
+      "title": "Experian Business Model",
+      "access_date": "2026-07-22",
+      "supports": "Describes credit-bureau data, analytics, models, fraud and identity services delivered through transactional and fixed-term data contracts, batch services, recurring licenses and support, and consultancy for analytics and regulatory governance."
+    }
+  ]
+}
