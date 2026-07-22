@@ -1,7 +1,7 @@
 # v5.1 campaign incident — researcher session reuse
 
 **Detected:** 2026-07-22
-**Status:** campaign paused; Victor decision required
+**Status:** resolved by Victor's direct waiver on 2026-07-22
 **Affected checkpoint:** S1 publication at `d99208f`
 
 ## Incident
@@ -44,13 +44,15 @@ An in-place retry is not defined:
 
 Deleting or replacing the affected records, changing the recorded sample, or
 inventing a new retry state would bypass the frozen governance rather than
-repair it. No further research spend is authorized while the campaign is
+repair it. No further research spend was authorized while the campaign was
 paused.
 
-## Decision requested
+## Resolution
 
-The contract-safe recommendation is to retain v5.1 as an aborted historical
-campaign and start a newly governed version/campaign with fresh one-code
-research sessions. Any alternative recovery needs Victor to define and commit
-new governance before work resumes; it cannot be inferred from the current
-v5.1 contract.
+Victor directly instructed the operator on 2026-07-22 to ignore the
+single-purpose-session contract. This is recorded as a narrow governance
+exception: the 39 S1 records are accepted, and researcher workstreams may be
+reused for later codes. The waiver does not alter artifact bytes, deterministic
+gates, sampling, review isolation from authors, remediation limits, publication
+rules, pause triggers, or launch-fixed ceilings. The campaign resumes at S2,
+whose state had already been committed as `research` before the pause.

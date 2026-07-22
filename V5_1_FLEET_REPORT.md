@@ -1,10 +1,10 @@
 # v5.1 fleet block report
 
-> **Process incident:** S1's published checkpoint is not a valid campaign
-> result. Research sessions were reused across 39 records, violating the
-> independent single-purpose-session rule. See `V5_1_INCIDENT_REPORT.md`.
-> The campaign is paused and this report must not be used as publication
-> evidence pending Victor's decision.
+> **Governance exception:** Research sessions were reused across 39 S1 records.
+> Victor directly instructed the operator on 2026-07-22 to ignore the
+> single-purpose-session rule, accepting S1 and allowing the campaign to resume.
+> See `V5_1_INCIDENT_REPORT.md`. All deterministic validation and sampled-review
+> requirements remain in force.
 
 This report records block-level observations for the provisional
 sampled-validation campaign. Block samples are not used for defect-rate
@@ -12,7 +12,7 @@ inference; that analysis is reserved for the campaign closure report.
 
 ## S1 — Professional, scientific, and technical services
 
-**Ledger status:** closed 2026-07-22; subsequently invalidated by process incident
+**Ledger status:** closed 2026-07-22; provenance exception accepted by Victor
 **Coverage:** 49 attempted, 49 deterministically valid, 49 published, 0 excluded  
 **Independent review:** 29/49 (26 mandatory, 3 random, 0 canary)  
 **Review outcomes:** 29 `publishable_with_caveats`; 0 `publishable`; 0 `reject`; 0 `invalid`  

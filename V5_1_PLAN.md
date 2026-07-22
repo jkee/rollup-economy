@@ -1,10 +1,11 @@
 # v5.1 Plan — scope expansion to the full 1,012-code universe
 
-**Status: PAUSED — S1 researcher-session provenance breach.** S1 was published
-before the operator detected that 39 records reused researcher threads across
-codes, violating the independent single-purpose-session rule. The executable
-audit does not cover session provenance. See `V5_1_INCIDENT_REPORT.md`; no S2
-research has launched and no further spend is authorized pending Victor.
+**Status: FLEET ACTIVE — S2 research.** Victor directly instructed the operator
+on 2026-07-22 to ignore the single-purpose-session rule. That narrow governance
+exception applies retrospectively to S1 and prospectively to the remaining
+v5.1 campaign; it does not waive single-author work, author/reviewer separation,
+artifact validation, deterministic sampling, pause triggers, or ceilings. See
+`V5_1_INCIDENT_REPORT.md` for the resolved S1 provenance record.
 `launch_approved` is recorded in
 `pipeline/v5_1/campaign_state.json` (2026-07-22: research
 `claude-sonnet-5`, review `claude-fable-5`, session ceiling 1,400, budget
@@ -41,10 +42,11 @@ each a complete mini-campaign ending with a consistent published dataset and
 a committed report section. After the canary gate, no further approvals:
 Victor reads block reports at will and can redirect between blocks.
 
-Most frozen rules carry forward verbatim: one independent single-author
-research session per code; validator never the author and never a weaker
-model class than research; one remediation per reviewed record; never tune
-to outcomes; unknown is never zero; commit per validated wave.
+Most frozen rules carry forward verbatim: one single-author research workstream
+per code; validator never the author and never a weaker model class than
+research; one remediation per reviewed record; never tune to outcomes; unknown
+is never zero; commit per validated wave. Victor waived the single-purpose
+session provenance requirement on 2026-07-22; no other rule changed.
 
 **One rule is explicitly amended for compute:** v5.0's "never publish
 unreviewed" becomes **sampled validation** under the frozen sampling
