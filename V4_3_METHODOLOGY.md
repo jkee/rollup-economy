@@ -1,5 +1,7 @@
 # AI Roll-Up Map — v4.3 Methodology
 
+> **Historical:** superseded v4.3 adapter methodology. The frozen v5 methodology governs the current product.
+
 **Status:** outcome-blind replacement candidate. v4.3 is additive: it does not
 alter, reinterpret, or validate a v4.2 artifact. v4.2 met its preregistered
 evidence-infeasibility trigger because target-underwriting constructs could not

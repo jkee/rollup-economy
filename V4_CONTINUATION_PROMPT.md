@@ -1,5 +1,7 @@
 # Continuation prompt: practical v4 implementation
 
+> **Historical:** preserved handoff prompt; do not use for current work. See `README.md` for the v5 governing documents.
+
 Continue the roll-up attractiveness project from the current repository state.
 
 The authoritative design is `V4_3_METHODOLOGY.md`. Read it together with

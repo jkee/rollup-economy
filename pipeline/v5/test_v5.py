@@ -387,6 +387,8 @@ class PublicationGateSentinels(unittest.TestCase):
             self.assertEqual(site["summary"]["published"], 1)
             record = site["records"][0]
             self.assertEqual(record["review"]["outcome"], "publishable_with_caveats")
+            self.assertEqual(record["review"]["sources_audited"],
+                             review_for(packet(), mechanics)["sources_audited"])
             self.assertEqual(record["review"]["artifacts_sha256"], mechanics["artifacts_sha256"])
 
     def test_tampered_score_fails_closed(self):

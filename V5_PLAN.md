@@ -58,12 +58,16 @@ Counts and remediation details are recorded in `V5_PHASE3_REPORT.md`.
 
 ## Phase 4 — Dashboard, docs, and repo hygiene · ~1–2 days
 
-- [ ] 4.1 Point the `6digit` dashboard at `six_data_v5.json`: tier + interval + readiness/action badges, factor chain → primitives → rationale → sources → caveats → validator findings → `change_evidence`; memo as the primary readable explanation
-- [ ] 4.2 Replace the v4 adapter view (archived in history); keep v3 available as a comparison column or archive it — decide at the time
-- [ ] 4.3 Regenerate README stats from v5 outputs; one "which document governs what" index at the top; mark V3_* and V4_* docs historical
-- [ ] 4.4 Merge `codex/v5` → `main` via PR; retire `codex/v4-2-phase4`; remove or mark the root-level v2 duplicate JSONs
+- [x] 4.1 Point the `6digit` dashboard at `six_data_v5.json`: tier + interval + readiness/action badges, factor chain → primitives → rationale → sources → caveats → validator findings → `change_evidence`; memo as the primary readable explanation
+- [x] 4.2 Replace the v4 adapter view; v3/v4 JSON and documents remain archived comparisons, not live dashboard columns
+- [x] 4.3 Regenerate README stats from v5 outputs; one "which document governs what" index at the top; mark V3_* and V4_* docs historical
+- [x] 4.4 Merge `codex/v5` → `main` via PR; retire `codex/v4-2-phase4`; mark the root 4-digit prototype and v2 duplicate JSONs as archived
 
 **Done when:** every displayed number clicks through to its evidence or its honest evidence state; README is generated, not hand-written; `main` is current.
+
+**Result:** done. The live dashboard reads the fail-closed v5 output, exposes
+packet and validator evidence through each source, and the generated README
+identifies the governing v5 documents and historical artifacts.
 
 ## Phase 5 — Close and maintain · ~half a day
 

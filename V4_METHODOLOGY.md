@@ -1,5 +1,7 @@
 # AI Roll-Up Map — v4 Methodology
 
+> **Historical:** superseded v4.0 candidate. The frozen v5 methodology governs the current product.
+
 **Status:** v4.0 methodology freeze candidate, authored 2026-07-21 before any
 v4 canary result. This document defines the scoring instrument that replaces
 the v3.0 score freeze for new v4 artifacts. It does not mutate or reinterpret

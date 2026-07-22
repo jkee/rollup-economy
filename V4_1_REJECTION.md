@@ -1,5 +1,7 @@
 # v4.1 Methodology Rejection Record
 
+> **Historical:** preserved v4 development record; v5 supersedes this line of work.
+
 **Decision date:** 2026-07-21
 
 **Decision:** reject v4.1 before any research run as a publication or campaign

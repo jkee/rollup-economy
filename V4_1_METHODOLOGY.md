@@ -1,5 +1,7 @@
 # AI Roll-Up Map — v4.1 Methodology
 
+> **Historical:** superseded v4.1 specification. The frozen v5 methodology governs the current product.
+
 **Status:** frozen methodology specification, authored 2026-07-21 after the
 v4.0 instrument and its five first-attempt outputs had been viewed. The
 economic constants in this document may not be changed in place. The

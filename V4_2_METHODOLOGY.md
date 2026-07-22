@@ -1,5 +1,7 @@
 # AI Roll-Up Map — v4.2 Methodology
 
+> **Historical:** superseded v4.2 candidate. The frozen v5 methodology governs the current product.
+
 **Status:** outcome-blind freeze candidate. v4.2 preserves the sound v4.1
 screening architecture while replacing constructs that failed preregistered
 operational-consistency review. No v4.0, v4.1, or v4.2 economic output may be

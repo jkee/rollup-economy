@@ -1,27 +1,40 @@
 'use strict';
 
-const DATA_URL = 'six_data_v4.json';
+const DATA_URL = 'six_data_v5.json';
 const FACTORS = {
   H: ['Implementable labor opportunity', 'Current compensation exposed to implementable AI task substitution'],
   F: ['Transferable-firm opportunity', 'Expected lens-eligible LMM control transfers over five years'],
   C: ['Commercial retention', 'Share of implemented gross benefit retained commercially'],
   D: ['Operator-required demand', 'Year-five constant-price service quantity still needing an operator']
 };
+const FORMULAS = {
+  H: '10 × min(1, l × a × rho / 0.25)',
+  F: '10 × clamp(log10(1 + n × e × s5) / log10(501), 0, 1)',
+  C: '10 × min(1, q / 0.50)',
+  D: '10 × clamp(d5 × o, 0, 1)'
+};
+const PRIMITIVES = {
+  a: 'Task exposure', rho: 'Five-year implementation', e: 'Eligible firm share',
+  s5: 'Five-year transfer rate', q: 'Commercial retention', d5: 'Service demand',
+  o: 'Operator-required share', l: 'Labor compensation share', n: 'Eligible firm count'
+};
 const TIER_ORDER = ['HIGHEST_PRIORITY', 'PRIORITY', 'CONDITIONAL', 'LOW_PRIORITY', 'STRUCTURAL_OUT', 'UNKNOWN'];
 const state = {records: [], summary: null, query: '', tiers: new Set(), readiness: new Set(), crossing: false, heterogeneous: false, sort: 'score-desc', lastFocus: null};
 
 const $ = (selector, root = document) => root.querySelector(selector);
 const $$ = (selector, root = document) => [...root.querySelectorAll(selector)];
-const esc = value => String(value ?? '').replace(/[&<>'"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;',"'":'&#39;','"':'&quot;'}[c]));
-const label = value => String(value ?? 'UNKNOWN').toLowerCase().replaceAll('_', ' ').replace(/\b\w/g, c => c.toUpperCase());
+const esc = value => String(value ?? '').replace(/[&<>'"]/g, char => ({'&':'&amp;','<':'&lt;','>':'&gt;',"'":'&#39;','"':'&quot;'}[char]));
+const label = value => String(value ?? 'UNKNOWN').toLowerCase().replaceAll('_', ' ').replace(/\b\w/g, char => char.toUpperCase());
+const tierLabel = value => value === 'UNKNOWN' ? 'No Base Tier' : label(value);
 const score = value => value == null ? '—' : Number(value).toFixed(2);
-const compactNumber = value => Number(value).toFixed(4).replace(/\.?0+$/, '');
-const evidenceLabel = value => label(value === 'mixed' ? 'MIXED' : value === 'elicited' ? 'ELICITED' : value);
+const number = value => value == null ? '—' : Number(value).toLocaleString(undefined, {maximumFractionDigits: 4});
+const tierOf = record => record.tier || 'UNKNOWN';
+const runBase = record => '../pipeline/v5/runs/' + record.naics + '/' + record.run_id;
 
 async function init() {
   try {
     const response = await fetch(DATA_URL);
-    if (!response.ok) throw new Error(`${DATA_URL} returned ${response.status}`);
+    if (!response.ok) throw new Error(DATA_URL + ' returned ' + response.status);
     const data = await response.json();
     state.records = data.records;
     state.summary = data.summary;
@@ -32,7 +45,7 @@ async function init() {
   } catch (error) {
     $('#loading').hidden = true;
     $('#error').hidden = false;
-    $('#error').innerHTML = `<strong>Dashboard data could not be loaded.</strong><br>${esc(error.message)}<br><small>Serve the repository root over HTTP.</small>`;
+    $('#error').innerHTML = '<strong>Dashboard data could not be loaded.</strong><br>' + esc(error.message) + '<br><small>Serve the repository root over HTTP.</small>';
   }
 }
 
@@ -44,83 +57,92 @@ function renderAll() {
 }
 
 function renderMetrics() {
-  const s = state.summary;
-  $('#campaign-total').textContent = `${s.membership} / ${s.membership}`;
+  const summary = state.summary;
+  $('#campaign-total').textContent = summary.published + ' / ' + (summary.published + summary.excluded);
   const metrics = [
-    [s.complete_base, 'Complete bases', `${s.missing_base} evidence-first`],
-    [s.tier_counts.HIGHEST_PRIORITY || 0, 'Highest priority', 'research priority, not buy signal'],
-    [s.tier_counts.PRIORITY || 0, 'Priority', `${s.tier_counts.CONDITIONAL || 0} conditional`],
-    [s.robust_tier_count, 'Stable tier', `${s.membership - s.robust_tier_count} crossing intervals`],
-    [s.readiness_counts.MODEL_CONDITIONED || 0, 'Model-conditioned', 'assumptions remain visible']
+    [summary.published, 'Published', summary.excluded + ' exclusions'],
+    [summary.tiers.HIGHEST_PRIORITY || 0, 'Highest priority', 'research priority, not buy signal'],
+    [summary.tiers.PRIORITY || 0, 'Priority', (summary.tiers.CONDITIONAL || 0) + ' conditional'],
+    [summary.robust_tiers, 'Stable tier', (summary.published - summary.robust_tiers) + ' crossing intervals'],
+    [summary.readiness.MODEL_CONDITIONED || 0, 'Model-conditioned', (summary.readiness.STRESS_TEST_ONLY || 0) + ' evidence-first']
   ];
-  $('#campaign-metrics').innerHTML = metrics.map(([value, title, detail]) => `<div class="metric"><strong>${esc(value)}</strong><span>${esc(title)}</span><small>${esc(detail)}</small></div>`).join('');
+  $('#campaign-metrics').innerHTML = metrics.map(item =>
+    '<div class="metric"><strong>' + esc(item[0]) + '</strong><span>' + esc(item[1]) + '</span><small>' + esc(item[2]) + '</small></div>'
+  ).join('');
 }
 
 function renderFilters() {
-  const tierValues = TIER_ORDER.filter(tier => state.records.some(record => (record.tier || 'UNKNOWN') === tier));
-  $('#verdict-filters').innerHTML = tierValues.map(value => check('tier', value, label(value), state.records.filter(r => (r.tier || 'UNKNOWN') === value).length)).join('');
+  const tierValues = TIER_ORDER.filter(tier => state.records.some(record => tierOf(record) === tier));
+  $('#verdict-filters').innerHTML = tierValues.map(value =>
+    check('tier', value, tierLabel(value), state.records.filter(record => tierOf(record) === value).length)
+  ).join('');
   const readinessValues = [...new Set(state.records.map(record => record.readiness))].sort();
-  $('#confidence-filters').innerHTML = readinessValues.map(value => check('readiness', value, label(value), state.records.filter(r => r.readiness === value).length)).join('');
+  $('#confidence-filters').innerHTML = readinessValues.map(value =>
+    check('readiness', value, label(value), state.records.filter(record => record.readiness === value).length)
+  ).join('');
   $('#borderline-count').textContent = state.records.filter(record => !record.robust_tier).length;
-  $('#heterogeneous-count').textContent = state.records.filter(record => record.heterogeneous).length;
+  $('#heterogeneous-count').textContent = state.records.filter(record => record.lens && record.lens.heterogeneous).length;
 }
 
 function check(group, value, text, count) {
-  return `<label class="check-row"><input type="checkbox" data-filter-group="${group}" value="${esc(value)}"><span>${esc(text)}</span><small>${count}</small></label>`;
+  return '<label class="check-row"><input type="checkbox" data-filter-group="' + group + '" value="' + esc(value) + '"><span>' + esc(text) + '</span><small>' + count + '</small></label>';
 }
 
 function filteredRecords() {
   const query = state.query.toLowerCase();
   return state.records.filter(record => {
-    if (query && !`${record.naics} ${record.title} ${record.sector?.name || ''}`.toLowerCase().includes(query)) return false;
-    if (state.tiers.size && !state.tiers.has(record.tier || 'UNKNOWN')) return false;
+    const lensText = ((record.lens && record.lens.included_activities) || '') + ' ' + ((record.lens && record.lens.customer_and_revenue_model) || '');
+    if (query && !(record.naics + ' ' + record.title + ' ' + lensText).toLowerCase().includes(query)) return false;
+    if (state.tiers.size && !state.tiers.has(tierOf(record))) return false;
     if (state.readiness.size && !state.readiness.has(record.readiness)) return false;
     if (state.crossing && record.robust_tier) return false;
-    if (state.heterogeneous && !record.heterogeneous) return false;
+    if (state.heterogeneous && !(record.lens && record.lens.heterogeneous)) return false;
     return true;
-  }).sort((a, b) => {
-    if (state.sort === 'score-asc') return (a.A ?? Infinity) - (b.A ?? Infinity);
-    if (state.sort === 'naics') return a.naics.localeCompare(b.naics);
-    if (state.sort === 'v3-desc') return b.v3.S - a.v3.S;
-    return (a.rank ?? Infinity) - (b.rank ?? Infinity);
+  }).sort((left, right) => {
+    if (state.sort === 'score-asc') return (left.A ?? Infinity) - (right.A ?? Infinity);
+    if (state.sort === 'naics') return left.naics.localeCompare(right.naics);
+    return (left.order ?? Infinity) - (right.order ?? Infinity);
   });
 }
 
 function renderFleet() {
   const records = filteredRecords();
-  $('#fleet-result-count').textContent = `${records.length} ${records.length === 1 ? 'industry' : 'industries'}`;
-  $('#fleet-context').textContent = records.length === state.records.length ? 'v4.3 Stage 1 · existing Phase 4 universe' : `Filtered from ${state.records.length} records`;
+  $('#fleet-result-count').textContent = records.length + (records.length === 1 ? ' industry' : ' industries');
+  $('#fleet-context').textContent = records.length === state.records.length ? 'v5 Stage 1 · reviewed 63-code fleet' : 'Filtered from ' + state.records.length + ' records';
   $('#fleet-empty').hidden = records.length > 0;
   $('#fleet-list').innerHTML = records.map(fleetRow).join('');
-  $$('.fleet-row').forEach(button => button.addEventListener('click', () => openDrawer(state.records.find(r => r.naics === button.dataset.naics), button)));
+  $$('.fleet-row').forEach(button => button.addEventListener('click', () => {
+    openDrawer(state.records.find(record => record.naics === button.dataset.naics), button);
+  }));
 }
 
 function fleetRow(record) {
-  const tier = record.tier || 'UNKNOWN';
+  const tier = tierOf(record);
   const crossing = !record.robust_tier;
   const badges = [
-    `<span class="badge conf-low">${esc(label(record.readiness))}</span>`,
-    `<span class="badge caveat">${esc(label(record.action))}</span>`,
+    '<span class="badge conf-low">' + esc(label(record.readiness)) + '</span>',
+    '<span class="badge caveat">' + esc(label(record.action)) + '</span>',
     crossing ? '<span class="badge borderline">Crossing interval</span>' : '<span class="badge">Stable tier</span>',
-    record.heterogeneous ? '<span class="badge">Heterogeneous</span>' : ''
+    record.lens && record.lens.heterogeneous ? '<span class="badge">Heterogeneous</span>' : ''
   ].join('');
-  const sparks = Object.entries(FACTORS).map(([factor]) => {
+  const sparks = Object.keys(FACTORS).map(factor => {
     const value = record.factors[factor].base;
-    return `<span class="spark-row"><b>${factor}</b><i class="spark-track"><i class="spark-fill" style="width:${value == null ? 0 : value * 10}%"></i></i><em>${value == null ? '—' : Number(value).toFixed(1)}</em></span>`;
+    return '<span class="spark-row"><b>' + factor + '</b><i class="spark-track"><i class="spark-fill" style="width:' + (value == null ? 0 : value * 10) + '%"></i></i><em>' + (value == null ? '—' : Number(value).toFixed(1)) + '</em></span>';
   }).join('');
-  return `<button class="fleet-row" data-naics="${record.naics}" aria-label="Open ${esc(record.title)} v4 evidence">
-    <span class="rank">${record.rank == null ? '—' : String(record.rank).padStart(2, '0')}</span>
-    <span class="industry"><span class="naics">${record.naics}<span class="sector-label"> · ${esc(record.sector?.name || 'Phase 4')}</span></span><strong>${esc(record.title)}</strong><span class="badges">${badges}</span></span>
-    <span class="factor-spark">${sparks}</span>
-    <span class="result-score"><strong>${score(record.A)}</strong><span class="verdict-${tier.toLowerCase()}">${esc(label(tier))}</span><small>v3 ${score(record.v3.S)} · ${esc(label(record.v3.verdict))}</small></span>
-    <span class="row-arrow">→</span>
-  </button>`;
+  return '<button class="fleet-row" data-naics="' + record.naics + '" aria-label="Open ' + esc(record.title) + ' v5 evidence">' +
+    '<span class="rank">' + String(record.order).padStart(2, '0') + '</span>' +
+    '<span class="industry"><span class="naics">' + record.naics + '<span class="sector-label"> · v5 reviewed</span></span><strong>' + esc(record.title) + '</strong><span class="badges">' + badges + '</span></span>' +
+    '<span class="factor-spark">' + sparks + '</span>' +
+    '<span class="result-score"><strong>' + score(record.A) + '</strong><span class="verdict-' + tier.toLowerCase() + '">' + esc(tierLabel(tier)) + '</span><small>Interval ' + esc(label(record.tier_interval[0])) + ' → ' + esc(label(record.tier_interval[1])) + '</small></span>' +
+    '<span class="row-arrow">→</span></button>';
 }
 
 function renderMethod() {
   const cuts = [['Highest priority', 'A ≥ 7.5 · L ≥ 6'], ['Priority', 'A ≥ 6 · L ≥ 4'], ['Conditional', 'A ≥ 4.5 · L ≥ 2'], ['Low priority', 'A ≥ 3 · L ≥ 1'], ['Structural out', 'otherwise']];
-  $('#method-cuts').innerHTML = cuts.map(([name, value]) => `<div class="cut-row"><span>${name}</span><strong>${value}</strong></div>`).join('');
-  $('#factor-glossary').innerHTML = Object.entries(FACTORS).map(([key, [name, short]]) => `<article class="glossary-item"><b>${key}</b><strong>${name}</strong><p>${short}</p></article>`).join('');
+  $('#method-cuts').innerHTML = cuts.map(item => '<div class="cut-row"><span>' + item[0] + '</span><strong>' + item[1] + '</strong></div>').join('');
+  $('#factor-glossary').innerHTML = Object.entries(FACTORS).map(item =>
+    '<article class="glossary-item"><b>' + item[0] + '</b><strong>' + esc(item[1][0]) + '</strong><p>' + esc(item[1][1]) + '</p></article>'
+  ).join('');
 }
 
 function bindEvents() {
@@ -141,17 +163,27 @@ function bindEvents() {
 }
 
 function resetFilters() {
-  state.query = ''; state.tiers.clear(); state.readiness.clear(); state.crossing = false; state.heterogeneous = false;
-  $('#fleet-search').value = ''; $('#filter-borderline').checked = false; $('#filter-heterogeneous').checked = false;
+  state.query = '';
+  state.tiers.clear();
+  state.readiness.clear();
+  state.crossing = false;
+  state.heterogeneous = false;
+  $('#fleet-search').value = '';
+  $('#filter-borderline').checked = false;
+  $('#filter-heterogeneous').checked = false;
   $$('[data-filter-group]').forEach(input => { input.checked = false; });
   renderFleet();
 }
 
 function switchView(view, push = true) {
   if (!['fleet', 'methodology'].includes(view)) view = 'fleet';
-  $$('.view').forEach(section => { section.hidden = section.id !== `${view}-view`; });
-  $$('.nav-button').forEach(button => button.classList.toggle('active', button.dataset.view === view));
-  if (push && location.hash !== `#${view}`) history.pushState(null, '', `#${view}`);
+  $$('.view').forEach(section => { section.hidden = section.id !== view + '-view'; });
+  $$('.nav-button').forEach(button => {
+    const active = button.dataset.view === view;
+    button.classList.toggle('active', active);
+    active ? button.setAttribute('aria-current', 'page') : button.removeAttribute('aria-current');
+  });
+  if (push && location.hash !== '#' + view) history.pushState(null, '', '#' + view);
   scrollTo({top: 0, behavior: 'smooth'});
 }
 
@@ -162,6 +194,10 @@ function openDrawer(record, trigger) {
   $('#drawer-backdrop').hidden = false;
   document.body.classList.add('drawer-open');
   $('.drawer-close').addEventListener('click', closeDrawer);
+  $$('[data-source-id]', $('#record-drawer')).forEach(button => button.addEventListener('click', () => {
+    const target = $('#source-' + button.dataset.sourceId, $('#record-drawer'));
+    if (target) target.scrollIntoView({behavior: 'smooth', block: 'start'});
+  }));
   $('.drawer-close').focus();
 }
 
@@ -169,44 +205,86 @@ function closeDrawer() {
   $('#record-drawer').hidden = true;
   $('#drawer-backdrop').hidden = true;
   document.body.classList.remove('drawer-open');
-  state.lastFocus?.focus();
+  if (state.lastFocus) state.lastFocus.focus();
 }
 
 function drawerContent(record) {
-  const tier = record.tier || 'UNKNOWN';
-  const factorCards = Object.entries(FACTORS).map(([key, [name, short]]) => factorCard(record, key, name, short)).join('');
-  const v3Scores = Object.entries(record.v3.scores).map(([key, value]) => `${key} ${Number(value).toFixed(1)}`).join(' · ');
-  const sourceReview = record.source_review?.outcome ? `<p><strong>Source-run review:</strong> ${esc(label(record.source_review.outcome))}. ${esc(record.source_review.summary || '')}</p>` : '';
-  return `<header class="drawer-hero"><button class="drawer-close" aria-label="Close record">×</button>
-    <div class="drawer-kicker">NAICS ${record.naics} · v4.3 Stage 1</div><h2 id="drawer-title">${esc(record.title)}</h2>
-    <div class="drawer-badges"><span class="badge">${esc(label(record.readiness))}</span><span class="badge review">${esc(label(record.action))}</span>${record.robust_tier ? '<span class="badge">Stable tier</span>' : '<span class="badge borderline">Crossing interval</span>'}</div>
-    <div class="score-ledger"><div class="big-score"><span>Breadth score A</span><strong>${score(record.A)}</strong><small>${esc(label(tier))}</small></div>
-    <div class="aggregate-equation">A = mean(H,F,C,D) · L = weakest factor<strong>L ${score(record.L)} · ${esc(label(record.tier_interval[0]))} → ${esc(label(record.tier_interval[1]))}</strong></div></div></header>
-    <div class="drawer-panel"><h3>v4 factors and evidence</h3><div class="factor-chain">${factorCards}</div>
-    <h3>Why it lands here</h3><div class="caveat-summary"><strong>Driver: ${esc(record.principal_driver || 'unknown')} · Weakness: ${esc(record.principal_weakness || 'unknown')}</strong><br>All complete records remain model-conditioned, so the tier prioritizes further research and the action is ${esc(label(record.action))}.</div>
-    <h3>v3 comparison</h3><div class="caveat-summary"><strong>v3 ${score(record.v3.S)} · ${esc(label(record.v3.verdict))} · ${esc(record.v3.confidence)} confidence</strong><br>${esc(v3Scores)}</div>${sourceReview}
-    <h3>Reused source registry</h3><div class="source-registry">${record.sources.map(sourceCard).join('')}</div>
-    <h3>Artifacts</h3><div class="artifact-list"><a class="artifact-link" href="../pipeline/v4_3/runs/${record.naics}/v4_3_minimal.json"><span class="artifact-icon">V4</span><span><strong>v4 score record</strong><small>Separate deterministic Stage 1 output</small></span><span>↗</span></a><a class="artifact-link" href="../pipeline/runs/${record.naics}/${record.source_run.run_id}.json"><span class="artifact-icon">V3</span><span><strong>Reused v3 evidence record</strong><small>${esc(record.source_run.run_id)}</small></span><span>↗</span></a></div></div>`;
+  const tier = tierOf(record);
+  const factors = Object.entries(FACTORS).map(item => factorCard(record, item[0], item[1][0], item[1][1])).join('');
+  const primitives = Object.keys(PRIMITIVES).filter(key => record.primitives[key]).map(key => primitiveCard(key, record.primitives[key])).join('');
+  const reviewCaveats = list(record.review.caveats, 'No validator caveats recorded.');
+  const findings = list(record.review.material_findings, 'No material findings.');
+  const run = runBase(record);
+  return '<header class="drawer-hero"><button class="drawer-close" aria-label="Close record">×</button>' +
+    '<div class="drawer-kicker">NAICS ' + record.naics + ' · v5 reviewed research</div><h2 id="drawer-title">' + esc(record.title) + '</h2>' +
+    '<div class="drawer-badges"><span class="badge">' + esc(label(record.readiness)) + '</span><span class="badge review">' + esc(label(record.action)) + '</span><span class="badge">' + esc(label(record.review.outcome)) + '</span>' + (record.robust_tier ? '<span class="badge">Stable tier</span>' : '<span class="badge borderline">Crossing interval</span>') + '</div>' +
+    '<div class="score-ledger"><div class="big-score"><span>Breadth score A</span><strong>' + score(record.A) + '</strong><small>' + esc(tierLabel(tier)) + '</small></div>' +
+    '<div class="aggregate-equation">A = mean(H,F,C,D) · L = weakest factor<strong>L ' + score(record.L) + ' · ' + esc(label(record.tier_interval[0])) + ' → ' + esc(label(record.tier_interval[1])) + '</strong></div></div></header>' +
+    '<div class="drawer-panel">' +
+      '<a class="memo-primary" href="../' + esc(record.memo) + '"><span>Read the research memo</span><strong>Primary explanation ↗</strong></a>' +
+      '<h3>Decision summary</h3><div class="decision-grid"><article><span>Principal driver</span><p>' + esc(record.principal_driver) + '</p></article><article><span>Principal weakness</span><p>' + esc(record.principal_weakness) + '</p></article></div>' +
+      lensCard(record.lens) +
+      '<h3>Factor chain</h3><div class="factor-chain">' + factors + '</div>' +
+      '<h3>Primitive evidence</h3><div class="primitive-grid">' + primitives + '</div>' +
+      '<h3>Validator review</h3><div class="review-summary"><strong>' + esc(label(record.review.outcome)) + '</strong><span>' + record.review.material_findings.length + ' material findings · ' + record.review.caveats.length + ' caveats</span></div>' +
+      '<h4>Material findings</h4>' + findings + '<h4>Review caveats</h4>' + reviewCaveats +
+      '<h3>Cited sources</h3><div class="source-registry">' + record.sources.map(source => sourceCard(source, record.review.sources_audited)).join('') + '</div>' +
+      '<h3>Artifacts</h3><div class="artifact-list">' +
+        artifact(run + '/packet.json', 'PACKET', 'Research packet', record.run_id) +
+        artifact(run + '/score.json', 'SCORE', 'Deterministic score', 'Reproducible v5 mechanics') +
+        artifact(run + '/review.json', 'REVIEW', 'Isolated validator review', record.review.artifacts_sha256) +
+        artifact('../pipeline/v5/methodology.md', 'METHOD', 'Frozen v5 methodology', record.run_meta.methodology_commit) +
+      '</div><table class="metadata-table"><tr><th>Run</th><td>' + esc(record.run_id) + '</td></tr><tr><th>Research model</th><td>' + esc(record.run_meta.model_id) + '</td></tr><tr><th>Attempt</th><td>' + esc(record.run_meta.attempt) + '</td></tr><tr><th>Methodology</th><td>' + esc(record.run_meta.methodology_version) + '</td></tr></table></div>';
+}
+
+function lensCard(lens) {
+  return '<article class="lens-card"><strong>Decision lens</strong><dl>' +
+    '<dt>Included</dt><dd>' + esc(lens.included_activities) + '</dd>' +
+    '<dt>Excluded</dt><dd>' + esc(lens.excluded_activities) + '</dd>' +
+    '<dt>Customer / revenue</dt><dd>' + esc(lens.customer_and_revenue_model) + '</dd>' +
+    '<dt>Heterogeneous</dt><dd>' + (lens.heterogeneous ? 'Yes' : 'No') + '</dd></dl></article>';
 }
 
 function factorCard(record, key, name, short) {
   const factor = record.factors[key];
-  const leaves = Object.entries(record.evidence[key].leaves || {}).map(([leaf, value]) => leafRow(leaf, value)).join('');
-  return `<article class="factor-card"><div class="factor-button"><span class="factor-letter">${key}</span><span class="factor-name"><strong>${esc(name)}</strong><small>${esc(short)}</small></span><span class="factor-score">${score(factor.base)}</span></div><div class="factor-details" style="display:block"><div class="factor-formula">Range ${score(factor.low)}–${score(factor.high)} · ${esc(evidenceLabel(factor.evidence_state))} evidence</div><div class="input-list">${leaves}</div></div></article>`;
+  const anchors = key === 'H' ? ['l', 'a', 'rho'] : key === 'F' ? ['n', 'e', 's5'] : factor.primitives;
+  return '<article class="factor-card"><div class="factor-button"><span class="factor-letter">' + key + '</span><span class="factor-name"><strong>' + esc(name) + '</strong><small>' + esc(short) + '</small></span><span class="factor-score">' + score(factor.base) + '</span></div>' +
+    '<div class="factor-details" style="display:block"><div class="factor-formula">' + esc(FORMULAS[key]) + '<br>Range ' + score(factor.low) + '–' + score(factor.high) + ' · ' + esc(label(factor.evidence_state)) + ' · primitives ' + anchors.map(esc).join(', ') + '</div></div></article>';
 }
 
-function leafRow(name, value) {
-  if (typeof value !== 'object' || value == null) return '';
-  const selectedRaw = value.value ?? value.base ?? value.terminal_class ?? '—';
-  const selected = typeof selectedRaw === 'number' ? compactNumber(selectedRaw) : selectedRaw;
-  const range = value.low != null || value.high != null ? `${score(value.low)}–${score(value.high)}` : 'Not numeric';
-  return `<article class="input-card"><div class="input-button"><span class="input-name"><strong>${esc(name)}</strong><small>${esc(label(value.state || 'context'))}</small></span><span class="input-value">${esc(selected)}</span><span class="method-pill method-estimate">${esc(range)}</span></div>${value.rationale ? `<div class="input-details" style="display:block">${esc(value.rationale)}</div>` : ''}</article>`;
+function primitiveCard(key, primitive) {
+  const value = primitive.base ?? primitive.value;
+  const range = primitive.low == null && primitive.high == null ? '' : '<span>Range ' + number(primitive.low) + '–' + number(primitive.high) + '</span>';
+  const sources = (primitive.source_ids || []).map(id => '<button class="source-id-link" type="button" data-source-id="' + esc(id) + '">' + esc(id) + '</button>').join('');
+  const caveats = list(primitive.caveats || [], 'No packet caveats recorded.');
+  return '<article class="primitive-card"><div class="primitive-head"><span><b>' + esc(key) + '</b><strong>' + esc(PRIMITIVES[key]) + '</strong></span><em>' + number(value) + '</em></div>' +
+    '<div class="primitive-meta"><span>' + esc(label(primitive.evidence_state)) + (primitive.quality ? ' · ' + esc(label(primitive.quality)) : '') + '</span>' + range + '</div>' +
+    (primitive.rationale ? '<h4>Rationale</h4><p>' + esc(primitive.rationale) + '</p>' : '') +
+    (primitive.bridge ? '<h4>Bridge</h4><p>' + esc(primitive.bridge) + '</p>' : '') +
+    (primitive.detail ? '<h4>Dataset provenance</h4><p>' + esc(primitive.detail) + '</p>' : '') +
+    (sources ? '<div class="primitive-sources"><strong>Sources</strong>' + sources + '</div>' : '') +
+    '<h4>Caveats</h4>' + caveats +
+    (primitive.change_evidence ? '<div class="change-evidence"><strong>Evidence that would change this</strong><p>' + esc(primitive.change_evidence) + '</p></div>' : '') + '</article>';
 }
 
-function sourceCard(source) {
-  const title = esc(source.title || source.id);
-  const heading = /^https?:\/\//i.test(source.url || '') ? `<a href="${esc(source.url)}" target="_blank" rel="noopener">${title} ↗</a>` : `<strong>${title}</strong>`;
-  return `<article class="source-card"><div class="source-top"><span>${esc(source.id)}</span><time>${esc(source.access_date || '')}</time></div>${heading}<p>${esc(source.what_it_supports || source.supports || '')}</p></article>`;
+function list(items, empty) {
+  if (!items.length) return '<p class="empty-inline">' + esc(empty) + '</p>';
+  return '<ul class="caveat-list">' + items.map(item => {
+    const text = typeof item === 'string' ? item : (item.summary || item.finding || JSON.stringify(item));
+    return '<li>' + esc(text) + '</li>';
+  }).join('') + '</ul>';
+}
+
+function sourceCard(source, audits) {
+  const audit = audits.find(item => item.source_id === source.id);
+  const auditLabel = audit ? label(audit.support) : 'Audit Missing';
+  return '<article class="source-card" id="source-' + esc(source.id) + '"><div class="source-top"><span>' + esc(source.id) + '</span><time>' + esc(source.access_date) + '</time></div><a href="' + esc(source.url) + '" target="_blank" rel="noopener">' + esc(source.title) + ' ↗</a>' +
+    '<div class="author-support"><strong>Packet claim</strong><p>' + esc(source.supports) + '</p></div>' +
+    '<div class="source-audit audit-' + esc(audit ? audit.support : 'missing') + '"><strong>Validator audit · ' + esc(auditLabel) + (audit ? (audit.reachable ? ' · reachable' : ' · unreachable') : '') + '</strong><p>' + esc(audit ? audit.note : 'No source audit was published.') + '</p></div></article>';
+}
+
+function artifact(href, icon, title, detail) {
+  return '<a class="artifact-link" href="' + esc(href) + '"><span class="artifact-icon">' + esc(icon) + '</span><span><strong>' + esc(title) + '</strong><small>' + esc(detail) + '</small></span><span>↗</span></a>';
 }
 
 init();

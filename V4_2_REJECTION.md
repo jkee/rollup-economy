@@ -1,5 +1,7 @@
 # v4.2 rejection record
 
+> **Historical:** preserved v4 development record; v5 supersedes this line of work.
+
 **Status:** rejected at the preregistered five-record development gate. The
 v4.2 holdout and full Phase 4 campaign were not run.
 

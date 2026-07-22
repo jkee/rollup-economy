@@ -585,6 +585,7 @@ def build_site(allow_unreviewed: bool, runs: Path = RUNS, site_out: Path = SITE_
             "review": {"outcome": review["outcome"],
                        "material_findings": review.get("material_findings", []),
                        "caveats": review.get("caveats", []),
+                       "sources_audited": review.get("sources_audited", []),
                        "artifacts_sha256": review["mechanics"]["artifacts_sha256"]} if review else None,
         })
 

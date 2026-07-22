@@ -1,5 +1,7 @@
 # v4.3 minimal canary and Phase 4 rerun
 
+> **Historical:** preserved v4.3 adapter result. Fresh v5 research and reviews supersede it.
+
 **Result:** accept the implementation as a Stage 1 research-priority screen;
 do not treat its base tiers as underwriting conclusions. The five canaries are
 mechanically complete and economically intelligible, but all five tier
