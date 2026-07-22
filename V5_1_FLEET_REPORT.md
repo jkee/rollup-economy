@@ -251,3 +251,47 @@ estimated eligibility and transaction depth, limited LMM implementation
 evidence, and judgmental retention/operator-necessity bridges. No review found
 a correction meeting the frozen materiality test, and the predeclared pause
 trigger did not fire.
+
+## S6 — Other services
+
+**Closed:** 2026-07-22
+**Coverage:** 44 attempted, 44 deterministically valid, 44 published, 0 excluded
+**Independent review:** 8/44 (3 mandatory, 5 random, 0 canary)
+**Review outcomes:** 8 `publishable_with_caveats`; 0 `publishable`; 0 `reject`; 0 `invalid`
+**Material findings:** 0
+**Remediations:** 0
+
+### Screen distribution
+
+- Base tiers: 3 `PRIORITY`, 14 `CONDITIONAL`, 11 `LOW_PRIORITY`,
+  12 `STRUCTURAL_OUT`, and 4 without a base tier.
+- Readiness: 40 `MODEL_CONDITIONED`; 4 `STRESS_TEST_ONLY`.
+- Actions: 40 `VALIDATE_ASSUMPTIONS`; 4 `EVIDENCE_FIRST`.
+- Robust tiers: 7/44, all `STRUCTURAL_OUT`.
+- Publication labels: 8 `accepted`; 36 `not_reviewed` by the frozen sampling
+  contract.
+
+The random stratum consisted of `811121`, `812199`, `813212`, `813219`, and
+`813990`. All five were accepted with caveats and carried no material finding.
+These are sample observations only; no S6 defect rate is estimated.
+
+### Economic read
+
+The screen differentiated recurring route or membership services from
+physical, local, and highly fragmented activities. Linen supply, business
+associations, and professional organizations reached `PRIORITY`. Repair,
+personal-care, death-care, laundry, civic, grantmaking, and membership models
+spread across `CONDITIONAL`, `LOW_PRIORITY`, and `STRUCTURAL_OUT` as labor
+opportunity, eligible-firm depth, demand, and transferability varied.
+
+Four records had no base tier and routed to `STRESS_TEST_ONLY /
+EVIDENCE_FIRST`: specialized automotive repair, electronic and precision
+equipment repair, one-hour photofinishing, and private households. The
+`814110` gap therefore remained explicit rather than being converted to zero.
+No scored record reached an unconditional action.
+
+Validators' caveats emphasized broad occupational and association proxies,
+estimated implementation and eligibility, sparse transaction denominators,
+and judgmental retention/operator-necessity bridges. No review found a
+correction meeting the frozen materiality test, and the predeclared pause
+trigger did not fire.

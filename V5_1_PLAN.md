@@ -1,6 +1,6 @@
 # v5.1 Plan — scope expansion to the full 1,012-code universe
 
-**Status: FLEET ACTIVE — S6 research.** Victor directly instructed the operator
+**Status: FLEET ACTIVE — S6 closed; S7 next.** Victor directly instructed the operator
 on 2026-07-22 to ignore the single-purpose-session rule. That narrow governance
 exception applies retrospectively to S1 and prospectively to the remaining
 v5.1 campaign; it does not waive single-author work, author/reviewer separation,
@@ -254,7 +254,7 @@ and move on.
 | closed | S3 | Health care & social assistance | 62 | 39 | 12/39 | |
 | closed | S4 | Finance & insurance | 52 | 35 | 8/35 | 5251x labor_share gaps |
 | closed | S5 | Real estate + mgmt of companies | 53, 55 | 27 | 7/27 | `551114` anomaly |
-| review | S6 | Other services | 81 | 44 | – | `814110` gap |
+| closed | S6 | Other services | 81 | 44 | 8/44 | `814110` gap |
 | todo | S7 | Information | 51 | 29 | – | n_total proxies |
 | todo | S8 | Education + arts/entertainment | 61, 71 | 42 | – | |
 | todo | S9 | Accommodation & food | 72 | 15 | – | |
