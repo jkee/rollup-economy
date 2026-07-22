@@ -1,0 +1,213 @@
+{
+  "identity": {
+    "naics": "623110",
+    "title": "Nursing Care Facilities (Skilled Nursing Facilities)",
+    "run_id": "623110-a1-20260722",
+    "model_id": "claude-sonnet-5",
+    "run_date": "2026-07-22",
+    "methodology_version": "5.1",
+    "attempt": 1
+  },
+  "lens": {
+    "included_activities": "Recurring or repeat outsourced external services sold to operators of inpatient nursing and rehabilitation facilities providing skilled nursing, post-acute rehabilitation, and long-term nursing and personal care.",
+    "excluded_activities": "Assisted-living or continuing-care communities without a separately operated nursing facility, residential psychiatric or intellectual-disability facilities, home health, captive internal service departments, real-estate ownership and financing shells, and one-time construction or equipment sales.",
+    "customer_and_revenue_model": "Customers are skilled nursing and nursing-facility operators spanning independent, chain, nonprofit, public, and health-system ownership. Operator revenue commonly combines Medicare post-acute per-diem reimbursement, Medicaid long-stay reimbursement, managed-care contracts, and private pay; external services are purchased through recurring contracts, subscriptions, per-resident arrangements, or repeat project work.",
+    "deviation_from_default": "none",
+    "heterogeneous": true
+  },
+  "primitives": {
+    "a": {
+      "evidence_state": "PROXY",
+      "low": 0.1,
+      "base": 0.18,
+      "high": 0.29,
+      "bridge": "BLS occupation employment for the broader 623100 industry is mapped into exposed documentation, assessment, coding, scheduling, billing, records, care-plan, and administrative task time, while direct nursing, medication, transfer, feeding, therapy, monitoring, and environmental-care time is treated as substantially unexposed. GAO evidence on healthcare documentation AI and the federally standardized electronic MDS support task feasibility. This likely overstates exposure where clinical judgment and resident contact are inseparable from documentation, but understates exposure in centralized chain back offices.",
+      "rationale": "The workforce is dominated by hands-on care: nursing assistants are 33.25% of employment, licensed practical/vocational nurses 12.42%, registered nurses 9.01%, and office/administrative support 4.91%. AI can materially assist the documentation layer around this work, including MDS assessments, notes, coding, care-plan drafting, scheduling, claims, and records, but cannot perform most physical resident care.",
+      "change_evidence": "Facility-level time studies separating hands-on care from documentation and administrative work by occupation, plus measured deployment data for MDS, coding, scheduling, and clinical-documentation tools in skilled nursing facilities, could materially change the range.",
+      "source_ids": ["S2", "S3", "S4"],
+      "caveats": [
+        "BLS 623100 includes a broader nursing and residential-care population than 623110 and reports employment, not task-time shares.",
+        "GAO evidence spans healthcare settings rather than skilled nursing facilities specifically.",
+        "Exposure is not equivalent to realized labor removal because documentation is coupled to regulated clinical workflows and review."
+      ]
+    },
+    "rho": {
+      "evidence_state": "PROXY",
+      "low": 0.22,
+      "base": 0.4,
+      "high": 0.6,
+      "bridge": "Observed healthcare adoption and measured documentation-time reductions are transferred to the exposed task share in skilled nursing facilities. Mandatory structured electronic MDS data makes several workflows technically addressable, but the range is discounted for fragmented facility IT, smaller-operator implementation capacity, validation and privacy requirements, staff training, survey exposure, and the need for licensed review. The bridge may overstate realization relative to hospitals and understate it for sophisticated chains with centralized platforms.",
+      "rationale": "AI-assisted notes, coding, assessment preparation, care-plan drafting, records review, scheduling, and claims can remove portions of exposed effort. GAO reports healthcare documentation and coding use and cites a study with a 20% documentation-time reduction, while MDS creates a recurring structured workflow. Realization remains bounded by accuracy, governance, integration, and clinical-accountability constraints.",
+      "change_evidence": "Controlled skilled-nursing deployments reporting pre/post labor hours, error and denial rates, survey findings, implementation cost, and sustained adoption across independent and chain facilities would materially tighten this estimate.",
+      "source_ids": ["S3", "S4"],
+      "caveats": [
+        "Published healthcare AI outcomes may not transfer to the staffing, software, and reimbursement environment of nursing facilities.",
+        "Time savings may be absorbed by compliance improvement or unmet care needs rather than reducing paid labor.",
+        "The range excludes speculative physical robotics and autonomous clinical decisions."
+      ]
+    },
+    "e": {
+      "evidence_state": "ESTIMATE",
+      "low": 0.48,
+      "base": 0.68,
+      "high": 0.84,
+      "rationale": "A large share of operating facilities should be addressable by independent external providers because nursing-facility operators routinely need specialized compliance, clinical, workforce, billing, technology, procurement, and facility services. Eligibility is reduced for health-system-captive functions, chain-centralized services, nonprofit or public procurement constraints, very small operators, and cases where the apparent firm is a real-estate or related-party entity rather than the care operator.",
+      "change_evidence": "Linking PECOS ownership records to operator-level procurement, chain affiliation, related-party service arrangements, and outsourced-spend categories would replace this judgmental range with an operator-weighted eligibility measure.",
+      "source_ids": ["S1", "S9", "S10"],
+      "caveats": [
+        "No direct source measures the share of LMM operating firms eligible for the defined external-service lens.",
+        "Facility counts and owner records do not map one-to-one to operating firms.",
+        "Real-estate ownership and operating control can be split across related entities."
+      ]
+    },
+    "s5": {
+      "evidence_state": "PROXY",
+      "low": 0.1,
+      "base": 0.16,
+      "high": 0.24,
+      "bridge": "ASPE's estimate that roughly 3.5% of skilled nursing facilities changed ownership annually during 2016-2021 is compounded and translated into a five-year firm-level sale incidence centered near 16%. The range allows for multiple facilities in one transaction, repeat sales, ownership records that do not signify a whole operating-company sale, and consolidation of facilities under multi-site firms. Facility-based compounding can overstate firm incidence when a single platform deal transfers many sites, while excluding partial-equity and unreported control changes can understate it.",
+      "rationale": "Skilled nursing facilities have an observable ownership-transfer market, but the research evidence is facility-based rather than a direct five-year share of eligible LMM operating firms sold. A broad interval is therefore appropriate around the compounded annual transfer signal.",
+      "change_evidence": "A transaction-level five-year cohort that deduplicates facilities into ultimate operating companies, identifies control sales, and restricts the denominator to eligible LMM firms would materially change the estimate.",
+      "source_ids": ["S8"],
+      "caveats": [
+        "The 2016-2021 transfer window predates the current five-year outlook and includes pandemic disruption.",
+        "PECOS ownership changes may include reorganizations or asset transfers rather than arm's-length firm sales.",
+        "The bridge assumes a roughly stable annual hazard only to form a proxy."
+      ]
+    },
+    "q": {
+      "evidence_state": "PROXY",
+      "low": 0.27,
+      "base": 0.48,
+      "high": 0.67,
+      "bridge": "Medicare's predetermined SNF per-diem payment and Medicaid's facility reimbursement are used to infer how much cost improvement can remain with an operator rather than being immediately repriced. Fixed or administered payment supports retention within a payment period, but Medicare accounts for only 8% of median facility days and Medicaid rates, managed-care negotiation, quality programs, staffing requirements, audits, and rebasing can pass value to payers, workers, or residents. This may overstate durable retention where rates are cost-linked and understate it where efficiency increases capacity or avoids agency labor without affecting payment.",
+      "rationale": "Payment is often not a simple cost-plus pass-through: Medicare pays a predetermined per diem under the SNF prospective payment system, and Medicaid institutional care is reimbursed through public programs. Operators can retain some labor and administrative efficiency, especially within rate periods, but payer concentration, regulatory obligations, and competitive quality needs substantially limit capture.",
+      "change_evidence": "Payer-mix-weighted contract and rate-rebasing analysis, paired with facility evidence on where realized savings flow among margin, staffing, resident care, and price, would materially refine the range.",
+      "source_ids": ["S6", "S7", "S9"],
+      "caveats": [
+        "Medicare and Medicaid payment rules vary by resident, state, plan, and service and do not directly reveal retained savings.",
+        "Quality reporting and value-based payment can offset nominal savings when outcomes deteriorate.",
+        "Labor shortages may cause efficiency to improve coverage rather than reduce expense."
+      ]
+    },
+    "d5": {
+      "evidence_state": "PROXY",
+      "low": 0.84,
+      "base": 0.98,
+      "high": 1.1,
+      "bridge": "Recent Medicare SNF utilization, facility supply, and occupancy trends are combined with CBO's demographic long-term-services demand direction to proxy the five-year quantity multiplier for the full 623110 market. Medicare admissions fell 4% in 2024, provider counts declined, and home- and community-based substitutes pressure facility demand, while occupancy recovery, longer stays, and population aging support need. Medicare FFS is only one payer segment, so it may understate long-stay Medicaid demand; the older demographic source may overstate facility demand if care continues shifting to homes and community settings.",
+      "rationale": "Underlying need for long-term services rises with aging, but that need does not translate mechanically into skilled-nursing facility volume. Recent evidence shows declining Medicare admissions and facility counts alongside recovering occupancy and increased Medicare days, producing a near-flat base with meaningful downside from substitution and upside from demographics and tighter surviving-facility utilization.",
+      "change_evidence": "Current payer-wide projections of occupied bed-days for 623110, split between post-acute and long-stay residents and incorporating state Medicaid policy and home-care substitution, would materially change the range.",
+      "source_ids": ["S7", "S11"],
+      "caveats": [
+        "MedPAC utilization figures focus on Medicare fee-for-service, not total industry resident-days.",
+        "The post-acute and long-stay segments can move in different directions.",
+        "CBO's demographic discussion is directionally useful but old and not a five-year facility forecast."
+      ]
+    },
+    "o": {
+      "evidence_state": "PROXY",
+      "low": 0.94,
+      "base": 0.98,
+      "high": 0.995,
+      "bridge": "The statutory and operating requirement for continuous personal and nursing care is translated into the share of industry output that remains after AI substitution, conditional on the separate five-year demand multiplier. Because core output is physical, place-based resident care delivered by licensed and direct-care staff, software mainly changes inputs and administration rather than eliminating the service itself. The proxy can overstate resilience if remote monitoring and community care displace admissions; that channel is assigned chiefly to d5 to avoid double counting.",
+      "rationale": "A nursing facility's core output requires beds, continuous personal care, nursing availability, medication and treatment execution, transfers, feeding, hygiene, observation, and rehabilitation. AI may improve or partly automate supporting information work, but it cannot plausibly self-serve most of this output over five years.",
+      "change_evidence": "Evidence showing AI-enabled changes in resident-days, staffing-model substitution, facility closure, or migration to home-based care beyond the demand effects already captured in d5 would materially change this estimate.",
+      "source_ids": ["S1", "S5", "S9"],
+      "caveats": [
+        "This primitive deliberately excludes general home- and community-based substitution already reflected in d5.",
+        "Robotics could affect selected physical tasks, but broad autonomous deployment in frail-resident care is not evidenced here.",
+        "Regulatory staffing requirements may preserve labor inputs even where technology becomes capable."
+      ]
+    }
+  },
+  "narrative": {
+    "executive_view": "Nursing facilities combine unusually durable, place-based care output with a real but bounded opportunity to improve documentation, assessment, scheduling, billing, and administrative workflows. The sector is heterogeneous: post-acute Medicare rehabilitation, long-stay Medicaid care, payer mix, chain affiliation, and local regulation materially change economics and service purchasing.",
+    "ai_impact": "The credible five-year AI opportunity is concentrated around MDS and clinical documentation, coding, records review, care-plan preparation, scheduling, claims, and centralized administration. Hands-on nursing and personal care dominate employment and remain constrained by resident contact, licensure, judgment, safety, and staffing rules.",
+    "value_capture": "Predetermined or administered reimbursement can let operators retain some efficiency within rate periods, particularly through avoided agency labor, reduced denials, and more efficient administrative capacity. Capture is limited by Medicaid and managed-care bargaining, rate rebasing, quality programs, compliance obligations, and the practical likelihood that time savings fill staffing gaps or improve care.",
+    "firm_availability": "The operator universe includes independents and multi-facility platforms, with active ownership transfer but a material distinction between facilities, operating companies, ultimate owners, and real-estate entities. Chain-centralized functions, captive health-system operations, nonprofit or public ownership, and related-party structures narrow the eligible external-service market.",
+    "demand_durability": "Aging supports long-term care need, while home- and community-based alternatives and lower Medicare post-acute admissions pressure facility volume. Recent occupancy recovery and longer Medicare stays temper that downside, so a near-flat central outlook carries a wide range rather than a strong directional claim.",
+    "risks_and_uncertainty": "The largest uncertainties are the absence of skilled-nursing-specific task-time and AI productivity studies, the translation from facility ownership changes to firm sales, payer-mix effects on savings retention, fragmented technology adoption, regulatory and privacy exposure, labor shortages, and continued substitution toward care outside institutions.",
+    "principal_driver": "Core output requires recurring physical nursing and personal care that AI software is unlikely to eliminate over five years.",
+    "principal_weakness": "Much of the quantified evidence is proxied from broader healthcare, Medicare fee-for-service, facility-level ownership, or broader 623100 employment rather than direct operator-level 623110 measurements."
+  },
+  "sources": [
+    {
+      "id": "S1",
+      "url": "https://www.census.gov/naics/reference_files_tools/2022_NAICS_Manual.pdf",
+      "title": "2022 NAICS Manual",
+      "access_date": "2026-07-22",
+      "supports": "Defines 623110 as establishments providing inpatient nursing and rehabilitative services, generally with a permanent core of registered or licensed practical nurses and continuous personal care."
+    },
+    {
+      "id": "S2",
+      "url": "https://www.bls.gov/oes/2023/may/naics4_623100.htm",
+      "title": "May 2023 National Industry-Specific Occupational Employment and Wage Estimates: NAICS 623100",
+      "access_date": "2026-07-22",
+      "supports": "Reports 1,379,430 workers and the occupational mix, including nursing assistants at 33.25%, LPN/LVNs at 12.42%, RNs at 9.01%, and office and administrative support at 4.91%."
+    },
+    {
+      "id": "S3",
+      "url": "https://www.gao.gov/products/gao-26-109116",
+      "title": "Artificial Intelligence in Health Care: Applications, Benefits, and Challenges",
+      "access_date": "2026-07-22",
+      "supports": "Describes AI use in clinical notes and coding, increased clinician use for documentation and coding, a cited 20% documentation-time reduction, and accuracy, cost, privacy, and oversight constraints."
+    },
+    {
+      "id": "S4",
+      "url": "https://data.cms.gov/quality-of-care/minimum-data-set-frequency",
+      "title": "Minimum Data Set Frequency",
+      "access_date": "2026-07-22",
+      "supports": "Describes MDS as a federally mandated assessment for residents of Medicare- or Medicaid-certified nursing homes, completed at admission, periodically, and at discharge and transmitted electronically."
+    },
+    {
+      "id": "S5",
+      "url": "https://www.cms.gov/newsroom/blog/centers-medicare-medicaid-services-staffing-study-inform-minimum-staffing-requirements-nursing-homes",
+      "title": "CMS Staffing Study to Inform Minimum Staffing Requirements for Nursing Homes",
+      "access_date": "2026-07-22",
+      "supports": "States existing federal requirements for 24-hour licensed nursing services, an RN for at least eight consecutive hours daily seven days a week, and facility assessments sufficient to meet resident needs."
+    },
+    {
+      "id": "S6",
+      "url": "https://www.cms.gov/Outreach-and-Education/Medicare-Learning-Network-MLN/MLNProducts/html/medicare-payment-systems.html",
+      "title": "Medicare Payment Systems",
+      "access_date": "2026-07-22",
+      "supports": "Explains that the SNF prospective payment system pays a predetermined per diem covering routine, ancillary, and capital-related costs under Part A."
+    },
+    {
+      "id": "S7",
+      "url": "https://www.medpac.gov/wp-content/uploads/2025/12/Tab-F-SNF-update-Dec-2025.pdf",
+      "title": "Skilled Nursing Facility Services: Assessing Payment Adequacy and Updating Payments",
+      "access_date": "2026-07-22",
+      "supports": "Reports roughly 14,400 SNFs, Medicare at 8% of median facility days, 2024 admissions down 4% while days rose 1%, provider counts down 1%, occupancy at 83%, and continued investor interest."
+    },
+    {
+      "id": "S8",
+      "url": "https://aspe.hhs.gov/sites/default/files/documents/4d960147d5fd8e2ea9af508f115ca7b7/aspe-datapoint-change-ownership-pecos.pdf",
+      "title": "Changes in Ownership of Hospital and Skilled Nursing Facilities: An Analysis of Newly-Enrolled Medicare Providers",
+      "access_date": "2026-07-22",
+      "supports": "Finds 3,236 skilled nursing facilities were sold during 2016-2021 and that roughly 3.5% of SNFs were sold annually, providing a facility-level transfer proxy."
+    },
+    {
+      "id": "S9",
+      "url": "https://www.medicaid.gov/medicaid/long-term-services-supports/institutional-long-term-care/nursing-facilities",
+      "title": "Nursing Facilities",
+      "access_date": "2026-07-22",
+      "supports": "Describes nursing-facility nursing, rehabilitation, and long-term care services; Medicaid coverage requirements; multiple payer arrangements; and policy support for transitions to community settings."
+    },
+    {
+      "id": "S10",
+      "url": "https://data.cms.gov/provider-characteristics/hospitals-and-other-facilities/skilled-nursing-facility-all-owners",
+      "title": "Skilled Nursing Facility All Owners",
+      "access_date": "2026-07-22",
+      "supports": "Provides monthly PECOS-derived records of all owners of currently enrolled skilled nursing facilities, supporting the distinction among facilities, operators, and owners."
+    },
+    {
+      "id": "S11",
+      "url": "https://www.cbo.gov/publication/44363",
+      "title": "Rising Demand for Long-Term Services and Supports for Elderly People",
+      "access_date": "2026-07-22",
+      "supports": "Explains that population aging increases long-term-services need while nursing-home use had declined as home- and community-based alternatives expanded."
+    }
+  ]
+}

@@ -1,0 +1,289 @@
+{
+ "A": 6.179780800746,
+ "L": 2.03476,
+ "action": "VALIDATE_ASSUMPTIONS",
+ "caveats": [
+  "a: The 2023 OEWS table measures occupational employment and wages, not task time or AI exposure.",
+  "a: GAO's documentation evidence spans healthcare providers and is not specific to specialty hospitals.",
+  "a: The code mixes rehabilitation, long-term acute, children's, cancer, and other specialty hospitals with different occupation and documentation mixes.",
+  "rho: ASTP's survey covers non-federal acute-care hospitals rather than specialty hospitals.",
+  "rho: Tool use is not the same as realized labor substitution or avoided hiring.",
+  "rho: Small independent hospitals adopt predictive AI substantially less often than system-affiliated hospitals.",
+  "e: Eligibility is bounded judgment rather than an observed share.",
+  "e: CMS IRF counts include hospital units, while NAICS and the dataset are organized around establishments and firms.",
+  "e: The 15.80% margin bridge may misclassify capital-intensive or low-margin specialty hospitals into the LMM band.",
+  "s5: The ASPE observation period predates the five-year forecast horizon.",
+  "s5: The hospital denominator includes general, psychiatric, rehabilitation, and long-term-care providers outside the exact firm lens.",
+  "s5: A provider change of ownership is not always a qualifying control transfer of an independent firm.",
+  "q: IRF payment is only one component of the heterogeneous code's payer and service mix.",
+  "q: Medicare rate updates can share industry productivity with the payer over time.",
+  "q: Gross workflow benefit may be reinvested in quality, compliance, or capacity rather than retained financially.",
+  "d5: The strongest volume evidence is for inpatient rehabilitation, not every specialty-hospital subtype.",
+  "d5: Medicare FFS trends may diverge from Medicare Advantage, Medicaid, and commercial demand.",
+  "d5: Nominal payment updates are not constant-price service-volume growth.",
+  "o: IRF requirements do not describe every specialty-hospital subtype.",
+  "o: Payer substitution to other care settings can reduce operator need even when medical demand persists.",
+  "o: The distinction between demand reduction and migration to a different operator is difficult to observe."
+ ],
+ "contract_sha256": "aab2c9e92e78bce09e2d306b237ffda9ce828ae72772be3c11cbfbf6d8786763",
+ "envelope": {
+  "attainable_tiers": [
+   "STRUCTURAL_OUT",
+   "LOW_PRIORITY",
+   "CONDITIONAL",
+   "PRIORITY"
+  ],
+  "base": {
+   "A": 6.179780800746,
+   "L": 2.03476,
+   "factors": {
+    "C": 10.0,
+    "D": 10.0,
+    "F": 2.684363202982,
+    "H": 2.03476
+   },
+   "state_id": "H:base|F:base|C:base|D:base",
+   "tier": "CONDITIONAL"
+  },
+  "high": {
+   "A": 7.085171545809,
+   "L": 4.117776583235,
+   "factors": {
+    "C": 10.0,
+    "D": 10.0,
+    "F": 4.117776583235,
+    "H": 4.2229096
+   },
+   "state_id": "H:high|F:high|C:high|D:high",
+   "tier": "PRIORITY"
+  },
+  "interval_scope": "research-input sensitivity with dataset anchors (l, n) held fixed",
+  "low": {
+   "A": 4.467186990035,
+   "L": 0.610428,
+   "factors": {
+    "C": 7.6,
+    "D": 8.645,
+    "F": 1.013319960141,
+    "H": 0.610428
+   },
+   "state_id": "H:low|F:low|C:low|D:low",
+   "tier": "STRUCTURAL_OUT"
+  },
+  "missing_factors": [],
+  "robust_tier": null,
+  "state_count": 81,
+  "tier_interval": [
+   "STRUCTURAL_OUT",
+   "PRIORITY"
+  ]
+ },
+ "factors": {
+  "C": {
+   "base": 10.0,
+   "evidence_state": "PROXY",
+   "high": 10.0,
+   "low": 7.6,
+   "primitives": [
+    "q"
+   ]
+  },
+  "D": {
+   "base": 10.0,
+   "evidence_state": "PROXY",
+   "high": 10.0,
+   "low": 8.645,
+   "primitives": [
+    "d5",
+    "o"
+   ]
+  },
+  "F": {
+   "base": 2.684363202982,
+   "evidence_state": "ESTIMATE",
+   "high": 4.117776583235,
+   "low": 1.013319960141,
+   "primitives": [
+    "e",
+    "s5"
+   ]
+  },
+  "H": {
+   "base": 2.03476,
+   "evidence_state": "PROXY",
+   "high": 4.2229096,
+   "low": 0.610428,
+   "primitives": [
+    "a",
+    "rho"
+   ]
+  }
+ },
+ "identity": {
+  "attempt": 1,
+  "methodology_version": "5.1",
+  "model_id": "claude-sonnet-5",
+  "naics": "622310",
+  "run_date": "2026-07-22",
+  "run_id": "622310-a1-20260722",
+  "title": "Specialty (except Psychiatric and Substance Abuse) Hospitals"
+ },
+ "lens": {
+  "customer_and_revenue_model": "Hospitals receive prospective case or discharge payments, negotiated commercial payments, public-program reimbursement, and patient cost sharing for staffed episodes of inpatient care, often with related outpatient, diagnostic, therapy, and assessment services.",
+  "deviation_from_default": "none",
+  "excluded_activities": "General medical and surgical hospitals, psychiatric and substance-abuse hospitals, skilled nursing facilities, non-hospital residential care, hospital departments that are captive units rather than separately controlled firms, shells, and non-control financing or real-estate vehicles.",
+  "heterogeneous": true,
+  "included_activities": "US lower-middle-market firms operating licensed specialty hospitals that repeatedly provide inpatient and related outpatient diagnostic, medical, long-term acute, rehabilitation, restorative, or condition-specific care to patients and payers."
+ },
+ "methodology_commit": "48675600c10e711ac1768b7182f76895d73fb579",
+ "methodology_version": "5.1",
+ "primitives": {
+  "a": {
+   "base": 0.25,
+   "bridge": "BLS reports employment and wages by occupation in specialty hospitals, while GAO documents AI use in clinical notes and coding; neither measures the wage-weighted share of current, not-yet-automated tasks in LMM specialty hospitals. I map documentation, coding, claims, scheduling, intake, discharge instructions, care-plan drafts, utilization review, record abstraction, and routine administrative analysis to exposure, while treating bedside nursing, therapy delivery, procedures, examinations, patient movement, food service, cleaning, and accountable clinical decisions as largely unexposed. This may overstate exposure where documentation remains inseparable from licensed judgment and understate it in digitally mature rehabilitation or long-term-care hospitals.",
+   "caveats": [
+    "The 2023 OEWS table measures occupational employment and wages, not task time or AI exposure.",
+    "GAO's documentation evidence spans healthcare providers and is not specific to specialty hospitals.",
+    "The code mixes rehabilitation, long-term acute, children's, cancer, and other specialty hospitals with different occupation and documentation mixes."
+   ],
+   "change_evidence": "Payroll-weighted time-and-motion data from freestanding rehabilitation, long-term-care, children's, cancer, and other specialty hospitals separating bedside care, therapy, documentation, coding, scheduling, utilization management, billing, and already-automated work would materially change the estimate.",
+   "evidence_state": "PROXY",
+   "high": 0.38,
+   "low": 0.13,
+   "rationale": "BLS shows that healthcare practitioners and technical workers account for 50.97% of employment, healthcare support for 16.27%, and office and administrative support for 10.04%; registered nurses alone are 22.42% and therapists about 12%. The direct-care majority constrains substitution, but expensive clinicians perform meaningful documentation and coordination work and the administrative layer is highly information-intensive.",
+   "source_ids": [
+    "S2",
+    "S3"
+   ]
+  },
+  "d5": {
+   "base": 1.1,
+   "bridge": "MedPAC reports that IRF volume per FFS beneficiary rose 31% from 2015 to 2024 and that IRFs received 5.3% of hospital discharges in 2024, while CMS finalized a 2.6% nominal IRF payment-rate increase for FY 2026. These observations cover Medicare rehabilitation rather than five-year constant-price demand for the full specialty-hospital basket. I translate the sustained IRF volume trend and complex-care need into modest growth, then discount for Medicare Advantage utilization management, substitution toward SNFs and home health, hospital-referral changes, payment pressure, and non-rehabilitation service lines. This may overstate the code if recent IRF share gains plateau and understate it if aging and complex survivorship continue shifting volume into specialty settings.",
+   "caveats": [
+    "The strongest volume evidence is for inpatient rehabilitation, not every specialty-hospital subtype.",
+    "Medicare FFS trends may diverge from Medicare Advantage, Medicaid, and commercial demand.",
+    "Nominal payment updates are not constant-price service-volume growth."
+   ],
+   "change_evidence": "A constant-price panel of admissions, occupied bed days, referral acceptance, authorization denials, discharge destinations, and case mix for freestanding 622310 rehabilitation, long-term-care, children's, cancer, and other hospitals would materially change the estimate.",
+   "evidence_state": "PROXY",
+   "high": 1.24,
+   "low": 0.95,
+   "rationale": "Recent IRF volume growth supplies a concrete positive signal, and licensed specialty hospitals address complex conditions that cannot routinely move to low-acuity settings. Yet payer steering and overlap with SNFs and home health make straight-line extrapolation inappropriate, so the range includes slight contraction.",
+   "source_ids": [
+    "S7",
+    "S9"
+   ]
+  },
+  "e": {
+   "base": 0.46,
+   "caveats": [
+    "Eligibility is bounded judgment rather than an observed share.",
+    "CMS IRF counts include hospital units, while NAICS and the dataset are organized around establishments and firms.",
+    "The 15.80% margin bridge may misclassify capital-intensive or low-margin specialty hospitals into the LMM band."
+   ],
+   "change_evidence": "A firm-level linkage of SUSB entities to CMS certification, PECOS ownership, tax status, system affiliation, bed count, freestanding versus unit status, normalized EBITDA, and operating-versus-real-estate control would materially change the estimate.",
+   "evidence_state": "ESTIMATE",
+   "high": 0.68,
+   "low": 0.25,
+   "rationale": "The official code requires licensed inpatient specialty-hospital operations, which generally fit a repeat external-service model, but the supplied 117-firm count is margin-bridged and does not identify ownership, independence, normalized EBITDA, or whether a legal entity is a separately controllable operator. Hospital-based rehabilitation units, public or nonprofit restrictions, system ownership, capital intensity, payer concentration, and real-estate or operating-company structures reduce the eligible share. I estimate fewer than half of counted LMM firms are cleanly eligible, with a wide range.",
+   "source_ids": [
+    "S1",
+    "S6",
+    "S8"
+   ]
+  },
+  "l": {
+   "detail": "QCEW 2024 private total annual wages at 622310 ($21,910,402,880) x benefits multiplier 1.4294 [ECEC private-industry total comp $46.60/hr / wages $32.60/hr = 1.4294 (March 2026 reference period)] / SUSB 2022 receipts at 622310 ($59,701,001,000). Vintage mismatch: 2024 wages over 2022 receipts, stated. Level: 6-digit. Harmonized to IPS basis ÷1.3407 (median of 65 dual-method codes).",
+   "evidence_state": "OBSERVED",
+   "quality": "MED",
+   "value": 0.3913
+  },
+  "n": {
+   "detail": "margin 0.1580 (margins.json[62]: Damodaran Jan 2026: Hospitals/Healthcare Facilities EBITDA/Sales 15.80% (closest named bucket for provider economics; public support-services bucket at 3.87% reflects a different business model)); revenue/employee $229,759 (SUSB 2022 receipts/employment at 622310); class <5: 29 firms, avg revenue/firm $1,664,517 (class receipts/firms), implied EBITDA $262,994 -> out of $1-10M band; class 5-9: 7 firms, avg revenue/firm $1,184,000 (class receipts/firms), implied EBITDA $187,072 -> out of $1-10M band; class 10-19: 4 firms, avg revenue/firm $12,970,250 (class receipts/firms), implied EBITDA $2,049,300 -> IN $1-10M band; class 20-99: 34 firms, avg revenue/firm $14,474,324 (class receipts/firms), implied EBITDA $2,286,943 -> IN $1-10M band; class 100-499: 79 firms, avg revenue/firm $36,066,443 (class receipts/firms), implied EBITDA $5,698,498 -> IN $1-10M band; class 500+: 174 firms, avg revenue/firm $323,282,672 (class receipts/firms), implied EBITDA $51,078,662 -> out of $1-10M band; n_band = 117",
+   "evidence_state": "ESTIMATE",
+   "quality": "ESTIMATE",
+   "value": 117
+  },
+  "o": {
+   "base": 0.96,
+   "bridge": "Census defines the industry around licensed inpatient hospitals with beds and organized medical staff, CMS requires intensive rehabilitation and patient assessment for IRFs, and GAO describes AI tools as assisting notes and coding with clinician review rather than replacing care delivery. None measures the year-five operator-required share across 622310. I treat inpatient nursing, therapy, procedures, monitoring, food, infection control, safety, and accountable clinical oversight as operator-required, while allowing remote monitoring, better triage, avoided admissions, and software-only administrative work to remove a small quantity. This may be high for assessment-heavy or outpatient-adjacent services and low for high-acuity long-term-care hospitals.",
+   "caveats": [
+    "IRF requirements do not describe every specialty-hospital subtype.",
+    "Payer substitution to other care settings can reduce operator need even when medical demand persists.",
+    "The distinction between demand reduction and migration to a different operator is difficult to observe."
+   ],
+   "change_evidence": "Service-line evidence on admissions avoided through remote care, payer substitution to home or SNF settings, autonomous monitoring, virtual therapy, required onsite staffing, and the share of revenue from software-separable services would materially change the estimate.",
+   "evidence_state": "PROXY",
+   "high": 0.99,
+   "low": 0.91,
+   "rationale": "The defining product is licensed inpatient medical care delivered by organized clinical staff. AI can assist decisions and documentation, but the current service basket still requires a hospital operator to supply facilities, licensed care, monitoring, and accountability.",
+   "source_ids": [
+    "S1",
+    "S3",
+    "S6"
+   ]
+  },
+  "q": {
+   "base": 0.58,
+   "bridge": "CMS documents predetermined per-discharge IRF payments covering routine, ancillary, and capital costs and annual market-basket, productivity, wage-index, case-mix, outlier, and quality-reporting adjustments. These rules describe Medicare rehabilitation reimbursement rather than discounted benefit retention across all specialty hospitals and payers. I infer that lower documentation, coding, and administrative cost can initially accrue under fixed case payments, then discount for annual rate updates, payer renegotiation, coding review, quality requirements, shared-risk contracts, and the use of productivity to expand capacity rather than remove cost. This may overstate retention for tightly managed commercial contracts and understate it where scarce capacity converts saved time into additional cases.",
+   "caveats": [
+    "IRF payment is only one component of the heterogeneous code's payer and service mix.",
+    "Medicare rate updates can share industry productivity with the payer over time.",
+    "Gross workflow benefit may be reinvested in quality, compliance, or capacity rather than retained financially."
+   ],
+   "change_evidence": "Payer-contract samples and hospital contribution-margin data before and after AI deployment, split among Medicare PPS, Medicare Advantage, Medicaid, commercial case rates, per diem, cost-based, and value-based contracts, would materially change the estimate.",
+   "evidence_state": "PROXY",
+   "high": 0.75,
+   "low": 0.38,
+   "rationale": "Prospective case payment creates a real retention channel because payment does not vary directly with each input used during a stay. However, public payment formulas update annually, quality and compliance failures can reduce reimbursement, and much AI benefit may relieve staffing pressure or improve service rather than appear as removable cost.",
+   "source_ids": [
+    "S5",
+    "S9"
+   ]
+  },
+  "rho": {
+   "base": 0.52,
+   "bridge": "ASTP measures predictive-AI use in non-federal acute-care hospitals and GAO reports clinician use and deployment constraints for AI documentation and coding, not five-year implementation of exposed labor opportunity in LMM specialty hospitals. I translate established EHR integration and rapidly growing administrative use into moderate implementation, then discount for independent-hospital adoption gaps, privacy, clinical validation, liability, interoperability, procurement, change management, and required human review. This may be high for small independent hospitals and low for scaled system-affiliated rehabilitation operators.",
+   "caveats": [
+    "ASTP's survey covers non-federal acute-care hospitals rather than specialty hospitals.",
+    "Tool use is not the same as realized labor substitution or avoided hiring.",
+    "Small independent hospitals adopt predictive AI substantially less often than system-affiliated hospitals."
+   ],
+   "change_evidence": "Specialty-hospital deployment records showing eligible users, workflow penetration, validation and override rates, implementation cost, documentation minutes saved, coding productivity, staffing changes, and sustained use after one year would materially change the estimate.",
+   "evidence_state": "PROXY",
+   "high": 0.71,
+   "low": 0.3,
+   "rationale": "Hospital AI adoption is no longer merely hypothetical: ASTP reports 71% predictive-AI use in 2024, but only 37% among independent hospitals, while GAO reports 28% clinician use of AI for documentation or coding in 2026 and continuing accuracy, cost, privacy, and oversight concerns. A little over half of exposed opportunity becoming operational within five years is plausible without assuming autonomous clinical care.",
+   "source_ids": [
+    "S3",
+    "S4"
+   ]
+  },
+  "s5": {
+   "base": 0.08,
+   "bridge": "ASPE's PECOS analysis found 348 hospital sales in 2016-2021, an annualized 9.8 per 1,000 hospitals and 4.6% over the study period, with sales more common among long-term-care hospitals and medium or larger hospitals. It measures provider changes of ownership across hospital types rather than qualifying control transfers of eligible LMM 622310 firms. I raise the broad hospital five-year anchor modestly for the code's long-term-care exposure and active specialty chains, while allowing downside for nonprofit, public, certificate-of-need, licensing, and system-approval constraints. Facility-level sales can overstate firm transfers when several hospitals move in one transaction and understate economic control changes not recorded as a PECOS sale.",
+   "caveats": [
+    "The ASPE observation period predates the five-year forecast horizon.",
+    "The hospital denominator includes general, psychiatric, rehabilitation, and long-term-care providers outside the exact firm lens.",
+    "A provider change of ownership is not always a qualifying control transfer of an independent firm."
+   ],
+   "change_evidence": "Current PECOS change-of-ownership records linked to NAICS 622310, freestanding status, EBITDA band, and ultimate-parent transaction identifiers, supplemented by Irving Levin or PitchBook deal records, would materially change the estimate.",
+   "evidence_state": "PROXY",
+   "high": 0.15,
+   "low": 0.03,
+   "rationale": "Hospital ownership changes are observable but uncommon relative to ordinary small-business transfers. Specialty platforms do transact, yet licensure, payer enrollment, capital needs, regulatory review, and system ownership make the addressable control-transfer rate materially lower than generic employer-business succession rates.",
+   "source_ids": [
+    "S8"
+   ]
+  }
+ },
+ "principal_driver": "Fixed episode payments and information-heavy clinical administration create a credible productivity channel while licensed inpatient care remains operator-bound.",
+ "principal_weakness": "The code mixes materially different hospital types, and the margin-bridged firm count does not reveal which entities are independent, controllable LMM operators.",
+ "readiness": "MODEL_CONDITIONED",
+ "robust_tier": null,
+ "tier": "CONDITIONAL",
+ "tier_interval": [
+  "STRUCTURAL_OUT",
+  "PRIORITY"
+ ]
+}
