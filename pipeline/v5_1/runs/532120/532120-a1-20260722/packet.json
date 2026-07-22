@@ -1,0 +1,159 @@
+{
+  "identity": {
+    "naics": "532120",
+    "title": "Truck, Utility Trailer, and RV (Recreational Vehicle) Rental and Leasing",
+    "run_id": "532120-a1-20260722",
+    "model_id": "claude-sonnet-5",
+    "run_date": "2026-07-22",
+    "methodology_version": "5.1",
+    "attempt": 1
+  },
+  "lens": {
+    "included_activities": "Lower-middle-market firms renting or leasing trucks, truck tractors, buses, semi-trailers, utility trailers, or recreational vehicles without drivers to external commercial or consumer customers, including repeat short-term rental and recurring full-service lease relationships.",
+    "excluded_activities": "Light-duty passenger-truck and SUV rental or leasing classified in 53211; rentals with drivers; dealer sales; captive internal fleets; passive financing vehicles; and firms outside the approximate $1-10M normalized EBITDA band.",
+    "customer_and_revenue_model": "The code mixes short-duration transaction revenue from consumer and commercial rentals with multi-year commercial leases and bundled maintenance, fuel, compliance, and digital fleet services. Customers pay time- and usage-based rental charges or recurring lease and service fees.",
+    "deviation_from_default": "none; the full default population is retained despite the code's short-term consumer and long-term commercial submodels, with uncertainty represented in the primitive ranges",
+    "heterogeneous": true
+  },
+  "primitives": {
+    "a": {
+      "evidence_state": "ESTIMATE",
+      "low": 0.16,
+      "base": 0.24,
+      "high": 0.32,
+      "rationale": "The closest OEWS group is led by counter/rental clerks but also has large physical cohorts of vehicle cleaners, diesel mechanics, truck drivers, motor-vehicle operators, and automotive technicians. AI exposure is concentrated in reservations, contract intake, customer service, billing, maintenance triage, compliance, scheduling, and fleet analytics; cleaning, repair, vehicle movement, inspection, and yard work remain largely physical. The range is a wage-weighted task judgment rather than a measured exposure statistic.",
+      "change_evidence": "Six-digit payroll-by-occupation data and time-and-motion studies split between truck leasing, truck/trailer rental, and RV rental, with task hours for reservation, dispatch, contract, maintenance, billing, service, and physical work, would materially refine a.",
+      "source_ids": ["S2", "S3", "S4"],
+      "caveats": [
+        "OEWS is for 532100 and does not isolate 532120 or measure task exposure.",
+        "Ryder and U-Haul are large-company examples and may have more automation than LMM operators."
+      ]
+    },
+    "rho": {
+      "evidence_state": "ESTIMATE",
+      "low": 0.35,
+      "base": 0.5,
+      "high": 0.65,
+      "rationale": "Lease and rental workflows already generate reservations, contracts, vehicle, usage, maintenance, and payment data suitable for AI-assisted processing. Implementation is constrained by fragmented branch systems, safety and maintenance accountability, customer-specific equipment, damage disputes, fraud, physical handoffs, and the need for human overrides.",
+      "change_evidence": "LMM operator deployment cohorts reporting baseline and post-AI handling time, automated reservation and maintenance decisions, exception and override rates, damage-claim accuracy, staffing, and realized hours released over at least twelve months would materially move rho.",
+      "source_ids": ["S3", "S4"],
+      "caveats": [
+        "Digital platforms and structured contracts show readiness but do not establish realized AI labor substitution.",
+        "Results may differ sharply between multi-year truck fleets and branch-based consumer RV or trailer rentals."
+      ]
+    },
+    "e": {
+      "evidence_state": "ESTIMATE",
+      "low": 0.6,
+      "base": 0.75,
+      "high": 0.9,
+      "rationale": "The NAICS definition centers on operating rental or leasing services to external customers, so most LMM operating firms fit the lens. Ineligible cases include passive fleet-owning or finance vehicles, captive units, dealer-led businesses whose primary economics are sales, and entities without transferable operations.",
+      "change_evidence": "A firm-level registry linking 532120 establishments to external contracts, service revenue, ownership/control, fleet assets, and normalized EBITDA would directly measure the eligible share across the truck, trailer, and RV submodels.",
+      "source_ids": ["S1"],
+      "caveats": [
+        "Eligibility within the estimated LMM population is not observed.",
+        "The frozen n value depends on a round 30% EBITDA-margin assumption that may misclassify capital-intensive firms."
+      ]
+    },
+    "s5": {
+      "evidence_state": "ESTIMATE",
+      "low": 0.08,
+      "base": 0.13,
+      "high": 0.2,
+      "rationale": "The broad equipment-rental marketplace shows completed deals, supporting the existence of a transfer market, but it supplies neither a 532120 denominator nor an LMM-specific five-year hazard. Fleet financing, asset appraisals, lender consents, customer concentration, and owner succession create both sale incentives and closing friction.",
+      "change_evidence": "A deduplicated five-year set of closed 532120 operating-company control transactions from PitchBook, Capital IQ, Axial, BizBuySell brokers, and commercial fleet lenders, divided by a verified eligible-firm panel, would materially change s5.",
+      "source_ids": ["S5"],
+      "caveats": [
+        "BizBuySell's 31 reported Equipment Rental and Dealers sales in 2025 combine industries and are mostly below the target EBITDA band.",
+        "Fleet disposals, lease-book transfers, franchise changes, and internal reorganizations are excluded from qualifying control transfers."
+      ]
+    },
+    "q": {
+      "evidence_state": "ESTIMATE",
+      "low": 0.35,
+      "base": 0.5,
+      "high": 0.65,
+      "rationale": "Multi-year commercial leases can preserve workflow savings within an existing term, while short-term rentals can retain savings through dynamic prices if competition does not force immediate pass-through. Renewal tenders, transparent time-and-mileage pricing, customer sharing, lower fees, service-level credits, and technology costs reduce retention.",
+      "change_evidence": "Contract and renewal samples across full-service truck leases and short-term truck, trailer, and RV rentals showing billing units, escalation, open-book terms, repricing, gainsharing, credits, technology cost, and realized post-automation margin would materially refine q.",
+      "source_ids": ["S3", "S4"],
+      "caveats": [
+        "The cited filings describe contract structures but not the retained share of automation benefits.",
+        "Pricing power differs materially between bespoke commercial leases and price-transparent consumer rentals."
+      ]
+    },
+    "d5": {
+      "evidence_state": "PROXY",
+      "low": 0.9,
+      "base": 1.08,
+      "high": 1.25,
+      "bridge": "U-Haul's self-moving equipment rental revenue rose from $3.625 billion in fiscal 2024 to $3.726 billion in fiscal 2025, while Ryder reported long-term commercial leasing alongside weaker commercial rental conditions in 2025. These large-company nominal observations are translated to a modest 1.08 five-year constant-price service-quantity base rather than extrapolated mechanically. Large network expansion and price changes likely overstate LMM industry quantity growth, so the range includes a 10% decline.",
+      "rationale": "Freight, household moves, project work, seasonal capacity, and businesses avoiding fleet capital support continuing rental and leasing demand. Cyclicality, remote-work migration normalization, freight weakness, customer ownership, and utilization technology constrain the five-year outlook.",
+      "change_evidence": "Five years of Census Service Annual Survey or Economic Census constant-price receipts and transaction or fleet-on-rent counts for 532120, split by truck lease, truck/trailer rental, and RV rental and by firm size, would replace the proxy.",
+      "source_ids": ["S3", "S4"],
+      "caveats": [
+        "U-Haul mixes truck and trailer rentals with other businesses, and revenue changes include price and mix.",
+        "Ryder is a large commercial fleet company and its conditions may not represent consumer RV or trailer operators or LMM firms."
+      ]
+    },
+    "o": {
+      "evidence_state": "ESTIMATE",
+      "low": 0.82,
+      "base": 0.92,
+      "high": 0.97,
+      "rationale": "Customers may self-book and software can automate dispatch and fleet administration, but an accountable operator must still own or control the asset, ensure availability, maintain and inspect it, manage safety and compliance, handle physical pickup or delivery, and resolve damage and roadside events. Software is therefore unlikely to replace most operator-required quantity within five years.",
+      "change_evidence": "Buyer cohorts tracking cancellations, peer-to-peer substitution, direct ownership, software-only fleet management, autonomous handoff, and retained operator contracts by rental/lease submodel would materially move o.",
+      "source_ids": ["S3", "S4"],
+      "caveats": [
+        "No source directly measures operator substitution for the full 532120 basket.",
+        "Peer-to-peer RV and trailer platforms could reduce traditional operator share faster than commercial truck leasing."
+      ]
+    }
+  },
+  "narrative": {
+    "executive_view": "Truck, trailer, and RV rental and leasing combines a durable physical-asset service with automatable reservation, contract, maintenance, billing, and fleet workflows. The opportunity is constrained by substantial physical labor, capital intensity, cyclical utilization, and a heterogeneous mix of multi-year B2B leases and short-term consumer transactions.",
+    "ai_impact": "AI can improve quoting, reservation support, contract extraction, dispatch, maintenance prediction and authorization, damage triage, invoice reconciliation, customer communication, compliance monitoring, and fleet utilization. It has limited reach into cleaning, repairs, inspections, vehicle movement, roadside work, and physical handoffs.",
+    "value_capture": "Existing long-term contracts and flexible short-term prices can retain some workflow benefit, but tendered fleet accounts, transparent consumer pricing, renewal competition, credits, and technology costs create pass-through. Retention should be tested separately by submodel.",
+    "firm_availability": "Most operating lessors and rental firms fit the external-service lens, but passive fleet owners and finance structures require screening. Broad equipment-rental deal data establish a market without supporting a reliable five-year industry transfer probability.",
+    "demand_durability": "Businesses need flexible capacity and outsourced fleet support, while consumers continue to rent moving equipment and RVs. Freight cycles, housing moves, travel demand, fleet ownership economics, and branch utilization make quantity more volatile than the recurring lease base suggests.",
+    "risks_and_uncertainty": "Key risks are the 30% margin assumption behind the frozen firm count, fleet financing and residual values, maintenance and safety liabilities, cyclicality, large-operator evidence bias, and mixing commercial leases with consumer rentals in one code.",
+    "principal_driver": "Physical asset accountability makes demand hard to replace entirely while data-rich fleet workflows offer targeted automation potential.",
+    "principal_weakness": "Capital intensity and physical maintenance limit labor leverage, and the code's mixed customer and contract models widen every commercial estimate."
+  },
+  "sources": [
+    {
+      "id": "S1",
+      "url": "https://www.census.gov/naics/?chart=2022&details=532120&input=532120",
+      "title": "2022 NAICS Definition: 532120 Truck, Utility Trailer, and RV Rental and Leasing",
+      "access_date": "2026-07-22",
+      "supports": "Defines 532120 as establishments renting or leasing without drivers trucks, truck tractors, buses, semi-trailers, utility trailers, or recreational vehicles and excludes light-duty passenger trucks and SUVs."
+    },
+    {
+      "id": "S2",
+      "url": "https://www.bls.gov/oes/2024/may/ind_emp_chart/ind_emp_chart_data.htm",
+      "title": "BLS OEWS: Largest Occupations in Automotive Equipment Rental and Leasing, May 2024",
+      "access_date": "2026-07-22",
+      "supports": "Reports the largest occupations for NAICS 532100, including 62,200 counter and rental clerks, 23,960 vehicle/equipment cleaners, 12,300 bus and truck mechanics, 10,840 heavy truck drivers, 7,080 general and operations managers, and 5,790 customer service representatives."
+    },
+    {
+      "id": "S3",
+      "url": "https://www.sec.gov/Archives/edgar/data/85961/000008596126000007/r-20251231.htm",
+      "title": "Ryder System 2025 Form 10-K",
+      "access_date": "2026-07-22",
+      "supports": "Describes full-service leasing, flexible maintenance, commercial rental, digital support, fuel services, and lease periods generally of three to seven years for trucks and tractors and ten years for trailers; estimates one million U.S. commercial fleet vehicles are leased or rented from third parties such as Ryder."
+    },
+    {
+      "id": "S4",
+      "url": "https://www.sec.gov/Archives/edgar/data/4457/000095017025078451/uhal-20250331.htm",
+      "title": "U-Haul Holding Company 2025 Form 10-K",
+      "access_date": "2026-07-22",
+      "supports": "Reports a fleet of about 192,100 trucks, 137,500 trailers, and 39,700 towing devices and self-moving equipment rental revenue of $3.726 billion in fiscal 2025 versus $3.625 billion in fiscal 2024, with transaction and revenue-per-transaction commentary."
+    },
+    {
+      "id": "S5",
+      "url": "https://www.bizbuysell.com/insight-report-data-tables/",
+      "title": "BizBuySell Insight Report Data Tables: Full-Year 2025 Transactions",
+      "access_date": "2026-07-22",
+      "supports": "Reports 31 closed transactions in the broad Equipment Rental and Dealers category during 2025, with median cash flow of $273,854, demonstrating deal activity but not an industry-specific transfer rate."
+    }
+  ]
+}

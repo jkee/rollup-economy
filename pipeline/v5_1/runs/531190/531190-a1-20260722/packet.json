@@ -1,0 +1,153 @@
+{
+  "identity": {
+    "naics": "531190",
+    "title": "Lessors of Other Real Estate Property",
+    "run_id": "531190-a1-20260722",
+    "model_id": "claude-sonnet-5",
+    "run_date": "2026-07-22",
+    "methodology_version": "5.1",
+    "attempt": 1
+  },
+  "lens": {
+    "included_activities": "US lower-middle-market owner-operators that lease manufactured-home sites to residents who own their homes and receive recurring community access, grounds, utility, compliance, and resident-service operations.",
+    "excluded_activities": "Manufactured homes rented with the site, passive vacant-lot and grazing-land lessors, one-off ground leases without an operating organization, building lessors, self-storage, shells, captive units, non-control financing vehicles, and firms outside the lower-middle-market band.",
+    "customer_and_revenue_model": "Residents typically pay recurring site rent under monthly or annual arrangements, sometimes with separately billed utilities, amenities, storage, home-sale, or other community services.",
+    "deviation_from_default": "Narrowed to manufactured-home-site lessors because the code also contains passive vacant-lot and grazing-land leasing, whose near-absent service workflow, tenant relationship, and operating obligations make one screen incoherent. The narrowing follows an explicit Census example and is not based on attractiveness.",
+    "heterogeneous": true
+  },
+  "primitives": {
+    "a": {
+      "evidence_state": "PROXY",
+      "low": 0.25,
+      "base": 0.42,
+      "high": 0.6,
+      "bridge": "O*NET tasks for property and community managers are mapped to manufactured-home-site operations: leasing, records, rent collection, budgeting, resident messages, complaint intake, compliance documentation, marketing, bid analysis, and vendor coordination are treated as AI-exposed; inspections, physical maintenance, resident disputes, contractor supervision, and accountable legal decisions are less substitutable. The occupation includes more administratively intensive buildings and associations, so it likely biases exposure upward for land-only site lessors.",
+      "rationale": "Community operations contain meaningful document, payment, service, and communication work, but roads, grounds, utilities, inspections, resident relations, and maintenance coordination preserve a large physical and judgment-heavy share.",
+      "change_evidence": "A wage-weighted time-and-motion study across independent manufactured-home communities separating leasing, collections, resident service, compliance, maintenance, utilities, inspections, home sales, and already automated work.",
+      "source_ids": ["S2", "S3"],
+      "caveats": [
+        "O*NET spans many property types and does not provide manufactured-home-community task shares.",
+        "UMH combines site leasing with rental homes, home sales, finance, and other services.",
+        "Small community owners may perform maintenance directly rather than employ the occupational mix implied by O*NET."
+      ]
+    },
+    "rho": {
+      "evidence_state": "ESTIMATE",
+      "low": 0.35,
+      "base": 0.58,
+      "high": 0.78,
+      "rationale": "Standard property software can support communications, payments, work orders, document extraction, leasing, and reporting, but implementation is constrained by fragmented systems, resident adoption, fair-housing and consumer rules, local utility practices, small-operator budgets, and many physical exceptions.",
+      "change_evidence": "Production telemetry and operator interviews from manufactured-housing property-management vendors measuring AI-assisted case resolution, leasing, delinquency, work-order, compliance, and reporting workflows by community size.",
+      "source_ids": [],
+      "caveats": [
+        "No source measures AI implementation in lower-middle-market manufactured-home communities.",
+        "Technology readiness likely varies sharply between professional portfolios and owner-managed communities.",
+        "Resident-facing automation can create accessibility, discrimination, and escalation risks."
+      ]
+    },
+    "e": {
+      "evidence_state": "ESTIMATE",
+      "low": 0.2,
+      "base": 0.45,
+      "high": 0.7,
+      "rationale": "Manufactured-home sites are an explicit 531190 activity and can support transferable recurring operations, but the code also includes vacant lots and grazing land. The share of the supplied lower-middle-market firm estimate attributable to site communities rather than passive land entities is not observed.",
+      "change_evidence": "A firm-level 531190 census linking legal entities to property type, developed sites, normalized EBITDA, operating employees, recurring resident services, control ownership, and transferable licenses or contracts.",
+      "source_ids": ["S1"],
+      "caveats": [
+        "No public source measures the manufactured-home-site share of firms in the supplied band.",
+        "Property-level special-purpose entities can inflate firm counts relative to transferable operating platforms.",
+        "The dataset uses a broad real-estate-services margin that may poorly represent site-rental economics."
+      ]
+    },
+    "s5": {
+      "evidence_state": "ESTIMATE",
+      "low": 0.08,
+      "base": 0.17,
+      "high": 0.28,
+      "rationale": "UMH acquired five manufactured-home communities containing 587 sites in 2025, demonstrating an active control market, but one public buyer's activity provides neither an industry denominator nor an independent lower-middle-market transfer rate.",
+      "change_evidence": "A five-year manufactured-housing-community transaction set from Green Street, CoStar, MHVillage, JLL, or specialist brokers, deduplicated to sellers and matched to eligible firm counts, owner age, and succession plans.",
+      "source_ids": ["S3"],
+      "caveats": [
+        "One public REIT's acquisitions are not representative of all qualifying transfers.",
+        "A community sale can be an asset transfer without transfer of the operating company.",
+        "No owner-age or succession distribution is available for the narrowed lens."
+      ]
+    },
+    "q": {
+      "evidence_state": "ESTIMATE",
+      "low": 0.58,
+      "base": 0.75,
+      "high": 0.88,
+      "rationale": "Site rent is a recurring charge for scarce land, infrastructure, and community access rather than reimbursement of payroll, so workflow savings need not be passed through immediately. UMH reports broad annual rent increases, but resident affordability, regulation, local competition, and political scrutiny can limit capture.",
+      "change_evidence": "Community-level lease files and operating cohorts linking automation savings to payroll, annual rent resets, concessions, delinquency, resident turnover, regulatory caps, and renewal outcomes.",
+      "source_ids": ["S3"],
+      "caveats": [
+        "UMH's pricing experience may not represent independent operators or regulated jurisdictions.",
+        "Resident immobility can support retention but also raises legal, political, and reputational constraints.",
+        "No source directly measures pass-through of implemented technology savings."
+      ]
+    },
+    "d5": {
+      "evidence_state": "PROXY",
+      "low": 0.96,
+      "base": 1.06,
+      "high": 1.2,
+      "bridge": "UMH reports that overall community occupancy increased from 87.3% to 88.1% in 2025, calls affordable-housing demand healthy, and added or acquired sites. Those one-company occupancy and capacity observations are translated into a modest five-year increase in constant-quality site-leasing quantity. UMH is a growth-oriented public platform and includes rental-home operations, so the proxy likely biases demand growth upward for mature independent land-only communities.",
+      "rationale": "Affordable site-based housing has durable need and substantial moving frictions, while new-site constraints support occupied communities. Local demographics, aging infrastructure, resident affordability, regulation, and community quality can still produce stagnation or decline.",
+      "change_evidence": "Five-year occupied-site counts, resident move-ins and move-outs, closures, expansions, and waitlists for independent manufactured-home communities from Census, HUD, MHI, Datacomp, or state licensing agencies.",
+      "source_ids": ["S3"],
+      "caveats": [
+        "Occupancy and nominal income are not direct constant-price, constant-quality quantity measures.",
+        "UMH's portfolio includes rental homes and services outside land-only site leasing.",
+        "National housing need can conceal weak local markets and community closures."
+      ]
+    },
+    "o": {
+      "evidence_state": "ESTIMATE",
+      "low": 0.82,
+      "base": 0.93,
+      "high": 0.99,
+      "rationale": "Digital leasing, payments, communications, and work-order triage can reduce administrative labor, but a community still needs an accountable operator for land, roads, utilities, grounds, safety, code compliance, resident disputes, contractors, and capital maintenance. Software cannot supply the physical site or assume these obligations on its own.",
+      "change_evidence": "Operating data from remotely managed communities measuring centralized labor, outsourced field work, utility and maintenance incidents, legal escalations, resident outcomes, and hours without on-site management.",
+      "source_ids": ["S2", "S3"],
+      "caveats": [
+        "The accountable entity may outsource most daily property management while retaining ownership responsibility.",
+        "Operator intensity varies with community age, utility ownership, amenities, and resident-service scope.",
+        "Future remote sensing and contractor platforms could reduce the human share more than assumed."
+      ]
+    }
+  },
+  "narrative": {
+    "executive_view": "Manufactured-home-site leasing offers recurring fixed rent and durable physical demand, while AI can streamline resident service, collections, leasing, reporting, and vendor coordination. The code-level opportunity is uncertain because 531190 also contains passive land-lessor models and the eligible community share is unknown.",
+    "ai_impact": "AI can handle routine inquiries, summarize resident cases, draft notices, triage work orders, extract lease and invoice data, support delinquency workflows, forecast occupancy, and compare vendor bids. Field inspection, utilities, maintenance, disputes, compliance, and capital work still require accountable operators.",
+    "value_capture": "Site rent is not tied directly to labor hours, creating room to retain efficiencies. Capture is constrained by resident affordability, legal protections, local rent regulation, reputational scrutiny, and the need to reinvest in aging infrastructure.",
+    "firm_availability": "Manufactured-home sites are explicitly inside the industry, but the supplied count also covers vacant-lot and grazing-land lessors and may contain property entities rather than operating firms. Public acquisitions show liquidity without resolving the eligible denominator.",
+    "demand_durability": "Affordable housing need, resident moving costs, and scarce developed sites support continuity. Local employment, community condition, utility failures, regulation, natural hazards, and closures can nevertheless impair individual properties.",
+    "risks_and_uncertainty": "The principal uncertainties are the community share of the NAICS population, entity-level count inflation, an unsuitable broad margin anchor, infrastructure liabilities, rent regulation, resident relations, fair-housing compliance, local demand, and limited evidence on AI adoption by independent operators.",
+    "principal_driver": "Recurring site rent and resident-service workflows create retainable administrative efficiencies while the physical community remains necessary.",
+    "principal_weakness": "The NAICS code mixes active communities with passive land leasing, making eligible-firm availability and dataset fit unusually uncertain."
+  },
+  "sources": [
+    {
+      "id": "S1",
+      "url": "https://www.census.gov/naics/resources/archives/sect53.html",
+      "title": "North American Industry Classification System: Sector 53",
+      "access_date": "2026-07-22",
+      "supports": "Defines 531190 as lessors of real estate other than buildings, including manufactured-home sites, vacant lots, and grazing land, and distinguishes buildings and self-storage."
+    },
+    {
+      "id": "S2",
+      "url": "https://www.onetonline.org/link/summary/11-9141.00",
+      "title": "O*NET OnLine: Property, Real Estate, and Community Association Managers",
+      "access_date": "2026-07-22",
+      "supports": "Lists budgeting, rent collection, leasing, records, resident communication, complaint resolution, contractor coordination, inspection, maintenance, and compliance tasks for managers of rented land and property."
+    },
+    {
+      "id": "S3",
+      "url": "https://www.sec.gov/Archives/edgar/data/752642/000149315226010595/formars.pdf",
+      "title": "UMH Properties 2025 Annual Report",
+      "access_date": "2026-07-22",
+      "supports": "Describes manufactured-home-site leasing and community operations; reports 145 communities, occupancy rising from 87.3% to 88.1%, healthy affordable-housing demand, broad annual rent increases, and five communities with 587 sites acquired in 2025."
+    }
+  ]
+}

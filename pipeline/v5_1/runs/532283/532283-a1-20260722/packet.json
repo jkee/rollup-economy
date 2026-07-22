@@ -1,0 +1,179 @@
+{
+  "identity": {
+    "naics": "532283",
+    "title": "Home Health Equipment Rental",
+    "run_id": "532283-a1-20260722",
+    "model_id": "claude-sonnet-5",
+    "run_date": "2026-07-22",
+    "methodology_version": "5.1",
+    "attempt": 1
+  },
+  "lens": {
+    "included_activities": "US lower-middle-market businesses that repeatedly rent durable home health equipment to external patients or caregivers and provide the associated intake, delivery, setup, instruction, maintenance, billing, and follow-up service.",
+    "excluded_activities": "Equipment manufacturers, sale-only medical-supply retailers, institutional-only equipment providers, home health clinical agencies without an equipment-rental operation, captive units, shells, and non-control financing vehicles.",
+    "customer_and_revenue_model": "Recurring or episode-based rental payments from Medicare, other insurers, institutions, or patients, often accompanied by reimbursed supplies and service obligations.",
+    "deviation_from_default": "none",
+    "heterogeneous": false
+  },
+  "primitives": {
+    "a": {
+      "evidence_state": "PROXY",
+      "low": 0.22,
+      "base": 0.36,
+      "high": 0.5,
+      "bridge": "BLS measures occupation shares for the entire rental and leasing subsector rather than home health equipment rental or task-level wages. I map portions of customer service, dispatch, billing, bookkeeping, office support, sales, and management to AI-exposed work while excluding most delivery, setup, repair, cleaning, and licensed clinical judgment. The broad rental mix likely understates medical billing and documentation but may overstate generic counter work, leaving uncertain net bias.",
+      "rationale": "Home health equipment rental combines document-heavy intake, eligibility checks, coding, scheduling, claims, customer communications, inventory coordination, and collections with substantial physical delivery and service work. AI can address parts of the former but not the latter.",
+      "change_evidence": "A wage-weighted task study from representative DME rental suppliers, distinguishing intake, documentation, billing, dispatch, delivery, setup, repair, compliance, and management time, would materially change the estimate.",
+      "source_ids": ["S1", "S3"],
+      "caveats": [
+        "BLS publishes the occupation evidence for NAICS 532 broadly rather than NAICS 532283.",
+        "CMS quality standards describe required work but do not report labor hours or wages.",
+        "Product mix can shift labor intensity materially between respiratory, mobility, and other equipment."
+      ]
+    },
+    "rho": {
+      "evidence_state": "ESTIMATE",
+      "low": 0.38,
+      "base": 0.58,
+      "high": 0.74,
+      "rationale": "Claims preparation, document extraction, scheduling, customer messaging, inventory forecasting, and denial triage can be embedded in existing workflows. Implementation will be limited by protected health information, payer-specific rules, auditability, system integration, accreditation, and the requirement that qualified people deliver, set up, instruct, and follow up on equipment.",
+      "change_evidence": "Supplier pilots reporting production adoption, exception rates, claim denials, audit findings, labor hours, integration costs, and patient-safety incidents by workflow would materially change this estimate.",
+      "source_ids": ["S2", "S3", "S4"],
+      "caveats": [
+        "No source directly measures five-year implementation of the defined opportunity.",
+        "The range assumes human review remains in safety-critical and reimbursement-critical workflows."
+      ]
+    },
+    "e": {
+      "evidence_state": "ESTIMATE",
+      "low": 0.6,
+      "base": 0.78,
+      "high": 0.9,
+      "rationale": "Most firms in this rental classification should serve external patients or caregivers through recurring equipment episodes, but sale-heavy medical-supply dealers, institution-focused operators, and mixed businesses may not meet the frozen service and revenue lens.",
+      "change_evidence": "Firm-level revenue segmentation for the 121 injected candidate firms, verified through claims, product mix, customer type, and normalized EBITDA, would establish eligibility.",
+      "source_ids": ["S2", "S6"],
+      "caveats": [
+        "The injected count is an estimate rather than a reviewed roster.",
+        "The frozen count uses a 30 percent EBITDA margin bridge that may overstate or understate band membership for inventory-intensive suppliers.",
+        "CMS sources cover Medicare suppliers, not the entire private-pay and commercial-insurance market."
+      ]
+    },
+    "s5": {
+      "evidence_state": "ESTIMATE",
+      "low": 0.1,
+      "base": 0.2,
+      "high": 0.32,
+      "rationale": "The fragmented supplier base and compliance burden make some control transfers plausible, but no defensible five-year transaction denominator or owner-succession distribution specific to eligible home health equipment rental firms was found.",
+      "change_evidence": "A matched five-year panel of eligible suppliers using PECOS ownership changes, state registrations, PitchBook or Capital IQ transactions, lender records, and owner-age interviews would materially change the transfer probability.",
+      "source_ids": [],
+      "caveats": [
+        "Provider-enrollment changes may reflect reorganizations rather than qualifying control transfers.",
+        "Closures, license changes, and asset purchases must not be counted automatically as transfers of operating firms."
+      ]
+    },
+    "q": {
+      "evidence_state": "ESTIMATE",
+      "low": 0.32,
+      "base": 0.55,
+      "high": 0.72,
+      "rationale": "Fee schedules and competitive bidding weaken direct cost pass-through in the short run, allowing an efficient operator to retain some benefit. Renewal adjustments, payer contracting, bid competition, customer concentration, and service-level pressure can share or recapture savings over five years.",
+      "change_evidence": "Contract-level analysis of payer fee updates, competitive bids, renewal repricing, gross margin, and customer churn following measured cost reductions would materially change the retained-benefit share.",
+      "source_ids": ["S4", "S5"],
+      "caveats": [
+        "CMS payment rules do not describe commercial, Medicaid, or private-pay contracts.",
+        "Retention differs materially by product category, geography, and payer mix.",
+        "Competitive bidding can turn supplier efficiencies into lower program payments."
+      ]
+    },
+    "d5": {
+      "evidence_state": "PROXY",
+      "low": 1.03,
+      "base": 1.15,
+      "high": 1.3,
+      "bridge": "Census reports that the US population aged 65 and older rose to 61.2 million in 2024 and that its population share has been increasing; CMS confirms a broad Medicare-covered home-equipment basket. I translate aging into moderate five-year constant-quality demand growth, tempered because equipment need, payer coverage, utilization management, technology, and reuse do not move one-for-one with senior population. This demographic bridge likely overstates demand where reimbursement tightens and understates it where home-based care substitutes for institutions.",
+      "rationale": "An aging population supports demand for mobility, respiratory, hospital-bed, and related home equipment, while reimbursement policy and utilization controls constrain the conversion of need into paid rental quantity.",
+      "change_evidence": "Constant-price rental-unit and beneficiary counts by product from CMS claims, Medicaid data, commercial payer data, and private-pay suppliers, projected with diagnosis and site-of-care trends, would materially change the ratio.",
+      "source_ids": ["S2", "S7"],
+      "caveats": [
+        "Population aging is a demand driver rather than a direct measure of NAICS 532283 output.",
+        "The estimate does not assume that all DMEPOS categories are rented or supplied by independent lens firms.",
+        "Policy changes can decouple medical need from reimbursed quantity."
+      ]
+    },
+    "o": {
+      "evidence_state": "ESTIMATE",
+      "low": 0.8,
+      "base": 0.91,
+      "high": 0.97,
+      "rationale": "The service basket centers on physical medical equipment that must be selected, delivered or furnished, set up, maintained, documented, and supported by an accountable supplier. Software can automate coordination and monitoring but cannot eliminate most physical custody and safety responsibility.",
+      "change_evidence": "Product-level utilization forecasts identifying direct-to-consumer purchase, manufacturer-direct fulfillment, remote setup, disposable substitution, and software-only replacement would materially change the operator-required share.",
+      "source_ids": ["S2", "S3"],
+      "caveats": [
+        "Some simple products can shift from rental to direct purchase or drop shipment.",
+        "Operator necessity is lower for commodity supplies than for respiratory, mobility, and complex equipment.",
+        "The source evidence defines obligations but does not quantify the share of future quantity requiring an independent operator."
+      ]
+    }
+  },
+  "narrative": {
+    "executive_view": "Home health equipment rental combines a sizable administrative surface for AI with a durable physical-service core. The opportunity depends on integrating automation into regulated billing and service workflows without weakening patient safety, documentation, accreditation, or payer compliance.",
+    "ai_impact": "Document extraction, order intake, eligibility checks, coding assistance, scheduling, dispatch, inventory planning, patient messaging, denial triage, and collections can be augmented. Qualified personnel remain necessary for physical delivery, setup, education, maintenance, monitoring, and exception handling.",
+    "value_capture": "Admin efficiencies can initially accrue to operators because many Medicare payments follow schedules rather than cost reimbursement. Competitive bidding, payer renewals, and concentrated referral relationships can return part of the benefit to payers or customers over time.",
+    "firm_availability": "The injected estimate identifies 121 firms in the screened band, but eligibility requires confirming that rental and associated service dominate recurring external revenue. Transfer probability remains uncertain because no industry-specific control-transfer denominator was found.",
+    "demand_durability": "Population aging and the broad set of medically necessary equipment used in homes support demand. Reimbursement controls, product reuse, technology shifts, and changes between rental and purchase can moderate unit growth.",
+    "risks_and_uncertainty": "Material risks include reimbursement cuts, competitive-bid pressure, claim denials, audits, accreditation failure, cybersecurity and privacy incidents, patient-safety errors, referral concentration, working-capital intensity, and overestimating the eligible firm roster through the margin bridge.",
+    "principal_driver": "Aging-linked physical equipment need remains operator-dependent while administrative workflows offer implementable AI opportunities.",
+    "principal_weakness": "Regulated service obligations and payer control constrain implementation speed and long-run retention of savings."
+  },
+  "sources": [
+    {
+      "id": "S1",
+      "url": "https://www.bls.gov/oes/2023/may/naics3_532000.htm",
+      "title": "Rental and Leasing Services - May 2023 OEWS Industry-Specific Occupational Employment and Wage Estimates",
+      "access_date": "2026-07-22",
+      "supports": "Broader NAICS 532 occupation mix, including office support, billing, customer service, dispatch, sales, transportation, installation, maintenance, and medical equipment repair roles."
+    },
+    {
+      "id": "S2",
+      "url": "https://www.cms.gov/medicare/payment/fee-schedules/durable-medical-equipment-prosthetic-devices-prosthetics-orthotics-supplies/dme-supplies-accessories-used-dme",
+      "title": "DME and Supplies and Accessories Used with DME",
+      "access_date": "2026-07-22",
+      "supports": "CMS definition of home-use durable medical equipment, repeated-use requirement, rental and purchase treatment, refurbishment, and capped rental treatment."
+    },
+    {
+      "id": "S3",
+      "url": "https://www.cms.gov/medicare/medicare-fee-for-service-payment/dmeposcompetitivebid/downloads/cms_dmepos_quality_standards_081406.pdf",
+      "title": "Quality Standards for Suppliers of Durable Medical Equipment, Prosthetics, Orthotics, and Supplies",
+      "access_date": "2026-07-22",
+      "supports": "CMS requirements for qualified delivery and setup personnel, beneficiary instruction, equipment maintenance information, documentation, and compliance processes."
+    },
+    {
+      "id": "S4",
+      "url": "https://www.cms.gov/medicare/payment/fee-schedules/durable-medical-equipment-prosthetic-devices-prosthetics-orthotics-supplies/payment-policies-dmepos-items-services",
+      "title": "Payment Policies for DMEPOS Items and Services",
+      "access_date": "2026-07-22",
+      "supports": "CMS fee-schedule methodology, allowed-payment calculation, beneficiary cost share, and competitive-bidding payment treatment."
+    },
+    {
+      "id": "S5",
+      "url": "https://www.cms.gov/newsroom/fact-sheets/durable-medical-equipment-prosthetics-orthotics-supplies-competitive-bidding-program-updates",
+      "title": "Durable Medical Equipment, Prosthetics, Orthotics, and Supplies Competitive Bidding Program - Updates and Important Information",
+      "access_date": "2026-07-22",
+      "supports": "Current CMS competitive-bidding framework and bid limits for selected DMEPOS product categories."
+    },
+    {
+      "id": "S6",
+      "url": "https://www.cms.gov/medicare/enrollment-renewal/providers-suppliers/durable-medical-equipment-prosthetics-orthotics-supplies-dmepos",
+      "title": "Enroll as a DMEPOS Supplier",
+      "access_date": "2026-07-22",
+      "supports": "Supplier accreditation, Medicare enrollment, surety-bond, site-visit, and information-maintenance requirements."
+    },
+    {
+      "id": "S7",
+      "url": "https://www.census.gov/newsroom/press-releases/2025/older-adults-outnumber-children.html",
+      "title": "Older Adults Outnumber Children in 11 States and Nearly Half of U.S. Counties",
+      "access_date": "2026-07-22",
+      "supports": "Census estimates that the US population aged 65 and older reached 61.2 million in 2024 and that its population share increased to 18.0 percent."
+    }
+  ]
+}
