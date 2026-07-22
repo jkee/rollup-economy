@@ -1,15 +1,13 @@
 # v5.1 Plan — scope expansion to the full 1,012-code universe
 
-**Status: DRAFT — not launched.** Launch requires Victor's explicit approval
-of this plan as written (scope, budget, contract), and the fleet
-additionally requires a passed cross-sector canary gate. These are the only
-two unconditional stops, and they are **stage-aware**: `launch_approved`
-gates everything including the canary; `canary_approved` gates fleet blocks
-only. Each approval is a committed record in
-`pipeline/v5_1/campaign_state.json` (created as a prelaunch scaffold, so
-approval has a committed place to land) — prose edits to this file
-authorize nothing. The launch record also fixes the exact runtime model IDs
-(within the frozen classes) and the session/budget ceiling.
+**Status: LAUNCHED at the canary stage.** `launch_approved` is recorded in
+`pipeline/v5_1/campaign_state.json` (2026-07-22: research
+`claude-sonnet-5`, review `claude-fable-5`, session ceiling 1,400, budget
+ceiling $8k) and the `pipeline/v5_1/` freeze is committed. The one
+remaining unconditional stop is the **canary gate**: `canary_approved`
+gates fleet blocks; the plan's predeclared pause trigger is the only other
+stop. Gates are committed records in `campaign_state.json` — prose edits to
+this file authorize nothing.
 **Companion to:** [pipeline/v5/methodology.md](pipeline/v5/methodology.md) (frozen v5.0).
 **Proposed under:** [V5_PLAN.md](V5_PLAN.md) "Beyond v5", which permits proposing scope expansion as a new governed version (methodology §7.4: "Expanding beyond the 63 codes is a new version") — it does not itself authorize launch.
 **Prior ledger:** [V5_CLOSURE_REPORT.md](V5_CLOSURE_REPORT.md) — v5.0 closed 2026-07-22, 63/63 published, 0 excluded.
@@ -63,7 +61,7 @@ contract).
       (`launch_approved: null`, `canary_approved: null`, all blocks `todo`).
       Victor's launch approval **is** the commit filling `launch_approved`
       with date, model IDs, and the session/budget ceiling
-- [ ] After approval, complete `pipeline/v5_1/` from frozen v5.0 with these
+- [x] After approval, complete `pipeline/v5_1/` from frozen v5.0 with these
       enumerated deltas (listed in the freeze commit message):
       - methodology version identity 5.1; fleet scope →
         `pipeline/v5_1/targets.json`: all 1,012 codes with `title` and
@@ -120,15 +118,14 @@ contract).
         scorer, `build.py`, `assignment.py` (sampling seed and selection
         code included), and `targets.json`; `check` and `site` recompute it
         and fail on any drift
-- [ ] Dataset check (the V5_PLAN prerequisite — validation, not derivation;
-      `pipeline/datasets/derived/` already covers all 1,012): confirm
-      `derive.py` reproduces byte-identical output; note per block which
-      codes carry gaps (null `labor_share` / null `n_band` / `n_total`
-      proxy / the 14 `labor_share > 1` anomalies, of which 13 are outside
-      the old fleet plus carried `541618`)
-- [ ] Sentinel suite green against `pipeline/v5_1/`; the commit completing
-      the contract copy (the step above) is the v5.1 freeze — the scaffold
-      commit is not
+- [x] Dataset check (the V5_PLAN prerequisite — validation, not derivation;
+      `pipeline/datasets/derived/` already covers all 1,012): `derive.py`
+      rerun reproduced byte-identical output; per-block gaps recorded in
+      [`pipeline/v5_1/gap_manifest.md`](pipeline/v5_1/gap_manifest.md)
+      (84 null `labor_share`, 181 null `n_band`, 14 anomalies)
+- [x] Sentinel suite green against `pipeline/v5_1/` (43/43, including new
+      sampling and ledger-gate sentinels); the commit completing the
+      contract copy is the v5.1 freeze — the scaffold commit is not
 
 ## Cross-sector canary · gate
 
