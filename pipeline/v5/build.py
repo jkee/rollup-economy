@@ -72,7 +72,9 @@ ALLOWED_KEYS = {
                "methodology_version", "outcome", "mechanics", "sources_audited",
                "material_findings", "caveats", "summary"},
     "mechanics": {"identity_ok", "score_reproduces", "memo_reproduces", "artifacts_sha256"},
+    "audit": {"source_id", "reachable", "support", "note"},
 }
+SUPPORT_LEVELS = ("supported", "partially_supported", "unsupported", "not_score_driving")
 WEAKNESS = {"OBSERVED": 0, "PROXY": 1, "ESTIMATE": 2, "MISSING": 3}
 ACCEPTED = ("publishable", "publishable_with_caveats")
 OUTCOMES = ACCEPTED + ("reject", "invalid")
@@ -487,13 +489,35 @@ def validate_review(review: dict, packet: dict, mechanics: dict) -> list[str]:
     if not isinstance(audited, list):
         errors.append("review.sources_audited: required list")
     else:
-        audited_ids = {entry.get("source_id") for entry in audited if isinstance(entry, dict)}
-        score_driving = set()
+        packet_source_ids = {s.get("id") for s in packet.get("sources") or [] if isinstance(s, dict)}
+        audited_ids: set[str] = set()
+        for i, entry in enumerate(audited):
+            where = f"review.sources_audited[{i}]"
+            if not isinstance(entry, dict):
+                errors.append(f"{where}: must be an object")
+                continue
+            _unknown_keys(entry, "audit", where, errors)
+            sid = entry.get("source_id")
+            if not isinstance(sid, str) or not sid:
+                errors.append(f"{where}.source_id: required string")
+            else:
+                if sid not in packet_source_ids:
+                    errors.append(f"{where}.source_id: unknown source {sid!r}")
+                if sid in audited_ids:
+                    errors.append(f"{where}.source_id: duplicate audit of {sid!r}")
+                audited_ids.add(sid)
+            if not isinstance(entry.get("reachable"), bool):
+                errors.append(f"{where}.reachable: required bool")
+            if entry.get("support") not in SUPPORT_LEVELS:
+                errors.append(f"{where}.support: must be one of {SUPPORT_LEVELS}")
+            if "note" in entry and not isinstance(entry["note"], str):
+                errors.append(f"{where}.note: must be a string")
+        cited = set()
         for sel in (packet.get("primitives") or {}).values():
-            if isinstance(sel, dict) and sel.get("evidence_state") in ("OBSERVED", "PROXY"):
-                score_driving.update(sel.get("source_ids") or [])
-        for sid in sorted(score_driving - audited_ids):
-            errors.append(f"review.sources_audited: score-driving source {sid} was not audited")
+            if isinstance(sel, dict):
+                cited.update(sel.get("source_ids") or [])
+        for sid in sorted(cited - audited_ids):
+            errors.append(f"review.sources_audited: primitive-cited source {sid} was not audited")
     return errors
 
 
@@ -511,13 +535,17 @@ def build_site(allow_unreviewed: bool, runs: Path = RUNS, site_out: Path = SITE_
                              load_json(review_path) if review_path.exists() else None, run_dir))
         if not attempts:
             continue
-        numbers = [a[0].get("identity", {}).get("attempt") for a in attempts]
-        if len(numbers) != len(set(numbers)):
-            integrity_errors.append(f"{code_dir}: duplicate attempt numbers {sorted(numbers)}")
+        numbers = sorted(a[0].get("identity", {}).get("attempt") for a in attempts)
+        if numbers not in ([1], [1, 2]):
+            integrity_errors.append(f"{code_dir}: attempt numbers must be [1] or [1, 2], got {numbers}")
             continue
-        if len(numbers) > 2:
-            integrity_errors.append(f"{code_dir}: more than one remediation attempt is forbidden")
-            continue
+        if numbers == [1, 2]:
+            first = next(a for a in attempts if a[0]["identity"]["attempt"] == 1)
+            outcome1 = (first[2] or {}).get("outcome")
+            if outcome1 not in ("reject", "invalid"):
+                integrity_errors.append(
+                    f"{code_dir}: attempt 2 requires attempt 1 reviewed reject/invalid, got {outcome1!r}")
+                continue
         accepted = [a for a in attempts if a[2] and a[2].get("outcome") in ACCEPTED]
         pool = accepted or (attempts if allow_unreviewed else [])
         if not pool:

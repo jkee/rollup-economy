@@ -323,6 +323,36 @@ class ReviewContractSentinels(unittest.TestCase):
         errors = validate_review(r, packet(), self.MECH)
         self.assertTrue(any("S1 was not audited" in e for e in errors))
 
+    def test_estimate_cited_sources_must_be_audited(self):
+        # Coverage is any primitive-cited source, not just OBSERVED/PROXY.
+        p = packet(**{"primitives.q": primitive(source_ids=["S2"])})
+        p["sources"].append({"id": "S2", "url": "https://example.com/2", "title": "t2",
+                             "access_date": "2026-07-22", "supports": "synthetic"})
+        errors = validate_review(review_for(p, self.MECH), p, self.MECH)
+        self.assertTrue(any("S2 was not audited" in e for e in errors))
+
+    def test_audit_entries_fully_validated(self):
+        # Sol's canary-readiness blocker: {"source_id": "S1"} alone must fail.
+        r = review_for(packet(), self.MECH, sources_audited=[{"source_id": "S1"}])
+        errors = validate_review(r, packet(), self.MECH)
+        self.assertTrue(any("reachable: required bool" in e for e in errors))
+        self.assertTrue(any("support: must be one of" in e for e in errors))
+        r = review_for(packet(), self.MECH, sources_audited=[
+            {"source_id": "S1", "reachable": True, "support": "looks fine"}])
+        errors = validate_review(r, packet(), self.MECH)
+        self.assertTrue(any("support: must be one of" in e for e in errors))
+        r = review_for(packet(), self.MECH, sources_audited=[
+            {"source_id": "S99", "reachable": True, "support": "supported"},
+            {"source_id": "S1", "reachable": True, "support": "supported"},
+            {"source_id": "S1", "reachable": True, "support": "supported"}])
+        errors = validate_review(r, packet(), self.MECH)
+        self.assertTrue(any("unknown source 'S99'" in e for e in errors))
+        self.assertTrue(any("duplicate audit of 'S1'" in e for e in errors))
+        r = review_for(packet(), self.MECH, sources_audited=[
+            {"source_id": "S1", "reachable": True, "support": "supported", "vibe": "good"}])
+        errors = validate_review(r, packet(), self.MECH)
+        self.assertTrue(any("unknown keys" in e for e in errors))
+
     def test_false_mechanics_requires_invalid(self):
         mech = dict(self.MECH, score_reproduces=False)
         r = review_for(packet(), mech)
@@ -429,6 +459,25 @@ class PublicationGateSentinels(unittest.TestCase):
             p1, dir1, mech1 = self._add_attempt(tmp, "t1", 1)
             (dir1 / "review.json").write_text(json.dumps(review_for(p1, mech1)), encoding="utf-8")
             pdup, dirdup, mechdup = self._add_attempt(tmp, "tdup", 1)
+            with self.assertRaises(SystemExit):
+                build_site(False, runs=tmp / "runs", site_out=tmp / "six.json")
+
+    def test_attempt_sequencing_fail_closed(self):
+        # Attempt 2 without attempt 1 is rejected.
+        with tempfile.TemporaryDirectory() as tmpdir:
+            tmp = Path(tmpdir)
+            p2, dir2, mech2 = self._add_attempt(tmp, "t2", 2)
+            (dir2 / "review.json").write_text(json.dumps(review_for(p2, mech2)), encoding="utf-8")
+            with self.assertRaises(SystemExit):
+                build_site(False, runs=tmp / "runs", site_out=tmp / "six.json")
+        # Attempt 2 after an ACCEPTED attempt 1 is rejected — remediation is
+        # only permitted for reject/invalid.
+        with tempfile.TemporaryDirectory() as tmpdir:
+            tmp = Path(tmpdir)
+            p1, dir1, mech1 = self._add_attempt(tmp, "t1", 1)
+            (dir1 / "review.json").write_text(json.dumps(review_for(p1, mech1)), encoding="utf-8")
+            p2, dir2, mech2 = self._add_attempt(tmp, "t2", 2)
+            (dir2 / "review.json").write_text(json.dumps(review_for(p2, mech2)), encoding="utf-8")
             with self.assertRaises(SystemExit):
                 build_site(False, runs=tmp / "runs", site_out=tmp / "six.json")
 
