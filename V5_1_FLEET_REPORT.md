@@ -445,3 +445,53 @@ definition URL could not be reopened, but the associated eligibility input was
 already an explicit estimate and no correction or honest downgrade changed a
 tier or action. No review found a material defect, and the predeclared pause
 trigger did not fire.
+
+## G1 — Construction
+
+**Closed:** 2026-07-22
+**Coverage:** 31 attempted, 31 deterministically valid, 31 published, 0 excluded
+**Independent review:** 4/31 (0 mandatory, 3 random, 1 canary)
+**Review outcomes:** 4 `publishable_with_caveats`; 0 `publishable`; 0 `reject`; 0 `invalid`
+**Material findings:** 0
+**Remediations:** 0
+
+### Screen distribution
+
+- Base tiers: 0 `HIGHEST_PRIORITY`, 0 `PRIORITY`, 1 `CONDITIONAL`,
+  14 `LOW_PRIORITY`, 16 `STRUCTURAL_OUT`, and 0 without a base tier.
+- Readiness: 31 `MODEL_CONDITIONED`.
+- Actions: 31 `VALIDATE_ASSUMPTIONS`.
+- Robust tiers: 2/31, both `STRUCTURAL_OUT`.
+- Publication labels: 4 `accepted`; 27 `not_reviewed` by the frozen sampling
+  contract.
+
+The random stratum consisted of `238140`, `238310`, and `238330`. All three
+were accepted with caveats and carried no material finding. The previously
+reviewed canary `238910` also closed with the block. These are sample
+observations only; no G1 defect rate is estimated.
+
+### Economic read
+
+The screen was strongly conservative in a block where almost all delivery is
+physical, site-specific, project-based, and repeatedly exposed to competitive
+bidding. Land subdivision was the sole `CONDITIONAL` record, reflecting a
+white-collar-heavy external-service subset whose actual eligibility remains
+uncertain. No construction code reached `PRIORITY` or an unconditional Stage 2
+action.
+
+Fourteen records reached `LOW_PRIORITY`, including selected infrastructure,
+building, and specialty trades where estimating, project controls, scheduling,
+dispatch, procurement, and administration offer focused AI leverage around an
+operator-required field service. Sixteen were `STRUCTURAL_OUT`, generally
+because hands-on craft labor dominated payroll, savings were likely to pass
+through in rebidding, transferable firm pools were thin or owner-dependent, or
+the nominal code mixed own-account development with external contracting. All
+records nevertheless had a base tier; none was gap-routed.
+
+Validators' caveats emphasized broad task and adoption proxies, limited direct
+evidence on implemented labor savings, estimated eligible-firm shares, sparse
+qualifying-transfer denominators, and uncertainty over retained benefit after
+competitive rebidding. One cited industry AI page could not be reopened, but
+the affected primitives were already explicit estimates and the correction did
+not change the base tier or action. No review found a material defect, and the
+predeclared pause trigger did not fire.
