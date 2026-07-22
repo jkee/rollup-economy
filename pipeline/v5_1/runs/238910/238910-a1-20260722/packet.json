@@ -1,0 +1,233 @@
+{
+  "identity": {
+    "naics": "238910",
+    "title": "Site Preparation Contractors",
+    "run_id": "238910-a1-20260722",
+    "model_id": "claude-sonnet-5",
+    "run_date": "2026-07-22",
+    "methodology_version": "5.1",
+    "attempt": 1
+  },
+  "lens": {
+    "included_activities": "US lower-middle-market contractors performing outsourced land clearing, grading, excavation, earthmoving, trenching, demolition, dewatering, septic-system installation, foundation digging or drilling, and construction-equipment rental with an operator for repeat customers or successive projects.",
+    "excluded_activities": "Land subdivision and real-estate development, construction-equipment rental without an operator, crane rental with an operator, utility-line construction, underwater trenching, mining overburden removal, hazardous-material remediation, captive internal sitework units, shells, and non-control financing vehicles.",
+    "customer_and_revenue_model": "Project-based services sold to general contractors, developers, property owners, utilities, and public agencies, commonly through competitively bid lump-sum or fixed-unit-price contracts, with some negotiated and cost-plus work. Recurrence is repeat outsourcing across successive projects rather than subscription revenue.",
+    "deviation_from_default": "none",
+    "heterogeneous": false
+  },
+  "primitives": {
+    "a": {
+      "evidence_state": "PROXY",
+      "low": 0.1,
+      "base": 0.16,
+      "high": 0.23,
+      "bridge": "BLS measures the 2023 occupation mix for the broader NAICS 238900 parent, not AI-exposed tasks in 238910. I treat most construction-laborer and equipment-operator wages as minimally exposed, apply meaningful partial exposure to management, estimating, project management, office, bookkeeping, dispatch, and documentation work, and allow a small exposure for machine guidance and field reporting. This likely overstates near-term substitution of field tasks but may understate emerging autonomy and computer-vision assistance; the parent group also contains non-site-preparation trades.",
+      "rationale": "The parent-industry mix is dominated by embodied field work: construction and extraction occupations are 62.30% of employment, including construction laborers at 22.87% and equipment operators at 16.81%. The more digitally addressable pools include management at 5.85%, business and financial operations at 3.61% (including cost estimators and project-management specialists), and office support at 8.50%. Wage-weighting those groups and assigning partial rather than whole-role exposure yields a bounded 16% base. RICS identifies scheduling, progress monitoring, cost estimating, and documentation-adjacent functions as practical AI use cases, while BLS describes core equipment work as physical, site-specific machine control.",
+      "change_evidence": "A current OEWS special tabulation for NAICS 238910 combined with O*NET task-level hours and payroll by role, plus time-and-motion studies at 20-30 LMM excavation, demolition, and septic contractors separating estimating, dispatch, compliance, project controls, and field hours, could materially move this range.",
+      "source_ids": [
+        "S2",
+        "S3",
+        "S4"
+      ],
+      "caveats": [
+        "OEWS source data are for NAICS 238900, not six-digit 238910, exclude self-employed workers, and are 2023 vintage.",
+        "Task exposure within each occupation is judgmental; no source directly reports a wage-weighted AI-exposable share for this industry.",
+        "The injected labor ratio l is LOW quality, uses 2024 wages over 2022 receipts at ancestor 23891, and is harmonized to the IPS basis by a cross-code median divisor; that uncertainty affects the eventual labor-opportunity construct even though it does not change a itself."
+      ]
+    },
+    "rho": {
+      "evidence_state": "PROXY",
+      "low": 0.3,
+      "base": 0.52,
+      "high": 0.7,
+      "bridge": "RICS surveys global construction professionals and AGC surveys construction firms, not US LMM site-preparation contractors or the fraction of exposed wage opportunity implemented. I translate current adoption, pilot activity, use cases, and barriers into a five-year implementation share, discounting for smaller-firm data fragmentation, integration, workforce skills, safety review, and the difficulty of changing field workflows. The AGC sample may bias upward toward larger, more organized firms, while falling software costs could make the estimate conservative.",
+      "rationale": "RICS found 45% of respondents with no AI implementation, 34% in early pilots, just under 12% using AI regularly in specific processes, and less than 1% fully embedded enterprise-wide; it also found 78% at no or pilot-stage adoption and 74% with limited or no preparation. In contrast, AGC's 2026 outlook reports 61% using AI or planning increased investment, with 45% using it for office and administrative work and 23% for estimating. Over five years, packaged estimating, document, dispatch, accounting, and project-control tools should operationalize about half of the exposed opportunity, but full realization is constrained by messy job data, integration, review obligations, and change capacity.",
+      "change_evidence": "A longitudinal panel of LMM NAICS 238910 firms reporting baseline and post-deployment labor hours, adoption by workflow, error and rework rates, human-review requirements, and sustained use after 12-24 months would materially change rho; vendor telemetry segmented by contractor revenue and trade would be a practical substitute.",
+      "source_ids": [
+        "S4",
+        "S5"
+      ],
+      "caveats": [
+        "RICS is global and only 10% of its 2,200-plus responses came from the Americas.",
+        "AGC reports firm use or investment plans, not the share of exposed tasks successfully implemented or benefits sustained.",
+        "Implementation is likely heterogeneous: back-office tools should move faster than autonomous equipment, safety, or live field-control workflows."
+      ]
+    },
+    "e": {
+      "evidence_state": "ESTIMATE",
+      "low": 0.72,
+      "base": 0.86,
+      "high": 0.95,
+      "rationale": "The NAICS definition is overwhelmingly external, operator-provided project service: land clearing, drilling, demolition, trenching, earthmoving, and equipment rental with operators. Most firms already in the injected EBITDA band therefore fit the repeat-outsourced-service lens. The discount removes captive operations, firms whose economics depend almost entirely on an owner-operator, businesses dominated by excluded adjacent activities, and operations lacking transferable customer, workforce, equipment, bonding, or safety systems.",
+      "change_evidence": "A stratified sample of NAICS 238910 tax returns or confidential Census microdata linked to customer concentration, outside-customer revenue, employee count, bonding, fleet ownership, and owner hours, supplemented by 50 broker teasers or quality-of-earnings reports, could directly estimate the eligible share.",
+      "source_ids": [
+        "S1"
+      ],
+      "caveats": [
+        "The industry includes distinct demolition, excavation, septic, drilling, and equipment-with-operator niches, though all share a project-service and accountable-operator model.",
+        "Eligibility cannot be observed from NAICS classification alone, and owner dependence is especially hard to distinguish from a genuinely transferable operating platform.",
+        "The injected n of 4,678 is itself an ESTIMATE margin-bridged from SUSB size classes using an Engineering/Construction EBITDA margin; e is layered on that uncertain band count."
+      ]
+    },
+    "s5": {
+      "evidence_state": "PROXY",
+      "low": 0.1,
+      "base": 0.17,
+      "high": 0.25,
+      "bridge": "Gallup measures stated five-year sale or transfer plans among all US employer-business owners, not completed qualifying control transfers among LMM site-preparation firms. I start from the observed 22% employer-owner plan rate, remove planned gifts or transfers that may not change control and plans that fail, and then partly offset that haircut for established LMM contractors and construction succession pressure. This approach likely overstates realized transfers because intentions do not always close, but may understate construction-specific retirement pressure.",
+      "rationale": "Gallup's fall-2024 US survey found 22% of employer-business owners planned to sell or transfer ownership within five years, versus 9% of nonemployers. Construction evidence points to a material but poorly prepared succession pipeline: a report citing the 2024 FMI/CFMA survey says 58% of responding contractors lacked an ownership-transition plan and half of those expecting retirement within three to five years had no plan. A 17% base recognizes that planned transfers include gifts and failed processes, while LMM scale, equipment, employees, and repeat relationships generally improve transferability relative to owner-only businesses.",
+      "change_evidence": "Closed-transaction data from BizBuySell, GF Data, Axial, PitchBook, and construction-focused brokers coded to NAICS 238910, matched to the opening stock of eligible firms and including internal sales, ESOPs, family transfers, recapitalizations, and failed listings over 2021-2026, would materially change this probability.",
+      "source_ids": [
+        "S6",
+        "S7"
+      ],
+      "caveats": [
+        "Gallup is cross-industry and measures owner intentions rather than completed transfers or continued operating viability after transfer.",
+        "The FMI/CFMA figures are reported through an accounting-firm article and concern contractors broadly, not site-preparation firms or only the LMM band.",
+        "Family gifts, minority recapitalizations, closures, deaths without transferable operations, and internal reorganizations are not qualifying control transfers and are excluded conceptually."
+      ]
+    },
+    "q": {
+      "evidence_state": "ESTIMATE",
+      "low": 0.28,
+      "base": 0.48,
+      "high": 0.68,
+      "rationale": "Site-preparation work is often competitively bid under lump-sum or fixed-unit-price terms. An incumbent can initially retain savings on a fixed-price job when actual costs fall below the bid, but frequent rebidding, transparent unit prices, general-contractor procurement, and imitation push part of repeatable savings to customers through lower bids. Cost-plus work passes savings through more directly. The base therefore retains less than half of a discounted five-year gross benefit, with higher retention possible for differentiated local operators facing constrained capacity or opaque site risk.",
+      "change_evidence": "Contract-level bid histories and gross-margin bridges from 20-30 LMM site-preparation contractors, separated into lump-sum, unit-price, time-and-materials, and cost-plus work, plus renewal or rebid cohorts before and after automation, would identify actual pass-through and materially change q.",
+      "source_ids": [
+        "S8"
+      ],
+      "caveats": [
+        "The contract evidence comes from a larger public civil contractor and may not match the residential, septic, or small commercial mix of LMM site-preparation firms.",
+        "No source directly measures AI-derived benefit pass-through, renewal repricing, or competitor response in this industry.",
+        "Project mix, local bidder density, bonding capacity, utilization, differing site conditions, and change-order discipline can move retention widely."
+      ]
+    },
+    "d5": {
+      "evidence_state": "PROXY",
+      "low": 0.9,
+      "base": 1.04,
+      "high": 1.15,
+      "bridge": "BLS projects real output for total construction, employment for specialty trade contractors, and employment for equipment operators rather than constant-quality quantity demand for NAICS 238910. I convert total-construction real output growth from 2024 to 2034 into a five-year ratio using the square root of the ten-year ratio, yielding about 1.04, and use specialty-trade and equipment-operator projections as directional checks. Broad construction may understate infrastructure-led sitework but can overstate 238910 if building cycles weaken or productivity rises.",
+      "rationale": "BLS projects construction output in chained 2017 dollars from $1,720.9 billion in 2024 to $1,874.7 billion in 2034; the corresponding five-year geometric ratio is about 1.04. It also projects specialty-trade employment up 4.3% and construction-equipment-operator employment up 4% over the decade, and states that infrastructure repair and population-driven roads and sewer lines should generate operator jobs. IIJA's $550 billion of new federal infrastructure investment through fiscal 2026 supports the near-term pipeline, but private construction cyclicality and post-IIJA funding uncertainty justify a downside below current demand.",
+      "change_evidence": "A five-year forecast of constant-dollar excavation, grading, demolition, septic, and sitework put-in-place by end market and state, ideally from Dodge Construction Network or ConstructConnect and reconciled to Census Value of Construction Put in Place, would materially change d5; contractor backlog and bid-volume panels would sharpen timing.",
+      "source_ids": [
+        "S3",
+        "S9",
+        "S10"
+      ],
+      "caveats": [
+        "The base uses total construction real output because BLS does not publish six-digit 238910 output projections.",
+        "Employment is only a directional demand check and can diverge from service quantity because of productivity, overtime, labor shortages, or occupation substitution.",
+        "Site preparation is cyclical and locally exposed to housing, commercial construction, public budgets, weather, interest rates, permitting, and infrastructure-policy renewal."
+      ]
+    },
+    "o": {
+      "evidence_state": "ESTIMATE",
+      "low": 0.94,
+      "base": 0.98,
+      "high": 0.995,
+      "rationale": "The service basket physically changes land and structures using heavy equipment and crews under changing soil, utility, weather, access, and safety conditions. Software can improve bids, machine guidance, monitoring, and coordination, and partial autonomy can reduce labor per unit, but it does not eliminate the contractor responsible for mobilization, equipment, field execution, safety, quality, and remediation. OSHA's excavation rules require trained, authorized competent-person judgment and inspection, reinforcing persistent operator accountability.",
+      "change_evidence": "Commercial deployment data for autonomous excavation and grading systems—hours run without onboard operators, remote-supervisor ratios, incident and intervention rates, project types, and contractor-of-record arrangements—plus owner and general-contractor procurement interviews could materially change o.",
+      "source_ids": [
+        "S1",
+        "S3",
+        "S11"
+      ],
+      "caveats": [
+        "The estimate distinguishes operator-required demand from labor intensity: fewer labor hours per project do not by themselves eliminate the accountable contractor.",
+        "Autonomous equipment could advance faster than expected in fenced, repetitive, greenfield environments, but fragmented sites and legacy fleets should slow complete disintermediation.",
+        "OSHA requires competent-person functions for excavation safety, but that person need not be the business owner and regulations could evolve."
+      ]
+    }
+  },
+  "narrative": {
+    "executive_view": "Site preparation remains an operator-led physical service with durable outsourcing logic. The practical AI opportunity is concentrated in the costly coordination layer around the work—estimating, bid review, scheduling, dispatch, documentation, bookkeeping, progress tracking, and compliance—rather than wholesale replacement of operators and crews. The main uncertainties are how much of that layer is truly wage-addressable in six-digit 238910 firms and how quickly small contractors can integrate tools into fragmented workflows.",
+    "ai_impact": "AI can draft and reconcile estimates, extract quantities and scope from plans, flag bid omissions, schedule crews and equipment, summarize daily logs and photos, prepare safety or compliance documents, automate invoice coding, and improve dispatch and maintenance decisions. Machine guidance and computer vision may reduce rework and supervision. Yet excavation, demolition, trenching, grading, and septic work remain physical, variable, hazardous, and dependent on site judgment; most field wages are augmented rather than substituted within five years.",
+    "value_capture": "Fixed-price and unit-price contracts let a contractor keep some within-job productivity gains, especially before competitors copy them. Retention erodes as repeat customers and general contractors rebid work, compare unit prices, and expect faster estimates or lower bids. Cost-plus structures pass savings through more directly. Stronger capture requires turning efficiency into differentiated reliability, faster mobilization, higher equipment utilization, fewer scope misses, and defensible safety or documentation quality, not relying only on lower back-office headcount.",
+    "firm_availability": "Most businesses in the EBITDA-band estimate should fit the external outsourced-service lens, because the NAICS definition centers on contractor-performed work and equipment supplied with operators. Real transferability still depends on customer concentration, estimators and supervisors who can remain after the owner exits, fleet condition, bonding, safety record, permits, and documented job costing. Broad US employer-owner data suggest meaningful five-year transfer intent, while contractor succession evidence shows that weak planning may prevent some intended exits from becoming clean control transfers.",
+    "demand_durability": "Real construction output and related employment projections support modest five-year quantity growth, with infrastructure repair, roads, water and sewer, and population-driven development requiring sitework. The current service basket is unlikely to be replaced by software because customers still need a responsible party to mobilize machinery, manage crews, assess ground conditions, protect utilities, comply with excavation rules, and deliver the altered site. Demand remains cyclical, however, and can fall sharply in local building downturns.",
+    "risks_and_uncertainty": "A bad outcome would combine a construction downturn with undifferentiated low-bid work, rapid competitor adoption that passes savings to customers, and an owner-dependent acquisition whose estimator, relationships, licenses, or supervisors leave at closing. Evidence is weakest at the six-digit and LMM levels: the occupation mix comes from the broader 238900 parent, AI adoption surveys cover construction broadly, transfer data are cross-industry, and the demand forecast uses broad construction output. Fleet capex, bonding, safety liabilities, environmental conditions, change-order disputes, and project concentration can overwhelm modest administrative savings.",
+    "principal_driver": "AI-assisted estimating, project controls, dispatch, and administration can expand scarce management capacity without displacing the accountable field operator.",
+    "principal_weakness": "The addressable wage layer is modest and savings are vulnerable to competitive rebidding in a cyclical, owner- and execution-dependent industry."
+  },
+  "sources": [
+    {
+      "id": "S1",
+      "url": "https://bhs.econ.census.gov/ombpdfs2022/export/2022_CC-23810_mu.pdf",
+      "title": "2022 Economic Census Construction Classification Form: NAICS 238910 Site Preparation Contractors",
+      "access_date": "2026-07-22",
+      "supports": "The fetched PDF identifies 238910 as site preparation without land subdivision, including land clearing, drilling, demolition, trenching, earthmoving, and construction-equipment rental with operators, supporting the lens, eligibility estimate, and physical-service interpretation."
+    },
+    {
+      "id": "S2",
+      "url": "https://www.bls.gov/oes/2023/may/naics4_238900.htm",
+      "title": "May 2023 OEWS: NAICS 238900 Other Specialty Trade Contractors",
+      "access_date": "2026-07-22",
+      "supports": "The fetched table reports 777,250 total jobs; construction and extraction at 62.30%, construction laborers at 22.87%, equipment operators at 16.81%, management at 5.85%, business and financial operations at 3.61%, and office support at 8.50%, grounding the occupation-mix proxy for a."
+    },
+    {
+      "id": "S3",
+      "url": "https://www.bls.gov/ooh/construction-and-extraction/construction-equipment-operators.htm",
+      "title": "BLS Occupational Outlook Handbook: Construction Equipment Operators",
+      "access_date": "2026-07-22",
+      "supports": "The fetched page describes physical equipment-control, earthmoving, grading, training, and safety duties; reports specialty trades employ 29% of operators; and projects operator employment from 539,500 in 2024 to 559,000 in 2034, supporting a, d5, and o."
+    },
+    {
+      "id": "S4",
+      "url": "https://www.rics.org/news-insights/artificial-intelligence-in-construction-report",
+      "title": "RICS Artificial Intelligence in Construction Report 2025",
+      "access_date": "2026-07-22",
+      "supports": "The fetched report gives its 2,200-plus respondent geography, current adoption and pilot rates, enterprise embedding, preparation gaps, barriers, investment intentions, and five-year construction use cases, supporting a and rho."
+    },
+    {
+      "id": "S5",
+      "url": "https://www.agc.org/sites/default/files/users/user21902/2026%20Construction%20Hiring%20and%20Business%20Outlook%20Report_Final.pdf",
+      "title": "AGC 2026 Construction Hiring and Business Outlook Report",
+      "access_date": "2026-07-22",
+      "supports": "The fetched report states 61% of respondents use AI or plan increased investment, including 45% for office and administrative functions and 23% for estimating, and documents labor, competition, and economic constraints, supporting rho."
+    },
+    {
+      "id": "S6",
+      "url": "https://news.gallup.com/poll/657362/small-business-owners-lack-succession-plan.aspx",
+      "title": "Gallup: Most Small-Business Owners Lack a Succession Plan",
+      "access_date": "2026-07-22",
+      "supports": "The fetched page reports that 22% of US employer-business owners planned a sale or transfer within five years in the fall-2024 survey, versus 9% of nonemployers, grounding the transfer proxy for s5."
+    },
+    {
+      "id": "S7",
+      "url": "https://www.dmcpas.com/articles/contractors-hows-your-succession-plan-coming-along/",
+      "title": "Contractors: How's Your Succession Plan Coming Along?",
+      "access_date": "2026-07-22",
+      "supports": "The fetched article reports findings from the 2024 FMI/CFMA contractor survey: 58% lacked an ownership-transition plan, and half of owners planning retirement in three to five years had no plan, supporting the construction-specific bridge for s5."
+    },
+    {
+      "id": "S8",
+      "url": "https://www.sec.gov/Archives/edgar/data/874238/000114036112016008/form10k.htm",
+      "title": "Sterling Construction Company, Inc. 2011 Form 10-K",
+      "access_date": "2026-07-22",
+      "supports": "The fetched filing explains competitively bid fixed-unit-price, lump-sum, and cost-plus construction contracts; who bears cost savings or overruns; bid competition; and sources of margin variability, supporting q."
+    },
+    {
+      "id": "S9",
+      "url": "https://www.bls.gov/emp/tables/industry-employment-and-output.htm",
+      "title": "BLS Employment and Output by Industry, 2024-2034",
+      "access_date": "2026-07-22",
+      "supports": "The fetched table projects total construction real output from $1,720.9 billion in 2024 to $1,874.7 billion in 2034 and specialty-trade employment from 5.2037 million to 5.4279 million, grounding the d5 proxy."
+    },
+    {
+      "id": "S10",
+      "url": "https://ops.fhwa.dot.gov/infrastructure-investment-and-jobs-act/index.htm",
+      "title": "FHWA: Infrastructure Investment and Jobs Act",
+      "access_date": "2026-07-22",
+      "supports": "The fetched page states that IIJA provides $550 billion of new federal infrastructure investment over fiscal years 2022-2026 across roads, bridges, transit, water, resilience, and broadband, supporting the near-term demand context for d5."
+    },
+    {
+      "id": "S11",
+      "url": "https://www.osha.gov/etools/construction/trenching/competent-person",
+      "title": "OSHA Construction eTool: Trenching and Excavations—Competent Person",
+      "access_date": "2026-07-22",
+      "supports": "The fetched page states that trenching and excavation depend on trained, authorized competent persons for hazard recognition, inspection, soil classification, protective systems, and corrective action, supporting the operator-required estimate o."
+    }
+  ]
+}
