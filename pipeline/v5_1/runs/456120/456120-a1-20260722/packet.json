@@ -1,0 +1,191 @@
+{
+  "identity": {
+    "naics": "456120",
+    "title": "Cosmetics, Beauty Supplies, and Perfume Retailers",
+    "run_id": "456120-a1-20260722",
+    "model_id": "claude-sonnet-5",
+    "run_date": "2026-07-22",
+    "methodology_version": "5.1",
+    "attempt": 1
+  },
+  "lens": {
+    "included_activities": "US independent and regional specialty beauty retailers in the $1-10 million normalized-EBITDA band whose external customers repeatedly use product-replenishment, professional beauty-supply, consultation, loyalty, omnichannel fulfillment, or in-store beauty-service offerings.",
+    "excluded_activities": "National chains, manufacturer-owned or captive distribution, pure product brands and manufacturers, salons without meaningful beauty retail, very small owner-operated shops below the EBITDA band, one-off kiosks, and passive or non-control vehicles.",
+    "customer_and_revenue_model": "Consumers and beauty professionals buy replenishment and discretionary products at posted retail prices; qualifying operators add repeat advisory, loyalty, ordering, delivery, education, or in-store services, typically paid per transaction rather than under long-term contracts.",
+    "deviation_from_default": "This NAICS is primarily transactional merchandise retail, not outsourced service. To keep the screen coherent, it is narrowed to independent and regional operators where repeat replenishment or professional supply is paired with an ongoing advisory, fulfillment, loyalty, education, or in-store service relationship; pure one-off retail is excluded.",
+    "heterogeneous": true
+  },
+  "primitives": {
+    "a": {
+      "evidence_state": "PROXY",
+      "low": 0.2,
+      "base": 0.31,
+      "high": 0.42,
+      "bridge": "No six-digit occupational table was located. O*NET describes retail-sales work rather than this beauty-retail lens, including needs discovery, recommendations, questions, transaction records, checkout, inventory monitoring, purchasing, demonstrations and delivery arrangements. Ulta, a much larger operator, demonstrates that personalized recommendations, virtual try-on, POS-driven replenishment and omnichannel fulfillment are already technologically feasible. I use those task lists to bound the not-yet-automated share for smaller operators; this likely overstates exposure where tactile demonstration and relationship selling dominate and understates it where small firms still perform reporting, marketing and planning manually.",
+      "rationale": "AI can address product matching, routine advice, content and campaign creation, customer messaging, scheduling, demand forecasting, purchase ordering, e-commerce support, returns triage, training content and administrative reporting. Physical stocking, sample hygiene, visual merchandising, loss prevention, hands-on services and high-trust selling remain less substitutable. Existing recommendation and virtual-try-on tools are excluded from the current opportunity where already deployed.",
+      "change_evidence": "A wage-weighted time study across independent and regional beauty retailers, by store and central function, showing hours spent on consultation, checkout, replenishment, merchandising, marketing, digital support, fulfillment and physical services, with current automation penetration.",
+      "source_ids": ["S2", "S3", "S4"],
+      "caveats": [
+        "O*NET is an occupation-level source and does not measure the industry wage mix or AI exposure.",
+        "Ulta is a national-scale operator excluded from the lens and is more digitized than typical LMM firms.",
+        "The provided labor ratio is an ancestor 44-45 estimate with a 2024-wage/2022-receipts mismatch and IPS harmonization."
+      ]
+    },
+    "rho": {
+      "evidence_state": "ESTIMATE",
+      "low": 0.35,
+      "base": 0.52,
+      "high": 0.68,
+      "rationale": "Recommendation, marketing, service, forecast and support tools can be layered onto mature POS, CRM and e-commerce systems within five years, making implementation easier than in regulated clinical work. Realization is constrained by fragmented data, small IT teams, vendor integration, inventory complexity, associate adoption, privacy, brand voice, hallucinated product advice and the continued importance of human experience.",
+      "change_evidence": "Twelve-month matched-store pilots from at least three regional beauty retailers reporting deployment cost, adoption, sales conversion, labor hours per transaction, inventory turns, customer complaints, returns and actual avoided hiring by workflow.",
+      "source_ids": ["S4"],
+      "caveats": [
+        "Large-chain digital capabilities may not be affordable or portable to LMM operators.",
+        "Revenue uplift is excluded; this primitive counts only implemented labor substitution or avoided hiring.",
+        "Conventional self-checkout and warehouse automation are excluded unless AI is the enabling layer."
+      ]
+    },
+    "e": {
+      "evidence_state": "ESTIMATE",
+      "low": 0.02,
+      "base": 0.07,
+      "high": 0.15,
+      "rationale": "The NAICS definition is merchandise retail, while the lens requires a repeat service relationship and $1-10 million EBITDA. Many establishments are single shops too small for the band; the largest specialty chains are above it. Eligibility is therefore limited to profitable regional groups, professional-supply operators and differentiated omnichannel or service-led concepts.",
+      "change_evidence": "Census or commercial owner-level data linking establishments to firms, normalized EBITDA, store count, customer mix, professional versus consumer revenue, repeat-purchase rate and service revenue.",
+      "source_ids": ["S1", "S4", "S8"],
+      "caveats": [
+        "The frozen firm-count input is a declared gap and will be injected as MISSING, so this share cannot support a firm-count estimate.",
+        "Public-company examples show viable models but not the distribution of private-firm EBITDA.",
+        "Ancillary salon or advisory activity may be reported inconsistently across establishments."
+      ]
+    },
+    "s5": {
+      "evidence_state": "PROXY",
+      "low": 0.08,
+      "base": 0.15,
+      "high": 0.25,
+      "bridge": "BizBuySell tracks about 50,000 listed and recently sold US small businesses and reports 9,586 transactions across all sectors in 2025, but does not provide a beauty-retailer LMM denominator or a complete census of private deals. Beauty-supply stores are visibly marketed for sale on the platform. I use the broad small-business transfer market as a directional flow proxy and discount for the narrower EBITDA band, incomplete reporting, closures, asset sales and non-qualifying transactions.",
+      "rationale": "These are transferable stores with inventory, leases, vendor accounts and customer relationships, but a multi-site regional operator is harder to finance and integrate than the typical main-street listing. Channel disruption and owner dependence may cause closure or asset liquidation rather than a qualifying control transfer.",
+      "change_evidence": "Five years of closed transaction records from beauty-sector brokers, SBA 7(a) acquisition lenders, BizBuySell and CapIQ/PitchBook, deduplicated to US owner entity and tagged for EBITDA, store count, percentage acquired, buyer type, closure and asset-only sale.",
+      "source_ids": ["S6", "S7"],
+      "caveats": [
+        "Marketplace transactions are voluntarily reported and skew far smaller than the lens.",
+        "Listings demonstrate sale intent, not completed qualifying control transfers.",
+        "Beauty M&A data often mix manufacturers, brands, distributors, salons and retailers."
+      ]
+    },
+    "q": {
+      "evidence_state": "PROXY",
+      "low": 0.28,
+      "base": 0.45,
+      "high": 0.62,
+      "bridge": "Ulta's filing measures a large chain's economics and competitive environment, not the retained share of an LMM operator's AI benefit. Its 39.1% fiscal-2025 gross margin, 26.6% SG&A ratio, coupon treatment, high brand concentration and description of aggressive cross-channel price competition imply that savings can be retained initially but leak through promotions, price matching, customer acquisition and service reinvestment. The proxy may understate differentiated private-label retention and overstate small firms' bargaining power with suppliers.",
+      "rationale": "Posted-price retail offers no automatic contractual pass-through, but products are highly comparable across specialty stores, mass merchants, marketplaces and brand-direct sites. Loyalty and professional relationships slow repricing; promotions, acquisition spend, service expectations and supplier power share much of the benefit over five years.",
+      "change_evidence": "SKU- and store-level gross-margin cohorts before and after workflow deployment, tracking regular price, promotions, loyalty redemption, paid acquisition, vendor allowances, service reinvestment and competitor price gaps for two or more merchandise cycles.",
+      "source_ids": ["S4", "S8"],
+      "caveats": [
+        "Ulta is larger, more diversified and more vertically advantaged than the lens population.",
+        "Private-label, professional-only and salon-service mixes can retain materially different shares.",
+        "This is retention of implemented gross benefit, not merchandise gross margin."
+      ]
+    },
+    "d5": {
+      "evidence_state": "PROXY",
+      "low": 0.98,
+      "base": 1.11,
+      "high": 1.25,
+      "bridge": "Circana measured one-year US beauty retail outcomes across prestige and mass channels, not a five-year constant-price service-basket forecast for specialty LMM operators. In 2025 prestige unit sales rose 4% and mass units rose 2%, while categories varied widely. I temper those rates toward roughly 2% annual real quantity growth and widen the range for macro sensitivity, trend reversals and specialty-channel share shifts; brand launches and mix can make unit growth an imperfect constant-quality measure.",
+      "rationale": "Beauty has repeat replenishment, product innovation and resilient self-care demand, but much of it is discretionary and trend-driven. Modest real growth is plausible, with faster fragrance and skincare pockets offset by makeup softness, economic trade-down and channel migration.",
+      "change_evidence": "Circana five-year unit forecasts and panel data segmented by specialty beauty store, mass, marketplace, brand-direct and professional supply, adjusted for pack size, product quality, store closures and same-customer replenishment.",
+      "source_ids": ["S5"],
+      "caveats": [
+        "Circana's mass channel extends well beyond this NAICS and its prestige channel includes non-specialty sellers.",
+        "One strong year is a weak basis for a five-year range.",
+        "Unit measures do not fully hold quality or pack size constant."
+      ]
+    },
+    "o": {
+      "evidence_state": "PROXY",
+      "low": 0.38,
+      "base": 0.57,
+      "high": 0.73,
+      "bridge": "Ulta reports that only 19% of loyalty members used both stores and digital channels in fiscal 2025, yet omnichannel members historically spent more than three times store-only members; it also operates personalized recommendations, virtual try-on, marketplace fulfillment and in-store salons. O*NET shows substantial human product advice and demonstration. These facts show coexistence of digital self-service and operator-led experience, not the exact future operator-required share. I assign more durability to professional supply and hands-on services and less to routine replenishment; the estimate may overstate LMM operator need if marketplaces and brand-direct channels absorb more demand.",
+      "rationale": "Routine replenishment, research, recommendations and checkout can be self-served online, and manufacturers or marketplaces can fulfill products without the current retailer. Tactile discovery, shade or texture matching, trusted professional advice, immediate availability, education and hands-on beauty services preserve a meaningful but not dominant role for the lens operator.",
+      "change_evidence": "Customer-level channel migration and journey data through 2031 showing which purchases require consultation, testing, professional credentials, education or immediate pickup, plus marketplace and brand-direct share by category and retailer size.",
+      "source_ids": ["S2", "S4", "S5", "S8"],
+      "caveats": [
+        "A digital transaction still has an operator, but often not an operator of the lens's kind.",
+        "Hands-on salon services are ancillary within a retail NAICS and may be classified elsewhere when primary.",
+        "Category behavior differs sharply among fragrance, color cosmetics, hair, skincare and professional products."
+      ]
+    }
+  },
+  "narrative": {
+    "executive_view": "Beauty retail contains AI-friendly recommendation, marketing, planning and service workflows, but the frozen lens fits only a narrow slice of this transactional industry. Regional professional-supply and service-led concepts can have recurring customer relationships; ordinary stores and national chains do not qualify. The main issue is not technical feasibility but whether a differentiated operator can retain savings amid transparent prices and rapid channel migration.",
+    "ai_impact": "AI can personalize product discovery, draft campaigns, answer routine questions, forecast SKU demand, automate purchase suggestions, support training, triage service, and coordinate omnichannel fulfillment. Large chains already use personalized recommendations and virtual try-on, reducing the remaining greenfield opportunity. Associates still matter for demonstration, tactile matching, trust, merchandising, shrink control, physical stock and hands-on services.",
+    "value_capture": "Retailers initially keep administrative and selling-efficiency gains because prices are not contractually cost-plus. Over time, duplicate products across marketplaces, mass merchants, brand-direct sites and specialty stores force savings into promotions, customer acquisition, convenience and service. Private label, exclusives, professional access and distinctive in-store services improve retention.",
+    "firm_availability": "Single-store beauty shops are visible in the small-business sale market, but most appear below the target EBITDA band. National specialists are too large. The investable middle consists of scarce regional groups, professional-supply distributors with stores, and differentiated omnichannel or service-led operators; the lack of owner-level EBITDA and transfer data is material.",
+    "demand_durability": "Beauty units grew in both prestige and mass channels in 2025, supporting modest real growth rather than decline. Demand remains discretionary and category trends can reverse quickly. The operator-required portion is less durable than the product need because routine research and replenishment can move to marketplaces or brand-direct channels, while professional supply, discovery, immediate pickup and hands-on services remain stickier.",
+    "risks_and_uncertainty": "Key risks are a lens that fits only a small part of the NAICS, a missing defensible LMM firm count, national-chain proxies, consumer trade-down, trend and inventory obsolescence, shrink, supplier and brand concentration, marketplace competition, high digital-acquisition costs, and AI recommendations that damage trust. A poor target is a regional store group whose apparent loyalty is promotion-driven and whose advisory experience customers can replicate online.",
+    "principal_driver": "Repeat beauty replenishment plus rich product, loyalty and transaction data makes recommendation, marketing and inventory work readily AI-assistable.",
+    "principal_weakness": "Most industry revenue is transactional product retail that can migrate to transparent online channels, leaving few service-led firms in the target EBITDA band."
+  },
+  "sources": [
+    {
+      "id": "S1",
+      "url": "https://www.census.gov/naics/reference_files_tools/2022_NAICS_Manual.pdf",
+      "title": "2022 North American Industry Classification System Manual",
+      "access_date": "2026-07-22",
+      "supports": "Official 456120 classification and its 2022 combination of legacy cosmetics-store, electronic-shopping and direct-selling activity."
+    },
+    {
+      "id": "S2",
+      "url": "https://www.onetonline.org/link/details/41-2031.00",
+      "title": "O*NET OnLine: Retail Salespersons",
+      "access_date": "2026-07-22",
+      "supports": "Retail tasks include needs discovery, recommendations, questions, demonstrations, transaction processing, records, inventory monitoring, purchasing and delivery arrangements; the work remains highly customer-facing."
+    },
+    {
+      "id": "S3",
+      "url": "https://www.onetonline.org/link/summary/53-7065.00",
+      "title": "O*NET OnLine: Stockers and Order Fillers",
+      "access_date": "2026-07-22",
+      "supports": "Physical retail tasks include receiving, storing, issuing, shelf filling, order filling, price marking and display setup."
+    },
+    {
+      "id": "S4",
+      "url": "https://www.sec.gov/Archives/edgar/data/1403568/000110465926035243/ulta-20260131x10k.htm",
+      "title": "Ulta Beauty, Inc. Form 10-K for Fiscal Year Ended January 31, 2026",
+      "access_date": "2026-07-22",
+      "supports": "Workforce, loyalty, personalized recommendations, virtual try-on, omnichannel behavior, replenishment systems, store and salon model, competition, margin, expense and supplier concentration evidence."
+    },
+    {
+      "id": "S5",
+      "url": "https://www.globenewswire.com/news-release/2026/02/10/3235596/0/en/US-Prestige-and-Mass-Beauty-Retail-Deliver-a-Positive-Performance-in-2025-Circana-Reports.html",
+      "title": "Circana: US Prestige and Mass Beauty Retail Deliver Positive Performance in 2025",
+      "access_date": "2026-07-22",
+      "supports": "Prestige beauty dollar and unit sales rose 4% in 2025; mass dollars rose 5% and units 2%, with category and online-replenishment detail."
+    },
+    {
+      "id": "S6",
+      "url": "https://www.bizbuysell.com/insight-report/",
+      "title": "BizBuySell Insight Report",
+      "access_date": "2026-07-22",
+      "supports": "Marketplace scope of about 50,000 listed and recently sold businesses and current small-business transaction-market methodology."
+    },
+    {
+      "id": "S7",
+      "url": "https://www.bizbuysell.com/beauty-supply-stores-for-sale/",
+      "title": "BizBuySell Beauty Supply Stores for Sale",
+      "access_date": "2026-07-22",
+      "supports": "Direct evidence that standalone, wholesale/retail and hybrid beauty-supply businesses are marketed for transfer, without proving completion or lens eligibility."
+    },
+    {
+      "id": "S8",
+      "url": "https://www.sec.gov/Archives/edgar/data/1368458/000119312525280122/sbh-20250930.htm",
+      "title": "Sally Beauty Holdings, Inc. Form 10-K for Fiscal Year Ended September 30, 2025",
+      "access_date": "2026-07-22",
+      "supports": "Specialty and professional beauty retail model and competition based on price, assortment, service, location, inventory, digital checkout and delivery."
+    }
+  ]
+}
