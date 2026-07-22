@@ -1,0 +1,202 @@
+{
+  "identity": {
+    "naics": "561431",
+    "title": "Private Mail Centers",
+    "run_id": "561431-a1-20260722",
+    "model_id": "claude-sonnet-5",
+    "run_date": "2026-07-22",
+    "methodology_version": "5.1",
+    "attempt": 1
+  },
+  "lens": {
+    "included_activities": "U.S. lower-middle-market private mail centers providing mailbox rental, mail and package receipt, forwarding, packing and shipping support, and related office services to external individuals and businesses on recurring or repeat terms.",
+    "excluded_activities": "Contract post offices, courier and parcel-delivery networks, direct-mail advertising firms, full-service office-space lessors, captive corporate mailrooms, shell entities, non-control situations, and stores without transferable customer relationships or normalized EBITDA in the target band.",
+    "customer_and_revenue_model": "Recurring mailbox subscriptions and ancillary package-receipt, forwarding, storage, packing, postage, shipping, printing, and office-service fees paid by consumers and small businesses; carrier postage and some supplies are pass-through or marked-up inputs.",
+    "deviation_from_default": "none",
+    "heterogeneous": false
+  },
+  "primitives": {
+    "a": {
+      "evidence_state": "PROXY",
+      "low": 0.26,
+      "base": 0.38,
+      "high": 0.52,
+      "rationale": "Customer enrollment, identity-document capture, notifications, address and account maintenance, rate comparison, label preparation, billing, routine inquiries, and shipment records are exposed to AI or workflow automation. In-person advice, inspection, secure custody, sorting, lifting, packing, and handoff remain physical and accountability-intensive.",
+      "change_evidence": "A payroll-weighted task study from a multi-location private-mail-center operator separating counter service, mailbox administration, packing, sorting, and management hours, plus time-and-motion data before and after OCR, self-service, and AI-assisted customer-service deployment, would materially move the estimate.",
+      "source_ids": ["S1", "S2", "S3", "S4", "S5"],
+      "caveats": [
+        "BLS occupation shares cover NAICS 561400, which is dominated by other business-support activities and is not representative of private mail centers by itself.",
+        "O*NET task lists describe occupations across industries and do not measure wage-weighted hours in 561431.",
+        "Exposure includes avoidable hiring and assistance, not autonomous replacement of physical or accountable work."
+      ],
+      "bridge": "Source population/quantity: BLS occupational employment for broad NAICS 561400, O*NET tasks for customer-service, mail, and shipping clerks, and the official 561431 service definition. Transformation: mapped clerical records, notifications, pricing, label and document preparation, and routine customer interactions to exposed hours, while assigning lower exposure to physical receipt, inspection, packing, storage, sorting, and handoff; bounded for the narrower storefront population. Error direction: broad 561400 overweights call-center and collection work and therefore tends to bias exposure upward, while omitting owner administrative time and emerging multimodal tools may bias it downward."
+    },
+    "rho": {
+      "evidence_state": "PROXY",
+      "low": 0.40,
+      "base": 0.58,
+      "high": 0.74,
+      "rationale": "Five years permits diffusion of OCR intake, automated notifications, rate and routing assistance, self-service forms, document checks, and integrated customer records. Implementation is constrained by small-store capital and integration capacity, exception-heavy physical workflows, privacy and fraud risk, and USPS requirements for identity verification, current records, and quarterly certification.",
+      "change_evidence": "Adoption and labor-hour data from UPS Store, PostNet, Postal Annex, or independent CMRA franchisees using automated mailbox-management, OCR, self-service, or AI support tools would materially change the estimate, especially if paired with error and compliance metrics.",
+      "source_ids": ["S3", "S4", "S5", "S6", "S7"],
+      "caveats": [
+        "No representative survey measures AI implementation by private mail centers.",
+        "Digitized forms and notifications are workflow automation rather than necessarily AI.",
+        "Franchise systems may implement faster than independent centers, while legacy point-of-sale systems may slow diffusion."
+      ],
+      "bridge": "Source population/quantity: occupational task descriptions, a national franchise mailbox workflow, and USPS CMRA operating requirements. Transformation: treated structured digital records, notifications, rate selection, and routine customer communication as implementable with current software and AI, then discounted for physical exceptions, fraud controls, privacy, compliance, integration, and small-establishment change capacity. Error direction: observing available functionality without center-level adoption rates tends to overstate realization; rapid franchisor-led rollout could make the estimate conservative."
+    },
+    "e": {
+      "evidence_state": "ESTIMATE",
+      "low": 0.64,
+      "base": 0.80,
+      "high": 0.92,
+      "rationale": "The industry definition is intrinsically an outsourced service and mailbox rental creates recurring customer relationships. Eligibility is reduced for shipping-led stores with little subscription revenue, weak customer retention, owner-dependent operations, nontransferable leases or franchise rights, high customer concentration, poor compliance, and economics outside the normalized target band.",
+      "change_evidence": "A firm-level census or franchise disclosure reporting mailbox subscription mix, repeat-customer share, owner dependence, lease and franchise transferability, customer concentration, and normalized EBITDA would materially change the estimate.",
+      "source_ids": ["S1", "S7", "S8"],
+      "caveats": [
+        "No representative firm-level dataset measures all recurrence, control, transferability, concentration, and normalized-earnings screens.",
+        "The frozen firm count is margin-bridged and only 19 firms, so classification or margin error can materially affect the apparent pool."
+      ]
+    },
+    "s5": {
+      "evidence_state": "PROXY",
+      "low": 0.10,
+      "base": 0.18,
+      "high": 0.28,
+      "rationale": "Small employer businesses have meaningful five-year sale or transfer intentions, and independently owned franchise centers can be transferable operations. The qualifying-control probability is set below stated intentions because some transfers are family gifts, internal changes, failed sales, or stores that do not pass lease, franchise, compliance, or quality screens.",
+      "change_evidence": "Closed-sale counts and eligible-store denominators from CMRA business brokers, franchisor transfer records, or transaction databases for private mail centers over a five-year cohort would materially change the estimate.",
+      "source_ids": ["S8", "S10"],
+      "caveats": [
+        "Gallup covers all U.S. employer-business owners rather than private mail centers and measures intentions rather than completed qualifying control sales.",
+        "The UPS Store agreement establishes independent franchise ownership but provides no transfer rate or sale completion data."
+      ],
+      "bridge": "Source population/quantity: Gallup's five-year sale-or-transfer intentions for U.S. employer-business owners and evidence that most UPS Store centers are independently owned franchisees. Transformation: used the 22% employer intention rate as an upper-middle anchor and discounted for non-control or family transfers, noncompletion, franchise and lease approval, compliance, and target-quality screens. Error direction: intentions overstate completed qualifying control sales, while a mature franchise-owner population could make the lower bound conservative."
+    },
+    "q": {
+      "evidence_state": "ESTIMATE",
+      "low": 0.36,
+      "base": 0.55,
+      "high": 0.70,
+      "rationale": "Mailbox subscriptions, setup fees, package tiers, storage, forwarding, and fixed ancillary charges allow centers to retain some labor savings between repricing events. Retention is lower for transparent carrier postage, commoditized shipping and printing, franchise-controlled offerings, and tasks where customers expect faster service or lower fees as automation spreads.",
+      "change_evidence": "Matched private-center contracts and store-level gross-margin data before and after automation, split among mailbox rental, packing, postage, carrier commissions, and office services, would materially change the estimate.",
+      "source_ids": ["S7", "S8"],
+      "caveats": [
+        "The mailbox agreement documents fee categories but not actual prices, costs, renewal behavior, or retained automation benefit.",
+        "Pricing and margin mix vary by location, franchise system, carrier contract, and customer mix."
+      ]
+    },
+    "d5": {
+      "evidence_state": "PROXY",
+      "low": 0.80,
+      "base": 0.96,
+      "high": 1.12,
+      "rationale": "Physical mail continues to decline, and USPS reported lower 2025 mail and package volumes, which pressures handling transactions. Countervailing demand comes from package receipt, reshipping, small-business addresses, secure custody, returns, and ancillary services; the base therefore assumes modest real contraction rather than extrapolating the latest single-year decline mechanically.",
+      "change_evidence": "Five-year same-store real transaction and subscription histories from private mail centers, separated into mailbox rentals, inbound packages, outbound shipments, returns, forwarding, and office services, would materially change the estimate.",
+      "source_ids": ["S1", "S8", "S9"],
+      "caveats": [
+        "USPS national volume is not private-mail-center demand and excludes UPS, FedEx, and other carrier flows.",
+        "The current service basket mixes structurally declining letter mail with package, return, and address services that can grow.",
+        "One-year nominal revenue and volume changes do not establish a five-year constant-price demand path."
+      ],
+      "bridge": "Source population/quantity: USPS national mail and Shipping and Packages volume for fiscal 2024-2025, plus documented private-center mailbox and all-carrier package services. Transformation: used declining postal volumes as the downside anchor, then moderated it for recurring mailbox-address demand, all-carrier package acceptance, returns, forwarding, and ancillary services in the private-center basket. Error direction: USPS-only volumes may overstate contraction for all-carrier centers and understate substitution toward lockers, direct carrier accounts, and digital communications."
+    },
+    "o": {
+      "evidence_state": "PROXY",
+      "low": 0.64,
+      "base": 0.80,
+      "high": 0.91,
+      "rationale": "Software can self-serve enrollment, notifications, payments, rate selection, scans, and support, but the service still requires a responsible recipient for physical mail and packages, secure custody, identity and address verification, exception handling, packing, and regulated records. Lockers, carrier pickup points, digital mail, and home or office delivery can bypass part of the current operator role.",
+      "change_evidence": "Customer-cohort data on migration from staffed private centers to parcel lockers, virtual-mail platforms, carrier-direct services, or digital-only alternatives, together with laborless-site operating results and USPS compliance outcomes, would materially change the estimate.",
+      "source_ids": ["S1", "S6", "S7", "S8"],
+      "caveats": [
+        "USPS rules establish accountable functions but do not require every task to be performed manually or at a conventional staffed storefront.",
+        "Virtual-mail brands may preserve an operator behind the interface while shifting work to centralized facilities outside the local lens.",
+        "The pace of locker and carrier-direct substitution is not measured for the target population."
+      ],
+      "bridge": "Source population/quantity: the official industry service definition, USPS CMRA identity, record, custody, and certification duties, and a major franchise's mailbox and all-carrier package services. Transformation: assigned high continued operator need to physical receipt, secure custody, regulated verification, packing, exceptions, and handoff, while discounting for digital communications, self-service, lockers, direct delivery, and centralized virtual-mail alternatives. Error direction: regulatory language can overstate labor intensity because compliant workflows can be digitized, while fraud, exceptions, and physical custody can make operator retention higher than a software-focused forecast."
+    }
+  },
+  "narrative": {
+    "executive_view": "Private mail centers combine a recurring mailbox base with repeat shipping and office services, but the addressable firm pool is small and much of the work remains physical. AI is most useful as an operating layer for records, notifications, pricing, routing, and customer service rather than as a substitute for secure receipt, custody, packing, and compliance.",
+    "ai_impact": "AI and workflow tools can capture documents, prefill customer records, flag exceptions, automate package notifications, answer routine questions, compare carrier options, prepare labels, and assist billing and marketing. Employees remain necessary for identity checks, physical sorting, inspection, packing, storage, customer handoff, and difficult claims or fraud cases.",
+    "value_capture": "Subscription and fixed ancillary fees can preserve some productivity gains, especially when faster processing expands mailbox and package capacity without equivalent hiring. Carrier postage is transparent and pass-through-heavy, while local price competition and franchisor standards can return visible savings to customers.",
+    "firm_availability": "The frozen estimate contains only 19 firms in the target earnings band. Industry fit is generally strong because mailbox rental is recurring and the service is outsourced, but lease, franchise, compliance, owner-dependence, and normalized-margin diligence can shrink the pool materially.",
+    "demand_durability": "Letter-mail decline is a persistent headwind, and recent USPS package volume also fell, but secure street addresses, all-carrier receipt, returns, forwarding, storage, and small-business services diversify demand. The likely path is modest pressure on the current basket with continued need for selected physical services.",
+    "risks_and_uncertainty": "Key risks are the very small bridged firm count, ongoing mail decline, direct carrier and locker competition, virtual-mail centralization, franchise and lease transfer restrictions, fraud and privacy exposure, compliance failure, and a service mix dominated by transparent pass-through shipping rather than recurring mailbox economics.",
+    "principal_driver": "The principal driver is the ability to scale recurring mailbox and package-custody relationships with automated administration while preserving a trusted physical endpoint.",
+    "principal_weakness": "The principal weakness is a small, estimate-based target pool exposed to digital substitution, carrier competition, and physical workflows that limit labor automation."
+  },
+  "sources": [
+    {
+      "id": "S1",
+      "url": "https://data.census.gov/profile/561431_-_Private_mail_centers?codeset=naics~561431",
+      "title": "Census Bureau Profile: NAICS 561431 Private Mail Centers",
+      "access_date": "2026-07-22",
+      "supports": "Official industry definition, included services, and exclusions; lens, a, e, d5, and o"
+    },
+    {
+      "id": "S2",
+      "url": "https://www.bls.gov/oes/2023/may/naics4_561400.htm",
+      "title": "May 2023 National Industry-Specific Occupational Employment and Wage Estimates: NAICS 561400",
+      "access_date": "2026-07-22",
+      "supports": "Broad business-support occupation mix, including 59.44% office and administrative support employment; a"
+    },
+    {
+      "id": "S3",
+      "url": "https://www.onetonline.org/link/summary/43-4051.00",
+      "title": "O*NET OnLine: Customer Service Representatives",
+      "access_date": "2026-07-22",
+      "supports": "Customer inquiry, records, notification, charging, billing, forms, and shipping-advice tasks; a and rho"
+    },
+    {
+      "id": "S4",
+      "url": "https://www.onetonline.org/link/details/43-9051.00",
+      "title": "O*NET OnLine: Mail Clerks and Mail Machine Operators, Except Postal Service",
+      "access_date": "2026-07-22",
+      "supports": "Mail preparation, sorting, routing, postage, package, record, and form tasks; a and rho"
+    },
+    {
+      "id": "S5",
+      "url": "https://www.onetonline.org/link/details/43-5071.00",
+      "title": "O*NET OnLine: Shipping, Receiving, and Inventory Clerks",
+      "access_date": "2026-07-22",
+      "supports": "Shipment verification, recording, transport arrangement, and physical preparation tasks; a and rho"
+    },
+    {
+      "id": "S6",
+      "url": "https://pe.usps.com/text/dmm300/508.htm",
+      "title": "USPS Domestic Mail Manual 508: Recipient Services",
+      "access_date": "2026-07-22",
+      "supports": "CMRA identity verification, records, document upload, quarterly certification, custody, and compliance obligations; rho and o"
+    },
+    {
+      "id": "S7",
+      "url": "https://www.theupsstore.com/File%20Library/theupsstore/cws/mailboxagreement.pdf",
+      "title": "The UPS Store Mailbox Service Agreement, Version October 2024",
+      "access_date": "2026-07-22",
+      "supports": "Independent franchise ownership, mailbox agreement, notifications, package tiers, and fee categories; rho, e, s5, q, and o"
+    },
+    {
+      "id": "S8",
+      "url": "https://www.ups.com/us/en/the-ups-store/mailboxes",
+      "title": "Mailboxes at The UPS Store",
+      "access_date": "2026-07-22",
+      "supports": "Street-address mailbox, all-carrier package acceptance, notification, and mail-check services; e, s5, q, d5, and o"
+    },
+    {
+      "id": "S9",
+      "url": "https://about.usps.com/newsroom/local-releases/de/2025/1114-usps-reports-fiscal-year-2025-results.htm",
+      "title": "U.S. Postal Service Reports Fiscal Year 2025 Results",
+      "access_date": "2026-07-22",
+      "supports": "Fiscal 2024-2025 First-Class Mail, Marketing Mail, and Shipping and Packages volume and revenue; d5"
+    },
+    {
+      "id": "S10",
+      "url": "https://news.gallup.com/poll/657362/small-business-owners-lack-succession-plan.aspx",
+      "title": "Most U.S. Small-Business Owners Lack a Succession Plan",
+      "access_date": "2026-07-22",
+      "supports": "Five-year employer-business sale or transfer intentions and owner-age context; s5"
+    }
+  ]
+}
