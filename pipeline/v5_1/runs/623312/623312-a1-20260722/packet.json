@@ -1,0 +1,214 @@
+{
+  "identity": {
+    "naics": "623312",
+    "title": "Assisted Living Facilities for the Elderly",
+    "run_id": "623312-a1-20260722",
+    "model_id": "claude-sonnet-5",
+    "run_date": "2026-07-22",
+    "methodology_version": "5.1",
+    "attempt": 1
+  },
+  "lens": {
+    "included_activities": "Operators of assisted-living facilities, homes for the elderly, and rest homes without on-site nursing facilities that provide recurring room, board, supervision, housekeeping, and assistance with daily living to residents.",
+    "excluded_activities": "Continuing-care communities or assisted-living facilities with on-site nursing facilities, standalone skilled-nursing facilities, independent apartments without personal care, nonresidential home-care agencies, captive housing, passive real-estate vehicles without operations, and non-control financing interests.",
+    "customer_and_revenue_model": "Residents or families pay recurring monthly charges for housing, meals, supervision, personal assistance, housekeeping, activities, and related services, commonly with care-level add-ons. Some residents receive Medicaid support, but the market is substantially private pay and operators reset rates for new residents and through periodic fee increases.",
+    "deviation_from_default": "none",
+    "heterogeneous": false
+  },
+  "primitives": {
+    "a": {
+      "evidence_state": "PROXY",
+      "low": 0.14,
+      "base": 0.2,
+      "high": 0.28,
+      "bridge": "BLS measures wages and employment for combined NAICS 623300, which includes both 623311 and 623312, and does not measure task exposure. I map management, office, sales, records, scheduling, and documentation tasks to higher AI exposure and hands-on care, dining, housekeeping, maintenance, and transport to low exposure. Including on-site nursing communities likely overstates higher-paid clinical and administrative complexity relative to 623312, producing a modest upward bias in the exposure estimate.",
+      "rationale": "The combined occupation mix is dominated by healthcare support at 43.56% of employment and food service at 18.20%, with another 6.43% in building and grounds work. Management and office support represent 4.37% and 5.39%. AI can assist admissions, scheduling, billing, marketing, documentation, procurement, and family communication, but cannot replace most personal assistance, meals, housekeeping, supervision, or physical response work.",
+      "change_evidence": "A current 623312-only occupational payroll and task-time study covering aides, medication staff, dining, housekeeping, activities, admissions, billing, sales, and management, with already automated work identified separately.",
+      "source_ids": ["S2"],
+      "caveats": [
+        "The available occupation table combines two six-digit industries and all employer sizes.",
+        "Task exposure within each occupation is inferred rather than directly measured.",
+        "Documentation assistance may improve care time without reducing required headcount."
+      ]
+    },
+    "rho": {
+      "evidence_state": "PROXY",
+      "low": 0.27,
+      "base": 0.41,
+      "high": 0.58,
+      "bridge": "The LeadingAge and Ziegler survey covers not-for-profit senior-living and care organizations, while CDC measures electronic-health-record use across broader residential care communities; neither measures implemented AI labor opportunity in LMM 623312 firms. I combine workflow automation intent with the digital foundation and then discount for shallow AI capability, smaller-firm resources, regulation, data quality, and frontline change. Technology-oriented survey participation likely biases readiness upward, while the five-year horizon supports adoption beyond the current snapshot.",
+      "rationale": "Billing, payroll, admissions, scheduling, facilities, communications, and documentation already appear in operator automation plans, and EHR use reached 48% of residential care communities in 2022. Implementation depth remains limited: nearly 80% of the senior-living survey reported AI knowledge concentrated among a few people or very limited, with legal, governance, funding, integration, and staff-capacity constraints.",
+      "change_evidence": "A representative panel of LMM assisted-living operators measuring production AI deployments, affected labor hours, EHR and scheduling integration, error rates, resident or family complaints, compliance incidents, and persistence after pilots.",
+      "source_ids": ["S3", "S4"],
+      "caveats": [
+        "The AI survey is not-for-profit and broader than 623312.",
+        "EHR adoption is enabling infrastructure, not evidence of AI substitution.",
+        "Small assisted-living operators may have less integration capacity than surveyed multisite organizations."
+      ]
+    },
+    "e": {
+      "evidence_state": "PROXY",
+      "low": 0.69,
+      "base": 0.84,
+      "high": 0.94,
+      "bridge": "CDC reports that 81.5% of U.S. residential care communities were for-profit in 2022, a facility-level measure for a broader population that includes assisted living and other residential care. I treat for-profit status as a strong but incomplete indicator of an eligible control path, add some nonprofit operators capable of asset or control transactions, and subtract captive campuses, passive ownership structures, and parent-controlled locations. Facility counts can overstate eligibility because multiple facilities can belong to one firm, while the broader small-home population may understate institutional ownership clarity.",
+      "rationale": "The official industry is inherently a recurring external service, and the dominant for-profit ownership structure supports ordinary control eligibility. Some LMM records may nevertheless be management entities, real-estate vehicles, nonprofit operators with transaction restrictions, or facilities already controlled inside larger systems rather than independent targets.",
+      "change_evidence": "A firm-level universe linking 623312 legal entities to licensed facilities, operating responsibility, parent ownership, normalized EBITDA, nonprofit restrictions, management agreements, and a legally transferable control interest.",
+      "source_ids": ["S1", "S5"],
+      "caveats": [
+        "CDC's residential care definition includes personal-care, board-care, and adult foster-care settings outside 623312.",
+        "The injected firm count relies on a healthcare-facilities margin bridge that may not fit small residential operators.",
+        "For-profit ownership does not prove that a firm is independent, in the LMM band, or available for control."
+      ]
+    },
+    "s5": {
+      "evidence_state": "PROXY",
+      "low": 0.06,
+      "base": 0.11,
+      "high": 0.18,
+      "bridge": "LevinPro reports 871 publicly disclosed seniors-housing and care transactions in 2025 and identifies assisted living as the largest fourth-quarter category, while CDC counts 32,200 residential care communities and JAMA documents controlling PE acquisitions of assisted-living facilities. I use these sources to infer five-year control-transfer incidence, discounting real-estate-only deals and portfolio transactions while allowing for private deals missing from public data. Deal counts divided by facilities likely understate affected locations, but broader senior-care coverage and transactions without operator control likely overstate qualifying firm transfers.",
+      "rationale": "Assisted living is an active acquisition category, recent transaction volume is high, and research confirms controlling PE deals across most states. Transfer probability is still well below total asset churn because portfolios bundle facilities, some real estate changes hands without operating control, licenses and approvals matter, and a sale of one facility may not equal transfer of an independent LMM firm.",
+      "change_evidence": "A five-year LevinPro or NIC transaction extract matched to 623312 target firms, with facility portfolios rolled to unique sellers and each deal classified by operator-control transfer, real-estate-only sale, closing status, and target EBITDA.",
+      "source_ids": ["S5", "S9", "S10"],
+      "caveats": [
+        "The annual transaction source combines senior housing and skilled nursing and gives an assisted-living share only for one quarter.",
+        "JAMA measures PE acquisitions rather than all qualifying buyers and ends in 2023.",
+        "The facility denominator is broader than 623312 and is not an eligible-firm denominator."
+      ]
+    },
+    "q": {
+      "evidence_state": "PROXY",
+      "low": 0.48,
+      "base": 0.65,
+      "high": 0.8,
+      "bridge": "NIC reports assisted-living occupancy and asking-rate growth for senior-housing properties, not the discounted share of a specific AI benefit retained by LMM 623312 operators. I infer retention from recurring monthly private-pay pricing, high moving friction, and current occupancy strength, then discount for annual repricing, competitive concessions, Medicaid exposure, staffing and care requirements, and quality reinvestment. Asking-rate growth likely overstates benefit retention because it also reflects wage, insurance, food, and property-cost inflation.",
+      "rationale": "Monthly rent and care-level pricing do not mechanically pass a workflow saving to residents, and moving a frail resident is costly, supporting near-term retention. Over time, local competition, family scrutiny, referral partners, rate disclosures, Medicaid payment limits, and pressure to sustain staffing and service quality cause part of the benefit to be shared or reinvested.",
+      "change_evidence": "Resident contracts, annual rate notices, payer mix, move-in concessions, renewal cohorts, churn, and department-level budgets linking implemented automation to labor cost, staffing, and subsequent pricing at LMM facilities.",
+      "source_ids": ["S7", "S8"],
+      "caveats": [
+        "NIC reports market asking rates rather than realized in-place rates or automation savings.",
+        "Retention varies with local occupancy, payer mix, care acuity, and resident contract terms.",
+        "No direct contractual pass-through study was found."
+      ]
+    },
+    "d5": {
+      "evidence_state": "PROXY",
+      "low": 1.0,
+      "base": 1.12,
+      "high": 1.25,
+      "bridge": "NIC measures occupancy and occupied-unit growth in primary senior-housing markets, and Census projects the older population rather than constant-price demand for the exact 623312 service basket. I use rising assisted-living occupancy, occupied units, and population aging to infer five-year demand, tempered by affordability, home-care alternatives, local overbuilding risk, and limited supply. Major-market data may overstate national operating strength, while capacity constraints may understate latent demand.",
+      "rationale": "Assisted-living occupancy reached 87.7% at the end of 2025, overall senior-housing occupancy rose for 18 consecutive quarters, and occupied units in tracked primary markets grew by more than 3% during the year while inventory growth stayed below 1%. The aging baby-boom cohort supports further need, though ability to pay and preference for aging at home limit conversion into facility demand.",
+      "change_evidence": "NIC MAP same-store data through 2031 for assisted-living occupied units, resident days, move-ins, waitlists, attrition, concessions, closures, and constant-price service revenue, segmented by market, payer mix, and property age.",
+      "source_ids": ["S7", "S11"],
+      "caveats": [
+        "NIC's primary-market sample is not the full national 623312 universe.",
+        "Recent occupancy gains include recovery from pandemic disruption.",
+        "Demographic growth does not directly measure affordability or preference for assisted living."
+      ]
+    },
+    "o": {
+      "evidence_state": "PROXY",
+      "low": 0.86,
+      "base": 0.94,
+      "high": 0.98,
+      "bridge": "CDC measures functional need among residents of broader residential care communities, not year-five operator requirement for 623312. I treat assistance with several activities of daily living as strong evidence that room, board, supervision, and personal-care quantity cannot become software-only, while allowing substitution by home-based care, remote monitoring, and independent housing for lower-acuity residents. The current resident sample likely overstates operator need relative to future marginal residents because people already in facilities are selected for higher need.",
+      "rationale": "In 2022, 62% of residential-care residents needed help with at least three activities of daily living, and large shares needed assistance with bathing, walking, dressing, transferring, and toileting. Technology can support monitoring and coordination, but the surviving assisted-living service quantity still usually needs an accountable operator providing housing, meals, supervision, and hands-on response.",
+      "change_evidence": "Longitudinal resident-choice and discharge data comparing assisted living with home care, remote monitoring, family self-service, and independent housing, with acuity, cost, safety events, and sustained substitution tracked.",
+      "source_ids": ["S1", "S6"],
+      "caveats": [
+        "The CDC resident study includes residential care settings beyond 623312.",
+        "Current residents have higher demonstrated need than prospective marginal residents.",
+        "Home-based substitution can remove demand before admission even when software cannot replace facility operations."
+      ]
+    }
+  },
+  "narrative": {
+    "executive_view": "Assisted living provides recurring housing, hospitality, supervision, and personal assistance to an aging population. Demand and transaction evidence are strong, and for-profit ownership makes control pathways more ordinary than in continuing-care communities. AI opportunity is real but bounded because frontline personal care, dining, housekeeping, and safety response dominate the labor base.",
+    "ai_impact": "Near-term uses center on admissions, lead handling, billing, payroll, staff scheduling, procurement, care documentation, family communication, facilities workflow, and exception detection. AI may reduce administrative burden and avoid some hiring, but it cannot perform most activities-of-daily-living assistance or replace the human accountability expected in a residential setting.",
+    "value_capture": "Recurring monthly pricing, resident tenure, and relocation friction allow some savings to remain with the operator. Retention is moderated by local competition, annual fee decisions, Medicaid exposure, referral reputation, resident and family scrutiny, and the need to reinvest in staffing and service quality.",
+    "firm_availability": "Residential care is predominantly for-profit, and assisted living has become a leading category in an active senior-care transaction market. The key diligence issue is converting facility activity into unique qualifying firm transfers because portfolios, REIT structures, management agreements, and real-estate-only sales can create misleading deal counts.",
+    "demand_durability": "Occupancy has risen while construction and inventory growth remain limited, and population aging supports continued need. Affordability and home-based alternatives are meaningful constraints, but residents with several daily-living limitations still require coordinated housing, meals, supervision, and hands-on support that software cannot supply alone.",
+    "risks_and_uncertainty": "Material risks include state-by-state licensing, staffing shortages and wage pressure, resident safety and abuse liability, property age and capital expenditure, local supply cycles, affordability, Medicaid reimbursement, shallow AI governance, and confusing a facility or real-estate transfer with control of an eligible operator firm.",
+    "principal_driver": "A predominantly for-profit operator base serves rising, high-acuity residential demand under recurring monthly pricing, with active control transaction evidence.",
+    "principal_weakness": "Most labor is hands-on care and hospitality, so administrative AI gains are bounded and can be absorbed by staffing, compliance, and quality demands."
+  },
+  "sources": [
+    {
+      "id": "S1",
+      "url": "https://www.census.gov/naics/resources/archives/sect62.html",
+      "title": "NAICS Sector 62 — Health Care and Social Assistance",
+      "access_date": "2026-07-22",
+      "supports": "Defines 623312 as residential and personal care without on-site nursing facilities, including room, board, supervision, housekeeping, and assistance in daily living, and provides adjacent-industry exclusions."
+    },
+    {
+      "id": "S2",
+      "url": "https://www.bls.gov/oes/2023/may/naics4_623300.htm",
+      "title": "May 2023 OEWS — Continuing Care Retirement Communities and Assisted Living Facilities for the Elderly",
+      "access_date": "2026-07-22",
+      "supports": "Provides employment shares and wages by occupation for combined NAICS 623300, including healthcare support, food service, facilities, clinical, management, sales, and office work."
+    },
+    {
+      "id": "S3",
+      "url": "https://leadingage.org/wp-content/uploads/2025/09/Ziegler-Linkage-LeadingAge-CAST-CTO-Hotline_FINAL.pdf",
+      "title": "2025 Ziegler Link-age Funds and LeadingAge CAST CTO Hotline",
+      "access_date": "2026-07-22",
+      "supports": "Measures AI competency and deployment confidence, automation plans by workflow, data governance, and implementation barriers among not-for-profit senior-living and care organizations."
+    },
+    {
+      "id": "S4",
+      "url": "https://www.cdc.gov/mmwr/volumes/73/wr/mm7317a6.htm",
+      "title": "CDC QuickStats — Electronic Health Record Use in Residential Care Communities",
+      "access_date": "2026-07-22",
+      "supports": "Reports that electronic-health-record use among residential care communities increased from 36% in 2018 to 48% in 2022 and was higher among larger communities."
+    },
+    {
+      "id": "S5",
+      "url": "https://www.cdc.gov/nchs/fastats/residential-care-communities.htm",
+      "title": "CDC FastStats — Residential Care Communities",
+      "access_date": "2026-07-22",
+      "supports": "Reports 32,200 communities, 1,313,600 licensed beds, 988,800 residents, and 81.5% for-profit ownership in 2022 for the broader residential-care population."
+    },
+    {
+      "id": "S6",
+      "url": "https://www.cdc.gov/nchs/products/databriefs/db506.htm",
+      "title": "Residential Care Community Resident Characteristics: United States, 2022",
+      "access_date": "2026-07-22",
+      "supports": "Measures resident age, payer status, chronic conditions, and need for assistance with activities of daily living across U.S. residential care communities."
+    },
+    {
+      "id": "S7",
+      "url": "https://www.nic.org/news-press/occupancy-rate-for-senior-living-communities-increased-in-2025-as-construction-stalled/",
+      "title": "NIC — Occupancy Rate for Senior Living Communities Increased in 2025 as Construction Stalled",
+      "access_date": "2026-07-22",
+      "supports": "Reports 2025 occupancy gains, assisted-living occupancy of 87.7%, occupied-unit growth above 3%, limited inventory growth, and affordability constraints in primary markets."
+    },
+    {
+      "id": "S8",
+      "url": "https://www.nic.org/blog/ccrc-performance-4q-2025/",
+      "title": "NIC CCRC Performance — Fourth Quarter 2025",
+      "access_date": "2026-07-22",
+      "supports": "Reports non-CCRC assisted-living asking-rate growth of 4.5% and inventory growth of 1.1%, providing pricing and supply evidence for assisted-living properties."
+    },
+    {
+      "id": "S9",
+      "url": "https://www.levinassociates.com/2025-seniors-housing-and-care-ma-activity-smashes-multiple-records/",
+      "title": "2025 Seniors Housing and Care M&A Activity Smashes Multiple Records",
+      "access_date": "2026-07-22",
+      "supports": "Reports 871 publicly disclosed transactions in 2025, the senior-housing share, and assisted living as the largest fourth-quarter deal category."
+    },
+    {
+      "id": "S10",
+      "url": "https://jamanetwork.com/journals/jamanetworkopen/fullarticle/2841451",
+      "title": "Trends in Private Equity Acquisitions of Assisted Living Facilities",
+      "access_date": "2026-07-22",
+      "supports": "Documents controlling PE acquisitions of assisted-living facilities, deal and facility counts, single-facility prevalence, geographic reach, and undercount limitations."
+    },
+    {
+      "id": "S11",
+      "url": "https://www.census.gov/library/publications/2020/demo/p25-1144.html",
+      "title": "Demographic Turning Points for the United States: Population Projections for 2020 to 2060",
+      "access_date": "2026-07-22",
+      "supports": "Documents the expansion of the older population as the baby-boom cohort ages through the screen horizon."
+    }
+  ]
+}

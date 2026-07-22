@@ -1,0 +1,162 @@
+{
+  "identity": {
+    "naics": "624210",
+    "title": "Community Food Services",
+    "run_id": "624210-a1-20260722",
+    "model_id": "claude-sonnet-5",
+    "run_date": "2026-07-22",
+    "methodology_version": "5.1",
+    "attempt": 1
+  },
+  "lens": {
+    "included_activities": "U.S. operators classified in community food services that repeatedly collect, prepare, distribute, or deliver food to external recipients and that can plausibly support lower-middle-market normalized operating earnings.",
+    "excluded_activities": "Volunteer-only programs, entities without transferable operating control, captive programs, one-off disaster responses, food retail, institutional cafeterias, and social-assistance activities not primarily centered on community food collection, preparation, distribution, or delivery.",
+    "customer_and_revenue_model": "Recipients often pay little or nothing; operating resources commonly come from contributions, donated food, grants, member-network support, public programs, or service contracts. The narrower investable subset may have recurring fixed-fee or reimbursement arrangements with governments, health plans, institutions, or sponsors.",
+    "deviation_from_default": "none",
+    "heterogeneous": false
+  },
+  "primitives": {
+    "a": {
+      "evidence_state": "PROXY",
+      "low": 0.15,
+      "base": 0.24,
+      "high": 0.36,
+      "bridge": "BLS measures employment and wages for the broader four-digit NAICS 624200, not wage-weighted AI task exposure in 624210. I map office, financial, fundraising, management, eligibility, recordkeeping, dispatch, and planning work to partial AI exposure while assigning little exposure to cooking, driving, material handling, cleaning, and direct human service. The broader group includes housing and emergency-relief work, so it may overstate non-food casework and understate food logistics in 624210; both errors make the direction uncertain.",
+      "rationale": "The broader industry has 11.64% of employment in office and administrative support, 8.54% in business and financial operations, and 13.26% in management, alongside smaller communications and planning roles. These functions contain draftable, classifiable, schedulable, and reconcilable tasks. However, the service itself includes physical food preparation, delivery, driving, and inventory movement, constraining substitution.",
+      "change_evidence": "Obtain payroll-weighted occupation files and a task-time study from at least 20 food banks, meal-delivery programs, and community kitchens, separating already-automated tasks from remaining intake, grant, donor, routing, procurement, and reporting work.",
+      "source_ids": ["S1", "S2"],
+      "caveats": [
+        "OEWS is for NAICS 624200 and includes housing and emergency-relief establishments outside 624210.",
+        "Employment shares are not wage-weighted task shares, and no cited source measures current AI exposure or existing automation."
+      ]
+    },
+    "rho": {
+      "evidence_state": "ESTIMATE",
+      "low": 0.25,
+      "base": 0.45,
+      "high": 0.65,
+      "rationale": "Five-year implementation should be feasible in donor communications, grant drafting, intake triage, scheduling, reporting, procurement support, and route planning, but small-operator budgets, fragmented systems, sensitive client data, food-safety accountability, volunteer workflows, and the need for human review limit realized deployment.",
+      "change_evidence": "Collect pre/post labor-hour and error-rate results from production AI deployments at 15 community food operators, including implementation cost, integration time, staff adoption, privacy incidents, and the share of suggested actions requiring human correction.",
+      "source_ids": ["S2", "S5"],
+      "caveats": [
+        "No source measures five-year AI implementation in this six-digit industry.",
+        "A national network's technology capacity is unlikely to represent small local operators."
+      ]
+    },
+    "e": {
+      "evidence_state": "ESTIMATE",
+      "low": 0.03,
+      "base": 0.12,
+      "high": 0.28,
+      "rationale": "The industry definition centers on food banks, soup kitchens, and meal-delivery programs for people in need, while the observed network economics rely heavily on contributions and donated goods. A material share of establishments therefore may be charitable or otherwise lack transferable equity and normalized EBITDA. The eligible subset is likely limited to scaled, recurring contracted operators with genuine transferable control.",
+      "change_evidence": "Match the 229 modeled establishments to IRS exempt-organization records, state entity filings, Form 990s, and private-company databases; then verify revenue model, ownership, normalized EBITDA, recurring external customers, and control-transferability firm by firm.",
+      "source_ids": ["S1", "S4", "S5"],
+      "caveats": [
+        "No source measures the share of 624210 establishments meeting the fixed lens.",
+        "The frozen firm-count input is margin-bridged from an 8% social-assistance placeholder; donated food and nonprofit accounting can make receipts-to-EBITDA inference materially misleading.",
+        "IRS restrictions apply to section 501(c)(3) organizations, not every establishment in the NAICS code."
+      ]
+    },
+    "s5": {
+      "evidence_state": "ESTIMATE",
+      "low": 0.01,
+      "base": 0.04,
+      "high": 0.10,
+      "rationale": "Qualifying control transfers should be rare because many archetypal operators are charitable organizations without private shareholders, and nonprofit affiliations or board changes do not necessarily create a transferable control transaction. The small eligible for-profit subset can still experience owner succession or strategic sale.",
+      "change_evidence": "Build a five-year transaction census from PitchBook, Capital IQ, state charity filings, Form 990 Schedule R, and press releases, then classify each event as equity control sale, asset sale, nonprofit affiliation, internal reorganization, or closure.",
+      "source_ids": ["S4"],
+      "caveats": [
+        "There is no observed control-transfer rate for eligible 624210 firms.",
+        "The estimate depends strongly on the unresolved legal-form mix and on whether asset transfers preserve the operating platform."
+      ]
+    },
+    "q": {
+      "evidence_state": "ESTIMATE",
+      "low": 0.20,
+      "base": 0.42,
+      "high": 0.65,
+      "rationale": "Savings under fixed grants, donations, or fixed-fee contracts can fund more service or strengthen operating reserves, but they do not automatically become distributable owner economics. Competitive rebids, reimbursement rules, donor restrictions, and mission commitments can share benefits with funders and recipients. Retention is better where a transferable operator has multi-year fixed pricing and measurable service-level obligations.",
+      "change_evidence": "Review a representative sample of government, health-plan, institution, and sponsor contracts plus grant agreements, recording pricing basis, allowable-cost rules, rebid cadence, gain-sharing, restricted-fund terms, and actual treatment of operating underspends.",
+      "source_ids": ["S4", "S5"],
+      "caveats": [
+        "The Feeding America financial statements describe one large nonprofit network, not the eligible lower-middle-market subset.",
+        "Contract economics likely vary sharply between reimbursed programs, fixed grants, and fixed-fee meal delivery."
+      ]
+    },
+    "d5": {
+      "evidence_state": "PROXY",
+      "low": 0.90,
+      "base": 1.03,
+      "high": 1.18,
+      "bridge": "USDA measures household food insecurity, not constant-price demand for community food-service output. I use the large and recently persistent food-insecure population as a demand-need indicator, then temper it because funding, donated supply, public benefits, demographics, and service capacity mediate the conversion from need to delivered service. This proxy can overstate funded demand when resources contract and understate it when outreach or capacity expands.",
+      "rationale": "USDA reports that 13.7% of U.S. households were food insecure in 2024, statistically similar to 2023, indicating a large persistent need base. A roughly stable to modestly growing five-year service basket is plausible, with a wide range for economic conditions, public policy, donations, and food costs.",
+      "change_evidence": "Obtain five-year same-program meal and food-pound volumes, waitlists, unique-client counts, and constant-quality contract demand from a stratified panel of food banks, community kitchens, and meal-delivery operators, alongside committed funding through year five.",
+      "source_ids": ["S3"],
+      "caveats": [
+        "Food insecurity prevalence is need, not paid or funded service demand.",
+        "The 2024 measure is one national observation and cannot identify local funding or capacity constraints."
+      ]
+    },
+    "o": {
+      "evidence_state": "PROXY",
+      "low": 0.72,
+      "base": 0.88,
+      "high": 0.97,
+      "bridge": "The Census industry definition identifies inherently physical collection, preparation, distribution, and delivery activities, rather than measuring the future operator-required share. I infer that software can alter access and coordination but cannot itself acquire, handle, prepare, and deliver food. This may overstate operator persistence if cash benefits, grocery credits, direct-to-recipient logistics, or retailer fulfillment displace community operators.",
+      "rationale": "Most of the service basket requires accountable custody of food, food-safety processes, facilities, local distribution, delivery, or in-person handoff. Digital intake and benefits tools may reduce some intermediary work, but they do not eliminate the core physical operator.",
+      "change_evidence": "Measure substitution in markets adopting electronic grocery benefits, direct retailer delivery, centralized procurement, and self-service intake by comparing community-operator volumes and contract awards before and after adoption.",
+      "source_ids": ["S1", "S5"],
+      "caveats": [
+        "The source establishes current activities, not a five-year substitution rate.",
+        "Operator requirement may remain high while the specific local operator type changes through network centralization or retailer partnerships."
+      ]
+    }
+  },
+  "narrative": {
+    "executive_view": "Community food services combine durable social need with a modest administrative automation surface, but the fixed investment lens is a poor fit for much of the category. Many archetypal operators rely on charitable resources and may lack transferable equity or distributable economics, so legal form and revenue model must be established before operational upside matters.",
+    "ai_impact": "AI can assist intake and eligibility workflows, donor and grant communications, reporting, procurement analysis, volunteer scheduling, inventory exception handling, and route planning. It is unlikely to replace the physical work of food collection, preparation, warehousing, delivery, and recipient-facing service, and sensitive decisions require accountable human review.",
+    "value_capture": "Implemented savings can expand mission capacity, improve reserves, or support service quality, but may be shared through grant rules, reimbursement, competitive rebids, and donor expectations. The best retention case is a genuinely transferable operator with multi-year fixed-price contracts; that model should not be assumed for the whole industry.",
+    "firm_availability": "The modeled establishment count is especially uncertain as an acquisition pool because an EBITDA placeholder is applied to a sector with donated goods and nonprofit accounting. IRS private-benefit restrictions also make a conventional shareholder control sale inapplicable to section 501(c)(3) operators. Entity-level ownership and financial verification is therefore essential.",
+    "demand_durability": "Food insecurity remained widespread in 2024, supporting persistent underlying need, and most current services still require physical operators. Delivered demand can nevertheless diverge from need when appropriations, donations, food supply, benefit policy, or local capacity change.",
+    "risks_and_uncertainty": "The largest uncertainties are the for-profit and transferable share, the meaning of normalized EBITDA where donated food is material, contract-level benefit retention, and the lack of six-digit task data. Public-benefit expansion, retailer fulfillment, or network consolidation could also displace local operators even if food need remains high.",
+    "principal_driver": "Persistent food need supports recurring physical service demand that software alone cannot fulfill.",
+    "principal_weakness": "Much of the category may be nonprofit, donation-funded, and outside a conventional transferable-control investment model."
+  },
+  "sources": [
+    {
+      "id": "S1",
+      "url": "https://www.census.gov/naics/?details=624210&input=62421+&year=2022",
+      "title": "2022 NAICS Definition: 624210 Community Food Services",
+      "access_date": "2026-07-22",
+      "supports": "Defines the industry as collection, preparation, and delivery of food for people in need, including food banks, meal-delivery programs, and soup kitchens."
+    },
+    {
+      "id": "S2",
+      "url": "https://www.bls.gov/oes/2023/may/naics4_624200.htm",
+      "title": "May 2023 OEWS: NAICS 624200 Community Food and Housing, and Emergency and Other Relief Services",
+      "access_date": "2026-07-22",
+      "supports": "Provides broader-industry employment and wage estimates by occupation, including management, business, office, food-preparation, and transportation roles."
+    },
+    {
+      "id": "S3",
+      "url": "https://www.ers.usda.gov/publications/113622",
+      "title": "Household Food Security in the United States in 2024",
+      "access_date": "2026-07-22",
+      "supports": "Reports that 13.7% of U.S. households were food insecure in 2024 and that prevalence was statistically similar to 2023."
+    },
+    {
+      "id": "S4",
+      "url": "https://www.irs.gov/charities-non-profits/charitable-organizations/inurement-private-benefit-charitable-organizations",
+      "title": "Inurement/private benefit: Charitable organizations",
+      "access_date": "2026-07-22",
+      "supports": "States that a section 501(c)(3) organization cannot operate for private interests and that net earnings cannot inure to a private shareholder or individual."
+    },
+    {
+      "id": "S5",
+      "url": "https://www.feedingamerica.org/sites/default/files/2025-11/Feeding%20America_25%20FS_Final.pdf",
+      "title": "Feeding America Financial Statements, June 30, 2025 and 2024",
+      "access_date": "2026-07-22",
+      "supports": "Documents donated food, contributions receivable, member grants, software assets, donor agreements, and network distribution arrangements at a major community-food nonprofit."
+    }
+  ]
+}

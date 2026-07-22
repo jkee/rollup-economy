@@ -1,0 +1,206 @@
+{
+  "identity": {
+    "naics": "623220",
+    "title": "Residential Mental Health and Substance Abuse Facilities",
+    "run_id": "623220-a1-20260722",
+    "model_id": "claude-sonnet-5",
+    "run_date": "2026-07-22",
+    "methodology_version": "5.1",
+    "attempt": 1
+  },
+  "lens": {
+    "included_activities": "United States lower-middle-market operators providing recurring or episode-based residential care and treatment for mental-health and substance-use conditions, including nonhospital rehabilitation facilities, mental-health halfway houses, psychiatric convalescent settings, and residential group homes, with room, board, supervision, counseling, rehabilitation, and support services.",
+    "excluded_activities": "Exclusively outpatient behavioral-health centers, licensed psychiatric hospitals emphasizing medical treatment and monitoring, residential intellectual-disability facilities, temporary shelters, correctional facilities, shell entities, captive units, and non-control financing vehicles.",
+    "customer_and_revenue_model": "Patients are service recipients, while commercial insurers, Medicaid, Medicare and other public programs, and self-pay clients fund care. Revenue is generally episode, day, service, or negotiated-rate based and reduced by payer contractual adjustments, discounts, and collection concessions.",
+    "deviation_from_default": "none",
+    "heterogeneous": true
+  },
+  "primitives": {
+    "a": {
+      "evidence_state": "PROXY",
+      "low": 0.22,
+      "base": 0.34,
+      "high": 0.47,
+      "bridge": "The source quantity is the BLS industry occupation and wage mix, with large counselor, social-service, healthcare-support, clinical, management, and administrative groups. I transform it into wage-weighted task exposure by assigning high exposure to documentation, coding, utilization-review preparation, scheduling, intake, billing, care-plan drafting, and routine education; moderate exposure to structured counseling support and clinical synthesis; and low exposure to therapeutic alliance, crisis judgment, medication administration, and residential supervision. The proxy may overstate substitution because occupation titles conceal safety-critical interpersonal tasks, or understate it because higher-paid clinicians and managers carry substantial documentation load.",
+      "rationale": "Behavioral-health facilities employ a larger share of information-intensive counselors, social workers, managers, nurses, and office staff than many residential-care industries. AI can reduce clerical and synthesis time and support staff decisions, but direct counseling, safeguarding, assessment, and continuous supervision remain human responsibilities.",
+      "change_evidence": "A wage-weighted time-and-motion study for this industry that separates therapy, observation, documentation, payer administration, coordination, and facility operations would materially change this estimate.",
+      "source_ids": ["S1", "S2", "S7", "S8"],
+      "caveats": [
+        "Occupation shares measure staffing rather than exposed tasks.",
+        "The BLS table covers employers of all sizes and predates the run date."
+      ]
+    },
+    "rho": {
+      "evidence_state": "PROXY",
+      "low": 0.22,
+      "base": 0.38,
+      "high": 0.55,
+      "bridge": "The source population is nonfederal acute-care hospitals reporting predictive AI integrated with electronic records, including rapid growth in billing and scheduling uses. I translate this adjacent healthcare adoption into a five-year implementation share for exposed residential behavioral-health tasks, discounting for smaller independent operators, fragmented EHRs, substance-use privacy protections, clinical bias, crisis risk, consent, and required human review. The proxy likely overstates smaller-facility readiness because hospitals have greater technology resources, but it may understate generative documentation adoption not captured by predictive-AI questions.",
+      "rationale": "Administrative use cases have clear precedents and should spread through EHR and revenue-cycle vendors. Clinical and patient-facing uses will move more slowly because behavioral-health errors can cause serious harm, patient narratives are sensitive, and direct crisis response and treatment decisions demand professional accountability.",
+      "change_evidence": "Residential behavioral-health provider surveys or audited deployment studies showing AI use, note time saved, claim performance, clinical error rates, staff acceptance, and avoided hiring would materially change this value.",
+      "source_ids": ["S7", "S8", "S9"],
+      "caveats": [
+        "Acute-care hospital adoption is not residential behavioral-health adoption.",
+        "Reported tool use does not establish net labor substitution."
+      ]
+    },
+    "e": {
+      "evidence_state": "PROXY",
+      "low": 0.38,
+      "base": 0.54,
+      "high": 0.7,
+      "bridge": "The source population is SAMHSA's national inventory of substance-use, mental-health, and combined treatment facilities, where private nonprofit operation exceeds private for-profit operation and government facilities form a smaller share. I map operation type to the eligible lower-middle-market residential-firm universe by excluding public providers, heavily discounting nonprofits and mixed outpatient operations, and retaining transferable private residential operators. The proxy may understate eligibility if nonprofit assets or subsidiaries can transfer control, or overstate it because the survey includes facilities outside this NAICS and does not test earnings size or transfer restrictions.",
+      "rationale": "Residential treatment is an external, repeat service and thus fits the operating lens, but the broader facility population has substantial nonprofit ownership. Mixed levels of care, state licensure, real-estate structures, payer enrollment, and single-site dependence further reduce the portion of dataset-estimated firms that are coherent and transferable.",
+      "change_evidence": "A national facility-to-firm crosswalk with NAICS, level of care, ownership and tax status, normalized earnings, licenses, payer enrollment, property control, and change-of-control restrictions would materially change eligibility.",
+      "source_ids": ["S1", "S5", "S6", "S9"],
+      "caveats": [
+        "SAMHSA's survey includes outpatient and hospital facilities in addition to residential operators.",
+        "Facility counts do not map directly to firms or the frozen earnings band."
+      ]
+    },
+    "s5": {
+      "evidence_state": "PROXY",
+      "low": 0.14,
+      "base": 0.23,
+      "high": 0.34,
+      "bridge": "The source populations combine employer-business owners in Gallup's succession survey, private-equity behavioral-health transactions tracked by PESP, and a public behavioral-health operator's disclosed acquisition of a residential treatment provider. I use owner transfer intention as a broad prior and adjust it upward for active platform acquisition, then discount for deals outside residential care, minority growth investments, nonprofit ownership, licensing, investigations, and transactions that do not qualify as control transfers. This may overstate probability because broad behavioral-health deal counts include outpatient assets, or understate it because small private add-ons are incompletely disclosed.",
+      "rationale": "Behavioral health has sustained sponsor and strategic interest, and residential treatment assets appear in disclosed acquisitions. A fragmented provider base and owner succession support supply, but care-quality scrutiny, state transaction review, reimbursement exposure, and nonprofit ownership reduce executable qualifying transfers.",
+      "change_evidence": "A verified denominator of eligible residential operators and closed qualifying control deals by provider size, level of care, ownership, payer mix, and state would materially change this probability.",
+      "source_ids": ["S9", "S10", "S11"],
+      "caveats": [
+        "Broad behavioral-health deal tracking is not specific to this NAICS code.",
+        "Owner intentions are not completed transactions."
+      ]
+    },
+    "q": {
+      "evidence_state": "PROXY",
+      "low": 0.3,
+      "base": 0.48,
+      "high": 0.65,
+      "bridge": "The source quantities are public-company disclosures that behavioral-health revenue comes from government programs, commercial insurers, and patients and is recorded after contractual adjustments and concessions, together with SAMHSA evidence that facilities accept diverse payment types. I transform payer structure into retained implemented benefit by allowing savings under fixed or negotiated episode and day rates, then discounting for commercial renewal repricing, public-rate updates, utilization review, network competition, patient discounts, compliance spend, and quality reinvestment. The proxy may overstate retention at Medicaid-heavy facilities and understate it at differentiated self-pay residential programs.",
+      "rationale": "An operator can retain some administrative and staffing productivity when payment is fixed per day, episode, or contract period. Capture varies widely: self-pay and differentiated programs can hold price, while government and managed-care payers can reprice, deny days, tighten authorization, or demand lower-cost outpatient alternatives.",
+      "change_evidence": "Facility-level contracts and cohorts linking AI deployment to allowed revenue, denials, labor cost, length of stay, renewal rates, price changes, and contribution margin would materially change retention.",
+      "source_ids": ["S5", "S9"],
+      "caveats": [
+        "Public operators include hospitals and outpatient programs outside the lens.",
+        "Payer and program mix varies sharply among mental-health, substance-use, adolescent, and adult facilities."
+      ]
+    },
+    "d5": {
+      "evidence_state": "PROXY",
+      "low": 0.98,
+      "base": 1.06,
+      "high": 1.18,
+      "bridge": "The source quantities are BLS projected employment growth for this exact industry, SAMHSA prevalence and treatment-gap measures, and public-company behavioral-health patient-day trends. I transform employment and utilization into a five-year constant-price, constant-quality residential service-demand index, then widen the range for insurance access, Medicaid policy, bed supply, stigma, clinical incidence, outpatient and telehealth substitution, and shifts in length of stay. The proxy may overstate quantity if projected employment reflects lower productivity, or understate demand if unmet need and parity enforcement convert rapidly into residential admissions.",
+      "rationale": "Mental-health and substance-use need remains large, treatment gaps persist, and BLS expects this industry to grow. Growth should be moderate rather than explosive because most treatment occurs outside residential settings and payers increasingly direct appropriate patients toward outpatient, medication, telehealth, and shorter-stay care.",
+      "change_evidence": "A national industry series for inflation-adjusted residential treatment days, admissions, occupancy, average stay, authorization denials, bed supply, and level-of-care transitions would materially change the demand index.",
+      "source_ids": ["S3", "S4", "S9"],
+      "caveats": [
+        "Employment growth is not a direct measure of constant-quality demand.",
+        "SAMHSA prevalence and treatment receipt combine every level of behavioral-health care."
+      ]
+    },
+    "o": {
+      "evidence_state": "ESTIMATE",
+      "low": 0.72,
+      "base": 0.84,
+      "high": 0.94,
+      "rationale": "Patients appropriate for residential care need an accountable licensed operator for housing, continuous supervision, counseling, medication coordination, crisis response, safeguarding, meals, documentation, and transition planning. Digital therapy, monitoring, outpatient care, and telehealth can prevent or shorten some stays, but software alone cannot safely provide the current residential service basket for most admitted patients.",
+      "change_evidence": "Comparative longitudinal evidence on residential admissions avoided or shortened by digital, outpatient, and home-based alternatives, stratified by diagnosis and acuity with safety and relapse outcomes, would materially change this value.",
+      "source_ids": ["S1", "S4", "S8", "S9"],
+      "caveats": [
+        "The estimate concerns continued operator requirement, not whether software reduces operator staffing.",
+        "Payer level-of-care policies may shift volume outside the lens even when human treatment remains necessary."
+      ]
+    }
+  },
+  "narrative": {
+    "executive_view": "Residential behavioral health combines durable clinical need with a relatively information-intensive workforce, creating meaningful administrative and documentation opportunity. Clinical safety, continuous supervision, heterogeneous payer contracts, nonprofit ownership, and outpatient substitution prevent a simple translation from AI capability to removable labor or retained margin.",
+    "ai_impact": "Near-term applications include clinical-note drafting, intake summarization, coding and claim checks, utilization-review packets, care-plan assistance, scheduling, compliance retrieval, staff training, and risk triage. Therapy, diagnosis, medication decisions, crisis response, safeguarding, and residential milieu management require accountable professionals.",
+    "value_capture": "Fixed day and episode payments can preserve some productivity benefit, particularly between contract renewals. Government rates, commercial utilization management, denials, network competition, self-pay affordability, and the need to reinvest in quality and scarce clinical staff return a substantial share of benefit to payers or patients.",
+    "firm_availability": "The industry is fragmented and attracts strategic and sponsor acquisition, including residential assets. The eligible pool is materially narrowed by nonprofit operation, mixed levels of care, licensure and accreditation, state transaction oversight, payer contracts, real-estate arrangements, and liabilities arising from patient incidents or marketing practices.",
+    "demand_durability": "Behavioral-health prevalence and undertreatment support demand, and BLS projects continued growth for residential facilities. Residential care remains a small, high-acuity part of the continuum, however, and outpatient treatment, medication, telehealth, payer authorization, and shorter stays can absorb growth or displace days.",
+    "risks_and_uncertainty": "Central uncertainties are the share of counselor and clinician time that can be removed safely, adoption capacity at small facilities, payer capture of savings, ownership eligibility, and future level-of-care mix. Privacy breaches, biased clinical tools, deficient supervision, adverse patient events, fraud investigations, and abrupt facility closures create unusually serious downside.",
+    "principal_driver": "A large counseling and administrative workforce, persistent treatment need, and active healthcare technology adoption support practical workflow automation.",
+    "principal_weakness": "Residential treatment is clinically sensitive and payer-managed, so automation must remain supervised while much of the benefit can be repriced or diverted to lower-cost care settings."
+  },
+  "sources": [
+    {
+      "id": "S1",
+      "url": "https://www.census.gov/naics/resources/archives/sect62.html",
+      "title": "NAICS Definition: Residential Mental Health and Substance Abuse Facilities",
+      "access_date": "2026-07-22",
+      "supports": "Industry boundary, included facility types, residential service basket, and separation from outpatient centers and psychiatric hospitals."
+    },
+    {
+      "id": "S2",
+      "url": "https://www.bls.gov/oes/2023/may/naics5_623220.htm",
+      "title": "BLS Industry-Specific Occupational Employment and Wage Estimates for 623220",
+      "access_date": "2026-07-22",
+      "supports": "Detailed employment and wage mix for counselors, social workers, healthcare staff, aides, managers, residential advisors, and office support."
+    },
+    {
+      "id": "S3",
+      "url": "https://www.bls.gov/opub/mlr/2024/article/industry-and-occupational-employment-projections-overview-and-highlights-2023-33.htm",
+      "title": "BLS Industry and Occupational Employment Projections Overview",
+      "access_date": "2026-07-22",
+      "supports": "Projected employment growth for this industry and behavioral-health occupations, plus the role of continued treatment demand."
+    },
+    {
+      "id": "S4",
+      "url": "https://www.samhsa.gov/data/sites/default/files/reports/rpt56287/2024-nsduh-annual-national/2024-nsduh-annual-national-html-071425-edited/2024-nsduh-annual-national.htm",
+      "title": "SAMHSA National Survey on Drug Use and Health Annual Report",
+      "access_date": "2026-07-22",
+      "supports": "Mental-illness and substance-use prevalence, treatment receipt, perceived unmet need, and use of inpatient, outpatient, medication, and telehealth treatment."
+    },
+    {
+      "id": "S5",
+      "url": "https://www.samhsa.gov/data/sites/default/files/reports/rpt56696/2024-nsumhss-annual-report.pdf",
+      "title": "National Substance Use and Mental Health Services Survey Annual Report",
+      "access_date": "2026-07-22",
+      "supports": "Facility operation type and payment acceptance across substance-use and mental-health treatment providers."
+    },
+    {
+      "id": "S6",
+      "url": "https://www.samhsa.gov/data/data-we-collect/n-sumhss-national-substance-use-and-mental-health-services-survey/datafiles/2024",
+      "title": "National Substance Use and Mental Health Services Survey Public-Use Data Documentation",
+      "access_date": "2026-07-22",
+      "supports": "Survey universe, facility-level characteristics, public and private ownership, service provision, utilization, and material survey limitations."
+    },
+    {
+      "id": "S7",
+      "url": "https://healthit.gov/data/data-briefs/hospital-trends-use-evaluation-and-governance-predictive-ai-2023-2024/",
+      "title": "Hospital Trends in Predictive AI Use, Evaluation, and Governance",
+      "access_date": "2026-07-22",
+      "supports": "Adjacent healthcare AI adoption, growth in billing and scheduling applications, governance, monitoring, and the adoption gap for small independent facilities."
+    },
+    {
+      "id": "S8",
+      "url": "https://www.nimh.nih.gov/health/topics/technology-and-the-future-of-mental-health-treatment",
+      "title": "Technology and the Future of Mental Health Treatment",
+      "access_date": "2026-07-22",
+      "supports": "Digital mental-health opportunities, complementary role with professional care, and limitations involving effectiveness, privacy, standards, and crisis support."
+    },
+    {
+      "id": "S9",
+      "url": "https://www.sec.gov/Archives/edgar/data/1520697/000119312526078266/achc-20251231.htm",
+      "title": "Acadia Healthcare 2025 Form 10-K",
+      "access_date": "2026-07-22",
+      "supports": "Residential treatment operations, payer sources, contractual revenue adjustments, disclosed residential acquisition, regulation, and operating demand."
+    },
+    {
+      "id": "S10",
+      "url": "https://pestakeholder.org/reports/healthcare-deals-2024-in-review/",
+      "title": "Private Equity Healthcare Deals Review",
+      "access_date": "2026-07-22",
+      "supports": "Behavioral-health transaction activity, add-on acquisitions, residential-treatment examples, consolidation, closure, and regulatory risks."
+    },
+    {
+      "id": "S11",
+      "url": "https://news.gallup.com/poll/657362/small-business-owners-lack-succession-plan.aspx",
+      "title": "Most Small-Business Owners Lack a Succession Plan",
+      "access_date": "2026-07-22",
+      "supports": "Five-year sale and transfer intentions among United States employer-business owners."
+    }
+  ]
+}

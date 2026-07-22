@@ -1,0 +1,196 @@
+{
+  "identity": {
+    "naics": "624229",
+    "title": "Other Community Housing Services",
+    "run_id": "624229-a1-20260722",
+    "model_id": "claude-sonnet-5",
+    "run_date": "2026-07-22",
+    "methodology_version": "5.1",
+    "attempt": 1
+  },
+  "lens": {
+    "included_activities": "Privately controllable operators providing recurring or repeat transitional-housing, low-income home-repair, housing-stabilization, or closely associated support services to governments, nonprofit prime contractors, institutional partners, or households, within the lower-middle-market EBITDA band.",
+    "excluded_activities": "Government agencies; charitable organizations without transferable control economics; donation-only or volunteer-only programs; passive property ownership; non-control financing vehicles; captive units; emergency shelters classified in NAICS 624221; and pure construction contractors classified elsewhere.",
+    "customer_and_revenue_model": "Revenue is typically a blend of competitively awarded government grants or subcontracts, reimbursable program funding, institutional service agreements, donations, and limited participant or homeowner payments. Work may combine housing operations, case management, compliance reporting, referral coordination, and field repair delivery.",
+    "deviation_from_default": "The code combines transitional housing, volunteer-assisted low-cost housing construction or repair, and repair for elderly or disabled homeowners. The lens therefore retains only recurring or repeat service operators with transferable control economics and excludes non-transferable charitable programs and passive housing assets so that operating-workflow primitives remain coherent.",
+    "heterogeneous": true
+  },
+  "primitives": {
+    "a": {
+      "evidence_state": "PROXY",
+      "low": 0.25,
+      "base": 0.42,
+      "high": 0.57,
+      "bridge": "O*NET and BLS describe the adjacent social-and-human-service-assistant occupation rather than the wage-weighted task mix of NAICS 624229. I map paperwork, service research, eligibility support, recordkeeping, scheduling, referral, and routine follow-up to exposed work, while treating in-person assessment, care, safety monitoring, transport, repair, and relationship work as largely unexposed. The proxy likely overstates exposure for repair-heavy programs and may understate it for case-management-heavy operators.",
+      "rationale": "A material administrative layer can use AI for intake summarization, case-note drafting, resource matching, document checks, reporting, and communications. The service core still includes face-to-face judgment, resident support, safety oversight, site work, and physical home repair, limiting substitution.",
+      "change_evidence": "A wage-weighted task diary or time-and-motion study across transitional-housing case managers, residential staff, grant administrators, maintenance workers, and home-repair crews at at least 20 NAICS 624229 operators.",
+      "source_ids": ["S2", "S3"],
+      "caveats": [
+        "The occupational sources cover a broader social-services population and do not isolate this NAICS code.",
+        "The code's housing-repair and transitional-housing segments have materially different occupation mixes.",
+        "Exposure denotes technically addressable work, not realized implementation or headcount reduction."
+      ]
+    },
+    "rho": {
+      "evidence_state": "PROXY",
+      "low": 0.24,
+      "base": 0.4,
+      "high": 0.6,
+      "bridge": "Census BTOS measures current and near-term AI use across all nonfarm businesses, not the five-year implemented share of exposed work in community housing. I increase the horizon from current adoption to five years but reduce implementation for small-operator budgets, fragmented systems, sensitive client data, grant compliance, and human review. The broad-business proxy may overstate implementation in nonprofit-heavy programs but understate eventual adoption of low-cost administrative tools.",
+      "rationale": "Implementation should concentrate in bounded administrative workflows with human approval. Small scale, procurement limits, interoperability with funder systems, privacy, uneven data quality, and the consequences of eligibility or safety errors constrain deployment into client-facing decisions.",
+      "change_evidence": "A 2026 baseline survey and annual follow-up of NAICS 624229 operators measuring production AI use by workflow, user adoption, exception rates, human-review time, and realized labor-hour avoidance.",
+      "source_ids": ["S2", "S4", "S5"],
+      "caveats": [
+        "BTOS changed its AI-use question in late 2025 to cover any business function, complicating historical comparison.",
+        "No sector-specific adoption series was found for this six-digit industry.",
+        "Use of a drafting tool does not imply that the exposed task share is operationally implemented."
+      ]
+    },
+    "e": {
+      "evidence_state": "ESTIMATE",
+      "low": 0.01,
+      "base": 0.06,
+      "high": 0.18,
+      "rationale": "The principal federal housing programs identify nonprofits and public entities as core applicants, and charitable assets generally remain dedicated to exempt purposes. A minority of establishments may nevertheless be privately controlled service contractors or commercially transferable operating subsidiaries that meet the recurring-service and EBITDA lens.",
+      "change_evidence": "A business-level census combining IRS Form 990 status, SAM.gov and USASpending awardees, state charity registries, PitchBook or CapIQ ownership records, and normalized EBITDA for every establishment mapped to NAICS 624229.",
+      "source_ids": ["S1", "S5", "S8", "S9"],
+      "caveats": [
+        "No observed denominator of LMM firms by legal form or transferability was found.",
+        "The dataset-injected n=0 is described as an estimate based on a placeholder margin and should not be interpreted as observed absence of operating organizations or eligible firms.",
+        "NAICS establishment classification may place mixed housing-and-services organizations in another primary code."
+      ]
+    },
+    "s5": {
+      "evidence_state": "ESTIMATE",
+      "low": 0.03,
+      "base": 0.08,
+      "high": 0.16,
+      "rationale": "For the small privately transferable subset, owner succession, sponsor recapitalization, or strategic acquisition can produce a control transfer. However, the code's nonprofit prevalence means many mergers, affiliations, grant novations, and asset transfers do not confer transferable private control economics and are excluded.",
+      "change_evidence": "A five-year transaction census from PitchBook, CapIQ, state nonprofit-merger filings, Form 990 Schedule N, and federal grant novation records, hand-coded for qualifying changes of control among eligible operators.",
+      "source_ids": ["S8"],
+      "caveats": [
+        "No industry-specific transfer-rate series was found.",
+        "The range is conditional on eligibility and should not be applied to public or non-transferable charitable entities.",
+        "Asset transfers and nonprofit consolidations may look like deals but fail the qualifying-control definition."
+      ]
+    },
+    "q": {
+      "evidence_state": "ESTIMATE",
+      "low": 0.12,
+      "base": 0.28,
+      "high": 0.5,
+      "rationale": "Competitive grants, eligible-cost rules, match requirements, administrative caps, renewal review, and mission pricing make rapid pass-through or redeployment of savings plausible. Retention can be higher under fixed-price service subcontracts or where productivity supports more clients without proportional hiring, but direct grants often reward documented service delivery rather than margin expansion.",
+      "change_evidence": "Contract-level analysis of at least 100 operator agreements covering fee basis, allowable costs, budget rebasing, renewal pricing, performance incentives, audit recoveries, and disposition of underspend, paired with realized post-automation contribution margins.",
+      "source_ids": ["S5", "S6"],
+      "caveats": [
+        "HUD program rules describe funding structure, not the share of AI benefit retained by operators.",
+        "Revenue models vary sharply among grants, subcontracts, resident payments, donations, and home-repair projects.",
+        "The estimate excludes demand and implementation effects, which belong in other primitives."
+      ]
+    },
+    "d5": {
+      "evidence_state": "PROXY",
+      "low": 0.9,
+      "base": 1.06,
+      "high": 1.25,
+      "bridge": "BLS projects 2024-2034 employment for the broader social-and-human-service-assistant occupation, while HUD reports homelessness and housing-bed trends rather than constant-price demand for the current NAICS 624229 service basket. I translate the 6% ten-year occupational growth, severe housing need, a recent 4% decline in transitional-housing beds, and current federal support for transitional housing into a modest five-year service-demand increase. Need can exceed funded demand, so homelessness growth likely overstates purchasable volume; program redesign or appropriations cuts could push demand below current levels.",
+      "rationale": "Underlying housing instability and aging-related support needs are durable, but realized service volume is budget-constrained and program mix can shift between transitional housing, permanent housing, rapid rehousing, and repair. A central case near broad social-service growth is more defensible than extrapolating the recent homelessness spike.",
+      "change_evidence": "A cohort forecast using five years of HUD Housing Inventory Count beds by project type, CoC and HOME award obligations, state and local contract budgets, waitlists, and inflation-adjusted service units specifically mapped to NAICS 624229.",
+      "source_ids": ["S3", "S6", "S7", "S9"],
+      "caveats": [
+        "The 2024 point-in-time count measures need and system use on one night, not paid demand or annual service volume.",
+        "HUD reported transitional-housing beds fell 4% from 2023 to 2024 even as total homelessness rose, showing that program mix can diverge from need.",
+        "The July 2026 CoC competition was still subject to a proposed modification at the research date."
+      ]
+    },
+    "o": {
+      "evidence_state": "ESTIMATE",
+      "low": 0.82,
+      "base": 0.92,
+      "high": 0.98,
+      "rationale": "Housing placement, custody of funds and property, safety, compliance, participant accountability, contractor coordination, and physical repairs continue to require an accountable operator. AI and self-service can reduce administrative touches but are unlikely to eliminate the operating entity for most delivered service units.",
+      "change_evidence": "Program-level evidence on fully self-served housing navigation, automated eligibility and recertification, remote case-management outcomes, funder acceptance, safety incidents, and the share of service units delivered without an accountable local operator.",
+      "source_ids": ["S2", "S3", "S5"],
+      "caveats": [
+        "The estimate is not an observed displacement rate.",
+        "Digital-first navigation may substitute more operator work for low-acuity clients than the central case assumes.",
+        "Physical home repair and residential supervision are more operator-dependent than referral-only services."
+      ]
+    }
+  },
+  "narrative": {
+    "executive_view": "NAICS 624229 contains a useful administrative automation surface but is structurally awkward for a conventional control-oriented LMM screen. The code mixes transitional housing with volunteer-assisted construction and home repair, and federal programs are centered on nonprofit and public delivery. The most coherent target population is therefore a small subset of privately controllable recurring-service operators, not the industry at large.",
+    "ai_impact": "AI can assist intake, case-note drafting, benefits and resource research, document completeness checks, scheduling, funder reporting, and routine follow-up. It should remain human-supervised where decisions affect eligibility, safety, treatment, housing placement, or vulnerable clients; it does little to replace repairs, transport, on-site monitoring, or relationship-based support.",
+    "value_capture": "Capture depends more on contract form than technical savings. Fixed-price subcontracts and capacity-constrained programs may retain some benefit through avoided hiring or additional throughput, while cost-reimbursement grants, eligible-cost rules, competitive renewals, and mission commitments can return savings to funders or clients.",
+    "firm_availability": "Most visible delivery channels are nonprofit or governmental, and charitable asset-dedication rules limit conventional private transfer economics. The frozen n input is a placeholder-derived zero, not direct evidence that no organizations exist; a linked legal-form, ownership, award, and financial census is required before relying on firm availability.",
+    "demand_durability": "Housing instability, aging, disability, and social-service needs support durable underlying demand. HUD recorded historically high homelessness in 2024, and the FY 2026 CoC competition authorizes more than $4 billion, but funded volume can shift materially among transitional, permanent, rapid-rehousing, prevention, and repair models.",
+    "risks_and_uncertainty": "The largest uncertainties are the eligible for-profit denominator, qualifying transfer incidence, and contract-specific retention. Additional risks include political and appropriations changes, privacy and security failures, biased or incorrect eligibility support, grant noncompliance, fragmented data, volunteer dependence, and misclassification across neighboring NAICS codes.",
+    "principal_driver": "A sizable documentation and coordination layer can be augmented while underlying housing and support needs remain persistent.",
+    "principal_weakness": "Nonprofit/public dominance and grant-constrained economics leave very few clearly transferable LMM firms and weak evidence on retained savings."
+  },
+  "sources": [
+    {
+      "id": "S1",
+      "url": "https://www.census.gov/naics/?input=624229&year=2022&details=624229",
+      "title": "2022 NAICS definition: 624229 Other Community Housing Services",
+      "access_date": "2026-07-22",
+      "supports": "Defines the code as including transitional housing, volunteer-assisted low-cost housing construction or repair, repair for elderly or disabled homeowners, subsidized housing arrangements, and related household supplies."
+    },
+    {
+      "id": "S2",
+      "url": "https://www.onetonline.org/link/summary/21-1093.00",
+      "title": "O*NET OnLine: Social and Human Service Assistants",
+      "access_date": "2026-07-22",
+      "supports": "Documents adjacent frontline tasks including interviewing clients, records and reports, referrals, care plans, safety monitoring, home visits, transport, and direct public contact."
+    },
+    {
+      "id": "S3",
+      "url": "https://www.bls.gov/ooh/community-and-social-service/social-and-human-service-assistants.htm",
+      "title": "BLS Occupational Outlook Handbook: Social and Human Service Assistants",
+      "access_date": "2026-07-22",
+      "supports": "Describes client-service duties and projects 6% employment growth from 2024 to 2034, with 50,600 average annual openings."
+    },
+    {
+      "id": "S4",
+      "url": "https://www.census.gov/library/stories/2026/05/ai-use-businesses.html",
+      "title": "U.S. Census Bureau: Large Firms With at Least 20 Employees Biggest AI Users",
+      "access_date": "2026-07-22",
+      "supports": "Reports that overall business AI use hovered between 17% and 20% from December 2025 to May 2026 and explains the revised any-business-function measure."
+    },
+    {
+      "id": "S5",
+      "url": "https://www.hud.gov/hudprograms",
+      "title": "HUD Programs: Continuum of Care and related housing programs",
+      "access_date": "2026-07-22",
+      "supports": "Describes eligible CoC costs, project types, competitive application structure, 25% match requirement, and nonprofit/public applicant eligibility; also describes HOME and related housing delivery channels."
+    },
+    {
+      "id": "S6",
+      "url": "https://www.hud.gov/hud-partners/coc-program-competition",
+      "title": "HUD FY 2026 Continuum of Care Program Competition",
+      "access_date": "2026-07-22",
+      "supports": "States that the FY 2026 competition authorizes more than $4 billion for supportive services and housing programs and notes a pending July 2026 modification."
+    },
+    {
+      "id": "S7",
+      "url": "https://www.huduser.gov/portal/portal/sites/default/files/pdf/2024-AHAR-Part-1.pdf",
+      "title": "HUD 2024 Annual Homelessness Assessment Report, Part 1",
+      "access_date": "2026-07-22",
+      "supports": "Reports 771,480 people experiencing homelessness on a single night in 2024, an 18.1% annual increase, while transitional-housing beds declined 4% from 2023."
+    },
+    {
+      "id": "S8",
+      "url": "https://www.irs.gov/charities-non-profits/charitable-organizations/organizational-test-internal-revenue-code-section-501c3",
+      "title": "IRS: Organizational Test for Internal Revenue Code Section 501(c)(3)",
+      "access_date": "2026-07-22",
+      "supports": "Explains that a 501(c)(3) organization's assets must remain permanently dedicated to exempt or public purposes, constraining conventional private transfer economics."
+    },
+    {
+      "id": "S9",
+      "url": "https://www.hud.gov/news/hud-no-26-031",
+      "title": "HUD Moving Forward on Bold Homelessness Reform",
+      "access_date": "2026-07-22",
+      "supports": "States HUD's 2026 intention to increase investment in transitional housing and supportive services and lists nonprofit and public entities as eligible applicants."
+    }
+  ]
+}

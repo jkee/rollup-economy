@@ -1,0 +1,184 @@
+{
+  "identity": {
+    "naics": "623311",
+    "title": "Continuing Care Retirement Communities",
+    "run_id": "623311-a1-20260722",
+    "model_id": "claude-sonnet-5",
+    "run_date": "2026-07-22",
+    "methodology_version": "5.1",
+    "attempt": 1
+  },
+  "lens": {
+    "included_activities": "Operators of continuing care retirement communities and assisted-living settings with on-site nursing facilities that provide recurring residential, personal-care, dining, housekeeping, social, and nursing services to residents.",
+    "excluded_activities": "Independent housing without on-site nursing, assisted-living facilities without nursing facilities, standalone skilled-nursing facilities, captive employee or religious housing, passive real-estate vehicles without operations, and non-control financing interests.",
+    "customer_and_revenue_model": "Residents purchase a bundled continuum of housing, hospitality, personal care, and access to nursing through entrance-fee and monthly-fee contracts or rental and service-fee arrangements. Skilled-care components can also generate third-party reimbursement, while the core residential relationship is recurring and long-duration.",
+    "deviation_from_default": "none",
+    "heterogeneous": false
+  },
+  "primitives": {
+    "a": {
+      "evidence_state": "PROXY",
+      "low": 0.15,
+      "base": 0.22,
+      "high": 0.3,
+      "bridge": "BLS measures employment and wages for combined NAICS 623300, which includes both continuing-care communities and assisted-living facilities, rather than 623311 alone, and it does not measure AI task exposure. I map the wage-bearing occupation mix to exposed tasks, assigning higher exposure to management, sales, office, records, scheduling, and documentation tasks and low exposure to physical care, food service, housekeeping, maintenance, and transport. Inclusion of assisted living without the full CCRC service mix makes the direction uncertain, but the combined group likely modestly overstates direct-care intensity for CCRCs and therefore understates exposure.",
+      "rationale": "Healthcare support represents 43.56% of employment in the combined industry, food service 18.20%, building and grounds 6.43%, and healthcare practitioners 9.09%. Management and office support are only 4.37% and 5.39%, respectively. AI can assist documentation, scheduling, billing, admissions, marketing, procurement, and care-plan preparation, but most wages fund in-person care, hospitality, and physical operations that remain outside current AI substitution.",
+      "change_evidence": "A current 623311-only occupational payroll file paired with task-level time studies for nurses, aides, admissions, billing, sales, dining, and facilities staff, explicitly separating already automated work.",
+      "source_ids": ["S2"],
+      "caveats": [
+        "The occupation table combines 623311 with 623312 and covers employers of all sizes.",
+        "Task exposure is inferred within occupations and is not directly observed.",
+        "Clinical documentation assistance may save time without reducing required staffing."
+      ]
+    },
+    "rho": {
+      "evidence_state": "PROXY",
+      "low": 0.26,
+      "base": 0.4,
+      "high": 0.58,
+      "bridge": "The LeadingAge and Ziegler survey covers more than 100 not-for-profit senior-living and care professionals, not 623311 LMM firms or realized labor substitution. I translate its reported automation plans, shallow AI competency, deployment confidence, and governance gaps into implementation of the exposed task pool. A technology-focused respondent group and larger multisite organizations likely overstate LMM readiness, while the five-year horizon allows more implementation than the current snapshot.",
+      "rationale": "Providers are already automating billing, payroll, admissions, scheduling, facilities, and care documentation, which supports implementation in bounded administrative workflows. However, nearly 80% of surveyed organizations located AI knowledge only among a few people or at a very limited level, no respondent reported enterprise-wide competency, and legal, governance, data, funding, and staff-capacity barriers are material in a regulated care environment.",
+      "change_evidence": "A longitudinal survey of single-site and LMM CCRC operators measuring production AI use, affected labor hours, clinical overrides, data-governance maturity, implementation cost, and sustained adoption after pilots.",
+      "source_ids": ["S4"],
+      "caveats": [
+        "The survey is not-for-profit senior living and care, not a representative 623311 sample.",
+        "Automation results include conventional software rather than AI alone.",
+        "Planned deployment may not produce stable labor savings."
+      ]
+    },
+    "e": {
+      "evidence_state": "ESTIMATE",
+      "low": 0.5,
+      "base": 0.7,
+      "high": 0.86,
+      "rationale": "The NAICS definition itself is a recurring external service model, so most LMM operator firms should fit the activity lens. Eligibility is reduced for captive campus entities, passive ownership structures, firms already embedded in multisite systems, and nonprofit organizations whose governing documents, charitable assets, or state approvals prevent a qualifying control transaction. Nonprofit status does not automatically exclude an operator because asset acquisitions and membership substitutions can transfer control.",
+      "change_evidence": "A firm-level census matching 623311 legal entities to operating campuses, ownership status, parent affiliation, normalized EBITDA, charitable-asset restrictions, and availability of a legally qualifying control path.",
+      "source_ids": ["S1", "S3", "S6"],
+      "caveats": [
+        "The injected firm count uses a public healthcare-facilities margin bridge and may misclassify capital-intensive CCRC operators into the LMM band.",
+        "The sector snapshot counts communities rather than firms and is from 2019.",
+        "Control eligibility for nonprofit entities varies by charter, transaction form, and state law."
+      ]
+    },
+    "s5": {
+      "evidence_state": "PROXY",
+      "low": 0.03,
+      "base": 0.06,
+      "high": 0.11,
+      "bridge": "Vizient counts publicly announced not-for-profit senior-living transactions and identifies 20 life-plan-community targets in 2024, while the older LeadingAge snapshot counts 1,954 communities. I use the resulting order of magnitude, allow for unannounced and for-profit deals, and convert annual flow into a five-year probability for an eligible operator. Public announcements omit some deals and push the value down, but community counts rather than eligible-firm counts and multi-asset transactions can push the implied rate up.",
+      "rationale": "Life-plan communities are active targets within broader senior-living consolidation, including asset purchases and membership substitutions. Even so, disclosed target flow is small relative to the community universe, many nonprofits pursue affiliations rather than sales, and large capital needs, resident obligations, debt consents, and regulatory review slow control transfers.",
+      "change_evidence": "A five-year transaction database covering both public and private CCRC deals, with unique target firms, transaction form, closing status, control outcome, and an eligible-firm denominator.",
+      "source_ids": ["S3", "S6"],
+      "caveats": [
+        "The transaction study is broader senior living and emphasizes not-for-profit activity.",
+        "The sector denominator and transaction numerator have different vintages.",
+        "Announced deals may not close, and a transaction can contain multiple facilities."
+      ]
+    },
+    "q": {
+      "evidence_state": "PROXY",
+      "low": 0.45,
+      "base": 0.62,
+      "high": 0.78,
+      "bridge": "LeadingAge describes entrance and recurring monthly fees, and NIC reports sustained asking-rate growth and high occupancy, but neither measures retention of a specific AI benefit. I infer that contract duration, resident switching friction, and annual fee setting allow some benefit retention, then discount for nonprofit missions, care-quality expectations, labor reinvestment, reimbursement limits, and competitive pricing for new residents. Asking-rate strength likely overstates benefit retention because it also reflects wage and property-cost inflation.",
+      "rationale": "Long-duration residence and bundled pricing reduce immediate contractual pass-through of administrative productivity. Operators can retain part of savings between fee resets, but resident councils, disclosure and regulatory processes, nonprofit governance, staffing requirements, and market competition create pressure to reinvest gains in service quality or moderate future fee increases.",
+      "change_evidence": "Community-level contracts, annual fee notices, resident-council materials, renewal and move-in pricing, and departmental budgets linking implemented automation to labor expense, staffing levels, and subsequent fee changes.",
+      "source_ids": ["S3", "S5"],
+      "caveats": [
+        "No source directly measures commercial retention of AI benefits.",
+        "Entrance-fee, rental, nonprofit, and for-profit models may retain savings differently.",
+        "Payer reimbursement rules affect skilled-care revenue differently from private residential fees."
+      ]
+    },
+    "d5": {
+      "evidence_state": "PROXY",
+      "low": 0.98,
+      "base": 1.08,
+      "high": 1.18,
+      "bridge": "NIC measures occupancy, asking rents, and inventory for 1,043 CCRCs in major markets, while Census projections measure the national older population rather than constant-price CCRC service quantity. I use improving occupancy and a growing older cohort to infer demand, while tempering growth because current occupancy is already high, new inventory is limited, affordability constrains entrance-fee demand, and many older adults prefer to age at home. Major-market occupancy may overstate national demand strength.",
+      "rationale": "CCRC independent-living occupancy reached 93.3% in late 2025, and both entrance-fee and rental models gained occupancy over the preceding four years. The older population continues to expand as the baby-boom cohort ages. Capacity and affordability limit realized volume, but demographic growth and the value of a care continuum support modest real service-demand growth.",
+      "change_evidence": "NIC MAP or equivalent same-store data through 2031 showing occupied units, resident days, move-ins, waitlists, attrition, concessions, and constant-price service revenue for 623311 communities by market and contract type.",
+      "source_ids": ["S5", "S7"],
+      "caveats": [
+        "NIC's sample covers primary and secondary markets rather than every U.S. community.",
+        "Occupancy recovery after the pandemic may not repeat.",
+        "Population aging is not a direct measure of ability or willingness to enter a CCRC."
+      ]
+    },
+    "o": {
+      "evidence_state": "ESTIMATE",
+      "low": 0.92,
+      "base": 0.97,
+      "high": 0.995,
+      "rationale": "The current service basket combines residence, meals, housekeeping, social programming, personal assistance, physical facilities, and on-site nursing. Software can eliminate pieces of administration and some prospective residents can choose home-based alternatives, but service quantity that remains in the CCRC channel still requires a licensed and accountable operator coordinating people, property, safety, and clinical handoffs.",
+      "change_evidence": "Resident-choice studies and operator cohort data measuring moves from CCRC waitlists into home-based technology, continuing-care-at-home programs, unbundled housing, or software-enabled self-service, separated from affordability and mortality effects.",
+      "source_ids": ["S1"],
+      "caveats": [
+        "No source directly measures operator displacement for the year-five CCRC service basket.",
+        "Home-based care and remote monitoring can prevent some CCRC entry, but that quantity loss is conceptually separate from software replacing the operator for residents who still choose a community.",
+        "The estimate assumes on-site nursing remains part of the regulated industry definition."
+      ]
+    }
+  },
+  "narrative": {
+    "executive_view": "Continuing care communities sell a durable, recurring bundle of housing, hospitality, personal care, and on-site nursing into an aging population. AI can improve the administrative layer, but direct care and physical operations dominate labor. The harder issue is firm transferability: the sector is heavily nonprofit, capital intensive, frequently affiliated with multisite systems, and subject to resident, creditor, and regulatory constraints.",
+    "ai_impact": "The practical use cases are admissions and move-in workflow, billing, payroll, scheduling, procurement, documentation assistance, marketing, resident communication, and exception detection. Direct assistance, nursing judgment, meals, housekeeping, maintenance, transport, and human interaction remain labor intensive, while clinical uses require stronger governance and review.",
+    "value_capture": "Bundled monthly fees and long resident tenure allow an operator to keep some administrative productivity before the next fee decision. Retention is moderated by nonprofit governance, quality expectations, staffing rules, reimbursement limits, resident scrutiny, and the likelihood that part of the benefit is reinvested in service rather than removed as labor.",
+    "firm_availability": "Most operator firms perform the recurring service in the default lens, but many communities are nonprofit or already part of a multisite sponsor. Public transaction evidence confirms that assets and control can move, including through membership substitutions, yet the observed rate is low and transaction structures are more complex than ordinary owner succession.",
+    "demand_durability": "High and improving occupancy plus population aging support modest real demand growth. The bundle is operator dependent because it integrates real estate, hospitality, personal assistance, and nursing. Affordability, preference for aging at home, limited new supply, and local housing-market conditions prevent demographics from translating mechanically into volume.",
+    "risks_and_uncertainty": "The firm denominator is uncertain because a facility-margin bridge may not fit entrance-fee and nonprofit economics. Other material risks are state-by-state regulation, debt and charitable-asset restrictions, clinical liability, persistent staffing shortages, weak enterprise AI capability, aging physical plants, affordability, and confusing campuses with independent transferable firms.",
+    "principal_driver": "A growing older population and high occupancy support a recurring service bundle in which administrative automation can complement an operator that remains essential for care and physical delivery.",
+    "principal_weakness": "Most wages are tied to in-person care and hospitality, while nonprofit ownership and complex control pathways sharply limit ordinary acquisition availability."
+  },
+  "sources": [
+    {
+      "id": "S1",
+      "url": "https://www.census.gov/naics/?details=62&input=62&year=2022",
+      "title": "2022 NAICS Definition — 623311 Continuing Care Retirement Communities",
+      "access_date": "2026-07-22",
+      "supports": "Defines the industry as residential and personal care with on-site nursing, meals, housekeeping, social, leisure, and daily-living services, and distinguishes adjacent industries."
+    },
+    {
+      "id": "S2",
+      "url": "https://www.bls.gov/oes/2023/may/naics4_623300.htm",
+      "title": "May 2023 OEWS — Continuing Care Retirement Communities and Assisted Living Facilities for the Elderly",
+      "access_date": "2026-07-22",
+      "supports": "Provides employment shares and wages by occupation for combined NAICS 623300, including healthcare support, food service, facilities, clinical, management, sales, and office work."
+    },
+    {
+      "id": "S3",
+      "url": "https://leadingage.org/wp-content/uploads/2022/09/LALS20-0031_eBook_MarketSnapshot_LifePlan_Community_p3b.pdf",
+      "title": "LeadingAge Life Plan Community Market Snapshot Report 2019",
+      "access_date": "2026-07-22",
+      "supports": "Reports 1,954 communities, nonprofit and for-profit composition, entrance and monthly fee models, average budget, multisite affiliation, services, and historical unit growth."
+    },
+    {
+      "id": "S4",
+      "url": "https://leadingage.org/wp-content/uploads/2025/09/Ziegler-Linkage-LeadingAge-CAST-CTO-Hotline_FINAL.pdf",
+      "title": "2025 Ziegler Link-age Funds and LeadingAge CAST CTO Hotline",
+      "access_date": "2026-07-22",
+      "supports": "Measures AI competency and deployment confidence, data-governance maturity, automation plans by workflow, and implementation barriers among not-for-profit senior-living and care organizations."
+    },
+    {
+      "id": "S5",
+      "url": "https://www.nic.org/blog/ccrc-performance-4q-2025/",
+      "title": "NIC CCRC Performance — Fourth Quarter 2025",
+      "access_date": "2026-07-22",
+      "supports": "Reports occupancy, asking-rent growth, inventory changes, and multi-year occupancy gains for entrance-fee and rental CCRCs across 1,043 communities."
+    },
+    {
+      "id": "S6",
+      "url": "https://www.vizient.com/insights/articles/notforprofit-senior-living-ma-in-review-trends-emerge-as-consolidation-continues-in-2024",
+      "title": "Not-For-Profit Senior Living M&A in Review: Trends Emerge as Consolidation Continues in 2024",
+      "access_date": "2026-07-22",
+      "supports": "Counts 2024 announced senior-living transactions, identifies life-plan-community targets, distinguishes cash deals and membership substitutions, and discusses consolidation constraints."
+    },
+    {
+      "id": "S7",
+      "url": "https://www.census.gov/library/publications/2020/demo/p25-1144.html",
+      "title": "Demographic Turning Points for the United States: Population Projections for 2020 to 2060",
+      "access_date": "2026-07-22",
+      "supports": "Documents the projected expansion of the older population as all baby boomers pass age 65 and the United States ages through the screen horizon."
+    }
+  ]
+}

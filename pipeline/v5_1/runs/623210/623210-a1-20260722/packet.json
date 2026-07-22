@@ -1,0 +1,198 @@
+{
+  "identity": {
+    "naics": "623210",
+    "title": "Residential Intellectual and Developmental Disability Facilities",
+    "run_id": "623210-a1-20260722",
+    "model_id": "claude-sonnet-5",
+    "run_date": "2026-07-22",
+    "methodology_version": "5.1",
+    "attempt": 1
+  },
+  "lens": {
+    "included_activities": "United States lower-middle-market operators providing recurring residential care to people with intellectual and developmental disabilities through group homes, intermediate care facilities, and related staffed residential settings, with room, board, protective supervision, habilitation, counseling, and incidental health care.",
+    "excluded_activities": "Nonresidential day programs, home-care agencies without a residential operation, residential mental-health or substance-use treatment, skilled nursing, state-operated facilities, shell entities, captive units, and non-control financing vehicles.",
+    "customer_and_revenue_model": "Residents and families are the service recipients, while Medicaid agencies and managed-care plans are major payers. Revenue is recurring and commonly paid through fixed per-diem, per-unit, tiered, bundled, or negotiated rates tied to assessed need, with separate resident funds or other payers sometimes covering room and food.",
+    "deviation_from_default": "none",
+    "heterogeneous": true
+  },
+  "primitives": {
+    "a": {
+      "evidence_state": "PROXY",
+      "low": 0.09,
+      "base": 0.16,
+      "high": 0.25,
+      "bridge": "The source quantity is the BLS industry occupation mix, where home health and personal care aides account for most jobs and office support is a small share. I transform employment and occupational duties into wage-weighted task exposure by assigning low substitution potential to hands-on supervision and daily-living assistance, moderate potential to documentation and coordination within direct-care roles, and higher potential to management and administrative tasks. The proxy may understate exposure because higher-paid administrative roles carry more wage weight than employment share, or overstate it because sensitive resident-facing decisions need human judgment.",
+      "rationale": "Most labor is continuous, physical, relationship-based care that cannot be delivered by a language model or ordinary workflow software. Exposure exists in shift scheduling, documentation, billing support, incident summarization, training, care-plan drafting, compliance retrieval, and administrative communication, but these are secondary to accountable in-person support.",
+      "change_evidence": "A wage-weighted time study of direct-support professionals, supervisors, clinicians, and administrators that tags documentation, coordination, physical care, and judgment tasks would materially change this range.",
+      "source_ids": ["S1", "S2", "S5", "S10"],
+      "caveats": [
+        "BLS occupation shares do not measure task-level AI exposure.",
+        "The industry lacks a dedicated direct-support-professional occupation code, so aides span varied duties and acuity."
+      ]
+    },
+    "rho": {
+      "evidence_state": "PROXY",
+      "low": 0.18,
+      "base": 0.3,
+      "high": 0.45,
+      "bridge": "The source population is the broader home and community caregiving workforce targeted by the HHS caregiver AI competition, and the source applications are documentation, scheduling, training, monitoring, and caregiver support rather than measured production adoption. I translate this adjacent application set into a five-year implementation share for exposed residential-facility tasks, with discounts for fragmented systems, Medicaid documentation rules, privacy, safety, limited technical capacity, and required human review. The proxy may overstate implementation because a prize competition signals emerging rather than proven deployment, while it may understate adoption at scaled platforms already using digital workforce tools.",
+      "rationale": "The clearest implementation path augments staff and removes administrative burden rather than replacing direct care. Electronic documentation and visit-verification infrastructure provide a base for automation, but resident safety, individualized plans, incident reporting, interoperability, and small-provider change capacity constrain realized substitution.",
+      "change_evidence": "Provider-level studies reporting production AI deployment, staff time saved, error rates, regulatory acceptance, and net headcount avoidance in residential I/DD settings would materially change this value.",
+      "source_ids": ["S5", "S6"],
+      "caveats": [
+        "Public initiatives emphasize home and community care broadly rather than this exact NAICS industry.",
+        "Technology pilots do not establish durable labor removal."
+      ]
+    },
+    "e": {
+      "evidence_state": "ESTIMATE",
+      "low": 0.5,
+      "base": 0.68,
+      "high": 0.82,
+      "rationale": "Recurring external residential services fit the operating lens, but the private-provider universe contains meaningful nonprofit ownership, mixed residential and day-service organizations, payer and licensure constraints, real-estate complications, and facilities whose operations may not transfer cleanly. The estimate discounts these from the dataset-provided lower-middle-market firm count.",
+      "change_evidence": "A national provider registry linked to tax status, ownership, revenue by service line, licenses, property control, and change-of-control rules would materially change the eligible share.",
+      "source_ids": ["S1", "S9", "S10"],
+      "caveats": [
+        "The best ownership evidence covers intermediate care facilities, only one part of the industry.",
+        "Nonprofit asset transactions and management conversions may not qualify as ordinary control transfers."
+      ]
+    },
+    "s5": {
+      "evidence_state": "PROXY",
+      "low": 0.1,
+      "base": 0.18,
+      "high": 0.28,
+      "bridge": "The source populations are all employer-business owners in Gallup's succession survey and a broad set of disability-services transactions tracked by PESP. I use employer sale-or-transfer intention as the prior, then temper it because nonprofit governance, state approvals, payer enrollment, real estate, and care-quality scrutiny can prevent a qualifying transfer; observed I/DD residential add-ons keep the center from falling too far below the general prior. This may overstate completed transfers because intentions and growth investments are not control deals, or understate them because private add-ons are incompletely reported.",
+      "rationale": "The market has active strategic and private-equity buyers, including disclosed acquisitions of residential I/DD providers. Yet the relevant deal count is smaller than broad disability services, ownership forms are mixed, and change of control can trigger licensing, Medicaid, antitrust, and quality review.",
+      "change_evidence": "A verified census of eligible private operators and qualifying control transactions by closing date, buyer type, provider size, and service mix would materially change this probability.",
+      "source_ids": ["S7", "S8", "S9"],
+      "caveats": [
+        "The deal series combines I/DD, autism, home care, and other disability services.",
+        "Gallup measures stated plans rather than completed transactions."
+      ]
+    },
+    "q": {
+      "evidence_state": "PROXY",
+      "low": 0.24,
+      "base": 0.38,
+      "high": 0.55,
+      "bridge": "The source quantities are Medicaid HCBS payment methods and a New Jersey group-home example showing per-diem tiers, direct-care spending, overhead, and retained surplus. I transform these into retained implemented benefit by allowing near-term margin capture under prospective fixed rates, then discounting for state rate reviews, cost reporting, managed-care negotiation, compensation requirements, reinvestment needed for staffing and quality, and payer efforts to capture efficiency. The proxy may overstate retention because one state's economics are not national, or understate it where rates remain administratively sticky for long periods.",
+      "rationale": "Prospective unit and per-diem rates can let a provider retain administrative savings until rates reset. However, Medicaid is the dominant price setter, wages are the largest rate component, public policy increasingly directs payments to direct-care compensation, and quality-sensitive operators may need to reinvest savings in scarce frontline staff.",
+      "change_evidence": "Contract-level payer mix, rate-rebasing cadence, cost-report treatment of technology savings, managed-care renewal experience, and deployment-level contribution-margin data would materially change retention.",
+      "source_ids": ["S6", "S10"],
+      "caveats": [
+        "Payment methods and rebasing practices differ materially by state and waiver.",
+        "The New Jersey audit describes one nonprofit provider and should not be generalized mechanically."
+      ]
+    },
+    "d5": {
+      "evidence_state": "PROXY",
+      "low": 0.94,
+      "base": 1.02,
+      "high": 1.13,
+      "bridge": "The source quantities are BLS industry employment projections, CMS evidence on aging family caregivers, and federal data showing the existing dominance of home and community-based services. I translate employment growth into a five-year constant-quality service-demand index and widen it for population need, waiting-list and funding constraints, deinstitutionalization, and substitution between congregate facilities, small group homes, supported living, and in-home care. The proxy may understate demand if unmet need converts rapidly to funded placements, or overstate this NAICS demand if growth flows mainly to nonresidential and self-directed HCBS.",
+      "rationale": "Longer lives among people with I/DD and aging family caregivers support rising funded-service need. BLS projects only modest industry employment growth, while policy strongly favors home and community settings; small community group homes can remain in the industry, but institutional facilities and more congregate models face displacement.",
+      "change_evidence": "A national series separating residential I/DD utilization, funded slots, waiting lists, occupancy, closures, and real service volume by institutional, group-home, and supported-living setting would materially change this index.",
+      "source_ids": ["S2", "S3", "S4", "S6", "S9"],
+      "caveats": [
+        "Employment is an input proxy rather than a direct constant-quality demand measure.",
+        "HCBS statistics combine populations and services outside residential I/DD care."
+      ]
+    },
+    "o": {
+      "evidence_state": "ESTIMATE",
+      "low": 0.78,
+      "base": 0.88,
+      "high": 0.96,
+      "rationale": "Residential I/DD care requires a licensed, accountable operator to provide housing support, protective supervision, personal assistance, medication and health coordination, incident response, documentation, and community integration. Software can enable residents and staff and some people may move to self-directed or family-supported settings, but technology does not remove the need for accountable human care for most current facility residents.",
+      "change_evidence": "Longitudinal transitions from staffed residential settings to self-directed or technology-supported living, stratified by acuity and showing safety and quality outcomes, would materially change this estimate.",
+      "source_ids": ["S1", "S3", "S4", "S10"],
+      "caveats": [
+        "Operator requirement is distinct from the number of labor hours the operator needs.",
+        "Policy can shift service volume outside the facility lens even when recipients still need human support."
+      ]
+    }
+  },
+  "narrative": {
+    "executive_view": "Residential I/DD care is a recurring, essential, and highly accountable service, but its labor base is dominated by hands-on aides rather than automatable office work. AI can ease documentation and coordination burden; Medicaid pricing, nonprofit ownership, and stringent care obligations constrain both addressable labor and retained value.",
+    "ai_impact": "Useful applications include shift scheduling, training support, policy retrieval, incident and progress-note drafting, billing checks, care-plan preparation, family communication, and monitoring triage. Direct supervision, personal care, de-escalation, community participation, medication support, and safeguarding remain human work.",
+    "value_capture": "Fixed prospective rates can preserve some savings between rate reviews, especially in administration. Capture is limited by state rate setting, managed-care negotiation, cost reporting, direct-care compensation policy, workforce scarcity, and the practical need to reinvest in staff stability and service quality.",
+    "firm_availability": "Disability-services transactions and residential I/DD add-ons demonstrate a buyer market, while aging business owners create succession supply. The investable set is narrowed by nonprofit and public ownership, mixed-service organizations, licensing, property arrangements, payer enrollment, and care-quality scrutiny.",
+    "demand_durability": "Underlying need is durable because people with I/DD live longer and family caregivers age. Funding and workforce capacity restrict realized volume, and the service mix continues moving away from institutions toward community settings, favoring small group homes and supported living over congregate facilities.",
+    "risks_and_uncertainty": "The main uncertainties are the task mix within the broad aide category, state-by-state Medicaid rates, whether savings must be passed to wages or payers, the portion of private firms that can transfer, and whether community integration moves demand to services outside this NAICS code. Quality failures create severe human, regulatory, and reputational risk.",
+    "principal_driver": "Essential recurring care, aging caregivers, and severe frontline labor scarcity make administrative relief valuable even when substitution is modest.",
+    "principal_weakness": "Hands-on care dominates wages, while public reimbursement and quality obligations sharply limit labor removal and commercial retention."
+  },
+  "sources": [
+    {
+      "id": "S1",
+      "url": "https://www.census.gov/naics/?details=62&input=62&year=2022",
+      "title": "2022 NAICS Definition: 623210 Residential Intellectual and Developmental Disability Facilities",
+      "access_date": "2026-07-22",
+      "supports": "Industry boundary, facility types, and the room, board, supervision, counseling, and incidental-health-care service basket."
+    },
+    {
+      "id": "S2",
+      "url": "https://data.bls.gov/projections/nationalMatrix?ioType=i&queryParams=623210",
+      "title": "BLS National Employment Matrix for Industry 623210",
+      "access_date": "2026-07-22",
+      "supports": "Detailed industry occupation mix and projected industry employment change."
+    },
+    {
+      "id": "S3",
+      "url": "https://www.medicaid.gov/medicaid/home-community-based-services",
+      "title": "Medicaid Home and Community Based Services",
+      "access_date": "2026-07-22",
+      "supports": "Scale of HCBS use and spending and policy preference for home and community settings over institutions."
+    },
+    {
+      "id": "S4",
+      "url": "https://www.medicaid.gov/medicaid/home-community-based-services/home-community-based-services-guidance-additional-resources/supporting-adults-intellectual-and-developmental-disabilities-and-their-aging-caregivers",
+      "title": "Supporting Adults with Intellectual and Developmental Disabilities and Their Aging Caregivers",
+      "access_date": "2026-07-22",
+      "supports": "Aging-caregiver population, community-living trend, and expected demand for Medicaid-funded services."
+    },
+    {
+      "id": "S5",
+      "url": "https://www.hhs.gov/press-room/acl-launches-phase-1-caregiver-ai-prize-competition.html",
+      "title": "ACL Launches Caregiver AI Prize Competition",
+      "access_date": "2026-07-22",
+      "supports": "Emerging AI applications for caregiver documentation, monitoring, scheduling, training, and workforce support."
+    },
+    {
+      "id": "S6",
+      "url": "https://www.macpac.gov/wp-content/uploads/2026/03/Chapter-1-Medicaid-Payment-Policies-to-Support-the-Home-and-Community-Based-Services-Workforce.pdf",
+      "title": "Medicaid Payment Policies to Support the Home and Community-Based Services Workforce",
+      "access_date": "2026-07-22",
+      "supports": "Medicaid payer role, workforce shortage, rate methods, rate components, state variation, and direct-care compensation policy."
+    },
+    {
+      "id": "S7",
+      "url": "https://news.gallup.com/poll/657362/small-business-owners-lack-succession-plan.aspx",
+      "title": "Most Small-Business Owners Lack a Succession Plan",
+      "access_date": "2026-07-22",
+      "supports": "Five-year sale and transfer intentions among United States employer-business owners."
+    },
+    {
+      "id": "S8",
+      "url": "https://pestakeholder.org/reports/healthcare-deals-2024-in-review/",
+      "title": "Private Equity Healthcare Deals: 2024 in Review",
+      "access_date": "2026-07-22",
+      "supports": "Disability-services transaction activity and identified acquisitions of residential I/DD providers."
+    },
+    {
+      "id": "S9",
+      "url": "https://law.stanford.edu/wp-content/uploads/2022/12/Intermediate_Care_Facilities_for_Individuals_With_Intellectual_Disabilities-_Does_Ownership_Type_Affect_Quality_of_Care_.pdf",
+      "title": "Intermediate Care Facilities for Individuals With Intellectual Disabilities: Does Ownership Type Affect Quality of Care?",
+      "access_date": "2026-07-22",
+      "supports": "Ownership mix, facility-size differences, long-run institutional decline, continuing residential need, and quality-data limitations in an industry subset."
+    },
+    {
+      "id": "S10",
+      "url": "https://www.nj.gov/comptroller/reports/2026/20260225.shtml",
+      "title": "New Jersey Office of the State Comptroller Closing Report on Community Options",
+      "access_date": "2026-07-22",
+      "supports": "Group-home operating duties, licensed-provider accountability, per-diem tiered billing, payer scale, documentation, and one provider's cost allocation."
+    }
+  ]
+}
