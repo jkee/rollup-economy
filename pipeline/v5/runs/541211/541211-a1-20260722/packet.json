@@ -1,0 +1,170 @@
+{
+  "identity": {
+    "naics": "541211",
+    "title": "Offices of Certified Public Accountants",
+    "run_id": "541211-a1-20260722",
+    "model_id": "gpt-5.6-terra",
+    "run_date": "2026-07-22",
+    "methodology_version": "5.0",
+    "attempt": 1
+  },
+  "lens": {
+    "included_activities": "Independent U.S. CPA firms serving external clients through recurring or repeat audit, tax, accounting, bookkeeping, payroll, client-accounting, and related advisory engagements, in the lower-middle-market EBITDA band.",
+    "excluded_activities": "Captive finance units, shell entities, non-control investment vehicles, and firms whose work is solely nonrepeat project consulting are excluded.",
+    "customer_and_revenue_model": "External businesses and households buy annual, monthly, quarterly, or repeat professional engagements. Revenue may be hourly, fixed-fee, subscription, value-priced, or a mix.",
+    "deviation_from_default": "none",
+    "heterogeneous": false
+  },
+  "primitives": {
+    "a": {
+      "evidence_state": "PROXY",
+      "low": 0.4,
+      "base": 0.55,
+      "high": 0.7,
+      "bridge": "S3 measures AI use cases and vendor-reported time savings across accounting, tax, audit, and advisory rather than the wage-weighted, not-yet-automated task mix of U.S. NAICS 541211 LMM firms. I map its evidence on reconciliations, transaction coding, document analysis, return preparation, research, reporting, and workflow triage to exposed task families, then bound for professional judgment, client interaction, and final review. This proxy can overstate exposure where audit and advisory wages dominate, and understate it where routine tax and bookkeeping work dominates.",
+      "rationale": "The occupation is rich in structured documents, transactions, reconciliations, research, and recurring reporting. S3 documents automation and augmentation across those workflows, while retaining human review in audit and tax. The base treats a substantial share of current labor as exposed but not all professional work as substitutable.",
+      "change_evidence": "Obtain anonymized time-and-billing extracts by service line from LMM CPA firms, paired with pre-and-post implementation staffing and throughput for tax, audit, bookkeeping, and CAS workflows.",
+      "source_ids": ["S3"],
+      "caveats": ["The source combines firm sizes and accounting settings rather than isolating NAICS 541211.", "Vendor-reported efficiency is not a wage-weighted task census."]
+    },
+    "rho": {
+      "evidence_state": "PROXY",
+      "low": 0.4,
+      "base": 0.55,
+      "high": 0.7,
+      "bridge": "S4 measures finance and accounting respondents' current agent use, stated five-year expectations, and adoption barriers; S3 documents the staged implementation requirements in accounting. I translate those broader finance-and-accounting signals to the share of the exposed opportunity that LMM CPA firms can operationally implement in five years. It may overstate implementation because CPA-client confidentiality and audit liability are stricter than some respondent settings, but may understate adoption as accounting-specific platforms mature.",
+      "rationale": "Adoption is plausible across common workflows, but confidence, integration, data hygiene, privacy, controls, staff training, and human review constrain how much opportunity becomes operational. The base allows broad workflow use without assuming autonomous professional judgment.",
+      "change_evidence": "A longitudinal AICPA or PCPS survey showing service-line deployment, workflow coverage, controls, and realized staffing changes at LMM CPA firms would materially narrow this estimate.",
+      "source_ids": ["S3", "S4", "S9"],
+      "caveats": ["The Deloitte poll covers finance and accounting, not only CPA firms.", "Current adoption is not a direct measure of five-year implementation."]
+    },
+    "e": {
+      "evidence_state": "ESTIMATE",
+      "low": 0.8,
+      "base": 0.9,
+      "high": 0.96,
+      "rationale": "The Census definition centers on CPA establishments that audit and attest and permits related bookkeeping, tax preparation, and payroll processing. Those offerings are normally annual or ongoing external engagements. The deduction excludes the minority of LMM firms whose service mix is solely nonrepeat projects or lacks a transferable operating practice.",
+      "change_evidence": "A firm-level revenue survey that separates recurring, annual-repeat, and project-only revenue for NAICS 541211 firms in the LMM EBITDA band would directly test eligibility.",
+      "source_ids": ["S1"],
+      "caveats": ["No public source tabulates recurring-revenue eligibility at the specified EBITDA band.", "Annual tax and audit engagements are treated as repeat service, although retention can vary by client."]
+    },
+    "s5": {
+      "evidence_state": "ESTIMATE",
+      "low": 0.12,
+      "base": 0.2,
+      "high": 0.3,
+      "rationale": "The base is a bounded five-year judgment for qualifying control transfers among eligible LMM firms. It reflects an active consolidation and succession market, while recognizing that visible transactions skew toward larger platforms and many small practices continue independently or close without a transferable operation.",
+      "change_evidence": "A transaction database matched to firm revenue or EBITDA, plus AICPA or state-society owner-age and succession-plan survey microdata, would permit a direct LMM five-year transfer estimate.",
+      "source_ids": ["S7", "S8"],
+      "caveats": ["The sources show market activity and succession relevance, not the probability of a qualifying transfer for this precise firm population.", "Announced acquisitions and private-equity investments are not a census of LMM control transfers."]
+    },
+    "q": {
+      "evidence_state": "PROXY",
+      "low": 0.45,
+      "base": 0.6,
+      "high": 0.75,
+      "bridge": "S5 measures pricing practices in client-accounting-services respondents, not the discounted five-year retained share of AI benefit across all NAICS 541211 services. I map fixed and subscription-style fees to temporary operator retention of efficiency gains, then reduce the result for fee review, scope management, hourly billing, competition, and client sharing. It may overstate retention where tax and audit fees are regularly repriced, and understate it for well-scoped fixed-fee recurring engagements.",
+      "rationale": "Fixed pricing supports retention of operating efficiencies between repricing events, while annual fee review and a remaining hourly component constrain durable capture. The base assumes meaningful, but incomplete, retention after customer and competitive sharing.",
+      "change_evidence": "Collect engagement letters, pricing schedules, annual realization reports, and post-automation renewal outcomes from a representative LMM CPA-firm sample by service line.",
+      "source_ids": ["S5", "S6"],
+      "caveats": ["CAS is a subset of CPA-firm services and may have more recurring fixed-fee revenue than audit and tax practices.", "Pricing form is an imperfect proxy for realized five-year benefit retention."]
+    },
+    "d5": {
+      "evidence_state": "PROXY",
+      "low": 1.01,
+      "base": 1.025,
+      "high": 1.05,
+      "bridge": "S2 projects national employment for accountants and auditors over a ten-year interval, not constant-price, constant-quality demand for the current NAICS 541211 service basket over five years. I use its occupation outlook and stated drivers as a directional demand proxy, with the base converted to a five-year midpoint. It can overstate service demand if productivity reduces purchased labor and understate demand from advisory, tax complexity, and recurring compliance work.",
+      "rationale": "BLS expects continued demand from economic activity, complex tax and regulation, and financial-record preparation and examination. The range is deliberately modest because the requested measure holds service quality and price constant while automation changes delivery.",
+      "change_evidence": "Obtain constant-price service-line revenue and engagement-volume data from AICPA MAP panels, tax software providers, and audit-practice benchmarking for LMM CPA firms.",
+      "source_ids": ["S2"],
+      "caveats": ["Employment is not service quantity.", "The BLS projection includes all employing industries for the occupation rather than only CPA offices."]
+    },
+    "o": {
+      "evidence_state": "PROXY",
+      "low": 0.75,
+      "base": 0.85,
+      "high": 0.92,
+      "bridge": "S2 describes routine accounting automation alongside continued accountant demand, and S3 documents human review, professional judgment, and advisory roles in accounting. I translate these occupation and profession-wide statements into the share of the future service quantity still needing an accountable external CPA-firm operator. The result may be too high if low-complexity clients self-serve with software, and too low if regulation and assurance requirements preserve human accountability.",
+      "rationale": "Routine preparation, coding, and reconciliation can be automated or self-served, but attest, tax, exception handling, advice, liability, and client trust preserve a large accountable-operator role. The base leaves material exposure to software substitution without assuming the profession disappears.",
+      "change_evidence": "Measure client churn to self-service products and the share of completed engagements requiring licensed review, sign-off, or advisory contact across LMM CPA firms.",
+      "source_ids": ["S2", "S3"],
+      "caveats": ["Neither source measures future operator-required service quantity for the frozen lens.", "The result differs materially by client complexity and by tax, audit, bookkeeping, and advisory mix."]
+    }
+  },
+  "narrative": {
+    "executive_view": "CPA offices combine repeat external compliance work with a large stock of document, transaction, and reporting workflows. AI can expand capacity, but accountable judgment, review, and client trust remain central to the service.",
+    "ai_impact": "Accounting tools are already targeting reconciliation, transaction coding, reporting, return preparation, research, document analysis, and workflow triage. The strongest near-term change is augmentation and capacity release; audit, tax, and high-stakes work still require human review and controls.",
+    "value_capture": "Fixed-fee and subscription-style recurring engagements can retain some efficiency gains between price resets. However, annual repricing, scope monitoring, legacy hourly billing, client demands, and competitive pressure mean the firm should not expect to keep the entire gross benefit.",
+    "firm_availability": "The market is fragmented and consolidation is active, with succession a stated issue in the accounting partnership model. The available evidence does not directly identify the five-year control-transfer rate for LMM eligible firms, so the transfer probability is an explicit estimate rather than an observed market rate.",
+    "demand_durability": "BLS expects accountant and auditor employment to grow and cites economic activity, regulation, and financial-record work as drivers. Automation may reduce routine manual work but also shifts practitioners toward analysis and advisory; low-complexity tasks remain vulnerable to self-service software.",
+    "risks_and_uncertainty": "This NAICS code contains varying mixes of audit, tax, bookkeeping, payroll, and advisory. Evidence on AI is mostly profession-wide or vendor informed, pricing evidence is concentrated in CAS, and transfer data is not matched to the requested EBITDA band. Privacy, integration, liability, data quality, and change management may slow adoption.",
+    "principal_driver": "Repeat external accounting work has many structured workflows that can be automated or augmented while preserving a role for accountable professional review.",
+    "principal_weakness": "The most consequential uncertainties are the LMM transfer rate and the speed at which pricing and self-service software pass AI benefits through to clients."
+  },
+  "sources": [
+    {
+      "id": "S1",
+      "url": "https://www.census.gov/naics/?details=541211&input=541211&year=2022",
+      "title": "2022 NAICS 541211, Offices of Certified Public Accountants",
+      "access_date": "2026-07-22",
+      "supports": "Industry definition: CPA establishments audit and attest and may provide bookkeeping, tax return preparation, and payroll processing."
+    },
+    {
+      "id": "S2",
+      "url": "https://www.bls.gov/ooh/business-and-financial/accountants-and-auditors.htm",
+      "title": "BLS Occupational Outlook Handbook: Accountants and Auditors",
+      "access_date": "2026-07-22",
+      "supports": "National accountant and auditor outlook, demand drivers, routine-task automation, and the continuing importance of advisory and analytical work."
+    },
+    {
+      "id": "S3",
+      "url": "https://www.cpa.com/sites/cpa/files/2025-06/CPAcom-2025-AI-in-Accounting-Report.pdf",
+      "title": "CPA.com 2025 AI in Accounting Report",
+      "access_date": "2026-07-22",
+      "supports": "Accounting AI workflows, human review, implementation stages, controls, data readiness, and the shift toward advisory work."
+    },
+    {
+      "id": "S4",
+      "url": "https://www.deloitte.com/us/en/about/press-room/trust-main-barrier-to-agentic-ai-adoption-in-finance-and-accounting.html",
+      "title": "Deloitte: Trust Emerges as Main Barrier to Agentic AI Adoption in Finance and Accounting",
+      "access_date": "2026-07-22",
+      "supports": "Finance and accounting respondent expectations, current agent use, and constraints from trust, integration, and skills."
+    },
+    {
+      "id": "S5",
+      "url": "https://www.cpa.com/sites/cpa/files/2024-12/2024-CAS-Benchmark-Survey.pdf",
+      "title": "2024 CPA.com and AICPA PCPS Client Advisory Services Benchmark Survey",
+      "access_date": "2026-07-22",
+      "supports": "CAS recurring-service pricing practices, movement to fixed fees, fee reassessment, and the persistence of hourly billing."
+    },
+    {
+      "id": "S6",
+      "url": "https://www.aicpa-cima.com/news/article/cpa-firms-report-steady-growth-in-revenue-and-profit-aicpa-research-finds",
+      "title": "AICPA: CPA Firms Report Steady Growth in Revenue and Profit",
+      "access_date": "2026-07-22",
+      "supports": "MAP Survey evidence that CPA firms are increasing value and fixed pricing while traditional hourly billing declines."
+    },
+    {
+      "id": "S7",
+      "url": "https://corporatefinance.kpmg.com/us/en/insights/2025/professional-services-industry-update-winter-2025.html",
+      "title": "KPMG Corporate Finance Professional Services Industry Update Winter 2025",
+      "access_date": "2026-07-22",
+      "supports": "CPA-sector fragmentation, private-equity activity, buy-and-build interest, and succession considerations."
+    },
+    {
+      "id": "S8",
+      "url": "https://focusbankers.com/professional-services-q4-2025-report/",
+      "title": "FOCUS Professional Services Q4 2025 Report",
+      "access_date": "2026-07-22",
+      "supports": "Reported U.S. professional-services transaction activity and accounting, tax, and advisory acquisition momentum."
+    },
+    {
+      "id": "S9",
+      "url": "https://www.aicpa-cima.com/news/article/aicpa-survey-cites-change-management-for-technology-and-ai-as-top-long-term-issue-facing-accounting-firms",
+      "title": "AICPA Survey Cites Change Management for Technology and AI as Top Long-Term Issue Facing Accounting Firms",
+      "access_date": "2026-07-22",
+      "supports": "AICPA survey evidence that technology and AI change management is a leading five-year issue across CPA-firm sizes."
+    }
+  ]
+}
