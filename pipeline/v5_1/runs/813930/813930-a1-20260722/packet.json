@@ -1,0 +1,176 @@
+{
+  "identity": {
+    "naics": "813930",
+    "title": "Labor Unions and Similar Labor Organizations",
+    "run_id": "813930-a1-20260722",
+    "model_id": "claude-sonnet-5",
+    "run_date": "2026-07-22",
+    "methodology_version": "5.1",
+    "attempt": 1
+  },
+  "lens": {
+    "included_activities": "Lower-middle-market-scale labor unions, locals, councils, and similar employee organizations providing recurring collective bargaining, contract administration, grievance handling, organizing, member communication, training, and representation to members.",
+    "excluded_activities": "Employer human-resources departments, pension and benefit funds, political action committees, professional or business associations, outside law and consulting firms, shells, captive internal units, and non-control financing vehicles.",
+    "customer_and_revenue_model": "Organizations are generally member-governed and funded primarily through recurring dues, assessments, and related member receipts; they spend those funds on representation, bargaining, grievance administration, organizing, communications, legal support, training, and operations rather than distributing profits to owners.",
+    "deviation_from_default": "none",
+    "heterogeneous": true
+  },
+  "primitives": {
+    "a": {
+      "evidence_state": "PROXY",
+      "low": 0.25,
+      "base": 0.42,
+      "high": 0.58,
+      "bridge": "Source population and quantity: BLS May 2023 OEWS reports that 43.67% of NAICS 813930 employment was labor-relations specialists, 24.04% was office and administrative support, and 13.96% was management; O*NET lists labor-relations work spanning contract and letter drafting, case research, compliance review, reports, hearings, bargaining, mediation, and relationship-intensive negotiation. Transformation: the employment mix and task descriptions are converted into a wage-weighted share of not-yet-automated work exposed to AI, assigning high exposure to intake, search, summarization, drafting, recordkeeping, scheduling, and routine member communications but low exposure to accountable bargaining, organizing, testimony, trust building, and final judgment. Direction of error: employment shares are not task-time or wage weights and may overstate exposure if documentary work is already digitized, while omitted administrative and communications occupations may understate it.",
+      "rationale": "Union operations contain a large volume of document, case, contract, member, and compliance information that AI can prepare or organize, but their central service depends on negotiation, representation, persuasion, confidential judgment, and member legitimacy.",
+      "change_evidence": "A wage-linked time study across national unions, locals, and councils that separates case intake, contract research, drafting, grievances, bargaining, organizing, communications, finance, and administration and identifies existing automation would materially change this range.",
+      "source_ids": ["S2", "S3"],
+      "caveats": [
+        "OEWS employment shares are not wage-weighted task shares and exclude self-employed or unpaid officers.",
+        "O*NET describes an occupation across employer and union settings rather than work performed only inside NAICS 813930.",
+        "Existing case-management, membership, document, and communications systems may already automate part of the nominally exposed work."
+      ]
+    },
+    "rho": {
+      "evidence_state": "PROXY",
+      "low": 0.3,
+      "base": 0.52,
+      "high": 0.7,
+      "bridge": "Source population and quantity: Census BTOS data show overall U.S. business AI use between 17% and 20% from December 2025 to May 2026 and expected six-month use between 20% and 23%. Transformation: those broad adoption rates are projected over five years for document-heavy union workflows, with higher implementation than current use but discounts for confidential member data, labor-law accuracy, fragmented local systems, procurement, staff training, governance approval, and human review. Direction of error: BTOS covers nonfarm businesses rather than labor unions and any-function use can overstate operational depth, while embedded capabilities in office, legal-research, CRM, and membership software may accelerate adoption.",
+      "rationale": "Drafting, search, summarization, case triage, translation, member service, and reporting can be introduced around existing staff, but deployment must preserve confidentiality, factual accuracy, privilege, bargaining strategy, and accountable human decisions.",
+      "change_evidence": "Union-specific adoption data from union technology vendors and a panel of locals measuring active users, covered workflows, exception rates, review time, grievance cycle time, staff hours, security incidents, and realized avoided hiring would materially change this estimate.",
+      "source_ids": ["S5"],
+      "caveats": [
+        "BTOS does not identify labor unions or measure implementation of exposed task opportunity.",
+        "Use of AI in any function is not evidence of reliable deployment in bargaining, grievance, or legal workflows.",
+        "Local autonomy, legacy systems, and sensitive member information can slow standardized implementation."
+      ]
+    },
+    "e": {
+      "evidence_state": "ESTIMATE",
+      "low": 0.04,
+      "base": 0.12,
+      "high": 0.25,
+      "rationale": "Census defines the industry around promoting organized labor interests, and IRS rules describe labor organizations as member-benefit entities whose net earnings may not inure to members. Recurring representation can fit the service lens, but few entities resemble transferable lower-middle-market operating companies with normalized EBITDA; many are small locals, affiliated bodies, governance units, or organizations whose apparent surplus is not distributable earnings.",
+      "change_evidence": "A legal-entity census linking Form 990 filings, Labor Department LM reports, affiliation status, dues receipts, recurring operating services, unrestricted cash flow, staff depth, member concentration, and authority over contracts and assets would materially change the eligible share.",
+      "source_ids": ["S1", "S4"],
+      "caveats": [
+        "The frozen n estimate applies a commercial EBITDA margin bridge to member organizations, where surplus is not equivalent to transferable normalized EBITDA.",
+        "A local, council, international body, benefit fund, and related political committee may be separate legal entities with interdependent operations.",
+        "Recurring member representation resembles an outsourced service, but members are also the organization's governors rather than ordinary external customers."
+      ]
+    },
+    "s5": {
+      "evidence_state": "ESTIMATE",
+      "low": 0.0,
+      "base": 0.01,
+      "high": 0.04,
+      "rationale": "Labor organizations lack conventional equity ownership and are governed for member purposes, so retirements, officer elections, affiliations, and internal reorganizations are not qualifying control sales. A small residual allows for mergers or combinations in which an eligible operating organization and its functions transfer under new control.",
+      "change_evidence": "Five years of Department of Labor merger, trusteeship, affiliation, charter surrender, asset-transfer, and successor-organization records matched to eligible staffed unions would establish the qualifying-transfer numerator and denominator.",
+      "source_ids": ["S4"],
+      "caveats": [
+        "No source measures qualifying control transfers among LMM-scale labor organizations.",
+        "Leadership elections and routine affiliation changes are not equivalent to acquisition of a transferable operating firm.",
+        "The legal and economic treatment of a union merger may differ from a control transaction in a commercial company."
+      ]
+    },
+    "q": {
+      "evidence_state": "ESTIMATE",
+      "low": 0.55,
+      "base": 0.75,
+      "high": 0.9,
+      "rationale": "Dues and assessments are generally not cost-plus prices automatically reduced when administrative costs fall. Most implemented benefit can therefore remain inside the organization as capacity for representation, organizing, member service, or reserves, although vendors, compliance review, negotiated dues pressure, and reinvestment absorb part of the gross benefit.",
+      "change_evidence": "Before-and-after evidence from union budgets and locals on dues rates, vendor costs, staffing, overtime, caseload, bargaining support, member response time, organizing spend, and unrestricted operating surplus would materially change retention.",
+      "source_ids": [],
+      "caveats": [
+        "No public study measures retained AI benefit in labor organizations.",
+        "Member governance may direct savings into lower dues or expanded service rather than financial surplus.",
+        "Redeployment can be valuable retained capacity but does not necessarily create removable headcount."
+      ]
+    },
+    "d5": {
+      "evidence_state": "PROXY",
+      "low": 0.82,
+      "base": 0.98,
+      "high": 1.12,
+      "bridge": "Source population and quantity: BLS reports 14.7 million union members and a 10.0% membership rate in 2025, little changed from the prior year, versus 17.7 million members and a 20.1% rate in 1983; 16.5 million workers were represented in 2025. Transformation: recent stability and long-run erosion in membership are converted into a five-year constant-quality demand ratio for representation, bargaining, and member services, with room for organizing gains, public-sector stability, employment growth, legal changes, and sector-specific losses. Direction of error: membership is not service quantity or receipts and can understate workload when bargaining or grievance complexity rises, while dues-paying membership may overstate demand if locals consolidate or digitize service delivery.",
+      "rationale": "A large installed membership base and recurring bargaining and grievance obligations support durable demand, but long-run density decline, policy change, employer resistance, industry mix, and member consolidation create downside.",
+      "change_evidence": "BLS membership and representation series combined with five years of union-specific dues receipts, bargaining-unit counts, contract renewals, grievances, organizing wins and losses, and constant-quality service volumes by public and private sector would materially change this range.",
+      "source_ids": ["S6"],
+      "caveats": [
+        "Membership and representation counts are proxies for constant-price service demand.",
+        "The 2025 annual estimate uses an 11-month average because October CPS data were not collected.",
+        "Public- and private-sector membership trajectories and service intensity can diverge sharply."
+      ]
+    },
+    "o": {
+      "evidence_state": "PROXY",
+      "low": 0.82,
+      "base": 0.92,
+      "high": 0.98,
+      "bridge": "Source population and quantity: IRS describes labor organizations as associations serving member interests, while O*NET identifies bargaining, grievance resolution, mediation, testimony, compliance judgment, and relationship maintenance as core labor-relations work. Transformation: year-five service quantity is treated as continuing to require an accountable member organization and authorized representatives even when AI performs research, drafting, triage, translation, and routine communication. Direction of error: statutory and relational accountability support a high operator-required share, but self-service member platforms, centralized affiliates, outside counsel, and automated case handling could displace more local operating activity than assumed.",
+      "rationale": "AI can compress information work but cannot itself hold member authority, negotiate and ratify agreements, maintain political legitimacy, represent workers in contested proceedings, or bear responsibility for strategy and outcomes.",
+      "change_evidence": "Member and employer studies measuring which grievance, bargaining, organizing, compliance, and service activities can be fully self-served or centralized without a local accountable organization would materially change this share.",
+      "source_ids": ["S3", "S4"],
+      "caveats": [
+        "The sources establish organizational purpose and human tasks, not a five-year operator-required quantity share.",
+        "Affiliates or outside specialists may replace a local operator while union representation continues.",
+        "Digital self-service can reduce local administrative presence without eliminating formal representation."
+      ]
+    }
+  },
+  "narrative": {
+    "executive_view": "Labor unions combine highly document-intensive case, contract, membership, and compliance work with bargaining and representation that remain fundamentally relational and accountable. AI can improve staff capacity, but member governance and the absence of conventional transferable ownership sharply constrain the roll-up premise.",
+    "ai_impact": "AI can summarize contracts and case files, search precedents, draft routine correspondence and proposals, triage grievances, translate member communications, prepare reports, and support scheduling and outreach. Human representatives remain responsible for organizing, negotiation, mediation, testimony, strategic judgment, and member trust.",
+    "value_capture": "Dues-funded organizations can retain much of an implemented administrative benefit as service capacity or reserves because fees are not normally cost-plus, but member governance may redirect it to lower dues, more representation, organizing, or improved response rather than distributable savings.",
+    "firm_availability": "Some staffed locals and councils have recurring receipts and durable operations, but most are member-governed nonprofits or affiliated bodies rather than owner-controlled businesses. Commercial EBITDA classification and conventional control transfer are therefore poor fits.",
+    "demand_durability": "A large represented-worker base and recurring contracts and grievances sustain the service, while long-run membership-density decline, policy shifts, employer resistance, consolidation, and uneven public-private trends limit growth visibility.",
+    "risks_and_uncertainty": "The largest uncertainties are actual wage-weighted task time, current software maturity, data confidentiality, local autonomy, legal accuracy, member acceptance, the commercial margin bridge behind n, and whether any organizational merger qualifies as a transferable control event.",
+    "principal_driver": "Large recurring contract, grievance, membership, and compliance information flows offer AI-assisted capacity gains around an enduring representation function.",
+    "principal_weakness": "Member governance, nonprofit economics, and the near absence of conventional ownership transfers undermine the roll-up mechanism."
+  },
+  "sources": [
+    {
+      "id": "S1",
+      "url": "https://www.census.gov/naics/resources/archives/sect81.html",
+      "title": "NAICS Sector 81 Definitions: Labor Unions and Similar Labor Organizations",
+      "access_date": "2026-07-22",
+      "supports": "Defines 813930 as establishments primarily promoting the interests of organized labor and union employees."
+    },
+    {
+      "id": "S2",
+      "url": "https://www.bls.gov/oes/2023/may/naics5_813930.htm",
+      "title": "BLS May 2023 OEWS: Labor Unions and Similar Labor Organizations",
+      "access_date": "2026-07-22",
+      "supports": "Reports 106,690 industry employees, including 43.67% labor-relations specialists, 24.04% office and administrative support, and 13.96% management occupations."
+    },
+    {
+      "id": "S3",
+      "url": "https://www.onetonline.org/link/summary/13-1075.00",
+      "title": "O*NET OnLine: Labor Relations Specialists",
+      "access_date": "2026-07-22",
+      "supports": "Describes bargaining, grievance investigation, contract drafting and interpretation, mediation, compliance review, research, correspondence, reports, hearings, and relationship-intensive labor-relations work."
+    },
+    {
+      "id": "S4",
+      "url": "https://www.irs.gov/charities-non-profits/other-non-profits/labor-and-agricultural-organizations",
+      "title": "IRS: Labor and Agricultural Organizations",
+      "access_date": "2026-07-22",
+      "supports": "States that section 501(c)(5) labor organizations must pursue better conditions for workers and that net earnings may not inure to any member."
+    },
+    {
+      "id": "S5",
+      "url": "https://www.census.gov/library/stories/2026/05/ai-use-businesses.html",
+      "title": "Census Bureau: Large Firms With at Least 20 Employees Biggest AI Users",
+      "access_date": "2026-07-22",
+      "supports": "Reports overall U.S. business AI use of 17%-20% from December 2025 to May 2026 and expected six-month use of 20%-23%."
+    },
+    {
+      "id": "S6",
+      "url": "https://www.bls.gov/news.release/union2.htm",
+      "title": "BLS: Union Members — 2025",
+      "access_date": "2026-07-22",
+      "supports": "Reports a 10.0% union membership rate and 14.7 million members in 2025, 16.5 million represented workers, recent stability, and the long-run comparison with 1983."
+    }
+  ]
+}
