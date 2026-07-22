@@ -547,3 +547,58 @@ contract repricing passes savings to customers. One Census archive page could
 not be reopened, but the affected industry-boundary caveat did not alter the
 record's already conservative evidence states, tier, or action. No review found
 a material defect, and the predeclared pause trigger did not fire.
+
+## G3 — Wholesale trade
+
+**Closed:** 2026-07-22
+**Coverage:** 69 attempted, 69 deterministically valid, 69 published, 0 excluded
+**Independent review:** 8/69 (0 mandatory, 7 random, 1 canary)
+**Review outcomes:** 8 `publishable_with_caveats`; 0 `publishable`; 0 `reject`; 0 `invalid`
+**Material findings:** 0
+**Remediations:** 0
+
+### Screen distribution
+
+- Base tiers: 0 `HIGHEST_PRIORITY`, 0 `PRIORITY`, 0 `CONDITIONAL`,
+  7 `LOW_PRIORITY`, 61 `STRUCTURAL_OUT`, and 1 without a base tier.
+- Readiness: 68 `MODEL_CONDITIONED`; 1 `STRESS_TEST_ONLY`.
+- Actions: 68 `VALIDATE_ASSUMPTIONS`; 1 `EVIDENCE_FIRST`.
+- Robust tiers: 39/69, all `STRUCTURAL_OUT`.
+- Publication labels: 8 `accepted`; 61 `not_reviewed` by the frozen sampling
+  contract.
+
+The random stratum consisted of `423140`, `423420`, `423930`, `424210`,
+`424410`, `424610`, and `424720`. All seven were accepted with caveats and
+carried no material finding. The previously reviewed canary `423840` also
+closed with the block. These are sample observations only; no G3 defect rate is
+estimated.
+
+### Economic read
+
+The screen was highly conservative across a block dominated by physical
+inventory, handling, fulfillment, and commodity pass-through. No wholesale
+code reached `CONDITIONAL` or better. Photographic, office, other professional,
+refrigeration, and service-establishment equipment wholesalers; book and
+periodical wholesalers; and wholesale trade agents and brokers were the seven
+`LOW_PRIORITY` records. Their repeat information, sales, procurement, and
+coordination workflows created meaningful AI exposure, but physical delivery,
+thin qualifying-transfer pools, channel displacement, or weak retention kept
+the opportunity below the higher tiers.
+
+Sixty-one records were `STRUCTURAL_OUT`, usually because the weakest-link labor
+factor remained below threshold despite substantial administrative
+automation potential. Clothing and clothing-accessories wholesalers had no base
+tier and correctly routed to `STRESS_TEST_ONLY / EVIDENCE_FIRST` because a
+required dataset anchor was unavailable. The pattern is economically
+informative: wholesale workflows may adopt AI broadly without producing a
+large, durable, transferable lower-middle-market labor-arbitrage opportunity.
+
+Validators' caveats emphasized broad occupation and subsector proxies,
+judgmental implementation, eligibility, transfer, retention, and demand
+bridges, selected transaction examples without denominators, and large-company
+evidence that may not represent independent LMM firms. Several dynamic Census
+definition pages did not expose the claimed code-specific text on reopening,
+and one PDF was inaccessible, but the affected inputs were already disclosed
+as proxy or estimate evidence. No correction or honest downgrade changed a
+base tier or action, no review found a material defect, and the predeclared
+pause trigger did not fire.
