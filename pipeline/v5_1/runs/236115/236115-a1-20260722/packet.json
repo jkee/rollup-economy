@@ -1,0 +1,205 @@
+{
+  "identity": {
+    "naics": "236115",
+    "title": "New Single-Family Housing Construction (except For-Sale Builders)",
+    "run_id": "236115-a1-20260722",
+    "model_id": "claude-sonnet-5",
+    "run_date": "2026-07-22",
+    "methodology_version": "5.1",
+    "attempt": 1
+  },
+  "lens": {
+    "included_activities": "Lower-middle-market U.S. general contractors, design-build firms, and construction-management firms building new single-family homes for external owners, including detached, attached, modular, and prefabricated homes assembled on site.",
+    "excluded_activities": "For-sale or merchant builders constructing on their own account, residential remodelers, specialty-trade subcontractors, manufactured-home setup contractors, captive construction units, shells, and non-control financing vehicles.",
+    "customer_and_revenue_model": "Project-based outsourced construction for homeowners, investors, or other owners, commonly under fixed-price or cost-plus contracts; repeatability comes from a continuing sequence of customer projects rather than subscription revenue.",
+    "deviation_from_default": "none",
+    "heterogeneous": false
+  },
+  "primitives": {
+    "a": {
+      "evidence_state": "PROXY",
+      "low": 0.18,
+      "base": 0.28,
+      "high": 0.38,
+      "bridge": "BLS measures the occupation mix for the broader Residential Building Construction industry, not NAICS 236115 alone, while O*NET identifies construction-manager tasks and Microsoft measures real-world generative-AI applicability by work activity. I classified office, bookkeeping, reporting, estimating, scheduling, document review, and portions of project management as exposed, weighted them qualitatively toward their higher wages, and kept field craft, inspection, negotiation, and site judgment mostly unexposed. The broader NAICS population includes for-sale builders and remodelers, and excludes self-employed workers; this likely overstates exposure for small custom builders that are more owner-led and field-intensive.",
+      "rationale": "Residential construction employment is dominated by carpenters, laborers, and field supervisors, but it also has sizable management, project-management, clerical, bookkeeping, sales, and administrative cohorts. Construction managers perform document-heavy tasks such as budgets, progress reports, scheduling, contracts, permits, and plan interpretation that align with AI strengths in information gathering and writing. The resulting exposed wage share is material but clearly below half because physical production and accountable site decisions dominate.",
+      "change_evidence": "A six-digit employer microdata tabulation of wage dollars by occupation for NAICS 236115, paired with time-and-motion studies from custom-home GCs measuring hours spent on estimating, RFIs, scheduling, procurement, reporting, and field supervision, would materially change the range.",
+      "source_ids": ["S2", "S3", "S4"],
+      "caveats": [
+        "OEWS is available only for broader NAICS 236100 and excludes self-employed workers.",
+        "The task-to-exposure classification is judgmental and does not measure tasks already automated.",
+        "Generative-AI applicability is not the same as full labor substitution, especially for safety- and liability-sensitive work."
+      ]
+    },
+    "rho": {
+      "evidence_state": "PROXY",
+      "low": 0.3,
+      "base": 0.47,
+      "high": 0.68,
+      "bridge": "AGC reports AI use and investment intentions among construction firms broadly: 61% use AI or plan more investment, including 45% in office/administrative work, 23% in estimating, and 20% in design or preconstruction. I treat current use plus near-term investment as an adoption ceiling, then discount for planned rather than deployed systems, assistive rather than labor-avoiding use, fragmented data, review requirements, and LMM change capacity. AGC respondents likely skew larger and more digitally mature than custom-home LMM firms, so the proxy probably biases implementation upward.",
+      "rationale": "The exposed workflows are already the places contractors report using AI, which supports substantial five-year implementation. Implementation is constrained by fragmented project data, local codes, one-off designs, subcontractor coordination, customer changes, and the need for human review and accountability.",
+      "change_evidence": "A longitudinal survey of U.S. custom-home contractors by firm size that separates pilots from production use and reports realized headcount avoidance or labor hours saved by workflow would materially move this estimate.",
+      "source_ids": ["S5"],
+      "caveats": [
+        "The AGC measure combines current use with intended investment and does not quantify labor savings.",
+        "The survey spans construction segments and firm sizes rather than NAICS 236115 LMM firms.",
+        "Five-year implementation depends on software integration and data standardization not measured by the source."
+      ]
+    },
+    "e": {
+      "evidence_state": "ESTIMATE",
+      "low": 0.5,
+      "base": 0.64,
+      "high": 0.8,
+      "rationale": "The NAICS definition is centered on external-customer general contracting, design-build, and construction management, so a majority of LMM firms fit the outsourced-service lens. The estimate excludes firms whose economics are effectively speculative development, captive work, episodic owner labor, non-transferable local relationships, or a thin shell around subcontractors. Project revenue is repeatable across a portfolio of customers, but not contractually recurring.",
+      "change_evidence": "A representative file of NAICS 236115 LMM firms with revenue by third-party contracting, annual project counts, customer concentration, backlog, owner labor dependence, and audited EBITDA would directly measure eligibility.",
+      "source_ids": ["S1"],
+      "caveats": [
+        "The frozen firm-count estimate is margin-bridged and may include firms outside a normalized $1-10M EBITDA band.",
+        "NAICS classification does not reveal customer concentration, owner dependence, or recurring project cadence.",
+        "Custom-home builders can shift between contract building and own-account development."
+      ]
+    },
+    "s5": {
+      "evidence_state": "PROXY",
+      "low": 0.1,
+      "base": 0.18,
+      "high": 0.27,
+      "bridge": "Gallup measures all U.S. business owners rather than construction LMM owners: 14% of working owners expected to sell, go public, or transfer ownership within five years, while 52.3% of employer businesses have owners age 55 or older. Broad construction-services M&A reached 562 transactions in 2025, but that universe includes many infrastructure and specialty-service targets. I anchor near the five-year owner intention rate and allow a modest upward adjustment for an aging owner base and active consolidation, while excluding closures, internal reorganizations, and firms too owner-dependent to transfer. The broad M&A evidence likely overstates activity for single-family GCs, while owner intentions may understate unplanned sales.",
+      "rationale": "Aging ownership and sector consolidation create transfer opportunities, but custom builders often rely on the founder's reputation, licenses, customer relationships, and subcontractor network. Those dependencies turn some retirements into closures or non-qualifying family transitions rather than transferable control sales.",
+      "change_evidence": "Broker and transaction-database extracts for NAICS 236115 firms with $1-10M EBITDA, including closed sales, family transfers, ESOPs, closures, and failed listings over a five-year cohort, would materially change the probability.",
+      "source_ids": ["S6", "S7"],
+      "caveats": [
+        "Gallup is cross-industry and includes businesses outside the LMM band.",
+        "Construction-services deal counts are not a denominator-based transfer rate and are not specific to custom-home GCs.",
+        "Stated owner plans may not become completed qualifying transfers."
+      ]
+    },
+    "q": {
+      "evidence_state": "PROXY",
+      "low": 0.38,
+      "base": 0.55,
+      "high": 0.72,
+      "bridge": "CoConstruct analyzed more than 38,000 residential projects from 2018-2020 and found fixed-price use ranging from 71.5% for builders starting one or two homes annually to 84.8% for builders with at least ten. I map this project contract mix to benefit retention: fixed-price jobs can retain in-contract productivity gains, while cost-plus work exposes savings to customers, and all models face repricing and competition on future bids. The software-user sample likely skews digitally organized and the data include residential work beyond NAICS 236115, so fixed-price prevalence may be upward-biased for bespoke, high-uncertainty custom homes.",
+      "rationale": "Fixed-price contracts provide a meaningful window to retain cost savings, especially within a signed project. Over five years, competitive bidding, transparent allowances, cost-plus contracts, and customers' ability to compare bids pass back part of the gain. Quality, schedule reliability, and capacity benefits can be retained better than visible line-item cost reductions.",
+      "change_evidence": "Contract-level data from custom-home GCs showing fixed-price versus cost-plus revenue, change-order terms, bid win rates, gross-margin changes after automation, and renewal or rebid pricing over several years would materially change retention.",
+      "source_ids": ["S8"],
+      "caveats": [
+        "Contract form is an indirect proxy for discounted benefit retention.",
+        "The source is a construction-software vendor's customer-project sample from 2018-2020.",
+        "The estimate does not assume demand growth or implementation success, which belong in other primitives."
+      ]
+    },
+    "d5": {
+      "evidence_state": "PROXY",
+      "low": 0.78,
+      "base": 1.02,
+      "high": 1.2,
+      "bridge": "BLS projects Residential Building Construction employment from 943,100 to 982,400 over its ten-year horizon, a 4.2% increase or 0.4% annually, which converts to roughly 1.02 over five years. Employment is not constant-price, constant-quality demand and covers NAICS 236100 rather than 236115, so I cross-check against Census's June 2026 single-family starts rate of 895,000, essentially flat year over year. Productivity changes could make employment understate demand growth, while cyclical starts and the inclusion of for-sale builders could move the proxy in either direction.",
+      "rationale": "The central case is roughly flat to slightly growing real service quantity over five years. New-home construction remains highly cyclical and interest-rate sensitive, so the range is wide even though the long-run employment projection is mildly positive and current single-family starts are stable year over year.",
+      "change_evidence": "A five-year forecast of owner-contracted single-family starts and constant-dollar construction value that separates custom/contract builds from for-sale builders, with scenarios for mortgage rates, household formation, and regional migration, would materially move the range.",
+      "source_ids": ["S9", "S10"],
+      "caveats": [
+        "The Census starts series includes homes built for sale and therefore does not isolate NAICS 236115.",
+        "BLS employment is a labor-input projection, not a direct demand-volume forecast.",
+        "Five-year residential construction outcomes are unusually sensitive to financing conditions and local supply constraints."
+      ]
+    },
+    "o": {
+      "evidence_state": "ESTIMATE",
+      "low": 0.88,
+      "base": 0.95,
+      "high": 0.99,
+      "rationale": "Nearly all year-five construction quantity should still require an accountable general contractor or construction manager to coordinate physical trades, inspect work, comply with codes, obtain permits, resolve site problems, and carry contractual responsibility. Software, prefabrication, and owner self-service may remove a limited share of coordination, but they do not eliminate the physical and regulatory delivery role for most new custom homes.",
+      "change_evidence": "Data on the share of new owner-contracted homes delivered through owner-builder models, vertically integrated prefab providers, or software-led direct subcontracting, plus state licensing and warranty responsibility by delivery model, would materially change this estimate.",
+      "source_ids": ["S1", "S3"],
+      "caveats": [
+        "No source directly measures the year-five operator-required share.",
+        "Modular construction and platform-based procurement could shift more coordination away from local GCs than assumed.",
+        "State licensing, permitting, and liability rules vary materially."
+      ]
+    }
+  },
+  "narrative": {
+    "executive_view": "Custom single-family general contractors combine a modest labor-cost base with a real but bounded AI opportunity concentrated in estimating, documentation, scheduling, procurement, and office administration. The physical, local, and accountable parts of delivery remain resistant to full substitution, while project cyclicality and founder dependence complicate transferability.",
+    "ai_impact": "AI can draft and summarize RFIs, contracts, bids, budgets, progress reports, permits, and customer communications; extract plan and invoice data; assist takeoffs and estimating; and flag schedule or procurement risks. It is less able to inspect unique sites, sequence trades under changing conditions, negotiate with local subcontractors, assure code compliance, or accept project liability.",
+    "value_capture": "Fixed-price contracts allow a contractor to retain labor savings during an awarded project, but cost-plus transparency and competitive rebidding return part of visible savings to customers. Benefits expressed as faster response, fewer errors, increased bidding capacity, and more reliable completion may persist longer than simple clerical cost reductions.",
+    "firm_availability": "Most establishments are external-customer contractors by definition, but LMM eligibility is reduced by own-account development, episodic project flow, customer concentration, and businesses built around the founder's license and local reputation. Aging owners and active construction M&A support transfer flow, yet many exits may be closures or internal transitions rather than qualifying control sales.",
+    "demand_durability": "Five-year real demand is likely near today's level but has a wide cyclical range. Household formation and constrained housing supply support construction, while mortgage rates, land availability, permitting, materials costs, and regional migration can sharply change starts. For demand that remains, an accountable operator is still needed to coordinate physical construction and compliance.",
+    "risks_and_uncertainty": "The best occupation data cover all residential building construction, not this six-digit industry, and exclude self-employed workers. AI adoption surveys skew broad and possibly large-firm. Contract evidence comes from software users. The frozen labor and firm-count inputs have vintage and model bridges, and custom builders' project economics can blur into for-sale development.",
+    "principal_driver": "AI can compress the document-heavy coordination layer around a large and persistent physical construction workflow.",
+    "principal_weakness": "Cyclical project demand and founder-dependent local relationships can undermine both predictable cash flow and transferable enterprise value."
+  },
+  "sources": [
+    {
+      "id": "S1",
+      "url": "https://www.census.gov/naics/?details=236115&input=236115&year=2022",
+      "title": "2022 NAICS Definition: 236115 New Single-Family Housing Construction (except For-Sale Builders)",
+      "access_date": "2026-07-22",
+      "supports": "Defines the industry as general contractors responsible for entire new single-family construction and includes design-build, construction-management, modular, and prefabricated on-site assembly; excludes own-account for-sale builders and remodelers."
+    },
+    {
+      "id": "S2",
+      "url": "https://www.bls.gov/oes/2024/may/ind_emp_chart/ind_emp_chart_data.htm",
+      "title": "BLS OEWS Data Tables for Industry Charts, May 2024",
+      "access_date": "2026-07-22",
+      "supports": "Residential Building Construction's largest occupations include 215,170 carpenters, 138,930 construction laborers, 79,550 trade supervisors, 55,510 construction managers, 43,560 general managers, 39,980 project-management specialists, 37,120 office clerks, 24,940 bookkeeping clerks, 24,440 service sales representatives, and 20,660 administrative assistants."
+    },
+    {
+      "id": "S3",
+      "url": "https://www.onetonline.org/link/summary/11-9021.00",
+      "title": "O*NET OnLine: Construction Managers",
+      "access_date": "2026-07-22",
+      "supports": "Lists construction-manager tasks including compliance inspection, scheduling, budget and progress reporting, contracts, permits, plan interpretation, field supervision, and resolution of site problems."
+    },
+    {
+      "id": "S4",
+      "url": "https://www.microsoft.com/en-us/research/publication/working-with-ai-measuring-the-occupational-implications-of-generative-ai/",
+      "title": "Working with AI: Measuring the Occupational Implications of Generative AI",
+      "access_date": "2026-07-22",
+      "supports": "Analyzes 200,000 anonymized Copilot conversations and finds common successful AI work activities in information gathering, writing, providing information, teaching, and advising."
+    },
+    {
+      "id": "S5",
+      "url": "https://www.agc.org/sites/default/files/users/user21902/2026%20Construction%20Hiring%20and%20Business%20Outlook%20Report_Final.pdf",
+      "title": "AGC 2026 Construction Hiring and Business Outlook",
+      "access_date": "2026-07-22",
+      "supports": "Reports that 61% of respondents use AI or plan to increase investment, including 45% for office and administrative work, 23% for estimating, and 20% for design or preconstruction."
+    },
+    {
+      "id": "S6",
+      "url": "https://news.gallup.com/poll/657362/small-business-owners-lack-succession-plan.aspx",
+      "title": "Gallup: Most Small-Business Owners Lack a Succession Plan",
+      "access_date": "2026-07-22",
+      "supports": "Reports 52.3% of U.S. employer businesses are owned by people age 55 or older and 14% of working owners expected to sell, go public, or transfer ownership within five years."
+    },
+    {
+      "id": "S7",
+      "url": "https://www.capstonepartners.com/insights/article-construction-ma-update/",
+      "title": "Capstone Partners Construction Services M&A Update",
+      "access_date": "2026-07-22",
+      "supports": "Reports 562 announced or closed construction-services transactions in 2025, up 18.2% from 2024, with private-equity buyers representing 54.3% of sector transactions."
+    },
+    {
+      "id": "S8",
+      "url": "https://www.coconstruct.com/blog/builders-use-fixed-price-construction-contracts-80-of-the-time",
+      "title": "CoConstruct: Builders Use Fixed Price Construction Contracts 80% of the Time",
+      "access_date": "2026-07-22",
+      "supports": "Analyzes over 38,000 residential projects from 2018-2020 and reports fixed-price use of 71.5% for builders doing one or two homes annually, 77.2% for three or four, and 84.8% for ten or more."
+    },
+    {
+      "id": "S9",
+      "url": "https://www.census.gov/construction/nrc/current/",
+      "title": "U.S. Census Bureau Monthly New Residential Construction, June 2026",
+      "access_date": "2026-07-22",
+      "supports": "Reports June 2026 single-family housing starts at a seasonally adjusted annual rate of 895,000, 0.2% below the revised May rate."
+    },
+    {
+      "id": "S10",
+      "url": "https://www.bls.gov/emp/tables/industry-employment-and-output.htm",
+      "title": "BLS Employment and Output by Industry Projections",
+      "access_date": "2026-07-22",
+      "supports": "Projects Residential Building Construction employment from 943,100 to 982,400 over the published decade, a 4.2% increase or 0.4% annually."
+    }
+  ]
+}

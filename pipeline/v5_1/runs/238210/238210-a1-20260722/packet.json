@@ -1,0 +1,192 @@
+{
+  "identity": {
+    "naics": "238210",
+    "title": "Electrical Contractors and Other Wiring Installation Contractors",
+    "run_id": "238210-a1-20260722",
+    "model_id": "claude-sonnet-5",
+    "run_date": "2026-07-22",
+    "methodology_version": "5.1",
+    "attempt": 1
+  },
+  "lens": {
+    "included_activities": "US lower-middle-market electrical and other wiring contractors providing installation, additions, alterations, modernization, maintenance, repair, low-voltage, controls, alarm, communications, and related outsourced field services to residential, commercial, industrial, institutional, infrastructure, and public customers.",
+    "excluded_activities": "Captive in-house electrical departments, labor-only shells without transferable operations, non-control financing vehicles, product manufacturers or distributors without a contracting operation, electric utilities, and firms outside the roughly $1-10M normalized EBITDA band.",
+    "customer_and_revenue_model": "External customers buy project installations and retrofits, repair calls, maintenance/service contracts, and work under master service agreements. Pricing spans fixed-price and unit-price bids, time-and-materials or time-and-equipment billing, and cost-plus arrangements.",
+    "deviation_from_default": "none",
+    "heterogeneous": false
+  },
+  "primitives": {
+    "a": {
+      "evidence_state": "PROXY",
+      "low": 0.08,
+      "base": 0.14,
+      "high": 0.22,
+      "bridge": "BLS measures the NAICS 238210 occupation and wage mix rather than AI-exposed task share: construction occupations are 65.92% of employment, installation/maintenance/repair 8.08%, office support 8.39%, and management 5.45%. I apply low exposure to field wages and higher exposure to estimating, scheduling, dispatch, bookkeeping, documentation, sales, and management work. O*NET electrician tasks and Anthropic's construction-occupation caveat anchor the low field exposure. This may overstate substitution where administrative work requires site context, and understate it where AI removes coordination work performed by highly paid supervisors and owners.",
+      "rationale": "Most payroll supports physical installation, testing, diagnosis, repair, supervision, and code compliance. The exposed slice is concentrated in bid takeoff and drafting assistance, proposal and change-order preparation, scheduling and dispatch, purchasing, customer communications, document review, bookkeeping, and reporting. BLS wage weights make management and office work more important than their headcount alone, but O*NET shows that the core electrician task set is still embodied, tool-using, and site-specific.",
+      "change_evidence": "Obtain a wage-weighted time study across at least 30 LMM electrical contractors, mapping paid hours by occupation to estimating, project administration, dispatch, accounting, field planning, installation, testing, and rework, then benchmark task-level AI completion rates before and after current software use.",
+      "source_ids": ["S1", "S2", "S3"],
+      "caveats": [
+        "The May 2023 OEWS mix includes employers of all sizes and does not isolate the LMM band.",
+        "Task exposure is assigned from occupation and task descriptions, not directly measured in electrical contractors.",
+        "Anthropic usage and survey evidence under-represents construction and extraction occupations and is not a representative workforce survey."
+      ]
+    },
+    "rho": {
+      "evidence_state": "ESTIMATE",
+      "low": 0.3,
+      "base": 0.5,
+      "high": 0.7,
+      "rationale": "Within five years, mature tools should implement much of the exposed office workflow through estimating copilots, document extraction, dispatch assistance, customer-service drafting, invoice matching, and project reporting. Implementation remains incomplete because bids and change orders carry margin risk, job data are fragmented, field conditions vary, licensed personnel remain accountable, and small operators often lack clean historical data and change-management capacity. Labor scarcity strengthens the incentive: the 2026 contractor survey reports 56% had difficulty finding trained workers and 27% had difficulty retaining them.",
+      "change_evidence": "Run twelve-month matched pilots in LMM electrical contractors and measure realized paid-hour reductions or avoided hires in estimating, project administration, dispatch, and accounting, together with bid error rates, change-order recovery, rework, safety incidents, and user adoption.",
+      "source_ids": ["S2", "S3", "S4"],
+      "caveats": [
+        "No source measures five-year AI implementation for this industry and firm-size band.",
+        "The estimate excludes physical robotics and assumes commercially available software can integrate with contractor ERP, field-service, and document systems.",
+        "The contractor survey is subscriber-based and unweighted, so its labor-shortage rates may not represent the full NAICS population."
+      ]
+    },
+    "e": {
+      "evidence_state": "PROXY",
+      "low": 0.55,
+      "base": 0.72,
+      "high": 0.86,
+      "bridge": "The 2026 Electrical Contractor profile measures revenue mix and company characteristics, not the share of LMM firms eligible under the lens. I use the observed 39.7% average revenue from maintenance/service/repair, including 9.1% from maintenance/service contracts, plus the industry's repeated installation, retrofit, and repair model as evidence that many firms serve recurring or repeat external demand. This may overstate eligibility because revenue shares do not reveal customer concentration, owner dependence, licensing transferability, or whether each firm has repeat work; it may understate eligibility because repeated project work qualifies even without a formal service contract.",
+      "rationale": "Electrical contracting is inherently an outsourced external-customer activity, and repair, maintenance, modernization, and repeat project awards create an eligible service base. The main exclusions are owner-dependent shops, firms with nontransferable qualifying-party or customer relationships, project shells, highly concentrated subcontractors, and businesses whose normalized earnings do not survive replacement of owner labor.",
+      "change_evidence": "Sample at least 100 LMM electrical contractors from broker, lender, and insurance records and verify customer recurrence, maintenance/service revenue, owner hours, qualifying-license dependence, customer concentration, backlog quality, and normalized EBITDA after owner replacement.",
+      "source_ids": ["S4", "S8"],
+      "caveats": [
+        "The dataset-provided firm count is an estimate at the 23821 ancestor level and may not match six-digit 238210 exactly.",
+        "The 2026 profile covers magazine subscribers across firm sizes rather than a probability sample of LMM firms.",
+        "Eligibility can be state-specific because licensing and qualifying-party rules differ."
+      ]
+    },
+    "s5": {
+      "evidence_state": "PROXY",
+      "low": 0.12,
+      "base": 0.23,
+      "high": 0.36,
+      "bridge": "The Electrical Contractor survey measures respondent age, not owner-transfer incidence, while BizBuySell reports 266 analyzed electrical and mechanical contractor listings or sales over 2021-2025 without an eligible-firm denominator and mixes electrical with mechanical trades. I translate an average respondent age of 59, rising representation above 65, and observed marketplace transfers into a bounded five-year control-transfer probability. The age signal can overstate transfers because owners may continue working or close, while the marketplace count can understate private, strategic, family, and employee transactions.",
+      "rationale": "Succession pressure is meaningful: 70% of 2026 survey respondents were owners or top managers, smaller-firm respondents averaged 60.8 years, and the over-65 cohort increased. A visible transaction market demonstrates transferability, but not every aging owner sells within five years and some businesses lack transferable systems, customer relationships, or a replaceable license holder.",
+      "change_evidence": "Acquire five years of closed electrical-contractor transactions from DealStats, BIZCOMPS, SBA 7(a) loan-purpose files, state contractor-license change records, and specialist brokers, then divide qualifying control transfers by a matched starting cohort of eligible LMM firms.",
+      "source_ids": ["S4", "S5"],
+      "caveats": [
+        "Survey respondents are not identical to owners, even though owners and top managers are the majority.",
+        "BizBuySell is voluntarily reported, includes mechanical contractors, and skews toward smaller Main Street deals below the target EBITDA band.",
+        "The range excludes closures, minority recapitalizations, and internal reorganizations unless a qualifying control transfer occurs."
+      ]
+    },
+    "q": {
+      "evidence_state": "PROXY",
+      "low": 0.38,
+      "base": 0.57,
+      "high": 0.74,
+      "bridge": "MYR Group's 2025 filing measures contract mix at a large public electrical contractor, not benefit retention by LMM firms. Its 57.0% fixed-price revenue and description of unit-price, time-and-materials, cost-plus, and shared-savings clauses indicate where labor efficiencies can be retained versus passed through. I map fixed and unit-price work to higher near-term capture and time-based or cost-plus work to lower capture, then discount for rebidding, renewal repricing, customer sharing, and competitive entry. This can overstate LMM fixed-price exposure because MYR's commercial and industrial mix is larger and can understate capture where small service calls use flat-rate pricing.",
+      "rationale": "A contractor can retain much of an implemented labor benefit during a fixed-price project or service interval, but capture decays as customers rebid work, negotiate renewals, or compare standardized quotes. Time-and-materials and cost-plus billing directly expose labor-hour reductions, while unit-price and fixed-price contracts preserve more upside but invite price competition. The 2026 industry profile's substantial repair and project mix implies both flat/fixed and hourly economics rather than one uniform pass-through regime.",
+      "change_evidence": "Review contract-level revenue and gross profit for 20-30 LMM firms, classify fixed-price, unit-price, flat-rate service, time-and-materials, cost-plus, and shared-savings terms, and track renewal price changes and win rates after measured workflow savings.",
+      "source_ids": ["S4", "S6"],
+      "caveats": [
+        "MYR is much larger than the screened firms and serves utility and large commercial/industrial customers.",
+        "Contract label alone does not reveal competitive intensity, change-order recovery, service-call minimums, or the timing of repricing.",
+        "The range concerns retention of implemented gross benefit, not implementation success, demand growth, or valuation."
+      ]
+    },
+    "d5": {
+      "evidence_state": "PROXY",
+      "low": 0.98,
+      "base": 1.04,
+      "high": 1.1,
+      "bridge": "BLS projects electrician employment, not constant-price, constant-quality demand for the NAICS 238210 service basket. Converting the published 9% 2024-2034 employment growth to an approximate five-year midpoint gives about 1.04, then I widen the range for productivity, construction cyclicality, low-voltage subsegments, and policy sensitivity. Employment can understate service demand if productivity rises and overstate it if labor intensity rises or vacancies persist.",
+      "rationale": "The installed base requires repair, replacement, and code-compliant modification, while building electrification, alternative generation connections, controls, communications, and EV charging support demand. BLS expects electrician employment to rise 9% over 2024-2034 and notes that nearly every building needs electrical systems, but the 2026 contractor survey also reports softer recent revenue and work categories, so a cyclical five-year downside remains plausible.",
+      "change_evidence": "Build a five-year constant-price demand index from Census Value of Construction Put in Place, permit-level electrical scope, service-call volumes, contractor backlog, and retrofit categories, separating new construction, modernization, repair, maintenance contracts, low-voltage, controls, and charging work.",
+      "source_ids": ["S4", "S7", "S8"],
+      "caveats": [
+        "The BLS projection is national, occupation-based, and ten-year rather than a five-year industry demand forecast.",
+        "Policy changes affecting solar, wind, EVs, efficiency, and public infrastructure could move demand materially.",
+        "The current service basket is heterogeneous and more cyclical in new construction than in repair and maintenance."
+      ]
+    },
+    "o": {
+      "evidence_state": "PROXY",
+      "low": 0.86,
+      "base": 0.94,
+      "high": 0.98,
+      "bridge": "Census and O*NET describe the service basket and electrician tasks but do not measure the year-five quantity still requiring an accountable contractor. I map physical installation, conduit and cable placement, testing, diagnosis, repair, work at height, tool use, and code compliance to operator-required quantity, allowing a minority of demand to be eliminated, self-served, prefabricated, remotely resolved, or absorbed into software-enabled equipment. The mapping may overstate operator need if modular products and remote diagnostics advance faster, and may understate it if codes, safety, and customer liability continue to require licensed field accountability.",
+      "rationale": "AI can improve planning, documentation, diagnosis support, and coordination, but software alone cannot install or replace wiring, pull cable, test energized systems, repair physical faults, or assume on-site safety and code responsibility. Census defines the industry around installing and servicing wiring and equipment, and O*NET's highest-importance electrician tasks are predominantly physical and site-specific. Most year-five quantity should therefore still require an electrical contractor even when the operator uses substantially better software.",
+      "change_evidence": "Interview electrical inspectors, insurers, facility owners, general contractors, equipment manufacturers, and state licensing boards, and quantify service calls or project scopes displaced by plug-and-play systems, remote commissioning, prefab assemblies, owner self-service, and robotics over the next five years.",
+      "source_ids": ["S2", "S8"],
+      "caveats": [
+        "The estimate does not assume current licensing rules are identical across states or remain unchanged.",
+        "Low-voltage, home-automation, and communications work may face more self-installation and software substitution than power wiring.",
+        "Operator-required demand can persist even if fewer labor hours are needed per job; that labor efficiency belongs in the labor primitives, not here."
+      ]
+    }
+  },
+  "narrative": {
+    "executive_view": "Electrical contracting remains a predominantly physical, locally executed service with a meaningful but bounded digital-workflow opportunity. The strongest operational case is reducing office and coordination load around a scarce field workforce, while the main commercial constraint is that time-based and cost-plus billing plus periodic rebidding return part of those gains to customers.",
+    "ai_impact": "AI is most useful around estimating support, plan and specification review, proposals, change orders, scheduling, dispatch, purchasing, customer communication, accounting, and project reporting. It can also assist field diagnosis and code lookup, but the occupation mix and O*NET task set show that installation, testing, repair, supervision, and physical safety remain the core of the work.",
+    "value_capture": "Fixed-price, unit-price, and flat-rate work can retain workflow savings until competitive bids or renewals reset price. Time-and-materials and cost-plus work exposes reduced labor hours more directly, and shared-savings clauses can make pass-through explicit. Capture therefore depends on contract mix, service differentiation, local capacity constraints, and how quickly customers rebid.",
+    "firm_availability": "The 2026 contractor survey shows an aging owner and manager population, and BizBuySell records an active market in electrical and mechanical contractor businesses. Availability is nevertheless uncertain because public deal data lack a denominator, mix adjacent trades, and often cover businesses smaller than the target band; license dependence, owner relationships, and normalized owner replacement costs can also make apparent firms nontransferable.",
+    "demand_durability": "Repair, replacement, modernization, power-system additions, controls, communications, alternative-energy connections, and charging infrastructure support the service basket. BLS projects electrician employment growth, while the latest contractor survey shows near-term softness and a mix that remains exposed to construction cycles. Software should change how jobs are prepared and administered more than whether a qualified operator is required on site.",
+    "risks_and_uncertainty": "The biggest evidence gaps are measured task time, realized AI deployment outcomes, LMM contract mix, and closed-transfer rates with a valid eligible-firm denominator. A poor acquisition would be a highly owner-dependent project contractor with concentrated general-contractor relationships, weak change-order discipline, little service work, a nontransferable qualifying license, dirty job-cost data, and predominantly pass-through billing. Construction cyclicality, material and labor volatility, safety liability, cyber risk, and state-by-state licensing add further uncertainty.",
+    "principal_driver": "Scarce skilled labor and a large repeat physical-service base create value for AI that removes estimating, coordination, and administrative bottlenecks without trying to replace field electricians.",
+    "principal_weakness": "Only a modest wage share is directly AI-exposed, and contract repricing or time-based billing can transfer a substantial portion of implemented savings to customers."
+  },
+  "sources": [
+    {
+      "id": "S1",
+      "url": "https://www.bls.gov/oes/2023/may/naics5_238210.htm",
+      "title": "May 2023 National Industry-Specific Occupational Employment and Wage Estimates: NAICS 238210",
+      "access_date": "2026-07-22",
+      "supports": "Industry occupation and wage mix: 1,045,300 total employment; construction and extraction 65.92%, including electricians 48.69%; installation, maintenance, and repair 8.08%; office and administrative support 8.39%; management 5.45%."
+    },
+    {
+      "id": "S2",
+      "url": "https://www.onetonline.org/link/result/47-2111.00?c=tk",
+      "title": "O*NET Online: Electricians 47-2111.00",
+      "access_date": "2026-07-22",
+      "supports": "Core electrician tasks include placing conduit and pulling cable, working from ladders or scaffolds, using power and test equipment, installing and testing wiring, diagnosis, inspection, repair, code compliance, sketches, estimates, and business records."
+    },
+    {
+      "id": "S3",
+      "url": "https://www.anthropic.com/research/economic-index-june-2026-report",
+      "title": "Anthropic Economic Index report: Cadences",
+      "access_date": "2026-07-22",
+      "supports": "Defines observed and theoretical occupational task exposure, reports that physical construction and extraction occupations are under-represented in its survey and Claude usage, and warns theoretical exposure is an upper bound while its user survey is not workforce-representative."
+    },
+    {
+      "id": "S4",
+      "url": "https://www.ecmag.com/magazine/articles/article-detail/2026-profile-of-the-electrical-contractor",
+      "title": "2026 Profile of the Electrical Contractor",
+      "access_date": "2026-07-22",
+      "supports": "Survey of 926 electrical contractors: average respondent age 59; smaller-firm respondents average 60.8; 70% are owners/top managers; 56% report difficulty finding trained workers and 27% retaining them; 2025 revenue mix was 31.7% new construction and 39.7% maintenance/service/repair, including 9.1% maintenance/service contracts."
+    },
+    {
+      "id": "S5",
+      "url": "https://www.bizbuysell.com/learning-center/valuation-benchmarks/electrical-mechanical-contractor/",
+      "title": "Electrical & Mechanical Contractor Business Valuation Benchmarks",
+      "access_date": "2026-07-22",
+      "supports": "Reports 266 analyzed electrical and mechanical contractor listings/sales for 2021-2025, with $1,724,323 median revenue and $385,902 median owner earnings, and identifies the population as mainly locally owned service and contracting businesses."
+    },
+    {
+      "id": "S6",
+      "url": "https://www.sec.gov/Archives/edgar/data/700923/000070092326000007/myrg-20251231.htm",
+      "title": "MYR Group Inc. 2025 Form 10-K",
+      "access_date": "2026-07-22",
+      "supports": "Describes fixed-price, unit-price, time-and-equipment, time-and-materials, cost-plus, shared-savings, and master service agreements; fixed-price contracts were 57.0% of 2025 revenue, with higher margin upside and cost-overrun risk than time-based and cost-plus contracts."
+    },
+    {
+      "id": "S7",
+      "url": "https://www.bls.gov/ooh/construction-and-extraction/electricians.htm",
+      "title": "Occupational Outlook Handbook: Electricians",
+      "access_date": "2026-07-22",
+      "supports": "Projects electrician employment to grow 9% from 2024 to 2034, from 818,700 to 896,100, and attributes need to installation and replacement of building power systems plus alternative generation connections."
+    },
+    {
+      "id": "S8",
+      "url": "https://www.census.gov/naics/?details=238210&input=238210&year=2022",
+      "title": "2022 NAICS Definition: 238210 Electrical Contractors and Other Wiring Installation Contractors",
+      "access_date": "2026-07-22",
+      "supports": "Defines the industry as establishments installing and servicing electrical wiring and equipment, including new work, additions, alterations, maintenance, and repairs across power, lighting, alarm, automation, telecom, network cable, and related wiring."
+    }
+  ]
+}

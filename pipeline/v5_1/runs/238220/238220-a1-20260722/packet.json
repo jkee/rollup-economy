@@ -1,0 +1,205 @@
+{
+  "identity": {
+    "naics": "238220",
+    "title": "Plumbing, Heating, and Air-Conditioning Contractors",
+    "run_id": "238220-a1-20260722",
+    "model_id": "claude-sonnet-5",
+    "run_date": "2026-07-22",
+    "methodology_version": "5.1",
+    "attempt": 1
+  },
+  "lens": {
+    "included_activities": "US lower-middle-market plumbing, HVAC, refrigeration, mechanical, piping, and related contractors that repeatedly install, maintain, repair, or replace building systems for external residential, commercial, institutional, industrial, general-contractor, or property-owner customers.",
+    "excluded_activities": "Shells, captive facilities teams, non-control financing vehicles, firms outside the roughly $1-10M normalized EBITDA band, and businesses whose activity is classified outside NAICS 238220 such as stand-alone duct cleaning or septic-system installation.",
+    "customer_and_revenue_model": "Revenue combines quoted or bid project work, time-and-material and emergency service calls, parts markups, and recurring preventive-maintenance or service agreements. Customers include property owners and managers, households, institutions, industrial and commercial operators, and general contractors.",
+    "deviation_from_default": "none",
+    "heterogeneous": false
+  },
+  "primitives": {
+    "a": {
+      "evidence_state": "PROXY",
+      "low": 0.17,
+      "base": 0.24,
+      "high": 0.33,
+      "bridge": "S1 measures the NAICS 238220 occupation mix and wages rather than task-level AI substitutability: construction and extraction plus installation, maintenance, and repair account for 70.76% of employment, while office/administrative support is 12.16%, management 5.62%, business/financial operations 4.29%, and sales 2.52%. S2 measures theoretical and observed LLM exposure by broad occupation, not this industry, and reports 90% theoretical task capability in office/administrative occupations while physical tasks remain beyond reach. I applied higher exposure to office, estimating, sales, dispatch, documentation, and management task shares and low exposure to physical field task shares, then approximately wage-weighted the mix using S1 wages. This likely overstates exposure where jobsite context and liability bind and understates it where multimodal diagnostics and field documentation mature.",
+      "rationale": "The largest pools are estimating and proposal drafting, scheduling and dispatch, call intake, bookkeeping and billing, purchasing, customer communication, work-order documentation, and technician knowledge retrieval. Most installation and repair labor still requires travel, manipulation of equipment, diagnosis in irregular environments, and licensed judgment, so it receives only limited exposure for documentation, triage, and avoidable coordination time.",
+      "change_evidence": "A task-and-time study across at least 30 LMM plumbing/HVAC contractors, linked to payroll by occupation and separating already-automated from manual minutes in call intake, dispatch, estimating, invoicing, purchasing, field diagnosis, and documentation, would materially change this range.",
+      "source_ids": ["S1", "S2"],
+      "caveats": [
+        "S1 is May 2023 employer-establishment data and excludes self-employed workers.",
+        "The wage weighting is reconstructed from published occupational employment and mean wages, not supplied by an industry task survey.",
+        "S2 reflects Claude usage and broad occupations, not plumbing/HVAC firms or all AI systems."
+      ]
+    },
+    "rho": {
+      "evidence_state": "PROXY",
+      "low": 0.28,
+      "base": 0.48,
+      "high": 0.66,
+      "bridge": "S3 reports that fewer than 10% of construction businesses used AI in early 2026, versus roughly 20% of businesses overall, and that current use is mainly task-specific and supplemental. S4 reports that construction AI use was only 1.4% in early 2024, that workflow and training changes are common among adopters, and that about one in seven users did not expect continued use. I treat the rise from a very low base as evidence of diffusion potential, then bound five-year implementation below full exposure to reflect fragmented software, small-firm change capacity, data quality, technician adoption, human verification, licensing, and liability. The sector-level evidence may understate adoption by scaled LMM firms but may overstate implementation that actually removes hiring or labor hours.",
+      "rationale": "Five years is enough for AI features to become embedded in field-service management, accounting, call-center, estimating, and knowledge systems. Yet implementation of the exposed opportunity requires standardized data and processes, integration across systems, exception handling, technician trust, quality control, and measurable labor avoidance; these constraints keep the base below one-half.",
+      "change_evidence": "A longitudinal cohort of LMM plumbing/HVAC contractors reporting workflow-level deployment, eligible labor hours, realized hours avoided, quality rework, headcount and hiring outcomes before and after implementation would materially change this value.",
+      "source_ids": ["S3", "S4"],
+      "caveats": [
+        "The adoption sources cover two-digit construction, not NAICS 238220 or the LMM band.",
+        "The Census question broadened in late 2025 from AI in production to AI in any business function, limiting trend comparability.",
+        "Using an AI tool is not the same as operational labor substitution or avoided hiring."
+      ]
+    },
+    "e": {
+      "evidence_state": "ESTIMATE",
+      "low": 0.62,
+      "base": 0.79,
+      "high": 0.9,
+      "rationale": "The official definition includes both installing and servicing equipment and spans new work, additions, alterations, maintenance, and repairs. Most LMM firms therefore provide a repeat outsourced trade service either directly to property customers or repeatedly to general contractors. The deduction excludes project-only operations with no credible repeat-customer channel, captive-like operations, and businesses whose transferable customer relationships, workforce, or licenses depend almost entirely on one owner.",
+      "change_evidence": "A representative stratified sample of SUSB-matched LMM NAICS 238220 firms showing revenue by maintenance agreement, repeat service, repeat general-contractor work, one-time installation, customer concentration, owner production hours, and license-holder dependence would materially change eligibility.",
+      "source_ids": ["S5", "S6"],
+      "caveats": [
+        "No source quantifies the eligible share within the frozen EBITDA band.",
+        "NAICS 238220 mixes plumbing, HVAC, refrigeration, sprinklers, process piping, new construction, retrofit, and repair business models.",
+        "The injected firm count is an estimate and may include firms whose normalized EBITDA or transferability differs from the size-class bridge."
+      ]
+    },
+    "s5": {
+      "evidence_state": "PROXY",
+      "low": 0.14,
+      "base": 0.21,
+      "high": 0.3,
+      "bridge": "S7 surveys nearly 300 US engineering and construction leaders and reports that 38% of owners plan to exit in three to five years, while S8 finds 22% of US employer-business owners plan to sell or transfer ownership within five years. I anchor near the employer-firm observation and use the construction result as an upper-pressure indicator, discounting exits that become closures, partial transactions without control, delayed plans, or transfers of owner-dependent operations. The executive-heavy construction sample likely overrepresents firms capable of completing a transfer; the all-industry employer survey may misstate this trade's succession pressure in either direction.",
+      "rationale": "Skilled-trade succession pressure and active internal, family, employee, and third-party transition routes support meaningful turnover, but stated exit intentions do not all culminate in a qualifying control transfer. A base close to the observed all-employer five-year plan rate is more defensible than treating every planned construction exit as completed transfer.",
+      "change_evidence": "Closed-transaction data from GF Data, DealStats, BizBuySell, Axial, or a plumbing/HVAC-focused broker panel, matched to the estimated LMM firm universe and including internal control transfers, failed listings, closures, and transaction dates, would materially change this probability.",
+      "source_ids": ["S7", "S8"],
+      "caveats": [
+        "S7 is broader engineering and construction and reports plans rather than completed control transfers.",
+        "S8 covers all US employer businesses, not this industry or EBITDA band.",
+        "Internal family or employee transfers qualify only when control actually changes and the operation remains transferable."
+      ]
+    },
+    "q": {
+      "evidence_state": "ESTIMATE",
+      "low": 0.36,
+      "base": 0.57,
+      "high": 0.75,
+      "rationale": "Quoted repairs, installations, parts-and-labor jobs, and fixed service agreements let an operator retain much of an initial labor saving until renewal or rebid. Over five years, transparent competition, customer procurement, renewal repricing, and technician-hour or cost-plus billing share some savings. Discounting makes earlier retained benefits more important, supporting a base modestly above one-half rather than full retention.",
+      "change_evidence": "Contract and invoice data from 20-30 LMM contractors showing revenue by fixed price, time-and-material, cost-plus, maintenance agreement, and competitive bid, paired with renewal repricing and gross-margin changes after documented productivity improvements, would materially change this estimate.",
+      "source_ids": ["S5", "S6"],
+      "caveats": [
+        "No source directly measures five-year pass-through of AI-enabled savings in this industry.",
+        "Commercial construction bidding, residential service, emergency plumbing, and maintenance agreements have materially different pass-through dynamics.",
+        "The estimate excludes demand-volume effects and implementation difficulty."
+      ]
+    },
+    "d5": {
+      "evidence_state": "PROXY",
+      "low": 0.95,
+      "base": 1.03,
+      "high": 1.1,
+      "bridge": "S9 projects NAICS 238220 employment from 1.2983 million in 2024 to 1.3613 million in 2034, a 4.8% increase, while S6 and S10 project 8% growth for HVAC technicians and 4% for plumbers over the same decade and identify construction, maintenance, repair, retrofit, and replacement drivers. I translate these ten-year labor projections into an approximately 2%-4% five-year constant-quality service-quantity increase, allowing a wider range for productivity, mix, construction cyclicality, and equipment replacement. Employment growth can understate demand if labor productivity rises, but can overstate demand if worker scarcity or service complexity increases labor per unit.",
+      "rationale": "Existing building systems require repair and replacement, while efficiency retrofits and more sophisticated climate-control systems add work. New construction is cyclical, so the base assumes only modest real quantity growth rather than extrapolating nominal industry revenue.",
+      "change_evidence": "A constant-dollar five-year forecast for NAICS 238220 output split among new installation, replacement, repair, and maintenance, ideally from BLS/Census source data or a transparent industry-demand model tied to installed equipment and building stock, would materially change this range.",
+      "source_ids": ["S6", "S9", "S10"],
+      "caveats": [
+        "Employment is a proxy for constant-price, constant-quality service quantity and is affected by productivity and labor supply.",
+        "The occupational projections extend ten years and cover workers outside NAICS 238220.",
+        "Plumbing and HVAC demand, and new construction versus service demand, may diverge materially."
+      ]
+    },
+    "o": {
+      "evidence_state": "PROXY",
+      "low": 0.9,
+      "base": 0.96,
+      "high": 0.99,
+      "bridge": "S6 and S10 describe physical installation, inspection, testing, maintenance, repair, parts replacement, customer-site travel, licensing or certification, safety, and refrigerant compliance. I treat these occupation duties as a proxy for the service quantity that still needs an accountable contractor in year five. The bridge allows a small loss to self-diagnostics, customer self-service, remote monitoring, easier equipment, and software-led triage, but retains nearly all quantity that culminates in physical or regulated intervention. Occupational descriptions may overstate operator need if equipment becomes modular and self-diagnosing, or understate it when code and liability require licensed accountability.",
+      "rationale": "Software can triage calls, diagnose from telemetry, prepare instructions, and reduce visits, but it cannot by itself travel to a building, manipulate piping and equipment, recover refrigerants, pressure-test systems, or bear licensed responsibility. The present service basket therefore remains overwhelmingly operator-required.",
+      "change_evidence": "OEM and field-service data measuring remote resolutions, avoided truck rolls, customer self-repair, modular swap rates, autonomous installation capability, and the fraction of jobs legally requiring licensed sign-off across plumbing and HVAC would materially change this share.",
+      "source_ids": ["S6", "S10"],
+      "caveats": [
+        "The sources describe occupations, not a direct forecast of service quantity by delivery mode.",
+        "Remote monitoring and equipment redesign could eliminate more low-complexity visits than the base assumes.",
+        "State and locality licensing and code requirements vary."
+      ]
+    }
+  },
+  "narrative": {
+    "executive_view": "This is a physically delivered, locally accountable trade with a substantial but bounded digital-work opportunity. The practical AI case is concentrated in the coordination layer around technicians—calls, dispatch, estimating, procurement, documentation, billing, and knowledge retrieval—rather than autonomous plumbing or HVAC work. Demand is supported by installed-system maintenance and replacement, but new-construction exposure, labor scarcity, fragmented systems, and owner dependence create material uncertainty.",
+    "ai_impact": "AI can handle call summaries and triage, draft estimates and proposals, schedule and route technicians, surface manuals and prior-job knowledge, classify invoices and parts, prepare customer updates, and turn field notes or images into compliant records. It can also assist diagnosis, but physical inspection, installation, repair, testing, and licensed sign-off remain human work. Real labor avoidance depends on workflow redesign and integration, not merely employee access to a chatbot.",
+    "value_capture": "Fixed-price repairs, installations, and service agreements preserve early productivity gains better than transparent hourly or cost-plus work. Over time, competitive bids and contract renewals will transfer part of the benefit to customers, while some savings may instead fund faster response, higher close rates, and administrative capacity. The five-year retained share is therefore meaningful but well below complete capture.",
+    "firm_availability": "The broad code contains many repeat-service and repeat-project businesses, and LMM scale usually implies a workforce and customer base beyond a sole operator. Construction succession surveys show substantial exit intent, but completed qualifying transfers will be fewer because plans are delayed, some firms close, and licensing, customer concentration, or owner-held relationships can impair transferability.",
+    "demand_durability": "Plumbing and climate-control systems require continuing maintenance, repair, retrofit, and replacement in existing buildings, and BLS projects modest industry employment growth. Efficiency and refrigerant changes can create retrofit work, while construction cycles can suppress installations. Software may avoid a minority of calls through triage and remote diagnosis, but most current service quantity still needs an accountable operator at the site.",
+    "risks_and_uncertainty": "The main evidence gaps are task-level labor allocation, realized five-year implementation, the eligible share of LMM firms, and completed control-transfer rates specific to plumbing/HVAC. A downturn in construction, equipment simplification, aggressive price competition, weak field-service data, integration failure, technician resistance, rework or liability from erroneous outputs, customer concentration, and reliance on owner licenses could each erode the case.",
+    "principal_driver": "A durable installed base that needs physical service creates room to automate the high-volume coordination and administrative work surrounding scarce technicians.",
+    "principal_weakness": "Most labor sits in physical, licensed field roles, while industry-specific evidence on realized AI labor avoidance and completed LMM control transfers is thin."
+  },
+  "sources": [
+    {
+      "id": "S1",
+      "url": "https://www.bls.gov/oes/2023/may/naics5_238220.htm",
+      "title": "May 2023 National Industry-Specific Occupational Employment and Wage Estimates: NAICS 238220",
+      "access_date": "2026-07-22",
+      "supports": "Direct employer-establishment occupation mix and wages for NAICS 238220: 1,236,740 total jobs; 41.25% construction/extraction, 29.51% installation/maintenance/repair, 12.16% office/administrative support, 5.62% management, 4.29% business/financial operations, and 2.52% sales."
+    },
+    {
+      "id": "S2",
+      "url": "https://www.anthropic.com/research/labor-market-impacts",
+      "title": "Labor market impacts of AI: A new measure and early evidence",
+      "access_date": "2026-07-22",
+      "supports": "Task-based theoretical and observed LLM exposure methodology; 90% theoretical capability in office/administrative tasks, far lower realized coverage, and explicit limits for physical tasks."
+    },
+    {
+      "id": "S3",
+      "url": "https://www.minneapolisfed.org/article/2026/ai-adoption-in-business-grows-steadily-but-unevenly",
+      "title": "AI adoption in business grows steadily but unevenly",
+      "access_date": "2026-07-22",
+      "supports": "Census BTOS interpretation showing roughly 20% overall business use after the question broadened, less than 10% use in construction, lower adoption in small firms, predominantly supplemental task use, and limited near-term employment effects."
+    },
+    {
+      "id": "S4",
+      "url": "https://www.census.gov/hfp/btos/downloads/CES-WP-24-16.pdf",
+      "title": "Tracking Firm Use of AI in Real Time: A Snapshot from the Business Trends and Outlook Survey",
+      "access_date": "2026-07-22",
+      "supports": "Construction AI use of 1.4% current and 2.2% expected within six months in early 2024; evidence on experimentation, de-adoption, task replacement, training, workflow changes, and implementation barriers."
+    },
+    {
+      "id": "S5",
+      "url": "https://www.census.gov/naics/?chart=2022&details=23&input=23",
+      "title": "2022 NAICS Definition: 238220 Plumbing, Heating, and Air-Conditioning Contractors",
+      "access_date": "2026-07-22",
+      "supports": "Industry scope includes installing and servicing plumbing, heating, and air-conditioning equipment; parts and labor; and new work, additions, alterations, maintenance, and repairs."
+    },
+    {
+      "id": "S6",
+      "url": "https://www.bls.gov/ooh/installation-maintenance-and-repair/heating-air-conditioning-and-refrigeration-mechanics-and-installers.htm",
+      "title": "Heating, Air Conditioning, and Refrigeration Mechanics and Installers",
+      "access_date": "2026-07-22",
+      "supports": "HVAC physical duties, jobsite context, licensing/certification and refrigerant obligations, residential service contracts, 70% employment in NAICS 238220, and projected 8% employment growth from 2024 to 2034."
+    },
+    {
+      "id": "S7",
+      "url": "https://fmicorp.com/about/news/fmi-releases-2024-study-on-ownership-transfer-and-management-succession",
+      "title": "FMI Releases 2024 Study on Ownership Transfer and Management Succession",
+      "access_date": "2026-07-22",
+      "supports": "Nearly 300 engineering and construction leaders surveyed; 38% of owners plan to exit in three to five years, with reported employee and family transfer routes and widespread planning gaps."
+    },
+    {
+      "id": "S8",
+      "url": "https://news.gallup.com/poll/657362/small-business-owners-lack-succession-plan.aspx",
+      "title": "Most Small-Business Owners Lack a Succession Plan",
+      "access_date": "2026-07-22",
+      "supports": "Fall 2024 survey of 1,264 US business owners; 22% of employer-business owners planned to sell or transfer ownership within five years, versus 9% of nonemployers."
+    },
+    {
+      "id": "S9",
+      "url": "https://www.bls.gov/emp/tables/industry-employment-and-output.htm",
+      "title": "Employment and output by industry, 2024-34",
+      "access_date": "2026-07-22",
+      "supports": "Direct NAICS 238220 employment projection from 1.2983 million in 2024 to 1.3613 million in 2034, a 4.8% increase."
+    },
+    {
+      "id": "S10",
+      "url": "https://www.bls.gov/ooh/construction-and-extraction/plumbers-pipefitters-and-steamfitters.htm",
+      "title": "Plumbers, Pipefitters, and Steamfitters",
+      "access_date": "2026-07-22",
+      "supports": "Physical installation and repair duties, apprenticeship and licensing, emergency on-call work, projected 4% employment growth from 2024 to 2034, and demand from new construction and maintenance and repair of existing systems."
+    }
+  ]
+}
