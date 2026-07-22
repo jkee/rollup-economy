@@ -1,0 +1,191 @@
+{
+  "identity": {
+    "naics": "459140",
+    "title": "Musical Instrument and Supplies Retailers",
+    "run_id": "459140-a1-20260722",
+    "model_id": "claude-sonnet-5",
+    "run_date": "2026-07-22",
+    "methodology_version": "5.1",
+    "attempt": 1
+  },
+  "lens": {
+    "included_activities": "US lower-middle-market musical-instrument retailers that provide repeat external-customer services, especially instrument rentals, lessons, repairs, maintenance, school-program support, and associated repeat supplies sales.",
+    "excluded_activities": "Manufacturers and distributors, pure e-commerce marketplaces, captive store departments, hobby retailers outside musical instruments, owner-only instructors or repairers without a transferable organization, and merchandise-only sellers lacking a recurring or repeat service relationship.",
+    "customer_and_revenue_model": "Households, students, educators, schools, and working musicians buy merchandise and repeat supplies; service-led operators also earn lesson fees, repair charges, and recurring instrument-rental and optional maintenance-plan payments.",
+    "deviation_from_default": "The code mixes merchandise-only stores with service-led music retailers. The lens is narrowed to retailers with rentals, lessons, repairs, maintenance, or school-program support because only those businesses coherently supply a recurring or repeat outsourced service to external customers.",
+    "heterogeneous": true
+  },
+  "primitives": {
+    "a": {
+      "evidence_state": "PROXY",
+      "low": 0.20,
+      "base": 0.31,
+      "high": 0.43,
+      "bridge": "BLS measures the broader 459100 industry rather than 459140 and reports employment shares rather than task exposure. I mapped the 65.39% sales-related and 9.50% office/administrative occupation shares to partial exposure in product Q&A, lead follow-up, marketing, scheduling, billing, bookkeeping, and inventory analysis, while assigning much less exposure to hands-on repair, instruction, fulfillment, and accountable store management. Because sporting-goods and hobby stores may have less technical consultation than music stores, this likely overstates substitution of specialist selling but may understate automatable school-account administration.",
+      "rationale": "The broader-industry occupation mix is dominated by sales work: retail salespersons alone are 47.53% of employment, cashiers 8.29%, retail supervisors 7.66%, and office/administrative support 9.50%. AI can absorb portions of search, product comparison, routine customer messaging, marketing copy, scheduling, billing, and record work, but instrument fitting, nuanced demonstrations, teaching, repairs, and trust-based school relationships remain substantially human.",
+      "change_evidence": "A wage-weighted task inventory from 15-20 independent music retailers, separating rentals, lessons, repair, school accounts, e-commerce, sales-floor work, and back office, plus time-on-task measurements before and after AI deployment.",
+      "source_ids": ["S1", "S2", "S4"],
+      "caveats": [
+        "The best public occupation mix is for NAICS 459100, which combines sporting goods, hobby, and musical-instrument retailers.",
+        "BLS employment shares are not wage-weighted task shares and do not identify work already automated.",
+        "The service-led lens likely employs more instructors and repair technicians than the broader retail proxy."
+      ]
+    },
+    "rho": {
+      "evidence_state": "PROXY",
+      "low": 0.30,
+      "base": 0.47,
+      "high": 0.64,
+      "bridge": "Census BTOS measures whether Retail Trade firms use AI in any business function, not the five-year implementation share of exposed labor in music retailers. I use retail's approximately 14% current and 17% six-month expected firm-use rates, together with lower adoption among very small firms, as a low starting point and infer moderate five-year diffusion into cloud point-of-sale, customer service, marketing, scheduling, and administration. This may understate adoption because easy-to-buy tools can spread quickly, but it may overstate labor implementation because firm use can be shallow and augmentative.",
+      "rationale": "Implementation should be meaningful but incomplete. The workflows are mostly ordinary retail and back-office processes accessible through vendor software, yet small operators have fragmented data, limited implementation capacity, and relationship-intensive work. Retail adoption remains below the all-industry average, and physical service quality constrains full substitution.",
+      "change_evidence": "Five-year adoption cohorts from music-retail point-of-sale, lesson-management, rental-management, and repair-ticket vendors showing enabled AI functions, active usage, workflow redesign, hours saved, and staffing avoided by customer size.",
+      "source_ids": ["S2", "S4", "S5"],
+      "caveats": [
+        "BTOS covers all retail trade and counts any AI use, not operational depth or realized labor savings.",
+        "Large chains and independents may have very different data quality and implementation resources.",
+        "Customer-facing expertise and hands-on work cap implementation even where tools are available."
+      ]
+    },
+    "e": {
+      "evidence_state": "ESTIMATE",
+      "low": 0.24,
+      "base": 0.38,
+      "high": 0.55,
+      "rationale": "A material but minority share of LMM music retailers should qualify as service-led operators. The model is clearly feasible: a major sector operator combines recurring rentals, lessons, repairs, school support, and supplies. But the NAICS code also includes merchandise-centric shops, online sellers, and specialist boutiques without a recurring outsourced-service relationship. Eligibility additionally requires enough organizational independence from the owner to transfer.",
+      "change_evidence": "A stratified directory audit of employer firms in NAICS 459140, matched to websites and revenue estimates, coding each firm's rental, lesson, repair, maintenance, and school-account offerings and excluding owner-dependent microbusinesses.",
+      "source_ids": ["S4", "S5"],
+      "caveats": [
+        "Music & Arts demonstrates the combined model but is a large chain and cannot establish its prevalence among LMM independents.",
+        "Public classifications do not separate merchandise-only stores from service-led retailers.",
+        "The frozen firm-count primitive is unavailable, so this share cannot be translated into a defensible number of firms here."
+      ]
+    },
+    "s5": {
+      "evidence_state": "PROXY",
+      "low": 0.08,
+      "base": 0.14,
+      "high": 0.21,
+      "bridge": "Gallup measures stated five-year sale or transfer plans among all US employer-business owners, not completed qualifying control transfers among LMM music retailers. The 22% plan rate is reduced for non-completion, gifts or internal changes that may not create an acquirable control transaction, and owner-dependent firms. This transformation likely understates a music-retail cohort if its owners are older than average, but overstates realized transfers because plans frequently do not close.",
+      "rationale": "Gallup reports 22% of employer-business owners planned to sell or transfer within five years and 52.3% of employer businesses were owned by people age 55 or older. A qualifying realized control-transfer probability should be below the plan rate after execution failure and transaction-definition exclusions, while the service-led lens improves transferability relative to owner-only businesses.",
+      "change_evidence": "Music-retailer owner-age and succession survey data, plus a five-year closed-transaction census from BizBuySell, Axial, private brokers, strategic acquirers, and asset-sale records with outcomes coded as external control sale, family transfer, internal reorganization, or closure.",
+      "source_ids": ["S3"],
+      "caveats": [
+        "Gallup is cross-industry and plan-based rather than a closed-deal study.",
+        "Industry-specific owner ages and succession readiness are not publicly measured.",
+        "Some independent stores may close or sell inventory and brand assets without transferring a going concern."
+      ]
+    },
+    "q": {
+      "evidence_state": "ESTIMATE",
+      "low": 0.30,
+      "base": 0.46,
+      "high": 0.62,
+      "rationale": "Retention is limited by transparent product pricing, price matching, manufacturer-brand comparability, and online competition. The narrowed lens improves capture because lessons, repair, school coordination, and monthly rentals are locally delivered and bundled with service, while recurring rental billing and maintenance coverage make immediate pass-through less automatic. Over five years, however, renewals and competitor imitation should share a substantial portion of savings with customers.",
+      "change_evidence": "Store-level gross-margin and price data for merchandise, rentals, lessons, and repairs before and after measured productivity gains, including renewal cohorts, discounting, competitor price checks, and customer churn over at least 24 months.",
+      "source_ids": ["S4", "S5"],
+      "caveats": [
+        "No public study measures pass-through of AI-enabled cost savings in this industry.",
+        "Capture differs sharply between commodity merchandise and locally differentiated services.",
+        "Rental credits toward purchase and optional maintenance coverage complicate gross-benefit attribution."
+      ]
+    },
+    "d5": {
+      "evidence_state": "PROXY",
+      "low": 0.94,
+      "base": 1.02,
+      "high": 1.11,
+      "bridge": "NAMM reports product-market and school-music trends, not constant-price, constant-quality demand for the service-led retailer basket. I treat reported stabilization after the pandemic cycle, school music above 2019, 38% ten-year US fretted-instrument growth, and 36.5% ten-year digital/electronic growth as directional evidence for broadly stable-to-slightly-growing service demand. Product revenue can diverge from local lessons, rentals, and repair, and nominal retail values can overstate real quantity.",
+      "rationale": "The base case is near-flat real quantity with modest growth: school music has recovered, human interest in making music remains, and several instrument categories grew over a decade. Risks include discretionary-spending pressure, used gear displacing new sales, demographic shifts in school participation, and online channels taking merchandise volume.",
+      "change_evidence": "Five-year same-store unit histories from independent retailers for active rental contracts, lesson enrollments, repair tickets, repeat-supply units, and instruments sold, deflated by category-specific prices and normalized for service quality.",
+      "source_ids": ["S6", "S7"],
+      "caveats": [
+        "NAMM is a trade association and its cited trends mix units, nominal retail value, and qualitative interpretation.",
+        "Product-category growth does not directly measure service-led independent-store demand.",
+        "Pandemic inventory corrections and school relief funding distort recent comparisons."
+      ]
+    },
+    "o": {
+      "evidence_state": "PROXY",
+      "low": 0.64,
+      "base": 0.78,
+      "high": 0.89,
+      "bridge": "IBM's 20,000-consumer study covers retail across 26 countries, not US musical-instrument services, and measures shopping-channel preference rather than operator-required quantity. I combine its finding that two-thirds prefer in-person shopping and 73% regard stores as a primary method with the observed need for approved technicians, maintained rental inventory, lessons, and school coordination. This may overstate operator need because preference is not necessity, but music fitting and repair are more tactile than average retail.",
+      "rationale": "Most service-basket quantity should still need an accountable operator: instruments must be fitted, maintained, exchanged, and repaired; instructors and school representatives coordinate human relationships; and rental providers own and administer physical assets. Software can self-serve discovery, booking, routine support, billing, and some instruction, while e-commerce can displace commodity supplies, so the ratio is below one.",
+      "change_evidence": "Customer-cohort research tracking the share of rentals, lessons, repair, school support, and repeat supplies that migrates to self-service software, direct-to-consumer brands, marketplaces, or remote-only providers, with retention and service-quality outcomes.",
+      "source_ids": ["S4", "S5", "S8"],
+      "caveats": [
+        "Cross-country general-retail shopping preference is an indirect proxy for operator necessity.",
+        "Online ordering already handles much of the transaction while a local operator may remain responsible for fulfillment and service.",
+        "AI tutoring and manufacturer direct-to-consumer models could reduce operator-required quantity faster than expected."
+      ]
+    }
+  },
+  "narrative": {
+    "executive_view": "The coherent opportunity is not a generic instrument store; it is a service-led local music platform combining rentals, lessons, repair, school accounts, and repeat supplies. AI can simplify a meaningful layer of sales and administration, but the industry's low labor-to-receipts ratio and physical, relationship-heavy service core limit the absolute labor opportunity. Demand appears durable but mostly stable, and online price competition weakens capture on merchandise.",
+    "ai_impact": "The strongest use cases are product and policy Q&A, lead follow-up, marketing content, lesson and repair scheduling, rental-account service, bookkeeping support, inventory analysis, purchasing assistance, and staff knowledge retrieval. Technical demonstrations, instrument selection, teaching, repair, quality control, school relationships, and accountable store leadership remain human-intensive. Five-year implementation will depend more on integrated vendor workflows and data cleanup than on raw model capability.",
+    "value_capture": "Commodity instruments and accessories have transparent prices, so competitors and customers can reclaim much of a cost advantage. Capture is better in recurring rentals, repair, lessons, and school coordination because those offerings are local, bundled, and trust-based. Even there, renewal repricing and imitation should erode part of the gross benefit over five years.",
+    "firm_availability": "The NAICS code is heterogeneous: many stores principally sell merchandise, while a service-led subset offers rentals, lessons, repair, maintenance, or school programs. That subset is the eligible population, and some operations may remain too owner-dependent to transfer. Cross-industry succession evidence indicates meaningful intent to sell or transfer, but realized qualifying transactions should be materially below stated plans.",
+    "demand_durability": "School music recovery, persistent desire to make music, and long-run growth in fretted and digital/electronic categories support roughly stable real service demand. Repairs, rentals, and lessons retain a physical or accountable human component even when ordering and administration move online. Discretionary spending, used gear, online channels, and software-based learning remain important drags.",
+    "risks_and_uncertainty": "The largest empirical gaps are the prevalence of service-led business models among LMM firms, industry-specific owner succession, and measured labor savings from deployed tools. Public occupation data aggregate music retailers with sporting-goods and hobby stores. A major-chain example proves the model but may not represent independents. The frozen compensation ratio is available only at the broad 44-45 ancestor and uses 2024 wages against 2022 receipts; the frozen firm-count input is missing.",
+    "principal_driver": "Recurring rentals, lessons, repair, and school relationships create a repeat-service platform whose routine sales and administrative layer is partly AI-addressable.",
+    "principal_weakness": "Labor intensity is low and merchandise pricing is transparent, while no defensible LMM firm-count estimate is available."
+  },
+  "sources": [
+    {
+      "id": "S1",
+      "url": "https://www.bls.gov/oes/2023/may/naics4_459100.htm",
+      "title": "May 2023 National Industry-Specific Occupational Employment and Wage Estimates: NAICS 459100",
+      "access_date": "2026-07-22",
+      "supports": "Broader-industry occupation mix: sales-related occupations 65.39%, retail salespersons 47.53%, cashiers 8.29%, retail supervisors 7.66%, and office/administrative support 9.50%."
+    },
+    {
+      "id": "S2",
+      "url": "https://www.census.gov/library/stories/2026/05/ai-use-businesses.html",
+      "title": "Large Firms With at Least 20 Employees Biggest AI Users",
+      "access_date": "2026-07-22",
+      "supports": "BTOS evidence that around 14% of Retail Trade businesses currently used AI and about 17% expected use within six months; adoption was lower and flatter among very small firms."
+    },
+    {
+      "id": "S3",
+      "url": "https://news.gallup.com/poll/657362/small-business-owners-lack-succession-plan.aspx",
+      "title": "Most Small-Business Owners Lack a Succession Plan",
+      "access_date": "2026-07-22",
+      "supports": "US employer-owner succession proxy: 52.3% of employer businesses owned by people 55 or older; 22% of employer-business owners reported plans to sell or transfer within five years."
+    },
+    {
+      "id": "S4",
+      "url": "https://www.musicarts.com/cms/about-us",
+      "title": "Music & Arts: About Us",
+      "access_date": "2026-07-22",
+      "supports": "Observed sector business-model example combining 200+ stores and 300+ affiliates with rentals, more than 1.5 million lessons per year, repairs, products, and school/educator relationships."
+    },
+    {
+      "id": "S5",
+      "url": "https://www.musicarts.com/cms/faq/instrument-rentals",
+      "title": "Music & Arts Instrument Rentals FAQ",
+      "access_date": "2026-07-22",
+      "supports": "Observed recurring rental mechanics: automatic monthly billing after trial, optional maintenance coverage, roughly 36-month average payoff, exchanges, returns, and approved-technician repairs."
+    },
+    {
+      "id": "S6",
+      "url": "https://www.namm.org/blog/industry-insights-what-we-learn-from-2024-NAMM-global-report",
+      "title": "Industry Insights: What We Learned From the 2024 NAMM Global Report",
+      "access_date": "2026-07-22",
+      "supports": "Trade-association evidence of post-pandemic stabilization, school music ahead of 2019, 2023 product-segment revenue declines, active used-gear competition, and persistent desire for music making."
+    },
+    {
+      "id": "S7",
+      "url": "https://www.namm.org/blog/industry-insights-key-takeaways-2025-global-report",
+      "title": "Industry Insights: Key Takeaways From the 2025 Global Report",
+      "access_date": "2026-07-22",
+      "supports": "US category trends: fretted instruments grew 38% over ten years, digital/electronic instruments 36.5%, and 2024 pro-audio sales grew 3.3% to $1.59 billion."
+    },
+    {
+      "id": "S8",
+      "url": "https://www.ibm.com/think/insights/retail-technology-and-frontline-workers",
+      "title": "Retail technology and frontline workers: Delivering unforgettable customer experiences",
+      "access_date": "2026-07-22",
+      "supports": "General-retail consumer proxy based on 20,000 consumers in 26 countries: two-thirds preferred shopping in person and 73% considered physical stores a primary shopping method; also identifies inventory and product-information AI use cases."
+    }
+  ]
+}

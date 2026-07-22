@@ -1,0 +1,202 @@
+{
+  "identity": {
+    "naics": "441110",
+    "title": "New Car Dealers",
+    "run_id": "441110-a1-20260722",
+    "model_id": "claude-sonnet-5",
+    "run_date": "2026-07-22",
+    "methodology_version": "5.1",
+    "attempt": 1
+  },
+  "lens": {
+    "included_activities": "U.S. franchised new-car dealerships in the lower-middle-market EBITDA band that sell vehicles and provide repeat external-customer service, parts, warranty, and related transaction support through an accountable dealership operator.",
+    "excluded_activities": "Standalone used-car dealers, independent repair shops, captive OEM or finance-company units, non-control financing vehicles, shells, and rooftops without a material repeat service relationship with external customers.",
+    "customer_and_revenue_model": "Consumers and small fleets purchase new and used vehicles transactionally; dealerships also earn finance-and-insurance income and repeat fixed-operations revenue from customer-pay repair, warranty work, service contracts, parts, and body work.",
+    "deviation_from_default": "none",
+    "heterogeneous": false
+  },
+  "primitives": {
+    "a": {
+      "evidence_state": "PROXY",
+      "low": 0.24,
+      "base": 0.34,
+      "high": 0.44,
+      "bridge": "BLS OEWS measures employment and wages for four-digit Automobile Dealers (NAICS 441100), not six-digit 441110, and does not measure AI task exposure. I mapped the reported occupational mix to task families: sales, customer-service, finance, bookkeeping, scheduling, marketing, and management documentation have meaningful language/data exposure, while hands-on technician, vehicle-preparation, and facilities work has little substitution exposure. New-car dealers dominate the four-digit employment base, but inclusion of used-car dealers and judgmental task mapping can move the estimate in either direction.",
+      "rationale": "In the BLS automobile-dealer mix, sales occupations are 33.48% of employment, office and administrative support 14.56%, management 6.77%, and installation/maintenance/repair 25.07%. Wage weighting raises the importance of management and sales relative to clerical headcount. AI can substitute portions of lead response, appointment handling, CRM follow-up, inventory descriptions, document preparation, bookkeeping, and management analysis, but not most diagnosis, repair, vehicle handling, negotiation, or accountable F&I decisions. The range therefore places roughly one-quarter to under one-half of current wage-weighted tasks in the exposed, not-yet-automated opportunity.",
+      "change_evidence": "A six-digit 441110 payroll-by-occupation extract joined to O*NET task frequencies and a dealership time-and-motion study that identifies already-automated versus still-manual work by sales, BDC, F&I, accounting, parts, service-advisor, and technician roles.",
+      "source_ids": [
+        "S1"
+      ],
+      "caveats": [
+        "OEWS is a four-digit automobile-dealer proxy and includes used-car dealers.",
+        "Task exposure is inferred rather than directly measured, and commission-heavy roles make annual mean wages an imperfect labor-cost weight.",
+        "Exposure denotes technically addressable work, not realized implementation or job elimination."
+      ]
+    },
+    "rho": {
+      "evidence_state": "ESTIMATE",
+      "low": 0.35,
+      "base": 0.52,
+      "high": 0.68,
+      "rationale": "Within five years, dealerships can implement mature tools for inbound lead response, appointment scheduling, follow-up, marketing content, document extraction, knowledge retrieval, and accounting assistance. Implementation is capped because the highest-value customer interactions span fragmented DMS/CRM systems, the FTC Safeguards Rule raises data-governance requirements, OEM franchise processes constrain workflow changes, and sales, F&I, and repair decisions still need human review. High employee turnover creates incentive to avoid hiring but also makes process standardization and change management harder.",
+      "change_evidence": "A representative NADA survey reporting production deployment, integration depth, human-review rates, error rates, and labor hours avoided by workflow, plus DMS audit logs from 30-50 independent dealer groups tracked for two years.",
+      "source_ids": [
+        "S3",
+        "S4"
+      ],
+      "caveats": [
+        "No representative source directly measures five-year implementation of the exposed opportunity.",
+        "Vendor capability may advance faster than dealership integration, governance, and OEM approval.",
+        "The estimate excludes pricing and demand effects."
+      ]
+    },
+    "e": {
+      "evidence_state": "ESTIMATE",
+      "low": 0.55,
+      "base": 0.7,
+      "high": 0.84,
+      "rationale": "Most franchised new-car dealers combine vehicle retail with repeat service and parts, but eligibility requires a material external-customer service relationship and a transferable operating company in the specified EBITDA band. NADA reports service and parts at 13.3% of dealership sales and 16,252 repair orders per average dealership in 2025, supporting broad but not universal recurring-service substance. The discount allows for retail-heavy rooftops, thin or outsourced service operations, captive/group structures, and firms for which the margin-bridged dataset classification does not describe normalized EBITDA well.",
+      "change_evidence": "A rooftop-level census linking service-department presence, customer-pay repair orders, ownership entity, normalized EBITDA, and franchise transfer restrictions for the 8,868 dataset firms.",
+      "source_ids": [
+        "S2"
+      ],
+      "caveats": [
+        "The frozen firm count is margin-bridged and may misclassify firms because vehicle retail has high revenue and thin margins.",
+        "NADA reports rooftops and averages, whereas the screened unit is an eligible LMM firm and may own multiple rooftops.",
+        "Service and parts revenue includes warranty, internal, wholesale, and counter activity, not only repeat customer-pay service."
+      ]
+    },
+    "s5": {
+      "evidence_state": "PROXY",
+      "low": 0.1,
+      "base": 0.16,
+      "high": 0.23,
+      "bridge": "Kerrigan reports 438 completed dealership transactions and 697 franchises sold in 2024 against NADA's roughly 17,000 franchised light-vehicle dealerships. Treating that one-year activity as a steady hazard implies a low-teens to about one-fifth five-year rooftop transfer incidence. I reduce and widen the result for the target because transactions and franchises are not unique LMM firms, multi-franchise deals can count several rooftops, and the report does not isolate qualifying control transfers; unreported family and off-market transfers could offset some of that downward adjustment.",
+      "rationale": "Observed dealership buy/sell activity is active enough to support a mid-teens five-year control-transfer probability, but the available denominator and transaction units do not match eligible LMM firms. The range recognizes both consolidation-driven sales and franchise/OEM approval, real-estate, and valuation barriers that prevent every ownership transition from becoming a transferable control deal.",
+      "change_evidence": "A five-year transaction ledger from Kerrigan, Haig, or The Presidio Group deduplicated to ultimate selling firms, tagged for control transfer, family succession, buyer type, rooftop count, seller EBITDA, and withdrawn processes.",
+      "source_ids": [
+        "S2",
+        "S5"
+      ],
+      "caveats": [
+        "A record activity year may not represent the next five years.",
+        "Franchises, rooftops, transactions, and firms are different counting units.",
+        "The public release does not distinguish all qualifying control transfers from portfolio reshuffling or internal reorganizations."
+      ]
+    },
+    "q": {
+      "evidence_state": "ESTIMATE",
+      "low": 0.5,
+      "base": 0.64,
+      "high": 0.77,
+      "rationale": "Most AI-enabled labor savings would initially accrue inside dealership operating expenses rather than through an explicit cost-plus pass-through. Retention is nevertheless limited by transparent online vehicle pricing, local dealer competition, OEM performance incentives, and renewal or shopping behavior. Fixed operations are less price-transparent and more relationship-driven than vehicle sales, improving capture, while customer and warranty labor rates still face competitive and OEM constraints. Discounting five years of repricing and competitive sharing supports retaining roughly two-thirds of implemented gross benefit in the base case.",
+      "change_evidence": "Store-level gross-margin and pricing data from dealer groups before and after comparable automation rollouts, separating vehicle, F&I, customer-pay service, warranty, and parts, with matched-market evidence on price changes and volume retention.",
+      "source_ids": [
+        "S2",
+        "S3"
+      ],
+      "caveats": [
+        "No source directly observes contractual or competitive pass-through of AI savings.",
+        "Capture differs sharply between competitively priced vehicle sales and less transparent service work.",
+        "The estimate concerns retention of implemented gross benefit and does not include implementation difficulty or demand loss."
+      ]
+    },
+    "d5": {
+      "evidence_state": "PROXY",
+      "low": 0.94,
+      "base": 1.02,
+      "high": 1.09,
+      "bridge": "BLS projects automotive service-technician employment to grow 4% from 2024 to 2034 and says the vehicle stock will rise while older vehicles support service demand; EIA projects light-duty vehicle miles traveled to grow 8%-12% by 2050. These are quantity and labor-demand indicators for the vehicle-service ecosystem, not a direct constant-price forecast of the entire new-car-dealer basket. I translate them to approximately flat-to-modest five-year quantity growth, with downside for cyclical new-vehicle replacement and EV maintenance intensity. Employment may understate demand if productivity rises, while VMT may overstate dealer-captured service because independent shops compete.",
+      "rationale": "The installed vehicle base, continued driving, advanced-system calibration, warranty work, and replacement demand support the current sales-and-service basket. Against that, affordability and interest rates can defer new purchases, and EVs require less routine maintenance. The five-year base is near flat with modest growth rather than extrapolating nominal dealership sales.",
+      "change_evidence": "An inflation-adjusted five-year forecast combining U.S. light-vehicle unit sales, franchised-dealer share, vehicle parc by age and powertrain, warranty repair orders, and customer-pay service hours from NADA, S&P Global Mobility, Cox Automotive, and Experian.",
+      "source_ids": [
+        "S2",
+        "S6",
+        "S7"
+      ],
+      "caveats": [
+        "BLS employment is not service quantity and covers technicians across all employing industries.",
+        "EIA's long-horizon VMT growth is not specific to franchised dealers or the next five years.",
+        "Vehicle sales are cyclical, and the current basket mixes transactional sales with recurring service."
+      ]
+    },
+    "o": {
+      "evidence_state": "ESTIMATE",
+      "low": 0.8,
+      "base": 0.9,
+      "high": 0.96,
+      "rationale": "Most year-five quantity should still require an accountable dealership operator because physical inventory, test drives and delivery, title and financing processes, OEM franchise obligations, warranty administration, parts, diagnostics, and repair cannot be supplied entirely by software. Online retailing and OEM direct channels can self-serve portions of discovery, configuration, documentation, and lead handling, so the operator-required share is below one, but NADA's 276 million repair orders and large hands-on technician base make wholesale elimination unlikely within five years.",
+      "change_evidence": "State-by-state data on direct-sales legal changes, OEM agency-model adoption, end-to-end online transaction completion, dealer-fulfilled delivery share, remote diagnostics, mobile service, and repair hours by powertrain through 2031.",
+      "source_ids": [
+        "S1",
+        "S2"
+      ],
+      "caveats": [
+        "The estimate treats an accountable local operator broadly and does not require every current front-office task to remain human.",
+        "OEM distribution strategy and state franchise-law changes could shift the operator boundary quickly.",
+        "EVs and remote diagnostics reduce some maintenance visits but do not remove collision, tire, warranty, delivery, and complex repair needs."
+      ]
+    }
+  },
+  "narrative": {
+    "executive_view": "New-car dealerships combine a highly competitive, cyclical retail engine with a smaller but repeat and operationally important fixed-operations business. The occupation mix creates real AI opportunity in sales support, customer communications, finance paperwork, scheduling, and administration, while a quarter of employment is installation, maintenance, and repair work that remains largely physical. Deal activity is observable, but the margin-bridged LMM count and the distinction between rooftops, franchises, and firms are important uncertainties.",
+    "ai_impact": "AI can handle first-response lead qualification, appointment booking, CRM follow-up, marketing drafts, inventory descriptions, document extraction, call summarization, knowledge retrieval, and routine accounting support. Human staff remain central to negotiation, customer trust, compliant F&I decisions, exception handling, diagnosis, repair, and physical vehicle movement. Fragmented dealer systems and customer-data safeguards make workflow integration and review discipline as important as model capability.",
+    "value_capture": "Labor savings are not contractually passed through, so an operator can initially retain them. Over time, online price comparison and local competition should share some benefit through vehicle pricing and service offers. Retention should be better in service and parts than in new-vehicle sales, but OEM warranty reimbursement and customer shopping constrain both.",
+    "firm_availability": "The industry has an active control market: 2024 produced 438 reported transactions involving 697 franchises. That evidence does not directly reveal the five-year transfer rate of eligible LMM firms, because one firm can own multiple rooftops and one deal can include multiple franchises. Eligibility is also lower than the raw firm count where a rooftop lacks material external service operations or where group and franchise structures frustrate a clean control transfer.",
+    "demand_durability": "Vehicle stock and miles traveled remain supportive, and older vehicles plus advanced safety-system calibrations sustain repair needs. New-vehicle purchases are cyclical and affordability-sensitive, while EVs reduce some routine service. Physical delivery, warranty, parts, diagnostics, and repair leave most of the surviving basket dependent on an accountable operator even as discovery and paperwork migrate online.",
+    "risks_and_uncertainty": "The largest measurement risks are the four-digit occupation proxy, the margin-based LMM firm count, and the mismatch between transaction, franchise, rooftop, and firm counts. Commercial risks include OEM control of franchise economics, direct-sales or agency models, interest-rate and tariff shocks, cybersecurity obligations, technician scarcity, volatile vehicle gross profit, and AI errors in regulated or customer-facing workflows.",
+    "principal_driver": "A large wage-weighted sales, management, and administrative layer sits alongside high-volume repeat service operations where AI can reduce response and processing work.",
+    "principal_weakness": "Most revenue is still competitive vehicle retail, and physical technician work plus OEM, regulatory, and system-integration constraints limit implementable substitution."
+  },
+  "sources": [
+    {
+      "id": "S1",
+      "url": "https://www.bls.gov/oes/2023/may/naics4_441100.htm",
+      "title": "May 2023 National Industry-Specific Occupational Employment and Wage Estimates: NAICS 441100 Automobile Dealers",
+      "access_date": "2026-07-22",
+      "supports": "Reports 1,264,500 total workers and the detailed occupation mix, including 33.48% sales, 14.56% office and administrative support, 6.77% management, and 25.07% installation, maintenance, and repair employment."
+    },
+    {
+      "id": "S2",
+      "url": "https://www.nada.org/media/4695",
+      "title": "NADA Data 2025: Annual Financial Profile of America's Franchised New-Car Dealerships",
+      "access_date": "2026-07-22",
+      "supports": "Reports 16,990 franchised light-vehicle dealers, 16.2 million light-duty vehicle sales, more than 276 million repair orders, $164.6 billion of service and parts sales, a 13.3% service-and-parts share of sales, and 16,252 repair orders per average dealership."
+    },
+    {
+      "id": "S3",
+      "url": "https://www.nadaworkforcestudy.com/files/2026-nada-sample-report.pdf",
+      "title": "2025 NADA Dealership Workforce Study, 2024 Calendar Year Data: Sample Report",
+      "access_date": "2026-07-22",
+      "supports": "Reports 42% annualized turnover across dealership positions, including 66% for sales consultants and 43% for service advisors, illustrating hiring pressure and implementation/change-management conditions."
+    },
+    {
+      "id": "S4",
+      "url": "https://www.nada.org/nada/press-releases/nada-and-authenticom-introduce-nada-vault-secure-dealership-data-syndication",
+      "title": "NADA and Authenticom Introduce NADA Vault, Secure Dealership Data Syndication Platform",
+      "access_date": "2026-07-22",
+      "supports": "Describes fragmented dealership data-system connections and heightened customer-data controls following the FTC's 2023 Safeguards compliance rule, relevant to AI integration constraints."
+    },
+    {
+      "id": "S5",
+      "url": "https://www.businesswire.com/news/home/20250317569607/en/Dealership-BuySell-Market-Hits-Record-High-in-2024-as-US-Auto-Dealer-Confidence-Rose",
+      "title": "Dealership Buy/Sell Market Hits Record High in 2024 as US Auto Dealer Confidence Rose",
+      "access_date": "2026-07-22",
+      "supports": "Reports Kerrigan Advisors' count of 438 completed dealership transactions in 2024 and 697 franchises sold, with transactions up 10% from 2023."
+    },
+    {
+      "id": "S6",
+      "url": "https://www.bls.gov/ooh/installation-maintenance-and-repair/automotive-service-technicians-and-mechanics.htm",
+      "title": "Occupational Outlook Handbook: Automotive Service Technicians and Mechanics",
+      "access_date": "2026-07-22",
+      "supports": "Projects 4% employment growth from 2024 to 2034 and states that rising vehicle stock, older vehicles, and advanced safety-system repairs support demand while EVs limit some maintenance demand."
+    },
+    {
+      "id": "S7",
+      "url": "https://www.eia.gov/outlooks/aeo/narrative/index.php",
+      "title": "U.S. Energy Information Administration Annual Energy Outlook 2026 Narrative",
+      "access_date": "2026-07-22",
+      "supports": "Projects light-duty vehicle miles traveled to grow 8%-12% by 2050 versus 2025 and discusses the gradual turnover of the on-road vehicle stock."
+    }
+  ]
+}

@@ -1,0 +1,189 @@
+{
+  "identity": {
+    "naics": "458210",
+    "title": "Shoe Retailers",
+    "run_id": "458210-a1-20260722",
+    "model_id": "claude-sonnet-5",
+    "run_date": "2026-07-22",
+    "methodology_version": "5.1",
+    "attempt": 1
+  },
+  "lens": {
+    "included_activities": "Lower-middle-market shoe retailers whose customer proposition includes a repeat, externally supplied service component, such as institutional footwear programs, recurring fitting and measurement, or managed replenishment tied to footwear sales.",
+    "excluded_activities": "Ordinary one-off merchandise retail, manufacturer-owned brand stores, captive procurement, pure e-commerce product sellers, shoe repair classified in NAICS 811430, and firms outside the normalized EBITDA band.",
+    "customer_and_revenue_model": "Households or institutional accounts pay mainly per footwear purchase; the eligible subset embeds fitting, selection, account administration, and replenishment in the merchandise margin rather than charging a standalone recurring fee.",
+    "deviation_from_default": "The code is heterogeneous relative to the screen because almost all activity is product retail, not outsourced service. The lens is narrowed to retailers with a genuine repeat service component so product-only transactions are not mislabeled as outsourced services.",
+    "heterogeneous": true
+  },
+  "primitives": {
+    "a": {
+      "evidence_state": "PROXY",
+      "low": 0.14,
+      "base": 0.23,
+      "high": 0.34,
+      "bridge": "BLS measures the shoe-retailer occupation mix, not task-level AI substitution, while O*NET measures retail-salesperson tasks and work context across all retail. I wage-weighted judgment across the published shoe-retailer mix, assigning greater exposure to product inquiry, recommendations, transactions, records, and inventory support and little exposure to physical fitting, stocking, and accountable selling. Because generic task descriptions do not reveal shoe-specific time shares or existing automation, the range may overstate remaining exposure where modern point-of-sale and e-commerce systems are already deployed.",
+      "rationale": "Shoe retailers are unusually concentrated in customer-facing sales: BLS reports 87.39% of employment in sales occupations, including 70.19% retail salespersons, 13.19% first-line sales supervisors, and 3.33% cashiers. AI can assist product matching, answer routine questions, draft promotions, support scheduling and records, and reduce cashier or administrative work, but the dominant role also requires persuasion, physical presence, fitting assistance, merchandising, and loss prevention.",
+      "change_evidence": "A time-and-motion study of independent shoe stores, payroll by occupation for the eligible specialty subset, and vendor telemetry separating already-automated from manual product-advice, inventory, returns, and account-service tasks would materially change this range.",
+      "source_ids": ["S2", "S3"],
+      "caveats": [
+        "OEWS covers employers of all sizes and excludes self-employed workers; the eligible lower-middle-market subset may have a different occupation mix.",
+        "The occupation table is May 2023 and the O*NET retail-salesperson task data are cross-retail rather than shoe-specific.",
+        "The dataset labor ratio is only available at ancestor 44-45, uses 2024 wages over 2022 receipts, and is harmonized to the IPS basis; it may not represent specialty shoe retailers."
+      ]
+    },
+    "rho": {
+      "evidence_state": "ESTIMATE",
+      "low": 0.3,
+      "base": 0.48,
+      "high": 0.66,
+      "rationale": "Within five years, small retailers can implement packaged AI for product discovery, customer messaging, workforce scheduling, purchasing support, and bookkeeping. Realized substitution is constrained by fragmented systems, small data sets, seasonal staffing, error-sensitive fit recommendations, shrink controls, and the need for employees to remain available during store hours.",
+      "change_evidence": "Matched-store pilots reporting labor hours before and after AI-enabled product search, customer service, scheduling, replenishment, and checkout, plus implementation and override rates from retail software vendors, would materially move the estimate.",
+      "source_ids": ["S3", "S4"],
+      "caveats": [
+        "No source measures five-year implementation for independent shoe retailers.",
+        "Implementation may avoid incremental hiring rather than remove scheduled store coverage.",
+        "This excludes demand migration and price competition, which are addressed in d5, o, and q."
+      ]
+    },
+    "e": {
+      "evidence_state": "ESTIMATE",
+      "low": 0.002,
+      "base": 0.008,
+      "high": 0.02,
+      "rationale": "The Census definition is retailing new footwear, and its shoe-store questionnaire separately classifies footwear and leather-goods repair in NAICS 811430. Most firms therefore sell products to consumers rather than supply a recurring outsourced service. Only a very small specialty subset plausibly provides managed institutional programs or repeat fitting and replenishment substantial enough to satisfy the lens.",
+      "change_evidence": "Firm-level revenue segmentation from a commercial business database, franchise disclosure documents, and interviews with independent orthopedic and institutional footwear retailers could identify how many firms derive material revenue from recurring service arrangements and fall in the EBITDA band.",
+      "source_ids": ["S1", "S8"],
+      "caveats": [
+        "No public dataset measures the service-model share or the normalized EBITDA band for this code.",
+        "Incidental fitting during a product sale is not treated as an outsourced service.",
+        "The provided n input is a declared dataset gap and will be injected as MISSING; it was not replaced or estimated here."
+      ]
+    },
+    "s5": {
+      "evidence_state": "PROXY",
+      "low": 0.13,
+      "base": 0.21,
+      "high": 0.3,
+      "bridge": "Gallup reports five-year ownership intentions for U.S. businesses generally, not completed qualifying control transfers among LMM specialty shoe retailers. I anchor near the 22% of employer-business owners planning to sell or transfer ownership, reduce the low end for intentions that become closures, internal reorganizations, or failed deals, and allow a higher end for concentrated older ownership. Intentions are likely to overstate completed transferable deals but broad owner aging could understate pressure in independent retail.",
+      "rationale": "Gallup reports that 52.3% of employer businesses are owned by people age 55 or older and that 22% of employer-business owners plan to sell or transfer ownership within five years. The narrow eligible subset is likely owner-operated, but store dependence, leases, inventory, and weak service recurrence can prevent a planned exit from becoming a qualifying transfer.",
+      "change_evidence": "Closed-transaction counts from BizBuySell or GF Data mapped to shoe retail, SBA 7(a) change-of-ownership loan records, and a survey of eligible owners asking planned exit timing and transfer route would materially change the range.",
+      "source_ids": ["S7"],
+      "caveats": [
+        "The Gallup survey is cross-industry and includes firms outside the lens and EBITDA band.",
+        "Planned sales and gifts are not observed completed transfers.",
+        "Deaths without transferable operations and internal reorganizations are excluded from the estimate."
+      ]
+    },
+    "q": {
+      "evidence_state": "ESTIMATE",
+      "low": 0.18,
+      "base": 0.3,
+      "high": 0.46,
+      "rationale": "Revenue is primarily per-item merchandise sales rather than fixed recurring fees. Product prices are readily comparable and customers can switch stores or channels, so labor savings are likely to be shared through promotions, service enhancement, and competitive pricing. Some benefit can remain where specialty fit, trusted advice, local convenience, or institutional relationships reduce comparability.",
+      "change_evidence": "Store-level gross-margin and price data following labor-saving deployments, renewal or rebid records for institutional accounts, and competitor price-response studies would show how much implemented benefit remains with the operator.",
+      "source_ids": ["S1", "S5"],
+      "caveats": [
+        "There is no direct estimate of benefit pass-through for specialty shoe retailers.",
+        "The eligible subset may have more differentiated service and retain more value than ordinary shoe stores.",
+        "Volume loss is excluded here and addressed in d5 and o."
+      ]
+    },
+    "d5": {
+      "evidence_state": "PROXY",
+      "low": 0.84,
+      "base": 0.94,
+      "high": 1.04,
+      "bridge": "Census establishment and sales comparisons and BLS retail-employment projections are proxies for constant-price, constant-quality demand for the eligible service basket. Shoe-store nominal sales rose only from $36.04 billion in 2017 to $36.90 billion in 2022 while establishments fell from 24,844 to 19,083; BLS expects online sales to limit physical-store demand. Inflation makes nominal sales growth an upward-biased measure of real quantity, while the eligible fit-intensive subset may be more durable than the industry average.",
+      "rationale": "Footwear remains a repeat consumer need, but demand for the current store-centered service basket faces steady channel migration. Census reports first-quarter 2026 e-commerce sales growing 9.8% year over year versus 3.9% for total retail, and BLS expects online sales to limit physical stores and retail-sales-worker demand. Specialized fitting and institutional replenishment provide a partial buffer.",
+      "change_evidence": "Five years of inflation-adjusted same-store unit transactions for independent specialty shoe retailers, split between in-store, online, and institutional accounts, would materially tighten the estimate.",
+      "source_ids": ["S4", "S5", "S6"],
+      "caveats": [
+        "The 2017-2022 Census comparison is on the former 44821 basis and spans pandemic disruption.",
+        "Published sales are nominal, whereas d5 requires constant-price and constant-quality quantity.",
+        "Aggregate e-commerce data cover all retail and do not isolate footwear or the eligible service subset."
+      ]
+    },
+    "o": {
+      "evidence_state": "ESTIMATE",
+      "low": 0.72,
+      "base": 0.86,
+      "high": 0.95,
+      "rationale": "The narrowed service basket centers on accountable fitting, product selection, exceptions, institutional account service, and fulfillment responsibility. Software can self-serve routine discovery and ordering, but most surviving specialty-service demand should still require a retailer to stand behind fit, returns, account performance, and physical delivery.",
+      "change_evidence": "Customer cohort data on fully self-served orders, remote-fit accuracy and return rates, and interviews with institutional footwear buyers about willingness to replace their retailer with software-only procurement would materially change the range.",
+      "source_ids": ["S3", "S4"],
+      "caveats": [
+        "No source directly measures operator displacement in specialty shoe retail.",
+        "The range is conditional on year-five demand and does not count channel-driven quantity loss already reflected in d5.",
+        "Rapid improvements in remote sizing and automated returns could reduce operator-required share."
+      ]
+    }
+  },
+  "narrative": {
+    "executive_view": "Shoe retail is fundamentally a merchandise business, so only a thin specialty subset fits the recurring outsourced-service lens. In that subset AI can remove routine selling and administrative work, but the available population is uncertain and value capture is weakened by transparent product pricing and channel competition.",
+    "ai_impact": "AI can improve product search and matching, answer routine questions, support purchasing and replenishment, automate customer communications, and reduce bookkeeping or scheduling work. Physical fitting, merchandising, customer trust, exception handling, loss prevention, and minimum store coverage keep much of the sales-heavy labor base human.",
+    "value_capture": "Savings are embedded in merchandise economics rather than protected by recurring fixed fees. Competitors, promotions, and online price comparison are likely to pass much of the benefit to customers, although specialist reputation and institutional relationships can preserve some margin.",
+    "firm_availability": "Broad owner-aging evidence indicates meaningful transfer intent, but there is no defensible dataset count for firms in the EBITDA band and the eligible service-model share appears extremely small. Product-only shoe stores, brand-owned chains, and incidental fitting do not qualify.",
+    "demand_durability": "Consumers will continue buying footwear, but that does not guarantee demand for the current store-based service basket. E-commerce growth and a long decline in shoe-store establishments pressure physical demand; complex fitting, orthopedic needs, and managed institutional programs are more durable than ordinary transactions.",
+    "risks_and_uncertainty": "The largest risk is category error: treating product retail as outsourced service. Other uncertainties are the ancestor-level labor ratio, the missing firm-count input, absence of shoe-specific AI deployment evidence, intentions rather than completed transfer data, and unknown real unit demand for the specialty subset.",
+    "principal_driver": "A sales-heavy occupation mix contains repeatable product-advice, transaction, inventory, and administrative tasks that packaged AI can augment.",
+    "principal_weakness": "Almost no shoe retailers clearly satisfy the recurring outsourced-service lens, and the surviving product-linked benefit is exposed to price and channel competition."
+  },
+  "sources": [
+    {
+      "id": "S1",
+      "url": "https://www.census.gov/naics/?details=45&input=45&year=2022",
+      "title": "2022 NAICS Definition: 458210 Shoe Retailers",
+      "access_date": "2026-07-22",
+      "supports": "Defines the industry as establishments primarily retailing new footwear, establishing the product-retail nature of the code."
+    },
+    {
+      "id": "S2",
+      "url": "https://www.bls.gov/oes/2023/may/naics4_458200.htm",
+      "title": "May 2023 National Industry-Specific Occupational Employment and Wage Estimates: NAICS 458200 Shoe Retailers",
+      "access_date": "2026-07-22",
+      "supports": "Reports 173,350 total employees; 87.39% in sales occupations, including 70.19% retail salespersons, 13.19% retail-sales supervisors, and 3.33% cashiers; also reports office, management, and material-moving shares and wages."
+    },
+    {
+      "id": "S3",
+      "url": "https://www.onetonline.org/link/details/41-2031.00",
+      "title": "O*NET OnLine: 41-2031.00 Retail Salespersons",
+      "access_date": "2026-07-22",
+      "supports": "Lists retail-sales tasks including customer-needs gathering, recommendations, transactions, records, inventory, returns, fitting assistance, and delivery arrangements; reports near-universal external-customer importance and daily face-to-face interaction."
+    },
+    {
+      "id": "S4",
+      "url": "https://www.bls.gov/ooh/sales/retail-sales-workers.htm",
+      "title": "BLS Occupational Outlook Handbook: Retail Sales Workers",
+      "access_date": "2026-07-22",
+      "supports": "Projects little or no employment change from 2024 to 2034 and states that online sales will limit physical-store growth while in-store customer service keeps retail salespersons needed."
+    },
+    {
+      "id": "S5",
+      "url": "https://www.census.gov/retail/eCommerce.html",
+      "title": "U.S. Census Bureau Quarterly Retail E-Commerce Sales, First Quarter 2026",
+      "access_date": "2026-07-22",
+      "supports": "Reports adjusted e-commerce sales up 9.8% year over year versus 3.9% for total retail and e-commerce at 16.9% of retail sales."
+    },
+    {
+      "id": "S6",
+      "url": "https://data.census.gov/table/ECNCOMP2022.EC2200COMP?codeset=naics~44821&g=010XX00US",
+      "title": "2022 Economic Census Comparative Statistics: 44821 Shoe Stores, 2017 and 2022",
+      "access_date": "2026-07-22",
+      "supports": "Reports 24,844 establishments and $36.036 billion sales in 2017 versus 19,083 establishments and $36.901 billion sales in 2022 on the 2017 NAICS basis."
+    },
+    {
+      "id": "S7",
+      "url": "https://news.gallup.com/poll/657362/small-business-owners-lack-succession-plan.aspx",
+      "title": "Gallup: Most Small-Business Owners Lack a Succession Plan",
+      "access_date": "2026-07-22",
+      "supports": "Reports 52.3% of employer businesses owned by people age 55 or older and 22% of employer-business owners planning to sell or transfer ownership within five years."
+    },
+    {
+      "id": "S8",
+      "url": "https://bhs.econ.census.gov/ombpdfs2022/export/2022_RT-44821_mu.pdf",
+      "title": "U.S. Census Bureau 2022 Retail Trade Questionnaire: Shoe Stores",
+      "access_date": "2026-07-22",
+      "supports": "Lists shoe-store activities under 448210 and classifies footwear, luggage, handbag, briefcase, and leather-goods repair separately under 811430."
+    }
+  ]
+}

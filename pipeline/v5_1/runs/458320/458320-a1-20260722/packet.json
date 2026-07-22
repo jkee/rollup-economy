@@ -1,0 +1,204 @@
+{
+  "identity": {
+    "naics": "458320",
+    "title": "Luggage and Leather Goods Retailers",
+    "run_id": "458320-a1-20260722",
+    "model_id": "claude-sonnet-5",
+    "run_date": "2026-07-22",
+    "methodology_version": "5.1",
+    "attempt": 1
+  },
+  "lens": {
+    "included_activities": "Lower-middle-market luggage and leather-goods retailers with a material repeat external service offering, such as managed corporate luggage programs, repeat warranty administration, personalization, maintenance coordination, or repair intake combined with new-product retail.",
+    "excluded_activities": "Ordinary one-off merchandise retail, product-only brand stores, pure e-commerce sellers, captive corporate procurement, repair establishments classified in NAICS 811430, used-goods retailers, and firms outside the normalized EBITDA band.",
+    "customer_and_revenue_model": "Consumers or organizational accounts pay mainly per product, with the small eligible subset also charging or embedding fees and margin for repeat personalization, warranty, maintenance coordination, repair intake, or managed replenishment.",
+    "deviation_from_default": "The code is heterogeneous relative to the screen because nearly all activity is product retail. The lens is narrowed to retailers with a material repeat service relationship so isolated luggage or leather-goods purchases are not treated as outsourced services.",
+    "heterogeneous": true
+  },
+  "primitives": {
+    "a": {
+      "evidence_state": "PROXY",
+      "low": 0.12,
+      "base": 0.21,
+      "high": 0.32,
+      "bridge": "BLS measures the combined 458300 jewelry, luggage, and leather-goods industry group, while O*NET and BLS occupational requirements cover retail salespersons across all retail. I wage-weighted judgment across sales, management, and office work, assigning exposure to product inquiry, recommendations, customer messaging, order and warranty administration, marketing, records, and inventory support and little exposure to physical inspection, personalization, packaging, secure handling, and store coverage. Jewelry craft employment in the group makes the published mix an imperfect guide; removing it likely increases the sales share but the eligible service subset may be more physically intensive than product-only luggage retail.",
+      "rationale": "The 458300 group reports 63.96% of employment in sales, 9.89% in management, and 9.58% in office support. AI can assist advice, product comparison, corporate-account administration, warranty triage, communications, marketing, scheduling, bookkeeping, and replenishment, but the eligible service work also requires physical receipt, inspection, customization, fulfillment, and accountable exception handling.",
+      "change_evidence": "Occupation-level payroll and time-use data for service-bearing luggage retailers, plus workflow telemetry separating already-automated and manual product advice, warranty, personalization, corporate account, returns, and inventory work, would materially change the estimate.",
+      "source_ids": ["S2", "S3", "S4"],
+      "caveats": [
+        "OEWS combines jewelry, luggage, and leather-goods retailers and excludes self-employed workers.",
+        "O*NET and occupational-requirements evidence is cross-retail rather than luggage-specific.",
+        "The dataset labor ratio is only available at ancestor 44-45, uses 2024 wages over 2022 receipts, and is harmonized to the IPS basis; it may not represent this narrow service subset."
+      ]
+    },
+    "rho": {
+      "evidence_state": "ESTIMATE",
+      "low": 0.29,
+      "base": 0.47,
+      "high": 0.65,
+      "rationale": "Within five years, packaged retail tools can automate customer messages, product search, marketing, corporate-order administration, warranty triage, inventory support, scheduling, and bookkeeping. Implementation is limited by fragmented small retailers, low transaction volumes, brand warranty rules, exception-heavy claims, physical product handling, and the requirement to keep stores staffed.",
+      "change_evidence": "Matched-store pilots of AI-enabled customer service, warranty intake, corporate order management, scheduling, replenishment, and bookkeeping, including labor hours, error rates, and exception rates, would materially change the estimate.",
+      "source_ids": ["S3", "S4"],
+      "caveats": [
+        "No source directly measures five-year implementation for service-bearing luggage retailers.",
+        "Implemented tools may improve response speed or avoid hiring rather than remove scheduled store labor.",
+        "Pricing and demand effects are excluded here."
+      ]
+    },
+    "e": {
+      "evidence_state": "PROXY",
+      "low": 0.015,
+      "base": 0.045,
+      "high": 0.1,
+      "bridge": "The 2002 Economic Census directly measured product-line incidence at luggage and leather-goods stores but not the share of LMM firms meeting the current outsourced-service lens. It reported nonmerchandise receipts at 88 of 1,733 establishments, or 5.1%, and those receipts were only 0.3% of industry sales; categories included labor, parts installed in repair, and printing or engraving. I use that old establishment share as the center, reduce the low end because incidental services and repair-classification leakage do not qualify, and allow a higher end for larger firms with corporate or warranty programs. The vintage is likely to overstate store-performed repair but may understate modern account services.",
+      "rationale": "The current NAICS definition is product retail and the 2022 Census questionnaire classifies footwear, luggage, handbag, briefcase, and leather-goods repair in 811430. Historical product-line data show only a small service presence. Thus only a thin subset with material repeat warranty, personalization, maintenance-coordination, repair-intake, or corporate-program activity is eligible.",
+      "change_evidence": "Current firm-level service-revenue shares, warranty-program participation, repair-intake volumes, and corporate-account revenues from Economic Census microdata, franchise disclosures, commercial firm databases, or retailer interviews would materially change the range.",
+      "source_ids": ["S1", "S5", "S6"],
+      "caveats": [
+        "The quantitative proxy is from 2002 and is establishment-based, not conditional on LMM EBITDA.",
+        "Incidental engraving or forwarding a warranty claim does not by itself establish a repeat outsourced-service model.",
+        "The provided n input is a declared dataset gap and will be injected as MISSING; it was not replaced or estimated here."
+      ]
+    },
+    "s5": {
+      "evidence_state": "PROXY",
+      "low": 0.12,
+      "base": 0.2,
+      "high": 0.29,
+      "bridge": "Gallup measures five-year sale or transfer intentions for U.S. employer businesses broadly, not completed qualifying control transfers among LMM service-bearing luggage retailers. I anchor below the reported 22% employer intention rate because the eligible population is tiny, product-led, and exposed to brand and channel dependence; the range allows for older independent owners. Intentions are likely to overstate completed transfers and include gifts or plans that become closures.",
+      "rationale": "Gallup reports that 52.3% of employer businesses are owned by people age 55 or older and that 22% of employer-business owners plan to sell or transfer within five years. Independent specialty retailers may face succession pressure, but weak service recurrence, leases, inventory, and reliance on product brands can prevent a planned exit from becoming a qualifying control transfer.",
+      "change_evidence": "Closed-deal records from BizBuySell, GF Data, or SBA 7(a) change-of-ownership loans mapped to luggage retail, and interviews with eligible owners about exit timing and service portability, would materially change the range.",
+      "source_ids": ["S8"],
+      "caveats": [
+        "The source is cross-industry and includes firms outside the lens and EBITDA band.",
+        "Planned transfers are not observed completed transfers.",
+        "Deaths without transferable operations and internal reorganizations are excluded."
+      ]
+    },
+    "q": {
+      "evidence_state": "ESTIMATE",
+      "low": 0.18,
+      "base": 0.31,
+      "high": 0.47,
+      "rationale": "Most revenue remains per-item merchandise sales, where products and prices are readily compared across stores and online. Warranty administration is often constrained by brand policies, while personalization and corporate-program service can be differentiated. Operators should retain some benefit through convenience and relationships, but promotions, service enhancement, and price competition will share much of it with customers.",
+      "change_evidence": "Account-level gross margins, corporate rebid and renewal data, warranty reimbursement terms, personalization pricing, and competitor price responses following labor-saving deployments would show how much benefit remains with the operator.",
+      "source_ids": ["S1", "S5"],
+      "caveats": [
+        "No direct study measures benefit pass-through in this narrow service subset.",
+        "Corporate programs may retain more benefit than consumer product sales, while brand-paid warranty work may retain less.",
+        "Volume loss is addressed in d5 and o rather than here."
+      ]
+    },
+    "d5": {
+      "evidence_state": "PROXY",
+      "low": 0.84,
+      "base": 0.95,
+      "high": 1.07,
+      "bridge": "BTS passenger volumes proxy travel intensity, a driver of luggage use, while Census e-commerce growth and BLS retail projections proxy channel pressure; none measures constant-price, constant-quality demand for the eligible retailer service basket. Near-record air traffic supports product use and warranty or repair needs, but translating travel to store-based service likely overstates demand because products last multiple trips and online channels can fulfill replacement and claims. The range therefore centers on modest five-year erosion in the current service channel.",
+      "rationale": "Travel activity remains high: BTS reported 81.2 million U.S.-airline passengers in December 2025, only 2.7% below the seasonally adjusted all-time monthly high, and international passengers reached a December record. Against this, Census reported e-commerce growing faster than total retail, and BLS expects online sales to limit physical-store demand. The current store-centered service basket is therefore less durable than underlying travel or luggage usage.",
+      "change_evidence": "Inflation-adjusted unit transactions and service tickets for personalization, warranty, repair intake, and corporate luggage programs across a five-year retailer panel, split by store and online channel, would materially tighten the range.",
+      "source_ids": ["S7", "S9", "S10"],
+      "caveats": [
+        "Air passenger counts are a demand-driver proxy, not luggage or service transactions.",
+        "E-commerce data cover all retail and do not isolate luggage.",
+        "The estimate concerns the current service basket, not total consumer spending on luggage and leather goods."
+      ]
+    },
+    "o": {
+      "evidence_state": "ESTIMATE",
+      "low": 0.62,
+      "base": 0.79,
+      "high": 0.91,
+      "rationale": "Physical inspection, custody, personalization, repair handoff, complex warranty exceptions, and accountable corporate fulfillment still require an operator. Routine product selection, status updates, standardized personalization, replenishment, and simple warranty claims can increasingly be self-served or software-mediated, leaving lower operator dependence than skilled jewelry repair.",
+      "change_evidence": "Service-order data showing straight-through warranty and personalization fulfillment, customer adoption of self-service corporate procurement, exception rates, and interviews with brand partners about accepting software-only claims would materially change the range.",
+      "source_ids": ["S3", "S4", "S5"],
+      "caveats": [
+        "No source directly measures operator displacement for eligible luggage-retailer services.",
+        "The estimate is conditional on year-five demand and does not repeat channel loss already reflected in d5.",
+        "The small eligible population may contain very different corporate, warranty, personalization, and repair-intake models."
+      ]
+    }
+  },
+  "narrative": {
+    "executive_view": "Luggage and leather-goods retail is overwhelmingly product-led, with only a very small historical service footprint. AI can streamline sales and account administration, but the recurring outsourced-service population is scarce and merchandise price competition limits retained benefit.",
+    "ai_impact": "Useful applications include product comparison, customer messaging, corporate-order administration, warranty triage, CRM, marketing, scheduling, inventory support, and bookkeeping. Physical inspection, customization, packaging, repair handoff, custody, and complex exceptions remain human, and stores still need customer-facing coverage.",
+    "value_capture": "Most savings arise inside merchandise economics where online comparison and promotions drive pass-through. Personalization and managed corporate relationships can preserve more value, while brand-controlled warranty rules can cap fees and shift savings to manufacturers or customers.",
+    "firm_availability": "Historical Census data found nonmerchandise receipts at only 5.1% of establishments and just 0.3% of industry sales, and current classification places repair specialists elsewhere. Broad owner-aging evidence suggests some transfers, but public data provide no defensible LMM firm count or current service-model share.",
+    "demand_durability": "Near-record airline passenger volumes support luggage use, yet durable products are replaced infrequently and store demand continues moving online. Warranty, repair intake, personalization, and corporate programs are more defensible than ordinary retail but still face self-service substitution.",
+    "risks_and_uncertainty": "The largest risk is mistaking product sales or incidental service for a recurring outsourced-service model. Other weaknesses are the old service-incidence proxy, a combined-industry occupation mix, the ancestor-level labor ratio, the missing firm-count input, and absent real-volume data for the eligible service basket.",
+    "principal_driver": "AI can reduce routine sales, warranty, customer-service, inventory, and corporate-account administration around a physical product flow.",
+    "principal_weakness": "The eligible repeat-service population is extremely small, historically immaterial to revenue, and exposed to e-commerce and merchandise price transparency."
+  },
+  "sources": [
+    {
+      "id": "S1",
+      "url": "https://www.census.gov/naics/?details=458320&input=458320&year=2022",
+      "title": "2022 NAICS Definition: 458320 Luggage and Leather Goods Retailers",
+      "access_date": "2026-07-22",
+      "supports": "Defines the industry as retailing new luggage, briefcases, trunks, and related leather items, establishing its product-retail nature."
+    },
+    {
+      "id": "S2",
+      "url": "https://www.bls.gov/oes/2023/may/naics4_458300.htm",
+      "title": "May 2023 National Industry-Specific Occupational Employment and Wage Estimates: NAICS 458300",
+      "access_date": "2026-07-22",
+      "supports": "Reports the combined industry's 124,200 employees, including 63.96% sales, 9.89% management, and 9.58% office and administrative support."
+    },
+    {
+      "id": "S3",
+      "url": "https://www.onetonline.org/link/details/41-2031.00",
+      "title": "O*NET OnLine: 41-2031.00 Retail Salespersons",
+      "access_date": "2026-07-22",
+      "supports": "Lists retail-sales tasks including needs discovery, recommendations, transactions, records, inventory, returns, delivery arrangements, and product explanation."
+    },
+    {
+      "id": "S4",
+      "url": "https://www.bls.gov/ors/factsheet/retails-salesperson.htm",
+      "title": "BLS Occupational Requirements Survey: Retail Salespersons",
+      "access_date": "2026-07-22",
+      "supports": "Reports that work was controlled by people for 99.1% of retail salespersons in 2024, telework was under 0.5%, and workers spent an average 84.3% of the day standing."
+    },
+    {
+      "id": "S5",
+      "url": "https://bhs.econ.census.gov/ombpdfs2022/export/2022_RT-44832_su.pdf",
+      "title": "U.S. Census Bureau 2022 Retail Trade Questionnaire: Luggage and Leather Goods Stores",
+      "access_date": "2026-07-22",
+      "supports": "Lists luggage and leather-goods retail activity and separately classifies footwear, luggage, handbag, briefcase, and leather-goods repair under 811430."
+    },
+    {
+      "id": "S6",
+      "url": "https://www2.census.gov/library/publications/economic-census/2002/retail-trade/industry-series/ec0244i20t.pdf",
+      "title": "2002 Economic Census: Clothing and Clothing Accessories Stores Industry Series",
+      "access_date": "2026-07-22",
+      "supports": "For 448320, reports 1,733 establishments and $1.554 billion total sales; 88 establishments reported $4.927 million of nonmerchandise receipts, equal to 0.3% of all-establishment sales, with labor, repair parts, and printing or engraving subcategories."
+    },
+    {
+      "id": "S7",
+      "url": "https://www.bts.gov/newsroom/december-2025-us-airline-traffic-data-down-26-same-month-last-year",
+      "title": "Bureau of Transportation Statistics: December 2025 U.S. Airline Traffic Data",
+      "access_date": "2026-07-22",
+      "supports": "Reports 81.2 million systemwide passengers in December 2025, seasonally adjusted enplanements 2.7% below the June 2024 all-time high, and a record 11.3 million international passengers for December."
+    },
+    {
+      "id": "S8",
+      "url": "https://news.gallup.com/poll/657362/small-business-owners-lack-succession-plan.aspx",
+      "title": "Gallup: Most Small-Business Owners Lack a Succession Plan",
+      "access_date": "2026-07-22",
+      "supports": "Reports 52.3% of employer businesses owned by people age 55 or older and 22% of employer-business owners planning to sell or transfer ownership within five years."
+    },
+    {
+      "id": "S9",
+      "url": "https://www.census.gov/retail/eCommerce.html",
+      "title": "U.S. Census Bureau Quarterly Retail E-Commerce Sales, First Quarter 2026",
+      "access_date": "2026-07-22",
+      "supports": "Reports adjusted e-commerce sales up 9.8% year over year versus 3.9% for total retail and e-commerce at 16.9% of retail sales."
+    },
+    {
+      "id": "S10",
+      "url": "https://www.bls.gov/ooh/sales/retail-sales-workers.htm",
+      "title": "BLS Occupational Outlook Handbook: Retail Sales Workers",
+      "access_date": "2026-07-22",
+      "supports": "Projects little or no overall retail-sales-worker employment change from 2024 to 2034 and states that online sales will limit physical stores and retail-sales-worker demand."
+    }
+  ]
+}

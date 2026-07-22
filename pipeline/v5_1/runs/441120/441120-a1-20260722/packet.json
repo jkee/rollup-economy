@@ -1,0 +1,211 @@
+{
+  "identity": {
+    "naics": "441120",
+    "title": "Used Car Dealers",
+    "run_id": "441120-a1-20260722",
+    "model_id": "claude-sonnet-5",
+    "run_date": "2026-07-22",
+    "methodology_version": "5.1",
+    "attempt": 1
+  },
+  "lens": {
+    "included_activities": "U.S. lower-middle-market used-car dealers with a material recurring or repeat external-customer service, such as dealer-held installment servicing, repair and warranty administration, or an integrated customer-pay service operation, alongside vehicle retail.",
+    "excluded_activities": "Purely transactional vehicle lots without a material repeat service, private-party marketplaces, franchised new-car dealers, captive or separate non-control finance vehicles, rental-fleet disposals, wholesalers, shells, and independent repair shops classified outside 441120.",
+    "customer_and_revenue_model": "Consumers buy used vehicles and may also purchase financing, vehicle-service contracts, warranties, or repair services; eligible dealers earn repeat revenue through loan servicing and collections or through ongoing service and warranty relationships, while vehicle gross profit remains transactional.",
+    "deviation_from_default": "none",
+    "heterogeneous": false
+  },
+  "primitives": {
+    "a": {
+      "evidence_state": "PROXY",
+      "low": 0.3,
+      "base": 0.42,
+      "high": 0.54,
+      "bridge": "BLS OEWS reports employment and wages for four-digit Automobile Dealers (NAICS 441100), not used-car dealers alone, and it does not measure task-level AI exposure. I map its occupation mix to used-dealer workflows and raise exposure modestly because independent used dealers generally have less OEM service-technician intensity than franchised new-car stores. Sales, customer service, finance, bookkeeping, inventory pricing, merchandising, and management documentation are language/data heavy; inspection, reconditioning, logistics, test drives, and exception handling are less substitutable. Four-digit inclusion of new-car dealers likely biases the estimate downward if used dealers employ fewer technicians, but small-dealer role bundling may bias practical exposure upward or downward.",
+      "rationale": "The four-digit occupation mix places 33.48% of employment in sales, 14.56% in office and administrative support, 6.77% in management, and 25.07% in installation, maintenance, and repair. Used-dealer AI can address lead response, listing creation, market-price comparisons, document extraction, underwriting support, payment reminders, collections triage, call summaries, bookkeeping, and inventory analysis. Hands-on appraisal, reconditioning, delivery, repossession oversight, and legally accountable credit and title decisions remain human-heavy. The wage-weighted exposed share is therefore centered above the four-digit mix's simple clerical share but well below full automation of selling and finance roles.",
+      "change_evidence": "A six-digit 441120 payroll-by-occupation dataset linked to O*NET task frequencies and time studies at independent retail, online, and BHPH dealers that separate already-automated from still-manual work.",
+      "source_ids": [
+        "S1",
+        "S6"
+      ],
+      "caveats": [
+        "The BLS occupation table is dominated by the broader automobile-dealer population and does not isolate 441120.",
+        "Commission compensation and owner labor complicate wage weighting at independent dealers.",
+        "Carvana demonstrates technical feasibility at a scaled online operator, not the average LMM dealer's current task mix."
+      ]
+    },
+    "rho": {
+      "evidence_state": "ESTIMATE",
+      "low": 0.4,
+      "base": 0.58,
+      "high": 0.72,
+      "rationale": "Independent dealers can deploy AI in digital merchandising, lead response, document processing, collections prioritization, pricing support, and customer communications without OEM-franchise workflow constraints. Carvana already reports automated self-service workflows and AI-enabled customer support, showing feasibility. Implementation remains bounded by fragmented dealer-management systems, small-firm data quality, regulated credit and advertising, title and registration variation, physical reconditioning, and the need for human review of adverse or high-risk customer outcomes.",
+      "change_evidence": "A representative NIADA deployment survey and matched dealer-management-system logs measuring workflow adoption, error and override rates, labor hours avoided, complaint rates, and collections outcomes by independent retail and BHPH model over at least 24 months.",
+      "source_ids": [
+        "S5",
+        "S6"
+      ],
+      "caveats": [
+        "No representative study directly measures five-year implementation among LMM independent dealers.",
+        "A technology-native public company may overstate implementation capacity for smaller acquired dealerships.",
+        "The estimate excludes competitive pass-through and demand effects."
+      ]
+    },
+    "e": {
+      "evidence_state": "ESTIMATE",
+      "low": 0.12,
+      "base": 0.25,
+      "high": 0.4,
+      "rationale": "Used-car retail is principally transactional, so a dealer qualifies only when loan servicing, repair, warranty administration, or another repeat external service is material. NIADA reports BHPH/other at 32.6% of independent-dealer financing, while Federal Reserve data show BHPH dealers originated about 6% of all auto loans; neither statistic is a firm share, but both establish a meaningful minority with recurring receivable servicing. FTC guidance also shows that dealers may offer warranties and service contracts, yet many sell vehicles as-is or assign financing to third parties. The resulting eligible share is materially below half.",
+      "change_evidence": "A census of the 1,213 frozen-band firms identifying dealer-held receivables, recurring collections staff, customer-pay service bays, warranty administrator status, service-contract economics, and normalized EBITDA at the same legal entity.",
+      "source_ids": [
+        "S2",
+        "S4",
+        "S5"
+      ],
+      "caveats": [
+        "Financing-channel shares are not dealer-count shares and cannot identify which LMM firms retain receivables.",
+        "A sold service contract may create only a one-time commission rather than a recurring outsourced service.",
+        "The frozen firm count uses a retail margin bridge that may misclassify high-revenue, inventory-intensive dealerships."
+      ]
+    },
+    "s5": {
+      "evidence_state": "PROXY",
+      "low": 0.06,
+      "base": 0.12,
+      "high": 0.2,
+      "bridge": "BizBuySell reports 20 car-dealership transactions in 2025, but its category is not limited to NAICS 441120, its listings are voluntary, and the median cash flow of $250,000 is below the target EBITDA band. I use the visible transaction flow only as proof of transferability and combine it with bounded judgment for a five-year control-transfer hazard among eligible LMM dealers. The platform count severely understates total private and off-market transfers, while its broad category and inclusion of asset sales can overstate qualifying control transfers.",
+      "rationale": "Independent dealerships can transfer through ordinary small-business sales without OEM approval, but inventory floorplans, dealer licensing, real estate, loan portfolios, credit compliance, and owner-dependent sourcing relationships complicate clean control transfers. A low-teens five-year base balances observable business-sale activity with the lack of industry-wide, deduplicated control-transfer data.",
+      "change_evidence": "A five-year database from BizBuySell, NIADA state affiliates, floorplan lenders, and dealer-license agencies deduplicated to 441120 firms, tagged for EBITDA, control change, asset-only liquidation, related-party succession, and failed sale processes.",
+      "source_ids": [
+        "S7"
+      ],
+      "caveats": [
+        "BizBuySell captures only a nonrandom slice of small-business transactions.",
+        "Reported car-dealership sales are not isolated to used-car dealers or the LMM EBITDA band.",
+        "No direct owner-age or succession survey for eligible independent dealers was found."
+      ]
+    },
+    "q": {
+      "evidence_state": "ESTIMATE",
+      "low": 0.42,
+      "base": 0.57,
+      "high": 0.71,
+      "rationale": "Implemented labor savings are not normally subject to contractual cost pass-through, but used-vehicle pricing is highly transparent and competitive. Cox/NIADA research finds buyers visit more than five websites and 77% use third-party listing sites before contact; Carvana identifies price, transparency, convenience, selection, and quality as primary competitive factors. Dealers should retain more benefit in collections, warranty administration, and repair than in advertised vehicle prices, but over five years online competition and customer acquisition pressure should share a substantial portion of gross savings.",
+      "change_evidence": "Matched transaction-level data from independent dealers before and after automation, separating vehicle gross profit, finance reserve, dealer-held interest margin, service-contract income, repair gross profit, advertising cost, and changes in conversion and price by local market.",
+      "source_ids": [
+        "S3",
+        "S6"
+      ],
+      "caveats": [
+        "No source directly measures AI-benefit pass-through or five-year repricing.",
+        "Retention differs materially between transparent vehicle margins and recurring loan or repair economics.",
+        "The estimate excludes implementation difficulty and volume loss."
+      ]
+    },
+    "d5": {
+      "evidence_state": "PROXY",
+      "low": 0.93,
+      "base": 1.01,
+      "high": 1.1,
+      "bridge": "NIADA reports 38.6 million total used-vehicle sales in 2025 and 9.8 million through independent dealers, while the Cox 2026 forecast calls for a 0.9% total and 0.7% retail decline after 2025 growth. These are near-term unit-sale observations and forecasts, not a constant-price five-year quantity forecast for the eligible recurring-service subset. I carry near-flat market volume forward, adding modest upside from affordability-driven substitution toward used vehicles and downside from constrained late-model supply or dealer-share loss to online platforms. Total-market data may overstate eligible-dealer demand, while excluding recurring loan and repair servicing may understate the subset's quantity durability.",
+      "rationale": "Used vehicles remain a necessity for many buyers: Cox/NIADA finds 79% of surveyed independent-dealer buyers say they need rather than want a vehicle. The installed fleet and affordability gap support turnover, financing, and service, but post-pandemic new-vehicle shortfalls constrain younger used supply, credit conditions can suppress transactions, and large online retailers can take share. A near-flat five-year base with a broad range is more defensible than extrapolating one year's growth.",
+      "change_evidence": "A five-year Cox Automotive forecast by channel combined with NIADA active-dealer unit sales, used-vehicle age and lease-return supply, credit approvals, dealer-held receivable counts, service orders, and inflation-adjusted revenue for eligible firms.",
+      "source_ids": [
+        "S2",
+        "S3",
+        "S8"
+      ],
+      "caveats": [
+        "Industry unit sales do not directly measure repeat service quantity at eligible dealers.",
+        "Used supply depends on prior new-vehicle production, leasing, trade-ins, and fleet disposals.",
+        "Channel share can shift rapidly toward franchised or scaled online sellers even if total used demand is stable."
+      ]
+    },
+    "o": {
+      "evidence_state": "ESTIMATE",
+      "low": 0.78,
+      "base": 0.88,
+      "high": 0.95,
+      "rationale": "Discovery, pricing, financing applications, document intake, and payment handling can be largely self-served, and Carvana demonstrates an end-to-end online buying model. Yet the qualifying service basket still requires an accountable operator for vehicle acquisition, inspection, title, regulatory disclosures, credit decisions and adverse-action governance, delivery, complaints, collections and repossession oversight, warranty administration, or physical repair. Software changes the interface more than it eliminates the responsible dealer entity within five years.",
+      "change_evidence": "Dealer-level data through 2031 on fully self-served transaction share, remote appraisal error, automated underwriting overrides, title exceptions, complaint and return rates, dealer-held loan servicing outsourcing, and physical service hours per eligible firm.",
+      "source_ids": [
+        "S5",
+        "S6"
+      ],
+      "caveats": [
+        "The operator may be centralized and online rather than a traditional local lot.",
+        "Separate third-party lenders, servicers, warranty administrators, and repair shops can disaggregate the current dealer bundle.",
+        "The estimate is conditional on the eligible recurring-service subset, not all used-car transactions."
+      ]
+    }
+  },
+  "narrative": {
+    "executive_view": "Used-car dealers have substantial AI-addressable sales, merchandising, finance, collections, and administrative work, and technology-native operators prove that many customer workflows can be digitized. The central limitation is scope: most used-car dealers are transactional retailers, so only the minority with material dealer-held loan servicing, warranty administration, repair, or another repeat service belongs in the screen. Competition is transparent and online, and the frozen revenue-to-EBITDA bridge is unusually sensitive to inventory economics.",
+    "ai_impact": "AI can accelerate lead response, listings, price comparisons, vehicle-history summaries, document extraction, finance application review, payment reminders, collections prioritization, call handling, and bookkeeping. Physical appraisal, reconditioning, transport, title exceptions, customer trust, and accountable credit decisions remain operator-intensive. Small dealers may implement packaged tools quickly, but fragmented systems and regulated decisions require review and governance.",
+    "value_capture": "There is no contractual obligation to pass labor savings to buyers, yet consumers compare many sites before contacting a dealer and advertised prices are visible. Vehicle-margin savings should be competed away faster than gains in dealer-held servicing, collections, warranty, or repair. Online leaders also use lower operating costs to improve price and convenience, setting a demanding benchmark for local operators.",
+    "firm_availability": "Transferability is real but poorly measured. BizBuySell reported 20 car-dealership sales in 2025, a visibly incomplete and below-band slice. Independent dealers avoid OEM franchise approval, but floorplan debt, licenses, inventory quality, real estate, dealer-held receivables, and owner-dependent sourcing can make a control transfer difficult or turn it into an asset liquidation.",
+    "demand_durability": "The used market is large and necessity-driven, with 38.6 million estimated total sales in 2025 and a near-flat 2026 forecast. Affordability supports used demand, but late-model supply, credit availability, and online channel shifts create risk for independent firms. The eligible subset's physical and regulated activities still require an accountable operator even when discovery and paperwork become self-service.",
+    "risks_and_uncertainty": "Key uncertainties are the eligible-firm share, the absence of direct six-digit occupation data, and sparse control-transfer evidence. Commercial risks include wholesale inventory volatility, floorplan rates, credit losses, deceptive-pricing and disclosure enforcement, title fraud, cybersecurity, online platform scale, weak repeat loyalty, and the possibility that recurring finance or service functions sit in separate entities excluded by the lens.",
+    "principal_driver": "Language- and data-heavy sales, merchandising, finance, and collections workflows offer implementable labor savings at dealers with genuine recurring customer relationships.",
+    "principal_weakness": "Only a minority of used-car dealers clearly supply a material recurring service, while transparent pricing and scaled online competitors pressure benefit retention."
+  },
+  "sources": [
+    {
+      "id": "S1",
+      "url": "https://www.bls.gov/oes/2023/may/naics4_441100.htm",
+      "title": "May 2023 National Industry-Specific Occupational Employment and Wage Estimates: NAICS 441100 Automobile Dealers",
+      "access_date": "2026-07-22",
+      "supports": "Reports the four-digit automobile-dealer occupation mix, including 33.48% sales, 14.56% office and administrative support, 6.77% management, and 25.07% installation, maintenance, and repair employment."
+    },
+    {
+      "id": "S2",
+      "url": "https://niada.com/dashboard/niadas-ucir-shows-independent-used-sales-top-9-8-million-in-2025/",
+      "title": "NIADA's UCIR Shows Independent Used Sales Top 9.8 Million in 2025",
+      "access_date": "2026-07-22",
+      "supports": "Reports 9.8 million independent-dealer used sales and 38.6 million total used sales in 2025; also reports a 32.6% BHPH/other share of independent-dealer financing and 34% of originations in deep-subprime and subprime segments."
+    },
+    {
+      "id": "S3",
+      "url": "https://niada.com/dashboard/cox-automotive-research-independent-buyers-driven-by-necessity-not-aspiration/",
+      "title": "Cox Automotive Research: Independent Buyers Driven by Necessity, Not Aspiration",
+      "access_date": "2026-07-22",
+      "supports": "A 384-buyer study reports 79% need rather than want a vehicle, 16.5 average online research hours, more than five sites visited, 77% third-party-listing use, and only 21% intent to return to the same dealership."
+    },
+    {
+      "id": "S4",
+      "url": "https://www.federalreserve.gov/publications/2023-november-consumer-community-context.htm",
+      "title": "Federal Reserve Consumer & Community Context: Vehicle Financing",
+      "access_date": "2026-07-22",
+      "supports": "Defines independent and BHPH dealers, reports that 38% of used-vehicle sales were financed in first-half 2023, and that BHPH dealers originated about 6% of 2022 auto loans."
+    },
+    {
+      "id": "S5",
+      "url": "https://www.ftc.gov/business-guidance/resources/dealers-guide-used-car-rule",
+      "title": "Federal Trade Commission Dealer's Guide to the Used Car Rule",
+      "access_date": "2026-07-22",
+      "supports": "Details mandatory Buyers Guide disclosures, dealer and warranty information, warranty cost coverage, service contracts, and compliance duties for dealers selling more than five used vehicles annually."
+    },
+    {
+      "id": "S6",
+      "url": "https://www.sec.gov/Archives/edgar/data/1690820/000169082026000009/cvna-20251231.htm",
+      "title": "Carvana Co. 2025 Annual Report on Form 10-K",
+      "access_date": "2026-07-22",
+      "supports": "Describes a vertically integrated e-commerce model, technology across inventory, merchandising, financing, logistics, and delivery, deployment of automated self-service and AI-enabled support, a 37-million-transaction 2024 market, and 596,641 retail units sold in 2025."
+    },
+    {
+      "id": "S7",
+      "url": "https://www.bizbuysell.com/insight-report-data-tables/",
+      "title": "BizBuySell Insight Report Data Tables: Full-Year 2025",
+      "access_date": "2026-07-22",
+      "supports": "Reports 20 car-dealership transactions in 2025, with $690,000 median sale price, $2.388 million median revenue, $250,000 median cash flow, and 245 median days on market."
+    },
+    {
+      "id": "S8",
+      "url": "https://niada.com/dashboard/used-vehicle-sales-expected-to-dip-in-2026/",
+      "title": "Used Vehicle Sales Expected to Dip in 2026",
+      "access_date": "2026-07-22",
+      "supports": "Reports Cox Automotive's forecast for 2026 total used sales to decline 0.9% to 38.3 million and retail used sales to decline 0.7% to 20.3 million after the market ended 2025 2.7% above 2024."
+    }
+  ]
+}

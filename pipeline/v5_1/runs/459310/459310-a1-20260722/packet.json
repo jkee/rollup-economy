@@ -1,0 +1,191 @@
+{
+  "identity": {
+    "naics": "459310",
+    "title": "Florists",
+    "run_id": "459310-a1-20260722",
+    "model_id": "claude-sonnet-5",
+    "run_date": "2026-07-22",
+    "methodology_version": "5.1",
+    "attempt": 1
+  },
+  "lens": {
+    "included_activities": "US lower-middle-market florist firms providing repeat outsourced floral design, procurement, assembly, order management, installation, refresh, and delivery for households, weddings and events, funerals, hotels, restaurants, offices, and other external customers.",
+    "excluded_activities": "Growers and wholesalers, grocery or mass-merchant floral departments, pure order-gathering websites without accountable fulfillment operations, captive floral departments, owner-only designers without a transferable organization, and non-control financing vehicles.",
+    "customer_and_revenue_model": "Customers pay fixed order or event prices for flowers, design, assembly, logistics, installation, and service; revenue ranges from occasion orders and event contracts to formal daily, weekly, or monthly floral-refresh agreements.",
+    "deviation_from_default": "none",
+    "heterogeneous": false
+  },
+  "primitives": {
+    "a": {
+      "evidence_state": "PROXY",
+      "low": 0.16,
+      "base": 0.25,
+      "high": 0.35,
+      "bridge": "BLS directly measures the florist occupation mix but not wage-weighted task exposure. I mapped the 17.32% sales, 7.40% office/administrative, 5.23% management, and 1.00% business-operations shares to substantial exposure in order intake, customer communication, quoting, bookkeeping, marketing, purchasing analysis, and scheduling; I mapped portions of floral design to concept visualization and specifications, and transportation to routing, while treating physical arranging, handling, installation, and delivery as minimally substitutable. The mapping may overstate design substitution but understate administrative tasks embedded inside the 45.15% floral-designer occupation.",
+      "rationale": "The workforce is dominated by physical work: floral designers are 45.15% of employment and transportation/material moving is 18.98%. Sales-related work is 17.32% and office/administrative support 7.40%. AI can reduce routine order-taking, product description, customer follow-up, marketing, bookkeeping, quote drafting, purchasing analysis, and route planning, but cannot assemble, condition, install, or deliver perishable arrangements.",
+      "change_evidence": "A wage-weighted task diary across 15-20 multi-employee florists, separating design consultation from physical production and measuring order intake, quoting, procurement, spoilage control, dispatch, marketing, bookkeeping, event planning, installation, and delivery before and after AI deployment.",
+      "source_ids": ["S1", "S2"],
+      "caveats": [
+        "Occupation shares are employment-based, not wage-weighted task shares, and do not identify work already automated.",
+        "OEWS excludes self-employed workers and may not reflect owner task bundles.",
+        "The frozen labor ratio is only available at ancestor 44-45 and combines 2024 wages with 2022 receipts, so it may be materially misleading for labor-intensive custom florists."
+      ]
+    },
+    "rho": {
+      "evidence_state": "PROXY",
+      "low": 0.32,
+      "base": 0.48,
+      "high": 0.65,
+      "bridge": "Census BTOS measures use of AI in any function across Retail Trade, not the five-year implemented share of exposed opportunity in florists. Approximately 14% current and 17% expected six-month retail firm use imply a low starting point, while the florist tasks exposed are mostly common digital workflows accessible through commerce and office software. This may overstate realized labor savings because small florist data are fragmented and seasonal quality failures are costly, but it may understate rapid diffusion through integrated ordering platforms.",
+      "rationale": "Implementation should be moderate: order intake, messaging, marketing, bookkeeping assistance, procurement forecasts, quoting, and routing can use standard tools, but florists are often small and seasonally overloaded, with variable inventory and bespoke customer requests. Human review remains important because substitutions, delivery timing, sentiment, and event execution are quality-sensitive.",
+      "change_evidence": "Florist point-of-sale, website, wire-service, dispatch, and event-management vendor cohorts showing enabled AI functions, active usage, order error rates, rework, customer complaints, hours saved, and avoided hiring over multiple holiday peaks.",
+      "source_ids": ["S2", "S3"],
+      "caveats": [
+        "Retail-wide adoption does not measure florist-specific use or implementation depth.",
+        "Seasonal peaks can create value from avoided temporary hiring but also amplify operational risk.",
+        "Physical production remains outside rho because it is not included in the exposed opportunity."
+      ]
+    },
+    "e": {
+      "evidence_state": "ESTIMATE",
+      "low": 0.55,
+      "base": 0.70,
+      "high": 0.84,
+      "rationale": "Most LMM florist firms should qualify because the business itself combines outsourced design, assembly, and delivery and serves repeat occasions across an external customer base. BLS also documents event contracts and formal daily, weekly, or monthly replacement agreements. Exclusions remain for merchandise-heavy plant shops, pure order gatherers, and firms whose design and relationships cannot transfer beyond an owner.",
+      "change_evidence": "A stratified audit of LMM NAICS 459310 firms using websites, customer mix, contracts, and interviews to measure revenue from designed-and-delivered orders, recurring refresh agreements, funerals, weddings and events, versus walk-in plants, wire commissions, and owner-only work.",
+      "source_ids": ["S2", "S5"],
+      "caveats": [
+        "No source measures the share of firms meeting both the repeat-service and transferability tests.",
+        "Occasion orders repeat at the firm level but not necessarily under customer contracts.",
+        "The frozen firm-count input is missing, so this share cannot be converted into a defensible number of eligible firms."
+      ]
+    },
+    "s5": {
+      "evidence_state": "PROXY",
+      "low": 0.08,
+      "base": 0.15,
+      "high": 0.22,
+      "bridge": "Gallup measures stated sale or transfer plans among US employer-business owners across industries, not completed qualifying florist control transfers. I reduce the 22% five-year employer plan rate for non-completion and excluded internal or non-going-concern outcomes, but retain a moderately high base because BLS expects all 5,100 annual floral-designer openings to come from occupational exits and SAF reports closures and consolidations. Occupational exits are not owner exits, so they only weakly support direction and could overstate succession pressure.",
+      "rationale": "Aging employer ownership and cross-industry transfer plans create a meaningful pipeline. Florists also have brand, staff, customer, supplier, and delivery operations that can transfer when not entirely owner-dependent. Yet business closures, key-person design reliance, perishable inventory, and weak documentation can prevent a planned succession from becoming a qualifying sale.",
+      "change_evidence": "Five-year florist transaction data from SAF, business brokers, BizBuySell, Axial, wire-service networks, strategic acquirers, and bankruptcy records, matched to owner age and classified as external control sale, family transfer, internal reorganization, asset liquidation, or closure.",
+      "source_ids": ["S3", "S4", "S6"],
+      "caveats": [
+        "Gallup is cross-industry and plan-based rather than a closed-deal study.",
+        "Worker replacement openings do not directly measure owner succession.",
+        "Founder-led creative reputation may not survive a transfer even when legal control changes."
+      ]
+    },
+    "q": {
+      "evidence_state": "ESTIMATE",
+      "low": 0.39,
+      "base": 0.55,
+      "high": 0.70,
+      "rationale": "Custom design, urgent fulfillment, sentiment, local reputation, event execution, and perishability make florist services less price-transparent than commodity retail and allow some productivity benefit to remain with the operator. SAF survey material emphasizes quality, service, memorable experience, and reputation, and reports an instance of price increases without reduced business. Capture is restrained by grocery and mass-market alternatives, direct-to-consumer delivery, wire or platform competition, corporate rebids, and easy online comparison of standard bouquets.",
+      "change_evidence": "Order- and contract-level gross-margin cohorts before and after measurable productivity improvements, segmented by standard delivery, funeral, wedding/event, and recurring commercial refresh, with price changes, wire fees, discounts, rebids, churn, and competitor quotes over at least 24 months.",
+      "source_ids": ["S6"],
+      "caveats": [
+        "No public study measures pass-through of AI-enabled florist cost savings.",
+        "Trade-association quotations are selective and not a representative estimate of pricing power.",
+        "Capture varies materially between custom events and standardized online bouquets."
+      ]
+    },
+    "d5": {
+      "evidence_state": "PROXY",
+      "low": 0.93,
+      "base": 1.02,
+      "high": 1.12,
+      "bridge": "BLS/FRED current-dollar florist output, SAF surveys, and BLS employment projections measure nominal output, short-term purchase intentions, and labor demand rather than constant-price, constant-quality service quantity. Nominal output rose from $6.83 billion in 2023 to $7.97 billion in 2025; an SAF/Ipsos poll found 53% expected the same purchase frequency, 26% more, and 21% less over six months; BLS expects continued wedding and funeral arrangement demand while projecting fewer florist shops. After allowing for inflation and channel consolidation, I infer stable-to-slightly-growing five-year service quantity. Nominal growth likely overstates real quantity, while shop decline may understate demand because surviving shops widen their service areas.",
+      "rationale": "Flowers remain tied to durable life events, gifts, hospitality, workplaces, funerals, and weddings. Recent nominal output and purchase intentions do not indicate rapid demand erosion, but inflation, budget sensitivity, DIY, sustainability concerns, and grocery or direct channels limit real growth. Consolidation can leave demand intact while reducing the number of operators.",
+      "change_evidence": "Five-year same-store unit data for designed orders, deliveries, event contracts, funeral work, and recurring commercial refresh visits, deflated by arrangement input costs and normalized for bouquet size, stem count, design complexity, and delivery distance.",
+      "source_ids": ["S2", "S5", "S6", "S7"],
+      "caveats": [
+        "Current-dollar output is not a real quantity index and recent growth includes price inflation.",
+        "SAF survey samples and projections may not represent all florists or the LMM lens.",
+        "Holiday and event cycles create substantial annual volatility."
+      ]
+    },
+    "o": {
+      "evidence_state": "PROXY",
+      "low": 0.78,
+      "base": 0.88,
+      "high": 0.95,
+      "bridge": "BLS describes florist work and channels but does not measure the share of year-five quantity requiring an accountable florist operator. The occupation's physical activities—flower conditioning, arrangement assembly, event setup and removal, perishable inventory care, and delivery—plus recurring on-site refresh agreements imply high operator need. Online flower-delivery services can aggregate demand, yet BLS says local shops often fulfill those orders. This may overstate operator necessity where farms, warehouses, grocery stores, or customers perform assembly directly, but understates local accountability where substitutions and timed events require service recovery.",
+      "rationale": "Software can self-serve discovery, ordering, concept generation, reminders, and status updates, but the current service basket still requires physical procurement, handling, design execution, installation, and last-mile delivery. Weddings, funerals, and recurring commercial displays also require accountable timing and quality. Direct-to-consumer boxes and DIY can eliminate some florist quantity, so the ratio remains below one.",
+      "change_evidence": "Channel-level customer cohorts quantifying migration from full-service florists to farm-direct boxes, grocery arrangements, drop-shipped bouquets, DIY event flowers, and software-only ordering, with rework, complaint, and event-execution outcomes.",
+      "source_ids": ["S2", "S5"],
+      "caveats": [
+        "Task descriptions demonstrate physical work but not its share of future demand.",
+        "A platform may remove sales and administration while retaining a local florist as physical fulfiller.",
+        "Robotics or centralized bouquet production could reduce local operator need beyond the five-year base case."
+      ]
+    }
+  },
+  "narrative": {
+    "executive_view": "Florists fit the repeat outsourced-service lens more naturally than most specialty retailers: they design, assemble, and deliver perishable products for recurring occasions, contracts, and events. AI can improve order, sales, marketing, purchasing, and routing workflows, but most employment is physical design and delivery. Custom service supports moderate benefit retention and operator durability, while the low and broad ancestor labor ratio and missing firm count materially weaken confidence.",
+    "ai_impact": "The practical AI layer covers order intake, sentiment and style translation, proposal and quote drafting, customer follow-up, marketing, bookkeeping assistance, purchase planning, spoilage forecasting, scheduling, and route optimization. Floral designers may use generated concepts, but still must choose feasible substitutions, condition stems, build arrangements, manage perishability, install events, and resolve quality failures. Implementation should be moderate because common tools are available, but small-firm data and holiday peaks complicate rollout.",
+    "value_capture": "Custom events, urgent delivery, emotion, local reputation, and perishability reduce direct price comparability and allow operators to retain more value than commodity retailers. Standard online bouquets, grocery alternatives, direct-to-consumer supply, wire fees, and rebid corporate accounts create pass-through pressure. Capture should therefore be strongest in events, funerals, and recurring commercial displays, and weakest in standardized consumer delivery.",
+    "firm_availability": "Most multi-employee florist firms provide an outsourced design-and-delivery service and should be eligible, subject to transferability and the exclusion of pure order gatherers or merchandise-heavy shops. Cross-industry owner succession and industry closures imply possible supply, but founder design reputation and undocumented relationships can turn a legal sale into an operationally weak transfer.",
+    "demand_durability": "Weddings, funerals, gifts, hospitality, and workplace displays provide durable underlying occasions. Recent current-dollar output grew and consumer purchase intentions were broadly stable, while BLS expects continued arrangement demand even as floral-designer employment and shop count decline. That pattern is consistent with stable quantity served through fewer, broader operators rather than disappearance of the service.",
+    "risks_and_uncertainty": "The most important uncertainties are real rather than nominal demand, the prevalence of transferable LMM firms, and actual labor savings during peak periods. Trade-association data mix surveys, projections, and source vintages. OEWS excludes self-employed designers. The frozen compensation ratio is at ancestor 44-45 and likely understates the labor intensity of custom florists; its wage and receipt vintages differ, and the frozen firm-count primitive is missing.",
+    "principal_driver": "High operator-required physical fulfillment combines with a meaningful digital order, sales, administrative, purchasing, and routing layer that AI can streamline.",
+    "principal_weakness": "The available labor ratio is a low-quality broad-retail ancestor measure, and no defensible LMM firm-count estimate is available."
+  },
+  "sources": [
+    {
+      "id": "S1",
+      "url": "https://www.bls.gov/oes/2023/may/naics4_459300.htm",
+      "title": "May 2023 National Industry-Specific Occupational Employment and Wage Estimates: NAICS 459300",
+      "access_date": "2026-07-22",
+      "supports": "Florist occupation mix: floral designers 45.15%, transportation/material moving 18.98%, sales-related 17.32%, office/administrative support 7.40%, management 5.23%, and business operations 1.00%."
+    },
+    {
+      "id": "S2",
+      "url": "https://www.bls.gov/ooh/arts-and-design/floral-designers.htm",
+      "title": "Occupational Outlook Handbook: Floral Designers",
+      "access_date": "2026-07-22",
+      "supports": "Task and channel evidence: designers buy inputs, consult, design, assemble, condition flowers, take orders, install events, and may provide daily, weekly, or monthly refresh contracts; local shops often fulfill online flower-service orders."
+    },
+    {
+      "id": "S3",
+      "url": "https://www.census.gov/library/stories/2026/05/ai-use-businesses.html",
+      "title": "Large Firms With at Least 20 Employees Biggest AI Users",
+      "access_date": "2026-07-22",
+      "supports": "BTOS retail adoption proxy: around 14% of Retail Trade businesses currently used AI and about 17% expected use within six months, below national rates."
+    },
+    {
+      "id": "S4",
+      "url": "https://news.gallup.com/poll/657362/small-business-owners-lack-succession-plan.aspx",
+      "title": "Most Small-Business Owners Lack a Succession Plan",
+      "access_date": "2026-07-22",
+      "supports": "US employer-owner succession proxy: 52.3% of employer businesses were owned by people age 55 or older, and 22% of employer-business owners planned to sell or transfer within five years."
+    },
+    {
+      "id": "S5",
+      "url": "https://www.census.gov/naics/?details=459310&input=459310&year=2022",
+      "title": "2022 NAICS 459310: Florists",
+      "access_date": "2026-07-22",
+      "supports": "Official industry scope: establishments primarily retailing cut flowers, floral arrangements, and potted plants grown elsewhere."
+    },
+    {
+      "id": "S6",
+      "url": "https://safnow.org/wp-content/uploads/2024/08/2024_State_of_the_industry.pdf",
+      "title": "Society of American Florists: 2024 State of the Industry",
+      "access_date": "2026-07-22",
+      "supports": "Industry survey and outlook evidence: retail florist sales and shop projections, July 2024 operating outlook, service and quality differentiation, and an Ipsos poll of 1,005 US adults in which 53% expected the same flower/plant gift-purchase frequency, 26% more, and 21% less over six months."
+    },
+    {
+      "id": "S7",
+      "url": "https://fred.stlouisfed.org/series/IPUHN45311T300000000",
+      "title": "Sectoral Output for Retail Trade: Florists in the United States",
+      "access_date": "2026-07-22",
+      "supports": "BLS/FRED current-dollar sectoral output series: $6.83 billion in 2023, $7.24 billion in 2024, and $7.97 billion in 2025; source notes define the measure as current-dollar output adjusted for inventory and intra-industry shipments."
+    },
+    {
+      "id": "S8",
+      "url": "https://safnow.org/2024/12/17/2024-industry-snapshot/",
+      "title": "Society of American Florists: 2024 Industry Snapshot",
+      "access_date": "2026-07-22",
+      "supports": "Trade-association evidence of closures, consolidations, supply disruption, increased US cut-flower sales, and most surveyed floral businesses reporting sales above 2019 levels."
+    }
+  ]
+}

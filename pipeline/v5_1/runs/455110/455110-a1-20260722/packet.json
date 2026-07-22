@@ -1,0 +1,174 @@
+{
+  "identity": {
+    "naics": "455110",
+    "title": "Department Stores",
+    "run_id": "455110-a1-20260722",
+    "model_id": "claude-sonnet-5",
+    "run_date": "2026-07-22",
+    "methodology_version": "5.1",
+    "attempt": 1
+  },
+  "lens": {
+    "included_activities": "US department-store operators in the lower-middle-market EBITDA band that repeatedly retail broad lines of merchandise and associated shopping, fulfillment, return, and customer-support services to external consumers.",
+    "excluded_activities": "Public and very large national chains outside the size band, non-operating real-estate or financing entities, captive internal units, shells, and stores whose economics cannot be transferred apart from a parent chain.",
+    "customer_and_revenue_model": "Predominantly consumer merchandise sales at posted or promoted prices, with repeat but usually non-contractual purchases; ancillary delivery, licensed-department, marketplace, media, and credit-card-related income may supplement merchandise margin.",
+    "deviation_from_default": "none",
+    "heterogeneous": false
+  },
+  "primitives": {
+    "a": {
+      "evidence_state": "PROXY",
+      "low": 0.18,
+      "base": 0.29,
+      "high": 0.42,
+      "bridge": "BLS measures employment shares for the broader NAICS 455000 general-merchandise population, not wage-weighted task exposure in 455110. I map customer service, merchandising, marketing, scheduling, checkout, inventory planning, and administrative portions of those occupations to AI-exposed tasks, while treating most physical selling, stocking, and handling as unexposed; the broader category's heavy supercenter mix likely overweights physical stocking and biases the estimate downward for department stores.",
+      "rationale": "The adjacent-industry occupation mix is dominated by sales and material-moving work: sales occupations are 43.63% and transportation/material-moving occupations 33.00% of employment, while office support is 8.41%. AI can assist service, personalization, planning, marketing, HR queries, coding, and supply-chain decisions, but most floor presence and item handling remain physical. Macy's confirms active AI use across many of those functions.",
+      "change_evidence": "A 455110-specific payroll-weighted task inventory from several LMM operators, including time studies for associates, buyers, marketers, customer support, and replenishment staff, plus baseline automation already deployed.",
+      "source_ids": ["S2", "S4"],
+      "caveats": [
+        "The available BLS occupation table is NAICS 455000 rather than 455110 and includes warehouse clubs and supercenters.",
+        "Macy's is a large-company implementation example and may have capabilities unavailable to LMM operators.",
+        "The estimate excludes opportunity already automated and does not treat physical robotics as AI substitution unless it avoids labor within five years."
+      ]
+    },
+    "rho": {
+      "evidence_state": "ESTIMATE",
+      "low": 0.35,
+      "base": 0.5,
+      "high": 0.65,
+      "rationale": "Half of exposed opportunity is a reasonable five-year implementation case: packaged tools should diffuse in marketing, service, workforce administration, and planning, but legacy systems, small-firm data quality, integration cost, privacy, bias, inventory errors, and the need for human review constrain deployment. Macy's describes both broad operating uses and explicit governance and implementation risks.",
+      "change_evidence": "Matched before-and-after labor-hour and error-rate data from 10-20 LMM department-store deployments, split by workflow and including failed or rolled-back implementations.",
+      "source_ids": ["S4"],
+      "caveats": [
+        "Large-chain adoption can overstate LMM implementation capacity.",
+        "The range assumes vendor tools mature and integrate with common POS, ERP, e-commerce, and workforce systems.",
+        "This is implementation of exposed labor opportunity, not technology availability or gross productivity potential."
+      ]
+    },
+    "e": {
+      "evidence_state": "ESTIMATE",
+      "low": 0.1,
+      "base": 0.25,
+      "high": 0.45,
+      "rationale": "The NAICS definition is a broad-line, fixed-point-of-sale retail model, so many establishments are branches of chains rather than independently transferable firms. Among putative LMM firms, additional exclusions arise from owner dependence, weak leases, inadequate systems, distressed inventory, or economics embedded in a buying group or parent. A minority should still be independent, repeat-customer operators with separable operations.",
+      "change_evidence": "A business-register census for 455110 linking establishments to ultimate owners, normalized EBITDA, lease assignability, and standalone financial statements, followed by broker interviews on actual saleability.",
+      "source_ids": ["S1"],
+      "caveats": [
+        "The injected firm-count input is missing, so this share cannot be reconciled to a defensible eligible-firm count.",
+        "NAICS assignment is establishment-based and can obscure multi-format retailers and parent-company ownership.",
+        "Eligibility is estimated rather than directly observed."
+      ]
+    },
+    "s5": {
+      "evidence_state": "ESTIMATE",
+      "low": 0.08,
+      "base": 0.15,
+      "high": 0.25,
+      "rationale": "A five-year control-transfer rate in the mid-teens allows for retirement, distress, strategic consolidation, and ordinary owner exits but discounts closures, liquidations, internal reorganizations, and family succession without a qualifying control transfer. Department-store pressure can create events while simultaneously reducing the share that remain transferable going concerns.",
+      "change_evidence": "Five years of closed-transaction records from retail-focused brokers, Axial, GF Data, PitchBook, and SBA 7(a) change-of-ownership loans, filtered to independent 455110 going concerns and matched to the eligible denominator.",
+      "source_ids": ["S5"],
+      "caveats": [
+        "Public sales data show sector pressure but do not measure private-company control transfers.",
+        "Distress can produce liquidation or lease termination rather than a transferable operating company.",
+        "No defensible industry-specific denominator or closed-deal series was found."
+      ]
+    },
+    "q": {
+      "evidence_state": "ESTIMATE",
+      "low": 0.55,
+      "base": 0.7,
+      "high": 0.82,
+      "rationale": "Retail pricing is not cost-plus, so an operator initially retains labor savings rather than contractually passing them through. Retention is nevertheless eroded by promotional pricing, rapid competitor imitation, service reinvestment, vendor negotiations, and customers' ability to compare identical goods across stores and online. Macy's explicitly identifies price, service, location, assortment, and online channels as competitive dimensions.",
+      "change_evidence": "Store-level contribution-margin cohorts for operators that deployed AI, tracking realized labor savings, price and promotion changes, customer-service reinvestment, traffic, and competitor response through at least two annual merchandise cycles.",
+      "source_ids": ["S4"],
+      "caveats": [
+        "There are few recurring customer contracts, so renewal repricing is indirect through ongoing price competition.",
+        "Margin retention varies sharply by private-label penetration, local differentiation, and product overlap.",
+        "The estimate is a discounted five-year share of implemented gross benefit, not gross margin."
+      ]
+    },
+    "d5": {
+      "evidence_state": "PROXY",
+      "low": 0.72,
+      "base": 0.83,
+      "high": 0.96,
+      "bridge": "The Census/FRED series measures nominal sales for all US department stores, not constant-price, constant-quality quantity for LMM operators. I use the decline from roughly $3.6-$4.0 billion per month during much of 2021-22 to roughly $3.2-$3.4 billion in 2025 as a directional baseline, then allow for inflation and LMM/local differentiation; nominal sales likely overstate real service-basket demand, biasing an unadjusted ratio upward.",
+      "rationale": "Department-store sales have fallen structurally and remained below the 2021-22 level through 2025, while e-commerce continues to grow faster than total retail. A further real decline over five years is therefore more likely than growth, although recent stabilization, differentiated local formats, and omnichannel fulfillment keep the downside bounded.",
+      "change_evidence": "Inflation-adjusted 455110 sales and transaction counts by store format and ownership size, including closures and e-commerce fulfilled by stores, plus five-year cohort retention for independent operators.",
+      "source_ids": ["S5", "S6"],
+      "caveats": [
+        "The sales series is nominal and includes large chains, while the primitive is constant-price and specific to the LMM lens.",
+        "Pandemic years distort comparisons and format reclassification may affect the series.",
+        "Merchandise sales are only a proxy for the quantity of the retail service basket."
+      ]
+    },
+    "o": {
+      "evidence_state": "ESTIMATE",
+      "low": 0.78,
+      "base": 0.88,
+      "high": 0.95,
+      "rationale": "Most surviving department-store demand still requires an accountable merchant to select and finance inventory, manage vendors, operate stores and digital channels, handle returns, and stand behind the transaction. Self-checkout, agentic shopping, marketplaces, and direct-to-consumer channels can remove pieces of work or bypass a store, but they do not eliminate the operator role for most remaining department-store volume.",
+      "change_evidence": "Consumer journey and transaction data separating store-assisted, self-service, marketplace, direct-brand, and fully automated purchases, together with the share of fulfillment and returns requiring retailer accountability.",
+      "source_ids": ["S4", "S6"],
+      "caveats": [
+        "The boundary between software-enabled retailing and software replacing the retailer is judgmental.",
+        "Macy's digital sales share is a large-chain proxy and digital purchases can still require the same accountable operator.",
+        "Volume loss is reserved for d5; this primitive only addresses who supplies surviving quantity."
+      ]
+    }
+  },
+  "narrative": {
+    "executive_view": "Department stores offer identifiable AI-enabled labor opportunities in customer service, marketing, merchandising, planning, administration, and supply chain, but much of the workforce performs physical selling and handling. The harder issue is structural: the industry is chain-heavy, independent transferability is uncertain, and real demand has been pressured by online and alternative formats.",
+    "ai_impact": "AI is already being used by a major operator for shopping assistance, personalization, service, marketing, HR queries, coding, supply chain, and inventory decisions. For LMM operators, the practical five-year opportunity is more likely to come from packaged workflow tools and avoided hiring than from autonomous stores; legacy integration, governance, and thin data constrain implementation.",
+    "value_capture": "Posted-price merchandise retail avoids explicit contractual pass-through, so savings can initially accrue to the operator. Over time, frequent promotions, transparent online comparison, overlapping assortments, and service reinvestment share a meaningful portion with customers.",
+    "firm_availability": "Transferable targets are likely a minority because many department-store locations belong to large chains and some independents are owner-dependent, distressed, or inseparable from leases and buying relationships. No defensible LMM firm-count input exists, and closed-deal evidence for independent department stores is sparse.",
+    "demand_durability": "Nominal department-store sales in 2025 remained well below much of 2021-22, and e-commerce continues to outgrow total retail. Surviving demand still usually needs a merchant accountable for inventory, fulfillment, returns, and consumer obligations, but the quantity routed through traditional department-store operators is likely to contract.",
+    "risks_and_uncertainty": "The occupation proxy includes supercenters, the principal AI evidence comes from a large chain, sales are nominal, and private-company eligibility and transfer rates are estimated. The thesis weakens materially if local independents lack clean standalone economics, if AI merely shifts labor into oversight, or if continued channel migration overwhelms efficiency gains.",
+    "principal_driver": "Retention of workflow savings in a posted-price model across service, merchandising, planning, and administrative tasks.",
+    "principal_weakness": "Structural demand erosion and a poorly observed, likely small pool of independently transferable LMM operators."
+  },
+  "sources": [
+    {
+      "id": "S1",
+      "url": "https://www.bls.gov/ppi/factsheets/ppi-coverage-of-the-retail-trade-sector.htm",
+      "title": "PPI Coverage of the Retail Trade Sector",
+      "access_date": "2026-07-22",
+      "supports": "Defines NAICS 455110 as department stores with separate departments for broad lines of new merchandise and fixed point-of-sale locations; informs business-model and eligibility analysis."
+    },
+    {
+      "id": "S2",
+      "url": "https://www.bls.gov/oes/2023/may/naics4_455000.htm",
+      "title": "May 2023 OEWS Industry-Specific Occupational Employment and Wage Estimates: NAICS 455000 General Merchandise Retailers",
+      "access_date": "2026-07-22",
+      "supports": "Reports the adjacent-industry occupation mix, including 43.63% sales, 8.41% office support, and 33.00% transportation/material-moving employment; supports the task-exposure proxy."
+    },
+    {
+      "id": "S3",
+      "url": "https://www.bls.gov/ooh/sales/cashiers.htm",
+      "title": "Cashiers: Occupational Outlook Handbook",
+      "access_date": "2026-07-22",
+      "supports": "Projects cashier employment to decline 10% from 2024 to 2034 and attributes the decline partly to self-service checkout and online sales; supports automation and substitution context."
+    },
+    {
+      "id": "S4",
+      "url": "https://s202.q4cdn.com/285121676/files/doc_financials/2025/ar/Macy-s-Inc-2025-Annual-Report.pdf",
+      "title": "Macy's, Inc. 2025 Annual Report",
+      "access_date": "2026-07-22",
+      "supports": "Documents AI use in service, personalization, marketing, HR, coding, supply chain, merchandising and planning; identifies governance and legacy-system risks, price and online competition, and a 35% digital-sales share in 2025."
+    },
+    {
+      "id": "S5",
+      "url": "https://fred.stlouisfed.org/data/SM4522USS",
+      "title": "Retail Sales: Department Stores, Seasonally Adjusted",
+      "access_date": "2026-07-22",
+      "supports": "Census-sourced monthly nominal sales series showing roughly $3.6-$4.0 billion monthly in much of 2021-22 versus roughly $3.2-$3.4 billion in 2025; supports the demand-direction proxy and distress context."
+    },
+    {
+      "id": "S6",
+      "url": "https://www.census.gov/retail/eCommerce.html",
+      "title": "Quarterly Retail E-Commerce Sales, First Quarter 2026",
+      "access_date": "2026-07-22",
+      "supports": "Reports US retail e-commerce sales up 9.8% year over year in first-quarter 2026 versus 3.9% for total retail, with e-commerce at 16.9% of total sales; supports channel-substitution context."
+    }
+  ]
+}

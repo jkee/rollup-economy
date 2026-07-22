@@ -1,0 +1,182 @@
+{
+  "identity": {
+    "naics": "458310",
+    "title": "Jewelry Retailers",
+    "run_id": "458310-a1-20260722",
+    "model_id": "claude-sonnet-5",
+    "run_date": "2026-07-22",
+    "methodology_version": "5.1",
+    "attempt": 1
+  },
+  "lens": {
+    "included_activities": "Lower-middle-market jewelry retailers with a material repeat service offering to external customers, including jewelry and watch repair, resizing and alteration, cleaning and maintenance, appraisal, gem identification, custom design, and related customer-account work combined with new-jewelry retail.",
+    "excluded_activities": "Product-only jewelry sellers, manufacturer-owned or captive brand stores, pure e-commerce sellers without an accountable service operation, repair-only establishments classified in NAICS 811490, used-jewelry specialists classified elsewhere, and firms outside the normalized EBITDA band.",
+    "customer_and_revenue_model": "Households pay per repair, appraisal, custom project, or merchandise purchase; service-led retailers may generate repeated visits over an item's life and use repairs and maintenance to support long-term trust and merchandise sales.",
+    "deviation_from_default": "The code mixes product-only retail with retailers that combine merchandise sales and skilled repair, appraisal, or custom work. The lens is narrowed to firms where those repeat services are a material external offering so the screen does not treat all jewelry sales as outsourced service.",
+    "heterogeneous": true
+  },
+  "primitives": {
+    "a": {
+      "evidence_state": "PROXY",
+      "low": 0.15,
+      "base": 0.24,
+      "high": 0.35,
+      "bridge": "BLS measures the 458300 industry-group occupation mix rather than the 458310 service-led subset, and O*NET describes occupation tasks rather than AI substitution. I wage-weighted judgment across sales, management, office, and skilled-jeweler work, assigning more exposure to product inquiry, CRM, marketing, estimates, documentation, bookkeeping, and design ideation and less to inspection, stone setting, soldering, polishing, secure handling, and in-person trust. Inclusion of luggage retailers may bias the mix away from skilled jewelry work and therefore overstate exposure for the narrowed lens.",
+      "rationale": "BLS reports 63.96% of 458300 employment in sales, 9.89% in management, 9.58% in office support, 9.07% as jewelers and precious-stone or metal workers, and 0.73% as watch and clock repairers. AI can support selling, customer follow-up, inventory, bookkeeping, appraisal drafts, cost estimates, and CAD ideation, but the service core includes high-dexterity, high-trust physical work.",
+      "change_evidence": "Payroll and time-use data from independent service-led jewelers, split among bench work, appraisal, sales, administration, and already-automated systems, plus measured task completion from deployed jewelry-specific AI tools, would materially change the range.",
+      "source_ids": ["S2", "S3", "S4"],
+      "caveats": [
+        "The OEWS mix combines jewelry, luggage, and leather-goods retailers and excludes self-employed workers.",
+        "O*NET tasks do not supply shoe-specific time shares or distinguish already-automated work.",
+        "The dataset labor ratio is only available at ancestor 44-45, uses 2024 wages over 2022 receipts, and is harmonized to the IPS basis; it may not represent service-led jewelry retailers."
+      ]
+    },
+    "rho": {
+      "evidence_state": "ESTIMATE",
+      "low": 0.28,
+      "base": 0.46,
+      "high": 0.64,
+      "rationale": "Packaged tools can be implemented in customer communications, product search, CRM, marketing, scheduling, bookkeeping, repair intake, document drafting, and CAD assistance within five years. Implementation is limited by fragmented small-business systems, scarce labeled data, security, errors in valuation or gem claims, owner reliance, and the need for skilled staff to inspect and physically handle valuable items.",
+      "change_evidence": "Before-and-after labor-hour studies at independent jewelers deploying AI-enabled CRM, repair intake, appraisal drafting, CAD, and inventory tools, including override and error rates, would materially change this estimate.",
+      "source_ids": ["S4", "S5"],
+      "caveats": [
+        "No source measures five-year AI implementation in the eligible population.",
+        "Automation may increase throughput and reduce queues rather than remove a full position.",
+        "Demand and pricing effects are excluded and addressed separately."
+      ]
+    },
+    "e": {
+      "evidence_state": "ESTIMATE",
+      "low": 0.16,
+      "base": 0.31,
+      "high": 0.48,
+      "rationale": "The Census definition expressly includes retailers combining new-jewelry sales with lapidary work or repair, and the industry group has a visible skilled-service workforce. However, product-only chains and online sellers do not fit, repair-only establishments fall in 811490, and an incidental cleaning or warranty handoff is insufficient. The eligible share is therefore meaningful but well below all LMM jewelry retailers.",
+      "change_evidence": "Firm-level service-revenue shares from the Economic Census microdata or a commercial database, franchise disclosures, and a survey of independent jewelry retailers asking whether repair, appraisal, or custom work is performed in-house and material to revenue would materially change the range.",
+      "source_ids": ["S1", "S2", "S6"],
+      "caveats": [
+        "Public data identify allowed activities and occupations but not the share of firms with material repeat service revenue.",
+        "The 458300 occupation mix includes luggage and leather-goods retailers.",
+        "The provided n input is a declared dataset gap and will be injected as MISSING; it was not replaced or estimated here."
+      ]
+    },
+    "s5": {
+      "evidence_state": "PROXY",
+      "low": 0.14,
+      "base": 0.23,
+      "high": 0.33,
+      "bridge": "Gallup measures five-year sale or transfer intentions for U.S. employer businesses broadly, not completed qualifying transfers among LMM service-led jewelers. I anchor near the reported 22% employer intention rate, allow a modest upward range for craft-owner retirement pressure, and discount intentions that end in closure, family continuity without control change, or failed deals. This proxy likely overstates completed transfers but may understate succession pressure in skilled independent jewelry businesses.",
+      "rationale": "Gallup reports that 52.3% of employer businesses are owned by people age 55 or older and 22% of employer-business owners plan to sell or transfer within five years. BLS expects all jeweler openings through 2034 to be replacement openings, reinforcing succession pressure, while owner reputation and bench skill can make operations difficult to transfer.",
+      "change_evidence": "Closed-deal records from BizBuySell, GF Data, or SBA 7(a) change-of-ownership loans mapped to jewelry retail, combined with owner interviews on retirement timing and bench-worker continuity, would materially change the range.",
+      "source_ids": ["S5", "S7"],
+      "caveats": [
+        "The Gallup evidence is cross-industry and reports plans rather than completed transfers.",
+        "BLS replacement openings are occupational, not firm-control transfers.",
+        "Deaths without transferable operations and internal reorganizations are excluded."
+      ]
+    },
+    "q": {
+      "evidence_state": "ESTIMATE",
+      "low": 0.37,
+      "base": 0.55,
+      "high": 0.71,
+      "rationale": "Repair, appraisal, and custom-work prices are usually quoted per job and are less directly comparable than branded merchandise prices. Trust, custody of valuable items, craftsmanship, and local reputation provide room to retain labor savings, although product margins, free cleaning, warranty service, customer acquisition, and competitive repair quotes will pass part of the benefit to customers.",
+      "change_evidence": "Repair-ticket gross margins, appraisal and custom-work pricing, repeat-customer cohorts, and competitor price responses before and after workflow automation would show how much benefit remains with the operator.",
+      "source_ids": ["S1", "S6"],
+      "caveats": [
+        "No direct study measures AI-benefit pass-through in jewelry services.",
+        "Retention should be lower for merchandise-facing sales workflows than for skilled repair and appraisal.",
+        "Volume loss and operator displacement are excluded here."
+      ]
+    },
+    "d5": {
+      "evidence_state": "PROXY",
+      "low": 0.88,
+      "base": 0.99,
+      "high": 1.1,
+      "bridge": "BLS projects occupation employment rather than constant-price, constant-quality demand for jewelry repair, appraisal, maintenance, and custom work. Its 5% ten-year employment decline reflects productivity from 3D printing and robotic polishing as well as imports, so translating half of that horizon to five-year service quantity would understate demand where productivity, not volume, drives employment. The range therefore centers near flat, with downside from online/product substitution and upside from the installed base of valuable items needing care.",
+      "rationale": "Jewelry ownership creates recurring needs for resizing, repair, cleaning, inspection, appraisal, and custom modification. BLS nevertheless projects jeweler employment down 5% from 2024 to 2034 and cites automation and imports. The service basket should be more durable than domestic jewelry production, but discretionary purchases and channel shifts constrain growth.",
+      "change_evidence": "Inflation-adjusted unit counts and ticket data for repair, appraisal, cleaning, and custom work across a panel of independent jewelers, separated from merchandise sales and metal-price effects, would materially tighten the estimate.",
+      "source_ids": ["S5", "S6"],
+      "caveats": [
+        "Employment projections conflate demand, productivity, imports, and occupational mix.",
+        "No public series isolates real service transactions at service-led jewelry retailers.",
+        "Metal-price volatility can raise nominal tickets without increasing constant-quality quantity."
+      ]
+    },
+    "o": {
+      "evidence_state": "ESTIMATE",
+      "low": 0.8,
+      "base": 0.91,
+      "high": 0.97,
+      "rationale": "Most surviving demand for repair, stone setting, appraisal, and custom work requires an accountable operator to inspect, take custody of, manipulate, and stand behind valuable physical items. AI, CAD, 3D printing, and robotic polishing can augment the operator, while simple product discovery, estimates, and standardized design can become self-service.",
+      "change_evidence": "Service-order data showing work completed without human inspection or bench intervention, remote-appraisal acceptance, automated repair quality and insurance-claim acceptance, and customer willingness-to-pay studies for software-only service would materially change the range.",
+      "source_ids": ["S4", "S5"],
+      "caveats": [
+        "No source directly measures software-only substitution for the eligible service basket.",
+        "The estimate is conditional on year-five demand and does not double-count demand decline in d5.",
+        "Simple cleaning, design visualization, and document drafting are more substitutable than physical repair or certified appraisal."
+      ]
+    }
+  },
+  "narrative": {
+    "executive_view": "A meaningful but minority subset of jewelry retailers combines merchandise with repeat repair, appraisal, maintenance, and custom work. AI can improve sales and administrative workflows, yet the skilled physical service core is hard to substitute and owner or bench-jeweler dependence complicates implementation and transfer.",
+    "ai_impact": "The practical opportunities are product and customer search, marketing, CRM, repair intake, quote preparation, bookkeeping, appraisal-document drafts, inventory support, and CAD ideation. Inspection, gem grading, soldering, stone setting, polishing, secure custody, and trusted customer judgment remain predominantly human; 3D printing and robotic polishing augment only parts of the workflow.",
+    "value_capture": "Quoted repair, appraisal, and custom-work fees are less transparent than branded merchandise prices, and reputation supports retention. Savings in selling and merchandising face greater pass-through, while some automation benefit will be reinvested in faster turnaround, customer acquisition, and quality control.",
+    "firm_availability": "The NAICS definition permits retail combined with repair, and the occupation mix confirms a substantial skilled workforce, but public data do not reveal how many LMM firms have material repeat service revenue. Broad owner-aging evidence suggests transfers, while reputation and bench-skill concentration can reduce transferability.",
+    "demand_durability": "The installed base of jewelry and watches supports ongoing resizing, maintenance, repair, appraisal, and modification. Discretionary spending, imports, channel shifts, and automation pressure employment, but most surviving physical service demand should still need an accountable operator.",
+    "risks_and_uncertainty": "The main uncertainties are the eligible firm share, the missing firm-count input, use of a 458300 occupation proxy that includes luggage, the ancestor-level labor ratio, limited evidence on completed transfers, and no public real-volume series for jewelry services. Product-led stores with only incidental service would fail the lens.",
+    "principal_driver": "Trust-based repair, appraisal, and custom work creates a repeat service relationship while AI can streamline the surrounding sales and administrative load.",
+    "principal_weakness": "Service revenue is unmeasured and may be too incidental at many jewelry retailers, while skilled owner and bench-worker dependence limits both automation and transferability."
+  },
+  "sources": [
+    {
+      "id": "S1",
+      "url": "https://www.census.gov/naics/?details=458310&input=458310&year=2022",
+      "title": "2022 NAICS Definition: 458310 Jewelry Retailers",
+      "access_date": "2026-07-22",
+      "supports": "Defines jewelry retailers and expressly includes establishments retailing new jewelry, watches, or clocks in combination with lapidary work or repair services; distinguishes repair-only establishments in 811490."
+    },
+    {
+      "id": "S2",
+      "url": "https://www.bls.gov/oes/2023/may/naics4_458300.htm",
+      "title": "May 2023 National Industry-Specific Occupational Employment and Wage Estimates: NAICS 458300",
+      "access_date": "2026-07-22",
+      "supports": "Reports 124,200 total employees; 63.96% sales, 9.89% management, 9.58% office support, 9.07% jewelers and precious-stone or metal workers, and 0.73% watch and clock repairers."
+    },
+    {
+      "id": "S3",
+      "url": "https://www.onetonline.org/link/details/41-2031.00",
+      "title": "O*NET OnLine: 41-2031.00 Retail Salespersons",
+      "access_date": "2026-07-22",
+      "supports": "Lists retail-sales tasks including needs discovery, recommendations, transactions, records, inventory, returns, and product explanation, and documents intensive external-customer interaction."
+    },
+    {
+      "id": "S4",
+      "url": "https://www.onetonline.org/link/details/51-9071.00",
+      "title": "O*NET OnLine: 51-9071.00 Jewelers and Precious Stone and Metal Workers",
+      "access_date": "2026-07-22",
+      "supports": "Lists core skilled tasks including creation, inspection, repair, costing, stone grading, setting, shaping, and computer-assisted design."
+    },
+    {
+      "id": "S5",
+      "url": "https://www.bls.gov/ooh/production/jewelers-and-precious-stone-and-metal-workers.htm",
+      "title": "BLS Occupational Outlook Handbook: Jewelers and Precious Stone and Metal Workers",
+      "access_date": "2026-07-22",
+      "supports": "Describes design, repair, appraisal, CAD/CAM and 3D-printing tasks; reports 35,100 jobs in 2024, a 5% projected decline to 2034, 4,000 annual replacement openings, and productivity pressure from 3D printing and robotic polishing."
+    },
+    {
+      "id": "S6",
+      "url": "https://bhs.econ.census.gov/ombpdfs2022/export/2022_RT-44831_su.pdf",
+      "title": "U.S. Census Bureau 2022 Retail Trade Questionnaire: Jewelry Stores",
+      "access_date": "2026-07-22",
+      "supports": "Separately identifies repair-only businesses as 811490 while asking jewelry stores to report maintenance, repair, and alteration service revenue and listing additive manufacturing and other technologies."
+    },
+    {
+      "id": "S7",
+      "url": "https://news.gallup.com/poll/657362/small-business-owners-lack-succession-plan.aspx",
+      "title": "Gallup: Most Small-Business Owners Lack a Succession Plan",
+      "access_date": "2026-07-22",
+      "supports": "Reports 52.3% of employer businesses owned by people age 55 or older and 22% of employer-business owners planning to sell or transfer ownership within five years."
+    }
+  ]
+}
