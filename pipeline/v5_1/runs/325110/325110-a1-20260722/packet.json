@@ -1,0 +1,169 @@
+{
+  "identity": {
+    "naics": "325110",
+    "title": "Petrochemical Manufacturing",
+    "run_id": "325110-a1-20260722",
+    "model_id": "claude-sonnet-5",
+    "run_date": "2026-07-22",
+    "methodology_version": "5.1",
+    "attempt": 1
+  },
+  "lens": {
+    "included_activities": "Independent lower-middle-market petrochemical processors that repeatedly provide toll, contract, or customer-specific production of acyclic or aromatic hydrocarbons to external industrial customers.",
+    "excluded_activities": "Integrated oil-major and refinery complexes, captive units, world-scale commodity crackers without meaningful external contract-processing relationships, trading-only entities, shells, and non-control financing vehicles.",
+    "customer_and_revenue_model": "Repeat B2B sales and contract-processing revenue under term supply agreements, formula or index-adjusted pricing, and customer specifications; customers are downstream chemical, resin, materials, and industrial manufacturers.",
+    "deviation_from_default": "The code is dominated by highly concentrated, integrated commodity production whose economics are unlike outsourced LMM service supply. The lens is narrowed to independent toll, contract, and customer-specific processors so the recurring external-customer model is coherent.",
+    "heterogeneous": true
+  },
+  "primitives": {
+    "a": {
+      "evidence_state": "PROXY",
+      "low": 0.12,
+      "base": 0.20,
+      "high": 0.30,
+      "bridge": "BLS measures occupations across all chemical manufacturing, not 325110 or the independent contract-processing lens, and reports employment rather than task exposure. I map portions of business operations, engineering analysis, quality documentation, compliance, planning, procurement, and office support to AI-addressable tasks while leaving continuous-process operations, maintenance, sampling, material movement, and physical testing mostly unexposed. The broader chemical mix includes more formulation and packaging work than commodity petrochemicals and therefore may bias exposure upward.",
+      "rationale": "Chemical manufacturing is production-heavy: BLS reports 117,920 chemical-processing machine setters/operators/tenders and 15,320 chemical plant and system operators, while business/financial and engineering occupations represent meaningful but smaller shares. AI mainly addresses planning, analysis, reporting, and decision support rather than continuous physical processing.",
+      "change_evidence": "A payroll-weighted six-digit occupational roster and current-task study from the eligible independent plants, including control-room, laboratory, maintenance, commercial, and compliance work, would materially change the estimate.",
+      "source_ids": ["S1", "S2"],
+      "caveats": ["Occupation evidence is three-digit chemical manufacturing, not petrochemical manufacturing.", "Exposure mapping excludes already-automated distributed-control-system tasks."]
+    },
+    "rho": {
+      "evidence_state": "ESTIMATE",
+      "low": 0.28,
+      "base": 0.45,
+      "high": 0.61,
+      "rationale": "Administrative and engineering copilots can be implemented within five years, but plant deployments face heterogeneous sensors and controls, data-quality needs, reliability and explainability requirements, cybersecurity, and safety review. EPA also requires recordkeeping, reporting, compliance, operation, and maintenance for major ethylene sources, limiting unreviewed automation in accountable workflows.",
+      "change_evidence": "Audited before/after deployments at petrochemical plants showing labor hours, alarm handling, quality excursions, maintenance performance, environmental reporting errors, and required human approvals would materially move the range.",
+      "source_ids": ["S3", "S4"],
+      "caveats": ["No implementation study specific to LMM independent petrochemical processors was found.", "The range excludes autonomous safety-critical process control."]
+    },
+    "e": {
+      "evidence_state": "ESTIMATE",
+      "low": 0.06,
+      "base": 0.16,
+      "high": 0.32,
+      "rationale": "Census reports that the four largest petrochemical firms accounted for 74.2% of 2022 shipments, confirming a highly concentrated, world-scale industry. Of the five injected LMM-band firms, only independent toll or contract processors with external recurring customer relationships fit; captive or commodity operations are excluded.",
+      "change_evidence": "A verified census of the five injected firms using ownership, plant scale, customer contracts, toll-processing revenue, permits, and product flows would directly determine eligibility.",
+      "source_ids": ["S5", "S6"],
+      "caveats": ["Concentration is shipment-weighted and does not directly identify the five modeled LMM firms.", "With only five firms, eligibility is discrete and the range corresponds to roughly zero to two firms."]
+    },
+    "s5": {
+      "evidence_state": "PROXY",
+      "low": 0.08,
+      "base": 0.16,
+      "high": 0.27,
+      "bridge": "Gallup measures U.S. employer-business owners across industries and sizes; 22% reported a five-year sale or transfer plan. I reduce the base because eligible petrochemical plants face environmental diligence, customer concentration, feedstock integration, and specialized-asset buyer constraints, and because intentions include gifts and transfers that may not qualify. This likely biases below the broad employer rate.",
+      "rationale": "Transferable assets, permits, technical staff, and term contracts support sales, but the tiny eligible population and plant liabilities limit buyer depth. Broad owner intentions are therefore only a ceiling-like anchor rather than an industry observation.",
+      "change_evidence": "PitchBook, Capital IQ, S&P and broker records of closed U.S. small petrochemical/toll-processing control deals, joined to owner age, failed sale processes, and closure outcomes, would materially change the probability.",
+      "source_ids": ["S7"],
+      "caveats": ["The source is cross-industry and usually smaller than the LMM lens.", "Owner intention is not a completed qualifying transfer rate."]
+    },
+    "q": {
+      "evidence_state": "PROXY",
+      "low": 0.36,
+      "base": 0.52,
+      "high": 0.68,
+      "bridge": "FutureFuel discloses term chemical sales contracts with market-price adjustment protections, not 325110 AI-benefit retention. I infer that raw-material indices pass commodity changes but do not automatically pass internal labor savings; competitive contract renewals and transparent conversion economics nevertheless share benefits. Specialty contract chemicals may have more differentiation than petrochemical intermediates, so the proxy likely biases retention upward.",
+      "rationale": "Formula and term pricing can isolate conversion economics from raw-material volatility, allowing near-term retention of productivity gains. Petrochemical products are specification-driven and often benchmarked, however, so customers can demand lower adders or re-source at renewal.",
+      "change_evidence": "A contract-level panel of index formulas, processing adders, open-book provisions, take-or-pay terms, renewal repricing, and margins before and after measurable productivity changes would materially change retention.",
+      "source_ids": ["S8"],
+      "caveats": ["The issuer is a specialty chemical and biofuel manufacturer, not a representative petrochemical firm.", "No contract evidence directly measures AI savings or five-year benefit sharing."]
+    },
+    "d5": {
+      "evidence_state": "PROXY",
+      "low": 0.94,
+      "base": 1.04,
+      "high": 1.15,
+      "bridge": "ACC forecasts U.S. bulk petrochemicals and organics output growth of 1.4% for 2026 after 1.3% estimated growth in 2025 and a 2.2% decline in 2024; this is a short-term segment forecast, not five-year constant-quality demand for eligible contract processors. I use a lower 0.8% annual base over five years to reflect cyclicality, import pressure, substitution, overcapacity, and the possibility that small independents lose share. The industry output proxy may overstate eligible-firm demand.",
+      "rationale": "Petrochemical intermediates feed plastics, materials, electronics, construction, medical, and packaging applications, supporting persistent quantity. Cycles, global overcapacity, trade exposure, recycling and material substitution produce a wide range around modest base growth.",
+      "change_evidence": "Current five-year U.S. ethylene, propylene, benzene, toluene, xylene, styrene, and derivative balances from ACC, ICIS or S&P, including capacity closures, operating rates, imports and downstream demand, would materially change the range.",
+      "source_ids": ["S9"],
+      "caveats": ["The forecast is short-term and broader than six-digit eligible processors.", "Output is used as a proxy for constant-price, constant-quality demand."]
+    },
+    "o": {
+      "evidence_state": "ESTIMATE",
+      "low": 0.94,
+      "base": 0.98,
+      "high": 1.00,
+      "rationale": "Nearly all year-five quantity requires an accountable physical plant operator to convert feedstocks, maintain continuous processes, test product, control emissions, document compliance, and deliver hazardous materials. Software may optimize these activities but cannot replace molecular conversion or legal plant accountability.",
+      "change_evidence": "Customer sourcing studies quantifying in-sourcing, direct integrated supply, process-intensification, chemical recycling displacement, and elimination of third-party toll processing would materially change the estimate.",
+      "source_ids": ["S4", "S6"],
+      "caveats": ["Operator persistence is inferred from physical and regulatory requirements rather than observed directly.", "Integrated producers could displace independent operators even if aggregate molecule demand persists."]
+    }
+  },
+  "narrative": {
+    "executive_view": "Petrochemical manufacturing is a concentrated, capital- and feedstock-intensive industry with only a very small plausible LMM contract-processing niche. AI can improve indirect labor and plant decision support, but it does not alter the dominance of physical assets, compliance, and commodity economics.",
+    "ai_impact": "Useful applications include engineering search, maintenance triage, planning, procurement, laboratory and environmental documentation, incident analysis, contract administration, and customer service. Operators, technicians, engineers, and accountable managers remain necessary for continuous-process safety, field intervention, testing, emissions control, and product release.",
+    "value_capture": "Term and indexed contracts can pass feedstock costs while leaving conversion savings with the operator initially. Benchmark pricing, specification equivalence, buyer sophistication, and renewal competition erode retention, particularly for undifferentiated molecules.",
+    "firm_availability": "Four firms control 74.2% of shipments, and the injected LMM-band population is just five firms. A qualifying independent toll processor may be transferable, but specialized assets, permits, liabilities, and a narrow strategic-buyer set reduce control-transfer probability.",
+    "demand_durability": "Petrochemical molecules remain foundational inputs across many end markets, so operator-required quantity persists. The five-year path is cyclical and exposed to global capacity, imports, substitution, recycling, and small-firm share loss rather than software elimination.",
+    "risks_and_uncertainty": "The screen is most vulnerable to finding no truly eligible firm. Environmental liabilities, catastrophic process risk, feedstock and customer concentration, unplanned outages, commodity spreads, carbon policy, global overcapacity, and enormous sustaining-capital needs can dominate achievable labor savings.",
+    "principal_driver": "Physical molecular conversion and pervasive downstream uses support durable operator-required demand.",
+    "principal_weakness": "Industry concentration and capital intensity leave a tiny, poorly observed independent LMM contract-processing population."
+  },
+  "sources": [
+    {
+      "id": "S1",
+      "url": "https://www.bls.gov/oes/2023/may/naics3_325000.htm",
+      "title": "May 2023 National Industry-Specific Occupational Employment and Wage Estimates: NAICS 325000",
+      "access_date": "2026-07-22",
+      "supports": "Chemical-manufacturing occupation employment and wage mix used to bound task exposure."
+    },
+    {
+      "id": "S2",
+      "url": "https://www.bls.gov/iag/tgs/iag325.htm",
+      "title": "Chemical Manufacturing: NAICS 325",
+      "access_date": "2026-07-22",
+      "supports": "Current production-occupation counts, workforce composition, and productivity context."
+    },
+    {
+      "id": "S3",
+      "url": "https://www.nist.gov/publications/2026-roadmap-artificial-intelligence-and-machine-learning-smart-manufacturing",
+      "title": "2026 Roadmap on Artificial Intelligence and Machine Learning for Smart Manufacturing",
+      "access_date": "2026-07-22",
+      "supports": "Industrial AI applications and barriers involving data, controls integration, reliability, explainability, and safety."
+    },
+    {
+      "id": "S4",
+      "url": "https://www.epa.gov/stationary-sources-air-pollution/heat-exchange-systems-and-waste-operations-ethylene-manufacturing",
+      "title": "Ethylene Manufacturing Process Units: National Emission Standards for Hazardous Air Pollutants",
+      "access_date": "2026-07-22",
+      "supports": "Recordkeeping, reporting, compliance, operation, and maintenance requirements for ethylene process units."
+    },
+    {
+      "id": "S5",
+      "url": "https://www.census.gov/library/stories/2026/03/chemical-manufacturing.html",
+      "title": "Chemical Manufacturers Produce Everything from Medicine to Fertilizer",
+      "access_date": "2026-07-22",
+      "supports": "2022 petrochemical shipment concentration: four largest firms accounted for 74.2% of $77.6 billion."
+    },
+    {
+      "id": "S6",
+      "url": "https://www.census.gov/naics/?details=325&input=325&year=2022",
+      "title": "2022 NAICS: Chemical Manufacturing",
+      "access_date": "2026-07-22",
+      "supports": "Official classification context for acyclic and aromatic petrochemical manufacturing."
+    },
+    {
+      "id": "S7",
+      "url": "https://news.gallup.com/poll/657362/small-business-owners-lack-succession-plan.aspx",
+      "title": "Most Small-Business Owners Lack a Succession Plan",
+      "access_date": "2026-07-22",
+      "supports": "Cross-industry U.S. employer-business five-year sale and transfer intentions."
+    },
+    {
+      "id": "S8",
+      "url": "https://www.sec.gov/Archives/edgar/data/1337298/000143774926008411/ff20251231_10k.htm",
+      "title": "FutureFuel Corp. 2025 Annual Report",
+      "access_date": "2026-07-22",
+      "supports": "Chemical term-contract market-price adjustment protections and residual conversion-cost exposure."
+    },
+    {
+      "id": "S9",
+      "url": "https://www.americanchemistry.com/media/files/acc/chemistry-in-america/data-industry-statistics/landing-page-media/files/acc-year-end-situation-outlook-2025-tables",
+      "title": "Tables Accompanying the ACC Situation and Outlook, December 2025",
+      "access_date": "2026-07-22",
+      "supports": "U.S. bulk petrochemical and organic chemical production-volume history and near-term forecast."
+    }
+  ]
+}

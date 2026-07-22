@@ -1,0 +1,203 @@
+{
+  "identity": {
+    "naics": "321219",
+    "title": "Reconstituted Wood Product Manufacturing",
+    "run_id": "321219-a1-20260722",
+    "model_id": "claude-sonnet-5",
+    "run_date": "2026-07-22",
+    "methodology_version": "5.1",
+    "attempt": 1
+  },
+  "lens": {
+    "included_activities": "US lower-middle-market manufacturers of reconstituted wood sheets and boards that repeatedly provide custom, toll, specification-controlled, or otherwise service-like production to external customers.",
+    "excluded_activities": "Commodity panel sales with no recurring outsourced-service relationship, captive production, commodity distributors, pure software vendors, non-control financing vehicles, and firms outside the approximately $1-10M normalized EBITDA band.",
+    "customer_and_revenue_model": "Eligible firms earn recurring B2B revenue by manufacturing particleboard, MDF, fiberboard, OSB, or related panels to customer specifications; the broader code predominantly earns point-in-time product revenue through purchase orders.",
+    "deviation_from_default": "none",
+    "heterogeneous": false
+  },
+  "primitives": {
+    "a": {
+      "evidence_state": "PROXY",
+      "low": 0.16,
+      "base": 0.25,
+      "high": 0.34,
+      "bridge": "BLS occupation counts cover the broader veneer, plywood, and engineered-wood industry rather than NAICS 321219 alone; O*NET task descriptions and Census manufacturing-wide automation exposure are mapped qualitatively to the wage-weighted 321219 task mix. This likely overstates AI-only substitution because Census exposure includes robots and dedicated equipment, but may understate machine-vision and predictive-control opportunities specific to continuous panel lines.",
+      "rationale": "The ten largest occupations in the broader industry are dominated by assemblers, woodworking and sawing machine operators, material movers, truck operators, supervisors, and drivers. Their physical material-handling and machine-control work limits direct AI substitution, while inspection, production records, scheduling, quoting, maintenance prediction, process optimization, and some monitoring are exposed. Census reports 52% of manufacturing workers exposed to any automating technology, explicitly an upper bound and broader than AI; the narrower range here removes much of the physical-work exposure.",
+      "change_evidence": "A wage-weighted task inventory from 10-15 NAICS 321219 plants, including hours in inspection, monitoring, scheduling, order entry, maintenance diagnosis, and materials optimization, paired with vendor-verified AI use cases and realized labor-hour changes.",
+      "source_ids": ["S2", "S3", "S4"],
+      "caveats": [
+        "The available occupational composition is for NAICS 3212, not the six-digit industry.",
+        "Technology exposure is not the same as economically substitutable labor and includes non-AI automation.",
+        "The supplied compensation-to-receipts ratio uses 2024 wages over 2022 receipts and is harmonized to an IPS basis."
+      ]
+    },
+    "rho": {
+      "evidence_state": "ESTIMATE",
+      "low": 0.2,
+      "base": 0.36,
+      "high": 0.52,
+      "rationale": "Over five years, mature opportunities in visual inspection, predictive maintenance, scheduling, quoting, and documentation can be deployed, but integration with presses and material flows is capital-intensive and safety- and quality-sensitive. Current business AI use is still low, and physical production duties remain hard to remove. Implementation therefore captures only a minority of the exposed task opportunity in the base case.",
+      "change_evidence": "Plant-level before/after studies from composite-panel manufacturers or equipment vendors showing deployment dates, false-reject rates, downtime, labor hours per thousand square feet, and sustained headcount avoidance for machine vision, predictive maintenance, and autonomous process control.",
+      "source_ids": ["S3", "S5", "S6"],
+      "caveats": [
+        "No industry-specific five-year AI implementation cohort was found.",
+        "Small LMM plants may lack clean sensor data, controls engineers, and capital for line integration.",
+        "The industry's 2024 recordable injury rate of 2.5 per 100 full-time workers increases the cost of unsafe automation failures."
+      ]
+    },
+    "e": {
+      "evidence_state": "ESTIMATE",
+      "low": 0.03,
+      "base": 0.09,
+      "high": 0.18,
+      "rationale": "NAICS 321219 is defined around making sheets and boards, not outsourced services. A public producer recognizes revenue when products transfer under contracts such as purchase orders, indicating the dominant model is product sales. Only tolling, custom specification, prefinishing, or dedicated recurring production relationships plausibly meet the fixed service lens, so eligibility is a small minority of the supplied 31-firm LMM estimate.",
+      "change_evidence": "A census of the 31 estimated LMM firms classifying revenue by commodity spot orders, repeat purchase orders, multi-year supply agreements, custom/specification manufacturing, tolling, prefinishing, and other explicit service components.",
+      "source_ids": ["S1", "S7"],
+      "caveats": [
+        "Service-like manufacturing is not separately identified in NAICS data.",
+        "Repeat purchases alone do not necessarily constitute an outsourced service.",
+        "The supplied firm count is a margin-bridged estimate based on 2022 receipts and a January 2026 sector margin."
+      ]
+    },
+    "s5": {
+      "evidence_state": "PROXY",
+      "low": 0.08,
+      "base": 0.14,
+      "high": 0.22,
+      "bridge": "Gallup measures stated five-year sale, gift, public offering, or other ownership-transfer plans among US small-business owners across industries, not completed qualifying control transfers among eligible LMM reconstituted-wood manufacturers. The base uses the all-owner 14% figure; realized qualifying transfers could be lower because plans fail or involve nonqualifying gifts, while older industrial owners could make the true rate higher.",
+      "rationale": "Gallup found 14% of working business owners planned a sale, public offering, or ownership transfer within five years and 17% among owners age 55 or older. A 14% base balances likely older ownership in small industrial firms against execution failure and the exclusion of internal or non-control events.",
+      "change_evidence": "Owner-age and succession-plan interviews for the eligible firm list plus five years of closed control transactions from PitchBook, Capital IQ, GF Data, Axial, and state UCC/corporate records, distinguishing external control sales from gifts and internal reorganizations.",
+      "source_ids": ["S8"],
+      "caveats": [
+        "Stated plans are not completed transactions.",
+        "The survey spans all small-business industries and sizes.",
+        "The source category includes gifts and rare IPOs that may not qualify under the lens."
+      ]
+    },
+    "q": {
+      "evidence_state": "ESTIMATE",
+      "low": 0.2,
+      "base": 0.38,
+      "high": 0.56,
+      "rationale": "Panel manufacturing is largely product-priced rather than hourly or cost-plus. Purchase-order repricing, customer concentration, commodity comparison, and renewal competition should transfer a substantial part of visible labor savings to buyers over five years. Process know-how, yield gains, faster lead times, and differentiated specifications can preserve some benefit, especially where changes are not transparent to customers.",
+      "change_evidence": "Customer-contract review for eligible firms showing indexation, price-reset frequency, open-book costing, rebates, most-favored-customer clauses, bid cadence, customer concentration, and gross-margin persistence after documented productivity improvements.",
+      "source_ids": ["S7"],
+      "caveats": [
+        "The cited public-company revenue model may not represent smaller custom or toll manufacturers.",
+        "Customer concentration can both accelerate pass-through and support relationship-based retention.",
+        "No direct study tracks five-year retention of AI-created gross benefit in this industry."
+      ]
+    },
+    "d5": {
+      "evidence_state": "PROXY",
+      "low": 0.9,
+      "base": 1.06,
+      "high": 1.2,
+      "bridge": "Public-company commentary and Forest Service elasticities concern North American lumber, OSB, engineered panels, and softwood lumber rather than a constant-quality US NAICS 321219 service basket. Housing, renovation, and mass-timber drivers are translated into a five-year quantity ratio. This may overstate 321219 if panel substitution or import competition worsens, and understate it if OSB and MDF gain share from plywood or solid wood.",
+      "rationale": "Residential construction is the principal demand driver: the Forest Service estimates housing-start elasticity of 0.59 for softwood lumber. West Fraser identifies construction, repair/remodeling, and industrial applications as primary uses and cites aging housing stock and mass-timber penetration as medium- and long-term supports, while warning that housing affordability and macro conditions can reduce near-term demand. A modest-growth base with a wide cyclical range is therefore appropriate.",
+      "change_evidence": "APA or Composite Panel Association five-year US shipment forecasts by OSB, MDF, particleboard, and hardboard, reconciled with Census housing starts, Harvard remodeling forecasts, capacity announcements, import volumes, and constant-quality end-use intensity.",
+      "source_ids": ["S9", "S10"],
+      "caveats": [
+        "Softwood-lumber elasticity is an adjacent-product proxy.",
+        "Housing starts are cyclical and highly sensitive to rates and affordability.",
+        "Public-company commentary is management judgment and covers markets outside the US and products outside 321219."
+      ]
+    },
+    "o": {
+      "evidence_state": "ESTIMATE",
+      "low": 0.92,
+      "base": 0.97,
+      "high": 1.0,
+      "rationale": "The service-like activity that remains in the lens produces physical, specification-controlled panels using presses, heat, resin, material handling, and quality assurance. Software may optimize or automate work but cannot eliminate accountable plant operation. Some quantity could shift to vertically integrated customers, imports, or substitute materials, so the range is below one.",
+      "change_evidence": "Interviews with building-products distributors, cabinet/furniture manufacturers, and large builders on planned insourcing, material substitution, direct imports, and willingness to buy software-defined or autonomous production without a locally accountable manufacturer.",
+      "source_ids": ["S1", "S5", "S10"],
+      "caveats": [
+        "The estimate separates operator requirement from overall demand but insourcing and substitution can be difficult to distinguish.",
+        "Accountability requirements vary between commodity panels and engineered or tightly specified products.",
+        "No survey directly measures customer plans to self-supply reconstituted panels."
+      ]
+    }
+  },
+  "narrative": {
+    "executive_view": "The industry offers a real but bounded operating-improvement opportunity: machine vision, process control, maintenance prediction, scheduling, and commercial administration can reduce labor or avoid hiring, while the core flow of wood, resin, heat, pressing, finishing, and shipment remains physical. The larger issue is fit with the fixed lens. Most 321219 businesses sell panels as products, leaving only a small custom, toll, or dedicated-production subset as eligible recurring outsourced services.",
+    "ai_impact": "AI can improve defect detection, furnish and resin optimization, downtime prediction, production sequencing, quoting, order handling, and compliance documentation. The largest occupations are hands-on production and material-movement roles, so AI usually augments equipment and operators rather than directly replacing whole jobs. Realization depends on sensors, controls integration, reliable training data, and safe escalation to humans.",
+    "value_capture": "Benefits hidden in yield, uptime, quality, and faster response are more defensible than transparent labor-rate reductions. Commodity comparison, frequent purchase orders, concentrated customers, and competitive capacity should cause much of a visible cost advantage to be shared through price over five years. Custom specifications and service reliability provide the main protection.",
+    "firm_availability": "The supplied LMM population estimate is only 31 firms, and the eligible service-like fraction is probably small. Broad small-business evidence indicates meaningful succession activity, but it does not establish completed control transfers in this niche. A named-firm screen and owner outreach are essential before assuming a viable acquisition pipeline.",
+    "demand_durability": "Demand is anchored in housing construction, remodeling, furniture/cabinetry, and industrial uses. Aging housing stock and potential share gains for engineered panels support modest five-year growth, but rates, affordability, construction cycles, imports, new capacity, and material substitution create a wide downside-to-upside band. The physical output continues to require an accountable manufacturer even when more workflow is automated.",
+    "risks_and_uncertainty": "The principal risks are category mismatch with the service lens, a very small eligible-firm pool, commodity price pressure, customer concentration, capital-heavy integration, plant safety, cyclical end markets, and lack of six-digit evidence on AI task exposure. The opportunity would be unattractive if diligence finds that custom/toll revenue is immaterial, eligible owners are not transferable, or customers rapidly reprice all productivity gains.",
+    "principal_driver": "Defensible gains in yield, uptime, quality inspection, and scheduling within recurring specification-driven production relationships.",
+    "principal_weakness": "Most firms in the NAICS code manufacture and sell products rather than provide an outsourced service, sharply limiting lens eligibility."
+  },
+  "sources": [
+    {
+      "id": "S1",
+      "url": "https://www.naics.com/naics-code-description/?code=321219&v=2022",
+      "title": "NAICS Code Description: 321219 Reconstituted Wood Product Manufacturing",
+      "access_date": "2026-07-22",
+      "supports": "Defines the industry as establishments manufacturing reconstituted wood sheets and boards and lists particleboard, fiberboard, and related products."
+    },
+    {
+      "id": "S2",
+      "url": "https://www.bls.gov/oes/2024/may/ind_emp_chart/ind_emp_chart_data.htm",
+      "title": "Data tables for OEWS industry charts, May 2024",
+      "access_date": "2026-07-22",
+      "supports": "Lists the largest occupations and employment counts in veneer, plywood, and engineered wood product manufacturing, showing a production- and material-handling-heavy workforce."
+    },
+    {
+      "id": "S3",
+      "url": "https://www.onetonline.org/link/summary/51-9198.00",
+      "title": "O*NET: Helpers--Production Workers",
+      "access_date": "2026-07-22",
+      "supports": "Documents physical loading, machine operation, placement, and quality-inspection tasks representative of production support work."
+    },
+    {
+      "id": "S4",
+      "url": "https://www.census.gov/newsroom/blogs/research-matters/2023/09/advanced-technology-use-and-automation-results.html",
+      "title": "Three Results From Recent Research on Advanced Technology Use and Automation",
+      "access_date": "2026-07-22",
+      "supports": "Reports 52% manufacturing-worker exposure to any automating technology versus 28% elsewhere and labels exposure an upper-bound measure."
+    },
+    {
+      "id": "S5",
+      "url": "https://www.law.cornell.edu/cfr/text/40/63.2292",
+      "title": "40 CFR 63.2292: Definitions for plywood and composite wood products",
+      "access_date": "2026-07-22",
+      "supports": "Describes reconstituted-wood presses applying heat and pressure to resinated mats and identifies the physical process and products."
+    },
+    {
+      "id": "S6",
+      "url": "https://www.bls.gov/web/osh/table-1-industry-rates-national.htm",
+      "title": "BLS Table 1: Incidence rates of nonfatal occupational injuries and illnesses by industry, 2024",
+      "access_date": "2026-07-22",
+      "supports": "Reports a total recordable incidence rate of 2.5 cases per 100 full-time workers for NAICS 321219 in 2024."
+    },
+    {
+      "id": "S7",
+      "url": "https://www.sec.gov/Archives/edgar/data/60519/000006051926000012/lpx-20251231.htm",
+      "title": "Louisiana-Pacific Corporation 2025 Form 10-K",
+      "access_date": "2026-07-22",
+      "supports": "States product revenue is generally recognized at point-in-time transfer under contracts such as purchase orders and that the top ten customers represented 47% of 2025 sales."
+    },
+    {
+      "id": "S8",
+      "url": "https://news.gallup.com/poll/657362/small-business-owners-lack-succession-plan.aspx",
+      "title": "Most Small-Business Owners Lack a Succession Plan",
+      "access_date": "2026-07-22",
+      "supports": "Reports 14% of working small-business owners planned to sell, go public, or transfer ownership within five years, rising to 17% for owners age 55 or older."
+    },
+    {
+      "id": "S9",
+      "url": "https://research.fs.usda.gov/treesearch/80470",
+      "title": "Revisiting U.S. softwood lumber demand projections: The central role of residential construction in forest sector outlooks",
+      "access_date": "2026-07-22",
+      "supports": "Estimates housing-start elasticity of 0.59, income elasticity of 0.14, and price elasticity of -0.21 for US softwood lumber demand using 2000-2024 data."
+    },
+    {
+      "id": "S10",
+      "url": "https://www.sec.gov/Archives/edgar/data/1402388/000162828025018887/exhibit995-q1x25newsrelease.htm",
+      "title": "West Fraser Timber Co. Ltd. First Quarter 2025 Results and Outlook",
+      "access_date": "2026-07-22",
+      "supports": "Identifies residential construction, repair/remodeling, and industrial applications as major OSB and engineered-panel uses, with aging housing and mass timber as supports and affordability as a downside risk."
+    }
+  ]
+}
