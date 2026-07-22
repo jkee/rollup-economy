@@ -1,0 +1,58 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "v5 review record",
+  "description": "One isolated validator review per attempt, written to review.json in the run directory. The `mechanics` block is copied verbatim from `python3 pipeline/v5/build.py check <run_dir>` — the validator model never self-assesses byte reproduction. `build.py site` re-runs the check and rejects any review whose mechanics or artifacts_sha256 do not match the current bytes, so a review is bound to the exact artifacts it examined. A material finding must state the mechanism (which primitive or factor changes, in which direction) and pass the materiality test: correcting or downgrading the affected input would change the base tier or the action category. Findings without that are caveats.",
+  "type": "object",
+  "required": ["run_id", "naics", "reviewer_model_id", "review_date", "methodology_version", "outcome", "mechanics", "sources_audited", "material_findings", "caveats", "summary"],
+  "additionalProperties": false,
+  "properties": {
+    "run_id": {"type": "string", "minLength": 1},
+    "naics": {"type": "string", "pattern": "^[0-9]{6}$"},
+    "reviewer_model_id": {"type": "string", "minLength": 1},
+    "review_date": {"type": "string", "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}$"},
+    "methodology_version": {"const": "5.0"},
+    "outcome": {"enum": ["publishable", "publishable_with_caveats", "reject", "invalid"]},
+    "mechanics": {
+      "type": "object",
+      "description": "Verbatim output of build.py check (minus its errors list). Any false value forces outcome invalid.",
+      "required": ["identity_ok", "score_reproduces", "memo_reproduces", "artifacts_sha256"],
+      "additionalProperties": false,
+      "properties": {
+        "identity_ok": {"type": "boolean"},
+        "score_reproduces": {"type": "boolean"},
+        "memo_reproduces": {"type": "boolean"},
+        "artifacts_sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"}
+      }
+    },
+    "sources_audited": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["source_id", "reachable", "support"],
+        "additionalProperties": false,
+        "properties": {
+          "source_id": {"type": "string"},
+          "reachable": {"type": "boolean"},
+          "support": {"enum": ["supported", "partially_supported", "unsupported", "not_score_driving"]},
+          "note": {"type": "string"}
+        }
+      }
+    },
+    "material_findings": {
+      "type": "array",
+      "description": "Empty for both publishable outcomes; nonempty required for reject.",
+      "items": {
+        "type": "object",
+        "required": ["category", "finding", "materiality"],
+        "additionalProperties": false,
+        "properties": {
+          "category": {"enum": ["unsupported_claim", "fabricated_or_unreachable_source", "reversed_semantics", "undisclosed_proxy", "double_counting", "lens_shopping", "incoherent_range", "absence_as_zero"]},
+          "finding": {"type": "string", "minLength": 1},
+          "materiality": {"type": "string", "minLength": 1, "description": "The mechanism and the materiality test result: which primitive/factor changes, direction, and why the base tier or action category would change."}
+        }
+      }
+    },
+    "caveats": {"type": "array", "items": {"type": "string"}},
+    "summary": {"type": "string", "minLength": 1}
+  }
+}
