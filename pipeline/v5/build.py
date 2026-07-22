@@ -326,7 +326,8 @@ def render_memo(packet: dict, score: dict) -> str:
         f"{identity['run_date']}, attempt {identity['attempt']}.*",
         "",
         f"**Base tier:** {score['tier'] or 'no base (evidence-first)'} · "
-        f"A {score['A'] if score['A'] is not None else '—'} · L {score['L'] if score['L'] is not None else '—'} · "
+        f"A {'—' if score['A'] is None else format(score['A'], '.2f')} · "
+        f"L {'—' if score['L'] is None else format(score['L'], '.2f')} · "
         f"interval {score['tier_interval'][0]} → {score['tier_interval'][1]} · "
         f"readiness {score['readiness']} · action {score['action']}",
         "",
