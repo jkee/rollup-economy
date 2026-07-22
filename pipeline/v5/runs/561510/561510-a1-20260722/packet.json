@@ -1,0 +1,155 @@
+{
+  "identity": {
+    "naics": "561510",
+    "title": "Travel Agencies",
+    "run_id": "561510-a1-20260722",
+    "model_id": "gpt-5.6-terra",
+    "run_date": "2026-07-22",
+    "methodology_version": "5.0",
+    "attempt": 1
+  },
+  "lens": {
+    "included_activities": "US lower-middle-market travel agencies that act as external agents selling travel, tour, and accommodation services, including repeat leisure and corporate travel planning, booking, ticketing, changes, and account support.",
+    "excluded_activities": "Tour operators, guide services, other reservation-service businesses, captive internal travel departments, shells, and non-control financing vehicles.",
+    "customer_and_revenue_model": "External customers pay directly through planning or service fees and indirectly through supplier commissions; repeat business can arise from corporate accounts, returning leisure clients, groups, and referrals.",
+    "deviation_from_default": "none",
+    "heterogeneous": false
+  },
+  "primitives": {
+    "a": {
+      "evidence_state": "PROXY",
+      "low": 0.35,
+      "base": 0.48,
+      "high": 0.62,
+      "bridge": "S2 measures 2023 employment and mean wages for the broader NAICS 561500 travel-arrangement-and-reservation-services group, not NAICS 561510 or task automation. I wage-weighted its process-heavy roles using S3 travel-agent task content: travel agents are 25.43% of employment, customer-service representatives 7.75%, reservation and ticket agents 9.04%, and office-support occupations 27.45%; booking, fare lookup, cost calculation, recordkeeping, payment, and routine customer communications are treated as AI-exposed, while advice, selling, exception handling, and accountable decisions are not. The broader source includes tour and other reservation services, so it likely overstates exposure if those operations are more standardized than travel agencies.",
+      "rationale": "The role mix is heavily administrative, reservation, and information-handling work, while a material share still requires customer discovery, recommendation, selling, supplier coordination, and disruption resolution. The base reflects assistive automation and avoided hiring rather than full replacement.",
+      "change_evidence": "A NAICS 561510 six-digit OEWS occupation-and-wage file, agency time studies split by booking, servicing, sales, and disruption tasks, and anonymized GDS or CRM workflow logs would materially revise the wage-weighted exposure estimate.",
+      "source_ids": ["S2", "S3", "S4"],
+      "caveats": ["The published industry occupation mix is at NAICS 561500, not six digits.", "Occupation titles do not reveal each firm's automation baseline or share of high-touch specialty itineraries."]
+    },
+    "rho": {
+      "evidence_state": "ESTIMATE",
+      "low": 0.32,
+      "base": 0.46,
+      "high": 0.6,
+      "rationale": "Five years should allow deployment of drafting, knowledge retrieval, intake, itinerary preparation, QA support, and back-office workflow tools. Implementation is bounded by reservation-system integration, supplier content accuracy, payment and identity handling, and the need for a human owner of exceptions. BLS describes computer-system training and travel agents' responsibility for changes, which supports a moderate rather than near-complete implementation expectation.",
+      "change_evidence": "Before-and-after studies from travel-management companies or host agencies showing task-level adoption, error rates, booking throughput, and headcount effects; supplier API coverage; and interviews with agency operations leaders would materially move this estimate.",
+      "source_ids": ["S3", "S4", "S7"],
+      "caveats": ["No source measured five-year AI implementation for lower-middle-market travel agencies.", "Implementation may differ sharply between corporate, cruise, luxury, and general leisure agencies."]
+    },
+    "e": {
+      "evidence_state": "ESTIMATE",
+      "low": 0.45,
+      "base": 0.62,
+      "high": 0.78,
+      "rationale": "The NAICS definition directly describes external agency services to public and commercial clients, so the activity boundary matches the lens. Eligibility is below the full frozen LMM count because the lens requires recurring or repeat outsourced service and excludes businesses whose economics depend mainly on a founder's personal book, a captive relationship, or isolated one-off leisure transactions.",
+      "change_evidence": "A six-digit firm microdata cut showing revenue by corporate account, repeat-client cohort, supplier concentration, host or franchise affiliation, and owner dependence for the frozen EBITDA band would materially revise eligibility.",
+      "source_ids": ["S1"],
+      "caveats": ["S1 defines the industry but does not measure customer recurrence, owner dependence, or the frozen EBITDA-band firms.", "The supplied firm count is frozen and was not re-estimated here."]
+    },
+    "s5": {
+      "evidence_state": "PROXY",
+      "low": 0.12,
+      "base": 0.22,
+      "high": 0.34,
+      "bridge": "S6 is a voluntary, nationwide broker-market dataset for small businesses and reports that retirement is the leading stated reason among owners planning to sell; it does not measure NAICS 561510, the specified EBITDA band, or a five-year control-transfer probability. I translate its evidence of active small-business transfers, owner retirement motivation, and buyer selectivity into a bounded five-year probability for eligible firms. Because broker-market observations are selected toward marketed businesses, the proxy likely overstates the probability for the full eligible population, although off-market sales create an offsetting omission.",
+      "rationale": "There is evidence of a functioning small-business transaction market and retirement-led seller motivation, but agency books can be owner-dependent and buyer underwriting now emphasizes cash-flow stability and reduced owner dependence. The base therefore assumes a meaningful but far from universal control-transfer flow.",
+      "change_evidence": "Five years of closed NAICS 561510 transactions from a business-broker database, SBA 7(a) acquisition-loan originations by NAICS, and seller interviews recording ownership age, sale intent, and completed transfers would materially revise this probability.",
+      "source_ids": ["S6"],
+      "caveats": ["S6 is not an industry-specific census of closed transactions and reports voluntary broker submissions.", "A stated reason for planned sale is not a completed qualifying transfer."]
+    },
+    "q": {
+      "evidence_state": "ESTIMATE",
+      "low": 0.25,
+      "base": 0.4,
+      "high": 0.55,
+      "rationale": "The base allows an operator to retain some internal efficiency because agent compensation includes commissions and service fees, and specialized planning can carry differentiated value. Retention is constrained by fee-sensitive customers, supplier-controlled commission terms, host and consortium economics, and competitors using similar tools. ASTA's statement that non-commissionable fares have been a barrier to compensation underscores the dependence on supplier-set economics.",
+      "change_evidence": "Agency-level revenue contracts, fee schedules, commission statements, renewal pricing, and a customer win-loss study after automation would materially establish how gross benefits are shared.",
+      "source_ids": ["S4", "S5"],
+      "caveats": ["No source measures the five-year retention of AI-derived savings for this lens.", "Commission, fee, and supplier-override exposure varies by agency specialty and host arrangement."]
+    },
+    "d5": {
+      "evidence_state": "PROXY",
+      "low": 0.95,
+      "base": 1.01,
+      "high": 1.07,
+      "bridge": "S4 projects US Travel Agent occupation employment from 65,700 in 2024 to 67,200 in 2034, a 2% ten-year increase, rather than constant-price, constant-quality output for the frozen travel-agency service basket. I scale that ten-year employment change to a five-year demand proxy and widen it for travel cyclicality and self-service. If labor productivity rises without a parallel fall in service quantity, this proxy likely understates demand; online self-booking creates a countervailing risk.",
+      "rationale": "The official outlook describes gradual continuing demand for personalized travel advice and issue handling, but also says online research and booking may limit demand. That combination supports roughly stable year-five quantity rather than a high growth assumption.",
+      "change_evidence": "BEA constant-dollar output for travel-agency services, ARC agency transaction volumes by customer segment, and multi-year corporate-travel and leisure-agency booking cohorts would materially revise year-five demand.",
+      "source_ids": ["S4"],
+      "caveats": ["Occupational employment is not industry output and includes agents outside the exact industry.", "Travel demand is exposed to macroeconomic, health, geopolitical, and supplier-disruption shocks."]
+    },
+    "o": {
+      "evidence_state": "PROXY",
+      "low": 0.5,
+      "base": 0.65,
+      "high": 0.78,
+      "bridge": "S4 describes the current Travel Agent occupation and its outlook, not the year-five share of the frozen service basket requiring an accountable travel-agency operator. I translate its evidence that clients value personalized recommendations and help with travel issues, alongside its warning that online resources enable self-booking, into an operator-required share. This occupational framing likely overstates durability because it does not separately measure fully software-supplied transactions.",
+      "rationale": "Complex trips, corporate policy support, supplier coordination, and disruption handling preserve an accountable service role, while simple planning and booking can migrate to online or software-led self-service. The base keeps a clear majority of the current basket operator-required but leaves substantial substitution risk.",
+      "change_evidence": "Segmented booking data separating advisor-assisted, direct-online, and AI-assisted transactions; corporate travel-program procurement data; and client interviews following disruption events would materially revise this share.",
+      "source_ids": ["S4", "S7"],
+      "caveats": ["The evidence is occupational and includes self-employed agents, not only acquired lower-middle-market firms.", "Operator need is likely higher in complex corporate, group, and luxury travel than in commodity leisure bookings."]
+    }
+  },
+  "narrative": {
+    "executive_view": "Travel agencies combine a meaningful amount of process work with a service layer that remains valuable for complex choices and exceptions. The opportunity depends on preserving differentiated advice while automating preparation, service, and administrative workflows.",
+    "ai_impact": "Published role data for the broader travel-arrangement group places travel agents, customer-service representatives, reservation agents, and office support at a large share of employment. O*NET lists payment collection, itinerary planning, cost calculation, recordkeeping, reservations, ticketing, and travel information among travel-agent tasks. These are candidates for assisted workflow automation, but client discovery, sales, supplier coordination, and disruption handling require human review.",
+    "value_capture": "Agent compensation includes commissions and service fees. That creates room to retain internal productivity gains, especially where specialized advice supports fees, but supplier-set commission policies and transparent online alternatives limit durable capture. Non-commissionable fares have been identified by ASTA as a compensation barrier.",
+    "firm_availability": "The frozen firm-count input is not re-estimated. The industry definition fits external agency activity, but qualifying transfers are uncertain because a saleable agency needs transferable customer relationships, clean financials, and less dependence on the owner. A national broker-market source reports retirement as the leading reason owners planning to sell, while also emphasizing buyer selectivity and owner-dependence concerns.",
+    "demand_durability": "BLS projects modest occupational growth and expects continued demand for personalized expertise and travel-problem handling. The same source warns that online research and self-booking can limit demand. Durable demand is therefore strongest in complex, exception-prone, and policy-sensitive trips rather than commodity bookings.",
+    "risks_and_uncertainty": "The core labor proxy uses a broader four-digit industry, not NAICS 561510. There is no direct five-year AI adoption, benefit-retention, transfer-rate, or constant-dollar demand measure for the frozen LMM lens. Travel is cyclical and exposed to macroeconomic, health, geopolitical, and supplier shocks; agency economics can also be reshaped by supplier commission rules and host arrangements.",
+    "principal_driver": "A task mix rich in booking, information handling, recordkeeping, and service workflows creates a practical automation surface.",
+    "principal_weakness": "Direct booking and software substitution threaten both demand durability and the operator's ability to retain productivity gains."
+  },
+  "sources": [
+    {
+      "id": "S1",
+      "url": "https://www.census.gov/naics/reference_files_tools/2022_NAICS_Manual.pdf",
+      "title": "2022 NAICS United States Manual",
+      "access_date": "2026-07-22",
+      "supports": "Defines NAICS 561510 as establishments acting as agents selling travel, tour, and accommodation services to public and commercial clients; separates tour operators, guide services, and other reservation services."
+    },
+    {
+      "id": "S2",
+      "url": "https://www.bls.gov/oes/2023/may/naics4_561500.htm",
+      "title": "May 2023 National Industry-Specific Occupational Employment and Wage Estimates: NAICS 561500",
+      "access_date": "2026-07-22",
+      "supports": "Reports broader travel-arrangement-and-reservation-services employment, occupation shares, and mean wages, including travel agents, customer service representatives, reservation agents, and office-support occupations."
+    },
+    {
+      "id": "S3",
+      "url": "https://www.onetonline.org/search/task/choose/41-3041.00",
+      "title": "O*NET Job Duties Custom List: Travel Agents",
+      "access_date": "2026-07-22",
+      "supports": "Lists travel-agent tasks including payment collection, itinerary planning, customer discovery, cost calculation, recordkeeping, reservations, ticketing, and travel information."
+    },
+    {
+      "id": "S4",
+      "url": "https://www.bls.gov/ooh/sales/travel-agents.htm",
+      "title": "Occupational Outlook Handbook: Travel Agents",
+      "access_date": "2026-07-22",
+      "supports": "Describes duties, compensation through commissions and service fees, computer-system training, 2024 employment, 2034 projected employment, continued personalized-advice demand, and online self-booking risk."
+    },
+    {
+      "id": "S5",
+      "url": "https://asta.org/common/Uploaded%20files/ASTA/IndustryAffairs/JointIndustryStatement.pdf",
+      "title": "Joint Industry Statement: Commission Transparency and Travel Advisor Compensation",
+      "access_date": "2026-07-22",
+      "supports": "States that non-commissionable fares have been a barrier to travel-advisor compensation and describes supplier commission policy changes."
+    },
+    {
+      "id": "S6",
+      "url": "https://images.bizbuysell.com/insight-report/",
+      "title": "BizBuySell Insight Report: Q2 2026",
+      "access_date": "2026-07-22",
+      "supports": "Reports nationwide broker-market transactions, buyer selectivity, owner-dependence concerns, and retirement as the leading reason owners planning to sell."
+    },
+    {
+      "id": "S7",
+      "url": "https://www.gsa.gov/travel/travel-and-lodging-services/travel-category-schedule/travel-agent-services",
+      "title": "GSA Travel Agent Services",
+      "access_date": "2026-07-22",
+      "supports": "Lists NAICS 561510 contractor tasks including reserving, booking, ticketing, hotel and car rental services, account reconciliation, meeting planning, and help-desk support."
+    }
+  ]
+}
