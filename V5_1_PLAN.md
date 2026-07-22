@@ -1,6 +1,6 @@
 # v5.1 Plan — scope expansion to the full 1,012-code universe
 
-**Status: FLEET ACTIVE — S3 closed; S4 next.** Victor directly instructed the operator
+**Status: FLEET ACTIVE — S4 research.** Victor directly instructed the operator
 on 2026-07-22 to ignore the single-purpose-session rule. That narrow governance
 exception applies retrospectively to S1 and prospectively to the remaining
 v5.1 campaign; it does not waive single-author work, author/reviewer separation,
@@ -252,7 +252,7 @@ and move on.
 | closed | S1 | Professional, scientific, technical | 54 | 49 | 29/49 | v5.0 rerun territory — doubles as drift check vs `six_data_v5.json` |
 | closed | S2 | Administrative & support, waste | 56 | 44 | 12/44 | |
 | closed | S3 | Health care & social assistance | 62 | 39 | 12/39 | |
-| todo | S4 | Finance & insurance | 52 | 35 | – | 5251x labor_share gaps |
+| research | S4 | Finance & insurance | 52 | 35 | – | 5251x labor_share gaps |
 | todo | S5 | Real estate + mgmt of companies | 53, 55 | 27 | – | `551114` anomaly |
 | todo | S6 | Other services | 81 | 44 | – | `814110` gap |
 | todo | S7 | Information | 51 | 29 | – | n_total proxies |
