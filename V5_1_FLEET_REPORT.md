@@ -745,3 +745,41 @@ implementation and eligibility, sparse transfer denominators, and indirect
 demand and retention bridges. All limitations were disclosed; no review found
 a tier- or action-changing defect, and the predeclared pause trigger did not
 fire.
+
+## G7 — Manufacturing: primary metals, fabricated metals, and machinery
+
+**Closed:** 2026-07-22
+**Coverage:** 89 attempted, 89 deterministically valid, 89 published, 0 excluded
+**Independent review:** 10/89 (0 mandatory, 9 random, 1 canary)
+**Review outcomes:** 10 `publishable_with_caveats`; 0 `publishable`; 0 `reject`; 0 `invalid`
+**Material findings:** 0
+**Remediations:** 0
+
+### Screen distribution
+
+- Base tiers: 0 `HIGHEST_PRIORITY`, 0 `PRIORITY`, 12 `CONDITIONAL`,
+  37 `LOW_PRIORITY`, 37 `STRUCTURAL_OUT`, and 3 without a base tier.
+- Readiness: 86 `MODEL_CONDITIONED`; 3 `STRESS_TEST_ONLY`.
+- Actions: 86 `VALIDATE_ASSUMPTIONS`; 3 `EVIDENCE_FIRST`.
+- Robust tiers: 9/89, all `STRUCTURAL_OUT`.
+- Publication labels: 10 `accepted`; 79 `not_reviewed`.
+
+The random stratum was `332420`, `332722`, `332913`, `332993`,
+`333310`, `333511`, `333618`, `333995`, and `333996`; all were
+accepted with caveats and no material finding. Canary `332710` also closed.
+These are sample observations only; no G7 defect rate is estimated.
+
+### Economic read
+
+G7 was more differentiated than preceding manufacturing blocks: twelve
+records reached `CONDITIONAL` and 37 `LOW_PRIORITY`, reflecting repeatable
+engineering, quoting, scheduling, inspection, maintenance, and machine-control
+workflows around still-essential plants and operators. Thirty-seven records
+remained `STRUCTURAL_OUT`; three missing-anchor records routed to
+`STRESS_TEST_ONLY / EVIDENCE_FIRST`. No record reached `PRIORITY`.
+
+Validators emphasized broad occupation and adoption proxies, estimated
+implementation and eligible-firm shares, sparse transfer denominators, and
+indirect benefit-retention and demand bridges. These limitations were
+disclosed; no review found a tier- or action-changing defect, and the pause
+trigger did not fire.
