@@ -1,0 +1,233 @@
+{
+  "identity": {
+    "naics": "541380",
+    "title": "Testing Laboratories and Services",
+    "run_id": "541380-a1-20260722",
+    "model_id": "claude-sonnet-5",
+    "run_date": "2026-07-22",
+    "methodology_version": "5.1",
+    "attempt": 1
+  },
+  "lens": {
+    "included_activities": "US lower-middle-market laboratories and field-testing firms that repeatedly provide physical, chemical, biological, calibration, electrical, geotechnical, mechanical, nondestructive, thermal, or related analytical testing to external customers.",
+    "excluded_activities": "Medical and veterinary laboratories, captive internal quality-control units, shells, non-control financing vehicles, and firms without a recurring or repeat outsourced-service model.",
+    "customer_and_revenue_model": "External commercial, industrial, and public-sector customers buy tests through per-sample or per-test fees, project scopes, recurring monitoring programs, master service agreements, and related reporting or certification work.",
+    "deviation_from_default": "none",
+    "heterogeneous": false
+  },
+  "primitives": {
+    "a": {
+      "evidence_state": "PROXY",
+      "low": 0.27,
+      "base": 0.38,
+      "high": 0.50,
+      "bridge": "BLS measures employment and wages by occupation in NAICS 541380, while O*NET describes tasks for the industry's largest production occupation and the laboratory survey measures current process digitization in a sample concentrated in European QA/QC laboratories. I mapped reporting, data transfer, sample registration, document review, scheduling, analysis support, and administrative work to AI-exposed tasks, while treating sample handling, instrument setup, calibration, observation, and physical tests as largely unexposed, then bounded a wage-weighted industry share. The laboratory sample's larger facilities and the inclusion of internal QA/QC labs may overstate digital task exposure; omission of task-level time shares and AI assistance within scientific occupations may understate it.",
+      "rationale": "The occupation mix is anchored by hands-on science, engineering, inspection, and instrument work, but also contains substantial management, office, business, computer, analysis, documentation, and report-production labor. BLS reports that life/physical/social science occupations are 24.44% of employment, architecture/engineering 16.27%, production 13.64%, office/administrative support 11.90%, management 10.83%, business/financial 6.95%, and computer/mathematical 2.78%. O*NET shows the core inspection role combining physical testing and calibration with data recording, analysis, and written reports. The resulting exposure is meaningful but well below a software-only workflow.",
+      "change_evidence": "A representative time-and-motion study across independent US testing laboratories, with hours and fully loaded pay assigned to sample intake, instrument work, review, reporting, sales, administration, and rework, would materially change the range.",
+      "source_ids": ["S1", "S2", "S3"],
+      "caveats": [
+        "BLS occupation shares are May 2023 and do not report task time or current automation within occupations.",
+        "The laboratory survey has 110 self-selected respondents, is Europe-skewed, favors larger labs, and is concentrated in food and beverage.",
+        "The frozen compensation intensity combines 2024 wage data with 2022 receipts and a harmonized benefits adjustment; that vintage mismatch is separate from this task-exposure estimate."
+      ]
+    },
+    "rho": {
+      "evidence_state": "PROXY",
+      "low": 0.38,
+      "base": 0.55,
+      "high": 0.72,
+      "bridge": "The 1LIMS survey measures digital maturity and integration in 110 mostly European, generally large QA/QC laboratories, and Deloitte measures modernization plans among 103 biopharma executives rather than implementation of AI-exposed tasks at US lower-middle-market independent laboratories. I use current integration gaps as a lower-friction signal and stated two-to-three-year automation plans as an adoption signal, then haircut for five-year workflow redesign, validation, staff adoption, instrument integration, and accreditation constraints. Large respondents and vendor interest likely bias implementation upward; slower legacy integration and conservative change control could make even the low case optimistic.",
+      "rationale": "Digital foundations exist but are incomplete: 95% of surveyed labs use digital tools, yet only 11% report fully connected instruments and software, 21% are fully digital, and two-thirds of LIMS users have integration gaps. Deloitte similarly finds 40% reporting disconnected systems or limited automation, even as 56% expect more automated or predictive operations within two to three years. AI can implement much of the exposed documentation and data work over five years, but regulated methods, audit trails, validation, exception handling, and human signoff prevent full conversion.",
+      "change_evidence": "A cohort study of US independent laboratories with baseline workflow maps and five-year realized automation hours, segmented by LIMS maturity, accreditation regime, instrument age, and laboratory size, would materially change this value.",
+      "source_ids": ["S3", "S4", "S11", "S12", "S13"],
+      "caveats": [
+        "Neither survey measures implemented labor substitution at the screened firms.",
+        "Biopharma quality-control laboratories face stricter validation than some NAICS 541380 segments and are often captive rather than outsourced.",
+        "EPA, FDA, and NIST requirements demonstrate constraints in regulated or accredited niches but do not quantify their prevalence across the industry."
+      ]
+    },
+    "e": {
+      "evidence_state": "ESTIMATE",
+      "low": 0.72,
+      "base": 0.84,
+      "high": 0.93,
+      "rationale": "The NAICS definition is predominantly an outsourced analytical-service model, so most lower-middle-market firms should meet the external-customer and repeat-service lens. The haircut removes project-only operations with little repeat business, captive or affiliated units, businesses whose accreditation or permits cannot transfer, firms dependent on nontransferable owner expertise, and operations with unacceptable customer concentration or quality liabilities.",
+      "change_evidence": "A business-level census of US firms in the screened earnings band, coding external revenue share, repeat-customer revenue, accreditation transferability, customer concentration, owner dependence, and captive status, would materially change the estimate.",
+      "source_ids": ["S5", "S11", "S12", "S13"],
+      "caveats": [
+        "No source reports the eligible share of firms in the specified earnings band.",
+        "The NAICS code spans laboratory and on-site testing modalities with different repeat-revenue and transferability profiles.",
+        "The frozen firm count is an estimate bridged from SUSB size classes using a 15.65% margin assumption, so actual band membership may differ materially."
+      ]
+    },
+    "s5": {
+      "evidence_state": "PROXY",
+      "low": 0.16,
+      "base": 0.24,
+      "high": 0.34,
+      "bridge": "Gallup reports succession intentions for US small employer-business owners, not completed qualifying transfers among eligible lower-middle-market testing firms. I start near the 22% five-year sell-or-transfer intention for employer owners and allow a modest industry uplift because EY documents sustained testing, inspection, and certification acquisition activity and SGS documents repeated US laboratory bolt-ons. Intentions can fail or become non-control/internal transfers, biasing the estimate upward; larger screened firms and an active strategic-buyer channel may bias the all-small-business benchmark downward.",
+      "rationale": "Gallup finds that 22% of employer-business owners intend to sell or transfer their business within five years and that 52.3% of US employer businesses are owned by people aged 55 or older. Industry deal flow is visibly active: EY counts almost 1,000 global testing, inspection, and certification acquisitions over twelve years, while SGS reports 24 bolt-ons across 2024-2025 and named US laboratory acquisitions. Those facts support a meaningful but minority five-year control-transfer probability.",
+      "change_evidence": "A transaction database matched to a complete denominator of eligible US testing firms, with control status, deal completion, internal reorganizations, and failed sale processes identified, would materially change the estimate.",
+      "source_ids": ["S8", "S9", "S10"],
+      "caveats": [
+        "Gallup measures plans rather than completed transactions and covers all small employer businesses.",
+        "EY and SGS evidence is global and includes larger testing, inspection, certification, and assurance businesses outside the lens.",
+        "Public deal announcements do not reveal the full denominator or failed transactions."
+      ]
+    },
+    "q": {
+      "evidence_state": "ESTIMATE",
+      "low": 0.52,
+      "base": 0.68,
+      "high": 0.82,
+      "rationale": "Per-test, per-sample, setup, rush, pickup, shipping, and contracted-service charges decouple customer prices from the seller's internal labor hours, so a laboratory can retain a majority of implemented productivity benefit before renewal repricing. Intertek attributes margin progress partly to pricing, productivity, mix, and operating leverage, showing that a large operator can hold some efficiency gains. Retention is reduced by competitive bidding, procurement scrutiny, customer sharing at renewal, required reinvestment in quality systems and instruments, and volume-based price concessions.",
+      "change_evidence": "Contract-level data from independent US laboratories showing billing basis, renewal frequency, realized price changes, bid win/loss rates, customer concentration, and gross-margin change after workflow automation would materially change the estimate.",
+      "source_ids": ["S7", "S14"],
+      "caveats": [
+        "No source directly measures five-year retained AI benefit for lower-middle-market testing firms.",
+        "Oregon State's fee schedule demonstrates billing architecture at a public laboratory, not private-market competitive behavior.",
+        "Intertek is a global scaled operator with a broader assurance, testing, inspection, and certification mix."
+      ]
+    },
+    "d5": {
+      "evidence_state": "PROXY",
+      "low": 0.98,
+      "base": 1.10,
+      "high": 1.23,
+      "bridge": "BLS projects US six-digit industry employment, not constant-price demand, and publishes real output only for the broader architectural, engineering, and related-services parent. EY forecasts nominal or unspecified-price global testing, inspection, and certification market growth, which is broader geographically and by service. I interpret six-digit employment growth as a conservative activity floor, use the parent's real-output trend as a productivity-adjusted anchor, and haircut the global market forecast for inflation and scope to obtain a five-year constant-price, constant-quality ratio. Parent-sector breadth and global regulation may bias growth upward, while employment can understate demand when laboratory productivity rises.",
+      "rationale": "BLS projects testing-laboratory employment rising 3.9% from 2024 to 2034, while its broader parent industry's real output grows 1.7% annually. EY expects global testing, inspection, and certification growth of 4% to 5% annually, citing regulation and emerging digital technologies. Together these support modest real growth over five years, with a downside near flat if industrial volumes weaken and an upside from new standards, materials, electronics, environmental monitoring, and outsourced compliance testing.",
+      "change_evidence": "BEA or Census five-year constant-price revenue indexes at NAICS 541380, separated into price, test volume, mix, and quality, plus customer-industry forecasts by test category, would materially change the range.",
+      "source_ids": ["S6", "S8"],
+      "caveats": [
+        "BLS does not publish six-digit real output for this industry in the cited table.",
+        "Employment is affected by productivity and therefore is not a direct measure of service quantity.",
+        "The EY forecast is global and spans inspection and certification as well as laboratory testing."
+      ]
+    },
+    "o": {
+      "evidence_state": "PROXY",
+      "low": 0.82,
+      "base": 0.90,
+      "high": 0.96,
+      "bridge": "EPA drinking-water certification, FDA ASCA participation, and NIST accreditation describe operator requirements in specific regulated or accredited testing programs, not the share of all NAICS 541380 demand requiring a testing-firm operator. I extrapolate from their requirements for approved physical methods, competent personnel, proficiency testing, equipment control, onsite assessment, traceability, and accountable reports, then haircut for voluntary tests that customers may insource or replace with embedded sensors and software. Regulated examples may bias operator need upward across the whole code; continued customer demand for independent evidence may make the haircut too large.",
+      "rationale": "Most current services culminate in a defensible result produced from a physical sample, item, site, or calibrated instrument. EPA certification requires approved methods, annual proficiency testing, and audits; FDA's ASCA framework requires accredited laboratories and test reports; NIST accreditation evaluates personnel, methods, equipment, traceability, sampling, handling, and reporting. Software can reduce effort and some customers can self-test, but most year-five quantity still needs an accountable laboratory or field-testing operator.",
+      "change_evidence": "A representative customer survey and lost-revenue analysis that separates tests eliminated, insourced, converted to continuous sensors, supplied by equipment vendors, and retained with independent laboratories would materially change this share.",
+      "source_ids": ["S11", "S12", "S13"],
+      "caveats": [
+        "The cited programs are compliance-heavy examples rather than an industry-wide demand census.",
+        "Accreditation can be voluntary or customer-required, and not every service in the NAICS code is regulated.",
+        "Sensor-based monitoring and customer laboratory investment could reduce outsourced test volume more quickly than assumed."
+      ]
+    }
+  },
+  "narrative": {
+    "executive_view": "Testing laboratories combine a defensible physical workflow with a sizable digital and administrative layer. The near-term opportunity is to automate intake, data movement, review support, report drafting, scheduling, and quality documentation around the instrument, not to remove the accountable laboratory.",
+    "ai_impact": "AI can structure requests, register samples, reconcile instrument outputs, flag anomalies, assemble audit trails, draft certificates and reports, answer status inquiries, and assist scientific review. Sample custody, preparation, instrument setup, calibration, fieldwork, physical observation, exception resolution, and accountable signoff remain materially human and equipment dependent.",
+    "value_capture": "Per-test, per-sample, and fixed-scope billing should let operators retain much of an internal labor benefit between repricing events. Competitive tenders, sophisticated procurement, contract renewals, customer concentration, and required reinvestment in instruments and compliance will share part of the benefit with customers.",
+    "firm_availability": "The code is largely aligned with outsourced repeat services, although captive units, project-only firms, owner-dependent technical practices, customer concentration, and nontransferable quality liabilities reduce eligibility. General succession evidence and sustained sector acquisition activity indicate a meaningful but uncertain five-year flow of control transfers.",
+    "demand_durability": "Real demand is likely to grow modestly as regulation, new materials and devices, environmental monitoring, and independent evidence requirements offset productivity and some customer insourcing. Because tests act on physical items and frequently require accredited accountability, software is more likely to change delivery economics than eliminate the service basket.",
+    "risks_and_uncertainty": "The main uncertainties are the absence of task-time data, lower-middle-market adoption evidence, six-digit real-output data, and a transaction denominator. A poor outcome would combine slow LIMS and instrument integration with aggressive customer repricing, industrial-volume weakness, sensor-driven test elimination, insourcing, or an accreditation or data-integrity failure.",
+    "principal_driver": "A large repeatable documentation and data layer sits around physical, often accredited testing that customers still need from an accountable operator.",
+    "principal_weakness": "Instrument integration, validation, and quality-control constraints may keep exposed labor from becoming implemented savings, while procurement can reclaim part of any benefit."
+  },
+  "sources": [
+    {
+      "id": "S1",
+      "url": "https://www.bls.gov/oes/2023/may/naics5_541380.htm",
+      "title": "May 2023 National Industry-Specific Occupational Employment and Wage Estimates: NAICS 541380",
+      "access_date": "2026-07-22",
+      "supports": "Exact industry occupation employment shares and mean wages used to anchor wage-weighted task exposure."
+    },
+    {
+      "id": "S2",
+      "url": "https://www.onetonline.org/link/details/51-9061.00",
+      "title": "Inspectors, Testers, Sorters, Samplers, and Weighers",
+      "access_date": "2026-07-22",
+      "supports": "Task mix spanning physical inspection, sampling, instruments, calibration, data recording, analysis, and reports."
+    },
+    {
+      "id": "S3",
+      "url": "https://www.1lims.com/2026-state-of-lab-digitalization",
+      "title": "2026 State of Lab Digitalization",
+      "access_date": "2026-07-22",
+      "supports": "Laboratory digital-tool adoption, connected-system gaps, LIMS integration, manual processes, priorities, and sample limitations."
+    },
+    {
+      "id": "S4",
+      "url": "https://www.deloitte.com/us/en/insights/industry/health-care/biopharma-lab-modernization-digital-transformation-qc-lab-future.html",
+      "title": "Building the quality control lab of the future",
+      "access_date": "2026-07-22",
+      "supports": "Biopharma quality-control modernization maturity, automation expectations, investment intent, and integration obstacles."
+    },
+    {
+      "id": "S5",
+      "url": "https://www.census.gov/naics/reference_files_tools/2022_NAICS_Manual.pdf",
+      "title": "North American Industry Classification System, United States, 2022",
+      "access_date": "2026-07-22",
+      "supports": "Official scope of NAICS 541380 and included physical, chemical, biological, calibration, electrical, geotechnical, mechanical, nondestructive, and thermal testing."
+    },
+    {
+      "id": "S6",
+      "url": "https://www.bls.gov/emp/tables/industry-employment-and-output.htm",
+      "title": "Industry employment and output projections",
+      "access_date": "2026-07-22",
+      "supports": "2024-2034 six-digit testing-laboratory employment projection and broader parent-sector real-output projection."
+    },
+    {
+      "id": "S7",
+      "url": "https://www.intertek.com/investors/2025-year-in-review/",
+      "title": "2025 Year in Review",
+      "access_date": "2026-07-22",
+      "supports": "Large-operator evidence that pricing, productivity, mix, leverage, and cost discipline contributed to margin progression."
+    },
+    {
+      "id": "S8",
+      "url": "https://www.ey.com/en_ch/insights/strategy-transactions/testing-inspection-and-certification-study-2025",
+      "title": "Testing, inspection and certification study 2025",
+      "access_date": "2026-07-22",
+      "supports": "Global market-growth expectation, regulatory and digital drivers, and long-run acquisition activity."
+    },
+    {
+      "id": "S9",
+      "url": "https://www.sgs.com/-/media/sgscorp/documents/corporate/reports-and-presentations/2020s/2026/sgs-2025-full-year-results-press-release-en.cdn.en-CL.pdf",
+      "title": "SGS 2025 Full Year Results",
+      "access_date": "2026-07-22",
+      "supports": "Recent bolt-on pace and named US laboratory, testing, calibration, and forensic acquisitions."
+    },
+    {
+      "id": "S10",
+      "url": "https://news.gallup.com/poll/657362/small-business-owners-lack-succession-plan.aspx",
+      "title": "Most U.S. Small-Business Owners Lack a Succession Plan",
+      "access_date": "2026-07-22",
+      "supports": "US employer-business owner age and five-year sell-or-transfer intentions."
+    },
+    {
+      "id": "S11",
+      "url": "https://www.epa.gov/dwlabcert/learn-about-laboratory-certification-drinking-water",
+      "title": "Learn About Laboratory Certification for Drinking Water",
+      "access_date": "2026-07-22",
+      "supports": "Approved methods, proficiency testing, certification, audits, and accountable compliance results."
+    },
+    {
+      "id": "S12",
+      "url": "https://www.fda.gov/medical-devices/division-standards-and-conformity-assessment/testing-laboratories-how-participate-asca",
+      "title": "Testing Laboratories: How to Participate in ASCA",
+      "access_date": "2026-07-22",
+      "supports": "ISO/IEC 17025 accreditation, test plans, summary reports, and laboratory integrity requirements in medical-device testing."
+    },
+    {
+      "id": "S13",
+      "url": "https://www.nist.gov/accreditation",
+      "title": "Accreditation",
+      "access_date": "2026-07-22",
+      "supports": "Technical competence, onsite assessment, proficiency testing, personnel, methods, equipment, traceability, sampling, handling, and reporting."
+    },
+    {
+      "id": "S14",
+      "url": "https://ccal.oregonstate.edu/fees",
+      "title": "Cooperative Chemical Analytical Laboratory Fee Schedule",
+      "access_date": "2026-07-22",
+      "supports": "Observable per-analysis, setup, shipping, and sample-pickup fee architecture for laboratory services."
+    }
+  ]
+}
