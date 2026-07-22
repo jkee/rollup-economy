@@ -654,3 +654,55 @@ reopened, and one aggregate-series endpoint differed slightly, but these issues
 were nonmaterial to already disclosed proxy/estimate states or to records
 deterministically gap-routed by missing firm counts. No review found a material
 defect, and the predeclared pause trigger did not fire.
+
+## G5 — Manufacturing: food, beverage, textiles, apparel, and leather
+
+**Closed:** 2026-07-22
+**Coverage:** 69 attempted, 69 deterministically valid, 69 published, 0 excluded
+**Independent review:** 8/69 (0 mandatory, 7 random, 1 canary)
+**Review outcomes:** 8 `publishable_with_caveats`; 0 `publishable`; 0 `reject`; 0 `invalid`
+**Material findings:** 0
+**Remediations:** 0
+
+### Screen distribution
+
+- Base tiers: 0 `HIGHEST_PRIORITY`, 0 `PRIORITY`, 0 `CONDITIONAL`,
+  15 `LOW_PRIORITY`, 50 `STRUCTURAL_OUT`, and 4 without a base tier.
+- Readiness: 65 `MODEL_CONDITIONED`; 4 `STRESS_TEST_ONLY`.
+- Actions: 65 `VALIDATE_ASSUMPTIONS`; 4 `EVIDENCE_FIRST`.
+- Robust tiers: 25/69, all `STRUCTURAL_OUT`.
+- Publication labels: 8 `accepted`; 61 `not_reviewed` by the frozen sampling
+  contract.
+
+The random stratum consisted of `311119`, `311213`, `311225`, `311352`,
+`311811`, `312112`, and `313320`. All seven were accepted with caveats and
+carried no material finding. The previously reviewed canary `311612` also
+closed with the block. These are sample observations only; no G5 defect rate is
+estimated.
+
+### Economic read
+
+The screen was conservative in industries where value creation remains tied to
+physical conversion, food safety, quality control, plant throughput, and
+commodity or retailer bargaining. Fifteen records reached `LOW_PRIORITY`,
+including poultry and seafood processing, retail bakeries and tortillas,
+ice, beer, and wine production, and selected textile, apparel-contracting, and
+footwear activities. These cases offered useful planning, scheduling,
+inspection, formulation, merchandising, or administrative workflows, but not
+enough transferable and retainable labor benefit for a higher tier.
+
+Fifty records were `STRUCTURAL_OUT`, spanning most primary food processing,
+packaged foods, dairy, slaughter, beverages, tobacco, and capital-intensive
+textile operations. Cane sugar, apparel knitting, noncontract cut-and-sew
+apparel, and other leather products lacked a required anchor and correctly
+routed to `STRESS_TEST_ONLY / EVIDENCE_FIRST`. No record reached
+`CONDITIONAL` or better.
+
+Validators' caveats emphasized broader-industry occupation and adoption
+proxies, judgmental eligible-firm and five-year implementation shares, sparse
+qualifying-transfer denominators, selected large-plant examples, and demand
+bridges that mix nominal revenue, end-market growth, and constant-quality
+quantity. Evidence consistently supported automation direction more strongly
+than the magnitude or retention of LMM labor savings. These limitations were
+disclosed in proxy or estimate states; no review found a tier- or action-changing
+defect, and the predeclared pause trigger did not fire.
