@@ -156,3 +156,52 @@ LMM-specific implementation evidence, estimated eligible-firm counts, sparse
 transaction denominators, and judgmental transfer/retention bridges. No review
 found a correction meeting the frozen base-tier-or-action materiality test, and
 the predeclared pause trigger did not fire.
+
+## S4 — Finance and insurance
+
+**Closed:** 2026-07-22
+**Coverage:** 35 attempted, 35 deterministically valid, 35 published, 0 excluded
+**Independent review:** 8/35 (3 mandatory, 4 random, 1 canary)
+**Review outcomes:** 8 `publishable_with_caveats`; 0 `publishable`; 0 `reject`; 0 `invalid`
+**Material findings:** 0
+**Remediations:** 0
+
+### Screen distribution
+
+- Base tiers: 1 `HIGHEST_PRIORITY`, 3 `PRIORITY`, 6 `CONDITIONAL`,
+  6 `LOW_PRIORITY`, 8 `STRUCTURAL_OUT`, and 11 without a base tier.
+- Readiness: 24 `MODEL_CONDITIONED`; 11 `STRESS_TEST_ONLY`.
+- Actions: 24 `VALIDATE_ASSUMPTIONS`; 11 `EVIDENCE_FIRST`.
+- Robust tiers: 4/35, all `STRUCTURAL_OUT`.
+- Publication labels: 8 `accepted`; 27 `not_reviewed` by the frozen sampling
+  contract.
+
+The random stratum consisted of `522320`, `523150`, `525110`, and `525990`.
+All four were accepted with caveats and carried no material finding; the two
+financial-vehicle records remained honestly gap-routed. The previously reviewed
+canary `522310` also closed with the block. These are sample observations only;
+no S4 defect rate is estimated.
+
+### Economic read
+
+The screen strongly distinguished service intermediaries from balance-sheet,
+institutional, and vehicle structures. Insurance agencies and brokerages were
+the sole `HIGHEST_PRIORITY` record. Claims adjusting and other insurance-related
+activities joined mortgage and nonmortgage loan brokers at `PRIORITY`. Those
+models combine recurring workflow, meaningful labor opportunity, and a more
+plausible transferable operating-company population than banks, carriers,
+funds, or special-purpose vehicles.
+
+Eleven records had no base tier and routed to `STRESS_TEST_ONLY /
+EVIDENCE_FIRST`, including savings institutions, selected securities/credit
+intermediation codes, portfolio management/investment advice, and all six
+5251/5259 fund or vehicle codes. This is the frozen gap mechanism working as
+designed, not a zero score. Eight more records were `STRUCTURAL_OUT`, reflecting
+thin eligible-firm depth or an incoherent LMM recurring-service lens for their
+institutional form.
+
+Validators' caveats emphasized broad financial-sector proxies, weak direct LMM
+implementation measures, sparse transfer denominators, estimated eligible-firm
+populations, and judgmental retention/operator-necessity bridges. No review
+found a correction meeting the frozen base-tier-or-action materiality test, and
+the predeclared pause trigger did not fire.
