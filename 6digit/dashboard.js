@@ -1,230 +1,136 @@
 'use strict';
 
-const DATA_URLS = {
-  fleet: 'six_data_v3.json',
-  campaign: '../pipeline/build/campaign_report_v3_1_2.json',
-  golden: '../pipeline/build/golden_analysis_v3_1_2.json',
-  thresholds: '../pipeline/build/thresholds.json'
-};
-
+const DATA_URL = 'six_data_v4.json';
 const FACTORS = {
-  V: { name: 'Value creation', short: 'AI-addressable labor value', inputs: ['labor_share', 'ai_replaceable_share'] },
-  C: { name: 'Capture', short: 'Share of value the operator retains', inputs: ['pi_dist', 'pi_moat'] },
-  A: { name: 'Adoption timing', short: 'Time to 50% effective adoption', inputs: ['t50_years', 'current_adoption_pct', 'historical_analogs'] },
-  B: { name: 'Buyability', short: 'Target depth, ownership, crowding', inputs: ['n_band', 'owners_60plus_pct', 'active_consolidators'] },
-  M: { name: 'Multiple potential', short: 'Entry-to-exit expansion', inputs: ['buy_mult', 'exit_mult', 'pricing_structure'] }
+  H: ['Implementable labor opportunity', 'Current compensation exposed to implementable AI task substitution'],
+  F: ['Transferable-firm opportunity', 'Expected lens-eligible LMM control transfers over five years'],
+  C: ['Commercial retention', 'Share of implemented gross benefit retained commercially'],
+  D: ['Operator-required demand', 'Year-five constant-price service quantity still needing an operator']
 };
-
-const MEMO_LABELS = {
-  executive_view: 'Executive view',
-  ai_changes_work: 'How AI changes the work', how_ai_changes_work: 'How AI changes the work',
-  value_capture: 'Value capture',
-  adoption_timing: 'Adoption timing',
-  consolidation_economics: 'Consolidation & economics',
-  terminal_demand: 'Terminal demand',
-  risks_and_uncertainty: 'Risks & uncertainty'
-};
-
-const INPUT_LABELS = {
-  labor_share: 'Labor share', ai_replaceable_share: 'AI-replaceable share', pi_dist: 'Distribution retention',
-  pi_moat: 'Moat retention', t50_years: 'Years to 50%', current_adoption_pct: 'Current adoption',
-  historical_analogs: 'Historical analog', n_band: '$1–10M EBITDA targets', owners_60plus_pct: 'Owners age 60+',
-  active_consolidators: 'Active consolidators', buy_mult: 'Entry multiple', exit_mult: 'Exit multiple',
-  pricing_structure: 'Pricing structure'
-};
-
-const state = {
-  fleet: [], campaign: null, golden: null, thresholds: null,
-  view: 'fleet', query: '', verdicts: new Set(), confidences: new Set(),
-  borderline: false, heterogeneous: false, sort: 'score-desc', lastFocus: null,
-  currentRecord: null, currentReview: null, currentKind: 'fleet', currentTab: 'thesis', exclusionTitles: {}
-};
+const TIER_ORDER = ['HIGHEST_PRIORITY', 'PRIORITY', 'CONDITIONAL', 'LOW_PRIORITY', 'STRUCTURAL_OUT', 'UNKNOWN'];
+const state = {records: [], summary: null, query: '', tiers: new Set(), readiness: new Set(), crossing: false, heterogeneous: false, sort: 'score-desc', lastFocus: null};
 
 const $ = (selector, root = document) => root.querySelector(selector);
 const $$ = (selector, root = document) => [...root.querySelectorAll(selector)];
-const esc = value => String(value ?? '').replace(/[&<>'"]/g, char => ({'&':'&amp;','<':'&lt;','>':'&gt;',"'":'&#39;','"':'&quot;'}[char]));
-const pct = value => `${(Number(value) * 100).toFixed(Number(value) < .1 ? 1 : 0)}%`;
-const score = value => Number(value).toFixed(2);
-const verdictLabel = value => String(value).replace('_', ' ').replace(/\b\w/g, c => c.toUpperCase());
-const count = (items, predicate) => items.filter(predicate).length;
-const sourceIsUrl = source => /^https?:\/\//i.test(source || '');
-const ordinal = value => {
-  const rounded = Math.round(Number(value));
-  const mod100 = rounded % 100;
-  const suffix = mod100 >= 11 && mod100 <= 13 ? 'th' : ({1:'st',2:'nd',3:'rd'}[rounded % 10] || 'th');
-  return `${rounded}${suffix}`;
-};
-
-function showToast(message) {
-  const toast = $('#toast');
-  toast.textContent = message;
-  toast.classList.add('show');
-  clearTimeout(showToast.timer);
-  showToast.timer = setTimeout(() => toast.classList.remove('show'), 1800);
-}
-
-async function getJson(url) {
-  const response = await fetch(url);
-  if (!response.ok) throw new Error(`${url} returned ${response.status}`);
-  return response.json();
-}
+const esc = value => String(value ?? '').replace(/[&<>'"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;',"'":'&#39;','"':'&quot;'}[c]));
+const label = value => String(value ?? 'UNKNOWN').toLowerCase().replaceAll('_', ' ').replace(/\b\w/g, c => c.toUpperCase());
+const score = value => value == null ? '—' : Number(value).toFixed(2);
+const compactNumber = value => Number(value).toFixed(4).replace(/\.?0+$/, '');
+const evidenceLabel = value => label(value === 'mixed' ? 'MIXED' : value === 'elicited' ? 'ELICITED' : value);
 
 async function init() {
   try {
-    const [fleet, campaign, golden, thresholds] = await Promise.all(Object.values(DATA_URLS).map(getJson));
-    state.fleet = fleet.records;
-    state.campaign = campaign;
-    state.golden = golden;
-    state.thresholds = thresholds;
-    if (!campaign.campaign_closed || !campaign.phase4_complete) throw new Error('The Phase-4 campaign is not closed.');
-    const excludedRecords = await Promise.all(campaign.exclusions.map(item => getJson(`../pipeline/runs/${item.naics}/${item.run_id}.json`)));
-    excludedRecords.forEach(record => { state.exclusionTitles[record.naics] = record.title; });
+    const response = await fetch(DATA_URL);
+    if (!response.ok) throw new Error(`${DATA_URL} returned ${response.status}`);
+    const data = await response.json();
+    state.records = data.records;
+    state.summary = data.summary;
     renderAll();
     $('#loading').hidden = true;
     switchView(location.hash.slice(1) || 'fleet', false);
-    bindGlobalEvents();
+    bindEvents();
   } catch (error) {
     $('#loading').hidden = true;
-    const box = $('#error');
-    box.hidden = false;
-    box.innerHTML = `<strong>Dashboard data could not be loaded.</strong><br>${esc(error.message)}<br><small>Serve the repository root over HTTP so the generated Phase-4 files are available.</small>`;
+    $('#error').hidden = false;
+    $('#error').innerHTML = `<strong>Dashboard data could not be loaded.</strong><br>${esc(error.message)}<br><small>Serve the repository root over HTTP.</small>`;
   }
 }
 
 function renderAll() {
-  renderCampaignMetrics();
+  renderMetrics();
   renderFilters();
   renderFleet();
-  renderGolden();
-  renderExclusions();
-  renderMethodology();
-  $('#nav-excluded-count').textContent = state.campaign.excluded;
+  renderMethod();
 }
 
-function renderCampaignMetrics() {
-  const c = state.campaign;
-  $('#campaign-total').textContent = `${c.planned.total} / ${c.planned.total}`;
+function renderMetrics() {
+  const s = state.summary;
+  $('#campaign-total').textContent = `${s.membership} / ${s.membership}`;
   const metrics = [
-    [c.published, 'Published', `${c.planned.fleet - c.excluded} fleet + ${c.planned.golden} golden`],
-    [c.excluded, 'Excluded', 'kept outside rankings'],
-    [c.attempt_counts.total, 'Total attempts', `${c.attempt_counts.remediation} bounded remediations`],
-    [c.source_support.supported, 'Supported sources', `${c.source_support.partially_supported} partially supported`],
-    [state.golden.separation_pass ? 'PASS' : 'FAIL', 'Golden separation', 'diagnostic only']
+    [s.complete_base, 'Complete bases', `${s.missing_base} evidence-first`],
+    [s.tier_counts.HIGHEST_PRIORITY || 0, 'Highest priority', 'research priority, not buy signal'],
+    [s.tier_counts.PRIORITY || 0, 'Priority', `${s.tier_counts.CONDITIONAL || 0} conditional`],
+    [s.robust_tier_count, 'Stable tier', `${s.membership - s.robust_tier_count} crossing intervals`],
+    [s.readiness_counts.MODEL_CONDITIONED || 0, 'Model-conditioned', 'assumptions remain visible']
   ];
-  $('#campaign-metrics').innerHTML = metrics.map(([value, label, detail]) =>
-    `<div class="metric"><strong>${esc(value)}</strong><span>${esc(label)}</span><small>${esc(detail)}</small></div>`
-  ).join('');
+  $('#campaign-metrics').innerHTML = metrics.map(([value, title, detail]) => `<div class="metric"><strong>${esc(value)}</strong><span>${esc(title)}</span><small>${esc(detail)}</small></div>`).join('');
 }
 
 function renderFilters() {
-  const verdictOrder = ['conditional', 'pass', 'kill', 'strong', 'hell_yes'];
-  const verdicts = [...new Set(state.fleet.map(record => record.verdict))].sort((a,b) => verdictOrder.indexOf(a) - verdictOrder.indexOf(b));
-  $('#verdict-filters').innerHTML = verdicts.map(value => checkTemplate('verdict', value, verdictLabel(value), count(state.fleet, r => r.verdict === value))).join('');
-  const confidences = [...new Set(state.fleet.map(record => record.confidence))].sort();
-  $('#confidence-filters').innerHTML = confidences.map(value => checkTemplate('confidence', value, value, count(state.fleet, r => r.confidence === value))).join('');
-  $('#borderline-count').textContent = count(state.fleet, r => r.borderline);
-  $('#heterogeneous-count').textContent = count(state.fleet, r => r.heterogeneous);
+  const tierValues = TIER_ORDER.filter(tier => state.records.some(record => (record.tier || 'UNKNOWN') === tier));
+  $('#verdict-filters').innerHTML = tierValues.map(value => check('tier', value, label(value), state.records.filter(r => (r.tier || 'UNKNOWN') === value).length)).join('');
+  const readinessValues = [...new Set(state.records.map(record => record.readiness))].sort();
+  $('#confidence-filters').innerHTML = readinessValues.map(value => check('readiness', value, label(value), state.records.filter(r => r.readiness === value).length)).join('');
+  $('#borderline-count').textContent = state.records.filter(record => !record.robust_tier).length;
+  $('#heterogeneous-count').textContent = state.records.filter(record => record.heterogeneous).length;
 }
 
-function checkTemplate(group, value, label, total) {
-  return `<label class="check-row"><input type="checkbox" data-filter-group="${group}" value="${esc(value)}"><span>${esc(label)}</span><small>${total}</small></label>`;
+function check(group, value, text, count) {
+  return `<label class="check-row"><input type="checkbox" data-filter-group="${group}" value="${esc(value)}"><span>${esc(text)}</span><small>${count}</small></label>`;
 }
 
-function filteredFleet() {
+function filteredRecords() {
   const query = state.query.toLowerCase();
-  const result = state.fleet.filter(record => {
-    if (query && !`${record.naics} ${record.title} ${record.sector.name}`.toLowerCase().includes(query)) return false;
-    if (state.verdicts.size && !state.verdicts.has(record.verdict)) return false;
-    if (state.confidences.size && !state.confidences.has(record.confidence)) return false;
-    if (state.borderline && !record.borderline) return false;
+  return state.records.filter(record => {
+    if (query && !`${record.naics} ${record.title} ${record.sector?.name || ''}`.toLowerCase().includes(query)) return false;
+    if (state.tiers.size && !state.tiers.has(record.tier || 'UNKNOWN')) return false;
+    if (state.readiness.size && !state.readiness.has(record.readiness)) return false;
+    if (state.crossing && record.robust_tier) return false;
     if (state.heterogeneous && !record.heterogeneous) return false;
     return true;
-  });
-  return result.sort((a,b) => {
-    if (state.sort === 'score-asc') return a.S - b.S;
-    if (state.sort === 'percentile-desc') return b.percentile - a.percentile;
+  }).sort((a, b) => {
+    if (state.sort === 'score-asc') return (a.A ?? Infinity) - (b.A ?? Infinity);
     if (state.sort === 'naics') return a.naics.localeCompare(b.naics);
-    return b.S - a.S;
+    if (state.sort === 'v3-desc') return b.v3.S - a.v3.S;
+    return (a.rank ?? Infinity) - (b.rank ?? Infinity);
   });
 }
 
 function renderFleet() {
-  const records = filteredFleet();
+  const records = filteredRecords();
   $('#fleet-result-count').textContent = `${records.length} ${records.length === 1 ? 'industry' : 'industries'}`;
-  $('#fleet-context').textContent = records.length === state.fleet.length ? 'Published fleet · latest reviewed attempts' : `Filtered from ${state.fleet.length} published fleet records`;
+  $('#fleet-context').textContent = records.length === state.records.length ? 'v4.3 Stage 1 · existing Phase 4 universe' : `Filtered from ${state.records.length} records`;
   $('#fleet-empty').hidden = records.length > 0;
-  $('#fleet-list').innerHTML = records.map((record, index) => fleetRow(record, index)).join('');
-  $$('.fleet-row').forEach(button => button.addEventListener('click', () => openFleet(button.dataset.naics, button)));
+  $('#fleet-list').innerHTML = records.map(fleetRow).join('');
+  $$('.fleet-row').forEach(button => button.addEventListener('click', () => openDrawer(state.records.find(r => r.naics === button.dataset.naics), button)));
 }
 
-function fleetRow(record, index) {
+function fleetRow(record) {
+  const tier = record.tier || 'UNKNOWN';
+  const crossing = !record.robust_tier;
   const badges = [
-    `<span class="badge conf-${record.confidence.toLowerCase()}">${esc(record.confidence)} confidence</span>`,
-    `<span class="badge caveat">Reviewed · caveats</span>`,
-    record.borderline ? '<span class="badge borderline">Borderline</span>' : '',
+    `<span class="badge conf-low">${esc(label(record.readiness))}</span>`,
+    `<span class="badge caveat">${esc(label(record.action))}</span>`,
+    crossing ? '<span class="badge borderline">Crossing interval</span>' : '<span class="badge">Stable tier</span>',
     record.heterogeneous ? '<span class="badge">Heterogeneous</span>' : ''
   ].join('');
-  const sparks = Object.entries(record.scores).map(([factor, value]) =>
-    `<span class="spark-row"><b>${factor}</b><i class="spark-track"><i class="spark-fill" style="width:${Math.max(0,Math.min(100,value*10))}%"></i></i><em>${Number(value).toFixed(1)}</em></span>`
-  ).join('');
-  return `<button class="fleet-row" data-naics="${record.naics}" aria-label="Open ${esc(record.title)} evidence">
-    <span class="rank">${String(index + 1).padStart(2,'0')}</span>
-    <span class="industry"><span class="naics">${record.naics}<span class="sector-label"> · ${esc(record.sector.name)}</span></span><strong>${esc(record.title)}</strong><span class="badges">${badges}</span></span>
-    <span class="factor-spark" aria-label="Factor scores">${sparks}</span>
-    <span class="result-score"><strong>${score(record.S)}</strong><span class="verdict-${record.verdict}">${verdictLabel(record.verdict)}</span><small>${ordinal(record.percentile)} percentile</small></span>
-    <span class="row-arrow" aria-hidden="true">→</span>
+  const sparks = Object.entries(FACTORS).map(([factor]) => {
+    const value = record.factors[factor].base;
+    return `<span class="spark-row"><b>${factor}</b><i class="spark-track"><i class="spark-fill" style="width:${value == null ? 0 : value * 10}%"></i></i><em>${value == null ? '—' : Number(value).toFixed(1)}</em></span>`;
+  }).join('');
+  return `<button class="fleet-row" data-naics="${record.naics}" aria-label="Open ${esc(record.title)} v4 evidence">
+    <span class="rank">${record.rank == null ? '—' : String(record.rank).padStart(2, '0')}</span>
+    <span class="industry"><span class="naics">${record.naics}<span class="sector-label"> · ${esc(record.sector?.name || 'Phase 4')}</span></span><strong>${esc(record.title)}</strong><span class="badges">${badges}</span></span>
+    <span class="factor-spark">${sparks}</span>
+    <span class="result-score"><strong>${score(record.A)}</strong><span class="verdict-${tier.toLowerCase()}">${esc(label(tier))}</span><small>v3 ${score(record.v3.S)} · ${esc(label(record.v3.verdict))}</small></span>
+    <span class="row-arrow">→</span>
   </button>`;
 }
 
-function renderGolden() {
-  const g = state.golden;
-  $('#golden-summary').innerHTML = `<div class="diag-lead"><strong>${g.separation_pass ? 'Separation passed' : 'Separation failed'}</strong><span>Mechanics ${g.mechanics_errors.length ? 'require review' : 'clean'} · no rerun trigger</span></div>
-    <div class="diag-stat"><strong>${g.records.length}</strong><small>Independent runs</small></div>
-    <div class="diag-stat"><strong>${g.mechanics_errors.length}</strong><small>Mechanics errors</small></div>
-    <div class="diag-stat"><strong>${g.uncaught_melters.length}</strong><small>Uncaught melters</small></div>
-    <div class="diag-stat"><strong>${g.review_outcome_counts.publishable_with_caveats}</strong><small>With caveats</small></div>`;
-  const classes = [['winner','Known winners'], ['melter','Known melters'], ['control','Controls']];
-  $('#golden-groups').innerHTML = classes.map(([klass,label]) => {
-    const rows = g.records.filter(r => r.class === klass);
-    return `<section class="golden-group"><h2>${label} · ${rows.length}</h2><div class="golden-grid">${rows.map(record => goldenCard(record,klass)).join('')}</div></section>`;
-  }).join('');
-  $$('.golden-card').forEach(button => button.addEventListener('click', () => openGolden(button.dataset.naics, button)));
+function renderMethod() {
+  const cuts = [['Highest priority', 'A ≥ 7.5 · L ≥ 6'], ['Priority', 'A ≥ 6 · L ≥ 4'], ['Conditional', 'A ≥ 4.5 · L ≥ 2'], ['Low priority', 'A ≥ 3 · L ≥ 1'], ['Structural out', 'otherwise']];
+  $('#method-cuts').innerHTML = cuts.map(([name, value]) => `<div class="cut-row"><span>${name}</span><strong>${value}</strong></div>`).join('');
+  $('#factor-glossary').innerHTML = Object.entries(FACTORS).map(([key, [name, short]]) => `<article class="glossary-item"><b>${key}</b><strong>${name}</strong><p>${short}</p></article>`).join('');
 }
 
-function goldenCard(record, klass) {
-  return `<button class="golden-card" data-naics="${record.naics}" aria-label="Open golden diagnostic for ${esc(record.title)}">
-    <span class="golden-card-head"><span>${record.naics}</span><i class="${klass}"></i></span>
-    <h3>${esc(record.title)}</h3>
-    <span class="golden-card-foot"><strong>${score(record.S)}</strong><span>${verdictLabel(record.verdict)}<br>${record.confidence} confidence</span></span>
-  </button>`;
-}
-
-function renderExclusions() {
-  const c = state.campaign;
-  $('#exclusions-summary').innerHTML = `<strong>${c.excluded}</strong><span>record remains excluded after the single permitted remediation. Its mechanics pass; material evidence defects keep it outside publication.</span>`;
-  $('#exclusions-list').innerHTML = c.exclusions.map(exclusion => {
-    const material = exclusion.findings.filter(f => f.severity === 'material');
-    return `<article class="exclusion-card"><div class="exclusion-head"><div><span class="naics">${exclusion.naics} · FLEET · ATTEMPT ${exclusion.attempt}</span><h2>${esc(titleForNaics(exclusion.naics))}</h2><p>${esc(exclusion.run_id)}</p></div><span class="reject-pill">${esc(exclusion.outcome)}</span></div>
-      <div class="exclusion-body"><p>${esc(exclusion.summary)}</p><div class="material-findings">${material.map(f => `<div class="finding"><strong>${esc(f.category.replaceAll('_',' '))}</strong><p>${esc(f.materiality)}</p></div>`).join('')}</div>
-      <button class="open-exclusion" data-naics="${exclusion.naics}">Inspect excluded record →</button></div></article>`;
-  }).join('');
-  $$('.open-exclusion').forEach(button => button.addEventListener('click', () => openExcluded(button.dataset.naics, button)));
-}
-
-function renderMethodology() {
-  const cuts = state.thresholds.verdict_cuts;
-  $('#method-cuts').innerHTML = Object.entries(cuts).map(([name,value]) => `<div class="cut-row"><span>${verdictLabel(name)}</span><strong>S ≥ ${Number(value).toFixed(1)}</strong></div>`).join('');
-  $('#factor-glossary').innerHTML = Object.entries(FACTORS).map(([key,value]) => `<article class="glossary-item"><b>${key}</b><strong>${value.name}</strong><p>${value.short}</p></article>`).join('');
-}
-
-function bindGlobalEvents() {
+function bindEvents() {
   $$('.nav-button').forEach(button => button.addEventListener('click', () => switchView(button.dataset.view)));
   $('#fleet-search').addEventListener('input', event => { state.query = event.target.value.trim(); renderFleet(); });
   $('#fleet-sort').addEventListener('change', event => { state.sort = event.target.value; renderFleet(); });
-  $('#filter-borderline').addEventListener('change', event => { state.borderline = event.target.checked; renderFleet(); });
+  $('#filter-borderline').addEventListener('change', event => { state.crossing = event.target.checked; renderFleet(); });
   $('#filter-heterogeneous').addEventListener('change', event => { state.heterogeneous = event.target.checked; renderFleet(); });
   $$('[data-filter-group]').forEach(input => input.addEventListener('change', event => {
-    const target = event.target.dataset.filterGroup === 'verdict' ? state.verdicts : state.confidences;
+    const target = event.target.dataset.filterGroup === 'tier' ? state.tiers : state.readiness;
     event.target.checked ? target.add(event.target.value) : target.delete(event.target.value);
     renderFleet();
   }));
@@ -235,268 +141,72 @@ function bindGlobalEvents() {
 }
 
 function resetFilters() {
-  state.query = ''; state.verdicts.clear(); state.confidences.clear(); state.borderline = false; state.heterogeneous = false;
+  state.query = ''; state.tiers.clear(); state.readiness.clear(); state.crossing = false; state.heterogeneous = false;
   $('#fleet-search').value = ''; $('#filter-borderline').checked = false; $('#filter-heterogeneous').checked = false;
   $$('[data-filter-group]').forEach(input => { input.checked = false; });
   renderFleet();
 }
 
 function switchView(view, push = true) {
-  const accepted = ['fleet','golden','exclusions','methodology'];
-  if (!accepted.includes(view)) view = 'fleet';
-  state.view = view;
+  if (!['fleet', 'methodology'].includes(view)) view = 'fleet';
   $$('.view').forEach(section => { section.hidden = section.id !== `${view}-view`; });
-  $$('.nav-button').forEach(button => {
-    const active = button.dataset.view === view;
-    button.classList.toggle('active', active);
-    active ? button.setAttribute('aria-current','page') : button.removeAttribute('aria-current');
-  });
-  if (push && location.hash !== `#${view}`) history.pushState(null,'',`#${view}`);
-  scrollTo({top:0,behavior:'smooth'});
+  $$('.nav-button').forEach(button => button.classList.toggle('active', button.dataset.view === view));
+  if (push && location.hash !== `#${view}`) history.pushState(null, '', `#${view}`);
+  scrollTo({top: 0, behavior: 'smooth'});
 }
 
-function titleForNaics(naics) {
-  return state.fleet.find(r => r.naics === naics)?.title || state.golden.records.find(r => r.naics === naics)?.title || state.exclusionTitles[naics] || `NAICS ${naics}`;
-}
-
-function campaignRecord(kind, naics) {
-  return state.campaign.records.find(record => record.kind === kind && record.naics === naics);
-}
-
-function openFleet(naics, trigger) {
-  const record = state.fleet.find(item => item.naics === naics);
-  openDrawer(record, record.acceptance.review, 'fleet', trigger);
-}
-
-async function openGolden(naics, trigger) {
-  const campaign = campaignRecord('golden', naics);
-  if (!campaign) return showToast('Golden artifact identity not found.');
-  await loadRawRecord('golden', naics, campaign.run_id, trigger);
-}
-
-async function openExcluded(naics, trigger) {
-  const exclusion = state.campaign.exclusions.find(item => item.naics === naics);
-  if (!exclusion) return;
-  await loadRawRecord(exclusion.kind, naics, exclusion.run_id, trigger);
-}
-
-async function loadRawRecord(kind, naics, runId, trigger) {
-  trigger.disabled = true;
-  const recordBase = kind === 'golden' ? 'golden_v3_1_2' : 'runs';
-  try {
-    const [raw, review] = await Promise.all([
-      getJson(`../pipeline/${recordBase}/${naics}/${runId}.json`),
-      getJson(`../pipeline/review/${naics}/${runId}.json`)
-    ]);
-    openDrawer(normalizeRaw(raw, review), review, kind, trigger);
-  } catch (error) {
-    showToast(`Could not open artifact: ${error.message}`);
-  } finally {
-    trigger.disabled = false;
-  }
-}
-
-function normalizeRaw(raw, review) {
-  return {
-    naics: raw.naics, title: raw.title,
-    sector: {code: raw.naics.slice(0,2), name: raw.naics.startsWith('54') ? 'Professional Services' : 'Golden diagnostic'},
-    scores: Object.fromEntries(Object.entries(raw.scores).map(([key,value]) => [key,value.score])),
-    scoreArithmetic: Object.fromEntries(Object.entries(raw.scores).map(([key,value]) => [key,value.arithmetic])),
-    S: raw.S, verdict: raw.decision.verdict, borderline: raw.decision.borderline, gate_blocked: raw.decision.gate_blocked,
-    capped_by: raw.decision.capped_by, confidence: raw.confidence_overall,
-    terminal_value: raw.cross_checks.terminal_value.class, heterogeneous: raw.heterogeneous, percentile: null,
-    run_meta: raw.run_meta, acceptance: {status: review.outcome === 'reject' || review.outcome === 'invalid' ? 'rejected' : 'accepted', review},
-    flags: [], evidence: {dataset_inputs: raw.dataset_inputs, inputs: raw.inputs, subfactors: {}, cross_checks: raw.cross_checks, top_uncertain_inputs: raw.top_uncertain_inputs, reviewer_note: raw.reviewer_note},
-    research_memo: raw.narrative, sources: raw.sources, publication_caveats: review.publication_caveats || []
-  };
-}
-
-function openDrawer(record, review, kind, trigger) {
+function openDrawer(record, trigger) {
   state.lastFocus = trigger;
-  state.currentRecord = record; state.currentReview = review; state.currentKind = kind; state.currentTab = 'thesis';
-  $('#drawer-content').innerHTML = drawerShell(record, review, kind);
-  const drawer = $('#record-drawer');
-  const backdrop = $('#drawer-backdrop');
-  drawer.hidden = false; backdrop.hidden = false; document.body.classList.add('drawer-open');
-  bindDrawerEvents();
+  $('#drawer-content').innerHTML = drawerContent(record);
+  $('#record-drawer').hidden = false;
+  $('#drawer-backdrop').hidden = false;
+  document.body.classList.add('drawer-open');
+  $('.drawer-close').addEventListener('click', closeDrawer);
   $('.drawer-close').focus();
 }
 
 function closeDrawer() {
-  $('#record-drawer').hidden = true; $('#drawer-backdrop').hidden = true; document.body.classList.remove('drawer-open');
-  state.lastFocus?.focus(); state.currentRecord = null;
+  $('#record-drawer').hidden = true;
+  $('#drawer-backdrop').hidden = true;
+  document.body.classList.remove('drawer-open');
+  state.lastFocus?.focus();
 }
 
-function drawerShell(record, review, kind) {
-  const factors = Object.keys(FACTORS).map(key => score(record.scores[key])).join(' × ');
-  const badges = [
-    `<span class="badge">${esc(kind)} record</span>`, `<span class="badge">${esc(record.confidence)} confidence</span>`,
-    `<span class="badge review">${esc(review.outcome || review.review_meta?.outcome || 'reviewed').replaceAll('_',' ')}</span>`,
-    record.borderline ? '<span class="badge">Borderline</span>' : '', record.heterogeneous ? '<span class="badge">Heterogeneous</span>' : ''
-  ].join('');
+function drawerContent(record) {
+  const tier = record.tier || 'UNKNOWN';
+  const factorCards = Object.entries(FACTORS).map(([key, [name, short]]) => factorCard(record, key, name, short)).join('');
+  const v3Scores = Object.entries(record.v3.scores).map(([key, value]) => `${key} ${Number(value).toFixed(1)}`).join(' · ');
+  const sourceReview = record.source_review?.outcome ? `<p><strong>Source-run review:</strong> ${esc(label(record.source_review.outcome))}. ${esc(record.source_review.summary || '')}</p>` : '';
   return `<header class="drawer-hero"><button class="drawer-close" aria-label="Close record">×</button>
-    <div class="drawer-kicker">NAICS ${record.naics} · ${esc(record.sector.name)}</div><h2 id="drawer-title">${esc(record.title)}</h2><div class="drawer-badges">${badges}</div>
-    <div class="score-ledger"><div class="big-score"><span>Absolute score</span><strong>${score(record.S)}</strong><small>${verdictLabel(record.verdict)}${record.percentile != null ? ` · ${ordinal(record.percentile)} percentile` : ''}</small></div>
-    <div class="aggregate-equation">Geometric mean of five frozen factors<strong>(${factors})<sup>⅕</sup> = ${score(record.S)}</strong></div></div></header>
-    <nav class="drawer-tabs" aria-label="Record details"><button class="drawer-tab active" data-tab="thesis">Thesis</button><button class="drawer-tab" data-tab="evidence">Score & evidence</button><button class="drawer-tab" data-tab="caveats">Caveats <span>${record.publication_caveats.length}</span></button><button class="drawer-tab" data-tab="artifacts">Artifacts</button></nav>
-    <div id="drawer-panel" class="drawer-panel">${drawerPanel('thesis')}</div>`;
+    <div class="drawer-kicker">NAICS ${record.naics} · v4.3 Stage 1</div><h2 id="drawer-title">${esc(record.title)}</h2>
+    <div class="drawer-badges"><span class="badge">${esc(label(record.readiness))}</span><span class="badge review">${esc(label(record.action))}</span>${record.robust_tier ? '<span class="badge">Stable tier</span>' : '<span class="badge borderline">Crossing interval</span>'}</div>
+    <div class="score-ledger"><div class="big-score"><span>Breadth score A</span><strong>${score(record.A)}</strong><small>${esc(label(tier))}</small></div>
+    <div class="aggregate-equation">A = mean(H,F,C,D) · L = weakest factor<strong>L ${score(record.L)} · ${esc(label(record.tier_interval[0]))} → ${esc(label(record.tier_interval[1]))}</strong></div></div></header>
+    <div class="drawer-panel"><h3>v4 factors and evidence</h3><div class="factor-chain">${factorCards}</div>
+    <h3>Why it lands here</h3><div class="caveat-summary"><strong>Driver: ${esc(record.principal_driver || 'unknown')} · Weakness: ${esc(record.principal_weakness || 'unknown')}</strong><br>All complete records remain model-conditioned, so the tier prioritizes further research and the action is ${esc(label(record.action))}.</div>
+    <h3>v3 comparison</h3><div class="caveat-summary"><strong>v3 ${score(record.v3.S)} · ${esc(label(record.v3.verdict))} · ${esc(record.v3.confidence)} confidence</strong><br>${esc(v3Scores)}</div>${sourceReview}
+    <h3>Reused source registry</h3><div class="source-registry">${record.sources.map(sourceCard).join('')}</div>
+    <h3>Artifacts</h3><div class="artifact-list"><a class="artifact-link" href="../pipeline/v4_3/runs/${record.naics}/v4_3_minimal.json"><span class="artifact-icon">V4</span><span><strong>v4 score record</strong><small>Separate deterministic Stage 1 output</small></span><span>↗</span></a><a class="artifact-link" href="../pipeline/runs/${record.naics}/${record.source_run.run_id}.json"><span class="artifact-icon">V3</span><span><strong>Reused v3 evidence record</strong><small>${esc(record.source_run.run_id)}</small></span><span>↗</span></a></div></div>`;
 }
 
-function bindDrawerEvents() {
-  $('.drawer-close').addEventListener('click', closeDrawer);
-  $$('.drawer-tab').forEach(button => button.addEventListener('click', () => {
-    state.currentTab = button.dataset.tab;
-    $$('.drawer-tab').forEach(tab => tab.classList.toggle('active', tab === button));
-    $('#drawer-panel').innerHTML = drawerPanel(state.currentTab);
-    bindPanelEvents();
-  }));
-  bindPanelEvents();
+function factorCard(record, key, name, short) {
+  const factor = record.factors[key];
+  const leaves = Object.entries(record.evidence[key].leaves || {}).map(([leaf, value]) => leafRow(leaf, value)).join('');
+  return `<article class="factor-card"><div class="factor-button"><span class="factor-letter">${key}</span><span class="factor-name"><strong>${esc(name)}</strong><small>${esc(short)}</small></span><span class="factor-score">${score(factor.base)}</span></div><div class="factor-details" style="display:block"><div class="factor-formula">Range ${score(factor.low)}–${score(factor.high)} · ${esc(evidenceLabel(factor.evidence_state))} evidence</div><div class="input-list">${leaves}</div></div></article>`;
 }
 
-function bindPanelEvents() {
-  $$('.factor-button').forEach(button => button.addEventListener('click', () => {
-    const card = button.closest('.factor-card'); const open = card.classList.toggle('open'); button.setAttribute('aria-expanded',open);
-  }));
-  $$('.input-button').forEach(button => button.addEventListener('click', () => {
-    const card = button.closest('.input-card'); const open = card.classList.toggle('open'); button.setAttribute('aria-expanded',open);
-  }));
-  $$('[data-source-jump]').forEach(button => button.addEventListener('click', event => {
-    event.stopPropagation();
-    const sourceId = button.dataset.sourceJump;
-    let target = $(`#source-${CSS.escape(sourceId)}`);
-    if (!target) {
-      state.currentTab = 'evidence';
-      $$('.drawer-tab').forEach(tab => tab.classList.toggle('active', tab.dataset.tab === 'evidence'));
-      $('#drawer-panel').innerHTML = drawerPanel('evidence');
-      bindPanelEvents();
-      target = $(`#source-${CSS.escape(sourceId)}`);
-    }
-    target?.scrollIntoView({behavior:'smooth',block:'center'}); target?.classList.add('flash'); setTimeout(() => target?.classList.remove('flash'),1300);
-  }));
-}
-
-function drawerPanel(tab) {
-  if (tab === 'evidence') return evidencePanel(state.currentRecord);
-  if (tab === 'caveats') return caveatPanel(state.currentRecord, state.currentReview);
-  if (tab === 'artifacts') return artifactsPanel(state.currentRecord, state.currentKind);
-  return thesisPanel(state.currentRecord);
-}
-
-function thesisPanel(record) {
-  const memo = record.research_memo || {};
-  const lead = memo.executive_view || 'Open the evidence view for the complete deterministic score chain.';
-  const rest = Object.entries(memo).filter(([key]) => key !== 'executive_view');
-  const uncertainty = record.evidence.top_uncertain_inputs || [];
-  return `<h3>Research memo</h3><div class="thesis-lead">${withSourceRefs(lead)}</div>
-    ${rest.map(([key,value]) => `<section class="memo-section"><span>${esc(MEMO_LABELS[key] || key.replaceAll('_',' '))}</span><p>${withSourceRefs(value)}</p></section>`).join('')}
-    <h4>Highest-impact uncertainties</h4><div class="uncertainty-grid">${uncertainty.map(item => `<article class="uncertainty-card"><strong>${esc(INPUT_LABELS[item.input] || item.input)}</strong><span>${esc(item.plausible_range)}</span><p>${esc(item.score_impact)}</p></article>`).join('')}</div>`;
-}
-
-function withSourceRefs(text) {
-  return esc(text).replace(/\[([A-Z]\d+)\]/g, (_, id) => `<button class="source-id-link" data-source-jump="${id}" title="Open Score & evidence to inspect ${id}">${id}</button>`);
-}
-
-function evidencePanel(record) {
-  return `<h3>Verdict → factors → inputs → evidence</h3><div class="factor-chain">${Object.entries(FACTORS).map(([key,meta]) => factorCard(record,key,meta)).join('')}</div>
-    <h4>Source registry</h4><div class="source-registry">${record.sources.map(sourceCard).join('')}</div>
-    <h4>Cross-checks</h4><div class="input-details" style="display:block">${crossChecks(record.evidence.cross_checks)}</div>`;
-}
-
-function factorCard(record, key, meta) {
-  const formula = formulaFor(record,key);
-  const inputs = meta.inputs.map(name => inputCard(record,name)).join('');
-  return `<article class="factor-card"><button class="factor-button" aria-expanded="false"><span class="factor-letter">${key}</span><span class="factor-name"><strong>${meta.name}</strong><small>${meta.short}</small></span><span class="factor-score">${score(record.scores[key])}</span><span class="factor-chevron">›</span></button><div class="factor-details"><div class="factor-formula">${esc(formula)}</div><div class="input-list">${inputs}</div></div></article>`;
-}
-
-function formulaFor(record,key) {
-  if (record.scoreArithmetic?.[key]) return record.scoreArithmetic[key];
-  const i = record.evidence.inputs, d = record.evidence.dataset_inputs, s = record.evidence.subfactors;
-  if (key === 'V') return `V_raw = ${d.labor_share.value} × ${i.ai_replaceable_share.value} = ${s.V_raw}; V = 10 × min(1, V_raw ÷ 0.25) = ${record.scores.V}`;
-  if (key === 'C') return `C = 10 × ${i.pi_dist.value} × ${i.pi_moat.value} = ${record.scores.C}`;
-  if (key === 'A') return `A = 10 when t50 = 0, else min(10, 10 ÷ t50); t50 = ${i.t50_years.value}; A = ${record.scores.A}`;
-  if (key === 'B') return `TD = ${s.TD}; OW = ${s.OW}; CFD = ${s.CFD}; B = 10 × √(TD × OW) ÷ (1 + 0.3 × CFD) = ${record.scores.B}`;
-  return `M = clamp(4 × (exit − buy) ÷ buy, 0, 10) = ${record.scores.M}`;
-}
-
-function inputCard(record,name) {
-  const dataset = ['labor_share','n_band'].includes(name);
-  const input = dataset ? record.evidence.dataset_inputs[name] : record.evidence.inputs[name];
-  if (!input) return '';
-  const method = dataset ? 'DATASET' : (input.method || input.provenance_type || 'ESTIMATE');
-  const value = displayInputValue(name,input.value);
-  const quality = input.evidence_quality || input.quality || '—';
-  const refs = dataset ? datasetSources(input) : (input.source_ids || []).map(id => `<button class="source-id-link" data-source-jump="${esc(id)}">${esc(id)}</button>`).join('') || 'No source ID · declared estimate';
-  const details = (dataset ? datasetDetails(input) : input.rationale) || 'No additional rationale.';
-  const caveats = (input.caveats || []).join(' ');
-  return `<article class="input-card"><button class="input-button" aria-expanded="false"><span class="input-name"><strong>${esc(INPUT_LABELS[name] || name)}</strong><small>${esc(quality)} evidence${input.confidence ? ` · ${esc(input.confidence)} confidence` : ''}</small></span><span class="input-value">${esc(value)}</span><span class="method-pill method-${method.toLowerCase()}">${esc(method)}</span><span>›</span></button>
-    <div class="input-details"><dl><dt>Rationale</dt><dd>${esc(details)}</dd><dt>Range</dt><dd>${esc(input.plausible_range || 'Not stated')}</dd><dt>Evidence</dt><dd>${refs}</dd>${caveats ? `<dt>Caveat</dt><dd>${esc(caveats)}</dd>` : ''}${name === 'owners_60plus_pct' ? successionDetail(input) : ''}</dl>${roleBreakdown(input)}</div></article>`;
-}
-
-function displayInputValue(name,value) {
-  if (['labor_share','ai_replaceable_share','pi_dist','pi_moat','current_adoption_pct','owners_60plus_pct'].includes(name)) return pct(value);
-  if (name === 't50_years') return `${Number(value).toFixed(1)} yrs`;
-  if (['buy_mult','exit_mult'].includes(name)) return `${Number(value).toFixed(1)}×`;
-  if (name === 'n_band' || name === 'active_consolidators') return Number(value).toLocaleString();
-  return String(value).length > 54 ? `${String(value).slice(0,51)}…` : value;
-}
-
-function datasetSources(input) {
-  const values = input.sources || (input.source ? [input.source] : []);
-  return values.length ? values.map(source => sourceIsUrl(source) ? `<a href="${esc(source)}" target="_blank" rel="noopener">${esc(source)}</a>` : `<span>${esc(source)}</span>`).join('<br>') : 'Generated deterministic dataset input';
-}
-
-function datasetDetails(input) {
-  return input.method || input.derivation || input.source || '';
-}
-
-function successionDetail(input) {
-  const s = input.succession_shortage_documented;
-  if (!s) return '';
-  return `<dt>Succession flag</dt><dd>${s.value ? 'Documented' : 'Not documented'} · ${esc(s.method)} · ${esc(s.rationale)}</dd>`;
-}
-
-function roleBreakdown(input) {
-  const roles = input.breakdown_by_role || [];
-  if (!roles.length) return '';
-  return `<div class="role-breakdown"><div class="role-breakdown-head"><strong>Role-weight calculation</strong><span class="method-pill method-estimate">ESTIMATE</span></div><div class="role-table-wrap"><table><thead><tr><th>Role</th><th>Labor</th><th>Auto.</th><th>Contribution</th></tr></thead><tbody>${roles.map(role => `<tr><td><strong>${esc(role.role)}</strong><small>${esc(role.soc)} · ${esc(role.rationale)}</small></td><td>${pct(role.labor_share_of_total)}</td><td>${pct(role.within_role_automatable_fraction)}</td><td>${pct(role.contribution)}</td></tr>`).join('')}</tbody></table></div></div>`;
+function leafRow(name, value) {
+  if (typeof value !== 'object' || value == null) return '';
+  const selectedRaw = value.value ?? value.base ?? value.terminal_class ?? '—';
+  const selected = typeof selectedRaw === 'number' ? compactNumber(selectedRaw) : selectedRaw;
+  const range = value.low != null || value.high != null ? `${score(value.low)}–${score(value.high)}` : 'Not numeric';
+  return `<article class="input-card"><div class="input-button"><span class="input-name"><strong>${esc(name)}</strong><small>${esc(label(value.state || 'context'))}</small></span><span class="input-value">${esc(selected)}</span><span class="method-pill method-estimate">${esc(range)}</span></div>${value.rationale ? `<div class="input-details" style="display:block">${esc(value.rationale)}</div>` : ''}</article>`;
 }
 
 function sourceCard(source) {
   const title = esc(source.title || source.id);
-  const link = sourceIsUrl(source.url) ? `<a href="${esc(source.url)}" target="_blank" rel="noopener">${title} ↗</a>` : `<strong>${title}</strong>`;
-  return `<article id="source-${esc(source.id)}" class="source-card"><div class="source-top"><span>${esc(source.id)}</span><time>${esc(source.access_date || '')}</time></div>${link}<p>${esc(source.what_it_supports || source.supports || '')}</p></article>`;
-}
-
-function crossChecks(checks = {}) {
-  return `<dl>${Object.entries(checks).map(([key,value]) => `<dt>${esc(key.replaceAll('_',' '))}</dt><dd>${esc(formatCrossCheck(value))}</dd>`).join('')}</dl>`;
-}
-
-function formatCrossCheck(value) {
-  if (value && typeof value === 'object' && value.class && value.justification) return `${value.class} — ${value.justification}`;
-  if (typeof value === 'number') return Number(value).toFixed(2);
-  return typeof value === 'object' ? JSON.stringify(value) : value;
-}
-
-function caveatPanel(record, review) {
-  const caveats = record.publication_caveats || [];
-  const findings = review.findings || [];
-  const summary = review.summary || record.acceptance.review.summary || '';
-  return `<h3>Publication caveats</h3><div class="caveat-summary"><strong>${caveats.length} visible caveats.</strong><br>${esc(summary)}</div>
-    <ul class="caveat-list">${caveats.map(item => `<li>${esc(item)}</li>`).join('') || '<li>No publication caveats recorded.</li>'}</ul>
-    ${findings.length ? `<h4>Validator findings</h4><div class="review-findings">${findings.map(f => `<article class="review-finding"><strong>${esc(f.severity)} · ${esc(f.category.replaceAll('_',' '))}</strong><p>${esc(f.explanation)}</p><p><b>Materiality:</b> ${esc(f.materiality)}</p></article>`).join('')}</div>` : ''}`;
-}
-
-function artifactsPanel(record, kind) {
-  const id = record.run_meta.run_id, naics = record.naics;
-  const runRoot = kind === 'golden' ? 'golden_v3_1_2' : 'runs';
-  const artifacts = [
-    ['PKT','Research packet',`../pipeline/packets/${naics}/${id}.json`,'Model-authored narrative, scorecard, and source registry'],
-    ['REC',kind === 'golden' ? 'Golden score record' : 'Fleet score record',`../pipeline/${runRoot}/${naics}/${id}.json`,'Python-finalized inputs, factors, aggregate, and verdict'],
-    ['MEM','Research memo',`../pipeline/memos/${naics}/${id}.md`,'Deterministically rendered human-facing memo'],
-    ['REV','Publication review',`../pipeline/review/${naics}/${id}.json`,'Exact-artifact review, findings, support, and caveats']
-  ];
-  return `<h3>Underlying artifacts</h3><div class="artifact-list">${artifacts.map(([icon,label,url,description]) => `<a class="artifact-link" href="${url}"><span class="artifact-icon">${icon}</span><span><strong>${label}</strong><small>${esc(description)}<br>${esc(url)}</small></span><span>↗</span></a>`).join('')}</div>
-    <table class="metadata-table"><tr><th>run id</th><td>${esc(id)}</td></tr>${Object.entries(record.run_meta).filter(([key]) => key !== 'run_id').map(([key,value]) => `<tr><th>${esc(key.replaceAll('_',' '))}</th><td>${esc(value)}</td></tr>`).join('')}</table>`;
+  const heading = /^https?:\/\//i.test(source.url || '') ? `<a href="${esc(source.url)}" target="_blank" rel="noopener">${title} ↗</a>` : `<strong>${title}</strong>`;
+  return `<article class="source-card"><div class="source-top"><span>${esc(source.id)}</span><time>${esc(source.access_date || '')}</time></div>${heading}<p>${esc(source.what_it_supports || source.supports || '')}</p></article>`;
 }
 
 init();
