@@ -30,15 +30,15 @@ model output (Playbook lesson 5: hand-made fixtures lie).
 
 **Done when:** one real packet passes `check` without manual repair and the memo reads as a defensible screen.
 
-## Phase 2 — Full canary (five codes) + reviews · ~1–2 days
+## Phase 2 — Full canary (five codes) + reviews · done, at gate
 
-- [ ] 2.1 Research the remaining four: **541214, 541511, 541512, 541930** (fresh sessions, one code each)
-- [ ] 2.2 Five isolated validator reviews (best model class, fresh sessions, never the author); mechanics blocks copied from `build.py check`; every primitive-cited source audited
-- [ ] 2.3 At most one remediation per `reject`/`invalid`, findings attached, fresh review
-- [ ] 2.4 Calibration diff: fresh canary results vs the archived v4.3 adapter projections (`V4_3_CANARY_RESULTS.md`) — where they disagree, note whether the v3 evidence or the adapter constants were weak; no tuning
-- [ ] 2.5 Compact report: five rows (H/F/C/D, A/L, tier + interval, readiness/action, driver/weakness, review outcome) + acceptance recommendation
+- [x] 2.1 Research the remaining four: **541214, 541511, 541512, 541930** (fresh sessions, one code each) — all passed validate/finalize/check unrepaired (`1f19c6c`)
+- [x] 2.2 Five isolated validator reviews (Fable class, fresh sessions, never the author); mechanics copied from `build.py check`; 68 primitive-cited sources audited across the five — **5× `publishable_with_caveats`, 0 material findings**
+- [x] 2.3 No `reject`/`invalid` → no remediations
+- [x] 2.4 Calibration diff vs v4.3 in `V5_CANARY_REPORT.md`: adapter H constants were generous (high `l` → near-cap H), elicited C constants harsh; fresh research compresses H, lifts C; top rank flips 541512 → 541214. No tuning
+- [x] 2.5 Compact report + acceptance recommendation: `V5_CANARY_REPORT.md` (recommend **accept**)
 
-**GATE — stop for Victor's approval.** Per the frozen methodology, the canary
+**GATE — stopped, awaiting Victor's approval.** Per the frozen methodology, the canary
 fails only for systemic construct errors, misleading evidence treatment,
 broken mechanics, or results useless for prioritization — not because
 estimates remain or ranges cross tiers.
