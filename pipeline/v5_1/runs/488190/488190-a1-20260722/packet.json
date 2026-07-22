@@ -1,0 +1,213 @@
+{
+  "identity": {
+    "naics": "488190",
+    "title": "Other Support Activities for Air Transportation",
+    "run_id": "488190-a1-20260722",
+    "model_id": "claude-sonnet-5",
+    "run_date": "2026-07-22",
+    "methodology_version": "5.1",
+    "attempt": 1
+  },
+  "lens": {
+    "included_activities": "US lower-middle-market firms providing recurring or repeat outsourced aircraft line maintenance, inspection, testing, avionics and component service, technical records, maintenance planning, aircraft support, and related specialized services to airlines, fleet operators, owners, and public-sector customers.",
+    "excluded_activities": "Air traffic control, airport operations and ground handling, airline-captive maintenance units without external revenue, factory conversion or overhaul classified to manufacturing, aircraft cleaning-only firms, fuel wholesalers, pure parts resellers, one-off ferrying without repeat customers, and non-control investment vehicles.",
+    "customer_and_revenue_model": "Aircraft operators and owners purchase scheduled and unscheduled maintenance, inspection, testing, repair, and support through repeat work orders, time-and-materials billing, fixed-price tasks, per-flight-hour arrangements, and longer-term availability or field-support contracts.",
+    "deviation_from_default": "The code includes specialized services ranging from recurring maintenance to episodic testing and ferrying. The lens is narrowed to repeat outsourced aircraft-support operations because isolated ferrying and captive airline departments do not form a coherent transferable recurring-service business.",
+    "heterogeneous": true
+  },
+  "primitives": {
+    "a": {
+      "evidence_state": "PROXY",
+      "low": 0.18,
+      "base": 0.31,
+      "high": 0.44,
+      "bridge": "BLS describes aircraft and avionics mechanic duties and employment across all industries, not a wage-weighted AI task share for NAICS 488190. I map fault-data interpretation, troubleshooting support, manual and service-bulletin retrieval, maintenance planning, technical records, parts forecasting, inspection-image triage, quoting, and administrative workflows to AI exposure, while treating disassembly, repair, replacement, precision adjustment, physical testing, and accountable sign-off as largely unexposed. The proxy may overstate substitution because diagnostic judgment is safety-sensitive and understate it where computer vision replaces manual inspection steps.",
+      "rationale": "Mechanics and avionics technicians are central to the code: BLS reports support activities for air transportation as the largest employer of aircraft mechanics and a major avionics employer. Their work combines information-rich diagnosis and documentation with substantial skilled physical execution. Current predictive analytics make the information layer meaningfully exposed, but a majority of wage-weighted work still involves tools, aircraft access, testing, and certified judgment.",
+      "change_evidence": "Six-digit payroll by occupation and role, technician time studies split among diagnosis, documentation, parts, inspection, wrench time, and sign-off, plus before/after labor data from repair stations using predictive health and computer-vision tools.",
+      "source_ids": ["S3", "S4", "S6"],
+      "caveats": [
+        "No source measures wage-weighted generative-AI exposure specifically for 488190.",
+        "Support-activities employment shares include adjacent airport operations and air traffic control.",
+        "The frozen compensation ratio combines 2024 wages with 2022 receipts and a harmonization adjustment."
+      ]
+    },
+    "rho": {
+      "evidence_state": "PROXY",
+      "low": 0.3,
+      "base": 0.5,
+      "high": 0.7,
+      "bridge": "Airbus documents an airline deployment of real-time monitoring, accelerated troubleshooting, and predictive scheduling, while FAA and NASA document safety assurance and human maintenance constraints. These show technical feasibility and adoption at a large carrier, not the five-year implemented share of exposed labor at US LMM repair stations. I discount for aircraft-data access, fleet fragmentation, software integration, validation, technician acceptance, and capital. The proxy probably overstates LMM implementation because OEM-connected airlines have richer data and integration resources.",
+      "rationale": "Predictive maintenance, digital manuals, records automation, and diagnostic copilots can be deployed without automating the physical repair. A live 2026 JetBlue rollout shows adoption is not merely experimental. Implementation should reach a substantial share of exposed planning and diagnosis work within five years, but FAA-regulated workflows, legacy fleets, and fragmented customer data prevent universal conversion into labor savings.",
+      "change_evidence": "Repair-station adoption surveys by fleet type, vendor telemetry on active technician seats and workflow usage, FAA-approved condition-based maintenance scope, and audited changes in diagnosis hours, repeat defects, paperwork hours, and technician output.",
+      "source_ids": ["S4", "S5", "S6"],
+      "caveats": [
+        "The observed deployment is at a large airline rather than an LMM independent provider.",
+        "Predictive alerts can shift work earlier without reducing total maintenance labor.",
+        "Older and mixed aircraft fleets may lack sensor coverage or clean historical data."
+      ]
+    },
+    "e": {
+      "evidence_state": "ESTIMATE",
+      "low": 0.6,
+      "base": 0.75,
+      "high": 0.88,
+      "rationale": "Unlike the neighboring airport-operations code, 488190 is centered on specialized external aircraft services, so most firms near the LMM EBITDA band should satisfy the recurring-service lens. I exclude captive maintenance departments, pure resellers, one-off ferrying, and entities lacking transferable certifications, customer relationships, or independent operations. Applied to frozen n=95, the base implies roughly 71 eligible firms before transfer probability.",
+      "change_evidence": "Entity-level SUSB/Business Register linkage, FAA repair-station certificate and ratings data, revenue by maintenance versus parts/ferrying/captive work, ultimate-parent ownership, and customer-repeat metrics for the 95 implied firms.",
+      "source_ids": ["S1", "S2", "S5"],
+      "caveats": [
+        "Some certified repair stations may be establishments of larger airlines or aerospace groups rather than standalone firms.",
+        "Product definitions cross several NAICS codes, so maintenance revenue is not exclusive to 488190.",
+        "The frozen n is margin-bridged at ESTIMATE quality and may misclassify parts-heavy or capital-intensive firms."
+      ]
+    },
+    "s5": {
+      "evidence_state": "PROXY",
+      "low": 0.06,
+      "base": 0.12,
+      "high": 0.22,
+      "bridge": "Census reports that 1.3% of respondent employer businesses were acquired in 2022 across industries; this is a survivor-based acquisition incidence, not a five-year qualifying control-transfer rate for aircraft-support firms. Repetition implies roughly 6% over five years. I raise the base for a skilled-trade LMM population with owner succession and strategic buyer interest, while excluding internal reorganizations and non-transferable captive units. The proxy could understate unobserved exits and overstate control transfers if the Census acquisition definition includes nonqualifying ownership events.",
+      "rationale": "Aircraft service businesses can attract strategic MRO, FBO, and government-services buyers, but certifications, accountable managers, skilled technicians, facilities, and customer approvals complicate transfers. With no industry-specific transaction denominator, a low-teens five-year probability is a bounded judgment anchored to the broad Census incidence.",
+      "change_evidence": "PitchBook, Capital IQ, GF Data, or DealStats transactions mapped to 488190 and an eligible-firm denominator; owner-age and succession data from repair-station associations; and FAA certificate-transfer or post-acquisition reissuance records.",
+      "source_ids": ["S10"],
+      "caveats": [
+        "The anchor spans all employer businesses and does not isolate aviation maintenance.",
+        "Asset sales, certificate changes, family succession, and parent-company transactions may not be qualifying control transfers.",
+        "A sale can be delayed or fail if key certificated personnel do not remain."
+      ]
+    },
+    "q": {
+      "evidence_state": "PROXY",
+      "low": 0.25,
+      "base": 0.45,
+      "high": 0.65,
+      "bridge": "A GAO aviation-maintenance procurement documents a hybrid of fixed-price, time-and-materials, cost-plus-fixed-fee, and cost contract lines, demonstrating pricing heterogeneity but not private LMM benefit retention. I infer higher retention on fixed-price and availability work and lower retention where fewer diagnostic or paperwork hours directly reduce time-and-materials revenue or where customers renegotiate. Government field-maintenance contracting may be more complex and cost-transparent than commercial general-aviation work, so direction is ambiguous.",
+      "rationale": "AI can reduce diagnosis time, repeat defects, administrative labor, and downtime. On fixed-price work, that can lift margin; on hourly work, the provider may lose billable hours unless scarce technicians are redeployed to a backlog or customers pay for availability. Competitive bids, powerful fleet customers, OEM software fees, and renewal repricing should share a material part of the gain, leaving a moderate five-year retained share.",
+      "change_evidence": "Customer-contract mix by revenue, fixed-price versus hourly gross margins, backlog and technician utilization, post-automation billing and throughput, renewal repricing, and OEM software/data fees at representative LMM repair stations.",
+      "source_ids": ["S11", "S6", "S7"],
+      "caveats": [
+        "Pricing varies sharply among general aviation, airline line maintenance, components, avionics, and government support.",
+        "Revenue loss from fewer billable hours is different from failure to retain a gross benefit and depends on backlog.",
+        "Parts and materials can dominate some jobs, reducing the relevance of labor savings."
+      ]
+    },
+    "d5": {
+      "evidence_state": "PROXY",
+      "low": 0.94,
+      "base": 1.06,
+      "high": 1.14,
+      "bridge": "FAA aircraft, hours, and airport-operations forecasts plus Boeing's North American fleet and services outlook measure demand drivers broader than the constant-quality service basket of eligible 488190 firms. I use about 6% five-year growth as a blend of slow general-aviation fleet and hours growth, roughly 6% controlled-airport operations growth, and faster commercial traffic with about 1.3% annual North American fleet growth. This may overstate demand if new aircraft need less maintenance and OEM/captive providers capture growth, or understate it if aging fleets and technician backlogs raise outsourced work per aircraft.",
+      "rationale": "Maintenance quantity depends on fleet size, utilization, age, cycles, and regulation. FAA forecasts modest growth in US operations and general-aviation activity, while Boeing expects North American fleet growth and substantial technician demand. Holding price and quality constant, the central case is moderate expansion rather than passenger-traffic-level growth.",
+      "change_evidence": "Fleet, flight-hour, and cycle forecasts by aircraft type and age mapped to customer mix; scheduled check and unscheduled removal rates; retirement and delivery schedules; and firm-level backlog and work-order volumes through 2031.",
+      "source_ids": ["S3", "S7", "S8", "S9"],
+      "caveats": [
+        "Commercial, business aviation, rotorcraft, and piston fleets have different utilization and maintenance intensity.",
+        "Newer aircraft can reduce work per flight while aging fleets increase it.",
+        "Manufacturer forecasts have commercial incentives and cover markets broader than US LMM providers."
+      ]
+    },
+    "o": {
+      "evidence_state": "PROXY",
+      "low": 0.82,
+      "base": 0.93,
+      "high": 0.98,
+      "bridge": "FAA rules and BLS duties establish current certified human execution and return-to-service accountability; NASA says maintenance remains largely human despite onboard diagnostics. None measures the year-five operator-required share. I treat predictive diagnosis, records, planning, and some inspection triage as automatable but retain a human operator for physical access, repair, testing, supervision, and authorized approval. This can overstate survival if robotics and condition-based maintenance remove inspections faster than expected, and understate it if regulation or liability keeps redundant human checks.",
+      "rationale": "FAA repair-station rules specify who may perform work and approve return to service, and BLS describes hands-on testing, adjustment, repair, replacement, and inspection. AI changes when and how technicians work more than whether an accountable maintenance operator is required. Only a small share of year-five quantity is likely to disappear into self-diagnosis or software-only service.",
+      "change_evidence": "FAA rule changes on automated inspection and return-to-service authority, scope of approved condition-based maintenance, robotics deployments with removed technician hours, and insurer or lessor acceptance of autonomous maintenance evidence.",
+      "source_ids": ["S3", "S4", "S5"],
+      "caveats": [
+        "Operator-required does not imply current staffing ratios; one technician may become more productive.",
+        "Condition-based maintenance can remove some scheduled inspection quantity while creating earlier targeted interventions.",
+        "The regulatory bridge is strongest for certificated maintenance and weaker for unregulated administrative support."
+      ]
+    }
+  },
+  "narrative": {
+    "executive_view": "Specialized aircraft support has a credible AI-assisted labor opportunity in diagnosis, planning, records, inspection triage, quoting, and parts coordination, alongside durable demand for certified physical maintenance. The market has a plausible LMM acquisition universe and technician scarcity makes avoided hiring valuable. Economics depend on contract mix: faster work improves fixed-price margins and throughput, but can reduce hourly billing unless backlog is available.",
+    "ai_impact": "Predictive aircraft-health data can identify developing faults before arrival, accelerate troubleshooting, prioritize work, and improve maintenance scheduling. Generative tools can retrieve manuals, draft records, reconcile task cards, and support quotes. Mechanics still must access aircraft, test systems, manipulate parts, perform repairs, inspect work, and accept regulatory accountability.",
+    "value_capture": "Retention is strongest in fixed-price, per-flight-hour, and availability contracts, where lower labor and downtime can improve margin. It is weaker in time-and-materials work, where efficiency can shrink billable hours, and in concentrated fleet accounts that demand price concessions. Backlog and technician utilization determine whether saved time converts into incremental throughput.",
+    "firm_availability": "The frozen n=95 is large enough to support a real search, and the code is more naturally outsourced than airport ownership. Still, buyers must separate independent repeat-service firms from captive sites, parts-led businesses, and episodic specialists. FAA ratings, accountable personnel, customer approvals, and facility rights are central to transferability.",
+    "demand_durability": "Aircraft fleets, utilization, aging, safety rules, and maintenance intervals support repeat demand. US activity is likely to grow modestly over five years, and technician supply remains tight. Newer aircraft and condition-based maintenance can reduce some checks, but they also increase digital support needs and do not eliminate physical repair.",
+    "risks_and_uncertainty": "Principal risks are technician scarcity, key-person and certificate dependence, liability, customer concentration, OEM control of aircraft data, software fees, mixed pricing models, parts availability, and new-aircraft reliability. Available forecasts cover broad commercial or general-aviation populations rather than the exact LMM service basket.",
+    "principal_driver": "Persistent certified maintenance demand plus scarce technicians gives diagnostic and workflow automation a direct avoided-hiring and throughput use case.",
+    "principal_weakness": "AI savings may reduce billable hours or accrue to aircraft operators and OEM platforms rather than remain with an independent service provider."
+  },
+  "sources": [
+    {
+      "id": "S1",
+      "url": "https://www.census.gov/naics/resources/archives/sect48-49.html",
+      "title": "North American Industry Classification System — Sector 48-49 Archive",
+      "access_date": "2026-07-22",
+      "supports": "Census defines 488190 as specialized air-transportation services other than air traffic control and airport operations, including aircraft services, maintenance and repair, and testing."
+    },
+    {
+      "id": "S2",
+      "url": "https://www2.census.gov/library/reference/napcs/product-list/web-4881-final-reformatted-edited-us082208.pdf",
+      "title": "NAPCS Product List for NAICS 4881: Support Services for Air Transportation",
+      "access_date": "2026-07-22",
+      "supports": "Census product definitions cover aircraft maintenance, repair, parts installation, testing, inspection, technical support, private-aircraft management, and repositioning, illustrating service breadth."
+    },
+    {
+      "id": "S3",
+      "url": "https://www.bls.gov/ooh/installation-maintenance-and-repair/aircraft-and-avionics-equipment-mechanics-and-technicians.htm",
+      "title": "Aircraft and Avionics Equipment Mechanics and Technicians — Occupational Outlook Handbook",
+      "access_date": "2026-07-22",
+      "supports": "BLS lists diagnosis, repair, testing, inspection, instruction interpretation, and recordkeeping duties; support activities employ 32% of aircraft mechanics and 30% of avionics technicians; combined employment is projected to grow 5% from 2024 to 2034."
+    },
+    {
+      "id": "S4",
+      "url": "https://hsi.arc.nasa.gov/publications/Hobbs_pre_pub_of_MX_chapter_2021.pdf",
+      "title": "Aircraft Maintenance and Inspection",
+      "access_date": "2026-07-22",
+      "supports": "NASA-affiliated research states that despite built-in test equipment, onboard sensors, and flight-data monitoring, aircraft maintenance remains largely a human activity."
+    },
+    {
+      "id": "S5",
+      "url": "https://www.faa.gov/hazmat/air_carriers/operations/part_145",
+      "title": "Repair Station Operators (Part 145)",
+      "access_date": "2026-07-22",
+      "supports": "FAA defines certificated repair stations and states that rules specify who can perform maintenance and approve aircraft and products for return to service."
+    },
+    {
+      "id": "S6",
+      "url": "https://www.airbus.com/en/newsroom/press-releases/2026-04-jetblue-signs-for-skywise-fleet-performance-solution",
+      "title": "JetBlue signs for Skywise Fleet Performance+ solution",
+      "access_date": "2026-07-22",
+      "supports": "Airbus reports a 2026 JetBlue deployment using real-time monitoring, accelerated troubleshooting, reliability assessment, predictive analytics, and optimized maintenance scheduling."
+    },
+    {
+      "id": "S7",
+      "url": "https://www.faa.gov/data_research/aviation/aerospace_forecasts/FY_2026-2046_Full_Forecast_Document_Tables.pdf",
+      "title": "FAA Aerospace Forecast Fiscal Years 2026–2046",
+      "access_date": "2026-07-22",
+      "supports": "FAA forecasts controlled-airport operations rising from 58.635 million in 2026 to 62.152 million in 2031, active general-aviation aircraft from 216,525 to 221,410, and GA hours from 29.505 million to 30.075 million."
+    },
+    {
+      "id": "S8",
+      "url": "https://www.gao.gov/products/gao-23-106769",
+      "title": "Aviation Workforce: Supply of Airline Pilots and Aircraft Mechanics",
+      "access_date": "2026-07-22",
+      "supports": "GAO reports that aviation businesses had difficulty maintaining sufficient mechanic staffing and that airlines and repair stations increased pay; demand is driven by travel, fleet size, attrition, and retirements."
+    },
+    {
+      "id": "S9",
+      "url": "https://www.boeing.com/content/dam/boeing/v2/products/pilot-technician-outlook/pdf/2025-pto-download.pdf",
+      "title": "Boeing Pilot and Technician Outlook 2025–2044",
+      "access_date": "2026-07-22",
+      "supports": "Boeing forecasts 123,000 new North American technicians, 1.3% annual North American airline-fleet growth, and 2.7% annual regional aviation-services value growth over its outlook horizon."
+    },
+    {
+      "id": "S10",
+      "url": "https://www.census.gov/library/stories/2025/08/business-ownership.html",
+      "title": "Money and Being Your Own Boss Are Top Motivators for Owning a Business",
+      "access_date": "2026-07-22",
+      "supports": "Census reports that 1.3% of respondent employer businesses were acquired in 2022, used only as a broad ownership-transfer incidence proxy."
+    },
+    {
+      "id": "S11",
+      "url": "https://www.gao.gov/products/b-417639",
+      "title": "PAE Aviation and Technical Services, LLC — Bid Protest Decision",
+      "access_date": "2026-07-22",
+      "supports": "GAO describes an aviation field-maintenance procurement combining fixed-price, time-and-materials, cost-plus-fixed-fee, and cost contract lines, evidencing pricing-model heterogeneity."
+    }
+  ]
+}

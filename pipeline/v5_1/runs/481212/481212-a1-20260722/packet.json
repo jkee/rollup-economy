@@ -1,0 +1,183 @@
+{
+  "identity": {
+    "naics": "481212",
+    "title": "Nonscheduled Chartered Freight Air Transportation",
+    "run_id": "481212-a1-20260722",
+    "model_id": "claude-sonnet-5",
+    "run_date": "2026-07-22",
+    "methodology_version": "5.1",
+    "attempt": 1
+  },
+  "lens": {
+    "included_activities": "US lower-middle-market certificated air carriers providing recurring or repeat outsourced, nonscheduled cargo-only charter, CMI, or ACMI flying to freight forwarders, integrators, government, airlines, and direct shippers.",
+    "excluded_activities": "Scheduled freight carriers, passenger charter, air couriers, aircraft-only lessors, captive internal flight departments, inactive certificate shells, and non-control financing vehicles.",
+    "customer_and_revenue_model": "Customers buy aircraft capacity by trip or block hour under full-service charter, CMI, or ACMI arrangements; repeat programs can guarantee flying, while spot charters are transaction-based. Fuel and other direct costs may be borne by the customer under ACMI or included in a fixed charter price.",
+    "deviation_from_default": "none",
+    "heterogeneous": false
+  },
+  "primitives": {
+    "a": {
+      "evidence_state": "PROXY",
+      "low": 0.17,
+      "base": 0.24,
+      "high": 0.31,
+      "bridge": "BLS measures the 2023 occupation and wage mix for four-digit NAICS 481200, not cargo-only 481212. I grouped office, finance, customer-service, sales, logistics, dispatch, planning, compliance-documentation, and a limited share of manager, pilot, and maintenance paperwork/diagnostic tasks; applied materially lower task exposure to safety-critical flying, hands-on maintenance, and material handling; and translated the result into a wage-weighted exposed-task share. Inclusion of passenger-charter flight attendants and a potentially different cargo-firm mix can bias the proxy either way, while treating whole occupations as only partially exposed limits upward bias.",
+      "rationale": "The occupation mix is operationally heavy: commercial pilots were 33.84% of employment and aircraft mechanics 12.02%, while office and administrative support was 13.55%, business and financial operations 6.82%, and management 7.74%. AI can materially reduce quoting, customer correspondence, document review, bookkeeping, scheduling support, maintenance-record work, and dispatch preparation, but it does not substitute for most flight, wrench-turning, inspection, or loading labor within five years.",
+      "change_evidence": "A payroll extract from 10-15 cargo-only Part 135/121 charter operators mapped to detailed roles, combined with time-and-motion sampling of quoting, dispatch, maintenance records, compliance, billing, and customer-service tasks, would materially change the range.",
+      "source_ids": ["S1"],
+      "caveats": [
+        "The BLS source is four-digit nonscheduled air transportation and includes passenger charter and specialty flying.",
+        "OEWS excludes self-employed workers and is a 2023 occupational snapshot.",
+        "Task exposure is researcher judgment, not a measured AI adoption or automation statistic."
+      ]
+    },
+    "rho": {
+      "evidence_state": "ESTIMATE",
+      "low": 0.34,
+      "base": 0.47,
+      "high": 0.61,
+      "rationale": "Document-heavy commercial and administrative workflows can be deployed with human review, but flight operations, maintenance release, hazardous-materials programs, manuals, training, and operational control remain safety-regulated and accountable. Fragmented fleets and low-volume edge cases also slow integration, so only about half of the exposed task opportunity is likely to become operating reality within five years.",
+      "change_evidence": "Audited before/after labor hours from AI deployments at Part 135 cargo carriers, FAA findings involving AI-assisted operational workflows, and implementation interviews with directors of operations, chief pilots, maintenance leaders, and principal inspectors would materially change this estimate.",
+      "source_ids": ["S2", "S3"],
+      "caveats": [
+        "No source directly measures five-year AI implementation in nonscheduled cargo charter.",
+        "The estimate excludes autonomous-aircraft displacement and counts only implementation of the task opportunity in a."
+      ]
+    },
+    "e": {
+      "evidence_state": "ESTIMATE",
+      "low": 0.5,
+      "base": 0.68,
+      "high": 0.82,
+      "rationale": "The NAICS definition is external cargo transport, and FAA describes Part 135 operators ranging from one aircraft to large cargo feeders, so much of the population fits outsourced service. Eligibility is reduced for one-off-only spot operators, inactive certificate shells, captive operations, businesses without repeat customers, and entities whose value is primarily aircraft ownership rather than transferable operations.",
+      "change_evidence": "An FAA certificate-by-certificate roster joined to DOT authority, active aircraft, customer concentration, contract tenure, and related-party revenue for all firms in the modeled EBITDA band would materially change eligibility.",
+      "source_ids": ["S2", "S4"],
+      "caveats": [
+        "The frozen firm count is margin-bridged and may include entities whose economics or certificate status do not match the lens.",
+        "No public dataset identifies repeat external revenue at the firm level."
+      ]
+    },
+    "s5": {
+      "evidence_state": "PROXY",
+      "low": 0.15,
+      "base": 0.22,
+      "high": 0.31,
+      "bridge": "Gallup asked US employer-business owners across industries about plans for the next five years and found 22% planned to sell or transfer ownership. I use that as the center for eligible charter-freight firms, with a wide range for aviation-specific owner age, capital intensity, certificate transfer friction, strategic consolidation, and the gap between stated plans and completed qualifying control transfers. The proxy may overstate completed transfers because plans can lapse or become closures, but industry consolidation and scarce operating certificates may bias it upward.",
+      "rationale": "A planned five-year sale-or-transfer rate is the closest directly observed horizon match, but it is not aviation-specific and not every planned transaction will close or transfer an operating platform. Aircraft, customer contracts, management qualifications, and regulatory approvals make these firms less fungible than typical small employers.",
+      "change_evidence": "Five years of closed control transactions from aviation M&A databases and FAA/DOT certificate-control filings, matched to owner age and firm size, would replace the cross-industry proxy.",
+      "source_ids": ["S5", "S3"],
+      "caveats": [
+        "Gallup measures intentions, not completed qualifying transfers.",
+        "The survey population spans industries and business sizes and may not represent asset-heavy air carriers."
+      ]
+    },
+    "q": {
+      "evidence_state": "ESTIMATE",
+      "low": 0.36,
+      "base": 0.54,
+      "high": 0.72,
+      "rationale": "ACMI/CMI arrangements commonly charge predetermined operating rates while customers bear fuel and some direct expenses, allowing near-term labor productivity to accrue to the operator. Full-service charter is often a fixed all-inclusive price, also supporting retention until repricing. Over renewals, sophisticated integrators, freight forwarders, and government customers can demand lower rates or share gains, and bidding competition erodes retention, so the discounted five-year retained share is materially below one.",
+      "change_evidence": "A representative contract sample showing duration, escalation, open-book cost clauses, productivity-sharing, renewal outcomes, and customer concentration, plus bid histories before and after workflow automation, would materially change this estimate.",
+      "source_ids": ["S6"],
+      "caveats": [
+        "The SEC filing is from a much larger operator than the firms in the lens.",
+        "Commercial terms vary sharply between spot charter, government flying, CMI, and ACMI."
+      ]
+    },
+    "d5": {
+      "evidence_state": "PROXY",
+      "low": 0.94,
+      "base": 1.16,
+      "high": 1.31,
+      "bridge": "FAA forecasts total US commercial-air-carrier cargo RTMs, including freight/express and mail on scheduled and nonscheduled services, from 50.427 billion in 2026 to 59.934 billion in 2031, a 1.188 ratio. I haircut the center to 1.16 for the narrower nonscheduled charter basket and bracket downside from modal competition, tariffs, and customer insourcing and upside from time-critical, irregular, defense, and feeder demand. RTMs are transport output rather than constant-quality charter-service quantity and may overstate demand if average haul length rises.",
+      "rationale": "The broad air-cargo outlook is positive, and FAA expects all-cargo capacity to retain a dominant share, but charter freight is more cyclical and event-driven than the aggregate. A modestly lower five-year base than the aggregate RTM ratio is therefore appropriate.",
+      "change_evidence": "DOT T-100 segment data isolating nonscheduled all-cargo departures, block hours, payload, and RTMs by carrier through 2031, deflated charter-rate histories, and contracted customer capacity plans would materially change the estimate.",
+      "source_ids": ["S7"],
+      "caveats": [
+        "FAA's forecast combines scheduled and nonscheduled cargo and passenger-belly freight.",
+        "The forecast is model-based and sensitive to GDP, trade, tariff, fuel-price, and modal-share assumptions."
+      ]
+    },
+    "o": {
+      "evidence_state": "ESTIMATE",
+      "low": 0.9,
+      "base": 0.96,
+      "high": 0.99,
+      "rationale": "Physical cargo transport cannot be delivered by software alone. Even unmanned package delivery beyond visual line of sight currently requires a Part 135 operator certificate, airspace authorization, operating procedures, and accountable safety management. Some light feeder or medical cargo can migrate to new drone/AAM operators, and integrators can internalize flying, but most year-five charter quantity should still require an accountable air-carrier operator.",
+      "change_evidence": "FAA Part 135 UAS operating data, the final BVLOS/Part 108 rule and associated staffing requirements, autonomous cargo aircraft certifications, and customer insourcing plans would materially change this estimate.",
+      "source_ids": ["S8", "S7"],
+      "caveats": [
+        "Future BVLOS and autonomous-aircraft regulation may change operator staffing and certificate structures.",
+        "The estimate distinguishes operator requirement from employment intensity; automation may reduce labor without eliminating the operator."
+      ]
+    }
+  },
+  "narrative": {
+    "executive_view": "Nonscheduled charter freight combines durable physical demand and meaningful repeat-contract models with a labor base dominated by safety-critical pilots and mechanics. The practical AI opportunity is concentrated in quoting, dispatch support, customer service, compliance documentation, maintenance records, scheduling, and finance rather than aircraft operation itself.",
+    "ai_impact": "AI can triage requests, draft quotes and flight documentation, reconcile operating records, support route and crew planning, search maintenance manuals, flag compliance exceptions, and automate billing. Human accountability and review remain central because operational control, airworthiness, training, hazardous materials, and flight decisions are regulated and safety consequential.",
+    "value_capture": "Fixed-price charter and predetermined-rate ACMI/CMI structures let an operator retain some productivity gains before renewal. Capture weakens as concentrated buyers rebid contracts, benchmark block-hour rates, demand service credits, or negotiate productivity into renewals.",
+    "firm_availability": "The industry includes small single-aircraft Part 135 operators as well as large feeder networks, but not every modeled LMM firm is an active, independent, repeat-service platform. Aircraft ownership, certificate status, management qualifications, customer concentration, and maintenance obligations are central transfer diligence issues.",
+    "demand_durability": "FAA projects broad US air-cargo RTMs to grow over the next five years, supporting the physical service need. Charter freight nevertheless remains exposed to trade cycles, tariffs, integrator network decisions, modal substitution, and volatile special-mission or government demand.",
+    "risks_and_uncertainty": "The occupational evidence is only available at four-digit nonscheduled air transportation and blends passenger activity; the demand forecast blends scheduled and nonscheduled cargo; transfer evidence is cross-industry; and commercial evidence comes from a much larger carrier. Autonomous feeder aircraft and drones can change who operates some routes, while pilot, maintenance, insurance, aircraft, and regulatory constraints can overwhelm back-office savings.",
+    "principal_driver": "Repeat outsourced cargo programs create a durable physical service base where AI can compress document- and coordination-heavy overhead.",
+    "principal_weakness": "Most wage cost sits in regulated, safety-critical flight and maintenance work that AI is unlikely to substitute materially within five years."
+  },
+  "sources": [
+    {
+      "id": "S1",
+      "url": "https://www.bls.gov/oes/2023/may/naics4_481200.htm",
+      "title": "May 2023 National Industry-Specific Occupational Employment and Wage Estimates: NAICS 481200 Nonscheduled Air Transportation",
+      "access_date": "2026-07-22",
+      "supports": "Four-digit occupation and wage mix: 58,340 total jobs; management 7.74%, business/financial 6.82%, office/administrative 13.55%, maintenance/repair 15.99%, commercial pilots 33.84%, and detailed administrative, dispatch, cargo, and mechanic roles."
+    },
+    {
+      "id": "S2",
+      "url": "https://www.faa.gov/hazmat/air_carriers/operations/part_135",
+      "title": "FAA Charter-Type Services (Part 135)",
+      "access_date": "2026-07-22",
+      "supports": "Part 135 authorizes on-demand unscheduled service; operators range from small single-aircraft firms to large cargo feeder networks; hazardous-materials compliance and approved programs are mandatory."
+    },
+    {
+      "id": "S3",
+      "url": "https://www.faa.gov/licenses_certificates/airline_certification/135_certification/general_info",
+      "title": "FAA Part 135 Certification: General Information",
+      "access_date": "2026-07-22",
+      "supports": "Operational-control responsibility, named pilots for limited certificates, and manual, training-program, and required-management-position obligations for basic and standard operators."
+    },
+    {
+      "id": "S4",
+      "url": "https://www.census.gov/naics/resources/archives/sect48-49.html",
+      "title": "US Census Bureau NAICS 481212 Definition",
+      "access_date": "2026-07-22",
+      "supports": "Defines 481212 as cargo-only air transportation without regular routes and schedules and distinguishes scheduled freight, couriers, passenger/cargo charter, and specialty flying."
+    },
+    {
+      "id": "S5",
+      "url": "https://news.gallup.com/poll/657362/small-business-owners-lack-succession-plan.aspx",
+      "title": "Gallup: Most Small-Business Owners Lack a Succession Plan",
+      "access_date": "2026-07-22",
+      "supports": "Fall 2024 survey: 22% of employer-business owners reported plans to sell or transfer ownership within five years; 17% of owners age 55+ planned a sale or transfer."
+    },
+    {
+      "id": "S6",
+      "url": "https://www.sec.gov/Archives/edgar/data/894081/000143774925005937/atsg20241231_10k.htm",
+      "title": "Air Transport Services Group 2024 Form 10-K",
+      "access_date": "2026-07-22",
+      "supports": "Describes CMI/ACMI and charter structures: customers typically supply fuel and cargo handling under ACMI and reimburse certain direct expenses, while full-service charter generally includes fuel and operating costs for a fixed all-inclusive price."
+    },
+    {
+      "id": "S7",
+      "url": "https://www.faa.gov/data_research/aviation/aerospace_forecasts/FY_2026-2046_Full_Forecast_Document_Tables.pdf",
+      "title": "FAA Aerospace Forecast Fiscal Years 2026-2046",
+      "access_date": "2026-07-22",
+      "supports": "Forecasts total US commercial-air-carrier cargo RTMs from 50.427 billion in 2026 to 59.934 billion in 2031; discusses GDP linkage, modal competition, and growing UAS/AAM cargo-feeder activity."
+    },
+    {
+      "id": "S8",
+      "url": "https://www.faa.gov/uas/advanced_operations/package_delivery_drone",
+      "title": "FAA Package Delivery by Drone (Part 135)",
+      "access_date": "2026-07-22",
+      "supports": "States that BVLOS package-delivery operators must obtain Part 135 certification and airspace authorization and documents seven approved UAS package-delivery operators through April 2025."
+    }
+  ]
+}

@@ -1,0 +1,224 @@
+{
+  "identity": {
+    "naics": "483212",
+    "title": "Inland Water Passenger Transportation",
+    "run_id": "483212-a1-20260722",
+    "model_id": "claude-sonnet-5",
+    "run_date": "2026-07-22",
+    "methodology_version": "5.1",
+    "attempt": 1
+  },
+  "lens": {
+    "included_activities": "Privately owned lower-middle-market operators providing recurring or repeat passenger ferry and water-taxi transportation on U.S. lakes, rivers, and intracoastal waterways outside the Great Lakes System.",
+    "excluded_activities": "Government-owned operators, captive internal transportation, shells, non-control financing vehicles, sightseeing or excursion cruises classified elsewhere, coastal and Great Lakes service, and freight-only operations.",
+    "customer_and_revenue_model": "Riders or sponsoring organizations buy trips, passes, or contracted service; revenue is typically posted passenger and vehicle fares, multi-trip products, or fixed/unit-rate public or institutional service contracts.",
+    "deviation_from_default": "none",
+    "heterogeneous": false
+  },
+  "primitives": {
+    "a": {
+      "evidence_state": "PROXY",
+      "low": 0.12,
+      "base": 0.2,
+      "high": 0.3,
+      "bridge": "BLS measures the broader four-digit inland-water industry, including freight, rather than 483212 alone. Its occupation shares were combined with O*NET task descriptions: office, dispatch, customer-service, accounting, and portions of management/planning were treated as materially AI-exposed, while licensed navigation, deck, engineering, maintenance, and passenger-safety work were treated as mostly unexposed. Freight inclusion likely overweights material-moving and deck labor, so it may bias the passenger-industry estimate downward; unobserved seasonal ticketing and service labor may bias it either way.",
+      "rationale": "In the BLS 483200 mix, transportation/material-moving jobs are 75.93% of employment and water-transportation workers alone are 62.37%; office/administrative support is 7.39%, management 5.21%, and business/financial work 2.69%. AI can substitute routine booking, customer inquiries, reconciliation, documentation, schedule drafting, and portions of dispatch support, but current vessel handling, emergency response, maintenance, and accountable command remain physical or safety-critical. The range represents the wage-weighted, not-yet-automated task share rather than whole jobs.",
+      "change_evidence": "A six-digit OEWS special tabulation for 483212 paired with an operator survey allocating paid hours and wages across reservations, dispatch, finance, compliance, vessel operations, maintenance, and passenger service would materially move the estimate.",
+      "source_ids": ["S1", "S2", "S3", "S4"],
+      "caveats": [
+        "BLS publishes the relevant occupation mix at NAICS 483200, which is dominated by freight activity and is not the passenger-only code.",
+        "O*NET describes occupations economy-wide, not ferry-specific task frequency or wage weights.",
+        "The frozen compensation-to-receipts input uses 2024 wages over 2022 receipts and is harmonized to an IPS basis as stated in the assignment."
+      ]
+    },
+    "rho": {
+      "evidence_state": "ESTIMATE",
+      "low": 0.35,
+      "base": 0.55,
+      "high": 0.72,
+      "rationale": "Over five years, mature booking, customer-contact, document, finance, scheduling-assistance, and maintenance-triage tools can be implemented without automating vessel command. Realization will be slowed by small-firm integration capacity, irregular operations, fragmented legacy systems, cyber requirements, human review, and the need for reliable exception handling. GAO's finding that U.S. minimum-crewing statutes remain binding sharply limits implementation against the largest onboard wage pools.",
+      "change_evidence": "Diligence should obtain three years of staffing, overtime, ticket-contact volumes, dispatch logs, software contracts, error rates, and post-implementation labor hours from at least ten private ferry or water-taxi operators, plus Coast Guard correspondence on any proposed manning changes.",
+      "source_ids": ["S2", "S3", "S4"],
+      "caveats": [
+        "No source directly measures five-year AI implementation for U.S. inland passenger operators.",
+        "Small fleets may lack clean data, systems integration staff, and enough transaction volume to justify bespoke automation.",
+        "Cybersecurity and operational reliability requirements can delay otherwise feasible deployments."
+      ]
+    },
+    "e": {
+      "evidence_state": "ESTIMATE",
+      "low": 0.82,
+      "base": 0.9,
+      "high": 0.97,
+      "rationale": "The assigned firm count is already derived from private-industry SUSB data in the target EBITDA band, and the NAICS activity itself is external passenger transportation. Most such firms should therefore satisfy the recurring/repeat outsourced-service lens. Deductions cover owner-dependent charter-like operations, non-transferable concessions, mixed businesses whose eligible transport service is incidental, and records that may not represent a transferable operating platform.",
+      "change_evidence": "A census of the twelve modeled band firms using Secretary of State records, Coast Guard vessel documentation, route and concession agreements, customer mix, and normalized EBITDA would establish which are active, independent, control-transferable service operators.",
+      "source_ids": ["S5"],
+      "caveats": [
+        "Eligibility is not observed firm by firm.",
+        "The frozen n of 12 is a margin-bridged estimate from older SUSB size data and a sector margin, not an observed list of qualifying firms.",
+        "Some nominally private operators may rely on public assets or concessions whose change-of-control terms impair transferability."
+      ]
+    },
+    "s5": {
+      "evidence_state": "PROXY",
+      "low": 0.15,
+      "base": 0.26,
+      "high": 0.4,
+      "bridge": "The Exit Planning Institute surveyed U.S. business owners across industries and reported that 49% wanted to exit within five years. This is converted to qualifying-control-transfer probability by discounting for intentions that are delayed or abandoned and for closures, family/internal transfers, minority deals, or transactions blocked by vessel, concession, financing, or key-person issues. The broad owner-survey sample may overstate transfer intent among capital-intensive ferry operators, while aging maritime owners could bias the true rate upward.",
+      "rationale": "A substantial general-owner exit intention provides a real succession tailwind, but an intended exit is not a completed qualifying control transfer. The small addressable population, specialized licenses, vessel capital, route rights, and owner dependence increase failed or nonqualifying outcomes, supporting a base well below the survey's 49% intention rate.",
+      "change_evidence": "Identify the modeled firms and obtain owner age, desired exit date, succession plan, ownership concentration, transfer restrictions, and broker or transaction history; five years of closed private ferry and water-taxi control deals from PitchBook, Capital IQ, Axial, and maritime brokers would directly calibrate completion rates.",
+      "source_ids": ["S6", "S7"],
+      "caveats": [
+        "The owner-readiness survey is self-selected and not industry-specific.",
+        "Reported desire to exit is not observed transaction probability.",
+        "With an assigned population of only twelve firms, one transaction materially changes the realized share."
+      ]
+    },
+    "q": {
+      "evidence_state": "ESTIMATE",
+      "low": 0.4,
+      "base": 0.6,
+      "high": 0.75,
+      "rationale": "Passenger fares and passes are posted prices rather than explicit cost-plus reimbursement, so an operator can initially retain labor savings. Route competition, public oversight, concession rebids, contract renewals, and rider price sensitivity gradually share benefits. Current examples also show operators can separately recover transaction and fuel costs, supporting meaningful but incomplete retention after discounting over five years.",
+      "change_evidence": "Review a representative set of route concessions, purchased-transportation contracts, fare-setting clauses, rebid scorecards, subsidy agreements, and five years of fare and unit-cost changes; interview municipal buyers and private operators about renewal treatment of documented productivity savings.",
+      "source_ids": ["S8", "S9", "S10"],
+      "caveats": [
+        "The mix of direct-fare and contracted operators inside the target firm set is unknown.",
+        "Publicly influenced fares and competitive tenders can force more pass-through than discretionary private routes.",
+        "This estimate excludes demand changes and implementation difficulty, which are assigned to other primitives."
+      ]
+    },
+    "d5": {
+      "evidence_state": "PROXY",
+      "low": 0.92,
+      "base": 1.01,
+      "high": 1.1,
+      "bridge": "BLS projects national water-transportation-worker employment, not constant-price passenger-service quantity, to rise 1.3% over 2024-2034; the midpoint five-year implication is used as a weak demand anchor. BTS ferry counts provide passenger-volume context, but the 2022 and 2024 censuses had different respondent counts and coverage, so their reported totals are not treated as a clean growth series. Employment can diverge from quantity through productivity, and the BLS population includes cargo, creating error in either direction.",
+      "rationale": "Core ferry routes serve geographically constrained crossings and recurring commuter or access needs, while water taxis have more discretionary and tourism exposure. The broad labor projection is nearly flat, and the BTS censuses show a large continuing passenger base but inconsistent coverage. A roughly flat real service basket is therefore the central case, with downside from remote work, service substitution, or route loss and upside from population, tourism, congestion, and funded fleet renewal.",
+      "change_evidence": "Build a route-level panel of monthly passenger trips, service miles, inflation-adjusted fares, cancellations, and capacity for the target operators from 2019 onward, then collect municipal transport plans, concession renewals, tourism forecasts, and planned bridge or competing-transit projects.",
+      "source_ids": ["S11", "S12", "S13"],
+      "caveats": [
+        "NCFO response coverage changed from 139 operators in 2022 to 165 in 2024, preventing direct inference from headline totals.",
+        "The BLS projection covers all water-transportation occupations and a ten-year horizon, not 483212 five-year real demand.",
+        "Demand is highly route-specific and can be disrupted by one bridge, concession decision, staffing shortage, or severe-weather pattern."
+      ]
+    },
+    "o": {
+      "evidence_state": "ESTIMATE",
+      "low": 0.94,
+      "base": 0.98,
+      "high": 1.0,
+      "rationale": "The service basket is physical movement of passengers over water, so software can improve sales, planning, and vessel decisions but cannot deliver the crossing. Even autonomous vessels remain subject to accountable ownership, safety, maintenance, cyber, and regulatory obligations; GAO reports that U.S. statutes establish minimum crews and that the Coast Guard lacks broad waiver authority. Limited quantity may migrate to bridges, other transit, or self-service alternatives, but that belongs mainly in demand and only slightly reduces the operator-required share.",
+      "change_evidence": "Track Coast Guard rulemakings and certificates of inspection on reduced crewing, domestic commercial autonomous passenger-vessel pilots, route-level modal substitution studies, and customer surveys on switching to bridges, buses, or private boats.",
+      "source_ids": ["S4", "S5"],
+      "caveats": [
+        "A five-year statutory change or successful autonomous-passenger pilot could lower the range.",
+        "The construct requires an accountable operator, not necessarily today's onboard staffing model.",
+        "Route displacement by bridges or other modes is captured primarily in d5 to avoid double counting."
+      ]
+    }
+  },
+  "narrative": {
+    "executive_view": "Inland passenger-water operators combine durable physical service with a limited administrative AI opportunity. The useful work is concentrated in reservations, customer contact, dispatch assistance, finance, documentation, staffing, and maintenance triage; most wages remain tied to licensed command, deck work, engineering, maintenance, and passenger safety. A small modeled firm universe and route-specific transfer restrictions make availability the larger uncertainty than technical feasibility.",
+    "ai_impact": "AI can answer routine trip questions, process changes and refunds, draft manifests and compliance records, reconcile payments, forecast demand, suggest schedules, and prioritize maintenance. Humans still need to supervise exceptions, weather and navigation decisions, emergency response, vessel condition, and regulatory compliance. The largest onboard labor pools therefore offer decision support and avoided incremental hiring more readily than direct substitution.",
+    "value_capture": "Posted fares and multi-trip products do not mechanically pass productivity savings back to riders, allowing initial retention. Over time, competition, public fare processes, contract rebids, and customer expectations share part of the benefit. Operators with exclusive or hard-to-replicate route rights and direct retail fares should retain more than vendors under transparent public unit-rate contracts.",
+    "firm_availability": "The frozen estimate identifies only twelve firms in the target earnings band. Most private firms in this NAICS should fit the external repeat-service lens, but acquisition eligibility can be impaired by owner dependence, public asset use, concession consent, vessel financing, and weak standalone records. Broad owner surveys indicate exit intent, yet completed qualifying transfers should be materially less frequent than stated intentions.",
+    "demand_durability": "Ferries and water taxis meet recurring crossing needs that software cannot fulfill, and the accountable-operator role remains. Aggregate ferry usage is large, but national census response changes prevent a clean trend reading. Route demand can be stable for decades where water creates a natural barrier, while an individual operator can still lose volume to remote work, alternative transit, bridge projects, tourism cycles, weather, or service unreliability.",
+    "risks_and_uncertainty": "The main evidence gaps are passenger-only occupation weights, firm-level ownership and transferability, and route-level real demand. The broad labor data include inland freight, autonomous-vessel rules are evolving, and the ferry census has material nonresponse and changing coverage. A business would be unattractive if its concession blocks control transfer, its route can be displaced, its fleet requires near-term capital beyond normalized EBITDA, or its savings case depends on eliminating statutorily required crew.",
+    "principal_driver": "Recurring physical crossings preserve operator-required demand while administrative and planning workflows offer implementable, if bounded, labor savings.",
+    "principal_weakness": "Only a small, route-specific firm pool is modeled, and transferability can be defeated by concessions, public assets, vessel capital needs, or owner dependence."
+  },
+  "sources": [
+    {
+      "id": "S1",
+      "url": "https://www.bls.gov/oes/2023/may/naics4_483200.htm",
+      "title": "May 2023 National Industry-Specific Occupational Employment and Wage Estimates: NAICS 483200 Inland Water Transportation",
+      "access_date": "2026-07-22",
+      "supports": "Broader-industry occupation mix: 75.93% transportation/material moving, 62.37% water-transportation workers, 7.39% office/administrative support, 5.21% management, and 2.69% business/financial operations."
+    },
+    {
+      "id": "S2",
+      "url": "https://www.onetonline.org/link/summary/43-4051.00",
+      "title": "O*NET OnLine: Customer Service Representatives",
+      "access_date": "2026-07-22",
+      "supports": "Customer-service tasks include routine inquiries, orders, complaint records, billing, payments, notifications, and transactional documentation, establishing task-level AI exposure."
+    },
+    {
+      "id": "S3",
+      "url": "https://www.onetonline.org/link/summary/43-5032.00",
+      "title": "O*NET OnLine: Dispatchers, Except Police, Fire, and Ambulance",
+      "access_date": "2026-07-22",
+      "supports": "Dispatch tasks include scheduling operations and employees, coordinating activities, maintaining records, relaying information, and selecting resources."
+    },
+    {
+      "id": "S4",
+      "url": "https://www.gao.gov/products/gao-24-107059",
+      "title": "Coast Guard: Autonomous Ships and Efforts to Regulate Them",
+      "access_date": "2026-07-22",
+      "supports": "Commercial autonomous uses remained narrow as of June 2024; U.S. vessels must comply with statutory minimum crew sizes, and Coast Guard officials identified limited authority to reduce them."
+    },
+    {
+      "id": "S5",
+      "url": "https://www.census.gov/naics/resources/archives/sect48-49.html",
+      "title": "U.S. Census Bureau NAICS Sector 48-49 Definitions",
+      "access_date": "2026-07-22",
+      "supports": "Defines 483212 as establishments primarily providing passenger transportation on lakes, rivers, or intracoastal waterways except the Great Lakes and distinguishes sightseeing, coastal, and freight activities."
+    },
+    {
+      "id": "S6",
+      "url": "https://exit-planning-institute.org/hubfs/Member%20Center%20Resources/2023%20National%20State%20of%20Owner%20Readiness%20Report.pdf",
+      "title": "2023 National State of Owner Readiness Report",
+      "access_date": "2026-07-22",
+      "supports": "Reports that 49% of surveyed business owners wanted to exit their company within five years, versus 48% in 2013."
+    },
+    {
+      "id": "S7",
+      "url": "https://www.bizbuysell.com/insight-report/",
+      "title": "BizBuySell Insight Report: Q2 2026",
+      "access_date": "2026-07-22",
+      "supports": "Provides observed small-business transaction context: 2,117 businesses changed hands in Q2 2026, retirement led stated sale motivations at 45%, and preparation and financing affected sale completion."
+    },
+    {
+      "id": "S8",
+      "url": "https://www.transit.dot.gov/ntd/national-transit-database-ntd-glossary",
+      "title": "Federal Transit Administration National Transit Database Glossary",
+      "access_date": "2026-07-22",
+      "supports": "Defines passenger fares, purchased transportation, and contract structures in which sellers may retain fares or return them to the public buyer."
+    },
+    {
+      "id": "S9",
+      "url": "https://wsdot.wa.gov/ferries/fares/",
+      "title": "Washington State Ferries Fares",
+      "access_date": "2026-07-22",
+      "supports": "Shows route- and customer-specific posted fares, passes and reservations, plus a 3% card cost-recovery surcharge effective March 1, 2026."
+    },
+    {
+      "id": "S10",
+      "url": "https://www.nywaterway.com/GetTickets.aspx/SouthAmboyPier11Route.aspx",
+      "title": "NY Waterway South Amboy Ferry Fares",
+      "access_date": "2026-07-22",
+      "supports": "Shows direct retail one-way, ten-trip, forty-trip, and monthly fares and a separately stated 5.55% fuel surcharge."
+    },
+    {
+      "id": "S11",
+      "url": "https://www.bls.gov/emp/tables/occupational-projections-and-characteristics.htm",
+      "title": "BLS Occupational Projections and Worker Characteristics, 2024-2034",
+      "access_date": "2026-07-22",
+      "supports": "Projects water-transportation-worker employment from 84,300 in 2024 to 85,400 in 2034, a 1.3% increase."
+    },
+    {
+      "id": "S12",
+      "url": "https://www.bts.gov/newsroom/bts-releases-results-biennial-national-census-ferry-operators",
+      "title": "BTS Releases Results from the 2022 National Census of Ferry Operators",
+      "access_date": "2026-07-22",
+      "supports": "Reports 139 responding operators and 112.1 million passengers for the 2022 release, documenting both service scale and survey coverage."
+    },
+    {
+      "id": "S13",
+      "url": "https://www.bts.gov/newsroom/bts-releases-ferry-new-data",
+      "title": "BTS Releases 2024 Ferry Data",
+      "access_date": "2026-07-22",
+      "supports": "Reports 165 responses from 260 known operators, 105.8 million annual passengers, 723 vessels, 575 terminals, and 897 route segments in the 2024 NCFO."
+    }
+  ]
+}

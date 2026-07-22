@@ -1,0 +1,211 @@
+{
+  "identity": {
+    "naics": "488310",
+    "title": "Port and Harbor Operations",
+    "run_id": "488310-a1-20260722",
+    "model_id": "claude-sonnet-5",
+    "run_date": "2026-07-22",
+    "methodology_version": "5.1",
+    "attempt": 1
+  },
+  "lens": {
+    "included_activities": "US lower-middle-market private firms that repeatedly operate ports, harbors, docking and pier facilities, waterfront terminals, or canals for external vessel operators, shippers, cargo owners, or public port authorities.",
+    "excluded_activities": "Public port authorities, captive terminals serving a vessel operator, refinery, grain exporter, or other cargo owner, pure property and infrastructure holding vehicles, marinas, stevedoring-only businesses classified in 488320, navigational services, shells, and non-control financing vehicles.",
+    "customer_and_revenue_model": "Eligible operators earn recurring service, access, docking, storage, facility-use, concession, and terminal-operation revenue under permits, leases, concessions, minimum commitments, per-unit charges, and service contracts.",
+    "deviation_from_default": "none",
+    "heterogeneous": false
+  },
+  "primitives": {
+    "a": {
+      "evidence_state": "PROXY",
+      "low": 0.13,
+      "base": 0.21,
+      "high": 0.30,
+      "bridge": "BLS OEWS measures the occupation mix for all NAICS 488300 support activities for water transportation, not 488310 alone, not LMM firms, and not task-level AI exposure. I map high exposure to billing, bookkeeping, customer service, dispatch, scheduling, records, and clerical tasks; partial exposure to management, compliance, logistics, inspection, gate, berth, and maintenance planning; and low direct substitution to vessel operation, equipment repair, security, and physical terminal work. The proxy likely overweights cargo handling and maritime crew relative to port management, which may understate the exposed share for 488310.",
+      "rationale": "The broader 488300 workforce was 10.76% office and administrative support, 6.67% management, and 1.98% business and financial operations, with recordkeeping, customer service, cargo agents, dispatchers, planning clerks, and general office clerks visible in the detailed mix. Conversely, 61.16% was transportation and material moving and 14.06% installation, maintenance, and repair. Port operators have a meaningful digital coordination layer, but their physical and safety responsibilities bound substitutable work.",
+      "change_evidence": "A wage-weighted task diary across 15-20 private 488310 operators, separating berth and gate coordination, permits, billing, customer communication, facility maintenance, security, and physical operations, would materially move this range.",
+      "source_ids": ["S1", "S2", "S3"],
+      "caveats": [
+        "Four-digit NAICS 488300 includes marine cargo handling, navigational services, and other water-support activities outside 488310.",
+        "Occupation shares are not task shares and the within-occupation AI mapping is judgmental.",
+        "The frozen compensation-to-receipts input uses 2024 wages over 2022 receipts and is harmonized to the IPS basis, while the occupation evidence is 2023."
+      ]
+    },
+    "rho": {
+      "evidence_state": "ESTIMATE",
+      "low": 0.34,
+      "base": 0.52,
+      "high": 0.68,
+      "rationale": "Within five years, LMM operators can implement AI-enabled intake, berth and labor planning, gate appointment support, document extraction, invoicing, maintenance prioritization, anomaly triage, and customer updates. GAO found process automation at every one of the ten largest US container ports, but also reported mixed performance, capital, labor-agreement, security, and operating constraints. Smaller operators can adopt software more readily than automated handling equipment, yet fragmented systems, cybersecurity, customer integrations, labor relations, and 24/7 reliability slow implementation.",
+      "change_evidence": "Obtain implementation cohorts from port community system, terminal operating system, maintenance, and gate-automation vendors showing LMM deployment time, user adoption, exception rates, labor hours saved, outages, and realized payback; supplement with operator and labor interviews.",
+      "source_ids": ["S3"],
+      "caveats": [
+        "GAO studied the ten largest container ports and selected foreign ports, not LMM 488310 operators.",
+        "Process automation and AI are not identical; the source establishes workflow digitization and constraints rather than AI-specific results.",
+        "The range applies only to exposed work in a and excludes demand and pricing effects."
+      ]
+    },
+    "e": {
+      "evidence_state": "ESTIMATE",
+      "low": 0.30,
+      "base": 0.48,
+      "high": 0.66,
+      "rationale": "Private terminal and port operators serving external customers fit the lens, but port structures reduce eligibility. Federal sources distinguish governmental port authorities, landlord ports, direct operating ports, captive terminals owned by carriers or cargo interests, and independent marine terminal operators. Public authorities and captive facilities are outside the screen, while infrastructure-heavy entities may not be practical transferable operating-company targets. The frozen n of 65 estimated LMM-band firms is not re-estimated.",
+      "change_evidence": "Classify the 65 estimated LMM-band firms by public/private status, parent ownership, concession and lease rights, customer concentration, external-service revenue, recurring-revenue share, and separation of operating company from real estate.",
+      "source_ids": ["S4", "S5"],
+      "caveats": [
+        "NAICS is establishment-based, whereas eligibility concerns transferable firms and control of concession rights.",
+        "Private terminals may be captive to vessel operators, grain exporters, petroleum refiners, or other cargo interests.",
+        "The frozen n is margin-bridged from SUSB size classes using a transportation-sector EBITDA margin and is quality ESTIMATE."
+      ]
+    },
+    "s5": {
+      "evidence_state": "PROXY",
+      "low": 0.12,
+      "base": 0.23,
+      "high": 0.36,
+      "bridge": "The Census owner-age figure covers responding owners of US employer businesses rather than eligible port operators; the Pangaea transaction shows several US marine port terminal operations changing control but supplies no industry denominator. I translate broad succession pressure and observed strategic activity into a five-year probability, discounted for corporate and sponsor ownership, concession-transfer approvals, public counterparties, asset intensity, and the possibility that older owners close or transfer internally. The result may be high if permissions inhibit transfers or low if infrastructure consolidation accelerates.",
+      "rationale": "Generic employer-business data show that 51% of responding owners were at least 55 in reference year 2018, and a 2023 transaction transferred terminal operations at three US ports from Host to Pangaea. This demonstrates transferability and buyer interest but not an industry event rate, warranting a wide proxy range below the broad succession signal.",
+      "change_evidence": "Build a 2019-2026 transaction and concession-transfer census matched to the verified eligible-firm denominator, then interview owners and port-authority counterparties about succession timing, assignment rights, and approval requirements.",
+      "source_ids": ["S6", "S7"],
+      "caveats": [
+        "Owner-age data are old, cross-industry, and represent responding owners rather than firms.",
+        "One disclosed multi-terminal acquisition cannot establish frequency and may be larger than the LMM lens.",
+        "A concession reassignment, operating-contract award, asset sale, and company control sale are economically different events."
+      ]
+    },
+    "q": {
+      "evidence_state": "ESTIMATE",
+      "low": 0.32,
+      "base": 0.50,
+      "high": 0.68,
+      "rationale": "Operators can retain some overhead and cycle-time savings during a service or concession term, especially when pricing is fixed, capacity is scarce, or service quality improves. Retention is weakened by transparent tariffs and per-unit charges, public-counterparty oversight, competitive rebids, customer concentration, and cost-plus structures. A public terminal operator's filing describes stevedoring consideration based on per-unit rates with possible minimum quantities and transaction price allocated using expected cost plus margin; its terminal contracts include labor, storage, handling, and transfer obligations, illustrating why customers may recapture direct cost savings.",
+      "change_evidence": "Review a representative set of terminal operating agreements, concessions, permits, tariffs, and renewal histories, recording cost pass-through, indexation, minimum guarantees, gain-sharing, service-level penalties, assignment rights, and gross-margin changes after automation.",
+      "source_ids": ["S8", "S4"],
+      "caveats": [
+        "The disclosed contract accounting comes from a larger integrated maritime company and blends terminal operations with 488320-type handling.",
+        "Revenue models vary sharply between landlord-style facilities, dedicated bulk terminals, public concessions, and service-contract operators.",
+        "This primitive excludes implementation difficulty and demand volume."
+      ]
+    },
+    "d5": {
+      "evidence_state": "PROXY",
+      "low": 0.97,
+      "base": 1.04,
+      "high": 1.12,
+      "bridge": "FHWA's FAF5.2 forecast is for domestic water-mode freight tonnage, not constant-price demand for 488310 port-operation services, and projects 0.8% annual growth from 2017 to 2050. I compound that modal growth over five years as the base anchor, widening for international trade, regional shifts, cargo mix, port capacity, and service intensity. The proxy may understate demand at import-heavy container gateways or overstate it at facilities exposed to declining coal and petroleum flows.",
+      "rationale": "Port and harbor operations scale with vessel calls, cargo throughput, facility availability, and infrastructure needs. The federal water-mode forecast implies modest baseline growth, while current BTS port datasets show the continuing breadth of container, tonnage, dry-bulk, and vessel-berthing activity. Demand can diverge sharply by geography and commodity, and climate events, trade policy, route changes, and customer relocations create downside.",
+      "change_evidence": "Use FAF 5.7.1 to extract 2026-2031 waterborne flows by gateway and commodity for each target's catchment, then combine with contracted volumes, berth-call forecasts, tenant commitments, and local port capital plans.",
+      "source_ids": ["S9", "S10", "S11"],
+      "caveats": [
+        "FAF5.2 forecasts embed economic assumptions available in 2021 and precede later trade-policy and routing changes.",
+        "Water-mode tonnage does not capture vessel calls, dwell time, passenger or canal activity, pricing, or service intensity.",
+        "National averages conceal port-specific winners and losers and commodity-specific declines."
+      ]
+    },
+    "o": {
+      "evidence_state": "PROXY",
+      "low": 0.88,
+      "base": 0.95,
+      "high": 0.99,
+      "bridge": "Census defines 488310 as operating ports, harbors, docking and pier facilities, or canals, while GAO documents process and equipment automation that reduces human involvement but still sits within an operator-run terminal. These sources do not measure the five-year share requiring a lens operator. I infer that software can automate coordination and some equipment movement, but an accountable entity must maintain infrastructure, manage access and safety, coordinate stakeholders, respond to incidents, and satisfy concession and security obligations. The estimate could be high if customers vertically integrate or remote autonomous operations diffuse quickly.",
+      "rationale": "The operator role persists even in automated ports because scarce physical infrastructure, safe vessel access, facility maintenance, emergency response, security, and multi-party coordination remain. GAO found automation at all large container ports, but only four used automated cargo-handling equipment and stakeholders reported mixed performance. Automation changes the labor and tools inside port operations more than it removes the operating entity.",
+      "change_evidence": "Track concession renewals, customer insourcing, autonomous gate and equipment deployments, remotely staffed terminals, Coast Guard cybersecurity and facility-security requirements, and the share of port functions moved to common software platforms.",
+      "source_ids": ["S1", "S3", "S5"],
+      "caveats": [
+        "Large container ports are more automated than many LMM bulk, break-bulk, inland, and specialized facilities.",
+        "Operator requirements and self-service risk differ across landlord, terminal, pier, docking, and canal models.",
+        "The estimate separates operator persistence from the implemented labor opportunity in rho."
+      ]
+    }
+  },
+  "narrative": {
+    "executive_view": "Port operations combine durable control of physical infrastructure with a meaningful administrative and coordination layer. AI can improve berth and gate planning, document flow, billing, maintenance triage, customer communication, and exception management, but it does not remove the need for a facility operator. The investable population is narrower than the NAICS label suggests because public authorities and captive cargo terminals are common, and contract structures can pass savings back to powerful customers or public counterparties.",
+    "ai_impact": "Near-term value lies primarily in software workflows rather than autonomous cranes: extracting shipping and facility documents, predicting arrival and congestion, optimizing schedules, generating invoices and reports, prioritizing maintenance, and handling routine customer updates. GAO found process automation already widespread at large container ports, while equipment automation remained less common and produced mixed performance. LMM firms can adopt lighter software faster but face fragmented data, cyber risk, labor agreements, and zero-downtime requirements.",
+    "value_capture": "Savings are most retainable in fixed-fee, minimum-commitment, or capacity-constrained arrangements during the current term. They are less retainable under cost-plus, transparent per-unit tariffs, frequent rebids, or public-rate oversight. Faster turns, fewer errors, and better asset uptime can create service value beyond labor reduction, but concentrated shipping and cargo customers have leverage to demand lower charges at renewal.",
+    "firm_availability": "The frozen firm count includes an uncertain mix of independent operators, large-company sites, captive terminals, and potentially infrastructure-heavy entities. Federal port research distinguishes public authorities, landlord and operating ports, cargo-owner terminals, carrier terminals, and independent terminal operators. Only the last group cleanly fits. Disclosed terminal-operation acquisitions show transferability, but concession assignment and public approvals can complicate control sales.",
+    "demand_durability": "A five-year base case of modest growth is consistent with the federal water-freight forecast and the ongoing role of ports in trade. Physical infrastructure, access, maintenance, resilience, security, and stakeholder coordination create recurring needs. Results will be highly local: route shifts, tariffs, commodity declines, hurricanes, drought, bridge failures, tenant concentration, and new competing capacity can overwhelm national growth.",
+    "risks_and_uncertainty": "The largest evidence problem is classification. Occupation data are only available for broad 488300 and heavily mix cargo handlers and maritime workers into the port-operator signal. Contract evidence comes from a larger integrated operator, and transfer evidence lacks a denominator. A target's concession term, renewal rights, capital obligations, customer concentration, environmental liabilities, cyber posture, and exposure to one commodity or tenant are more important than the national average.",
+    "principal_driver": "AI can improve the document, planning, coordination, and maintenance layer around scarce port infrastructure without eliminating the accountable operator.",
+    "principal_weakness": "The eligible private-firm population is obscured by public and captive facilities, while transparent or cost-plus contracts may transfer much of the productivity benefit to customers."
+  },
+  "sources": [
+    {
+      "id": "S1",
+      "url": "https://www.census.gov/naics/?details=488310&input=488310&year=2022",
+      "title": "2022 NAICS Definition: 488310 Port and Harbor Operations",
+      "access_date": "2026-07-22",
+      "supports": "Defines the industry as operating ports, harbors including docking and pier facilities, or canals, and distinguishes marine cargo handling, navigational services, and marinas."
+    },
+    {
+      "id": "S2",
+      "url": "https://www.bls.gov/oes/2023/may/naics4_488300.htm",
+      "title": "May 2023 National Industry-Specific Occupational Employment and Wage Estimates: NAICS 488300",
+      "access_date": "2026-07-22",
+      "supports": "Broader water-support occupation mix: 95,160 jobs; 61.16% transportation/material moving; 14.06% installation, maintenance and repair; 10.76% office/administrative support; 6.67% management; and 1.98% business/financial operations."
+    },
+    {
+      "id": "S3",
+      "url": "https://www.gao.gov/products/gao-24-106498",
+      "title": "Port Infrastructure: U.S. Ports Have Adopted Some Automation Technologies and Report Varied Effects",
+      "access_date": "2026-07-22",
+      "supports": "GAO found all ten largest US container ports used some automation, each had a terminal using process automation, four used automated handling equipment, and operators reported mixed workforce, security, performance, cost, and labor-agreement effects."
+    },
+    {
+      "id": "S4",
+      "url": "https://www.bts.gov/sites/bts.dot.gov/files/docs/browse-statistical-products-and-data/port-performance/224751/ppfsp-annual-report2018.pdf",
+      "title": "Port Performance Freight Statistics Program: Annual Report to Congress 2018",
+      "access_date": "2026-07-22",
+      "supports": "Explains landlord, operating, and jurisdictional port models; identifies lease, direct-operation, and vessel-use revenue; and distinguishes carrier-owned, cargo-interest-owned, and independent marine-terminal-operator facilities."
+    },
+    {
+      "id": "S5",
+      "url": "https://files.gao.gov/reports/GAO-25-107159/index.html",
+      "title": "U.S. Port Infrastructure: DOT and DHS Offer Funding and Other Assistance Ports Can Use to Improve Disaster Resilience",
+      "access_date": "2026-07-22",
+      "supports": "Reports more than 300 US waterside ports, describes governmental port authorities and private terminal lessees, and identifies the coordination and resilience responsibilities of port-management entities."
+    },
+    {
+      "id": "S6",
+      "url": "https://www.census.gov/content/dam/Census/library/visualizations/2020/comm/business-owners-ages.pdf",
+      "title": "Business Owners' Ages",
+      "access_date": "2026-07-22",
+      "supports": "2019 ABS infographic for reference year 2018 reports that 51% of responding owners of employer businesses were age 55 or older, 43% were 35-54, and 6% were 34 or younger."
+    },
+    {
+      "id": "S7",
+      "url": "https://www.prnewswire.com/news-releases/pangaea-logistics-solutions-announces-completion-of-port-and-terminal-operations-acquisition-301840753.html",
+      "title": "Pangaea Logistics Solutions Announces Completion of Port and Terminal Operations Acquisition",
+      "access_date": "2026-07-22",
+      "supports": "Documents a June 2023 all-cash acquisition of marine port terminal operations in Florida and Maryland from Host Terminals."
+    },
+    {
+      "id": "S8",
+      "url": "https://www.sec.gov/Archives/edgar/data/1606909/000160690925000097/panl-20241231.htm",
+      "title": "Pangaea Logistics Solutions Ltd. 2024 Form 10-K",
+      "access_date": "2026-07-22",
+      "supports": "Describes per-unit stevedoring contracts with possible minimum quantities and expected-cost-plus-margin allocation, plus terminal service contracts covering labor, storage, handling, and cargo transfer; also confirms two US port-operation acquisitions."
+    },
+    {
+      "id": "S9",
+      "url": "https://ops.fhwa.dot.gov/freight/freight_analysis/faf/faf5/FAF5FHWAWebinarJuly282022final.pdf",
+      "title": "Freight Analysis Framework Version 5",
+      "access_date": "2026-07-22",
+      "supports": "FAF5.2 baseline forecast shows domestic water-mode freight tonnage increasing from 662.453 million tons in 2017 to 855.079 million in 2050, a 0.8% compound annual growth rate, with substantial commodity variation."
+    },
+    {
+      "id": "S10",
+      "url": "https://www.bts.gov/ports",
+      "title": "Port Performance Freight Statistics Program",
+      "access_date": "2026-07-22",
+      "supports": "Describes nationally consistent port capacity and throughput measures and current datasets covering imports, vessel calls and berthing times, TEUs, tonnage, dry bulk, commodities, and port profiles."
+    },
+    {
+      "id": "S11",
+      "url": "https://www.bls.gov/ooh/transportation-and-material-moving/water-transportation-occupations.htm",
+      "title": "Water Transportation Workers: Occupational Outlook Handbook",
+      "access_date": "2026-07-22",
+      "supports": "Projects water-transportation-worker employment to grow 1% from 2024 to 2034 and identifies bulk-commodity fluctuations as a key employment driver."
+    }
+  ]
+}
