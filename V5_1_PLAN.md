@@ -242,7 +242,7 @@ and move on.
 
 | Status | # | Block | NAICS | Codes | Reviewed | Notes |
 |---|---|---|---|---:|---:|---|
-| todo | S1 | Professional, scientific, technical | 54 | 49 | – | v5.0 rerun territory — doubles as drift check vs `six_data_v5.json` |
+| research | S1 | Professional, scientific, technical | 54 | 49 | – | v5.0 rerun territory — doubles as drift check vs `six_data_v5.json` |
 | todo | S2 | Administrative & support, waste | 56 | 44 | – | |
 | todo | S3 | Health care & social assistance | 62 | 39 | – | |
 | todo | S4 | Finance & insurance | 52 | 35 | – | 5251x labor_share gaps |
