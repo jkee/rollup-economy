@@ -1,0 +1,104 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "review_record_v4.schema.json",
+  "title": "v4 publication review",
+  "type": "object",
+  "required": ["naics", "run_id", "artifact_digests", "review_meta", "outcome", "mechanics", "source_reviews", "input_reviews", "findings", "publication_caveats", "summary"],
+  "additionalProperties": false,
+  "properties": {
+    "naics": {"type": "string", "pattern": "^[0-9]{6}$"},
+    "run_id": {"type": "string", "minLength": 1},
+    "artifact_digests": {
+      "type": "object",
+      "required": ["packet_sha256", "run_sha256", "memo_sha256"],
+      "additionalProperties": false,
+      "properties": {
+        "packet_sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+        "run_sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+        "memo_sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"}
+      }
+    },
+    "review_meta": {
+      "type": "object",
+      "required": ["model_id", "review_date", "prompt_version"],
+      "additionalProperties": false,
+      "properties": {
+        "model_id": {"const": "gpt-5.6-sol"},
+        "review_date": {"type": "string", "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}$"},
+        "prompt_version": {"const": "validator-4.0"}
+      }
+    },
+    "outcome": {"enum": ["publishable", "publishable_with_caveats", "reject", "invalid"]},
+    "mechanics": {
+      "type": "object",
+      "required": ["schema_valid", "identity_valid", "model_route_valid", "dataset_equal", "roles_equal", "finalization_equal", "memo_equal", "arithmetic_valid", "ranges_monotonic", "readiness_valid", "gates_valid"],
+      "additionalProperties": false,
+      "properties": {
+        "schema_valid": {"type": "boolean"},
+        "identity_valid": {"type": "boolean"},
+        "model_route_valid": {"type": "boolean"},
+        "dataset_equal": {"type": "boolean"},
+        "roles_equal": {"type": "boolean"},
+        "finalization_equal": {"type": "boolean"},
+        "memo_equal": {"type": "boolean"},
+        "arithmetic_valid": {"type": "boolean"},
+        "ranges_monotonic": {"type": "boolean"},
+        "readiness_valid": {"type": "boolean"},
+        "gates_valid": {"type": "boolean"}
+      }
+    },
+    "source_reviews": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "required": ["source_id", "url", "accessible", "score_driving", "support", "notes"],
+        "additionalProperties": false,
+        "properties": {
+          "source_id": {"type": "string", "pattern": "^S[1-9][0-9]*$"},
+          "url": {"type": "string", "pattern": "^https?://"},
+          "accessible": {"type": "boolean"},
+          "score_driving": {"type": "boolean"},
+          "support": {"enum": ["supported", "partially_supported", "unsupported", "not_score_driving"]},
+          "notes": {"type": "string"}
+        }
+      }
+    },
+    "input_reviews": {
+      "type": "array",
+      "minItems": 7,
+      "items": {
+        "type": "object",
+        "required": ["input_path", "evidence_state_honest", "base_supported", "range_supported", "scope_supported", "notes"],
+        "additionalProperties": false,
+        "properties": {
+          "input_path": {"type": "string", "minLength": 1},
+          "evidence_state_honest": {"type": "boolean"},
+          "base_supported": {"type": "boolean"},
+          "range_supported": {"type": "boolean"},
+          "scope_supported": {"type": "boolean"},
+          "notes": {"type": "string"}
+        }
+      }
+    },
+    "findings": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["severity", "category", "input_paths", "explanation", "materiality", "remediation"],
+        "additionalProperties": false,
+        "properties": {
+          "severity": {"enum": ["caveat", "material", "fatal_mechanics"]},
+          "category": {"enum": ["evidence", "range_support", "evidence_state", "target_archetype", "factor_semantics", "operator_survival", "double_counting", "scope", "source_age", "metadata", "mechanics", "other"]},
+          "input_paths": {"type": "array", "items": {"type": "string"}},
+          "explanation": {"type": "string", "minLength": 1},
+          "materiality": {"type": "string", "minLength": 1},
+          "remediation": {"type": "string", "minLength": 1},
+          "publication_caveat": {"type": "string", "minLength": 1}
+        }
+      }
+    },
+    "publication_caveats": {"type": "array", "items": {"type": "string", "minLength": 1}},
+    "summary": {"type": "string", "minLength": 1}
+  }
+}

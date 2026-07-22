@@ -1,0 +1,138 @@
+{
+  "identity": {
+    "naics": "561730",
+    "title": "Landscaping Services",
+    "run_id": "561730-a1-20260722",
+    "model_id": "gpt-5.6-terra",
+    "run_date": "2026-07-22",
+    "methodology_version": "5.0",
+    "attempt": 1
+  },
+  "lens": {
+    "included_activities": "US lower-middle-market firms in NAICS 561730 providing externally purchased recurring lawn, grounds, tree, irrigation, snow, and landscape-maintenance services, plus repeat work for commercial and residential customers.",
+    "excluded_activities": "Captive property-maintenance units, pure landscape architecture, landscape-material retail, one-off construction-only work without a repeat outsourced-service relationship, shells, and financing vehicles.",
+    "customer_and_revenue_model": "Commercial and residential customers, principally route-based or contracted maintenance with project and seasonal add-on work; repeat outsourced service is required by the lens.",
+    "deviation_from_default": "none",
+    "heterogeneous": false
+  },
+  "primitives": {
+    "a": {
+      "evidence_state": "ESTIMATE",
+      "low": 0.08,
+      "base": 0.14,
+      "high": 0.22,
+      "rationale": "The industry occupation profile is dominated by hands-on grounds work: landscaping and groundskeeping workers are 60.88% of employment and the building-and-grounds major group is 76.87%. O*NET lists mowing, pruning, planting, spraying, hauling, irrigation, and equipment work. AI can reduce quoting, scheduling, routing support, customer communication, documentation, bookkeeping, and some supervisory planning, but it does not substitute for most field execution. The base is a wage-weighted judgment that gives the smaller office, sales, and management groups greater exposure than field crews.",
+      "change_evidence": "Firm-level payroll by SOC, time studies separating office and crew hours, and vendor telemetry for estimating, dispatch, customer-service, and bookkeeping workflows would materially refine the wage-weighted exposure.",
+      "source_ids": ["S1", "S2"],
+      "caveats": ["OEWS employment shares are a 2023 establishment survey rather than payroll shares and include work outside the frozen repeat-service subset.", "Task lists do not measure task time or AI technical performance."]
+    },
+    "rho": {
+      "evidence_state": "ESTIMATE",
+      "low": 0.25,
+      "base": 0.4,
+      "high": 0.55,
+      "rationale": "The implementable share is limited to back-office and supervisory workflows that smaller operators can standardize. Field work requires local judgment, physical equipment, and in some cases pesticide licensing; BLS notes on-the-job training and state licensing for pesticide or fertilizer application. Adoption can be practical for estimating, scheduling, communications, and administrative work, but seasonal crews, fragmented software, imperfect job data, and owner-led change capacity constrain five-year realization.",
+      "change_evidence": "Interviews with LMM operators, implementation data from landscape field-service platforms, and before-and-after staffing records for dispatch, estimating, and accounting would materially move the estimate.",
+      "source_ids": ["S2", "S4"],
+      "caveats": ["No source measures five-year AI implementation in the frozen LMM population.", "Licensing varies by state and task."]
+    },
+    "e": {
+      "evidence_state": "ESTIMATE",
+      "low": 0.55,
+      "base": 0.75,
+      "high": 0.85,
+      "rationale": "The inclusion screen removes firms dominated by single-installation projects and non-operating forms, but recurring maintenance is common in the closest transaction-market population: BizBuySell says most listed and sold landscaping and yard-service businesses rely on yard maintenance for consistent recurring revenue. The base allows for a meaningful project, design, and construction share within the NAICS while retaining repeat-service operators.",
+      "change_evidence": "Revenue splits from LMM company financial statements, a NAICS-specific customer-contract survey, and broker books showing maintenance versus installation revenue would directly test eligibility.",
+      "source_ids": ["S3"],
+      "caveats": ["BizBuySell's marketplace category is not the NAICS universe or the injected EBITDA band.", "Recurring revenue does not by itself prove transferable operations or customer-contract assignability."]
+    },
+    "s5": {
+      "evidence_state": "ESTIMATE",
+      "low": 0.2,
+      "base": 0.35,
+      "high": 0.5,
+      "rationale": "A live transaction channel exists: BizBuySell reports 173 landscaping and yard-service transactions in its 2025 sector table, and its five-year benchmark page analyzes 945 sold listings. These figures establish observable sale activity but do not identify transfers among the injected LMM EBITDA population. The base is a bounded judgment for qualifying five-year control transfers after excluding closures and internal reorganizations.",
+      "change_evidence": "NAICS 561730 transaction records from Axial, GF Data, PitchBook, or business-broker closed-deal files; owner-age data; and state entity sale or successor filings would materially refine the probability.",
+      "source_ids": ["S3", "S5"],
+      "caveats": ["The reported transactions have median revenue of $755,359 and median cash flow of $201,392, below the frozen LMM EBITDA band, so they cannot produce a direct transfer rate.", "Marketplace data undercount off-market and larger brokered sales and include an unknown listing-selection effect."]
+    },
+    "q": {
+      "evidence_state": "ESTIMATE",
+      "low": 0.45,
+      "base": 0.6,
+      "high": 0.75,
+      "rationale": "Route and contracted maintenance gives the operator some scope to retain a cost reduction during a service term, and recurring maintenance is reported as common in the transaction-market population. However, local competition, customer renewals, and bidding for commercial work should pass a material portion through over five years. The base assumes operators retain more than half of implemented administrative and supervisory benefit, without treating field labor savings as available.",
+      "change_evidence": "Customer contracts showing renewal, indexing, cost-plus, and open-book provisions; bid logs; and account-level gross-margin changes after software adoption would materially change retention.",
+      "source_ids": ["S3"],
+      "caveats": ["No cited source reports contractual pass-through or post-AI pricing for this industry.", "Commercial and residential pricing behavior can differ sharply by local market."]
+    },
+    "d5": {
+      "evidence_state": "PROXY",
+      "low": 0.99,
+      "base": 1.02,
+      "high": 1.05,
+      "bridge": "S4 measures US employment of the broader grounds-maintenance occupation, not constant-price demand for the frozen NAICS repeat-service basket. It projects 4% occupational employment growth from 2024 to 2034; converting that decade signal to a five-year demand proxy gives a modest growth-centered estimate. Because productivity, labor supply, and industry mix can change employment independently of service quantity, this proxy may overstate or understate demand growth.",
+      "rationale": "BLS projects 4% growth in grounds-maintenance employment from 2024 to 2034 and specifically attributes need for landscaping and groundskeeping workers to homeowner and institutional lawn-care demand and urban green-space investment. The five-year value is deliberately modest because the forecast is occupational rather than a constant-price industry-demand series.",
+      "change_evidence": "A BEA or Census real-output series for NAICS 561730, contract-acreage data from commercial-property managers, and local municipal or institutional grounds budgets would materially refine constant-quality demand.",
+      "source_ids": ["S4"],
+      "caveats": ["The source covers the broader occupation and a ten-year horizon, not the specific LMM repeat-service lens.", "Employment demand is not identical to service-quantity demand when equipment productivity or staffing intensity changes."]
+    },
+    "o": {
+      "evidence_state": "ESTIMATE",
+      "low": 0.85,
+      "base": 0.93,
+      "high": 0.97,
+      "rationale": "Most current basket work remains location-specific physical service. O*NET lists equipment operation, mowing, pruning, planting, irrigation work, chemical application, snow work, and repair, while BLS describes strenuous outdoor labor and dangerous or heavy equipment. AI can support an operator but is unlikely to eliminate accountability for crew safety, quality, site access, and physical execution within five years; the reduction allows for self-service, lower-maintenance design, and emerging autonomy at the margin.",
+      "change_evidence": "Customer surveys on self-service substitution, vendor deployment data for autonomous mowing and robotic equipment, and contract renewals showing acreage or service-frequency reductions would materially change the operator-required share.",
+      "source_ids": ["S2", "S4"],
+      "caveats": ["The task evidence is occupational and does not quantify future robotics adoption.", "The assessment excludes demand growth, which is represented separately in d5."]
+    }
+  },
+  "narrative": {
+    "executive_view": "Landscaping Services is a physical, locally delivered service with a substantial base of repeat maintenance revenue, but its AI opportunity is concentrated in the smaller administrative and supervisory portion of the cost base rather than in field crews.",
+    "ai_impact": "OEWS reports landscaping and groundskeeping workers at 60.88% of NAICS employment, and O*NET's listed work is predominantly mowing, pruning, planting, spraying, irrigation, and equipment operation. AI is therefore most relevant to estimating, scheduling, routing support, customer communication, documentation, bookkeeping, and supervisory planning.",
+    "value_capture": "Recurring maintenance contracts can preserve some back-office productivity during a term, but local bid competition and renewal repricing should share a material portion with customers. Field labor should not be counted as broadly substitutable AI value.",
+    "firm_availability": "BizBuySell documents a transaction channel: its benchmark page analyzes 945 sold landscaping and yard-service listings and its 2025 sector table reports 173 transactions. Those data are substantially smaller than the frozen LMM band, so they indicate transferability without measuring the qualifying transfer rate.",
+    "demand_durability": "The physical service remains needed at homes, commercial properties, institutions, and green spaces. BLS projects 4% growth in grounds-maintenance employment from 2024 to 2034 and cites homeowner, institutional, and urban-green-space demand, though this is an occupational proxy rather than a real-output forecast.",
+    "risks_and_uncertainty": "Seasonality, weather, local labor availability, pesticide rules, fragmented field data, and nonrecurring installation revenue can weaken implementation and retention. Marketplace transaction statistics do not match the frozen EBITDA band, and no source directly measures AI adoption, contractual pass-through, or repeat-service revenue share for LMM NAICS 561730 firms.",
+    "principal_driver": "Recurring outsourced maintenance demand combined with attainable AI support for estimating, dispatch, customer service, and administration.",
+    "principal_weakness": "Most labor is site-specific physical work, sharply limiting direct AI substitution and leaving key values dependent on estimates rather than industry-matched measurements."
+  },
+  "sources": [
+    {
+      "id": "S1",
+      "url": "https://www.bls.gov/oes/2023/may/naics5_561730.htm",
+      "title": "BLS May 2023 National Industry-Specific Occupational Employment and Wage Estimates: NAICS 561730",
+      "access_date": "2026-07-22",
+      "supports": "Reports 915,720 total NAICS 561730 employment; 76.87% in building and grounds cleaning and maintenance occupations; 60.88% in landscaping and groundskeeping workers; and 6.70% in office and administrative support occupations."
+    },
+    {
+      "id": "S2",
+      "url": "https://www.onetonline.org/search/task/choose/37-3011.00",
+      "title": "O*NET Job Duties: Landscaping and Groundskeeping Workers",
+      "access_date": "2026-07-22",
+      "supports": "Lists field tasks including hand-tool and powered-equipment use, watering, pruning, spraying, lawn care, planting, mowing, irrigation maintenance, snow removal, and repairs."
+    },
+    {
+      "id": "S3",
+      "url": "https://www.bizbuysell.com/learning-center/valuation-benchmarks/landscaping-yard-service/",
+      "title": "BizBuySell Landscaping and Yard Service Business Valuation Multiples and Financial Benchmarks",
+      "access_date": "2026-07-22",
+      "supports": "States that most listed and sold businesses rely on yard maintenance for consistent recurring revenue; reports 945 sold listings analyzed, 2025 median revenue of $755,359 and owner earnings of $201,392, and transaction benchmarks for 2021 through 2025."
+    },
+    {
+      "id": "S4",
+      "url": "https://www.bls.gov/ooh/building-and-grounds-cleaning/grounds-maintenance-workers.htm",
+      "title": "BLS Occupational Outlook Handbook: Grounds Maintenance Workers",
+      "access_date": "2026-07-22",
+      "supports": "Projects 4% grounds-maintenance employment growth from 2024 to 2034 and attributes need for landscaping and groundskeeping workers to demand from homeowners, institutions, and urban green spaces; describes physical outdoor duties and pesticide-application licensing."
+    },
+    {
+      "id": "S5",
+      "url": "https://www.bizbuysell.com/insight-report-data-tables/",
+      "title": "BizBuySell Insight Report Data Tables",
+      "access_date": "2026-07-22",
+      "supports": "The full-year 2025 sector table reports 173 landscaping and yard-service transactions, with $755,359 average revenue and $201,392 median cash flow in the displayed row."
+    }
+  ]
+}

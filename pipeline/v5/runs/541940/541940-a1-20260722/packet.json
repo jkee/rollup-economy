@@ -1,0 +1,153 @@
+{
+  "identity": {
+    "naics": "541940",
+    "title": "Veterinary Services",
+    "run_id": "541940-a1-20260722",
+    "model_id": "gpt-5.6-terra",
+    "run_date": "2026-07-22",
+    "methodology_version": "5.0",
+    "attempt": 1
+  },
+  "lens": {
+    "included_activities": "Independent lower-middle-market veterinary practices and veterinary testing providers delivering repeat animal prevention, diagnosis, treatment, surgery, laboratory, and related care to pet owners, livestock owners, and referring practices.",
+    "excluded_activities": "Captive animal-care units, internal corporate departments, shell entities, non-control financing vehicles, and operators whose economics are primarily pet retail, boarding, grooming, or real estate rather than veterinary services.",
+    "customer_and_revenue_model": "External customers purchase recurring preventive care and episodic medically necessary services, generally through direct practice fees and related inventory sales; referring practices may purchase testing services.",
+    "deviation_from_default": "none",
+    "heterogeneous": false
+  },
+  "primitives": {
+    "a": {
+      "evidence_state": "ESTIMATE",
+      "low": 0.18,
+      "base": 0.28,
+      "high": 0.4,
+      "rationale": "Industry staffing is clinically intensive: veterinarians, technicians, and veterinary assistants dominate the observed occupational mix, while office and administrative support is a material but smaller component. AI can reduce documentation, scheduling, record retrieval, client-message drafting, billing support, inventory work, and parts of image or laboratory triage. Physical examination, restraint, procedures, specimen handling, clinical accountability, and sensitive client conversations constrain substitution. The value is a wage-weighted task judgment rather than a measured industry AI-exposure statistic.",
+      "change_evidence": "A representative time-and-motion study by role, linked to payroll, or de-identified veterinary practice-management-system logs separating documentation, scheduling, billing, client communication, and hands-on care would materially revise this estimate.",
+      "source_ids": ["S1", "S2", "S3", "S4"],
+      "caveats": ["OEWS excludes self-employed workers and is a 2023 wage snapshot.", "O*NET describes occupations across employers, not the veterinary-services industry alone.", "AI capability and quality for veterinary workflows are evolving faster than the source vintages."]
+    },
+    "rho": {
+      "evidence_state": "ESTIMATE",
+      "low": 0.3,
+      "base": 0.48,
+      "high": 0.65,
+      "rationale": "Administrative and documentation tools can be deployed without replacing clinical judgment, but implementation is limited by practice-management-system integration, record quality, privacy, medical-error liability, workflow redesign, and owner willingness. AVMA reports that 40.8% of surveyed practice owners were enthusiastic about new technology, leaving most respondents hesitant or skeptical; that supports partial rather than universal operational realization within five years.",
+      "change_evidence": "A current AVMA or VHMA survey measuring production use of specific AI workflows, together with adoption and quality metrics from veterinary practice-management-system vendors, would materially change the estimate.",
+      "source_ids": ["S4"],
+      "caveats": ["Technology enthusiasm is not measured deployment or sustained productivity.", "The AVMA practice-owner sample may not represent the lower-middle-market subset."]
+    },
+    "e": {
+      "evidence_state": "ESTIMATE",
+      "low": 0.8,
+      "base": 0.9,
+      "high": 0.97,
+      "rationale": "The Census definition covers licensed veterinary medical, dental, surgical, and testing establishments. Those activities normally provide external animal-health services that recur through preventive care, chronic needs, follow-up, and repeat testing. The deduction excludes the minority of lower-middle-market entities that do not actually supply a repeat outsourced service despite their industry code.",
+      "change_evidence": "Business-register microdata or a targeted survey of lower-middle-market NAICS 541940 firms identifying customer type, revenue mix, control structure, and repeat-service revenue would materially refine eligibility.",
+      "source_ids": ["S7", "S4"],
+      "caveats": ["The industry definition does not report lens eligibility or firm-level normalized EBITDA.", "Establishment counts can differ from firm counts for multi-site operators."]
+    },
+    "s5": {
+      "evidence_state": "PROXY",
+      "low": 0.1,
+      "base": 0.16,
+      "high": 0.25,
+      "bridge": "AAHA reports a Packaged Facts projection that 30% of veterinary practices would be put up for sale during the 2018 to 2028 period. I translate that ten-year listing projection into a five-year qualifying-control-transfer probability for eligible lower-middle-market firms, with a lower base because a listing is not necessarily a completed control transfer. This proxy likely overstates completed transfers, although unlisted succession and corporate transactions could offset part of that bias.",
+      "rationale": "Veterinary practice succession and consolidation create a credible transfer channel, but the proxy is deliberately discounted for failed sales, owners who remain employed after a transaction, and firms that are too small or geographically unattractive to transfer as operating businesses.",
+      "change_evidence": "A transaction database with closed dates, control acquired, revenue or EBITDA band, practice type, and geography from Ackerman Group, Antelligence, PitchBook, or an AVMA owner survey would materially revise this probability.",
+      "source_ids": ["S6"],
+      "caveats": ["The cited projection concerns practices put up for sale rather than closed transactions.", "The cited source discusses general and specialty practice markets, whereas the lens covers all eligible lower-middle-market veterinary services.", "The underlying Packaged Facts projection predates the later slowdown in consolidation described by AAHA."]
+    },
+    "q": {
+      "evidence_state": "ESTIMATE",
+      "low": 0.5,
+      "base": 0.68,
+      "high": 0.82,
+      "rationale": "Practices principally sell discrete veterinary services directly to external customers rather than operating on a cost-plus contract. AVMA reports veterinary services as the largest revenue category and reports owners spending most of their time with clients and patients, supporting scope to retain workflow savings through capacity, service quality, and operational leverage. Local price competition, wage pressure, customer fee sensitivity, and eventual reinvestment in service temper retention.",
+      "change_evidence": "Longitudinal practice-level data linking AI workflow deployment to labor hours, service fees, visit volume, compensation, and retention would materially change the retained-benefit estimate.",
+      "source_ids": ["S4"],
+      "caveats": ["The AVMA revenue categories do not measure contractual pass-through or the incidence of AI savings.", "Retention can differ substantially by companion, food-animal, equine, emergency, and specialty practice type."]
+    },
+    "d5": {
+      "evidence_state": "PROXY",
+      "low": 0.97,
+      "base": 1.05,
+      "high": 1.12,
+      "bridge": "BLS projects national veterinarian employment to grow 10% from 2024 to 2034 and attributes growth to pet-related spending, treatment options, and a growing, aging pet population. I convert the first half of that employment-growth horizon into a constant-price, constant-quality quantity-demand proxy for the current veterinary service basket. This proxy likely understates service quantity if technology enables more visits or services per veterinarian, but it is not an industry revenue forecast.",
+      "rationale": "The occupation outlook and the predominance of veterinary-services employment support modest growth in underlying demand. The low case permits real service quantity to fall if household affordability weakens or pandemic-era demand normalizes.",
+      "change_evidence": "A five-year constant-dollar national veterinary visit-volume series by service category, ideally from AVMA, AAHA, or practice-management-system data, would materially revise the demand ratio.",
+      "source_ids": ["S5"],
+      "caveats": ["Occupation employment is not the same construct as service quantity and includes employment outside NAICS 541940.", "The BLS projection spans ten years and is not adjusted here using an observed industry productivity series."]
+    },
+    "o": {
+      "evidence_state": "ESTIMATE",
+      "low": 0.82,
+      "base": 0.91,
+      "high": 0.97,
+      "rationale": "The current basket centers on animal examination, diagnosis, treatment, surgery, testing, vaccination, and client counseling. BLS describes veterinarians as performing these medical functions, and O*NET records hands-on, close-proximity technician work with serious consequences of error. Software can absorb administrative tasks and assist decisions, but most service quantity should still require an accountable veterinary operator over the horizon.",
+      "change_evidence": "State-by-state scope-of-practice changes, telemedicine rules, and audited evidence on autonomous triage, prescribing, or home-testing substitution by service category would materially alter this share.",
+      "source_ids": ["S2", "S3", "S5"],
+      "caveats": ["The estimate does not separately model companion, livestock, mobile, testing, and specialty providers.", "Software-assisted service can still reduce operator time without eliminating the accountable operator."]
+    }
+  },
+  "narrative": {
+    "executive_view": "Veterinary Services is a clinically anchored external service business with repeat demand and meaningful operational administration, but its core care delivery remains hands-on and professionally accountable. The strongest AI case is relieving documentation and back-office friction rather than replacing veterinary medicine.",
+    "ai_impact": "The industry has a large observed mix of veterinarians, technicians, assistants, and office staff. AI is most relevant to records, scheduling, intake, communications, billing support, inventory, and clinical information triage; examination, procedures, specimen handling, and final clinical judgment remain limiting tasks.",
+    "value_capture": "Direct service revenue is the largest practice revenue category, so workflow gains need not be automatically passed through under cost-plus contracts. Retention is nevertheless uncertain because local competition, client affordability, staffing pressure, and the need to reinvest gains can share benefits with customers and employees.",
+    "firm_availability": "The industry contains many small practices and has an active succession and consolidation environment. A published projection of practices coming to market supports transfer potential, but listings are not closed sales and one- or two-doctor practices may be difficult to transfer.",
+    "demand_durability": "BLS expects veterinarian employment growth driven by pet spending, expanded treatment options, and a growing, aging pet population. That is a favorable demand proxy, though affordability pressure and normalization after unusually strong demand can weaken actual visit volume.",
+    "risks_and_uncertainty": "The main evidence gaps are direct measurements of AI deployment, task time, completed lower-middle-market transactions, and constant-dollar service volumes. Clinical quality, privacy, liability, practice-system integration, state scope rules, and fragmented practice types make broad extrapolation hazardous.",
+    "principal_driver": "Repeat, clinically necessary animal-health services remain dependent on accountable operators while administrative workflow is amenable to AI assistance.",
+    "principal_weakness": "No direct industry evidence measures realized AI labor savings or completed lower-middle-market control transfers, so both are bounded judgments or proxies."
+  },
+  "sources": [
+    {
+      "id": "S1",
+      "url": "https://www.bls.gov/oes/2023/may/naics5_541940.htm",
+      "title": "BLS May 2023 OEWS Industry-Specific Occupational Employment and Wage Estimates: Veterinary Services",
+      "access_date": "2026-07-22",
+      "supports": "Observed NAICS 541940 occupation employment shares and wages, including veterinarians, veterinary technologists and technicians, veterinary assistants, animal caretakers, and office support."
+    },
+    {
+      "id": "S2",
+      "url": "https://www.onetonline.org/search/task/choose/29-1131.00",
+      "title": "O*NET Job Duties: Veterinarians",
+      "access_date": "2026-07-22",
+      "supports": "Veterinarian tasks include treatment, inoculation, examination, specimen collection, diagnostic equipment use, client counseling, and advice."
+    },
+    {
+      "id": "S3",
+      "url": "https://www.onetonline.org/link/details/29-2056.00",
+      "title": "O*NET Details: Veterinary Technologists and Technicians",
+      "access_date": "2026-07-22",
+      "supports": "Technician work includes documentation, patient care, imaging, specimen work, equipment handling, close physical proximity, and material consequences of error."
+    },
+    {
+      "id": "S4",
+      "url": "https://ebusiness.avma.org/files/productdownloads/002_AVMA_SotPReport25_NoPasswordPRO.pdf",
+      "title": "American Veterinary Medical Association 2025 Report on the Economic State of the Veterinary Profession",
+      "access_date": "2026-07-22",
+      "supports": "Practice size, ownership, revenue-category, owner-time, technology-attitude, and productivity evidence for United States veterinary practices."
+    },
+    {
+      "id": "S5",
+      "url": "https://www.bls.gov/ooh/Healthcare/Veterinarians.htm",
+      "title": "BLS Occupational Outlook Handbook: Veterinarians",
+      "access_date": "2026-07-22",
+      "supports": "Veterinarian duties, concentration in veterinary services, and projected employment growth with stated demand drivers."
+    },
+    {
+      "id": "S6",
+      "url": "https://www.aaha.org/trends-magazine/july-2024/practice-ownership-exit-and-entry-strategies/",
+      "title": "AAHA Trends: Practice Ownership Exit and Entry Strategies",
+      "access_date": "2026-07-22",
+      "supports": "Published discussion of veterinary practice sales, a Packaged Facts projection of practices put up for sale, consolidation, and transfer constraints by practice size and geography."
+    },
+    {
+      "id": "S7",
+      "url": "https://data.census.gov/profile/541940_-_Veterinary_services?codeset=naics~541940",
+      "title": "U.S. Census Bureau Profile: NAICS 541940 Veterinary Services",
+      "access_date": "2026-07-22",
+      "supports": "NAICS 541940 definition covering licensed veterinary medical, dental, surgical, and testing establishments."
+    }
+  ]
+}

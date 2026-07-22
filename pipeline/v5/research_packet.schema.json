@@ -1,0 +1,104 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "v5 research packet",
+  "description": "One model-authored packet per industry attempt. The enforced contract is pipeline/v5/build.py validate; this schema is the formal reference. Ranges are numbers, never prose: a prose range is a contract failure.",
+  "type": "object",
+  "required": ["identity", "lens", "primitives", "narrative", "sources"],
+  "additionalProperties": false,
+  "properties": {
+    "identity": {
+      "type": "object",
+      "required": ["naics", "title", "run_id", "model_id", "run_date", "methodology_version", "attempt"],
+      "additionalProperties": false,
+      "properties": {
+        "naics": {"type": "string", "pattern": "^[0-9]{6}$"},
+        "title": {"type": "string", "minLength": 1},
+        "run_id": {"type": "string", "minLength": 1},
+        "model_id": {"type": "string", "minLength": 1},
+        "run_date": {"type": "string", "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}$"},
+        "methodology_version": {"const": "5.0"},
+        "attempt": {"enum": [1, 2]}
+      }
+    },
+    "lens": {
+      "type": "object",
+      "required": ["included_activities", "excluded_activities", "customer_and_revenue_model", "deviation_from_default", "heterogeneous"],
+      "additionalProperties": false,
+      "properties": {
+        "included_activities": {"type": "string", "minLength": 1},
+        "excluded_activities": {"type": "string", "minLength": 1},
+        "customer_and_revenue_model": {"type": "string", "minLength": 1},
+        "deviation_from_default": {
+          "type": "string",
+          "minLength": 1,
+          "description": "\"none\" when the default lens from research_brief.md applies unchanged; otherwise the narrowing and its reason. The lens may only be narrowed for coherence, never chosen for attractiveness."
+        },
+        "heterogeneous": {"type": "boolean"}
+      }
+    },
+    "primitives": {
+      "type": "object",
+      "description": "Researched primitives only. l (compensation/receipts) and n (LMM firm count) are dataset-injected by build.py and must not appear here.",
+      "required": ["a", "rho", "e", "s5", "q", "d5", "o"],
+      "additionalProperties": false,
+      "properties": {
+        "a": {"$ref": "#/definitions/primitive"},
+        "rho": {"$ref": "#/definitions/primitive"},
+        "e": {"$ref": "#/definitions/primitive"},
+        "s5": {"$ref": "#/definitions/primitive"},
+        "q": {"$ref": "#/definitions/primitive"},
+        "d5": {"$ref": "#/definitions/primitive"},
+        "o": {"$ref": "#/definitions/primitive"}
+      }
+    },
+    "narrative": {
+      "type": "object",
+      "required": ["executive_view", "ai_impact", "value_capture", "firm_availability", "demand_durability", "risks_and_uncertainty", "principal_driver", "principal_weakness"],
+      "additionalProperties": false,
+      "properties": {
+        "executive_view": {"type": "string", "minLength": 1},
+        "ai_impact": {"type": "string", "minLength": 1},
+        "value_capture": {"type": "string", "minLength": 1},
+        "firm_availability": {"type": "string", "minLength": 1},
+        "demand_durability": {"type": "string", "minLength": 1},
+        "risks_and_uncertainty": {"type": "string", "minLength": 1},
+        "principal_driver": {"type": "string", "minLength": 1},
+        "principal_weakness": {"type": "string", "minLength": 1}
+      }
+    },
+    "sources": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "required": ["id", "url", "title", "access_date", "supports"],
+        "additionalProperties": false,
+        "properties": {
+          "id": {"type": "string", "pattern": "^S[0-9]+$"},
+          "url": {"type": "string", "minLength": 1},
+          "title": {"type": "string", "minLength": 1},
+          "access_date": {"type": "string", "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}$"},
+          "supports": {"type": "string", "minLength": 1}
+        }
+      }
+    }
+  },
+  "definitions": {
+    "primitive": {
+      "type": "object",
+      "required": ["evidence_state", "low", "base", "high", "rationale", "change_evidence", "source_ids", "caveats"],
+      "additionalProperties": false,
+      "properties": {
+        "evidence_state": {"enum": ["OBSERVED", "PROXY", "ESTIMATE", "MISSING"]},
+        "low": {"type": ["number", "null"]},
+        "base": {"type": ["number", "null"], "description": "low <= base <= high; all three null exactly when evidence_state is MISSING"},
+        "high": {"type": ["number", "null"]},
+        "bridge": {"type": "string", "description": "Required for PROXY: source population/quantity, the transformation to this industry construct, and its direction of error."},
+        "rationale": {"type": "string", "minLength": 1},
+        "change_evidence": {"type": "string", "minLength": 1, "description": "What obtainable evidence could materially change this value — the input to the next diligence pass."},
+        "source_ids": {"type": "array", "items": {"type": "string"}, "description": "Nonempty for OBSERVED and PROXY; optional for ESTIMATE; empty for MISSING."},
+        "caveats": {"type": "array", "items": {"type": "string"}}
+      }
+    }
+  }
+}

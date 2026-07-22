@@ -1,0 +1,45 @@
+{
+  "version": "4.3-minimal-1",
+  "quantum": "1E-12",
+  "anchors": {
+    "H_receipts_share": "0.25",
+    "F_expected_transfers": "500",
+    "C_retention_share": "0.50"
+  },
+  "tier_cuts": [
+    {"tier": "HIGHEST_PRIORITY", "A": "7.5", "L": "6"},
+    {"tier": "PRIORITY", "A": "6.0", "L": "4"},
+    {"tier": "CONDITIONAL", "A": "4.5", "L": "2"},
+    {"tier": "LOW_PRIORITY", "A": "3.0", "L": "1"},
+    {"tier": "STRUCTURAL_OUT", "A": "0", "L": "0"}
+  ],
+  "adapters": {
+    "implementation_haircut": {
+      "formula": "clamp(0.85 - 0.07 * t50_years, 0.25, 0.85)",
+      "bridge_error": "0.10"
+    },
+    "lens_eligibility": {
+      "ordinary": {"low": "0.45", "base": "0.75", "high": "0.95"},
+      "heterogeneous": {"low": "0.25", "base": "0.55", "high": "0.90"}
+    },
+    "transfer_propensity": {
+      "low_formula": "clamp(0.05 + 0.20 * owners_60plus_low, 0.05, 0.45)",
+      "base_formula": "clamp(0.08 + 0.30 * owners_60plus_base, 0.05, 0.45)",
+      "high_formula": "clamp(0.12 + 0.40 * owners_60plus_high, 0.05, 0.45)"
+    },
+    "operator_demand": {
+      "DURABLE": {
+        "d5": {"low": "0.90", "base": "1.00", "high": "1.10"},
+        "o": {"low": "0.75", "base": "0.90", "high": "1.00"}
+      },
+      "PRESSURED": {
+        "d5": {"low": "0.70", "base": "0.90", "high": "1.00"},
+        "o": {"low": "0.40", "base": "0.65", "high": "0.85"}
+      },
+      "MELTING": {
+        "d5": {"low": "0.35", "base": "0.65", "high": "0.90"},
+        "o": {"low": "0.10", "base": "0.25", "high": "0.50"}
+      }
+    }
+  }
+}

@@ -66,7 +66,7 @@ _V311_CONTRACT = None
 # in this environment (PEP 668). Covers everything our schemas use:
 # type, required, properties, additionalProperties, enum, const, pattern,
 # minLength, minimum/maximum/exclusiveMinimum, minItems/maxItems, items,
-# contains, allOf, $ref (#/definitions/...), if/then/else. "format" is
+# contains, uniqueItems, allOf, $ref (#/definitions/...), if/then/else. "format" is
 # annotation-only (as in draft-07 default) and is ignored.
 # ---------------------------------------------------------------------------
 
@@ -102,6 +102,41 @@ def _resolve_ref(ref, root):
     for part in ref.lstrip("#/").split("/"):
         node = node[part]
     return node
+
+
+def _json_value_key(value):
+    """Return a hashable key implementing JSON-value equality.
+
+    Type tags keep JSON booleans distinct from numbers even though Python
+    considers ``True == 1``. Numeric ints and floats intentionally share a tag,
+    so mathematically equal JSON numbers such as ``1`` and ``1.0`` compare
+    equal. Object member order is immaterial; array order remains significant.
+    """
+    if value is None:
+        return ("null",)
+    if isinstance(value, bool):
+        return ("boolean", value)
+    if isinstance(value, (int, float)):
+        if isinstance(value, float) and not math.isfinite(value):
+            # Non-finite values are not JSON, but keep direct validator calls
+            # deterministic while the applicable type check reports them.
+            return ("nonfinite-number", repr(value))
+        return ("number", value)
+    if isinstance(value, str):
+        return ("string", value)
+    if isinstance(value, list):
+        return ("array", tuple(_json_value_key(item) for item in value))
+    if isinstance(value, dict):
+        return (
+            "object",
+            tuple(
+                (key, _json_value_key(item))
+                for key, item in sorted(value.items(), key=lambda pair: pair[0])
+            ),
+        )
+    # Parsed JSON never reaches this branch. Retain deterministic behavior for
+    # callers that pass a non-JSON Python value directly.
+    return ("non-json", type(value).__name__, repr(value))
 
 
 def schema_errors(value, schema, root, path="$"):
@@ -158,6 +193,17 @@ def schema_errors(value, schema, root, path="$"):
         if "items" in schema:
             for i, item in enumerate(value):
                 errs.extend(schema_errors(item, schema["items"], root, "%s[%d]" % (path, i)))
+        if schema.get("uniqueItems") is True:
+            first_index = {}
+            for i, item in enumerate(value):
+                key = _json_value_key(item)
+                if key in first_index:
+                    errs.append(
+                        "%s: array items at indexes %d and %d are not unique"
+                        % (path, first_index[key], i)
+                    )
+                    break
+                first_index[key] = i
         if "contains" in schema:
             if not any(not schema_errors(item, schema["contains"], root, path) for item in value):
                 errs.append("%s: no item satisfies 'contains' %s" % (path, json.dumps(schema["contains"])))

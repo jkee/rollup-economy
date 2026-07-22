@@ -1,0 +1,354 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "run_record_v4_1.schema.json",
+  "title": "v4.1 finalized V/I/C/B/P record",
+  "type": "object",
+  "required": ["naics", "title", "run_meta", "artifact_provenance", "narrative", "sources", "dataset_inputs", "inputs", "cross_checks", "confidence_overall", "top_uncertain_inputs", "reviewer_note", "scenarios", "decision"],
+  "additionalProperties": false,
+  "properties": {
+    "naics": {"type": "string", "pattern": "^[0-9]{6}$"},
+    "title": {"type": "string", "minLength": 1},
+    "run_meta": {
+      "type": "object",
+      "required": ["run_id", "run_date", "kind", "attempt", "remediates_run_id", "model_id", "issued_by_task_path", "codex_task_path", "fork_policy", "finalizer_version", "memo_renderer_version"],
+      "additionalProperties": false,
+      "properties": {
+        "run_id": {"type": "string", "minLength": 1},
+        "run_date": {"type": "string", "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}$"},
+        "kind": {"enum": ["fleet", "golden"]},
+        "attempt": {"type": "integer", "minimum": 1, "maximum": 2},
+        "remediates_run_id": {"type": ["string", "null"]},
+        "model_id": {"enum": ["gpt-5.6-terra", "gpt-5.6-sol"]},
+        "issued_by_task_path": {"const": "/root"},
+        "codex_task_path": {"type": "string", "pattern": "^/root/.+"},
+        "fork_policy": {"const": "none"},
+        "finalizer_version": {"const": "finalizer-4.1"},
+        "memo_renderer_version": {"const": "memo-renderer-4.1"}
+      }
+    },
+    "artifact_provenance": {
+      "type": "object",
+      "required": ["execution_envelope", "execution_envelope_sha256", "packet_sha256"],
+      "additionalProperties": false,
+      "properties": {
+        "execution_envelope": {"$ref": "#/definitions/execution_envelope"},
+        "execution_envelope_sha256": {"$ref": "#/definitions/sha256"},
+        "packet_sha256": {"$ref": "#/definitions/sha256"}
+      }
+    },
+    "narrative": {"$ref": "#/definitions/narrative"},
+    "sources": {"type": "array", "minItems": 1, "items": {"$ref": "#/definitions/source"}},
+    "dataset_inputs": {
+      "type": "object",
+      "required": ["snapshot_id", "dataset_sha256", "n_total", "n_band", "source_labor_share", "source_role_mix_basis"],
+      "additionalProperties": false,
+      "properties": {
+        "snapshot_id": {"type": "string", "minLength": 1},
+        "dataset_sha256": {"$ref": "#/definitions/sha256"},
+        "n_total": {"type": "integer", "minimum": 0},
+        "n_band": {"$ref": "#/definitions/final_selection"},
+        "source_labor_share": {"type": ["number", "null"], "minimum": 0, "maximum": 1},
+        "source_role_mix_basis": {"type": "string", "minLength": 1}
+      }
+    },
+    "inputs": {
+      "type": "object",
+      "required": ["target_archetype", "target_labor_cost_share", "target_role_mix", "implementation_ramp", "commercial_retention", "target_archetype_coverage", "five_year_sale_availability", "buy_mult", "downside_exit_mult", "y5_survival"],
+      "additionalProperties": false,
+      "properties": {
+        "target_archetype": {"$ref": "#/definitions/target_archetype"},
+        "target_labor_cost_share": {"$ref": "#/definitions/final_selection"},
+        "target_role_mix": {"$ref": "#/definitions/final_role_mix"},
+        "implementation_ramp": {"$ref": "#/definitions/implementation_ramp"},
+        "commercial_retention": {"$ref": "#/definitions/final_selection"},
+        "target_archetype_coverage": {"$ref": "#/definitions/final_selection"},
+        "five_year_sale_availability": {"$ref": "#/definitions/final_selection"},
+        "buy_mult": {"$ref": "#/definitions/final_selection"},
+        "downside_exit_mult": {"$ref": "#/definitions/final_selection"},
+        "y5_survival": {"$ref": "#/definitions/final_selection"}
+      }
+    },
+    "cross_checks": {"$ref": "#/definitions/cross_checks"},
+    "confidence_overall": {"enum": ["HIGH", "MED", "LOW"]},
+    "top_uncertain_inputs": {"type": "array", "minItems": 1, "items": {"$ref": "#/definitions/uncertain_input"}},
+    "reviewer_note": {"type": "string"},
+    "scenarios": {
+      "type": "object",
+      "required": ["low", "base", "high"],
+      "additionalProperties": false,
+      "properties": {
+        "low": {"$ref": "#/definitions/scenario"},
+        "base": {"$ref": "#/definitions/scenario"},
+        "high": {"$ref": "#/definitions/scenario"}
+      }
+    },
+    "decision": {"$ref": "#/definitions/decision"}
+  },
+  "definitions": {
+    "sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+    "nullable_number": {"type": ["number", "null"]},
+    "source": {
+      "type": "object",
+      "required": ["id", "url", "title", "access_date", "what_it_supports"],
+      "additionalProperties": false,
+      "properties": {
+        "id": {"type": "string", "pattern": "^S[1-9][0-9]*$"},
+        "url": {"type": "string", "pattern": "^https?://"},
+        "title": {"type": "string", "minLength": 1},
+        "access_date": {"type": "string"},
+        "what_it_supports": {"type": "string", "minLength": 1},
+        "exact_quote": {"type": "string"}
+      }
+    },
+    "range": {
+      "type": "object",
+      "required": ["low", "high"],
+      "additionalProperties": false,
+      "properties": {"low": {"$ref": "#/definitions/nullable_number"}, "high": {"$ref": "#/definitions/nullable_number"}}
+    },
+    "calculation_operand": {
+      "type": "object",
+      "required": ["name", "value", "source_id"],
+      "additionalProperties": false,
+      "properties": {
+        "name": {"type": "string"}, "value": {"type": "number"}, "source_id": {"type": "string"}
+      }
+    },
+    "calculation": {
+      "type": "object",
+      "required": ["expression", "operands"],
+      "additionalProperties": false,
+      "properties": {
+        "expression": {"type": "string"},
+        "operands": {"type": "array", "items": {"$ref": "#/definitions/calculation_operand"}}
+      }
+    },
+    "bridge": {
+      "type": "object",
+      "required": ["population", "geography", "period", "unit", "business_model"],
+      "additionalProperties": false,
+      "properties": {
+        "population": {"type": "string", "minLength": 1},
+        "geography": {"type": "string", "minLength": 1},
+        "period": {"type": "string", "minLength": 1},
+        "unit": {"type": "string", "minLength": 1},
+        "business_model": {"type": "string", "minLength": 1}
+      }
+    },
+    "provenance": {
+      "type": "object",
+      "required": ["derivation_method", "evidence_state", "resolution_type"],
+      "additionalProperties": false,
+      "properties": {
+        "derivation_method": {"enum": ["OBSERVED", "CALCULATED", "ESTIMATE"]},
+        "evidence_state": {"enum": ["DIRECT", "PROXY", "ASSUMPTION", "MISSING"]},
+        "resolution_type": {"enum": ["AUTHORED", "SAFE_CALCULATION", "UNRESOLVED_MISSING", "DATASET"]}
+      }
+    },
+    "final_selection": {
+      "type": "object",
+      "required": ["value", "range", "authored_value", "authored_range", "method", "evidence_state", "evidence_quality", "confidence", "source_ids", "rationale", "caveats", "bridge_supported", "resolution_type", "provenance"],
+      "additionalProperties": false,
+      "properties": {
+        "value": {"$ref": "#/definitions/nullable_number"},
+        "range": {"$ref": "#/definitions/range"},
+        "authored_value": {"$ref": "#/definitions/nullable_number"},
+        "authored_range": {"$ref": "#/definitions/range"},
+        "method": {"enum": ["OBSERVED", "CALCULATED", "ESTIMATE"]},
+        "evidence_state": {"enum": ["DIRECT", "PROXY", "ASSUMPTION", "MISSING"]},
+        "evidence_quality": {"enum": ["HIGH", "MED", "LOW", "NONE"]},
+        "confidence": {"enum": ["HIGH", "MED", "LOW"]},
+        "source_ids": {"type": "array", "items": {"type": "string"}},
+        "rationale": {"type": "string", "minLength": 1},
+        "caveats": {"type": "array", "items": {"type": "string", "minLength": 1}},
+        "calculation": {"$ref": "#/definitions/calculation"},
+        "bridge": {"$ref": "#/definitions/bridge"},
+        "bridge_supported": {"type": "boolean"},
+        "resolution_type": {"enum": ["AUTHORED", "SAFE_CALCULATION", "UNRESOLVED_MISSING", "DATASET"]},
+        "provenance": {"$ref": "#/definitions/provenance"}
+      },
+      "allOf": [{
+        "if": {"required": ["bridge"]},
+        "then": {
+          "properties": {
+            "evidence_state": {"const": "PROXY"},
+            "bridge_supported": {"const": true}
+          }
+        },
+        "else": {"properties": {"bridge_supported": {"const": false}}}
+      }]
+    },
+    "target_archetype": {
+      "type": "object",
+      "required": ["selected_id", "selected_name", "inclusion_criteria", "exclusion_criteria", "selection_basis", "selection_uncertainty", "enumeration_coverage"],
+      "additionalProperties": false,
+      "properties": {
+        "selected_id": {"type": "string", "minLength": 1}, "selected_name": {"type": "string", "minLength": 1},
+        "inclusion_criteria": {"type": "array", "minItems": 1, "items": {"type": "string", "minLength": 1}},
+        "exclusion_criteria": {"type": "array", "minItems": 1, "items": {"type": "string", "minLength": 1}},
+        "selection_basis": {"type": "string", "minLength": 1},
+        "selection_uncertainty": {"type": "boolean"},
+        "enumeration_coverage": {
+          "type": "object", "required": ["base", "low", "high"], "additionalProperties": false,
+          "properties": {"base": {"type": "number"}, "low": {"type": "number"}, "high": {"type": "number"}}
+        }
+      }
+    },
+    "final_role_mix": {
+      "type": "object",
+      "required": ["spec_mode", "basis_evidence_state", "basis_evidence_quality", "basis_bridge_supported", "roles"],
+      "additionalProperties": false,
+      "properties": {
+        "spec_mode": {"enum": ["frozen", "missing"]},
+        "basis_evidence_state": {"enum": ["DIRECT", "PROXY", "ASSUMPTION", "MISSING"]},
+        "basis_evidence_quality": {"enum": ["HIGH", "MED", "LOW", "NONE"]},
+        "basis_bridge": {"$ref": "#/definitions/bridge"},
+        "basis_bridge_supported": {"type": "boolean"},
+        "roles": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": ["role_id", "role", "cost_weight", "removable_fraction"],
+            "additionalProperties": false,
+            "properties": {
+              "role_id": {"type": "string", "minLength": 1}, "role": {"type": "string", "minLength": 1},
+              "cost_weight": {"type": "number", "minimum": 0, "maximum": 1},
+              "removable_fraction": {"$ref": "#/definitions/final_selection"}
+            }
+          }
+        }
+      },
+      "allOf": [{
+        "if": {"required": ["basis_bridge"]},
+        "then": {
+          "properties": {
+            "basis_evidence_state": {"const": "PROXY"},
+            "basis_bridge_supported": {"const": true}
+          }
+        },
+        "else": {"properties": {"basis_bridge_supported": {"const": false}}}
+      }]
+    },
+    "implementation_ramp": {
+      "type": "object",
+      "required": ["r1", "r2", "r3", "r4", "r5"],
+      "additionalProperties": false,
+      "properties": {
+        "r1": {"$ref": "#/definitions/final_selection"}, "r2": {"$ref": "#/definitions/final_selection"},
+        "r3": {"$ref": "#/definitions/final_selection"}, "r4": {"$ref": "#/definitions/final_selection"},
+        "r5": {"$ref": "#/definitions/final_selection"}
+      }
+    },
+    "score_set": {
+      "type": "object", "required": ["V", "I", "C", "B", "P"], "additionalProperties": false,
+      "properties": {
+        "V": {"$ref": "#/definitions/nullable_number"}, "I": {"$ref": "#/definitions/nullable_number"},
+        "C": {"$ref": "#/definitions/nullable_number"}, "B": {"$ref": "#/definitions/nullable_number"},
+        "P": {"$ref": "#/definitions/nullable_number"}
+      }
+    },
+    "v_subfactor": {
+      "type": "object", "required": ["spec_mode", "gross_removable_cost_share"], "additionalProperties": false,
+      "properties": {
+        "spec_mode": {"enum": ["frozen", "missing"]},
+        "labor_cost_share": {"$ref": "#/definitions/nullable_number"},
+        "weighted_removable_fraction": {"$ref": "#/definitions/nullable_number"},
+        "gross_removable_cost_share": {"$ref": "#/definitions/nullable_number"}
+      }
+    },
+    "b_subfactor": {
+      "type": "object", "required": ["n_band", "coverage", "five_year_sale_availability", "N5"], "additionalProperties": false,
+      "properties": {
+        "n_band": {"$ref": "#/definitions/nullable_number"}, "coverage": {"$ref": "#/definitions/nullable_number"},
+        "five_year_sale_availability": {"$ref": "#/definitions/nullable_number"},
+        "N5": {"type": ["number", "string", "null"]}
+      }
+    },
+    "p_subfactor": {
+      "type": "object", "required": ["buy_mult", "downside_exit_mult", "entry_score", "downside_resilience_score"], "additionalProperties": false,
+      "properties": {
+        "buy_mult": {"$ref": "#/definitions/nullable_number"}, "downside_exit_mult": {"$ref": "#/definitions/nullable_number"},
+        "entry_score": {"$ref": "#/definitions/nullable_number"}, "downside_resilience_score": {"$ref": "#/definitions/nullable_number"}
+      }
+    },
+    "subfactors": {
+      "type": "object", "required": ["V", "implementation_ramp", "commercial_retention", "B", "P"], "additionalProperties": false,
+      "properties": {
+        "V": {"$ref": "#/definitions/v_subfactor"},
+        "implementation_ramp": {"type": ["array", "null"], "minItems": 5, "maxItems": 5, "items": {"type": "number"}},
+        "commercial_retention": {"$ref": "#/definitions/nullable_number"},
+        "B": {"$ref": "#/definitions/b_subfactor"}, "P": {"$ref": "#/definitions/p_subfactor"}
+      }
+    },
+    "scenario": {
+      "type": "object", "required": ["scores", "S", "subfactors"], "additionalProperties": false,
+      "properties": {"scores": {"$ref": "#/definitions/score_set"}, "S": {"$ref": "#/definitions/nullable_number"}, "subfactors": {"$ref": "#/definitions/subfactors"}}
+    },
+    "readiness": {
+      "type": "object", "required": ["status", "missing_critical_inputs", "assumption_critical_input_count", "low_quality_critical_input_count", "selection_uncertainty"], "additionalProperties": false,
+      "properties": {
+        "status": {"enum": ["SUBSTANTIATED", "PROVISIONAL", "UNPROVEN"]},
+        "missing_critical_inputs": {"type": "array", "items": {"type": "string"}},
+        "assumption_critical_input_count": {"type": "integer", "minimum": 0},
+        "low_quality_critical_input_count": {"type": "integer", "minimum": 0},
+        "selection_uncertainty": {"type": "boolean"}
+      }
+    },
+    "decision": {
+      "type": "object", "required": ["raw_verdict", "economic_verdict", "gate_reasons", "evidence_readiness", "action", "sensitivity"], "additionalProperties": false,
+      "properties": {
+        "raw_verdict": {"$ref": "#/definitions/verdict"}, "economic_verdict": {"$ref": "#/definitions/verdict"},
+        "gate_reasons": {"type": "array", "items": {"type": "string"}}, "evidence_readiness": {"$ref": "#/definitions/readiness"},
+        "action": {"enum": ["DEEP_DIVE", "EVIDENCE_FIRST", "SELECTIVE", "DEPRIORITIZE", "AVOID"]},
+        "sensitivity": {
+          "type": "object", "required": ["low_verdict", "high_verdict", "low_y5_survival", "high_y5_survival", "cross_tier", "action_instability", "stable_structural_kill"], "additionalProperties": false,
+          "properties": {
+            "low_verdict": {"$ref": "#/definitions/verdict"}, "high_verdict": {"$ref": "#/definitions/verdict"},
+            "low_y5_survival": {"type": "number", "minimum": 0, "maximum": 1},
+            "high_y5_survival": {"type": "number", "minimum": 0, "maximum": 1},
+            "cross_tier": {"type": "boolean"}, "action_instability": {"type": "boolean"},
+            "stable_structural_kill": {"type": "boolean"}
+          }
+        }
+      }
+    },
+    "verdict": {"enum": ["hell_yes", "strong", "conditional", "pass", "kill", "indeterminate"]},
+    "cross_checks": {
+      "type": "object", "required": ["target_identity_preserved", "implementation_costs_only_in_I", "commercial_leakage_only_in_C", "competition_not_double_counted", "survival_is_operator_controlled_demand"], "additionalProperties": false,
+      "properties": {
+        "target_identity_preserved": {"type": "string"}, "implementation_costs_only_in_I": {"type": "string"},
+        "commercial_leakage_only_in_C": {"type": "string"}, "competition_not_double_counted": {"type": "string"},
+        "survival_is_operator_controlled_demand": {"type": "string"}
+      }
+    },
+    "uncertain_input": {
+      "type": "object", "required": ["input", "range", "score_impact"], "additionalProperties": false,
+      "properties": {"input": {"type": "string"}, "range": {"type": "string"}, "score_impact": {"type": "string"}}
+    },
+    "narrative": {
+      "type": "object", "required": ["executive_view", "technical_value", "implementation", "commercial_capture", "buyability", "entry_and_exit", "operator_survival", "risks_and_uncertainty"], "additionalProperties": false,
+      "properties": {
+        "executive_view": {"type": "string"}, "technical_value": {"type": "string"}, "implementation": {"type": "string"},
+        "commercial_capture": {"type": "string"}, "buyability": {"type": "string"}, "entry_and_exit": {"type": "string"},
+        "operator_survival": {"type": "string"}, "risks_and_uncertainty": {"type": "string"}
+      }
+    },
+    "execution_envelope": {
+      "type": "object", "required": ["envelope_version", "kind", "naics", "title", "run_id", "run_date", "attempt", "remediates_run_id", "issued_by_task_path", "codex_task_path", "fork_policy", "role", "model_id", "prompt_sha256", "dataset_sha256", "spec_sha256", "methodology_sha256", "thresholds_sha256", "research_packet_schema_sha256", "dataset_schema_sha256", "industry_spec_schema_sha256", "run_record_schema_sha256", "scoring_sha256", "finalizer_sha256"], "additionalProperties": false,
+      "properties": {
+        "envelope_version": {"const": "4.1"}, "kind": {"enum": ["fleet", "golden"]},
+        "naics": {"type": "string"}, "title": {"type": "string"}, "run_id": {"type": "string"}, "run_date": {"type": "string"},
+        "attempt": {"type": "integer"}, "remediates_run_id": {"type": ["string", "null"]},
+        "issued_by_task_path": {"const": "/root"},
+        "codex_task_path": {"type": "string", "pattern": "^/root/.+"},
+        "fork_policy": {"const": "none"}, "role": {"const": "research"}, "model_id": {"type": "string"},
+        "prompt_sha256": {"$ref": "#/definitions/sha256"}, "dataset_sha256": {"$ref": "#/definitions/sha256"},
+        "spec_sha256": {"$ref": "#/definitions/sha256"}, "methodology_sha256": {"$ref": "#/definitions/sha256"},
+        "thresholds_sha256": {"$ref": "#/definitions/sha256"}, "research_packet_schema_sha256": {"$ref": "#/definitions/sha256"},
+        "dataset_schema_sha256": {"$ref": "#/definitions/sha256"}, "industry_spec_schema_sha256": {"$ref": "#/definitions/sha256"},
+        "run_record_schema_sha256": {"$ref": "#/definitions/sha256"}, "scoring_sha256": {"$ref": "#/definitions/sha256"},
+        "finalizer_sha256": {"$ref": "#/definitions/sha256"}
+      }
+    }
+  }
+}

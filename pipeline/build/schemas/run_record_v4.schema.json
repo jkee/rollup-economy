@@ -1,0 +1,181 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "run_record_v4.schema.json",
+  "title": "v4 Python-finalized target-archetype score record",
+  "type": "object",
+  "required": ["naics", "title", "run_meta", "narrative", "sources", "dataset_inputs", "inputs", "scores", "S", "subfactors", "decision", "cross_checks", "disclosures", "confidence_overall", "heterogeneous", "top_uncertain_inputs", "reviewer_note"],
+  "additionalProperties": false,
+  "properties": {
+    "naics": {"type": "string", "pattern": "^[0-9]{6}$"},
+    "title": {"type": "string", "minLength": 1},
+    "run_meta": {
+      "type": "object",
+      "required": ["model_id", "run_date", "run_id", "template_version", "prompt_version", "attempt", "finalizer_version", "memo_renderer_version"],
+      "properties": {
+        "model_id": {"enum": ["gpt-5.6-terra", "gpt-5.6-sol"]},
+        "run_date": {"type": "string"},
+        "run_id": {"type": "string"},
+        "template_version": {"const": "4.0"},
+        "prompt_version": {"const": "v4.0-target-archetype-1"},
+        "attempt": {"type": "integer", "minimum": 1, "maximum": 2},
+        "remediates_run_id": {"type": ["string", "null"]},
+        "finalizer_version": {"const": "finalizer-4.0"},
+        "memo_renderer_version": {"const": "memo-renderer-4.0"}
+      },
+      "additionalProperties": false
+    },
+    "narrative": {"type": "object"},
+    "sources": {"type": "array", "minItems": 1, "items": {"type": "object"}},
+    "dataset_inputs": {
+      "type": "object",
+      "required": ["labor_share", "role_mix", "n_total", "n_band"],
+      "additionalProperties": false,
+      "properties": {
+        "labor_share": {"type": "object"},
+        "role_mix": {"type": "object"},
+        "n_total": {"type": "object"},
+        "n_band": {"type": "object"}
+      }
+    },
+    "inputs": {
+      "type": "object",
+      "required": ["ai_replaceable_share", "target_archetype", "retained_savings_share_24m", "t50_years", "current_adoption_pct", "historical_analogs", "seller_supply_signal", "active_consolidators", "buy_mult", "exit_mult", "pricing_structure", "operator_survival"],
+      "additionalProperties": false,
+      "properties": {
+        "ai_replaceable_share": {"$ref": "#/definitions/final_roles"},
+        "target_archetype": {"$ref": "#/definitions/final_target"},
+        "retained_savings_share_24m": {"$ref": "#/definitions/final_selection"},
+        "t50_years": {"$ref": "#/definitions/final_selection"},
+        "current_adoption_pct": {"$ref": "#/definitions/final_selection"},
+        "historical_analogs": {"$ref": "#/definitions/final_selection"},
+        "seller_supply_signal": {"$ref": "#/definitions/final_selection"},
+        "active_consolidators": {"$ref": "#/definitions/final_selection"},
+        "buy_mult": {"$ref": "#/definitions/final_selection"},
+        "exit_mult": {"$ref": "#/definitions/final_selection"},
+        "pricing_structure": {"$ref": "#/definitions/final_selection"},
+        "operator_survival": {"$ref": "#/definitions/final_selection"}
+      }
+    },
+    "scores": {
+      "type": "object",
+      "required": ["V", "C", "A", "B", "M"],
+      "additionalProperties": false,
+      "properties": {
+        "V": {"$ref": "#/definitions/range_score"},
+        "C": {"$ref": "#/definitions/range_score"},
+        "A": {"$ref": "#/definitions/range_score"},
+        "B": {"$ref": "#/definitions/range_score"},
+        "M": {"$ref": "#/definitions/range_score"}
+      }
+    },
+    "S": {"$ref": "#/definitions/range_score"},
+    "subfactors": {
+      "type": "object",
+      "required": ["low", "base", "high"],
+      "additionalProperties": false,
+      "properties": {"low": {"type": "object"}, "base": {"type": "object"}, "high": {"type": "object"}}
+    },
+    "decision": {
+      "type": "object",
+      "required": ["raw_verdict", "economic_verdict", "operator_survival", "gate_reasons", "evidence_readiness", "action", "sensitivity"],
+      "additionalProperties": false,
+      "properties": {
+        "raw_verdict": {"$ref": "#/definitions/verdict"},
+        "economic_verdict": {"$ref": "#/definitions/verdict"},
+        "operator_survival": {"enum": ["DURABLE", "PRESSURED", "DISINTERMEDIATED", "MELTING"]},
+        "gate_reasons": {"type": "array", "items": {"type": "string"}},
+        "evidence_readiness": {
+          "type": "object",
+          "required": ["status", "missing_critical_inputs", "assumption_critical_inputs", "low_quality_critical_inputs"],
+          "additionalProperties": false,
+          "properties": {
+            "status": {"enum": ["SUBSTANTIATED", "PROVISIONAL", "UNPROVEN"]},
+            "missing_critical_inputs": {"type": "array", "items": {"type": "string"}},
+            "assumption_critical_inputs": {"type": "array", "items": {"type": "string"}},
+            "low_quality_critical_inputs": {"type": "array", "items": {"type": "string"}}
+          }
+        },
+        "action": {"enum": ["DEEP_DIVE", "EVIDENCE_FIRST", "SELECTIVE", "DEPRIORITIZE", "AVOID"]},
+        "sensitivity": {
+          "type": "object",
+          "required": ["low_verdict", "high_verdict", "low_operator_survival", "high_operator_survival", "cross_tier"],
+          "additionalProperties": false,
+          "properties": {
+            "low_verdict": {"$ref": "#/definitions/verdict"},
+            "high_verdict": {"$ref": "#/definitions/verdict"},
+            "low_operator_survival": {"enum": ["DURABLE", "PRESSURED", "DISINTERMEDIATED", "MELTING"]},
+            "high_operator_survival": {"enum": ["DURABLE", "PRESSURED", "DISINTERMEDIATED", "MELTING"]},
+            "cross_tier": {"type": "boolean"}
+          }
+        }
+      }
+    },
+    "cross_checks": {"type": "object"},
+    "disclosures": {"type": "object"},
+    "confidence_overall": {"enum": ["HIGH", "MED", "LOW"]},
+    "heterogeneous": {"type": "boolean"},
+    "top_uncertain_inputs": {"type": "array", "minItems": 1, "items": {"type": "object"}},
+    "reviewer_note": {"type": "string"}
+  },
+  "definitions": {
+    "verdict": {"enum": ["hell_yes", "strong", "conditional", "pass", "kill"]},
+    "range_score": {
+      "type": "object",
+      "required": ["low", "base", "high"],
+      "additionalProperties": false,
+      "properties": {
+        "low": {"type": "number", "minimum": 0, "maximum": 10},
+        "base": {"type": "number", "minimum": 0, "maximum": 10},
+        "high": {"type": "number", "minimum": 0, "maximum": 10}
+      }
+    },
+    "final_selection": {
+      "type": "object",
+      "required": ["value", "method", "provenance_type", "evidence_state", "evidence_quality", "confidence", "source_ids", "rationale", "caveats"],
+      "properties": {
+        "value": {},
+        "range": {"type": "object"},
+        "method": {"enum": ["OBSERVED", "CALCULATED", "ESTIMATE"]},
+        "provenance_type": {"enum": ["DIRECT", "DERIVED", "ESTIMATE"]},
+        "evidence_state": {"enum": ["DIRECT", "PROXY", "ASSUMPTION", "MISSING"]},
+        "evidence_quality": {"enum": ["HIGH", "MED", "LOW", "NONE"]},
+        "confidence": {"enum": ["HIGH", "MED", "LOW"]},
+        "source_ids": {"type": "array", "items": {"type": "string"}},
+        "rationale": {"type": "string"},
+        "caveats": {"type": "array", "items": {"type": "string"}},
+        "calculation": {"type": "object"},
+        "plausible_values": {"type": "array"}
+      },
+      "additionalProperties": false
+    },
+    "final_target": {
+      "type": "object",
+      "required": ["name", "inclusion_criteria", "exclusion_criteria", "selection_basis", "coverage"],
+      "additionalProperties": false,
+      "properties": {
+        "name": {"type": "string"},
+        "inclusion_criteria": {"type": "array"},
+        "exclusion_criteria": {"type": "array"},
+        "selection_basis": {"type": "string"},
+        "coverage": {"$ref": "#/definitions/final_selection"}
+      }
+    },
+    "final_roles": {
+      "type": "object",
+      "required": ["value", "method", "provenance_type", "evidence_state", "evidence_quality", "confidence", "source_ids", "rationale", "caveats", "breakdown_by_role"],
+      "properties": {
+        "value": {"type": "number"},
+        "method": {"const": "ESTIMATE"},
+        "provenance_type": {"const": "ESTIMATE"},
+        "evidence_state": {"enum": ["DIRECT", "PROXY", "ASSUMPTION", "MISSING"]},
+        "evidence_quality": {"enum": ["HIGH", "MED", "LOW", "NONE"]},
+        "confidence": {"enum": ["HIGH", "MED", "LOW"]},
+        "source_ids": {"type": "array"},
+        "rationale": {"type": "string"},
+        "caveats": {"type": "array"},
+        "breakdown_by_role": {"type": "array", "minItems": 1, "items": {"type": "object"}}
+      },
+      "additionalProperties": false
+    }
+  }
+}

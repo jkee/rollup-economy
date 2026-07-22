@@ -1,0 +1,71 @@
+name: v4.1 freeze evidence
+
+on:
+  push:
+    tags:
+      - "v4.1-freeze-*"
+
+permissions:
+  contents: read
+
+jobs:
+  verify-freeze:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Verify signed annotated tag binds the freeze root
+        env:
+          FREEZE_TAG: ${{ github.ref_name }}
+        run: |
+          git config gpg.ssh.allowedSignersFile pipeline/v4_1/allowed_signers
+          git verify-tag "$FREEZE_TAG"
+          python - <<'PY'
+          import json
+          import os
+          import subprocess
+
+          manifest = json.load(open("pipeline/v4_1/freeze_manifest.json", encoding="utf-8"))
+          tag = subprocess.check_output(
+              ["git", "cat-file", "-p", "refs/tags/" + os.environ["FREEZE_TAG"]],
+              text=True,
+          )
+          if "object " not in tag or "type commit" not in tag or "tag " not in tag:
+              raise SystemExit("freeze tag is not annotated")
+          if "BEGIN SSH SIGNATURE" not in tag and "BEGIN PGP SIGNATURE" not in tag:
+              raise SystemExit("freeze tag has no embedded signature")
+          if manifest["root_sha256"] not in tag:
+              raise SystemExit("freeze tag annotation does not bind root_sha256")
+          PY
+
+      - name: Verify deterministic artifacts and complete test suite
+        run: |
+          python -m unittest discover -s pipeline/build -p 'test_*.py'
+          python pipeline/build/normalize_datasets_v4_1.py --check
+          python pipeline/build/select_holdout_v4_1.py --check
+          python pipeline/build/assemble_prompts.py --template-version 4.1 --scope canary --check --lint
+          python pipeline/build/assemble_prompts.py --template-version 4.1 --scope holdout --check --lint
+          python pipeline/build/freeze_contract_v4_1.py --contract pipeline/build/freeze_contract_v4_1.required.json --check-plan
+          python pipeline/build/freeze_v4_1.py --plan pipeline/v4_1/freeze_plan.json --output pipeline/v4_1/freeze_manifest.json --check
+
+      - name: Upload externally timestamped freeze evidence
+        uses: actions/upload-artifact@v4
+        with:
+          name: v4.1-freeze-${{ github.sha }}
+          if-no-files-found: error
+          retention-days: 90
+          path: |
+            pipeline/v4_1/freeze_manifest.json
+            pipeline/v4_1/freeze_plan.json
+            pipeline/build/freeze_contract_v4_1.required.json
+            pipeline/v4_1/allowed_signers
+            pipeline/v4_1/holdout_membership.json
+            pipeline/v4_1/regression_membership.json
+            pipeline/v4_1/model_routes.json
+            pipeline/v4_1/change_control.json

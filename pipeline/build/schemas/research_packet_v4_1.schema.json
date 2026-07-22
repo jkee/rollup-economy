@@ -1,0 +1,213 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "research_packet_v4_1.schema.json",
+  "title": "v4.1 target-specific research packet",
+  "type": "object",
+  "required": ["naics", "title", "sources", "narrative", "dataset_fallbacks", "inputs", "cross_checks", "confidence_overall", "top_uncertain_inputs", "reviewer_note"],
+  "additionalProperties": false,
+  "properties": {
+    "naics": {"type": "string", "pattern": "^[0-9]{6}$"},
+    "title": {"type": "string", "minLength": 1},
+    "sources": {"type": "array", "minItems": 1, "items": {"$ref": "#/definitions/source"}},
+    "narrative": {
+      "type": "object",
+      "required": ["executive_view", "technical_value", "implementation", "commercial_capture", "buyability", "entry_and_exit", "operator_survival", "risks_and_uncertainty"],
+      "additionalProperties": false,
+      "properties": {
+        "executive_view": {"type": "string", "minLength": 40},
+        "technical_value": {"type": "string", "minLength": 40},
+        "implementation": {"type": "string", "minLength": 40},
+        "commercial_capture": {"type": "string", "minLength": 40},
+        "buyability": {"type": "string", "minLength": 40},
+        "entry_and_exit": {"type": "string", "minLength": 40},
+        "operator_survival": {"type": "string", "minLength": 40},
+        "risks_and_uncertainty": {"type": "string", "minLength": 40}
+      }
+    },
+    "dataset_fallbacks": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "n_band": {"$ref": "#/definitions/numeric_selection"}
+      }
+    },
+    "inputs": {
+      "type": "object",
+      "required": ["target_archetype_coverage", "target_role_judgments", "implementation_realization", "commercial_capture_share", "five_year_sale_availability", "buy_multiple", "downside_exit_multiple", "operator_controlled_demand_share_y5"],
+      "additionalProperties": false,
+      "properties": {
+        "target_archetype_coverage": {"$ref": "#/definitions/numeric_selection"},
+        "target_role_judgments": {"$ref": "#/definitions/role_judgment_set"},
+        "implementation_realization": {"$ref": "#/definitions/ramp_selection"},
+        "commercial_capture_share": {"$ref": "#/definitions/numeric_selection"},
+        "five_year_sale_availability": {"$ref": "#/definitions/numeric_selection"},
+        "buy_multiple": {"$ref": "#/definitions/numeric_selection"},
+        "downside_exit_multiple": {"$ref": "#/definitions/numeric_selection"},
+        "operator_controlled_demand_share_y5": {"$ref": "#/definitions/numeric_selection"}
+      }
+    },
+    "cross_checks": {
+      "type": "object",
+      "required": ["target_identity_preserved", "implementation_costs_only_in_I", "commercial_leakage_only_in_C", "competition_not_double_counted", "survival_is_operator_controlled_demand"],
+      "additionalProperties": false,
+      "properties": {
+        "target_identity_preserved": {"type": "string", "minLength": 1},
+        "implementation_costs_only_in_I": {"type": "string", "minLength": 1},
+        "commercial_leakage_only_in_C": {"type": "string", "minLength": 1},
+        "competition_not_double_counted": {"type": "string", "minLength": 1},
+        "survival_is_operator_controlled_demand": {"type": "string", "minLength": 1}
+      }
+    },
+    "confidence_overall": {"enum": ["HIGH", "MED", "LOW"]},
+    "top_uncertain_inputs": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "required": ["input", "range", "score_impact"],
+        "additionalProperties": false,
+        "properties": {
+          "input": {"type": "string", "minLength": 1},
+          "range": {"type": "string", "minLength": 1},
+          "score_impact": {"type": "string", "minLength": 1}
+        }
+      }
+    },
+    "reviewer_note": {"type": "string"}
+  },
+  "definitions": {
+    "source": {
+      "type": "object",
+      "required": ["id", "url", "title", "access_date", "what_it_supports"],
+      "additionalProperties": false,
+      "properties": {
+        "id": {"type": "string", "pattern": "^S[1-9][0-9]*$"},
+        "url": {"type": "string", "pattern": "^https?://"},
+        "title": {"type": "string", "minLength": 1},
+        "access_date": {"type": "string", "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}$"},
+        "what_it_supports": {"type": "string", "minLength": 1},
+        "exact_quote": {"type": "string"}
+      }
+    },
+    "range": {
+      "type": "object",
+      "required": ["low", "high"],
+      "additionalProperties": false,
+      "properties": {
+        "low": {"type": ["number", "null"]},
+        "high": {"type": ["number", "null"]}
+      }
+    },
+    "calculation_operand": {
+      "type": "object",
+      "required": ["name", "value", "source_id"],
+      "additionalProperties": false,
+      "properties": {
+        "name": {"type": "string", "pattern": "^[A-Za-z_][A-Za-z0-9_]*$"},
+        "value": {"type": "number"},
+        "source_id": {"type": "string", "pattern": "^S[1-9][0-9]*$"}
+      }
+    },
+    "calculation": {
+      "type": "object",
+      "required": ["expression", "operands"],
+      "additionalProperties": false,
+      "properties": {
+        "expression": {"type": "string", "minLength": 1, "maxLength": 512},
+        "operands": {"type": "array", "minItems": 1, "maxItems": 16, "items": {"$ref": "#/definitions/calculation_operand"}}
+      }
+    },
+    "bridge": {
+      "type": "object",
+      "required": ["population", "geography", "period", "unit", "business_model"],
+      "additionalProperties": false,
+      "properties": {
+        "population": {"type": "string", "minLength": 1},
+        "geography": {"type": "string", "minLength": 1},
+        "period": {"type": "string", "minLength": 1},
+        "unit": {"type": "string", "minLength": 1},
+        "business_model": {"type": "string", "minLength": 1}
+      }
+    },
+    "numeric_selection": {
+      "type": "object",
+      "required": ["value", "range", "method", "evidence_state", "evidence_quality", "confidence", "source_ids", "rationale", "caveats"],
+      "additionalProperties": false,
+      "properties": {
+        "value": {"type": ["number", "null"]},
+        "range": {"$ref": "#/definitions/range"},
+        "method": {"enum": ["OBSERVED", "CALCULATED", "ESTIMATE"]},
+        "evidence_state": {"enum": ["DIRECT", "PROXY", "ASSUMPTION", "MISSING"]},
+        "evidence_quality": {"enum": ["HIGH", "MED", "LOW", "NONE"]},
+        "confidence": {"enum": ["HIGH", "MED", "LOW"]},
+        "source_ids": {"type": "array", "items": {"type": "string", "pattern": "^S[1-9][0-9]*$"}},
+        "rationale": {"type": "string", "minLength": 1},
+        "caveats": {"type": "array", "items": {"type": "string", "minLength": 1}},
+        "calculation": {"$ref": "#/definitions/calculation"},
+        "bridge": {"$ref": "#/definitions/bridge"}
+      },
+      "allOf": [{
+        "if": {"properties": {"evidence_state": {"const": "PROXY"}}, "required": ["evidence_state"]},
+        "then": {"required": ["bridge"]},
+        "else": {"not": {"required": ["bridge"]}}
+      }]
+    },
+    "role_judgment_set": {
+      "type": "object",
+      "required": ["method", "evidence_state", "evidence_quality", "confidence", "source_ids", "rationale", "caveats", "roles"],
+      "additionalProperties": false,
+      "properties": {
+        "method": {"enum": ["OBSERVED", "ESTIMATE"]},
+        "evidence_state": {"enum": ["DIRECT", "PROXY", "ASSUMPTION", "MISSING"]},
+        "evidence_quality": {"enum": ["HIGH", "MED", "LOW", "NONE"]},
+        "confidence": {"enum": ["HIGH", "MED", "LOW"]},
+        "source_ids": {"type": "array", "items": {"type": "string", "pattern": "^S[1-9][0-9]*$"}},
+        "rationale": {"type": "string", "minLength": 1},
+        "caveats": {"type": "array", "items": {"type": "string", "minLength": 1}},
+        "bridge": {"$ref": "#/definitions/bridge"},
+        "roles": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": ["role_id", "removable_fraction", "range", "rationale"],
+            "additionalProperties": false,
+            "properties": {
+              "role_id": {"type": "string", "pattern": "^[A-Za-z0-9._-]+$", "minLength": 1},
+              "removable_fraction": {"type": "number", "minimum": 0, "maximum": 1},
+              "range": {"$ref": "#/definitions/range"},
+              "rationale": {"type": "string", "minLength": 1}
+            }
+          }
+        }
+      },
+      "allOf": [{
+        "if": {"properties": {"evidence_state": {"const": "PROXY"}}, "required": ["evidence_state"]},
+        "then": {"required": ["bridge"]},
+        "else": {"not": {"required": ["bridge"]}}
+      }]
+    },
+    "ramp_selection": {
+      "type": "object",
+      "required": ["value", "low", "high", "method", "evidence_state", "evidence_quality", "confidence", "source_ids", "rationale", "caveats"],
+      "additionalProperties": false,
+      "properties": {
+        "value": {"type": ["array", "null"], "items": {"type": "number", "minimum": 0, "maximum": 1}, "minItems": 5, "maxItems": 5},
+        "low": {"type": ["array", "null"], "items": {"type": "number", "minimum": 0, "maximum": 1}, "minItems": 5, "maxItems": 5},
+        "high": {"type": ["array", "null"], "items": {"type": "number", "minimum": 0, "maximum": 1}, "minItems": 5, "maxItems": 5},
+        "method": {"enum": ["OBSERVED", "ESTIMATE"]},
+        "evidence_state": {"enum": ["DIRECT", "PROXY", "ASSUMPTION", "MISSING"]},
+        "evidence_quality": {"enum": ["HIGH", "MED", "LOW", "NONE"]},
+        "confidence": {"enum": ["HIGH", "MED", "LOW"]},
+        "source_ids": {"type": "array", "items": {"type": "string", "pattern": "^S[1-9][0-9]*$"}},
+        "rationale": {"type": "string", "minLength": 1},
+        "caveats": {"type": "array", "items": {"type": "string", "minLength": 1}},
+        "bridge": {"$ref": "#/definitions/bridge"}
+      },
+      "allOf": [{
+        "if": {"properties": {"evidence_state": {"const": "PROXY"}}, "required": ["evidence_state"]},
+        "then": {"required": ["bridge"]},
+        "else": {"not": {"required": ["bridge"]}}
+      }]
+    }
+  }
+}

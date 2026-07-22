@@ -1,0 +1,254 @@
+{
+  "identity": {
+    "naics": "238220",
+    "title": "Plumbing, Heating, and Air-Conditioning Contractors",
+    "run_id": "238220-a1-20260722",
+    "model_id": "claude-sonnet-5",
+    "run_date": "2026-07-22",
+    "methodology_version": "5.0",
+    "attempt": 1
+  },
+  "lens": {
+    "included_activities": "Residential and light-commercial plumbing, heating, and air-conditioning service, repair, replacement, and maintenance-contract work performed by contractors for external homeowner and business customers who return to the same operator across repeat calls, seasonal maintenance visits, and eventual equipment replacement. Includes flat-rate diagnostic/repair visits, sold service/maintenance agreements, and one-time system replacements sold directly to the end user (e.g., furnace or water-heater swap-outs).",
+    "excluded_activities": "New-construction plumbing and HVAC/mechanical installation performed as a subcontractor to a general contractor or homebuilder on a single build project, where the contractual and billing relationship is with the GC/builder rather than the eventual occupant and ends at project handoff with no expectation of a repeat service relationship. Also excluded: large industrial/commercial process-piping and mechanical contracting let as one-off bid capital projects (e.g., new hospital or plant mechanical systems), and any captive in-house maintenance staff of non-contractor firms. Shells and non-control financing vehicles are excluded per the default lens.",
+    "customer_and_revenue_model": "Three billing structures coexist under NAICS 238220 and were not separated by the data injected for this packet: (1) flat-rate/fixed-price pricing for residential diagnostic and repair visits, now the dominant and fastest-growing model (industry commentary cites roughly nine in ten homeowners preferring an upfront flat price over hourly billing); (2) sold annual or multi-year maintenance/service agreements that bundle tune-ups, priority scheduling, and discounted repair rates, reported to capture on the order of a third to two-fifths of total industry service revenue at the highest margins in the trade; and (3) time-and-materials or cost-plus billing, concentrated in larger commercial/light-industrial jobs and unpredictable diagnostic work where scope cannot be fixed in advance. Customer acquisition runs substantially through paid digital channels (Google Local Services Ads, organic/SEO, Angi-type marketplaces), with reported cost-per-lead in the $40-150 range and wide variance in close rate by channel, indicating real local price/lead competition for one-time repair work even where flat-rate pricing insulates the price of a given job.",
+    "deviation_from_default": "Narrowed to exclude new-construction/GC-subcontracted mechanical installation and one-off large commercial/industrial mechanical project work. NAICS 238220 by definition mixes two economically distinct models: (a) trade subcontractors bidding project-by-project into homebuilders and general contractors, whose customer relationship is transactional and ends at project completion, and (b) residential/light-commercial service-and-replacement contractors who cultivate a repeat relationship directly with the equipment owner via maintenance agreements and recall service. Only (b) meets the default lens's requirement of a recurring or repeat outsourced service to an external customer; (a) is a construction subcontracting relationship, not a repeat-service relationship, regardless of firm size or profitability. This narrowing was made for coherence (the two models have different billing structures, different demand drivers tied to housing starts vs. equipment replacement cycles, and different M&A treatment in the market, where private-equity platforms specifically target service-and-replacement revenue mix and value it at a premium multiple to installation-heavy revenue) and was not selected because it screens more favorably.",
+    "heterogeneous": true
+  },
+  "primitives": {
+    "a": {
+      "evidence_state": "PROXY",
+      "low": 0.08,
+      "base": 0.14,
+      "high": 0.22,
+      "bridge": "Source population: BLS OEWS May 2023 gives the actual occupation mix and wage bill for NAICS 238220 (S1) -- this part is OBSERVED. The AI-task-exposure weighting applied to each occupation category is not measured for this industry; it is bridged from Pew Research's 2023 O*NET-based national occupational AI-exposure classification (S2), which scores occupations by the importance of high- vs low-exposure work activities across the whole US workforce, not this industry specifically. Transformation: occupations were bucketed by SOC major group (Management, Business/Financial Operations, Sales, Office/Administrative Support, Construction and Extraction, Installation/Maintenance/Repair, Production) and wage-weighted using the OEWS mean-wage-times-employment for each bucket, then each bucket was assigned an exposure fraction consistent with Pew's finding that construction/extraction and installation/maintenance/repair occupations cluster in the least-exposed quartile (physical, on-site work) while office/administrative, business/financial-operations (bookkeeping, cost estimating), and sales occupations cluster toward medium/high exposure (information processing, customer communication, scheduling/dispatch). Direction of error: this likely understates exposure to the extent 2023-era classifications predate 2025-26 agentic tool capability (dispatch optimization, AI voice/chat customer service, automated estimating) now being marketed directly to this industry (S3); it likely overstates exposure to the extent Pew's occupation-level scoring is blunter than task-level and assigns some exposure to activities (in-home sales estimates, on-site cost estimating) that still require physical presence.",
+      "rationale": "Roughly 70-71% of the industry wage bill sits in Construction & Extraction (41.25% of employment, essentially all plumbers/pipefitters/steamfitters, sheet-metal workers, and their helpers) and Installation/Maintenance/Repair (29.51%, essentially all HVAC/refrigeration mechanics and installers) -- occupations that are physically executed on-site and score at the bottom of every published AI-exposure ranking. The wage-weighted exposed opportunity is concentrated instead in Office & Administrative Support (12.16% of employment but a lower 8.7% of the wage bill: dispatchers, customer service reps, bookkeeping/billing clerks, general office clerks), a portion of Business & Financial Operations (cost estimators, accounting -- 4.29% of employment), and a portion of Sales (2.52%) and Management (5.62%, mostly not exposed at small-business-owner/construction-manager scale but with some exposed reporting/estimating-oversight tasks). Netting task-level (not full-occupation) exposure within those categories against the near-zero exposure of the dominant field-labor wage bill yields a low base rate.",
+      "change_evidence": "A task-level (not occupation-level) AI exposure study built specifically on O*NET Detailed Work Activities for SOC codes 47-2152 (plumbers/pipefitters), 49-9021 (HVAC mechanics/installers), 43-5032 (dispatchers), and 43-4051 (customer service reps) would sharpen this considerably, as would a vendor-side usage study (e.g., from ServiceTitan, Housecall Pro, or FieldEdge) breaking out what share of scheduling, invoicing, and estimating volume already flows through an AI-assisted step versus a human end-to-end.",
+      "source_ids": ["S1", "S2", "S3"],
+      "caveats": [
+        "Pew's exposure classification is from 2023 (pre-agentic-AI) and is a national cross-industry study, not specific to NAICS 238220 or to small/mid-size contractor firms.",
+        "The occupation-to-exposure-bucket mapping used here is my own bounded judgment layered on top of Pew's category-level findings, not a published number for this NAICS code.",
+        "Does not capture within-occupation task exposure for field trades (e.g., AI-assisted fault diagnosis tools used by a technician in the field), which would push the estimate up modestly if quantified."
+      ]
+    },
+    "rho": {
+      "evidence_state": "ESTIMATE",
+      "low": 0.22,
+      "base": 0.40,
+      "high": 0.58,
+      "rationale": "A 2025-26 ServiceTitan survey of 1,000+ contractors found 60% aware of AI and 70% seeing it as relevant, but only 12% had actually embedded AI into workflows (S3) -- a wide awareness-to-implementation gap typical of a fragmented, owner-operator industry. Broader field-service-management software adoption data show small contractor firms (under 100 employees) adopting FSM software at only ~29% versus ~76% for 1,000+ employee firms (S4), meaning the exposed back-office opportunity (in `a`) sits mostly in firms with the weakest current tooling baseline. Working against slow diffusion: the same back-office functions (dispatch, invoicing, customer communication, estimating) are the explicit product roadmap of every major field-service software vendor serving this industry, and PE-consolidated platforms (which now touch a meaningful and growing share of firm count) standardize software stacks on acquisition, compressing the diffusion timeline for their portfolio companies specifically. Net, over five years I expect a minority-to-just-under-half of the exposed opportunity to reach operational implementation, weighted down by the long tail of independent owner-operators who are slow, price-sensitive, and skeptical adopters.",
+      "change_evidence": "A repeat of the ServiceTitan-style adoption survey in 2027-28 showing the embedded-AI share moving materially above or below the current 12%, or vendor-disclosed penetration/usage-rate data (ServiceTitan, Housecall Pro, FieldEdge AI feature attach rates) segmented by contractor revenue size, would directly update this.",
+      "source_ids": ["S3", "S4"],
+      "caveats": [
+        "The ServiceTitan survey's sample and methodology (how contractors were recruited, survey date) are not disclosed in the source consulted, and ServiceTitan is itself a vendor with an interest in the AI narrative.",
+        "Excludes pricing, demand, and valuation effects per the primitive definition; this is implementation likelihood only, not payoff."
+      ]
+    },
+    "e": {
+      "evidence_state": "ESTIMATE",
+      "low": 0.62,
+      "base": 0.78,
+      "high": 0.88,
+      "rationale": "No source directly counts what share of $1-10M-normalized-EBITDA firms in NAICS 238220 run the excluded new-construction-subcontractor model versus the included recurring-service model. Indirect evidence points toward most firms in this size band having a meaningful service/replacement revenue component: industry commentary describes service revenue as a growing share of the trade's total revenue with install volume comparatively softer (S12), private-equity buyers (who exclusively target the included model) describe the roll-up opportunity as broad and multi-year rather than a narrow niche (S5, S9), and pure new-construction mechanical subcontracting is more associated with larger commercial mechanical contractors than with the fragmented residential/light-commercial base that dominates firm count at this size. I set eligibility high but not extreme to leave room for a meaningful minority of LMM-band firms (regional mechanical contractors, plan-and-spec commercial subcontractors) that are primarily project-based and would fail the lens.",
+      "change_evidence": "Census 2022 Economic Census product-line detail for NAICS 238220 (revenue split by new construction vs. repair/maintenance/installation-for-owner), or a PHCC/ACCA member survey breaking down member revenue mix by segment, would directly measure this instead of inferring it.",
+      "source_ids": ["S12", "S9"],
+      "caveats": [
+        "This is an ESTIMATE built from adjacent revenue-mix commentary, not a direct firm-count measurement.",
+        "Firm-level blending (a single firm doing both new-construction subcontracting and residential service work) makes a clean binary eligibility split inherently fuzzy; the true construct is closer to a firm-level revenue-share threshold than a yes/no eligibility flag."
+      ]
+    },
+    "s5": {
+      "evidence_state": "ESTIMATE",
+      "low": 0.18,
+      "base": 0.32,
+      "high": 0.48,
+      "rationale": "Multiple owner-demographic sources place the average plumbing/HVAC contractor owner in the high 50s with limited documented succession planning (S8), consistent with the general small-business finding that a majority of owners (over half, in one widely cited estimate) have no formal transition plan (S15, a PROXY population -- all US small businesses, not this trade specifically). Against that backdrop, this specific industry is experiencing an unusually intense buyer-side demand shock: 27+ active PE-backed consolidation platforms, roughly 32 disclosed HVAC-services add-on transactions in the first half of 2025 alone (up 88% year over year) (S6), continued robust HVAC M&A deal flow through mid-2025 with services multiples reported north of 10x EBITDA for platforms with strong recurring-revenue mix (S7), and a plumbing-specific PE tracker naming Sila Services, Apex Service Partners and others actively and repeatedly acquiring (S5). Counterweighing the intensity of buyer demand: the base of independently owned firms remains very large (76% of home-services companies broadly, and specifically 70% of plumbing-repair market share, are still independently owned per one industry estimate, S9), meaning the acquisitive platforms have consumed only a minority of the eligible population to date and the annual absorption rate, spread across a large denominator, still implies a real but well-under-50% five-year transfer probability for a given eligible firm.",
+      "change_evidence": "A named count of disclosed plus estimated undisclosed HVAC/plumbing service-and-replacement M&A transactions per year (from a source that tracks total deal count, e.g. Capstone Partners, PitchBook, or GF Data) divided by a reliable denominator of eligible LMM-band firms would let this be computed as an observed rate rather than judgment-bound; a PHCC/ACCA member succession-intent survey would sharpen the owner-side probability.",
+      "source_ids": ["S5", "S6", "S7", "S8", "S9", "S15"],
+      "caveats": [
+        "The 92%-closure/5%-sale/3%-transfer baseline (S15) is for all US small businesses, not this trade, and likely understates transfer probability here given the unusually active buyer pool -- I have adjusted upward from that baseline rather than using it directly.",
+        "Deal-count sources (S5, S6, S7) are industry/advisory-firm marketing content, not audited transaction databases, and likely undercount smaller, non-press-released add-on deals in one direction while over-representing PE-platform activity relative to family-to-family or search-fund transfers in the other.",
+        "\"Qualifying control transfer\" excludes deaths without transferable operations and internal reorganizations, which the general small-business closure statistics do not cleanly separate out."
+      ]
+    },
+    "q": {
+      "evidence_state": "ESTIMATE",
+      "low": 0.40,
+      "base": 0.58,
+      "high": 0.72,
+      "rationale": "Billing structure matters directly here. The dominant and fastest-growing residential model is flat-rate/fixed-price pricing (roughly nine in ten homeowners are reported to prefer it, S13), under which an operator that implements a productivity gain (faster diagnosis, AI-assisted scheduling/dispatch that raises technician utilization, automated invoicing that cuts back-office headcount) captures the full benefit within a given job's fixed price and does not have to pass it through contractually the way a cost-plus or hourly-billed job would force. Sold maintenance/service agreements (reported to capture roughly a third to two-fifths of total service revenue, at the highest margins in the trade, S12) add a further retention mechanism since they are pre-priced annual contracts largely insulated from job-by-job renegotiation. Working against full retention: this is a structurally low-differentiation, intensely locally competitive market with observable per-lead acquisition costs in the $40-150 range across digital channels (S14) and thin first-job profitability thresholds, meaning that any efficiency gain that becomes visible to customers or is replicated by competitors gets competed away at the next renewal, next service call, or next round of comparison shopping (a structural dynamic common to home-services trades with low switching costs and high price transparency via review/marketplace sites). Net retention sits in the middle of the range: real but partial, higher on contracted/maintenance-agreement revenue, lower on one-off competitively-quoted repair and replacement jobs.",
+      "change_evidence": "Same-store gross-margin trend data disclosed by a public or PE-platform operator (e.g., Comfort Systems USA segment reporting, or a platform's investor materials) before and after a specific AI/automation tooling rollout would directly measure retained benefit; alternatively, a study of price/margin persistence at maintenance-agreement renewal versus one-off repair pricing would isolate the mechanism.",
+      "source_ids": ["S7", "S12", "S13", "S14"],
+      "caveats": [
+        "No source directly measures retained benefit after AI-driven efficiency gains specifically; this is inferred from billing-structure and competitive-intensity evidence, not observed margin data tied to an AI implementation event.",
+        "Commercial/light-industrial work billed time-and-materials or cost-plus (a real but unquantified share of this lens) would show materially lower retention than the residential flat-rate/maintenance-agreement estimate used here."
+      ]
+    },
+    "d5": {
+      "evidence_state": "PROXY",
+      "low": 0.95,
+      "base": 1.08,
+      "high": 1.20,
+      "bridge": "Source population: Mordor Intelligence's US HVAC market forecast (S10) projects nominal-dollar market size from $65.20B (2025) to $82.72B (2030), a 4.88% CAGR -- roughly a 1.27x five-year multiple in nominal dollars. This is a national HVAC-only $ forecast, not a constant-price/constant-quality unit-volume forecast for the full 238220 lens (which also includes plumbing, not separately forecast here). Transformation: deflated the nominal CAGR downward to approximate real quantity growth, using AHRI's actual 2025 equipment-unit-shipment data as a reality check -- central A/C and heat-pump unit shipments were down roughly 20% year-to-date through September 2025 and down similarly in subsequent months (S11), driven substantially by a refrigerant-transition (A2L) supply disruption and by demand pulled forward ahead of the December 31, 2025 expiration of the federal Section 25C heat-pump/efficiency tax credit (S17) rather than by a structural demand decline. Direction of error: the nominal $ market forecast likely overstates real five-year quantity growth (it embeds price inflation, equipment-cost increases from the refrigerant transition, and a heat-pump mix-shift toward higher-priced units); the actual 2025 unit-shipment decline likely overstates the medium-term demand hit (it reflects a temporary credit-expiration pull-forward and a one-time refrigerant-transition disruption, not a change in the underlying replacement-cycle or housing-stock aging drivers). Plumbing demand, not separately forecast, was assumed to track closer to flat/low-single-digit real growth (tied to housing stock and repair backlog rather than a policy-sensitive equipment cycle) and pulls the blended 238220 estimate down from the HVAC-only figure.",
+      "rationale": "Structural demand supports for the five-year horizon include an aging housing stock and equipment replacement cycle (HVAC systems installed in the 2000s-2010s reaching typical 15-20 year end of life), continued extreme-heat-driven air-conditioning penetration growth, and a persistent skilled-trades capacity shortage (an estimated 225,000-unit HVAC technician shortfall within five years, S18) that if anything constrains supply rather than signaling falling demand. Working against growth: the December 2025 repeal of the federal 25C tax credit removes a direct price subsidy that had been pulling heat-pump replacement demand forward, and 2025 unit-shipment data already show a sharp pullback that could persist into 2026-27 before normalizing. Net, I expect modest real growth over five years, below the pace implied by nominal dollar-market forecasts.",
+      "change_evidence": "AHRI unit-shipment data for 2026-27 (once the 25C-expiration and A2L-transition disruptions have cycled through) would clarify whether the shipment decline was temporary or structural; a plumbing-specific unit/job-volume forecast (none was located) would remove the need to proxy plumbing demand off the HVAC cycle.",
+      "source_ids": ["S10", "S11", "S17", "S18"],
+      "caveats": [
+        "No unit-volume (as opposed to nominal-dollar) forecast for the full five-year window was located; the deflation applied here is my own judgment calibrated against one year of actual shipment data, not a published real-growth forecast.",
+        "Plumbing-specific demand is not separately sourced and is assumed rather than measured.",
+        "2025-26 shipment weakness is unusually confounded by two distinct one-time shocks (tax-credit expiration and refrigerant-standard transition), making it hard to read as a clean trend signal in either direction."
+      ]
+    },
+    "o": {
+      "evidence_state": "ESTIMATE",
+      "low": 0.85,
+      "base": 0.93,
+      "high": 0.97,
+      "rationale": "Plumbing and HVAC work performed for compensation requires a state or local contractor/journeyman license in most jurisdictions, plus a pulled permit and a completed inspection for most installations and significant replacements (S16); handling refrigerant additionally requires EPA Section 608 certification. This licensing/permitting/inspection structure makes true self-service or elimination-without-an-operator legally impractical for the overwhelming majority of the service basket (gas line work, refrigerant handling, code-governed water heater and furnace installation, sewer and drain work), independent of any software or AI capability. The main erosion path is not self-service but demand-reduction at the margin: smart thermostats and connected/self-diagnosing equipment can reduce the frequency of routine service calls (fewer no-fault dispatches), and AI-assisted remote triage could shift some current in-person diagnostic visits to phone/video resolution for simple issues -- but the physical repair, replacement, and code-compliance work itself still requires a licensed human on site. A parallel and reinforcing signal: the industry is described as facing a growing technician shortage rather than a technician surplus (S18), which is inconsistent with software or AI meaningfully displacing the need for an accountable operator over this horizon.",
+      "change_evidence": "State-level licensing-board data on any expansion of unlicensed/DIY allowances for specific task categories (e.g., simple water heater swaps), or adoption data on remote-diagnosis-and-dispatch tools that resolve service calls without a truck roll, would move this.",
+      "source_ids": ["S16", "S18"],
+      "caveats": [
+        "Licensing-requirement variation by state (a few states have no state-level HVAC license requirement, per S16) means the true national share is somewhat lower than a fully-licensed-everywhere assumption would imply, though local permitting/inspection requirements still generally apply.",
+        "Does not separately quantify the demand-reduction effect of connected/self-diagnosing equipment, which is a real but currently unmeasured channel distinct from full elimination of the operator."
+      ]
+    }
+  },
+  "narrative": {
+    "executive_view": "NAICS 238220 is a large, structurally fragmented trade (roughly 1.24M industry employees per BLS OEWS) where the physical work itself -- soldering pipe, brazing refrigerant lines, running duct, replacing a furnace under a licensed and inspected permit -- sits at the bottom of every published AI-exposure ranking and is not going to be automated away over a five-year horizon. The real AI story here is a back-office one: dispatch, scheduling, customer communication, estimating, and invoicing are meaningfully exposed and are the explicit product roadmap of every major field-service software vendor selling into this industry, but actual embedded adoption today is low (about 12% of surveyed contractors) and concentrated in scale/PE-backed platforms rather than the median independent firm. Separately and largely independently of the AI thesis, this is one of the most actively consolidating trades in the US economy right now, with an aging, under-succession-planned owner base and more than two dozen active private-equity platforms bidding for service-and-replacement-revenue businesses -- a firm-availability dynamic that would exist with or without any AI angle. The honest picture is two overlapping opportunities (labor-cost efficiency and firm-transfer availability) that only partially reinforce each other, sitting inside a lens that had to be narrowed because the raw NAICS code also contains a materially different new-construction-subcontracting business that this analysis deliberately excludes.",
+    "ai_impact": "The industry's wage bill is dominated (roughly 70%) by field trade labor -- plumbers, pipefitters, HVAC/refrigeration mechanics, sheet-metal workers, and their helpers -- performing licensed, inspected, physically on-site work that current and near-term AI cannot substitute or eliminate; national occupation-level AI-exposure research consistently places construction/extraction and installation/maintenance/repair occupations in the least-exposed tier of the entire US labor market. The exposed opportunity instead lives in the roughly 12% of the wage bill sitting in office/administrative support (dispatch, customer service, billing) plus smaller slices of business/financial operations (cost estimating, bookkeeping) and sales -- functions where AI-assisted scheduling, automated invoicing, and AI voice/chat customer service are already being marketed directly at contractors. Actual adoption lags awareness badly: roughly six in ten contractors say they're familiar with AI and seven in ten see it as relevant, but only about one in ten have embedded it into their workflow, and small-firm field-service software adoption generally (29% for sub-100-employee firms versus 76% for 1,000+-employee firms) suggests the long tail of independent operators will adopt slowly even where the tooling exists and works.",
+    "value_capture": "Billing structure is the swing factor for whether an operator keeps an efficiency gain. Flat-rate pricing, now the dominant and still-growing model for residential repair and replacement work, lets an operator retain a productivity gain within a fixed job price rather than passing it through the way hourly or cost-plus billing would; sold annual maintenance agreements (roughly a third to two-fifths of service revenue, the highest-margin work in the trade) add further insulation from job-by-job renegotiation. Against that, this is a locally competitive, low-switching-cost, price-transparent market -- digital lead-generation costs of $40-150 per lead and thin per-job profitability thresholds indicate real competitive pressure that would compete away a visible efficiency gain over time, particularly on one-off repair and replacement jobs quoted competitively against several local providers. Net retention looks real but partial and uneven across the revenue mix, not a clean pass-through in either direction.",
+    "firm_availability": "This segment of the trade is being actively bid for by an unusually large and well-capitalized buyer pool: more than two dozen active private-equity-backed consolidation platforms, roughly 32 disclosed HVAC-services add-on transactions in just the first half of 2025 (up 88% year over year), and service-and-replacement-revenue businesses reportedly trading at multiples north of 10x EBITDA at the platform level. The seller side is aging and under-planned -- owners in their high 50s on average, with widely cited estimates that a majority of US small-business owners generally have no documented succession plan. Despite the deal intensity, the eligible population remains largely untapped: independent operators are still estimated to hold roughly three-quarters of the broader home-services market and about seventy percent of plumbing-repair market share specifically, meaning the buyer pool has consumed a minority of the available firms to date and meaningful further supply should exist over a five-year window, even as competition among buyers for the best assets intensifies.",
+    "demand_durability": "Structural demand supports are real: an aging equipment base moving through its 15-20 year replacement cycle, rising cooling-degree-day exposure pushing air-conditioning penetration higher, and a persistent and worsening skilled-trades shortage (an estimated 225,000-technician HVAC shortfall within five years) that constrains supply rather than signaling weak demand. Working against that: the federal Section 25C heat-pump/efficiency tax credit was repealed effective the end of 2025, removing a direct subsidy that had been pulling replacement demand forward, and 2025 equipment-unit shipments were already down sharply (roughly 20% year to date) -- a decline confounded by both the credit expiration and a concurrent refrigerant-standard (A2L) transition, so it is not a clean read on the underlying trend. On balance I expect modest real, constant-price demand growth over five years, well below the pace suggested by nominal-dollar market-size forecasts that embed price inflation from the equipment transition.",
+    "risks_and_uncertainty": "The single biggest source of uncertainty in this packet is that NAICS 238220 mixes a recurring-service residential/light-commercial business with a project-based new-construction-subcontracting business, and no source directly measures what share of LMM-band firms sit in each; the eligibility estimate is inferred from adjacent revenue-mix commentary, not counted. A second material risk is policy-driven demand volatility: the heat-pump tax-credit repeal and the ongoing A2L refrigerant transition are live, recent shocks whose medium-term demand effect is not yet cleanly observable in the data. A third risk is that the entire firm-availability thesis depends on an already-crowded buyer pool of 27+ PE platforms continuing to bid aggressively for a finite set of quality assets; if that competitive intensity causes acquirers to bid multiples up further or to exhaust the best-positioned targets first, the remaining available pool could skew toward weaker assets over the horizon. Finally, the persistent skilled-labor shortage that supports demand durability and operator-necessity (`o`) is a double-edged fact: it also means any acquired platform's growth is capacity-constrained by the same labor market this analysis says AI cannot substitute for.",
+    "principal_driver": "An unusually intense, multi-year private-equity buyer pool actively bidding for an aging, under-succession-planned owner base in a still-mostly-independent, recurring-service segment of the trade.",
+    "principal_weakness": "The AI-labor thesis is thin: roughly 70% of the wage bill is licensed, on-site, physical trade work that is structurally low-exposure to AI substitution, so any operational-efficiency case rests on a comparatively small back-office slice of the cost base."
+  },
+  "sources": [
+    {
+      "id": "S1",
+      "url": "https://www.bls.gov/oes/2023/may/naics5_238220.htm",
+      "title": "Plumbing, Heating, and Air-Conditioning Contractors - May 2023 OEWS Industry-Specific Occupational Employment and Wage Estimates",
+      "access_date": "2026-07-22",
+      "supports": "Occupation mix, employment shares, and wage levels for NAICS 238220 used as the observed base for primitive a's wage-weighting."
+    },
+    {
+      "id": "S2",
+      "url": "https://www.pewresearch.org/social-trends/2023/07/26/which-u-s-workers-are-more-exposed-to-ai-on-their-jobs/",
+      "title": "Which U.S. Workers Are More Exposed to AI on Their Jobs? | Pew Research Center",
+      "access_date": "2026-07-22",
+      "supports": "National O*NET-based occupation-level AI exposure classification, used as the PROXY bridge for weighting NAICS 238220's occupation mix in primitive a; confirms construction/extraction and installation/maintenance/repair occupations cluster in the least-exposed tier."
+    },
+    {
+      "id": "S3",
+      "url": "https://www.servicetitan.com/blog/hvac-ai",
+      "title": "Understanding the HVAC AI Landscape in 2026",
+      "access_date": "2026-07-22",
+      "supports": "Contractor survey data on AI awareness (60%) versus actual embedded adoption (12%), used for rho."
+    },
+    {
+      "id": "S4",
+      "url": "https://fieldservicesoftware.io/field-service-management-software-statistics/",
+      "title": "Field Service Management Software Statistics: Trends & Growth in 2025",
+      "access_date": "2026-07-22",
+      "supports": "Field service management software adoption rates by company size (29% for sub-100-employee firms vs 76% for 1,000+ employee firms), used for rho."
+    },
+    {
+      "id": "S5",
+      "url": "https://ctacquisitions.com/plumbing-pe-rollup-tracker-2026/",
+      "title": "2026 Plumbing PE Roll-Up Tracker: Active Platforms",
+      "access_date": "2026-07-22",
+      "supports": "Count and identity of active private-equity plumbing consolidation platforms, used for s5."
+    },
+    {
+      "id": "S6",
+      "url": "https://www.spglobal.com/market-intelligence/en/news-insights/articles/2025/10/hvac-deals-demonstrate-private-equity-s-appetite-for-add-ons-94359580",
+      "title": "HVAC deals demonstrate private equity's appetite for add-ons",
+      "access_date": "2026-07-22",
+      "supports": "Disclosed PE add-on transaction count for HVAC services (32 through June 2025, up 88% YoY), used for s5."
+    },
+    {
+      "id": "S7",
+      "url": "https://www.pkfod.com/insights/us-hvac-ma-industry-update-summer-2025/",
+      "title": "US HVAC M&A Industry Update – Summer 2025 | PKF O'Connor Davies",
+      "access_date": "2026-07-22",
+      "supports": "HVAC M&A deal flow and valuation multiples (services multiples north of 10x EBITDA) through mid-2025, used for s5 and q."
+    },
+    {
+      "id": "S8",
+      "url": "https://leaguepark.com/generational-shift-driving-owners-to-sell-their-plumbing-businesses/",
+      "title": "Generational Shift: Why Plumbing Owners Are Selling in 2026",
+      "access_date": "2026-07-22",
+      "supports": "Owner-age demographics and succession-planning gap specific to plumbing business owners, used for s5."
+    },
+    {
+      "id": "S9",
+      "url": "https://profitabilitypartners.io/home-services-fragmentation-independent-pe-consolidation/",
+      "title": "76 Percent of Home Services Companies Are Still Independent. Here Is What That Means.",
+      "access_date": "2026-07-22",
+      "supports": "Share of home-services companies (76% overall, 70% in plumbing repair specifically) still independently owned, used for e and s5."
+    },
+    {
+      "id": "S10",
+      "url": "https://www.mordorintelligence.com/industry-reports/united-states-hvac-market",
+      "title": "United States HVAC Market Size, Share & 2030 Growth Trends Report",
+      "access_date": "2026-07-22",
+      "supports": "Nominal-dollar US HVAC market size and 2025-2030 CAGR (4.88%), used as the PROXY basis for d5 before deflation."
+    },
+    {
+      "id": "S11",
+      "url": "https://www.achrnews.com/articles/165497-heat-pump-a-c-shipments-continue-sharp-dropoff",
+      "title": "Heat Pump, A/C Shipments Continue Sharp Dropoff | ACHR News",
+      "access_date": "2026-07-22",
+      "supports": "2025 AHRI unit-shipment decline data for central air conditioners and heat pumps, used to deflate the nominal market forecast for d5."
+    },
+    {
+      "id": "S12",
+      "url": "https://pivotl.com/pivotl-blog/repair-over-replace-is-reshaping-home-service-revenue-in-2026-how-hvac-plumbing-and-electrical-contractors-should-restructure-the-books-for-the-new-mix",
+      "title": "Repair-Over-Replace Is Reshaping Home Service Revenue in 2026",
+      "access_date": "2026-07-22",
+      "supports": "Service vs. install revenue mix and margin data, and preventive-maintenance-contract share of revenue (~39%), used for e, q, and lens definition."
+    },
+    {
+      "id": "S13",
+      "url": "https://contractorincharge.com/blog/flat-rate-pricing-vs-time-and-materials-for-contractors",
+      "title": "Flat Rate Pricing vs Time and Materials for Contractors: Top 5 Benefits",
+      "access_date": "2026-07-22",
+      "supports": "Flat-rate vs time-and-materials billing structure prevalence and homeowner preference (92% for flat rate), used for q and lens definition."
+    },
+    {
+      "id": "S14",
+      "url": "https://searchlightdigital.io/what-is-a-good-cost-per-lead-for-hvac-google-ads/",
+      "title": "What Is a Good Cost Per Lead for HVAC Google Ads? (2026)",
+      "access_date": "2026-07-22",
+      "supports": "Digital lead-generation cost benchmarks, used as evidence of local price/marketing competitive intensity for q."
+    },
+    {
+      "id": "S15",
+      "url": "https://project-equity.org/impact/silver-tsunami/",
+      "title": "Silver Tsunami | Small business closure crisis",
+      "access_date": "2026-07-22",
+      "supports": "General US small-business closure-vs-sale-vs-transfer baseline (92%/5%/3%), used as a PROXY comparison population for s5."
+    },
+    {
+      "id": "S16",
+      "url": "https://huckleberry.com/blog/hvac-license-requirements-by-state/",
+      "title": "HVAC license: State-by-state requirements | Huckleberry Insurance",
+      "access_date": "2026-07-22",
+      "supports": "State-by-state HVAC contractor licensing requirements, used for o."
+    },
+    {
+      "id": "S17",
+      "url": "https://www.hvacbase.org/heat-pump-tax-credits-2026",
+      "title": "Heat Pump Tax Credits & Rebates 2026: What Changed After Section 25C Expired | HVAC Base",
+      "access_date": "2026-07-22",
+      "supports": "Repeal of the federal Section 25C heat-pump/energy-efficiency tax credit effective end of 2025, used as a demand headwind in d5."
+    },
+    {
+      "id": "S18",
+      "url": "https://hbi.org/wp-content/uploads/2025/10/Fall-2025-Final-Construction-Labor-Market-Report-Update.pdf",
+      "title": "THE HOME BUILDERS INSTITUTE (HBI) CONSTRUCTION LABOR MARKET REPORT Fall 2025",
+      "access_date": "2026-07-22",
+      "supports": "Skilled-trades labor shortage data (225,000-technician HVAC shortfall within five years; 41% of construction workforce projected to retire by 2031), used for d5 and o."
+    }
+  ]
+}

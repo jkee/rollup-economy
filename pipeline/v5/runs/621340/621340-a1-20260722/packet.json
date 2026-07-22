@@ -1,0 +1,168 @@
+{
+  "identity": {
+    "naics": "621340",
+    "title": "Offices of Physical, Occupational and Speech Therapists, and Audiologists",
+    "run_id": "621340-a1-20260722",
+    "model_id": "gpt-5.6-terra",
+    "run_date": "2026-07-22",
+    "methodology_version": "5.0",
+    "attempt": 1
+  },
+  "lens": {
+    "included_activities": "Independent and regional outpatient offices furnishing physical therapy, occupational therapy, speech-language pathology, or audiology to external patients and referral sources, where the service is a repeat care episode and the firm is in the lower-middle-market EBITDA band.",
+    "excluded_activities": "Hospital departments, school-district staff, home-health and nursing-facility operations classified elsewhere, captive employer clinics, shells, internal service units, and financing vehicles without operating control.",
+    "customer_and_revenue_model": "Patient-facing professional therapy and audiology services, paid principally per visit or episode by Medicare, Medicaid, commercial insurers, employers, and self-pay patients; referrals and repeat treatment visits create recurring demand.",
+    "deviation_from_default": "none",
+    "heterogeneous": false
+  },
+  "primitives": {
+    "a": {
+      "evidence_state": "PROXY",
+      "low": 0.16,
+      "base": 0.23,
+      "high": 0.32,
+      "bridge": "S1 measures employment and mean wages by occupation in NAICS 621340, rather than the wage-weighted share of current tasks exposed to AI substitution or avoidable hiring. I classify the administrative, documentation, intake, scheduling, billing, coding, authorization, and management portions of that mix as materially exposed, while retaining direct evaluation, treatment, exercise assistance, physical set-up, and accountable clinical judgment as largely unexposed; this likely overstates exposure where documentation is inseparable from clinician judgment and understates it where revenue-cycle work is concentrated in back-office staff.",
+      "rationale": "The industry has a high-paid clinician core: healthcare practitioners and technical occupations were 44.30% of employment in the industry, including physical therapists at 19.08%, occupational therapists at 8.98%, and speech-language pathologists at 9.19% in S1. Direct care remains hands-on and licensed, but aides perform clerical work and scheduling, and therapists and managers carry documentation, billing, authorization, referral, and communication workflows. The resulting opportunity is meaningful but minority wage exposure.",
+      "change_evidence": "A clinic-level time-and-motion study that separates clinician documentation, authorization, billing, scheduling, intake, and direct-treatment hours; payroll by occupation for target firms; and an EHR task-log extract from outpatient therapy clinics would materially refine the wage weighting.",
+      "source_ids": ["S1", "S2", "S3"],
+      "caveats": ["S1 is May 2023 employment and wage data, not a task survey.", "The industry includes several therapy disciplines with different documentation and payer workflows.", "Owner-clinician compensation and contracted billing labor may not be fully represented in payroll occupations."]
+    },
+    "rho": {
+      "evidence_state": "ESTIMATE",
+      "low": 0.38,
+      "base": 0.55,
+      "high": 0.68,
+      "rationale": "Workflow AI can be implemented relatively quickly for intake, scheduling, call handling, documentation drafts, coding support, authorization preparation, denial follow-up, and patient communications. Implementation is constrained by protected health information, EHR integration, payer documentation rules, clinical supervision, state-specific scope rules, and the need to validate output before submission. APTA respondents specifically report administrative burden and payment pressure, which creates adoption incentive but also makes accuracy failures costly.",
+      "change_evidence": "Named EHR vendor adoption and outcome data for WebPT, Clinicient, or comparable rehabilitation systems; payer audit findings on AI-assisted documentation; and interviews with clinic operators, compliance officers, and revenue-cycle leaders would move this estimate.",
+      "source_ids": ["S4", "S5"],
+      "caveats": ["No source directly measures five-year implementation of the defined opportunity in lower-middle-market therapy offices.", "Rates will vary sharply with EHR maturity, payer mix, and multi-state compliance requirements."]
+    },
+    "e": {
+      "evidence_state": "ESTIMATE",
+      "low": 0.75,
+      "base": 0.85,
+      "high": 0.93,
+      "rationale": "Most firms represented by the frozen lower-middle-market count should be operating external-care providers rather than shells or captive units because the NAICS is specific to therapist and audiologist offices. The industry is reported as fragmented, with small to medium regional providers predominant, supporting a high but not universal eligibility assumption. The deduction recognizes that some firms may be single-clinician, referral-dependent, non-repeat, professionally restricted, or otherwise unsuitable despite falling in the EBITDA band.",
+      "change_evidence": "A firm-level list from SUSB or a commercial provider database matched to ownership, site count, payer mix, clinician headcount, and EBITDA-normalization records would identify actual eligible firms.",
+      "source_ids": ["S6", "S7"],
+      "caveats": ["The frozen firm count is margin-bridged rather than a census of eligible practices.", "S6 is a market-report announcement rather than a public microdata tabulation.", "Eligibility requires facts about operating control and service recurrence that NAICS data do not provide."]
+    },
+    "s5": {
+      "evidence_state": "PROXY",
+      "low": 0.1,
+      "base": 0.18,
+      "high": 0.27,
+      "bridge": "S8 surveys 112 independent healthcare-practice owners, mostly physicians, on their stated likelihood of selling or retiring within five years; it does not measure completed control transfers among lower-middle-market therapy and audiology firms. I translate its 35% at-least-somewhat-likely response into a lower completed-transfer probability by excluding weak intent, closures, employment exits, minority sales, and transactions that do not convey control. This may overstate transfer probability because the survey is non-probability and physician-heavy, or understate it if strategic buyers convert more therapy practices than owners expect.",
+      "rationale": "There is credible availability pressure but not a direct therapy-firm transfer rate. S8 reports that 35% of independent practice owners were at least somewhat likely to sell or retire within five years and that retirement was the most-cited reason for a sale. The PT market also recorded 65 publicly disclosed transactions in 2025, including many small-clinic transactions, but disclosed deals are not a denominator-based rate. The base therefore discounts broad owner intention to completed qualifying control transfers.",
+      "change_evidence": "A proprietary transaction database filtered to NAICS 621340 and EBITDA band; broker CRM data on signed letters of intent and closed sales; and a representative owner-age and succession survey for PT, OT, SLP, and audiology offices would materially change this probability.",
+      "source_ids": ["S7", "S8"],
+      "caveats": ["S8 is a small, unweighted, cross-specialty survey and does not identify therapy practices separately.", "Publicly announced transactions omit many small private deals and cannot reveal the number of eligible firms offered for sale.", "Corporate-practice and professional-ownership rules can affect whether an economic deal is a qualifying control transfer."]
+    },
+    "q": {
+      "evidence_state": "ESTIMATE",
+      "low": 0.42,
+      "base": 0.58,
+      "high": 0.72,
+      "rationale": "Savings from internal administrative labor, faster collections, lower denial rework, and improved clinician utilization can initially remain with the operator because most service revenue is billed per visit or under negotiated schedules rather than cost-plus reimbursement. Retention is materially limited over time by Medicare fee schedules, commercial-payer negotiations, referral competition, and customer pressure to share productivity through lower prices or more service. The base assumes more than half of implemented benefit remains after those mechanisms, but far less than full retention.",
+      "change_evidence": "Target-firm payer contracts, fee schedules, renewal history, gross-margin bridges after automation, and payer negotiations that explicitly cite productivity or staffing would determine actual pass-through and repricing.",
+      "source_ids": ["S5", "S8"],
+      "caveats": ["No public source measures five-year benefit retention for the defined AI changes in this industry.", "Payer mix and local competition can dominate the result.", "This estimate excludes volume changes and implementation feasibility, which belong in other primitives."]
+    },
+    "d5": {
+      "evidence_state": "PROXY",
+      "low": 1.025,
+      "base": 1.065,
+      "high": 1.095,
+      "bridge": "S2 and S9 measure national decade employment projections for physical and occupational therapists across all settings, not constant-price, constant-quality demand for the current NAICS 621340 service basket. I convert the reported decade growth into a five-year directional demand proxy and temper it for the industry’s mix of therapy disciplines and payer-limited outpatient utilization. The proxy may understate office demand if aging shifts care toward outpatient therapy, or overstate it if employment growth reflects other settings, productivity changes, or school and hospital demand.",
+      "rationale": "The major clinical disciplines have positive projected employment demand: physical therapists are projected to grow 11% over the decade, and occupational therapists 14%. BLS attributes therapy demand to an aging population, chronic conditions, disability, rehabilitation, and nonopioid pain management. This supports moderate growth in constant-quality service demand, with reimbursement and referral constraints preventing an assumption that all occupational growth maps into office revenue.",
+      "change_evidence": "Constant-dollar outpatient therapy visit volumes by payer from CMS claims, commercial claims vendors, and state all-payer claims databases; referral-source data; and specialty-specific forecasts for speech and audiology offices would materially refine the ratio.",
+      "source_ids": ["S2", "S9", "S4"],
+      "caveats": ["National occupational projections include hospitals, schools, home health, and other settings outside the frozen lens.", "Employment growth is not identical to quantity demand because productivity and staffing mix may change.", "The basket includes speech and audiology, for which this proxy is less direct."]
+    },
+    "o": {
+      "evidence_state": "ESTIMATE",
+      "low": 0.9,
+      "base": 0.95,
+      "high": 0.98,
+      "rationale": "The service remains predominantly accountable clinician work. Physical therapists require a DPT and state licensure, occupational therapists require graduate education and state licensure, and aides and assistants are supervised while performing physical, patient-facing activities. Software can support home exercise, triage, monitoring, documentation, scheduling, and communication, but it does not remove the need for licensed evaluation, treatment-plan responsibility, in-person handling, or payer-acceptable clinical records for most of the current basket.",
+      "change_evidence": "Payer coverage policies and claims volumes for digital musculoskeletal rehabilitation, remote therapeutic monitoring, tele-rehabilitation, and self-directed exercise programs; state scope-of-practice changes; and clinic-level substitution data would test the remaining operator requirement.",
+      "source_ids": ["S2", "S3", "S9"],
+      "caveats": ["The estimate is for the current service basket, not for all future digital rehabilitation products.", "Some low-acuity exercise and education visits may migrate to self-service or software-assisted models.", "The degree of direct physical contact differs across PT, OT, SLP, and audiology."]
+    }
+  },
+  "narrative": {
+    "executive_view": "These outpatient therapy and audiology offices combine a large licensed, patient-facing clinical core with a substantial administrative burden. AI is more credible as a workflow and capacity tool than as a replacement for therapy delivery. Demand indicators are favorable, and fragmentation creates a plausible operating population, but reimbursement exposure, labor scarcity, and professional-ownership constraints require firm-level diligence.",
+    "ai_impact": "The strongest near-term uses are intake, scheduling, call handling, referral processing, benefits verification, authorization packets, documentation drafting, coding support, denial follow-up, and patient communication. Clinical evaluation, treatment selection, manual care, supervised exercise, safety decisions, and clinician accountability remain the limiting work. Aides may gain productivity in clerical tasks, but their patient-facing set-up and movement assistance also remain physical.",
+    "value_capture": "Revenue is commonly tied to visits, episodes, or payer fee schedules rather than cost-plus contracts, so a clinic can retain part of internal efficiency gains. That retention is not permanent or complete: Medicare schedules, commercial renewals, payer utilization management, referral competition, and local labor markets can redirect gains to payers, patients, or staffing. Benefits should be modeled from the actual payer contract book and not from generic automation claims.",
+    "firm_availability": "The market is described as fragmented and increasingly active in M&A. Publicly disclosed PT transaction data show activity including small-clinic deals, while a broader independent-practice survey shows owner sale and retirement intent. Neither source supplies a completed-transfer rate for lower-middle-market therapy offices, so the transfer estimate remains a deliberately discounted proxy rather than a market fact.",
+    "demand_durability": "Therapy demand is supported by aging, chronic conditions, disability, rehabilitation needs, and nonopioid pain management. BLS forecasts growth for physical and occupational therapists, and workforce evidence shows shortages and administrative pressure. The service should continue to require accountable operators because assessment, treatment planning, physical assistance, and licensed oversight are central to the current basket.",
+    "risks_and_uncertainty": "The code mixes PT, OT, SLP, and audiology, whose payer structures and digital-substitution paths differ. Public occupational data do not reveal time by task, eligible-firm ownership, EBITDA normalization, payer mix, or actual transfer rates. Small practices can be referral-concentrated and founder-dependent. The relevant diligence set is payer contracts and denials, clinician retention, referral concentration, EHR and revenue-cycle data, state ownership rules, and sale-process evidence.",
+    "principal_driver": "Durable, aging-linked outpatient rehabilitation demand combined with automatable administrative workflows around a licensed clinical core.",
+    "principal_weakness": "The largest wages buy direct clinical care that is difficult to substitute, while reimbursement and ownership constraints can limit both savings capture and transferability."
+  },
+  "sources": [
+    {
+      "id": "S1",
+      "url": "https://www.bls.gov/oes/2023/may/naics5_621340.htm",
+      "title": "Offices of Physical, Occupational and Speech Therapists, and Audiologists - May 2023 OEWS Industry-Specific Occupational Employment and Wage Estimates",
+      "access_date": "2026-07-22",
+      "supports": "Direct NAICS 621340 occupational employment and wage mix, including 457,060 total jobs, 44.30% healthcare practitioners and technical occupations, and detail employment for therapists and support roles."
+    },
+    {
+      "id": "S2",
+      "url": "https://www.bls.gov/ooh/healthcare/physical-therapists.htm",
+      "title": "Physical Therapists - Occupational Outlook Handbook",
+      "access_date": "2026-07-22",
+      "supports": "Physical therapist direct-care duties, licensure requirement, office employment share, and projected 11% employment growth from 2024 to 2034."
+    },
+    {
+      "id": "S3",
+      "url": "https://www.bls.gov/ooh/healthcare/physical-therapist-assistants-and-aides.htm",
+      "title": "Physical Therapist Assistants and Aides - Occupational Outlook Handbook",
+      "access_date": "2026-07-22",
+      "supports": "Assistant and aide direct-care, physical, and clerical duties; supervision; offices as major employers; and projected employment growth."
+    },
+    {
+      "id": "S4",
+      "url": "https://www.apta.org/contentassets/787bafc2ef664074ace8914f748ee4cd/apta-2025-workforce-forecast-companion-report.pdf",
+      "title": "APTA Physical Therapy Supply and Demand Forecast: 2022-2037",
+      "access_date": "2026-07-22",
+      "supports": "APTA workforce-survey evidence on local therapist shortages, administrative burden, payment concerns, retirement or departure intent, and aging workforce dynamics."
+    },
+    {
+      "id": "S5",
+      "url": "https://www.cms.gov/medicare/payment/fee-schedules/physician/federal-regulation-notices/cms-1832-f",
+      "title": "CMS-1832-F: CY 2026 Medicare Physician Fee Schedule Final Rule",
+      "access_date": "2026-07-22",
+      "supports": "CMS source confirming the 2026 Physician Fee Schedule final rule and the fee-schedule payment-policy context for therapy providers."
+    },
+    {
+      "id": "S6",
+      "url": "https://www.globenewswire.com/news-release/2025/05/02/3073073/0/en/U-S-Physical-Therapy-Clinics-Market-Analysis-2025-53-Billion-Industry-Primed-for-Consolidation-M-A-Activity-Surges-in-Fragmented-Therapy-Sector.html",
+      "title": "U.S. Physical Therapy Clinics Market Analysis 2025",
+      "access_date": "2026-07-22",
+      "supports": "Market-report announcement stating that physical, occupational, speech therapy, and audiology are included; the fifty largest competitors capture 29% of revenue; small and medium regional providers predominate; and M&A activity is increasing."
+    },
+    {
+      "id": "S7",
+      "url": "https://img1.wsimg.com/blobby/go/2c62a220-c762-4dae-857e-2ad976ca4388/downloads/861d41d8-7400-451b-af62-e77499ae18d2/PT%20Market%20Update%20Dec%202025.pdf?ver=1767902772500",
+      "title": "PT Market Update - December 2025",
+      "access_date": "2026-07-22",
+      "supports": "Broker market update reporting 65 publicly disclosed PT transactions closed in 2025, the change from 2024, and the share of transactions by clinic-count category."
+    },
+    {
+      "id": "S8",
+      "url": "https://www.tebra.com/theintake/medical-deep-dives/independent-practices/state-of-independent-healthcare-practice-ownership",
+      "title": "High anxiety: New data on the state of independent practice ownership",
+      "access_date": "2026-07-22",
+      "supports": "Independent healthcare-practice owner survey reporting sale or retirement likelihood, sale reasons, observed owner exits, reimbursement concerns, respondent composition, and non-probability sample limitations."
+    },
+    {
+      "id": "S9",
+      "url": "https://www.bls.gov/ooh/Healthcare/Occupational-therapists.htm",
+      "title": "Occupational Therapists - Occupational Outlook Handbook",
+      "access_date": "2026-07-22",
+      "supports": "Occupational therapist duties, state licensure, employment in therapist offices, and projected 14% employment growth from 2024 to 2034."
+    }
+  ]
+}

@@ -1,0 +1,154 @@
+{
+  "identity": {
+    "naics": "811192",
+    "title": "Car Washes",
+    "run_id": "811192-a1-20260722",
+    "model_id": "gpt-5.6-terra",
+    "run_date": "2026-07-22",
+    "methodology_version": "5.0",
+    "attempt": 1
+  },
+  "lens": {
+    "included_activities": "US lower-middle-market operators of automatic, tunnel, hand-wash, detailing, mobile, and self-service car-wash sites that sell washing or cleaning services to external vehicle owners and have repeat or membership revenue where applicable.",
+    "excluded_activities": "Captive dealership, fleet, rental-car, or gasoline-station wash units not operated as a separately transferable service business; holding companies; and financing vehicles.",
+    "customer_and_revenue_model": "Consumer and small-fleet vehicle owners buy individual washes, detailing, or self-service time; many automatic and tunnel operators also bill monthly unlimited-wash memberships.",
+    "deviation_from_default": "none",
+    "heterogeneous": false
+  },
+  "primitives": {
+    "a": {
+      "evidence_state": "PROXY",
+      "low": 0.1,
+      "base": 0.18,
+      "high": 0.3,
+      "bridge": "S2 measures tasks for the SOC occupation Cleaners of Vehicles and Equipment, not the wage-weighted employment mix of NAICS 811192. S1 confirms this industry also contains automatic and self-service production modes. I translate the documented manual cleaning, inspection, machine-monitoring, inventory, and information tasks into a modest wage-weighted AI opportunity, counting customer communication, membership administration, scheduling, sales coaching, and reporting but not physical wash, drying, detailing, safety, or equipment repair. The proxy can overstate exposure at labor-heavy hand washes and understate it at digitally managed tunnel platforms.",
+      "rationale": "The core occupation's listed work is predominantly physical cleaning, drying, spraying, moving, and machine operation, which limits AI substitution. Information and workflow work around memberships, customer service, exception handling, staffing, and reporting is exposed, but it is a minority of current labor cost.",
+      "change_evidence": "A 2026 NAICS 811192 occupational staffing and wage file, plus site-level time-and-motion studies separating attendant, sales, manager, and back-office payroll, would materially change the wage weighting.",
+      "source_ids": ["S1", "S2"],
+      "caveats": ["No public source located measures AI-exposed task share or occupation wages specifically for the frozen LMM lens.", "The industry contains both labor-intensive detailing and low-attendance self-service formats."]
+    },
+    "rho": {
+      "evidence_state": "ESTIMATE",
+      "low": 0.25,
+      "base": 0.4,
+      "high": 0.55,
+      "rationale": "Five-year implementation should be meaningful for centralized customer messaging, membership recovery, lead handling, scheduling, pricing support, training, and manager reporting. It is constrained because the physical cleaning, quality control, safety, damage handling, and equipment-maintenance work documented for the core occupation remain operationally necessary, and multi-site software deployment does not by itself remove attendants.",
+      "change_evidence": "Interviews with operators owning several LMM wash sites, payroll records before and after membership, POS, or AI-agent deployments, and vendor implementation cohorts with realized labor hours would materially change this estimate.",
+      "source_ids": ["S1", "S2", "S4"],
+      "caveats": ["This is a bounded judgment, not a measured AI adoption rate.", "Existing automatic and self-service formats may already have captured some non-AI labor reduction."]
+    },
+    "e": {
+      "evidence_state": "ESTIMATE",
+      "low": 0.82,
+      "base": 0.92,
+      "high": 0.97,
+      "rationale": "The NAICS definition is itself an external vehicle-cleaning service, and its listed products include automatic, hand, self-service, and detailing activity. Most LMM firms therefore fit the external-customer and repeat-service lens. The deduction allows for captive-like operations, one-off detail specialists, thinly staffed self-service assets, and entities that cannot transfer operating control independently of a parent or site owner.",
+      "change_evidence": "A firm-level NAICS 811192 census with ownership links, customer mix, site lease status, and recurring-revenue flags would materially change eligibility.",
+      "source_ids": ["S1"],
+      "caveats": ["No source gives the eligibility share inside the injected LMM firm count.", "A car wash located at a fuel retailer may be classified elsewhere when it is not the establishment's primary activity."]
+    },
+    "s5": {
+      "evidence_state": "PROXY",
+      "low": 0.08,
+      "base": 0.14,
+      "high": 0.22,
+      "bridge": "S5 records completed marketplace sales for a broader automotive-service population and reports transaction benchmarks, while S7 documents a large car-wash acquisition. Neither source measures five-year transfer incidence for eligible NAICS 811192 firms in the injected EBITDA band. I use them only to establish that arm's-length operating-business transfers occur, then apply a conservative bounded conversion to the frozen population; marketplace reporting favors firms actively offered for sale and may therefore overstate incidence, whereas unreported sponsor and bilateral transactions may understate it.",
+      "rationale": "There is clear, current car-wash consolidation activity and a functioning small-business sale channel, but no owner-age or LMM transfer-rate dataset specific to this industry. The estimate remains below a high-turnover assumption because qualifying transfers exclude closures, passive real-estate trades, internal restructurings, and assets that lack transferable operations.",
+      "change_evidence": "Census Annual Business Survey owner-age microdata tabulated for 811192, transaction records from PitchBook or GF Data filtered to relevant EBITDA, SBA change-of-ownership loan records, and brokered closing data with seller age would materially change this probability.",
+      "source_ids": ["S5", "S7"],
+      "caveats": ["S5 is not car-wash-specific in its headline transaction sample and its reported typical financials are below the frozen EBITDA band.", "S7 is a large platform transaction, so it is evidence of deal flow rather than a denominator-based small-firm transfer rate."]
+    },
+    "q": {
+      "evidence_state": "ESTIMATE",
+      "low": 0.4,
+      "base": 0.55,
+      "high": 0.68,
+      "rationale": "Fixed monthly memberships and individual-service pricing give the operator a route to keep part of implemented workflow savings rather than immediately passing them through as billed labor. ICA reports that nearly nine in ten members plan to renew and nearly eight in ten customers would accept a price increase when value and quality hold. Rinsed reports member revenue growth alongside retail revenue decline, reinforcing the shift to operator-controlled recurring billing. Retention is limited by the same ICA evidence that identifies rising competitive density and saturation.",
+      "change_evidence": "Site-level membership contracts, price-change and churn panels, competitor-radius data, and before-and-after margins from operators that deployed comparable automation would materially change this retained-share estimate.",
+      "source_ids": ["S3", "S4"],
+      "caveats": ["Member renewal intent is survey evidence, not realized retention or a direct measure of savings capture.", "Value capture differs sharply by local density, real-estate constraints, wash quality, and mix of membership versus retail revenue."]
+    },
+    "d5": {
+      "evidence_state": "PROXY",
+      "low": 0.95,
+      "base": 1.02,
+      "high": 1.07,
+      "bridge": "S6 forecasts national light-duty VMT, rather than constant-price demand for professional car-wash services. I use its 0.5 percent annual long-run VMT growth as a baseline directional driver of the number of vehicles and use occasions, then allow for weather, consumer discretionary spending, home washing, local saturation, and visit frequency. VMT can overstate wash demand if trips do not increase cleaning frequency.",
+      "rationale": "FHWA projects moderate growth in light-duty travel, which supports a modest increase in the addressable use base over five years. That transport indicator is not sufficient to assume equal car-wash volume growth, so the central estimate stays near flat and the downside permits a service-quantity decline.",
+      "change_evidence": "Monthly same-store paid-wash volumes from a broad operator panel, regional weather-normalized wash counts, and consumer survey data on professional versus home-wash frequency would materially change the demand ratio.",
+      "source_ids": ["S6"],
+      "caveats": ["VMT is national and does not capture the local micro-markets where car washes compete.", "The forecast is a travel measure rather than a direct forecast of washes, revenue, or price-adjusted car-wash demand."]
+    },
+    "o": {
+      "evidence_state": "ESTIMATE",
+      "low": 0.8,
+      "base": 0.9,
+      "high": 0.96,
+      "rationale": "The service requires physical water, chemistry, equipment, facilities, and accountability for vehicle handling and quality. S1 confirms that automatic and self-service options already coexist with hand work, so an accountable operator can serve demand with less on-site labor. The deduction reflects customers washing at home, self-service displacement of full-service activity, mobile alternatives, and further unattended-format adoption; software alone cannot supply the physical wash basket.",
+      "change_evidence": "A format-level count of automated, self-service, mobile, and full-service sites; operator interviews on remote supervision; and consumer substitution surveys would materially change this estimate.",
+      "source_ids": ["S1"],
+      "caveats": ["No public source measures the share of future car-wash quantity requiring a separately accountable operator.", "Operator-required does not mean a staffed attendant must be present for every wash."]
+    }
+  },
+  "narrative": {
+    "executive_view": "Car washes are a physical local service with repeat consumer demand and a growing membership billing model. The main AI opportunity is in the operational wrapper around the wash rather than the wash itself: member acquisition and retention, customer support, pricing support, scheduling, reporting, and manager workflows. The NAICS code combines automatic, hand, detailing, and self-service activity, so individual-site diligence matters more than a sector average.",
+    "ai_impact": "O*NET describes vehicle-cleaner work as drying, spraying, scrubbing, inspection, machine monitoring, inventory, and equipment handling. Those tasks explain why a large share of direct service labor is not readily substituted by AI. Automatic and self-service formats already reduce some manual work; AI is more likely to reduce avoidable administrative and sales effort, improve membership recovery, and help managers coordinate sites than to replace physical cleaning or equipment maintenance.",
+    "value_capture": "Unlimited memberships create recurring operator-controlled billing. ICA reports strong renewal intent and some willingness to accept price increases when quality is maintained, while Rinsed reported stronger member revenue and weaker retail revenue in its cited period. That supports retaining a portion of workflow gains, but the same ICA evidence warns that saturation and competitive density are rising, which can force savings into service, promotions, or customer pricing.",
+    "firm_availability": "The transfer estimate is deliberately uncertain. BizBuySell reports completed sales in a broader automotive-service marketplace and a current industry source documents a 530-location car-wash acquisition. These observations show active transaction channels, not an owner-age-adjusted transfer probability for LMM car washes. Diligence should seek brokered closings, owner succession data, lease assignability, and separation of operating cash flow from real-estate value.",
+    "demand_durability": "FHWA expects light-duty VMT to grow slowly over its long-run forecast, providing a modest directional tailwind to the vehicle-use base. Professional washing still competes with home washing, local oversupply, and customer cutbacks, so travel growth is not treated as direct wash-volume growth. The physical service basket remains relevant even when booking, membership, and payment become digital.",
+    "risks_and_uncertainty": "The code's format mix is the central uncertainty: a hand-detail operation, a self-service asset, and a membership-heavy express tunnel have different labor, customer, and transfer economics. Other risks include local new-site supply, water and equipment reliability, vehicle-damage claims, weather, lease or real-estate dependence, and thin evidence on LMM owner age and qualifying transfers. The compensation-to-receipts input also uses 2024 wages against 2022 receipts and should not be interpreted as a same-vintage site margin.",
+    "principal_driver": "Recurring membership billing can make centrally managed customer, sales, and administrative workflow improvements economically useful across multiple sites.",
+    "principal_weakness": "Most of the core service is physical and the sector's mixed formats and local saturation make labor opportunity, demand, and transferability highly site-specific."
+  },
+  "sources": [
+    {
+      "id": "S1",
+      "url": "https://www2.census.gov/library/reference/napcs/product-list/web-8111-final-reformatted-edited-us082208.pdf",
+      "title": "Census NAPCS Product List for NAICS 8111",
+      "access_date": "2026-07-22",
+      "supports": "Defines washing and cleaning as services that may use automatic machines, manual labor, self-service facilities, or a combination; identifies automatic washing, hand washing, self-service washing, and self-service vacuuming as products produced by NAICS 811192."
+    },
+    {
+      "id": "S2",
+      "url": "https://www.onetonline.org/link/summary/53-7061.00",
+      "title": "O*NET: Cleaners of Vehicles and Equipment",
+      "access_date": "2026-07-22",
+      "supports": "Lists vehicle-cleaner tasks including drying, spraying or scrubbing vehicles, inspection, mixing solutions, inventory, monitoring cleaning machines, and activating equipment; also reports physical work activities and work context."
+    },
+    {
+      "id": "S3",
+      "url": "https://www.carwash.org/car-wash-news/car-wash-pulse-q1-2026-demand-remains-stable-as-price-sensitivity-and-market-saturation-shape-industry-outlook",
+      "title": "International Carwash Association CAR WASH Pulse Q1 2026",
+      "access_date": "2026-07-22",
+      "supports": "Reports that nearly eight in ten customers would accept a price increase subject to value and quality, nearly 90 percent of members plan to renew, and saturation and competitive density are leading concerns."
+    },
+    {
+      "id": "S4",
+      "url": "https://www.carwash.org/car-wash-news/rinsed-releases-its-q4-2024-car-wash-industry-report",
+      "title": "Rinsed Releases Its Q4 2024 Car Wash Industry Report",
+      "access_date": "2026-07-22",
+      "supports": "Reports 5.2 percent year-over-year combined same-location member and retail revenue growth, 13.2 percent member-revenue growth, 7.1 percent retail-revenue decline, and average monthly member revenue of 30 dollars."
+    },
+    {
+      "id": "S5",
+      "url": "https://www.bizbuysell.com/learning-center/valuation-benchmarks/auto-repair-and-service/",
+      "title": "BizBuySell Auto Repair and Service Valuation Benchmarks",
+      "access_date": "2026-07-22",
+      "supports": "Reports 1,286 sold listings in a broader auto-service category, 207 median days on market, and completed-sale benchmarks; the page states its transaction data are based on businesses sold and reported to BizBuySell."
+    },
+    {
+      "id": "S6",
+      "url": "https://www.fhwa.dot.gov/policyinformation/tables/vmt/vmt_forecast_sum.cfm",
+      "title": "FHWA 2025 Forecasts of Vehicle Miles Traveled",
+      "access_date": "2026-07-22",
+      "supports": "Projects national light-duty vehicle miles traveled to grow at an average annual rate of 0.5 percent through 2053, with 0.6 percent annual growth from 2023 through 2043."
+    },
+    {
+      "id": "S7",
+      "url": "https://www.carwash.org/car-wash-news/whistle-express-signs-definitive-agreement-to-acquire-take-5-car-wash",
+      "title": "Whistle Express agreement to acquire Take 5 Car Wash",
+      "access_date": "2026-07-22",
+      "supports": "Reports the February 2025 agreement and states that the combined entity would operate 530 locations across 23 states."
+    }
+  ]
+}

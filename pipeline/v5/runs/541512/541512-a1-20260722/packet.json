@@ -1,0 +1,205 @@
+{
+  "identity": {
+    "naics": "541512",
+    "title": "Computer Systems Design Services",
+    "run_id": "541512-a1-20260722",
+    "model_id": "claude-sonnet-5",
+    "run_date": "2026-07-22",
+    "methodology_version": "5.0",
+    "attempt": 1
+  },
+  "lens": {
+    "included_activities": "Establishments that plan and design computer systems integrating hardware, software, and communications technology for external clients, then typically install the system and train and support its users. In practice this spans (a) discrete project engagements (requirements, architecture, integration, cutover) and (b) the ongoing installation-support-upgrade relationship that usually follows a project with the same client. Both are treated as the same lens because the second is the normal continuation of the first for an operator of this kind, not a different business. Firms in the $1-10M normalized EBITDA band that sell this work on a repeat basis to outside customers are in scope.",
+    "excluded_activities": "Captive internal IT departments of non-tech companies (out of scope by NAICS definition itself, since 541512 establishments serve outside clients); shell entities and non-control financing vehicles; single-engagement freelance/solo contractor activity with no durable client base or employees; pure hardware resale or facilities-management/help-desk outsourcing that is classified elsewhere (541513) even if adjacent.",
+    "customer_and_revenue_model": "Clients are enterprises, mid-market companies, and government agencies that need hardware/software/network systems planned, integrated, and kept running. Revenue is billed through a mix of time-and-materials/hourly billing (still the modal structure for scope-uncertain integration and staff-augmentation work), fixed-price project billing (for well-scoped builds), and retainer/managed-support arrangements for post-implementation work. This mix matters directly for value capture: T&M billing means AI-driven throughput gains show up first as fewer billable hours unless pricing is renegotiated, while fixed-fee and retainer structures let the operator keep more of a productivity gain until the next repricing or renewal.",
+    "deviation_from_default": "none",
+    "heterogeneous": false
+  },
+  "primitives": {
+    "a": {
+      "evidence_state": "PROXY",
+      "low": 0.28,
+      "base": 0.40,
+      "high": 0.53,
+      "bridge": "Source population is NAICS 541500 (Computer Systems Design and Related Services, the 4-digit parent of 541511/12/13/19) from BLS OEWS May 2023, the nearest published occupational breakdown to 541512 (BLS does not publish a separate 6-digit OEWS table for 541512). Transformation: software/web developers, programmers, and testers (27.35% of the subsector's employment, mean annual wage ~$125,010), computer support specialists (7.51%, ~$64,670), and computer/information analysts, security analysts, database and network administrators/architects (~11.4% combined, ~$104k-$140k) are wage-weighted and then discounted to a task-level exposure share using Eloundou et al.'s LLM task-exposure classification (source S7) and GitHub's controlled Copilot experiment showing 55% faster task completion on coding work (source S6) as calibration points for how much of the job, not just the occupation, is actually exposed. Management, business/financial operations, and sales occupations (~29% of employment, largely relationship/scoping/financial-administration work) are weighted low. Direction of error: ambiguous rather than one-sided. 541512 (systems design/integration) likely carries relatively more business/systems-analyst and project-management labor and relatively less pure coding labor than 541511 (custom programming), which would pull true 541512 exposure below this 5415-blended estimate; but 541512's install/support tail is itself exposed to AI-driven L1/L2 support automation, which pulls the other way. The range is kept wide to reflect this.",
+      "rationale": "The subsector is wage- and headcount-dominated by software/web development and computer-support occupations, both of which have direct, well-documented current-generation AI tooling (code assistants, agentic coding tools, AI-assisted support) that measurably compresses task time today. But a large minority of the wage bill sits in management, business operations, and sales functions whose core tasks (client relationship management, scoping, contract administration, people management) are only lightly touched by current tools. Netting these together against 2023-vintage occupation shares gives a base wage-weighted exposure share of roughly two-fifths.",
+      "change_evidence": "A 541512-specific (6-digit) OEWS or ONET task-importance breakdown, if BLS ever publishes one, would remove the 5415-to-541512 bridging error. A vendor-side study benchmarking AI-tool time savings specifically on systems-integration/architecture tasks (not just green-field coding) would sharpen the high-exposure-occupation assumptions.",
+      "source_ids": ["S1", "S6", "S7"],
+      "caveats": [
+        "BLS OEWS has no published 6-digit table for 541512; the 541500 4-digit figures blend custom programming (541511), facilities management (541513), and other computer services (541519) alongside systems design (541512).",
+        "Occupation-level exposure ratings are the author's judgment informed by Eloundou et al. and the GitHub Copilot experiment, not a task-level survey of this industry specifically.",
+        "Wage weighting uses May 2023 wage levels; wage-mix could shift as AI tooling changes which occupations command a premium."
+      ]
+    },
+    "rho": {
+      "evidence_state": "ESTIMATE",
+      "low": 0.35,
+      "base": 0.50,
+      "high": 0.65,
+      "rationale": "Gartner's own adoption curve for enterprise-embedded task-specific AI agents (under 5% of enterprise apps in 2025 projected to 40% by 2026) implies an unusually fast production-adoption ramp for AI tooling inside software/systems delivery relative to most white-collar workflows, and coding-assistant tools are already mainstream inside development teams today. Against that, systems-integration work for enterprise, regulated, or government clients carries real friction: security review, change-control boards, procurement cycles, and client sign-off gates that a five-year horizon can accommodate for straightforward automation but will slow for anything touching production systems of record or compliance-bound environments. A little more than half of the exposed opportunity being operationally implemented within five years, net of these frictions, is a defensible central estimate; it is not a high-confidence number because no source measures implementation lag specifically for this industry.",
+      "change_evidence": "A vendor or industry-association survey tracking actual (not planned) agentic-AI deployment inside systems-integration/IT-services delivery teams over 2026-2028, or case data on time-to-production for AI-assisted delivery pipelines in regulated client environments, would directly inform this.",
+      "source_ids": ["S8"],
+      "caveats": [
+        "Gartner's 40%-of-apps figure describes AI agents embedded in the applications being built or sold, not the rate at which systems-design firms themselves have operationalized AI in their own delivery workflow; it is used here only as a directional adoption-speed signal, not a direct measurement of rho.",
+        "No source separates implementation speed for LMM-band 541512 firms specifically from large systems integrators, who may adopt faster given greater capital for tooling."
+      ]
+    },
+    "e": {
+      "evidence_state": "ESTIMATE",
+      "low": 0.68,
+      "base": 0.85,
+      "high": 0.95,
+      "rationale": "NAICS 541512 is defined to capture establishments that provide systems design/integration services to outside clients; captive internal IT departments of non-tech firms are not separately counted in this code in the first place, which removes the largest source of lens-ineligible activity before it ever enters the count. The remaining risk is smaller: some fraction of small 541512 filers are effectively single-client or project-only arrangements (a solo contractor operating through an LLC, or a small team spun out to serve one former parent company) that would not meet a repeat/outsourced-to-external-customers bar. Absent firm-level client-concentration data, a high but not extreme eligible share is the defensible estimate.",
+      "change_evidence": "Client-concentration disclosures from an M&A/business-brokerage dataset (e.g., deal teasers or CIMs for 541512-classified sell-side mandates) would let this be measured rather than estimated; so would a Census microdata cut of single-establishment vs. multi-client firms if accessible.",
+      "source_ids": [],
+      "caveats": [
+        "No source directly measures the share of 541512 LMM-band firms that are single-client or otherwise lens-ineligible; this is judgment, not observation.",
+        "Government-contractor subsidiaries within 541512 have concentrated (often single-prime) customer relationships that are commercially real but structurally look like the low end of this eligibility range."
+      ]
+    },
+    "s5": {
+      "evidence_state": "PROXY",
+      "low": 0.12,
+      "base": 0.20,
+      "high": 0.30,
+      "bridge": "Two source populations, both broader than 541512. (1) CT Acquisitions' 2026 PE/MSP M&A tracker (source S4): 169 disclosed MSP M&A deals in 2025, ~69% with PE involvement, and an active roll-up market rewarding recurring revenue and longer contract terms with higher multiples. MSPs are a related but distinct activity (often classified under 541513 or blended codes), and this segment is more institutionalized/recurring-revenue-native than the median project-based 541512 systems-design shop, so applying MSP deal intensity directly would likely overstate 541512 transfer probability. (2) Project Equity's compilation of succession-planning surveys (source S5): an estimated 73% of privately held U.S. companies plan to transition ownership within a decade (a $14T opportunity), but only about half report a 'detailed' plan and 78% lack a formal transition team. That is an economy-wide, 10-year, any-transition-type figure; prorating it to 5 years and narrowing to arm's-length/control transfers (excluding informal family hand-offs, which this lens's 's5' should exclude as non-qualifying in spirit) implies a materially lower 5-year probability than the headline 73%. Net direction: both bridges point toward overstatement if taken at face value, so the base sits well below either source's headline rate.",
+      "rationale": "There is clear, currently active PE and strategic buyer interest in fragmenting IT-services/MSP-adjacent businesses, and a large generational cohort of small-business owners is aging toward exit. But 541512 systems-design shops skew more project-based and less recurring-revenue-native than the MSPs driving most of the observed roll-up volume, and the broad succession-intent statistics describe a decade-long wave, not a concentrated five-year event. A one-in-five probability of a qualifying control transfer within five years for an eligible firm is a reasonable middle estimate given active deal flow tempered by the industry's weaker recurring-revenue profile relative to the MSP segment actually driving reported deal counts.",
+      "change_evidence": "A deal tracker or database (e.g., GF Data, Pitchbook, or a buy-side advisory's proprietary data) segmented specifically to 541512 rather than blended MSP/IT-services categories would materially sharpen this; owner-age survey data specific to systems-integration/consulting firm principals (versus small business owners generally) would also help.",
+      "source_ids": ["S4", "S5"],
+      "caveats": [
+        "The 69%-PE-backed MSP deal statistic describes managed-services providers, not systems-design/integration firms specifically; the two segments overlap in practice but are not the same NAICS activity.",
+        "The 73%-of-companies-will-transition-in-a-decade figure is economy-wide and includes informal, non-control, and family transitions that would not count as a qualifying transfer under this lens."
+      ]
+    },
+    "q": {
+      "evidence_state": "PROXY",
+      "low": 0.18,
+      "base": 0.30,
+      "high": 0.42,
+      "bridge": "Source population is elite global strategy consulting (McKinsey, BCG, Bain), reported in source S11: McKinsey now sources roughly a quarter of its global fees from outcome-based arrangements explicitly because AI is compressing the hours behind the work, and Bain/BCG describe AI-linked revenue climbing toward 40-50% of their business within a few years, with the same underlying dynamic (clients capturing part of the time savings rather than the firm keeping it as pure margin). Transformation: applied to 541512 with a downward adjustment, since McKinsey/BCG/Bain have far more pricing power, brand differentiation, and client lock-in than a typical fragmented, lower-middle-market systems-design shop competing largely on price and availability; if even the most differentiated consulting brands in the world are ceding roughly a quarter of the AI productivity dividend to clients, a commodity-priced local systems integrator plausibly cedes as much or more. Direction of error: this likely overstates 541512 retention (i.e., true q is more likely to be at or below the McKinsey-implied rate than above it).",
+      "rationale": "Billing structure is the crux. Where engagements are time-and-materials, an AI-driven cut in hours mechanically cuts revenue on that engagement unless the firm re-prices; where fixed-fee or staff-augmentation retainers apply, the firm keeps the gain until the next renewal, at which point a fragmented, price-competitive market gives clients leverage to reprice down. Renewal cycles, customer sharing of demonstrated savings, and the broader market-wide move toward outcome-based and value-based pricing structures all point toward the operator retaining well under half of an implemented gross benefit on a discounted five-year basis.",
+      "change_evidence": "Contract-level data on renewal repricing terms in systems-integration/IT-services agreements (average rate change at renewal, prevalence of AI-linked pricing clauses) would replace this estimate with an observed figure; a survey of mid-market IT-services firms specifically (rather than elite strategy consultancies) on outcome-based fee adoption would remove the bridging gap.",
+      "source_ids": ["S11", "S4"],
+      "caveats": [
+        "The primary evidence (S11) is drawn from the very top of the consulting market, a materially different competitive position than a $1-10M EBITDA systems-design firm.",
+        "No source directly measures renewal-repricing behavior inside 541512 contracts specifically."
+      ]
+    },
+    "d5": {
+      "evidence_state": "PROXY",
+      "low": 0.95,
+      "base": 1.10,
+      "high": 1.22,
+      "bridge": "Source population and quantity: BLS's national employment-count projection for the 'Computer Systems Design and Related Services' industry (source S2), which is projected to grow 19.5% and add about 487,600 jobs from 2023 to 2033 -- the second-largest job gain of all 292 detailed industries BLS tracks, with the article explicitly naming this industry as the main driver of the professional/scientific/technical-services sector being the fastest-growing sector in the economy. Transformation: a 10-year headcount-growth projection is prorated to a 5-year window (roughly half the cumulative growth, allowing for a non-linear path) and used as a proxy for real, constant-quality demand for the industry's current service basket. Direction of error is two-sided: if AI raises output per worker (plausible, given adoption trends elsewhere in this packet), true demand growth for the current basket could run ahead of headcount growth, understating d5; conversely, some of BLS's projected job growth likely reflects new AI-specific services adjacent to, but not part of, 'the current service basket' as defined for this lens, which would overstate d5.",
+      "rationale": "The industry sits at the center of BLS's single most-cited driver of professional-services employment growth over the coming decade, reflecting durable enterprise demand for cloud migration, cybersecurity, and IT modernization. That said, near-term data (source S10) shows IT-budget growth expectations were cut roughly in half in a matter of months in 2025 amid tariff and macro uncertainty, with over 40% of surveyed IT leaders deferring discretionary projects -- a reminder that the multi-year growth trend can be lumpy and is not guaranteed to be smooth over any specific five-year window.",
+      "change_evidence": "A real (inflation- and quality-adjusted) output series for NAICS 5415, rather than an employment-count projection, would materially improve this; BEA industry value-added data or a direct constant-price demand index, if one existed for this industry, would replace the employment-based bridge entirely.",
+      "source_ids": ["S2", "S9", "S10"],
+      "caveats": [
+        "Headcount growth is not the same construct as constant-price, constant-quality demand for the current service basket; it can diverge in either direction depending on AI-driven productivity and on how much of projected job growth is in genuinely new service lines.",
+        "The 19.5%/487,600-job figure is a 2023-2033 projection made before the more recent tariff-driven IT-budget pullback documented in source S10; the two sources are somewhat in tension on near-term trajectory."
+      ]
+    },
+    "o": {
+      "evidence_state": "ESTIMATE",
+      "low": 0.45,
+      "base": 0.62,
+      "high": 0.78,
+      "rationale": "AI agents are being embedded directly into enterprise applications at a fast clip (source S8: under 5% of enterprise apps in 2025 to a projected 40% by 2026), and larger enterprises are visibly investing in internal AI/agent capability rather than relying solely on outside integrators, both of which cut against the need for an external operator. But 'embedding an agent in an app' and 'building, securing, integrating, and maintaining the system the agent lives inside' are different jobs; the latter is exactly what this lens's firms sell, and it remains complex, client-specific, and compliance-bound. The natural customer base for lower-middle-market 541512 firms is mid-market and smaller enterprises and government bodies that lack the in-house engineering depth to self-serve this work even as tooling improves, which supports continued need for an accountable outside party for a majority, but well under all, of year-five quantity.",
+      "change_evidence": "Client-side surveys asking mid-market IT buyers directly whether they expect to insource, self-serve via AI-native/low-code tooling, or continue outsourcing systems-integration work over the next five years would replace this with observed data; case evidence of SMB clients successfully self-serving integration work using AI agents (or conversely, failing to and re-engaging an integrator) would sharpen either bound.",
+      "source_ids": ["S8"],
+      "caveats": [
+        "No source directly measures the share of future systems-integration demand that will still require an outside accountable operator versus being self-served or software-supplied; this is judgment built on adjacent adoption-rate evidence.",
+        "Large-enterprise insourcing trends are better documented than mid-market/SMB behavior, which is the more relevant population for LMM-band firms but the least directly evidenced here."
+      ]
+    }
+  },
+  "narrative": {
+    "executive_view": "Computer Systems Design Services (541512) is a large, fast-growing, and extremely fragmented industry: BLS projects it will add roughly 487,600 jobs over 2023-2033, the second-most of any detailed industry in the economy, and no single firm or small group controls meaningful share of the market. That combination -- durable underlying demand plus a highly commodity-priced competitive structure -- is exactly what makes the roll-up thesis for this industry a two-sided bet. The labor mix is dominated by software developers, systems analysts, and support specialists, occupations with real, already-deployed AI tooling behind them, so there is a genuine implementable AI opportunity inside these businesses. But the same fragmentation and price competition that create abundant acquisition targets also mean that whatever gross benefit an operator implements is likely to be substantially competed away at the next contract renewal, and the billing structures (time-and-materials still common) mean AI-driven efficiency shows up first as fewer billable hours, not automatic margin. This is a market with real firms, real deal flow, and a real AI story -- but the commercial retention story is the weak link, not the demand or firm-supply story.",
+    "ai_impact": "The industry's own occupational base is heavily weighted toward the job categories most directly affected by current-generation AI tools: software and web developers, programmers, and testers are 27% of the 5415 subsector's wage bill, and a controlled GitHub experiment found developers 55% faster on a representative coding task with Copilot. Computer support specialists (7.5% of employment) face a parallel automation path from AI-assisted and agentic support tooling. Gartner's own adoption curve -- under 5% of enterprise apps with task-specific agents in 2025, a projected 40% by 2026 -- suggests this is one of the fastest AI-adoption curves in white-collar work, plausible given how mainstream coding assistants already are inside development teams. The constraint is not tooling capability but organizational absorption: enterprise change-control, security review, and compliance gates (especially for government and regulated clients, a meaningful share of this industry's customer base) slow how fast exposed task time actually turns into fewer hours billed or higher throughput per employee. Notably, BLS's own 2023-33 projections do not flag this industry as one where 'AI productivity improvements are expected to limit employment demand' -- that language is reserved elsewhere (sales, admin support) -- suggesting the forecasting community still expects net demand growth to outrun AI-driven headcount efficiency here, at least on the horizon BLS was modeling.",
+    "value_capture": "This is the weakest link in the thesis. The market for this kind of work is unusually price-competitive: billing is still commonly time-and-materials or staff-augmentation, which means an AI-driven cut in hours mechanically reduces revenue on an engagement unless the firm renegotiates pricing. Even the most differentiated, highest-pricing-power firms in professional services -- McKinsey, BCG, and Bain -- are already restructuring roughly a quarter to a third of their fee base around outcome-based pricing specifically because AI is compressing the hours behind their work, an explicit acknowledgment that clients, not the firm, are capturing much of the AI productivity dividend. A fragmented, lower-middle-market systems-design shop with materially less brand power and more substitutable services should be expected to retain an equal or smaller share of any AI-driven gross benefit it implements, once you account for contract renewal cycles, client benchmarking against competitors' rates, and the general drift toward value-based and consumption-based pricing across the professional-services landscape. There is a partial offset: firms that shift their own mix toward retainer/managed-support and fixed-fee arrangements, and that lengthen contract terms, can hold benefit longer between repricing events -- exactly the structural traits that command premium acquisition multiples in the adjacent MSP M&A market. But absent that shift, the default outcome in a price-competitive, hourly-billed market is that AI-driven efficiency gets passed through to clients faster than an operator can bank it.",
+    "firm_availability": "Ownership-transfer conditions are favorable in the broad sense and only moderately favorable in the specific sense. Roughly 41% of small-business owners nationally are 55 or older, and an estimated 73% of privately held U.S. companies plan to transition ownership within the next decade -- but only about half report having anything like a detailed succession plan, and most lack a formal transition team, which is exactly the condition that produces motivated, unprepared sellers. Deal activity in the adjacent MSP segment is genuinely active (169 disclosed deals in 2025, roughly 69% with private-equity involvement, and a documented pattern of platforms doing repeat add-on acquisitions), and valuation data from that segment shows a clear premium for recurring revenue, longer contract terms, and lower customer concentration -- a fairly direct playbook for what makes a 541512 target attractive versus not. The caveat is that 541512 systems-design work is, on average, less recurring-revenue-native than the MSPs actually driving most of that reported deal volume, so the observed MSP roll-up intensity should be treated as an upper bound on what to expect in this specific NAICS code, not a direct read.",
+    "demand_durability": "The demand backdrop is genuinely strong on a multi-year view: BLS names this industry as the primary driver of professional/scientific/technical services being the fastest-growing sector in the economy over 2023-2033, with a fifth of the projected new jobs anywhere in the economy's fastest-growing corner sitting here. Generative AI itself is a demand tailwind for the industry in the near term (implementation, integration, and governance of AI systems is itself billable systems-design work), with Gartner citing generative AI as one of the fastest-growing IT spending sub-segments. The durability risk is cyclicality, not secular decline: this is discretionary spend from the client's point of view, and a 2025 BCG survey of over 300 IT leaders found budget-growth expectations cut roughly in half within months amid tariff and macro uncertainty, with more than 40% of respondents deferring discretionary projects. A five-year window is long enough to ride out one such downturn, but the current basket of services should be expected to see real volatility around, not a smooth path to, its trend growth rate.",
+    "risks_and_uncertainty": "Three things would make this industry a bad roll-up bet rather than a good one. First, if AI-driven productivity gains are competed away at the rate the most price-powerful consulting brands in the world are already ceding them, the 'H' opportunity (implementable AI labor savings) never survives contact with the market as retained margin -- it just becomes a faster, cheaper service at the same price competition. Second, larger clients visibly building internal AI/agent capability, if that trend extends down-market faster than expected, could erode the 'D' demand basket for outsourced integration work specifically (as opposed to overall IT spending, which could still grow). Third, the firm-supply story here is partly borrowed from the better-documented, more recurring-revenue-native MSP segment; if actual 541512 deal flow and multiples turn out to look more like a typical fragmented professional-services niche than like the MSP roll-up wave, both firm availability (s5) and achievable retention (q) would need to be marked down together, since they share the same underlying driver -- how much of this industry's revenue is genuinely recurring versus project-by-project.",
+    "principal_driver": "Fast, BLS-validated durable demand growth (19.5% employment growth, 2023-2033, the sector's #1 driver) combined with a wage bill concentrated in occupations where AI tooling already measurably compresses task time today.",
+    "principal_weakness": "Price-competitive, largely hourly-billed market structure means AI-driven efficiency gains are likely to be substantially competed away at contract renewal rather than retained as operator margin."
+  },
+  "sources": [
+    {
+      "id": "S1",
+      "url": "https://www.bls.gov/oes/2023/may/naics4_541500.htm",
+      "title": "Computer Systems Design and Related Services - May 2023 OEWS Industry-Specific Occupational Employment and Wage Estimates (NAICS 541500)",
+      "access_date": "2026-07-22",
+      "supports": "Occupation mix and wage levels for primitive `a` (PROXY at the 4-digit 541500 level, the nearest published breakdown to 541512): total employment 2,530,820; Computer and Mathematical occupations 50.57% (mean annual $114,400), including Software and Web Developers/Programmers/Testers 27.35% (mean $125,010) and Computer Support Specialists 7.51% (mean $64,670); Management 14.77% (mean $180,950); Business and Financial Operations 13.79% (mean $104,810)."
+    },
+    {
+      "id": "S2",
+      "url": "https://www.bls.gov/opub/mlr/2024/article/industry-and-occupational-employment-projections-overview-and-highlights-2023-33.htm",
+      "title": "Industry and occupational employment projections overview and highlights, 2023-33 (Monthly Labor Review, BLS)",
+      "access_date": "2026-07-22",
+      "supports": "Primitive `d5`: 'The computer systems design and related services industry is projected to grow by 19.5 percent and add about 487,600 jobs over the projections period, which is the second largest increase in jobs of all 292 detailed industries.' Also supports ai_impact narrative: BLS attributes limited AI-driven employment effects to other occupational groups (sales, admin support), not to this industry."
+    },
+    {
+      "id": "S3",
+      "url": "https://www.ibisworld.com/classifications/naics/541512/computer-systems-design-services/",
+      "title": "NAICS Code 541512 - Computer Systems Design Services | IBISWorld",
+      "access_date": "2026-07-22",
+      "supports": "Qualitative industry/lens definition only (planning/designing computer systems integrating hardware, software, and communications technology; installation, training, and user support). The page's quantitative revenue/growth figures ($821.2B, 3.90%) were found to be identical to the figures shown on IBISWorld's 541511 classification page and are treated as unreliable templated content, not used as evidence for any primitive."
+    },
+    {
+      "id": "S4",
+      "url": "https://ctacquisitions.com/guides/private-equity-msp-2026/",
+      "title": "Private Equity MSP (2026): 169 Deals, 69% PE, Active Platforms | CT Acquisitions",
+      "access_date": "2026-07-22",
+      "supports": "Primitives `s5` and `q` (PROXY, MSP segment adjacent to but distinct from 541512): 169 disclosed MSP M&A deals in 2025, ~69% with PE involvement; valuation premiums for recurring revenue, 24+ month contracts, and low customer concentration; documented repeat add-on acquisition patterns (e.g., Magna5, Integris, Coretelligent, Ntiva)."
+    },
+    {
+      "id": "S5",
+      "url": "https://project-equity.org/news/employee-ownership-insider/business-owner-statistics-exit-planning/",
+      "title": "20 Key Business Owner Statistics on Exits & Succession",
+      "access_date": "2026-07-22",
+      "supports": "Primitive `s5` (PROXY, economy-wide, not industry-specific): an estimated 73% of privately held U.S. companies plan to transition ownership within the next decade ($14 trillion opportunity); ~50% report a detailed succession plan; 78% lack a formal transition team; 2.9 million U.S. businesses are owned by individuals 55+."
+    },
+    {
+      "id": "S6",
+      "url": "https://github.blog/news-insights/research/research-quantifying-github-copilots-impact-on-developer-productivity-and-happiness/",
+      "title": "Research: quantifying GitHub Copilot's impact on developer productivity and happiness - The GitHub Blog",
+      "access_date": "2026-07-22",
+      "supports": "Primitives `a` and `rho`: controlled experiment (n=95 developers) found the Copilot group completed a representative coding task 55% faster (1h11m vs 2h41m, p=.0017) with a higher completion rate (78% vs 70%); used as calibration for AI task-time-compression magnitude in the most AI-exposed occupation in this industry's wage mix."
+    },
+    {
+      "id": "S7",
+      "url": "https://arxiv.org/abs/2303.10130",
+      "title": "GPTs are GPTs: An Early Look at the Labor Market Impact Potential of Large Language Models (Eloundou, Manning, Mishkin, Rock)",
+      "access_date": "2026-07-22",
+      "supports": "Primitive `a`: task-level LLM exposure framework; ~80% of U.S. workers have at least 10% of tasks affected by LLMs, ~19% have at least half affected; occupations dominated by text-rich, analytical, software-mediated tasks (including computer programmers and QA analysts/testers) are among the most consistently highly-exposed."
+    },
+    {
+      "id": "S8",
+      "url": "https://www.gartner.com/en/newsroom/press-releases/2025-08-26-gartner-predicts-40-percent-of-enterprise-apps-will-feature-task-specific-ai-agents-by-2026-up-from-less-than-5-percent-in-2025",
+      "title": "Gartner Predicts 40% of Enterprise Apps Will Feature Task-Specific AI Agents by 2026, Up from Less Than 5% in 2025",
+      "access_date": "2026-07-22",
+      "supports": "Primitives `rho` and `o`: adoption-speed benchmark for AI agents embedded in enterprise applications, used as a directional signal for how fast AI implementation is ramping in software/systems delivery generally."
+    },
+    {
+      "id": "S9",
+      "url": "https://www.gartner.com/en/newsroom/press-releases/2026-04-22-gartner-forecasts-worldwide-it-spending-to-grow-13-point-5-percent-in-2026-totaling-6-point-31-trillion-dollars",
+      "title": "Gartner Forecasts Worldwide IT Spending to Grow 13.5% in 2026, Totaling $6.31 Trillion",
+      "access_date": "2026-07-22",
+      "supports": "Primitive `d5`: overall IT spending growth trajectory and generative AI as one of the fastest-growing spending sub-segments, used as corroborating context for continued enterprise technology demand."
+    },
+    {
+      "id": "S10",
+      "url": "https://www.ciodive.com/news/tariffs-impact-it-budget-cuts-ai-cloud-spending-bcg/747438/",
+      "title": "CIOs defer projects, cut costs as tariff uncertainty sours IT spending plans | CIO Dive",
+      "access_date": "2026-07-22",
+      "supports": "Primitives `d5` and risks_and_uncertainty: BCG survey of 300+ IT leaders found expected 2025 IT budget growth cut from an average 4% to 2.4% within months amid tariff uncertainty; over 40% of respondents deferred discretionary IT projects; nearly two-thirds ranked cost management a top priority."
+    },
+    {
+      "id": "S11",
+      "url": "https://www.thestreet.com/markets/ai-is-forcing-mckinsey-bcg-bain-to-rethink-consulting-fees",
+      "title": "AI is forcing McKinsey, BCG, Bain to rethink consulting fees - TheStreet",
+      "access_date": "2026-07-22",
+      "supports": "Primitive `q` (PROXY, elite strategy consulting rather than mid-market IT services): McKinsey sources roughly a quarter of global fees from outcome-based pricing explicitly due to AI compressing billable hours; Bain describes AI/tech-enabled revenue at ~30% of its business, projected toward 50%; BCG expects AI-linked revenue to reach ~40% by 2026, up from ~20% in 2024 -- evidence that even the most price-powerful professional-services firms are ceding part of the AI productivity dividend to clients."
+    }
+  ]
+}

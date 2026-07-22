@@ -1,0 +1,152 @@
+{
+  "identity": {
+    "naics": "541199",
+    "title": "All Other Legal Services",
+    "run_id": "541199-a1-20260722",
+    "model_id": "gpt-5.6-terra",
+    "run_date": "2026-07-22",
+    "methodology_version": "5.0",
+    "attempt": 1
+  },
+  "lens": {
+    "included_activities": "Independent specialist paralegal and patent-agent providers that sell recurring or repeat outsourced document, research, filing, and prosecution support to law firms, corporate legal departments, and inventors.",
+    "excluded_activities": "Offices of lawyers, title abstract and settlement offices, captive units, transaction-only notaries, stand-alone process servers, one-off consumer filings, and non-control financing vehicles.",
+    "customer_and_revenue_model": "External customers purchase matter-based, subscription, retainer, or repeat project support; revenue is commonly tied to documents, filings, research, or prosecution work rather than ownership of a legal claim.",
+    "deviation_from_default": "NAICS 541199 combines paralegal and patent-agent services with notary and process-serving services. The retained specialist-support population has a coherent knowledge-work and repeat-outsourcing model; the excluded transaction services have distinct labor, billing, and software-substitution dynamics.",
+    "heterogeneous": true
+  },
+  "primitives": {
+    "a": {
+      "evidence_state": "ESTIMATE",
+      "low": 0.28,
+      "base": 0.44,
+      "high": 0.6,
+      "rationale": "The retained work includes research, document organization, drafting, correspondence, filing, patent search, and prosecution support. BLS identifies research, organizing files, and drafting documents as core paralegal work, while the ABA identifies research, review, due diligence, and drafting as AI-assisted legal tasks [S2, S4]. Substitution is limited because accountable review, client context, and regulated representation remain human work.",
+      "change_evidence": "A wage-weighted 541199 occupation file from BLS or a payroll extract from specialist providers, paired with time-and-motion studies by task and verified AI workflow logs.",
+      "source_ids": ["S2", "S3", "S4"],
+      "caveats": ["No observed occupation-by-wage mix exists for the narrowed six-digit lens.", "The BLS occupation source covers workers across legal services and other employers, not independent specialist providers."]
+    },
+    "rho": {
+      "evidence_state": "ESTIMATE",
+      "low": 0.3,
+      "base": 0.5,
+      "high": 0.68,
+      "rationale": "Implementation should be material but constrained: the ABA says users must protect client information, supervise, provide competent representation, and charge reasonable fees; it also notes unreliable output and hallucination risk [S4]. Those requirements preserve review, workflow design, and tool-governance work.",
+      "change_evidence": "A cohort study of specialist paralegal and patent-agent firms showing task-level adoption, quality exceptions, rework, and headcount avoided after deployment.",
+      "source_ids": ["S4"],
+      "caveats": ["This is a five-year operational judgment, not an observed adoption rate.", "State unauthorized-practice rules, client data restrictions, and patent-prosecution quality requirements vary by service and jurisdiction."]
+    },
+    "e": {
+      "evidence_state": "ESTIMATE",
+      "low": 0.32,
+      "base": 0.5,
+      "high": 0.66,
+      "rationale": "The code explicitly includes specialized legal or paralegal services and lists notary, paralegal, patent-agent, and process-serving examples [S1]. The lens retains recurring specialist-support firms and excludes the transaction and delivery-oriented activities, so eligibility is materially below the full injected firm population.",
+      "change_evidence": "A firm-level NAICS 541199 business-directory pull coded by service line, customer type, revenue recurrence, and normalized EBITDA.",
+      "source_ids": ["S1"],
+      "caveats": ["The published NAICS description does not report establishment shares or revenue by illustrative activity.", "The injected LMM count is an estimate and its industry-size bridge may not preserve this service-line mix."]
+    },
+    "s5": {
+      "evidence_state": "ESTIMATE",
+      "low": 0.12,
+      "base": 0.21,
+      "high": 0.32,
+      "rationale": "A meaningful owner-retirement pipeline is plausible, but no observed five-year control-transfer rate was located for eligible 541199 firms. AP reports that 51% of small-business owners are over 55 and describes sale, family succession, and closure as distinct exit paths [S7]; only qualifying transfers with continuing operations count here.",
+      "change_evidence": "Five years of closed-deal data from Axial, GF Data, or a legal-services-focused business broker, reconciled to owner age and continuity of operations.",
+      "source_ids": ["S7"],
+      "caveats": ["The owner-age figure is for small businesses generally, not LMM specialist legal-support providers.", "A retirement intention or sale listing is not a qualifying control transfer."]
+    },
+    "q": {
+      "evidence_state": "ESTIMATE",
+      "low": 0.32,
+      "base": 0.48,
+      "high": 0.62,
+      "rationale": "Repeatable document and filing workflows can support fixed, retainer, or value-oriented pricing, permitting some retention of efficiency. Retention is not assumed complete: the Thomson Reuters survey reports that 40% of firm respondents expect alternative fee arrangements to increase because of GenAI, and the ABA describes client pressure for alternatives to hourly billing [S5, S6].",
+      "change_evidence": "Customer contracts and billing extracts segmented by hourly, fixed, retainer, and per-filing revenue, then matched to realized labor savings and renewal pricing.",
+      "source_ids": ["S5", "S6"],
+      "caveats": ["Evidence is chiefly for law firms and broader professional services, not the narrowed provider population.", "Pass-through depends on service commoditization, customer bargaining power, and disclosure rules."]
+    },
+    "d5": {
+      "evidence_state": "PROXY",
+      "low": 1.0,
+      "base": 1.08,
+      "high": 1.16,
+      "bridge": "S6 measures real chained-dollar output for all NAICS 541100 Legal Services, projecting 348.5 in 2024 and 408.9 in 2034. Taking the five-year equivalent of that ten-year real-output ratio yields the base for the narrowed 541199 specialist-support basket. It may overstate demand because lawyer-office work can grow without outsourced support, and it may understate demand if specialist support gains share through outsourcing.",
+      "rationale": "The BLS all-legal-services real-output projection provides the closest reachable constant-price demand proxy [S6]. The retained services support legal work but are not separately projected, so the range admits mix and self-service uncertainty.",
+      "change_evidence": "A time series of 541199 receipts by service line, client procurement spend, patent filings, and outsourced paralegal utilization, all deflated to constant quality and prices.",
+      "source_ids": ["S6"],
+      "caveats": ["The source is a four-digit legal-services projection, not the six-digit narrowed lens.", "Industry output is an imperfect proxy for demand for outsourced specialist support."]
+    },
+    "o": {
+      "evidence_state": "ESTIMATE",
+      "low": 0.58,
+      "base": 0.72,
+      "high": 0.84,
+      "rationale": "Much of the remaining quantity should still require an accountable provider: patent agents must be registered to prepare and prosecute applications, and legal AI users retain duties of competence, confidentiality, supervision, and accuracy [S3, S4]. Some standardized documents, searches, and filings can nevertheless migrate to self-service software or in-house workflows.",
+      "change_evidence": "Customer interviews and churn studies that classify work retained by external providers, shifted in-house, self-served through software, or eliminated after AI deployment.",
+      "source_ids": ["S3", "S4"],
+      "caveats": ["The figure is a judgment about the narrowed service basket, not a measured operator-retention share.", "Patent-agent regulation does not cover every retained paralegal workflow."]
+    }
+  },
+  "narrative": {
+    "executive_view": "The coherent opportunity is independent specialist paralegal and patent-agent support, not the entire heterogeneous code. Its work contains document-heavy and research-heavy workflows, while liability, confidentiality, and regulated representation keep a human operator in the delivery chain [S1, S3, S4].",
+    "ai_impact": "BLS describes paralegal work as organizing files, researching law, drafting documents, filing materials, and coordinating matters [S2]. The ABA identifies legal research, contract review, due diligence, document review, and drafting as AI-assisted tasks, but requires competence, confidentiality, supervision, and accuracy safeguards [S4].",
+    "value_capture": "Hourly pricing can transmit efficiency to customers, while repeatable matters can be packaged differently. Thomson Reuters found that 40% of surveyed firms expect more alternative fee arrangements from GenAI, and the ABA reports customer demand for alternatives to hourly billing [S5, S6].",
+    "firm_availability": "The code’s public definition confirms the mix of paralegal, patent-agent, notary, and process-serving activity but provides no service-line establishment shares [S1]. A general small-business owner-age indicator supports a nonzero succession pipeline, yet eligible-firm composition and completed control transfers need transaction-level diligence [S7].",
+    "demand_durability": "BLS projects real output growth for all legal services, which is a directional proxy rather than a direct forecast for this specialist subset [S6]. Registered patent practitioners retain a formal role in preparation and prosecution, while routine support can still move toward software or in-house teams [S3].",
+    "risks_and_uncertainty": "The principal uncertainty is code composition: the included knowledge-work providers cannot be cleanly separated from transaction and delivery services in public aggregates [S1]. AI output error, confidentiality handling, fee rules, customer repricing, and the lack of observed six-digit transfer data could materially change the findings [S4].",
+    "principal_driver": "Repeatable specialist legal-support workflows combine substantial document and research work with continuing accountability requirements [S2, S4].",
+    "principal_weakness": "Public data do not isolate the retained service lines or their LMM transaction history within the heterogeneous six-digit code [S1]."
+  },
+  "sources": [
+    {
+      "id": "S1",
+      "url": "https://www.census.gov/naics/resources/archives/sect54.html",
+      "title": "U.S. Census Bureau NAICS sector 54 definitions",
+      "access_date": "2026-07-22",
+      "supports": "Defines 541199 as specialized legal or paralegal services and lists notary, paralegal, patent-agent, and process-serving examples."
+    },
+    {
+      "id": "S2",
+      "url": "https://www.bls.gov/ooh/Legal/Paralegals-and-legal-assistants.htm",
+      "title": "BLS Occupational Outlook Handbook: Paralegals and Legal Assistants",
+      "access_date": "2026-07-22",
+      "supports": "Describes core paralegal tasks, legal-services employment concentration, and technology-related limits on occupation growth."
+    },
+    {
+      "id": "S3",
+      "url": "https://www.uspto.gov/patents/basics/apply",
+      "title": "USPTO: Applying for Patents",
+      "access_date": "2026-07-22",
+      "supports": "States that registered patent attorneys and agents may prepare and prosecute patent applications and explains registration restrictions."
+    },
+    {
+      "id": "S4",
+      "url": "https://www.americanbar.org/content/dam/aba/administrative/professional_responsibility/ethics-opinions/aba-formal-opinion-512.pdf",
+      "title": "ABA Formal Opinion 512: Generative Artificial Intelligence Tools",
+      "access_date": "2026-07-22",
+      "supports": "Identifies legal tasks assisted by generative AI and the continuing duties of competence, confidentiality, supervision, accuracy, and reasonable fees."
+    },
+    {
+      "id": "S5",
+      "url": "https://legal.thomsonreuters.com/content/dam/ewp-m/documents/thomsonreuters/en/pdf/reports/2025-generative-ai-in-professional-services-report-tr5433489-rgb.pdf",
+      "title": "Thomson Reuters 2025 Generative AI in Professional Services Report",
+      "access_date": "2026-07-22",
+      "supports": "Reports law-firm views on GenAI effects on rates and expected use of alternative fee arrangements."
+    },
+    {
+      "id": "S6",
+      "url": "https://www.bls.gov/emp/tables/industry-employment-and-output.htm",
+      "title": "BLS Employment and Output by Industry, Table 2.11",
+      "access_date": "2026-07-22",
+      "supports": "Projects 2024 to 2034 real chained-dollar output for NAICS 541100 Legal Services."
+    },
+    {
+      "id": "S7",
+      "url": "https://apnews.com/article/small-business-succession-retirement-sale-transition-d582a18f1e440846a6ff5bb425ba6daa",
+      "title": "AP: Starting a small business is hard. Exiting can be even harder",
+      "access_date": "2026-07-22",
+      "supports": "Reports a Census-attributed general small-business owner-age statistic and distinguishes sale, succession, and closure pathways."
+    }
+  ]
+}

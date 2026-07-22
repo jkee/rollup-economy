@@ -1,7 +1,9 @@
 # v3 Implementation Plan
 
+> **Historical:** completed v3.1.2 tracker. The active methodology and tracker are the v5 documents indexed in `README.md`.
+
 **Companion to:** [V3_PRODUCT.md](V3_PRODUCT.md) (goal, principles, pipeline spec) · created 2026-07-20
-**Status legend:** `[ ]` todo · `[x]` done · `[~]` in progress. This file is the working tracker — update checkboxes as work lands.
+**Status legend:** `[ ]` todo · `[x]` done · `[~]` in progress. Preserved as the completed historical tracker.
 
 Sequencing has two deliberate inversions: the build/check script (Phase 2) is built **before** any runs, so the pilot validates itself from day one; the dataset layer (Phase 1) comes **before** prompt generation, because prompts embed the precomputed dataset inputs.
 

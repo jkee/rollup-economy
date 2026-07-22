@@ -1,0 +1,131 @@
+{
+  "identity": {
+    "naics": "541213",
+    "title": "Tax Preparation Services",
+    "run_id": "541213-a1-20260722",
+    "model_id": "gpt-5.6-terra",
+    "run_date": "2026-07-22",
+    "methodology_version": "5.0",
+    "attempt": 1
+  },
+  "lens": {
+    "included_activities": "US lower-middle-market firms whose primary external service is preparing federal or state tax returns for repeat individual or small-business clients, including document intake, return preparation, review, filing, and client communication.",
+    "excluded_activities": "CPA offices, accounting, bookkeeping, billing, payroll, software-only products, captive tax departments, shell entities, non-control financing vehicles, and firms outside the normalized EBITDA band.",
+    "customer_and_revenue_model": "Recurring or repeat annual outsourced tax-return service sold directly to individuals or small businesses, generally for a per-return or complexity-based fee.",
+    "deviation_from_default": "none",
+    "heterogeneous": false
+  },
+  "primitives": {
+    "a": {
+      "evidence_state": "ESTIMATE",
+      "low": 0.38,
+      "base": 0.53,
+      "high": 0.68,
+      "rationale": "O*NET identifies structured computer, information-processing, document-recording, calculation, verification, and scheduling work alongside client interviews, advice, and compliance judgment [S1]. AI can reduce paid effort in intake, classification, missing-item follow-up, first-draft preparation, and review support, but a substantial portion remains judgment, exception handling, and accountable review. The estimate is wage-weighted rather than a task count.",
+      "change_evidence": "A firm-level payroll-by-role extract paired with time-and-motion studies for intake, preparation, review, client service, and post-filing work; or a longitudinal tax-firm implementation survey with hours saved by role.",
+      "source_ids": ["S1"],
+      "caveats": ["O*NET describes the Tax Preparer occupation rather than the full NAICS payroll mix, which also includes management and administrative staff.", "The estimate concerns technically exposed current tasks, not realized savings or customer demand."]
+    },
+    "rho": {
+      "evidence_state": "ESTIMATE",
+      "low": 0.25,
+      "base": 0.42,
+      "high": 0.57,
+      "rationale": "The work is already computer-mediated, but O*NET reports that exactness is extremely important and includes compliance evaluation, client communication, and record verification [S1]. Those requirements support assisted workflows and constrain unattended execution, especially for unusual returns and time-critical filing periods.",
+      "change_evidence": "Season-by-season implementation data from tax firms showing production hours, error rates, review rates, and adoption by return complexity; plus insurer, E&O carrier, or regulator evidence on acceptable AI-assisted review controls.",
+      "source_ids": ["S1"],
+      "caveats": ["This is a five-year operating judgment, not a measured adoption forecast.", "Tax-law changes, vendor integrations, data-access permissions, and state-specific filing requirements could move implementation materially."]
+    },
+    "e": {
+      "evidence_state": "ESTIMATE",
+      "low": 0.07,
+      "base": 0.14,
+      "high": 0.25,
+      "rationale": "The eligible subset excludes very small owner-operated practices, branded or otherwise non-control units, and firms with substantial adjacent accounting or payroll activity. Standalone tax preparation is a distinct Census industry category that excludes CPA, accounting, bookkeeping, billing, and payroll combinations [S4], but public data reviewed here do not map normalized EBITDA to control eligibility.",
+      "change_evidence": "A sell-side database export and quality-adjusted buyer pipeline for this NAICS with revenue, EBITDA, ownership, franchise status, and service mix; then a buyer review of control eligibility.",
+      "source_ids": ["S4"],
+      "caveats": ["No public source reviewed measures the denominator at the specified EBITDA band or identifies franchise and control restrictions consistently.", "The supplied firm-count input is not re-estimated here."]
+    },
+    "s5": {
+      "evidence_state": "ESTIMATE",
+      "low": 0.07,
+      "base": 0.12,
+      "high": 0.18,
+      "rationale": "A qualifying control transfer requires a saleable client base, transferable preparer relationships, and acceptable quality and compliance records. The base assumes some succession and consolidation activity among eligible firms, while excluding closures and internal reorganizations; no industry-and-size-specific transfer-rate source was verified.",
+      "change_evidence": "Closed transaction records from Axial, GF Data, PitchBook, or business-broker MLS feeds, matched to tax-preparation firms in the lens; supplemented by owner-age and succession data from a targeted survey.",
+      "source_ids": [],
+      "caveats": ["This is not a market-wide business exit rate.", "Seasonality, preparer licensing, customer concentration, and dependence on a selling preparer can make nominally available firms nontransferable."]
+    },
+    "q": {
+      "evidence_state": "ESTIMATE",
+      "low": 0.35,
+      "base": 0.5,
+      "high": 0.65,
+      "rationale": "Per-return and complexity-based fees give an operator some ability to retain workflow savings, particularly where capacity is constrained. Retention is limited by consumer price sensitivity, self-preparation alternatives, competitive local providers, and customers seeking fee reductions as turnaround becomes easier.",
+      "change_evidence": "Cohort-level client pricing, renewal, discount, and hours-per-return data from tax firms before and after workflow automation; paired with local competitor price checks by return complexity.",
+      "source_ids": [],
+      "caveats": ["No public, lens-specific evidence was verified for contractual pass-through or realized post-automation price changes.", "This excludes demand changes and implementation difficulty, which belong in other primitives."]
+    },
+    "d5": {
+      "evidence_state": "PROXY",
+      "low": 0.96,
+      "base": 1.03,
+      "high": 1.1,
+      "bridge": "S2 measures nationwide e-filed individual returns submitted by tax professionals, not constant-price and constant-quality demand for the full NAICS lens. Its reported year-over-year increase is used only as a directional starting point for a five-year service-quantity judgment; it likely understates paper and non-individual work but may overstate demand for independent outsourced firms because it includes branded and larger preparers.",
+      "rationale": "IRS reported an increase in e-filed individual returns from tax professionals in the latest comparable filing-season totals [S2]. Tax filing remains recurrent, but self-preparation, software, and policy changes constrain a simple extrapolation; the proxy therefore supports only modest central growth in the current service basket.",
+      "change_evidence": "IRS Statistics of Income filing-mode series segmented by return complexity and preparer type, plus repeated client-count data from standalone tax firms and state filing data.",
+      "source_ids": ["S2"],
+      "caveats": ["Filing-season e-file counts are not NAICS revenue, constant-quality service quantity, or a five-year forecast.", "The measure is dominated by individual returns and does not distinguish the lower-middle-market lens."]
+    },
+    "o": {
+      "evidence_state": "ESTIMATE",
+      "low": 0.65,
+      "base": 0.78,
+      "high": 0.88,
+      "rationale": "Many taxpayers will continue to seek accountable help for interpretation, exceptions, and filing responsibility, while standardized returns can migrate to self-preparation or software. GAO documented Direct File expansion of supported income and import capabilities, while also noting policy uncertainty about its continuation [S3], illustrating both the substitution path and uncertainty.",
+      "change_evidence": "IRS filing-mode and complexity microdata, Direct File or replacement-program scope and adoption, tax-software completion data, and longitudinal client retention by return complexity from tax firms.",
+      "source_ids": ["S3"],
+      "caveats": ["This is a judgment about the present service basket, not a forecast of all tax filing.", "Future federal and state policy, software reliability, and tax-law complexity can change the operator-required share in either direction."]
+    }
+  },
+  "narrative": {
+    "executive_view": "Standalone tax preparation offers repeat annual service relationships and a labor-heavy workflow with meaningful AI assistance potential. The central uncertainty is whether the transferable lower-middle-market subset is sufficiently deep after excluding very small practices and non-control units.",
+    "ai_impact": "The work contains structured intake, document handling, calculations, form completion, verification, scheduling, and client follow-up [S1]. AI can compress those steps and help reviewers surface exceptions, while accountable judgment, changing law, client interviews, and exactness requirements keep humans in the loop.",
+    "value_capture": "Firms often charge per return or by complexity, so faster internal processing need not automatically reduce fees. However, software alternatives and local price competition are likely to share part of the benefit with clients, particularly for simple returns.",
+    "firm_availability": "The NAICS definition is relatively coherent because it separates standalone tax preparation from CPA offices and combined accounting, bookkeeping, billing, and payroll services [S4]. Public evidence reviewed does not identify how many firms meet the normalized EBITDA and control-transfer conditions, so eligibility and transfer likelihood remain bounded judgments.",
+    "demand_durability": "IRS reported a recent increase in e-filed individual returns submitted by tax professionals [S2], consistent with recurring filing activity. That evidence does not settle long-run demand for outsourced preparation because self-preparation, free filing options, and integrated software can displace simpler work.",
+    "risks_and_uncertainty": "Quality failures during a compressed filing season can damage client trust and create liability. The work is sensitive to tax-law and program changes; GAO describes both expanded Direct File capabilities and changing direction from Congress [S3]. Public data also do not cleanly observe EBITDA, ownership, franchise status, or qualifying control transfers for the target population.",
+    "principal_driver": "Repeat filing cycles paired with automatable information-processing and review-support work.",
+    "principal_weakness": "Uncertain depth and transferability of the lower-middle-market standalone-firm population, alongside software substitution for simple returns."
+  },
+  "sources": [
+    {
+      "id": "S1",
+      "url": "https://www.onetonline.org/link/summary/13-2082.00",
+      "title": "O*NET OnLine: Tax Preparers (13-2082.00)",
+      "access_date": "2026-07-22",
+      "supports": "Tax-preparer tasks, work activities, work context, software use, accuracy requirement, and occupation scope."
+    },
+    {
+      "id": "S2",
+      "url": "https://www.irs.gov/newsroom/filing-season-statistics-for-week-ending-dec-26-2025",
+      "title": "IRS: Filing season statistics for week ending Dec. 26, 2025",
+      "access_date": "2026-07-22",
+      "supports": "Comparable nationwide individual-return, e-file, tax-professional, and self-prepared filing-season totals."
+    },
+    {
+      "id": "S3",
+      "url": "https://www.gao.gov/products/gao-25-106933",
+      "title": "GAO: Direct File: IRS Successfully Piloted Online Tax Filing but Opportunities Exist to Expand Access",
+      "access_date": "2026-07-22",
+      "supports": "Direct File capability expansion, uptake of prepopulation, limitations, and policy-continuation uncertainty."
+    },
+    {
+      "id": "S4",
+      "url": "https://data.census.gov/profile/541213_-_Tax_Preparation_Services?codeset=naics~541213",
+      "title": "U.S. Census Bureau profile: 541213 Tax Preparation Services",
+      "access_date": "2026-07-22",
+      "supports": "NAICS scope and exclusions for standalone tax preparation services."
+    }
+  ]
+}

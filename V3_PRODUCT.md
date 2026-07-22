@@ -1,7 +1,9 @@
 # AI Value Migration Map — v3: Product Goal & Principles
 
-**Status:** active constitution; v3.1.2 Phase 4 completed 2026-07-21 under the bounded contract (82 published, 1 explicitly excluded; final validated checkpoint `009d088` pushed to origin); the v3.1.1 comparable canary remains a frozen historical mechanics PASS / fleet-readiness FAIL (0/5 accepted)
-**Replaces:** the project description in `README.md` and the Methodology tab in `6digit/index.html`. Diff against the current (v2) description is in §8. File:line references are as of commit `1bd26e0`.
+> **Historical:** v3.1.2 product constitution, superseded by the frozen v5 methodology.
+
+**Status:** historical constitution; v3.1.2 Phase 4 completed 2026-07-21 under the bounded contract (82 published, 1 explicitly excluded; final validated checkpoint `009d088` pushed to origin); the v3.1.1 comparable canary remains a frozen historical mechanics PASS / fleet-readiness FAIL (0/5 accepted)
+**Former scope:** this document governed the v3 product. Diff against the earlier v2 description is in §8. File:line references are as of commit `1bd26e0`.
 
 ---
 

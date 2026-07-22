@@ -1,0 +1,153 @@
+{
+  "identity": {
+    "naics": "621610",
+    "title": "Home Health Care Services",
+    "run_id": "621610-a1-20260722",
+    "model_id": "gpt-5.6-terra",
+    "run_date": "2026-07-22",
+    "methodology_version": "5.0",
+    "attempt": 1
+  },
+  "lens": {
+    "included_activities": "US lower-middle-market home health agencies that provide recurring skilled nursing, therapy, aide, care-coordination, and related in-home services to external patients or payer-funded customers.",
+    "excluded_activities": "Captive health-system units, shell entities, internal staffing departments, entities without control-transferable operations, and financing vehicles.",
+    "customer_and_revenue_model": "Recurring episodes, visits, and care plans paid principally by government and commercial health plans, patients, or their representatives; Medicare-certified services are commonly reimbursed through a case-mix and wage-adjusted 30-day bundle.",
+    "deviation_from_default": "none",
+    "heterogeneous": false
+  },
+  "primitives": {
+    "a": {
+      "evidence_state": "ESTIMATE",
+      "low": 0.18,
+      "base": 0.29,
+      "high": 0.42,
+      "rationale": "Home health and personal care aides represented 58.14% of industry employment in May 2023, and their documented core duties include hands-on personal assistance, household help, transport, and social engagement. Those duties limit substitution, while documentation, scheduling, intake, coding support, care coordination, and clinician administrative work create a meaningful but minority wage-weighted AI opportunity. The base is a judgmental blend, not a measured task-exposure index.",
+      "change_evidence": "A 621610 occupation-by-wage file plus time-and-motion studies or EHR audit logs that separate direct-care, travel, documentation, scheduling, authorization, and billing time; interviews with agency clinical and revenue-cycle leaders.",
+      "source_ids": ["S1", "S2"],
+      "caveats": ["The published 58.14% is employment share, not wage share, and is from 2023.", "The occupation table does not measure AI-susceptible task time or distinguish agency-specific workflow maturity."]
+    },
+    "rho": {
+      "evidence_state": "ESTIMATE",
+      "low": 0.28,
+      "base": 0.44,
+      "high": 0.6,
+      "rationale": "Implementation can be relatively quick for back-office drafting, scheduling, documentation preparation, and call handling, but clinical oversight, individualized plans of care, payer documentation rules, privacy controls, and fragmented EHR workflows constrain operational realization. The estimate assumes implementation of less than half of the exposed opportunity in five years.",
+      "change_evidence": "Agency-level AI deployment surveys, EHR-vendor implementation data, Medicare audit findings on AI-assisted documentation, and reference calls with compliance officers at multi-branch and independent HHAs.",
+      "source_ids": ["S3", "S5"],
+      "caveats": ["No source measures realized five-year AI implementation for 621610 firms.", "Medicare-certified HHA regulations do not cover every non-Medicare service in the NAICS code."]
+    },
+    "e": {
+      "evidence_state": "ESTIMATE",
+      "low": 0.7,
+      "base": 0.82,
+      "high": 0.9,
+      "rationale": "Most firms already placed in the supplied LMM band should be external-service operators because that is the NAICS activity, but the lens excludes captive units, nontransferable owner-dependent operations, and firms with licensing, compliance, payer, or customer-concentration barriers. The base therefore allows a material ineligible tail without treating it as observed.",
+      "change_evidence": "A named HHA-provider directory linked to ownership, Medicare certification, payer mix, branch structure, and quality/compliance records; a broker screen of LMM agency CIMs.",
+      "source_ids": ["S5"],
+      "caveats": ["The supplied firm-band count is an estimate and does not identify captive status, transferability, or certification.", "No published source was found that measures lens eligibility for 621610 LMM firms."]
+    },
+    "s5": {
+      "evidence_state": "ESTIMATE",
+      "low": 0.07,
+      "base": 0.12,
+      "high": 0.19,
+      "rationale": "A five-year qualifying-transfer probability of 12% reflects a recurring small-business sale market but is deliberately below a simple accumulation of listings because some owners wind down, transfer internally, fail diligence, or lack transferable operations. Marketplace evidence reports active service transactions and buyer interest in recurring-revenue healthcare-related services, but does not measure 621610 transfers or an EBITDA-band denominator.",
+      "change_evidence": "PitchBook, S&P Capital IQ, Axial, and proprietary healthcare-broker closed-deal data filtered to US 621610 businesses with 1 million to 10 million dollars of normalized EBITDA, plus owner-age and succession interviews.",
+      "source_ids": ["S6", "S7"],
+      "caveats": ["BizBuySell reports marketplace transactions, listings, and broker sentiment rather than an industry-specific transfer rate.", "The cited SBA owner-retirement research uses older 1992-2010 panel data and small-business owners generally."]
+    },
+    "q": {
+      "evidence_state": "ESTIMATE",
+      "low": 0.35,
+      "base": 0.54,
+      "high": 0.7,
+      "rationale": "For Medicare episodes, the standardized 30-day bundled rate is adjusted for case mix and local wages rather than each agency's realized administrative effort, allowing an efficient operator to retain some productivity benefit. Retention is curtailed by annual rate resets, the 2025 permanent negative payment adjustment, managed-care and Medicaid contracts, and competition for scarce clinicians. The base assumes moderate retention after those channels rather than full pass-through or full capture.",
+      "change_evidence": "De-identified payer contracts and renewal histories, agency payer-mix files, Medicare cost reports, state Medicaid fee schedules, and before-and-after AI productivity and rate data from comparable agencies.",
+      "source_ids": ["S3", "S4"],
+      "caveats": ["Medicare PPS is not the revenue model for all 621610 services or payers.", "No source provides the discounted five-year operator-retention share of AI benefit."]
+    },
+    "d5": {
+      "evidence_state": "PROXY",
+      "low": 1.0,
+      "base": 1.08,
+      "high": 1.16,
+      "bridge": "S2 measures US employment of the broad home health and personal care aide occupation, not constant-price, constant-quality demand for NAICS 621610. I transform its 17% 2024-2034 projection to a five-year compound ratio of about 1.08 and use it as a directional demand proxy. It may overstate service quantity if labor productivity rises or work shifts to other settings, and may understate it if aide demand shifts disproportionately into agency home health.",
+      "rationale": "The occupational projection is 17% over 2024-2034 and BLS attributes demand to an aging population and a shift toward home- and community-based long-term care. Applying half the projection horizon gives the base ratio; the range recognizes payer, labor-supply, and setting-mix uncertainty.",
+      "change_evidence": "CMS home-health claims and beneficiary utilization forecasts by payer, state Medicaid home- and community-based-service projections, and agency census/visit-volume cohorts adjusted for case mix and price.",
+      "source_ids": ["S2"],
+      "caveats": ["This is an occupational, national ten-year projection, not an industry-specific five-year real-demand forecast.", "Employment growth can differ from service quantity because staffing intensity and productivity change."]
+    },
+    "o": {
+      "evidence_state": "PROXY",
+      "low": 0.88,
+      "base": 0.94,
+      "high": 0.98,
+      "bridge": "S5 measures Medicare-certified HHA governance and clinical-management requirements rather than the full 621610 lens or the share of year-five demand. I use the requirement that an HHA retain responsibility for patient care, employ an accountable administrator, and provide clinical oversight as evidence that nearly all retained regulated service volume still needs an accountable operator. This may overstate the result for non-Medicare personal-care activity and understate it if compliance increases demand for supervised operators.",
+      "rationale": "AI can change routing, documentation, triage, and coordination but cannot itself assume the licensed agency's legal, clinical, quality, staffing, and patient-care responsibilities. A small reduction allowance covers digitally self-served or alternative-setting demand.",
+      "change_evidence": "Payer authorization and utilization data, state licensure requirements for personal-care providers, technology-enabled care substitution studies, and interviews with Medicare surveyors, clinical managers, and discharge planners.",
+      "source_ids": ["S5"],
+      "caveats": ["The regulation applies to Medicare-certified HHAs and does not prove future operator need for every service or payer in NAICS 621610.", "The estimate does not model changes in benefit design or family-provided care."]
+    }
+  },
+  "narrative": {
+    "executive_view": "Home health combines a large, labor-intensive direct-care workforce with recurring regulated service delivery. AI is more likely to improve agency administration and coordination than to replace in-home care.",
+    "ai_impact": "Aides dominate industry employment and perform hands-on, interpersonal work. The practical opportunity is concentrated in documentation preparation, scheduling, intake, authorizations, coding support, communications, and coordination, with clinical review retained.",
+    "value_capture": "Medicare generally pays a standardized, case-mix and wage-adjusted 30-day bundle, which can preserve some agency productivity gains. Annual rate changes, payer negotiation, regulated documentation, and labor competition make that retention uncertain.",
+    "firm_availability": "The supplied LMM count is an estimate. A general small-business transaction market exists, but clean financials, payer credentials, compliance history, management depth, and low owner dependence are central to whether an agency can transfer.",
+    "demand_durability": "BLS projects 17% growth in the broad aide occupation from 2024 to 2034, citing aging and a shift toward home- and community-based care. Regulated HHAs must retain an accountable governing body, administrator, and clinical manager.",
+    "risks_and_uncertainty": "The biggest unknowns are payer mix, state-level Medicaid rules, staffing scarcity, certification and quality exposure, EHR fragmentation, and the absence of direct evidence on AI adoption, realized savings, and LMM agency transfer rates. Occupational growth is only a proxy for industry service demand.",
+    "principal_driver": "Durable, growing need for accountable in-home care paired with administrative workflow burden.",
+    "principal_weakness": "AI addresses a limited portion of a predominantly hands-on workforce and value capture is constrained by payer and regulatory dynamics."
+  },
+  "sources": [
+    {
+      "id": "S1",
+      "url": "https://www.bls.gov/oes/2023/May/oes311120.htm",
+      "title": "BLS Occupational Employment and Wage Statistics: Home Health and Personal Care Aides, May 2023",
+      "access_date": "2026-07-22",
+      "supports": "Reports 931,330 home health and personal care aides in Home Health Care Services, equal to 58.14% of industry employment, with a 15.44 dollar mean hourly wage and 32,120 dollar annual mean wage."
+    },
+    {
+      "id": "S2",
+      "url": "https://www.bls.gov/ooh/healthcare/home-health-aides-and-personal-care-aides.htm",
+      "title": "BLS Occupational Outlook Handbook: Home Health and Personal Care Aides",
+      "access_date": "2026-07-22",
+      "supports": "Describes hands-on aide duties, reports a 17% projected employment increase from 2024 to 2034, and attributes demand to older people and a shift toward home- and community-based settings."
+    },
+    {
+      "id": "S3",
+      "url": "https://www.cms.gov/outreach-and-education/medicare-learning-network-mln/mlnproducts/html/medicare-payment-systems.html",
+      "title": "CMS Medicare Payment Systems: Home Health Prospective Payment System",
+      "access_date": "2026-07-22",
+      "supports": "States that Medicare pays HHAs a national standardized 30-day bundled rate, adjusted for case mix and geographic wage differences, and that the HHA bills covered services."
+    },
+    {
+      "id": "S4",
+      "url": "https://www.cms.gov/newsroom/fact-sheets/calendar-year-cy-2025-home-health-prospective-payment-system-final-rule-fact-sheet-cms-1803-f",
+      "title": "CMS CY 2025 Home Health Prospective Payment System Final Rule Fact Sheet",
+      "access_date": "2026-07-22",
+      "supports": "Reports a permanent negative 1.975% adjustment to the CY 2025 home health payment rate related to implementation of the Patient-Driven Groupings Model."
+    },
+    {
+      "id": "S5",
+      "url": "https://ecfr.io/Title-42/Section-484.105",
+      "title": "42 CFR 484.105: Organization and Administration of Home Health Services",
+      "access_date": "2026-07-22",
+      "supports": "Requires an HHA governing body, an administrator responsible for daily operations, clinical-manager oversight of patient care and personnel, and HHA responsibility for services furnished under arrangement."
+    },
+    {
+      "id": "S6",
+      "url": "https://www.bizbuysell.com/insight-report/",
+      "title": "BizBuySell Insight Report: Q2 2026 Business-for-Sale Market",
+      "access_date": "2026-07-22",
+      "supports": "Reports 2,117 businesses changed hands in Q2 2026; service businesses accounted for 40% of transactions, and the report describes buyer interest in recurring-revenue healthcare-related services while emphasizing selectivity."
+    },
+    {
+      "id": "S7",
+      "url": "https://advocacy.sba.gov/wp-content/uploads/2019/05/Retirement-Recessions-and-Older-Small-Business-Owners-Summary.pdf",
+      "title": "SBA Office of Advocacy: Retirement, Recessions, and Older Small Business Owners",
+      "access_date": "2026-07-22",
+      "supports": "The older small-business-owner study reports that owners in 2010 expected to retire at age 72.6 on average, versus 68.4 for employees, supporting uncertainty around retirement-driven exits."
+    }
+  ]
+}

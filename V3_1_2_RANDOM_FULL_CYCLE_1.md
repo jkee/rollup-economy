@@ -1,5 +1,7 @@
 # v3.1.2 random full-cycle experiment 1
 
+> **Historical:** preserved v3.1.2 experiment; it does not govern the v5 product.
+
 Run date: 2026-07-21. Base: local `main` at `6447dfa490766b18b0da5ac189f6776f6cbc64e4`. No push, remediation, rerun, contract change, or broader campaign work was performed.
 
 ## Sampling proof

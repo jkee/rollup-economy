@@ -1,0 +1,131 @@
+{
+  "version": "4.1",
+  "frozen": true,
+  "freeze_date": "2026-07-21",
+  "score": {
+    "type": "geometric_mean",
+    "factors": ["V", "I", "C", "B", "P"],
+    "scale": [0.0, 10.0]
+  },
+  "archetype_selection": {
+    "enumeration_min_coverage": 0.80,
+    "selection_rule": "largest_base_band_count",
+    "near_tie_fraction": 0.10,
+    "overlap_rule": "mark_selection_uncertainty_and_widen_ranges",
+    "tie_break_rule": "lexicographically_smallest_stable_id",
+    "record_policy": "one_primary_record_per_naics",
+    "uncertainty_readiness": "UNPROVEN"
+  },
+  "domains": {
+    "factor": [0.0, 10.0],
+    "enumeration_coverage": [0.0, 1.0],
+    "labor_cost_share": [0.0, 1.0],
+    "role_cost_weight": [0.0, 1.0],
+    "removable_fraction": [0.0, 1.0],
+    "implementation_realization": [0.0, 1.0],
+    "commercial_retention": [0.0, 1.0],
+    "n_band": [0.0, null],
+    "archetype_coverage": [0.0, 1.0],
+    "sale_availability": [0.0, 1.0],
+    "buy_multiple": [0.0, null],
+    "downside_exit_multiple": [0.0, null],
+    "y5_survival": [0.0, 1.0]
+  },
+  "value_available": {
+    "gross_savings_anchor": 0.25
+  },
+  "implementation": {
+    "years": 5,
+    "discount_rate": 0.10
+  },
+  "buyability": {
+    "n5_full_score": 500.0
+  },
+  "price_discipline": {
+    "entry_reference_multiple": 14.0,
+    "entry_score_span": 10.0,
+    "downside_ratio_floor": 0.5,
+    "downside_ratio_slope": 20.0
+  },
+  "verdict_cuts": {
+    "hell_yes": 7.5,
+    "strong": 6.0,
+    "conditional": 4.5,
+    "pass": 3.0
+  },
+  "verdict_min_each_factor": {
+    "hell_yes": 6.0,
+    "strong": 4.0,
+    "conditional": 2.0,
+    "pass": 1.0
+  },
+  "verdict_order": ["kill", "pass", "conditional", "strong", "hell_yes"],
+  "survival_gate": {
+    "no_cap_at_or_above": 0.75,
+    "conditional_cap_at_or_above": 0.50,
+    "pass_cap_at_or_above": 0.25,
+    "caps": {
+      "no_cap": "hell_yes",
+      "conditional": "conditional",
+      "pass": "pass",
+      "kill": "kill"
+    }
+  },
+  "actions": {
+    "ordinary": {
+      "hell_yes": "DEEP_DIVE",
+      "strong": "DEEP_DIVE",
+      "conditional": "SELECTIVE",
+      "pass": "DEPRIORITIZE",
+      "kill": "AVOID"
+    },
+    "uncertainty": "EVIDENCE_FIRST"
+  },
+  "partial_identification": {
+    "missing_base": null,
+    "unbounded_token": "UNBOUNDED",
+    "identified_endpoint_rule": "gated_low_equals_gated_high",
+    "identified_mapping": "shared_gated_verdict",
+    "different_endpoint_verdict": "indeterminate",
+    "base_verdict_requires_all_critical_bases": true
+  },
+  "evidence_contract": {
+    "methods": ["OBSERVED", "CALCULATED", "ESTIMATE"],
+    "states": ["DIRECT", "PROXY", "ASSUMPTION", "MISSING"],
+    "qualities": ["HIGH", "MED", "LOW", "NONE"],
+    "direct_methods": ["OBSERVED", "CALCULATED"],
+    "unsupported_states": ["MISSING"],
+    "unsupported_qualities": ["LOW", "NONE"],
+    "provisional_states": ["ASSUMPTION"],
+    "proxy_bridge_required": true
+  },
+  "readiness": {
+    "statuses": ["SUBSTANTIATED", "PROVISIONAL", "UNPROVEN"],
+    "core_paths": ["n_band", "target_archetype_coverage", "target_labor_cost_share", "target_role_mix_basis", "buy_mult"],
+    "forward_bridge_paths": ["implementation_ramp.r1", "implementation_ramp.r2", "implementation_ramp.r3", "implementation_ramp.r4", "implementation_ramp.r5", "commercial_retention", "five_year_sale_availability", "downside_exit_mult", "y5_survival"],
+    "unbridged_core_proxy_status": "UNPROVEN",
+    "unbridged_forward_direct_status": "UNPROVEN",
+    "unbridged_forward_proxy_status": "PROVISIONAL",
+    "unsupported_input_status": "UNPROVEN",
+    "role_basis_assumption_status": "UNPROVEN",
+    "unsubstantiated_core_status": "PROVISIONAL",
+    "assumption_status": "PROVISIONAL",
+    "cross_tier_status": "PROVISIONAL",
+    "action_instability_status": "PROVISIONAL"
+  },
+  "sentinels": {
+    "numeric_tolerance": 1e-9,
+    "implementation_schedules": [
+      {"ramp": [1.0, 1.0, 1.0, 1.0, 1.0], "expected": 10.0},
+      {"ramp": [0.0, 1.0, 1.0, 1.0, 1.0], "expected": 7.601841083684134},
+      {"ramp": [0.0, 0.0, 1.0, 1.0, 1.0], "expected": 5.4216966143060725},
+      {"ramp": [0.0, 0.0, 0.0, 1.0, 1.0], "expected": 3.4397470966896524},
+      {"ramp": [0.2, 0.4, 0.6, 0.8, 1.0], "expected": 5.620251920525462},
+      {"ramp": [0.0, 0.0, 0.0, 0.0, 0.0], "expected": 0.0}
+    ]
+  },
+  "display": {
+    "decimal_places": 2,
+    "rounding_stage": "after_numeric_validation"
+  }
+}
