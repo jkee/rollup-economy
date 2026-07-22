@@ -253,7 +253,7 @@ and move on.
 | closed | S2 | Administrative & support, waste | 56 | 44 | 12/44 | |
 | closed | S3 | Health care & social assistance | 62 | 39 | 12/39 | |
 | closed | S4 | Finance & insurance | 52 | 35 | 8/35 | 5251x labor_share gaps |
-| research | S5 | Real estate + mgmt of companies | 53, 55 | 27 | – | `551114` anomaly |
+| review | S5 | Real estate + mgmt of companies | 53, 55 | 27 | – | `551114` anomaly |
 | todo | S6 | Other services | 81 | 44 | – | `814110` gap |
 | todo | S7 | Information | 51 | 29 | – | n_total proxies |
 | todo | S8 | Education + arts/entertainment | 61, 71 | 42 | – | |
