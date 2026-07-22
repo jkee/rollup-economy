@@ -1,12 +1,12 @@
 # v5.1 Plan — scope expansion to the full 1,012-code universe
 
-**Status: LAUNCHED at the canary stage.** `launch_approved` is recorded in
+**Status: FLEET APPROVED.** `launch_approved` is recorded in
 `pipeline/v5_1/campaign_state.json` (2026-07-22: research
 `claude-sonnet-5`, review `claude-fable-5`, session ceiling 1,400, budget
-ceiling $8k) and the `pipeline/v5_1/` freeze is committed. The one
-remaining unconditional stop is the **canary gate**: `canary_approved`
-gates fleet blocks; the only other stops are the predeclared pause trigger
-and the launch-fixed session/budget ceilings. Gates are committed records
+ceiling $8k) and the `pipeline/v5_1/` freeze is committed. Victor approved
+the fleet on 2026-07-22 after reading `V5_1_CANARY_REPORT.md`; the remaining
+stops are the predeclared pause trigger and the launch-fixed session/budget
+ceilings. Gates are committed records
 in `campaign_state.json` — prose edits to this file authorize nothing.
 **Companion to:** [pipeline/v5/methodology.md](pipeline/v5/methodology.md) (frozen v5.0).
 **Proposed under:** [V5_PLAN.md](V5_PLAN.md) "Beyond v5", which permits proposing scope expansion as a new governed version (methodology §7.4: "Expanding beyond the 63 codes is a new version") — it does not itself authorize launch.
@@ -159,7 +159,7 @@ incoherent. ~20 sessions to find out before the remaining ~1,200:
       public-sector codes, or a forced construct; (d) does the declared-gap
       path route and render honestly (MISSING → `STRESS_TEST_ONLY /
       EVIDENCE_FIRST`)
-- [ ] **GATE — Victor reads the report and approves the fleet**, recorded
+- [x] **GATE — Victor reads the report and approves the fleet**, recorded
       as a committed `canary_approved` entry in `campaign_state.json`. Same
       frozen failure test as v5.0: systemic construct errors, misleading evidence
       treatment, broken mechanics, or results useless for prioritization —
