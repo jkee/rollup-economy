@@ -1,0 +1,286 @@
+{
+ "A": 6.687307159305,
+ "L": 0.9864624,
+ "action": "VALIDATE_ASSUMPTIONS",
+ "caveats": [
+  "a: The BLS occupation table is from May 2023 and covers payroll employment rather than unpaid owner labor.",
+  "a: Task shares are judgmental and mean wages are used where detailed wage and employment cells are suppressed.",
+  "a: Restaurant technology surveys cover the broader restaurant population rather than drinking places specifically.",
+  "rho: Tool adoption does not measure the fraction of exposed task hours actually removed or avoided.",
+  "rho: Surveyed restaurants include full-service and limited-service formats and are not restricted to the assigned EBITDA band.",
+  "rho: Liquor-control, service-quality, staff acceptance, integration, and data-quality constraints vary by state and concept.",
+  "e: No source directly measures lens eligibility among firms in the supplied EBITDA band.",
+  "e: NAICS is assigned at the establishment level, while the supplied count and this primitive concern firms.",
+  "e: This estimate does not discount for transfer probability, which is handled only in s5.",
+  "s5: Reported marketplace sales are not a complete census and are concentrated below the assigned EBITDA band.",
+  "s5: Restaurant transactions are not bar-specific, and owner age does not itself imply sale intent.",
+  "s5: Liquor-license and lease transfer rules can convert an intended sale into an asset liquidation or failed closing.",
+  "q: No observed study isolates AI-derived gross benefit and its pass-through in bars.",
+  "q: Competitive intensity, concept differentiation, tipping practices, and local minimum wages create wide dispersion.",
+  "q: The estimate excludes implementation failure and volume loss, which belong in rho and demand primitives.",
+  "d5: Employment is affected by productivity and staffing intensity and is not a direct quantity measure.",
+  "d5: Broader sector output includes restaurants, and total alcohol consumption includes off-premises channels.",
+  "d5: Pandemic recovery, demographic shifts, cannabis substitution, wellness trends, and local regulation add structural uncertainty.",
+  "o: Full-service restaurant preferences are a proxy for bar patrons and may overstate food-service-style employee interaction.",
+  "o: State and local licensing requirements vary, and regulation can change over the horizon.",
+  "o: This primitive concerns operator requirement, not labor intensity; staff reductions are captured in a and rho."
+ ],
+ "contract_sha256": "aab2c9e92e78bce09e2d306b237ffda9ce828ae72772be3c11cbfbf6d8786763",
+ "envelope": {
+  "attainable_tiers": [
+   "STRUCTURAL_OUT",
+   "CONDITIONAL"
+  ],
+  "base": {
+   "A": 6.687307159305,
+   "L": 0.9864624,
+   "factors": {
+    "C": 10.0,
+    "D": 9.588,
+    "F": 6.17476623722,
+    "H": 0.9864624
+   },
+   "state_id": "H:base|F:base|C:base|D:base",
+   "tier": "STRUCTURAL_OUT"
+  },
+  "high": {
+   "A": 7.311406474437,
+   "L": 2.14148,
+   "factors": {
+    "C": 10.0,
+    "D": 10.0,
+    "F": 7.104145897749,
+    "H": 2.14148
+   },
+   "state_id": "H:high|F:high|C:high|D:high",
+   "tier": "CONDITIONAL"
+  },
+  "interval_scope": "research-input sensitivity with dataset anchors (l, n) held fixed",
+  "low": {
+   "A": 5.459438686817,
+   "L": 0.331584,
+   "factors": {
+    "C": 8.4,
+    "D": 8.096,
+    "F": 5.010170747268,
+    "H": 0.331584
+   },
+   "state_id": "H:low|F:low|C:low|D:low",
+   "tier": "STRUCTURAL_OUT"
+  },
+  "missing_factors": [],
+  "robust_tier": null,
+  "state_count": 81,
+  "tier_interval": [
+   "STRUCTURAL_OUT",
+   "CONDITIONAL"
+  ]
+ },
+ "factors": {
+  "C": {
+   "base": 10.0,
+   "evidence_state": "ESTIMATE",
+   "high": 10.0,
+   "low": 8.4,
+   "primitives": [
+    "q"
+   ]
+  },
+  "D": {
+   "base": 9.588,
+   "evidence_state": "ESTIMATE",
+   "high": 10.0,
+   "low": 8.096,
+   "primitives": [
+    "d5",
+    "o"
+   ]
+  },
+  "F": {
+   "base": 6.17476623722,
+   "evidence_state": "ESTIMATE",
+   "high": 7.104145897749,
+   "low": 5.010170747268,
+   "primitives": [
+    "e",
+    "s5"
+   ]
+  },
+  "H": {
+   "base": 0.9864624,
+   "evidence_state": "PROXY",
+   "high": 2.14148,
+   "low": 0.331584,
+   "primitives": [
+    "a",
+    "rho"
+   ]
+  }
+ },
+ "identity": {
+  "attempt": 1,
+  "methodology_version": "5.1",
+  "model_id": "claude-sonnet-5",
+  "naics": "722410",
+  "run_date": "2026-07-22",
+  "run_id": "722410-a1-20260722",
+  "title": "Drinking Places (Alcoholic Beverages)"
+ },
+ "lens": {
+  "customer_and_revenue_model": "Walk-in and repeat consumers generally pay posted menu prices for beverages, tabs, cover charges, and occasional event minimums; revenue is predominantly transactional rather than governed by long-term customer contracts.",
+  "deviation_from_default": "none",
+  "excluded_activities": "Food-primary restaurants, member-only civic or social clubs, packaged-alcohol retailers, dance clubs that do not sell alcohol, beverage manufacturers, shells, captive internal units, and non-control financing vehicles.",
+  "heterogeneous": false,
+  "included_activities": "US lower-middle-market firms operating bars, taverns, pubs, nightclubs, and other drinking places whose primary business is preparing and serving alcoholic beverages for immediate on-premises consumption as a repeat hospitality service to external customers."
+ },
+ "methodology_commit": "c795921dc1acfb907947bd8a5d7cee656fc6a0a9",
+ "methodology_version": "5.1",
+ "primitives": {
+  "a": {
+   "base": 0.17,
+   "bridge": "BLS measures employment and mean wages by occupation inside NAICS 722400, not AI-exposed task hours. I wage-weight the listed occupation groups and apply bounded task-share judgments: higher exposure for management, marketing, bookkeeping, scheduling, inventory, ordering, and payment work; lower exposure for bartending, cooking, security, cleaning, and live hospitality. This can overstate substitution because an exposed task may be inseparable from customer-facing presence, while occupation averages can understate owner-manager administrative work not carried as payroll employment.",
+   "caveats": [
+    "The BLS occupation table is from May 2023 and covers payroll employment rather than unpaid owner labor.",
+    "Task shares are judgmental and mean wages are used where detailed wage and employment cells are suppressed.",
+    "Restaurant technology surveys cover the broader restaurant population rather than drinking places specifically."
+   ],
+   "change_evidence": "A task-level time-and-wage study of bartenders, shift supervisors, food-service managers, and owner-managers in independent bars, distinguishing already automated work from current manual work, would materially change this range.",
+   "evidence_state": "PROXY",
+   "high": 0.25,
+   "low": 0.1,
+   "rationale": "BLS reports that food preparation and serving occupations are 83.42% of industry employment, including bartenders at 44.21%, waiters and waitresses at 12.24%, and cooks at 11.90%. Those jobs contain some automatable ordering, payment, training, forecasting, and prep-planning tasks, but their core beverage production, service, monitoring, and hospitality are physical and social. The smaller, more highly paid management and administrative groups contribute disproportionately to wage-weighted exposure.",
+   "source_ids": [
+    "S2",
+    "S3",
+    "S4"
+   ]
+  },
+  "d5": {
+   "base": 1.02,
+   "bridge": "BLS projects drinking-place employment, not constant-price constant-quality service quantity, and publishes real output only for the broader food-services-and-drinking-places sector. I convert the drinking-place employment compound annual growth rate of 0.4% from 2024 to 2034 into a five-year ratio near 1.02 and use the broader sector's 2.2% real-output growth rate as an upper anchor near 1.11. Employment can understate quantity if productivity rises; broader-sector output can overstate bar demand because food-service formats may grow faster.",
+   "caveats": [
+    "Employment is affected by productivity and staffing intensity and is not a direct quantity measure.",
+    "Broader sector output includes restaurants, and total alcohol consumption includes off-premises channels.",
+    "Pandemic recovery, demographic shifts, cannabis substitution, wellness trends, and local regulation add structural uncertainty."
+   ],
+   "change_evidence": "Five-year forecasts and historical panels of inflation-adjusted on-premises bar sales, visits, drinks served, closures, and openings from Circana, Technomic, NielsenIQ, state alcohol-tax agencies, and Census would materially change d5.",
+   "evidence_state": "PROXY",
+   "high": 1.11,
+   "low": 0.92,
+   "rationale": "BLS projects drinking-place employment rising from 421,200 in 2024 to 439,900 in 2034, while broader sector real output rises at 2.2% annually. Against that, NIAAA reports per-capita ethanol consumption fell 1.2% in 2023 as beer and wine declines outweighed spirits growth. The base therefore assumes approximately flat per-capita underlying demand with modest aggregate growth, while the range allows health-driven moderation or stronger experiential spending.",
+   "source_ids": [
+    "S7",
+    "S8"
+   ]
+  },
+  "e": {
+   "base": 0.88,
+   "caveats": [
+    "No source directly measures lens eligibility among firms in the supplied EBITDA band.",
+    "NAICS is assigned at the establishment level, while the supplied count and this primitive concern firms.",
+    "This estimate does not discount for transfer probability, which is handled only in s5."
+   ],
+   "change_evidence": "A firm-level census or commercial-establishment file linking NAICS, revenue mix, normalized EBITDA, ownership, captive status, and concept dependence for every candidate would directly measure eligibility.",
+   "evidence_state": "ESTIMATE",
+   "high": 0.95,
+   "low": 0.75,
+   "rationale": "The NAICS definition is already a coherent external-customer activity: bars, taverns, nightclubs, and drinking places preparing and serving alcohol for immediate consumption. Because the supplied firm count is already limited to the assigned EBITDA band, most firms fit the repeat-service lens. The deduction allows for miscoded food-primary venues, economics inseparable from a celebrity or owner persona, captive venues, and firms whose operations cannot be separated from non-qualifying activities.",
+   "source_ids": [
+    "S1",
+    "S9"
+   ]
+  },
+  "l": {
+   "detail": "BLS Industry Productivity (IPS) direct: labor compensation (L02) $11,646.2M / sectoral output (T30) $33,713.3M, year 2022",
+   "evidence_state": "OBSERVED",
+   "quality": "HIGH",
+   "value": 0.3454
+  },
+  "n": {
+   "detail": "margin 0.1947 (margins.json[72]: Damodaran Jan 2026: Restaurant/Dining EBITDA/Sales 19.47%); revenue/employee $78,132 (SUSB 2022 receipts/employment at 722410); class <5: 15,933 firms, avg revenue/firm $268,235 (class receipts/firms), implied EBITDA $52,225 -> out of $1-10M band; class 5-9: 10,612 firms, avg revenue/firm $489,049 (class receipts/firms), implied EBITDA $95,218 -> out of $1-10M band; class 10-19: 7,341 firms, avg revenue/firm $906,527 (class receipts/firms), implied EBITDA $176,501 -> out of $1-10M band; class 20-99: 4,927 firms, avg revenue/firm $2,314,599 (class receipts/firms), implied EBITDA $450,652 -> out of $1-10M band; class 100-499: 234 firms, avg revenue/firm $8,508,466 (class receipts/firms), implied EBITDA $1,656,598 -> IN $1-10M band; class 500+: 53 firms, avg revenue/firm $34,919,094 (class receipts/firms), implied EBITDA $6,798,748 -> IN $1-10M band; n_band = 287",
+   "evidence_state": "ESTIMATE",
+   "quality": "ESTIMATE",
+   "value": 287
+  },
+  "o": {
+   "base": 0.94,
+   "caveats": [
+    "Full-service restaurant preferences are a proxy for bar patrons and may overstate food-service-style employee interaction.",
+    "State and local licensing requirements vary, and regulation can change over the horizon.",
+    "This primitive concerns operator requirement, not labor intensity; staff reductions are captured in a and rho."
+   ],
+   "change_evidence": "Observed market-share and visit-frequency data for staff-light bars, automated beverage walls, self-pour venues, virtual nightlife substitutes, and home-consumption alternatives, combined with state regulator treatment of accountable operators, would materially change o.",
+   "evidence_state": "ESTIMATE",
+   "high": 0.98,
+   "low": 0.88,
+   "rationale": "The current service basket is primarily an on-premises social experience combining beverage preparation, hospitality, age and conduct monitoring, entertainment, and a regulated retail location. Ordering and payment can become self-service, but software does not supply the venue or assume accountable alcohol-retailer duties. Restaurant research likewise finds employee engagement integral to full-service experiences even while many consumers welcome digital ordering and payment.",
+   "source_ids": [
+    "S1",
+    "S4",
+    "S9"
+   ]
+  },
+  "q": {
+   "base": 0.62,
+   "caveats": [
+    "No observed study isolates AI-derived gross benefit and its pass-through in bars.",
+    "Competitive intensity, concept differentiation, tipping practices, and local minimum wages create wide dispersion.",
+    "The estimate excludes implementation failure and volume loss, which belong in rho and demand primitives."
+   ],
+   "change_evidence": "Venue-level panel data linking implemented automation to gross labor savings, menu prices, discounts, tips, traffic, service scores, and EBITDA for five years, with matched non-adopters in the same local markets, would directly estimate retained benefit.",
+   "evidence_state": "ESTIMATE",
+   "high": 0.78,
+   "low": 0.42,
+   "rationale": "Customer pricing is predominantly posted and transactional, so there is no automatic contractual pass-through of labor savings and an operator can initially retain a meaningful share. Retention erodes through local price competition, promotions, service reinvestment, wage increases for remaining staff, and renewal-like customer choice on every visit. The 2024 survey found 30% of restaurant operators planned flexible or dynamic menu-pricing investment, while 2025 sold-restaurant data showed revenue rising much faster than cash flow, evidence that nominal gains do not automatically persist as margin.",
+   "source_ids": [
+    "S4",
+    "S5"
+   ]
+  },
+  "rho": {
+   "base": 0.42,
+   "bridge": "National Restaurant Association surveys measure technology and AI adoption by restaurants, not the five-year implementation share of exposed work at lower-middle-market bars. I use current adoption as a floor signal and the scarcity of observed job elimination as a constraint on rapid substitution, then allow five years for diffusion into scheduling, administration, marketing, inventory, ordering, and payment. Broader restaurants may have more capital and repeatable workflows than independent bars, biasing implementation upward; bar operators may have unusually strong labor-shortage incentives, biasing it downward.",
+   "caveats": [
+    "Tool adoption does not measure the fraction of exposed task hours actually removed or avoided.",
+    "Surveyed restaurants include full-service and limited-service formats and are not restricted to the assigned EBITDA band.",
+    "Liquor-control, service-quality, staff acceptance, integration, and data-quality constraints vary by state and concept."
+   ],
+   "change_evidence": "A five-year cohort study from major bar POS and workforce-management vendors showing customer adoption, active-feature usage, labor hours per transaction, implementation failures, and avoided hires by venue type would materially move rho.",
+   "evidence_state": "PROXY",
+   "high": 0.62,
+   "low": 0.24,
+   "rationale": "In the 2026 survey, 26% of restaurants used an AI-enabled tool, while 49% used scheduling software and only 6% said technology investment during the prior two or three years permanently eliminated jobs. In 2024, 47% expected labor-shortage automation to become more common, but 69% expected technology to augment rather than replace labor. These observations support meaningful adoption of support workflows without assuming most exposed work becomes operationally implemented.",
+   "source_ids": [
+    "S3",
+    "S4"
+   ]
+  },
+  "s5": {
+   "base": 0.18,
+   "bridge": "BizBuySell observes reported restaurant sales across all small-business sizes, and the National Restaurant Association reports broad restaurant-owner demographics; neither measures five-year control transfers among eligible lower-middle-market bars. I treat 2,516 reported restaurant sales in 2025 as evidence of an active transfer channel and combine it with the owner-age signal to bound a five-year control-transfer probability. Marketplace undercoverage of private deals biases the signal low, while the much smaller median sold business and the broader restaurant population may transact more often than lower-middle-market bars, biasing it high; the net direction is ambiguous.",
+   "caveats": [
+    "Reported marketplace sales are not a complete census and are concentrated below the assigned EBITDA band.",
+    "Restaurant transactions are not bar-specific, and owner age does not itself imply sale intent.",
+    "Liquor-license and lease transfer rules can convert an intended sale into an asset liquidation or failed closing."
+   ],
+   "change_evidence": "PitchBook, GF Data, Axial, and broker transaction records matched to the supplied firm universe, with deal type, EBITDA, seller age, asset sale versus going-concern status, and control outcome, would materially change this estimate.",
+   "evidence_state": "PROXY",
+   "high": 0.3,
+   "low": 0.1,
+   "rationale": "BizBuySell reported 2,516 restaurant transactions in 2025, with median cash flow of $115,252, which demonstrates liquidity but is far below the assigned firm band. Restaurant-owner data show 29% of owners were under age 45, offering only a broad succession signal. A moderate probability allows for retirements, strategic sales, and distress exits while excluding closures, asset-only liquidations, minority investments, and internal reorganizations.",
+   "source_ids": [
+    "S5",
+    "S6"
+   ]
+  }
+ },
+ "principal_driver": "Repeat transactional demand allows standardized AI-enabled support workflows to be deployed across multiple regulated venues while retaining local hospitality.",
+ "principal_weakness": "Most wage-bearing work is physical and customer-facing, and direct evidence on transferable lower-middle-market bar firms is sparse.",
+ "readiness": "MODEL_CONDITIONED",
+ "robust_tier": null,
+ "tier": "STRUCTURAL_OUT",
+ "tier_interval": [
+  "STRUCTURAL_OUT",
+  "CONDITIONAL"
+ ]
+}

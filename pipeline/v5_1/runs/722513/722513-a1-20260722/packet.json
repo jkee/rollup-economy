@@ -1,0 +1,247 @@
+{
+  "identity": {
+    "naics": "722513",
+    "title": "Limited-Service Restaurants",
+    "run_id": "722513-a1-20260722",
+    "model_id": "claude-sonnet-5",
+    "run_date": "2026-07-22",
+    "methodology_version": "5.1",
+    "attempt": 1
+  },
+  "lens": {
+    "included_activities": "US limited-service restaurant operating firms in the roughly $1-10M normalized EBITDA band that repeatedly prepare and sell meals for immediate consumption, takeout, or restaurant-provided delivery, including independent and franchisee-owned multiunit operators.",
+    "excluded_activities": "Shells, captive internal food operations, non-control financing vehicles, franchisor-only entities without restaurant operations, independent order-and-delivery services classified outside 722513, and locations or concepts lacking a transferable going-concern operation.",
+    "customer_and_revenue_model": "High-frequency transactional sales to consumers who generally order or select items and pay before eating; revenue is primarily fixed menu pricing, with on-premises, takeout, drive-through, digital-order, and delivery channels and possible franchise royalties paid by operators.",
+    "deviation_from_default": "none",
+    "heterogeneous": false
+  },
+  "primitives": {
+    "a": {
+      "evidence_state": "PROXY",
+      "low": 0.22,
+      "base": 0.3,
+      "high": 0.4,
+      "bridge": "BLS measures the occupation mix for the broader Restaurants and Other Eating Places industry, not wage-weighted task exposure for 722513. I mapped occupation duties from BLS and O*NET to exposed task clusters: ordering/payment and order routing, scheduling and administrative records, inventory forecasting, marketing, and selected standardized cooking steps. I assigned little exposure to cleaning, customer exception handling, food-safety accountability, and most manual preparation, then bounded the result for the broader-industry mix and task-time uncertainty. Full-service occupations in the BLS population likely bias the mix away from the more standardized and digitally ordered limited-service segment, so the central exposure estimate may be conservative.",
+      "rationale": "In the May 2023 BLS restaurant occupation mix, 88.97% of employment was food-preparation and serving work; fast-food and counter workers alone were 28.16%, cooks 17.74%, food-preparation workers 4.02%, and first-line food-service supervisors 8.34%. O*NET shows the counter role combines automatable order, payment, and inventory communication with physical serving, cooking, packaging, stocking, and cleaning. BLS projects fast-food-cook employment to fall 13% from 2024 to 2034 partly because of automated systems and streamlined operations. The resulting wage-weighted opportunity is meaningful but well below a majority because most frontline work remains embodied and site-specific.",
+      "change_evidence": "A 722513-specific payroll-and-time-motion sample that reports paid hours by task, channel, and restaurant format, joined to actual labor hours removed after voice ordering, kiosks, scheduling, inventory, and kitchen-automation deployments, would materially change the range.",
+      "source_ids": [
+        "S2",
+        "S3",
+        "S4"
+      ],
+      "caveats": [
+        "The latest detailed BLS occupation table found is for NAICS 722500 and includes full-service restaurants; it is not a six-digit 722513 staffing pattern.",
+        "Occupation employment shares are not task-time shares, and mean wages do not reveal within-occupation wage-weighted exposure.",
+        "Kitchen robotics and conventional automation are included only where AI can enable substitution or avoidable hiring; purely mechanical automation is not treated as AI exposure by default.",
+        "The injected compensation-to-receipts ratio uses 2024 wages over 2022 receipts and a cross-industry harmonization factor, so the labor pool to which this share is later applied has vintage and basis uncertainty."
+      ]
+    },
+    "rho": {
+      "evidence_state": "PROXY",
+      "low": 0.32,
+      "base": 0.48,
+      "high": 0.64,
+      "bridge": "Restaurant surveys measure current investment plans, perceived readiness, and expected augmentation rather than the share of exposed wage opportunity implemented within five years. I translated 2024 limited-service plans for AI, kiosks, labor management, inventory, and back-office systems, together with 2025 restaurant-executive readiness constraints, into a five-year implementation fraction. The National Restaurant Association survey is closer to the segment but asks about devoting resources, which can overstate completed labor redesign; Deloitte covers global branded operators that are generally larger and more capable than the LMM lens, also biasing implementation upward.",
+      "rationale": "Limited-service operators reported 2024 investment intentions of 17% for AI integration, 30% for self-order/self-pay, 37% for automated recruiting or scheduling, 50% for inventory systems, and 51% for back-office technology; 49% expected automation used against labor shortages to become more common. Yet 69% expected technology to augment rather than replace labor. Deloitte's global restaurant survey found 82% planned more AI investment but readiness below half across strategy, infrastructure, operations, risk, and talent, supporting partial rather than near-complete implementation over five years.",
+      "change_evidence": "A longitudinal cohort of 722513 LMM operators with pre/post deployment payroll hours, store counts, system uptime, override rates, quality metrics, and rollout completion for each exposed workflow would directly measure implementation.",
+      "source_ids": [
+        "S5",
+        "S6"
+      ],
+      "caveats": [
+        "Investment intention is not deployment, sustained use, or labor substitution.",
+        "The National Restaurant Association survey includes restaurant operators outside the LMM firm band, and Deloitte surveyed 375 executives across 11 countries and branded operating groups.",
+        "Food safety, error handling, customer acceptance, franchise technology mandates, fragmented data, and capital constraints can slow implementation.",
+        "The range excludes pricing, demand, and valuation effects."
+      ]
+    },
+    "e": {
+      "evidence_state": "ESTIMATE",
+      "low": 0.55,
+      "base": 0.72,
+      "high": 0.85,
+      "rationale": "Most operating firms in this code sell repeat prepared-food service directly to external consumers and therefore fit the service lens. Eligibility is reduced for franchisor-only structures, distressed or closing concepts, owner-personality-dependent operations that cannot transfer as going concerns, captive units, and firms whose EBITDA-band classification is an artifact of margin bridging. Franchise operations are prominent in the segment: 2012 Census data reported franchises as 54% of limited-service restaurant establishments and about 70% of segment sales, indicating that standardized transferable operating systems are common, though establishment shares cannot identify eligible LMM firms.",
+      "change_evidence": "A firm-level 722513 census or commercial database linking normalized EBITDA, ultimate ownership, franchisee versus franchisor status, unit count, related-party revenue, closure status, and transfer restrictions would materially change the eligible share.",
+      "source_ids": [
+        "S1",
+        "S7"
+      ],
+      "caveats": [
+        "No source directly measures eligibility among firms in the specified EBITDA band.",
+        "Census franchise evidence is from 2012, is establishment-based rather than firm-based, and predates substantial digital-ordering and delivery-channel change.",
+        "Franchise affiliation can improve operational transferability but can also require franchisor consent and capital upgrades on transfer.",
+        "The injected firm count is an ESTIMATE based on size-class receipts and a 19.47% public Restaurant/Dining EBITDA margin; if private LMM restaurant margins are lower, it may overstate the number actually in the EBITDA band."
+      ]
+    },
+    "s5": {
+      "evidence_state": "PROXY",
+      "low": 0.16,
+      "base": 0.28,
+      "high": 0.42,
+      "bridge": "A cross-industry owner-readiness compilation reports that 49% of surveyed owners planned to exit within five years, while BizBuySell reports completed restaurant-business transactions without a population denominator. I haircut the planned-exit share for nonexecution, closures or asset-only sales, internal reorganizations, financing failure, and operations that are not transferable, while using observed restaurant deal activity to establish that a functioning control-transfer market exists. The exit survey likely overstates qualifying transfers because it covers owners engaged with exit planning, whereas marketplace transactions undercount private and larger deals; the net direction is uncertain.",
+      "rationale": "Project Equity's 2025 compilation cites a 2023 owner survey in which 49% planned to exit within five years, but only 17% preferred external sales and many intended transitions will not become qualifying control transfers. BizBuySell reported 2,516 restaurant deals in 2025, down 5.2% from 2,653 in 2024, with a $675,788 median revenue and $115,252 median cash flow; this is active but skewed well below the specified EBITDA band. A base probability below the survey's planned-exit rate reflects those filters while allowing internal family or employee transfers that genuinely change control.",
+      "change_evidence": "A longitudinal 722513 firm registry matched to Secretary of State ownership changes, SBA 7(a) acquisition loans, franchise transfer approvals, and private deal databases, with closures and asset sales separately identified, would directly estimate five-year qualifying control transfers.",
+      "source_ids": [
+        "S8",
+        "S9"
+      ],
+      "caveats": [
+        "The owner-exit statistics are cross-industry, survey-based, and not specific to the EBITDA band.",
+        "BizBuySell covers only transactions reported on its marketplace and combines restaurant types; its median deal is much smaller than the lens.",
+        "Planned exits can be delayed, become closures, or fail buyer financing and franchisor approval.",
+        "The injected LMM firm denominator is estimated and sensitive to the public-company EBITDA-margin bridge."
+      ]
+    },
+    "q": {
+      "evidence_state": "ESTIMATE",
+      "low": 0.35,
+      "base": 0.52,
+      "high": 0.68,
+      "rationale": "The customer pays a posted menu price before eating, so there is no contractual cost-plus mechanism automatically passing an efficiency benefit through. Retention is nevertheless constrained by frequent purchasing, visible competitor prices, franchise royalties, promotions and loyalty offers, renewal-free customer switching, and pressure to reinvest in speed, accuracy, and value. The National Restaurant Association reported that 42% of operators were unprofitable in 2025 and had limited ability to raise menu prices, while 61% of consumers still considered restaurants essential but emphasized discounts and loyalty programs. These conditions support retaining roughly half of an implemented gross benefit on a discounted five-year basis rather than all of it.",
+      "change_evidence": "Matched-store gross-margin, menu-price, promotion, traffic, royalty, and labor-cost data for several years after automation adoption, compared with local untreated competitors, would separate retained benefit from customer pass-through and volume response.",
+      "source_ids": [
+        "S1",
+        "S12"
+      ],
+      "caveats": [
+        "No source directly measures five-year retention of AI benefits in limited-service restaurants.",
+        "Pricing power varies sharply by brand, geography, daypart, franchise agreement, delivery platform, and local competition.",
+        "The estimate excludes demand-volume effects, which belong in demand primitives, and implementation shortfalls, which belong in rho."
+      ]
+    },
+    "d5": {
+      "evidence_state": "PROXY",
+      "low": 0.98,
+      "base": 1.09,
+      "high": 1.18,
+      "bridge": "BLS projects real output for the broader 722 Food Services and Drinking Places subsector at 2.2% compound annual growth from 2024 to 2034; applying a lower central five-year compounding assumption to 722513 yields the base. The broader subsector includes full-service restaurants, special food services, and drinking places, and real output is not a perfect constant-quality quantity index. USDA segment shares and the National Restaurant Association's 2026 real-sales forecast provide directional checks. Limited-service convenience and outlet expansion may make the broad BLS series conservative for this segment, while mix upgrades and new outlets can make output growth overstate demand for the current service basket.",
+      "rationale": "BLS projects chained-dollar output for food services and drinking places from $994.2 billion in 2024 to $1,230.1 billion in 2034, a 2.2% annual rate, while the National Restaurant Association expected 1.3% real restaurant sales growth in 2026. USDA reported limited-service restaurants at 36.3% of food-away-from-home spending in 2024, nearly equal to full service, and described convenience-focused outlet expansion. A positive but restrained five-year quantity outlook balances these structural supports against uneven traffic and consumer budget pressure.",
+      "change_evidence": "A current five-year forecast of inflation-adjusted guest transactions and comparable-store order counts specifically for NAICS 722513, split between existing outlets, new units, delivery, and menu-mix or quality change, would materially change the estimate.",
+      "source_ids": [
+        "S10",
+        "S11",
+        "S12"
+      ],
+      "caveats": [
+        "The BLS output projection is for NAICS 722, not 722513, and its 2024-2034 horizon does not exactly match the run-date five-year horizon.",
+        "Real sales and chained-dollar output may not fully remove menu-mix, portion, quality, and channel-fee changes.",
+        "Demand is cyclical and exposed to household income, food-at-home substitution, demographic shifts, and relative menu-price inflation."
+      ]
+    },
+    "o": {
+      "evidence_state": "ESTIMATE",
+      "low": 0.78,
+      "base": 0.9,
+      "high": 0.96,
+      "rationale": "Ordering, payment, marketing, and some delivery can migrate to self-service or software, but the defined service still requires local procurement, physical food preparation, sanitation, safety control, exception handling, equipment and staff management, and accountable customer recovery. The 2024 restaurant technology survey found that 69% of limited-service operators expected technology to augment rather than replace labor and only 3% planned robotics investment. Therefore most year-five service quantity should still require an accountable restaurant operator, even when fewer labor hours sit inside each order.",
+      "change_evidence": "Unit-level evidence from highly automated limited-service concepts showing the share of orders completed end-to-end without operator-controlled preparation, safety review, exception handling, or service recovery, plus five-year consumer adoption and regulatory data, would materially change this share.",
+      "source_ids": [
+        "S1",
+        "S3",
+        "S5"
+      ],
+      "caveats": [
+        "This is a bounded judgment rather than a direct measurement.",
+        "Software-mediated ordering is not counted as eliminating the operator when the same operator remains responsible for preparing and fulfilling the meal.",
+        "Independent third-party delivery is outside NAICS 722513; migration of fulfillment to such firms could reduce the operator-required share only at the delivery edge.",
+        "Breakthrough kitchen robotics or autonomous micro-factories could push the share lower than current adoption evidence suggests."
+      ]
+    }
+  },
+  "narrative": {
+    "executive_view": "Limited-service restaurants combine a large, repeat-purchase operating base with standardized workflows, but only a minority of wage-weighted work is readily exposed because cooking, cleaning, food safety, and exception handling remain physical and local. The most credible five-year opportunity is coordinated automation of ordering, payment, scheduling, inventory, marketing, and back-office work, with selective standardized-kitchen assistance. Commercial benefits can be retained initially under posted menu pricing, though visible competition, promotions, and franchise economics should share a substantial portion with customers and counterparties.",
+    "ai_impact": "AI changes front-counter and drive-through ordering, demand and labor forecasting, schedule creation, inventory and waste control, local marketing, training, and administrative reconciliation. Kiosks and apps can remove transactions from cashiers, while voice systems can handle routine drive-through orders. The harder boundary is embodied work: preparing variable food orders, cleaning, verifying sanitation, resolving mistakes, maintaining equipment, and supervising a fast-changing frontline workforce still need people and accountable operating routines.",
+    "value_capture": "Restaurant customers buy transaction by transaction at posted prices, so savings are not contractually passed through. Operators can keep benefits through lower labor hours, avoided hiring, reduced waste, better throughput, and fewer errors, but competitors can respond with discounts, value menus, longer hours, or better service. Franchise royalties, required technology vendors, delivery commissions, and reinvestment needs can also absorb part of the gross benefit.",
+    "firm_availability": "The segment has many standardized franchise and independent operations, and an active restaurant resale market, but firm-level availability in the specified EBITDA band is not directly measured. Transfer probability is lower than broad owner exit intention because some restaurants close, sell assets only, fail financing or franchisor approval, or depend too heavily on the departing owner. The provided firm count is especially uncertain because it bridges receipts to EBITDA using a public-sector margin that may not represent private operators.",
+    "demand_durability": "Food away from home is a large, recurring consumer category, and convenience supports limited-service formats. Federal real-output projections and current industry forecasts indicate modest growth rather than displacement of meal demand. Household budget pressure and food-at-home substitution create downside, but software does not itself prepare and safely fulfill most meals, so an accountable operator remains necessary for most of the current service basket.",
+    "risks_and_uncertainty": "The weakest evidence concerns LMM firm eligibility, qualifying control-transfer incidence, and post-implementation benefit retention. Surveyed technology intentions may not survive capital constraints, integration problems, customer errors, regulation, or franchise mandates, and evidence from large branded operators can overstate LMM capability. Demand estimates use broader restaurant aggregates, while the occupational mix includes full-service restaurants. A severe consumer downturn, sustained trading-down to groceries, or unexpectedly capable kitchen robotics would materially worsen the outlook.",
+    "principal_driver": "Repeat transaction volume and standardized ordering, scheduling, inventory, and administrative workflows create implementable labor and waste-reduction opportunities without removing the restaurant operator.",
+    "principal_weakness": "Most labor is physical and site-specific, while the LMM transfer denominator and the share of savings retained under intense local price competition are only indirectly evidenced."
+  },
+  "sources": [
+    {
+      "id": "S1",
+      "url": "https://www.census.gov/naics/?details=722513&input=722513&year=2022",
+      "title": "2022 NAICS Definition: 722513 Limited-Service Restaurants",
+      "access_date": "2026-07-22",
+      "supports": "Defines the industry as food-service establishments where patrons generally order or select items and pay before eating; food may be consumed on premises, taken out, or delivered, while independent order-and-delivery services are classified elsewhere."
+    },
+    {
+      "id": "S2",
+      "url": "https://www.bls.gov/oes/2023/may/naics4_722500.htm",
+      "title": "May 2023 National Industry-Specific Occupational Employment and Wage Estimates: Restaurants and Other Eating Places",
+      "access_date": "2026-07-22",
+      "supports": "Reports 10,870,290 total jobs, 88.97% in food-preparation and serving occupations, including 28.16% fast-food and counter workers, 17.74% cooks, 4.02% food-preparation workers, and 8.34% first-line food-service supervisors."
+    },
+    {
+      "id": "S3",
+      "url": "https://www.onetonline.org/link/summary/35-3023.00",
+      "title": "O*NET OnLine: Fast Food and Counter Workers",
+      "access_date": "2026-07-22",
+      "supports": "Lists the role's mix of order taking, payment, receipt balancing, customer communication, inventory monitoring, food and beverage preparation, packaging, serving, stocking, and cleaning tasks."
+    },
+    {
+      "id": "S4",
+      "url": "https://www.bls.gov/ooh/food-preparation-and-serving/cooks.htm",
+      "title": "Occupational Outlook Handbook: Cooks",
+      "access_date": "2026-07-22",
+      "supports": "Describes cooks' physical preparation and sanitation duties and projects fast-food-cook employment to decline 13% from 2024 to 2034 because of automated systems, combined roles, and operating-streamlining efforts."
+    },
+    {
+      "id": "S5",
+      "url": "https://go.restaurant.org/rs/078-ZLA-461/images/NatRestAssoc_TechLandscapeReport_2024.pdf",
+      "title": "National Restaurant Association Restaurant Technology Landscape Report 2024",
+      "access_date": "2026-07-22",
+      "supports": "For limited-service operators, reports planned resources for AI integration at 17%, self-order/self-pay at 30%, labor management at 37%, inventory systems at 50%, and back-office systems at 51%; 49% expected technology used for labor shortages to become more common, 69% expected augmentation rather than replacement, and 3% planned robotics investment."
+    },
+    {
+      "id": "S6",
+      "url": "https://www.deloitte.com/us/en/about/press-room/deloitte-how-ai-is-revolutionizing-restaurants.html",
+      "title": "Deloitte: Restaurant AI Investments Heat Up, But Adoption Still Appears to be on the Back Burner",
+      "access_date": "2026-07-22",
+      "supports": "A Q4 2024 survey of 375 restaurant executives in 11 countries found 82% planned increased AI investment, while readiness was 43% for strategy, 39% infrastructure, 34% operations, 28% risk and governance, and 27% talent."
+    },
+    {
+      "id": "S7",
+      "url": "https://www.census.gov/library/stories/2018/03/franchises.html",
+      "title": "Economic Census Shows Franchising Key to Many Industries",
+      "access_date": "2026-07-22",
+      "supports": "Reports that 2012 limited-service franchise restaurants were about 54% of establishments, nearly 70% of sales, and about 73% of employment in the segment."
+    },
+    {
+      "id": "S8",
+      "url": "https://project-equity.org/news/employee-ownership-insider/business-owner-statistics-exit-planning/",
+      "title": "Project Equity: 20 Key Business Owner Statistics on Exits and Succession",
+      "access_date": "2026-07-22",
+      "supports": "Compiles owner-transition evidence including 49% planning an exit within five years, 17% preferring external sales, and one-third lacking or being unsure of a long-term plan; the cited underlying surveys are cross-industry."
+    },
+    {
+      "id": "S9",
+      "url": "https://www.bizbuysell.com/learning-center/article/restaurant-industry-analysis/",
+      "title": "BizBuySell: Restaurant Sales Found Their Footing Late in 2025",
+      "access_date": "2026-07-22",
+      "supports": "Reports 2,516 restaurant transactions in 2025 versus 2,653 in 2024, with median revenue of $675,788, median cash flow of $115,252, and median sale price of $215,000."
+    },
+    {
+      "id": "S10",
+      "url": "https://www.bls.gov/emp/tables/industry-employment-and-output.htm",
+      "title": "BLS Employment and Output by Industry, 2024-2034",
+      "access_date": "2026-07-22",
+      "supports": "Projects food-services-and-drinking-places real output from $994.2 billion in 2024 to $1,230.1 billion in 2034, a 2.2% compound annual growth rate, and employment growth of 3.8%."
+    },
+    {
+      "id": "S11",
+      "url": "https://ers.usda.gov/topics/food-markets-prices/food-service-industry/market-segments",
+      "title": "USDA Economic Research Service: Food Service Industry Market Segments",
+      "access_date": "2026-07-22",
+      "supports": "Reports limited-service restaurant sales of $550.7 billion in 2024, 36.3% of food-away-from-home spending, and describes convenience-led outlet expansion and recurring seasonal demand."
+    },
+    {
+      "id": "S12",
+      "url": "https://www.restaurant.org/education-and-resources/resource-library/report-sales-to-hit-%241-55t-in-2026-despite-challenging-business-environment/",
+      "title": "National Restaurant Association: Restaurant Sales to Hit $1.55T in 2026 Despite Challenging Business Environment",
+      "access_date": "2026-07-22",
+      "supports": "Forecasts 1.3% real restaurant sales growth in 2026 and reports that 42% of operators were unprofitable in 2025 with limited pricing ability, while 61% of consumers considered restaurants essential and value offers affected choice."
+    }
+  ]
+}

@@ -1,0 +1,191 @@
+{
+  "identity": {
+    "naics": "721199",
+    "title": "All Other Traveler Accommodation",
+    "run_id": "721199-a1-20260722",
+    "model_id": "claude-sonnet-5",
+    "run_date": "2026-07-22",
+    "methodology_version": "5.1",
+    "attempt": 1
+  },
+  "lens": {
+    "included_activities": "Employer-operated cabins, guest houses, villas, cottage resorts, hostels, and similar short-term traveler accommodations in the roughly $1-10M normalized EBITDA band that repeatedly sell lodging and associated operating services to external guests.",
+    "excluded_activities": "Pure real-estate holding companies, passive vacation-home ownership, individual hosts without a transferable operating organization, captive internal lodging, non-control financing vehicles, and accommodation classes assigned to other NAICS codes such as hotels and motels, casino hotels, bed-and-breakfast inns, RV parks, recreational camps, and rooming houses.",
+    "customer_and_revenue_model": "Revenue is predominantly transactional room or unit accommodation sold per stay to household travelers, with some business and government customers and ancillary food, recreation, laundry, parking, and space-rental revenue. Repeat demand is recurring at the property and destination level even when individual guests are episodic.",
+    "deviation_from_default": "none",
+    "heterogeneous": false
+  },
+  "primitives": {
+    "a": {
+      "evidence_state": "PROXY",
+      "low": 0.12,
+      "base": 0.21,
+      "high": 0.31,
+      "bridge": "S1 measures 2025 employment and wages for the broader U.S. Accommodation subsector, not NAICS 721199 task exposure. I mapped its occupation mix to task bundles: reservation, messaging, scheduling, revenue-management, routine supervisory, and administrative work receive moderate-to-high AI exposure; cleaning, maintenance, food service, and in-person exception handling receive low exposure. I then wage-weighted those judgments and widened the range because the published table lists only common occupations. The broader subsector likely overstates food-service work relative to 721199 but may also overstate sophisticated back-office staffing, so net error direction is ambiguous.",
+      "rationale": "The BLS accommodation snapshot shows 420,800 maids and housekeeping cleaners versus 247,700 desk clerks, 143,620 waiters, 40,380 housekeeping supervisors, and 38,100 lodging managers in 2025. The large physical-service component caps substitutable task share, while desk, booking, pricing, guest-message, scheduling, and management-administration workflows create a meaningful digital opportunity. The estimate covers current tasks not already automated, not whole jobs.",
+      "change_evidence": "A custom extract of 721199 payroll by detailed occupation combined with O*NET task-time data and property-level time-and-motion interviews across hostels, cottage resorts, and cabin operators would materially move the wage-weighted exposure estimate.",
+      "source_ids": [
+        "S1"
+      ],
+      "caveats": [
+        "BLS publishes the cited occupation mix at NAICS 721 rather than 721199.",
+        "The five occupations shown by BLS are not an exhaustive payroll distribution.",
+        "Exposure is a task judgment and does not imply implementation or job elimination."
+      ]
+    },
+    "rho": {
+      "evidence_state": "PROXY",
+      "low": 0.3,
+      "base": 0.48,
+      "high": 0.65,
+      "bridge": "S3 and S4 survey global hotel organizations and properties rather than U.S. LMM firms in 721199. S4 reports AI involvement across common hotel tasks, while S3 documents middling technology maturity, limited integration, and legacy-system barriers. I discount the hotel evidence for smaller alternative-accommodation operators, which generally have less integration capacity; therefore the unadjusted surveys likely bias implementation upward for this lens.",
+      "rationale": "Within five years, standardized reservations, guest messaging, basic revenue management, marketing content, schedule preparation, and reporting can absorb much of the exposed opportunity. Implementation remains constrained by fragmented property-management and booking systems, thin management teams, data quality, guest-service expectations, and the need for reliable human escalation. A 48% base captures material adoption without assuming that tool usage equals dependable workflow substitution.",
+      "change_evidence": "A 721199 operator survey that records current PMS/channel-manager stack, workflow-level AI deployment, realized labor hours avoided, error rates, and planned five-year budgets by property size would materially change this range.",
+      "source_ids": [
+        "S3",
+        "S4"
+      ],
+      "caveats": [
+        "The surveys are global and hotel-heavy, not statistically representative of U.S. 721199 firms.",
+        "S4 is vendor-sponsored and its respondents may be unusually technology-forward.",
+        "Using AI in a task is not the same as eliminating labor or avoiding a hire."
+      ]
+    },
+    "e": {
+      "evidence_state": "ESTIMATE",
+      "low": 0.65,
+      "base": 0.8,
+      "high": 0.92,
+      "rationale": "Most employer firms counted in the supplied LMM-band population should operate an external-customer lodging service and therefore fit the default lens. S2 confirms that 721199 covers cabins, guest houses, villas, cottage resorts, and hostels and that its products include traveler rooms or units with or without maid service and shared hostel rooms. The haircut excludes passive real-estate structures, properties whose economics cannot be separated from owner labor, captive operations, and firms without a transferable service organization.",
+      "change_evidence": "A firm-level review of 721199 tax returns or a commercial business registry that classifies operating company versus property-only entity, employee count, owner hours, third-party revenue, and normalized EBITDA would materially change eligibility.",
+      "source_ids": [
+        "S2"
+      ],
+      "caveats": [
+        "No source measures lens eligibility directly.",
+        "Legal entity structures can separate property ownership from lodging operations.",
+        "The supplied n estimate already has margin-bridge and size-class uncertainty; this primitive does not re-estimate it."
+      ]
+    },
+    "s5": {
+      "evidence_state": "PROXY",
+      "low": 0.08,
+      "base": 0.14,
+      "high": 0.22,
+      "bridge": "S5 surveys U.S. owners across industries. It finds that 22% of employer-business owners planned to sell or transfer ownership within five years. I reduce that stated-plan rate to 14% for a qualifying realized control transfer by excluding plans that are abandoned, closures, gifts or reorganizations that do not deliver qualifying control, and operations that prove nontransferable. The plan-to-event adjustment makes the base lower than the source measure; 721199-specific real-estate transactions could move it either way.",
+      "rationale": "Small employer businesses exhibit meaningful five-year succession intent, but intent is not completed deal flow. Traveler accommodations may be saleable because operations are tied to identifiable properties, while financing, real-estate valuation, seasonality, permitting, and owner dependence can prevent or delay control transfers.",
+      "change_evidence": "Five years of CoStar or MSCI Real Assets transactions matched to 721199 operating companies, supplemented by broker records that distinguish asset sales, operating-company control transfers, internal family transfers, failed listings, and closures, would materially change this probability.",
+      "source_ids": [
+        "S5"
+      ],
+      "caveats": [
+        "Gallup covers all U.S. employer-business owners, not this industry or EBITDA band.",
+        "The source measures plans rather than completed transactions.",
+        "Property sales do not necessarily transfer control of a lodging operating company."
+      ]
+    },
+    "q": {
+      "evidence_state": "ESTIMATE",
+      "low": 0.45,
+      "base": 0.66,
+      "high": 0.82,
+      "rationale": "S2 shows a stay-based product structure: room or unit accommodation with or without maid service and shared-room accommodation, sold to individuals, businesses, and government customers. These are generally posted or dynamically priced service transactions rather than cost-plus contracts, so an operator can initially retain labor savings. Over five years, online price transparency, local competition, OTA ranking pressure, wage reinvestment, service upgrades, and renewal of group or corporate terms share part of the benefit with customers. The range is a discounted retention judgment, not a margin estimate.",
+      "change_evidence": "Property-level cohorts linking implemented labor-hour savings to average daily rate, discounts, OTA commission, occupancy, guest-review scores, and contract repricing for five years would directly estimate retained gross benefit.",
+      "source_ids": [
+        "S2"
+      ],
+      "caveats": [
+        "No observed study traces AI labor savings through 721199 prices over five years.",
+        "Retention varies sharply by destination supply, seasonality, channel mix, and guest segment.",
+        "This estimate excludes demand-volume effects, which belong in d5 and o."
+      ]
+    },
+    "d5": {
+      "evidence_state": "PROXY",
+      "low": 0.95,
+      "base": 1.12,
+      "high": 1.25,
+      "bridge": "S6 forecasts broader U.S. travel spending in inflation-adjusted 2025 dollars rather than constant-quality 721199 lodging quantity. It projects total real travel spending from $1.374 trillion in 2026 to $1.534 trillion in 2030 and domestic real spending from $1.195 trillion to $1.316 trillion. I use that roughly 10-12% four-year real growth as an anchor, extend cautiously across the five-year lens, and widen for lodging mix and 721199 share shifts. Real spending can overstate quantity if travelers buy higher-quality services, while the forecast's expected shift toward regional and lower-cost trips could favor this code; net direction is uncertain.",
+      "rationale": "The current forecast supports low but positive real travel growth led by domestic demand, and 721199 serves leisure-oriented, regional, and value-sensitive stays. A 1.12 base allows moderate real quantity growth while the low case captures recession, travel-policy, energy-cost, climate, and destination-specific shocks.",
+      "change_evidence": "A Tourism Economics or AirDNA/CoStar forecast of occupied room nights specifically for U.S. hostels, cabins, cottage resorts, guest houses, and villas through 2031, adjusted for amenity and stay-length changes, would materially change d5.",
+      "source_ids": [
+        "S6"
+      ],
+      "caveats": [
+        "The forecast covers all travel spending, not 721199 room nights.",
+        "Its published horizon ends in 2030, one year short of the run-date five-year endpoint.",
+        "Constant-dollar spending is an imperfect proxy for constant-price, constant-quality service quantity."
+      ]
+    },
+    "o": {
+      "evidence_state": "ESTIMATE",
+      "low": 0.84,
+      "base": 0.93,
+      "high": 0.98,
+      "rationale": "Traveler accommodation remains a physical, locally delivered service: an accountable operator must control guest access, readiness of rooms, cleaning and maintenance, safety, regulatory compliance, payment disputes, and exceptions even when booking, messaging, pricing, and check-in are automated. S4's technology-forward hotel survey still found 59% of hoteliers wanted welcome and check-in to remain human-led, reinforcing that software adoption changes touchpoints more readily than it eliminates operating accountability. The modest haircut allows growth in self-service stays and software-mediated owner operation.",
+      "change_evidence": "A longitudinal sample of highly automated U.S. hostels, cabin portfolios, and cottage resorts measuring unattended-stay share, on-site and remote labor hours, incident escalation, outsourced field-service use, and operator-of-record requirements would materially change this estimate.",
+      "source_ids": [
+        "S4"
+      ],
+      "caveats": [
+        "There is no direct measure of the share of 721199 demand requiring an accountable operator in 2031.",
+        "Human-led check-in is only supporting context and is not equivalent to operator necessity.",
+        "Local regulation and property design can make unattended operation either easier or harder."
+      ]
+    }
+  },
+  "narrative": {
+    "executive_view": "All Other Traveler Accommodation combines durable physical lodging demand with a concentrated digital-administration opportunity. Reservations, guest communications, pricing, scheduling, marketing, and reporting can absorb AI, but room turnover, maintenance, safety, and service recovery remain operator work. The supplied compensation intensity is high, although the 2024-wage/2022-receipts vintage mismatch and IPS harmonization should remain visible. Only 21 LMM firms are supplied, and both eligibility and transfer frequency are uncertain, making firm availability the practical bottleneck.",
+    "ai_impact": "AI is most applicable to repetitive pre-stay and post-stay communication, multilingual support, inquiry conversion, channel and rate administration, staffing schedules, review responses, purchasing prompts, and management reporting. It is less applicable to cleaning, repairs, inspection, security, and nuanced guest recovery. The broader occupation mix and hotel technology surveys imply useful task substitution, not wholesale autonomous operation.",
+    "value_capture": "Nightly and per-stay prices usually do not contractually pass labor costs through to guests, allowing initial retention. Over time, transparent online comparison, dynamic pricing, OTA competition, service reinvestment, and local supply can return part of the benefit to customers. Retention should be strongest at differentiated properties in supply-constrained destinations and weakest at commodity hostels or cabins competing mainly on price.",
+    "firm_availability": "Most employer-operated businesses in the code should meet the external-customer service lens, but passive property entities and owner-dependent micro-operations are not transferable operating platforms. Broad employer-business owners report substantial five-year sale or transfer intent, yet completed qualifying transfers will be lower. Real estate can improve collateral and salability while also increasing transaction size, financing sensitivity, and the chance that a deal is only an asset transfer.",
+    "demand_durability": "Current real travel forecasts point to moderate growth, supported mainly by domestic leisure travel. Cabins, guest houses, cottage resorts, villas, and hostels also align with regional, group, and lower-cost travel preferences. Demand remains cyclical and destination-specific, but the physical need for a ready, safe place to stay keeps most quantity attached to an accountable operator even as guest-facing processes become self-service.",
+    "risks_and_uncertainty": "The largest evidence gap is exact-code data: occupation mix, technology adoption, business-model eligibility, and control-transfer history are all inferred from broader populations. The code spans properties with different service intensity and channel economics. A downturn, energy-price shock, wildfire or flood exposure, local short-term-rental restrictions, insurance costs, OTA dependence, poor connectivity, or guest resistance to reduced service could erase anticipated gains. The supplied compensation ratio may also be distorted by its wage/receipts vintage mismatch and by unusually volatile post-pandemic lodging receipts.",
+    "principal_driver": "High compensation intensity paired with automatable reservations, communication, pricing, scheduling, and reporting workflows is the main opportunity driver.",
+    "principal_weakness": "A small supplied LMM firm pool and the absence of exact-code evidence on qualifying control transfers are the main weaknesses."
+  },
+  "sources": [
+    {
+      "id": "S1",
+      "url": "https://www.bls.gov/iag/tgs/iag721.htm",
+      "title": "Accommodation: NAICS 721 — Industries at a Glance",
+      "access_date": "2026-07-22",
+      "supports": "BLS reports 2025 employment of 420,800 maids and housekeeping cleaners, 247,700 hotel/motel/resort desk clerks, 143,620 waiters, 40,380 housekeeping supervisors, and 38,100 lodging managers, with corresponding wage data, for the broader Accommodation subsector."
+    },
+    {
+      "id": "S2",
+      "url": "https://bhs.econ.census.gov/ombpdfs2022/export/2022_AF-72120_mu.pdf",
+      "title": "2022 Economic Census Accommodation Location Information Questionnaire",
+      "access_date": "2026-07-22",
+      "supports": "The Census questionnaire identifies 721199 activities as cabins, guest houses, villas, cottage resorts, and hostels; lists room or unit accommodation with or without maid service and shared hostel rooms as products; and identifies household, business, and government customer classes."
+    },
+    {
+      "id": "S3",
+      "url": "https://www.hotelyearbook.com/article/122000481/annual-survey-results-the-state-of-hospitality-tech-2025",
+      "title": "Annual Survey Results: The State of Hospitality Tech 2025",
+      "access_date": "2026-07-22",
+      "supports": "A 264-respondent global hospitality survey reports average hotel-company technology maturity of 5.35/10, PMS use of 74.41%, CRS/booking-engine use of 63.95%, RMS use of 50%, and integration, fragmentation, and legacy infrastructure as leading adoption barriers."
+    },
+    {
+      "id": "S4",
+      "url": "https://www.hospitalitynet.org/news/4132496/most-hoteliers-use-ai-daily-but-guest-experience-still-needs-a-human-touch",
+      "title": "Most hoteliers use AI daily, but guest experience still needs a human touch",
+      "access_date": "2026-07-22",
+      "supports": "The Mews Hotelier Survey 2026 covers more than 500 global properties, reports AI involvement in 11 of 19 common hotel tasks and more than half the workload in those tasks, while 59% of respondents want welcome and check-in to remain human-led."
+    },
+    {
+      "id": "S5",
+      "url": "https://news.gallup.com/poll/657362/small-business-owners-lack-succession-plan.aspx",
+      "title": "Most Small-Business Owners Lack a Succession Plan",
+      "access_date": "2026-07-22",
+      "supports": "Gallup's fall 2024 U.S. owner survey found 22% of employer-business owners planned to sell or transfer ownership within five years, compared with 9% of nonemployers; among all primarily working owners, 14% planned a sale, public offering, or transfer."
+    },
+    {
+      "id": "S6",
+      "url": "https://www.ustravel.org/sites/default/files/2026-05/US_Travel-Forecast_Spring26.pdf",
+      "title": "U.S. Travel Forecast — Spring 2026",
+      "access_date": "2026-07-22",
+      "supports": "Tourism Economics and the U.S. Travel Association forecast inflation-adjusted total travel spending rising from $1.374 trillion in 2026 to $1.534 trillion in 2030 and domestic travel spending rising from $1.195 trillion to $1.316 trillion."
+    }
+  ]
+}

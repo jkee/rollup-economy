@@ -1,0 +1,191 @@
+{
+  "identity": {
+    "naics": "721110",
+    "title": "Hotels (except Casino Hotels) and Motels",
+    "run_id": "721110-a1-20260722",
+    "model_id": "claude-sonnet-5",
+    "run_date": "2026-07-22",
+    "methodology_version": "5.1",
+    "attempt": 1
+  },
+  "lens": {
+    "included_activities": "U.S. hotel and motel operating firms in the roughly $1-10M normalized EBITDA band that repeatedly provide rooms and related guest services to external travelers, including franchised and independent operators with operating responsibility.",
+    "excluded_activities": "Casino hotels, passive real-estate holding shells, captive internal lodging units, non-control financing vehicles, and entities that own an interest in a property but do not operate or control the lodging service.",
+    "customer_and_revenue_model": "Primarily nightly room revenue paid by leisure, business, group, and other travelers, with ancillary food, beverage, meeting, parking, and service revenue where offered; prices are generally market-set per stay rather than cost-plus.",
+    "deviation_from_default": "none",
+    "heterogeneous": false
+  },
+  "primitives": {
+    "a": {
+      "evidence_state": "PROXY",
+      "low": 0.16,
+      "base": 0.24,
+      "high": 0.33,
+      "bridge": "S1 measures the all-size NAICS 721100 occupation mix, not task exposure for LMM non-casino operators. I mapped higher exposure to front-desk and administrative work and lower exposure to cleaning, maintenance, and food service, then applied wage weighting qualitatively. Because S1 includes casino hotels and large full-service properties, its extra food, gambling, and supervisory labor likely biases the inferred exposed share downward relative to limited-service non-casino hotels; uncertainty about within-occupation task shares remains two-sided.",
+      "rationale": "The occupation mix limits broad substitution: in S1, building and grounds cleaning is 26.76% of employment and food preparation and serving is 23.74%, both dominated by physical tasks, while office and administrative support is 18.70%, including hotel desk clerks at 13.18%. AI can substitute or avoid hiring in reservations, routine guest messaging, check-in support, scheduling, bookkeeping, marketing content, and revenue-analysis work, but much less of room cleaning, repairs, cooking, and in-person service. The range reflects task-level uncertainty and wage weighting rather than treating all administrative employment as removable.",
+      "change_evidence": "A wage-weighted task inventory from a representative sample of 30-50 LMM limited-service, select-service, and full-service hotel operators, split by already-automated versus manual hours, would materially change the estimate; payroll extracts joined to time-and-motion interviews and property-management-system workflow logs are the most useful inputs.",
+      "source_ids": ["S1", "S2"],
+      "caveats": [
+        "The closest public occupation table is NAICS 721100 and includes casino hotels, all firm sizes, and establishments rather than LMM firms.",
+        "Employment shares are not wage shares or task shares, and the estimate excludes work already automated.",
+        "Guest-facing service quality can prevent technically exposed tasks from translating into avoidable labor."
+      ]
+    },
+    "rho": {
+      "evidence_state": "PROXY",
+      "low": 0.35,
+      "base": 0.55,
+      "high": 0.74,
+      "bridge": "S2 reports 2022 technology investment and stated priorities among 633 hotel executives across nine countries, while S3 reports staffing constraints among 456 surveyed hoteliers; neither measures the five-year implemented share of exposed tasks in U.S. LMM hotels. I translate strong contactless investment and labor pressure into a moderate implementation fraction, discounting plans for integration, change, quality, cybersecurity, and brand constraints. Executive intention data likely bias implementation upward, while staffing pressure may accelerate implementation and partly offset that bias.",
+      "rationale": "Implementation has a real operational pull: S2 found 96% of surveyed hoteliers investing in contactless technology and 54% prioritizing technology that improves or removes the front-desk interaction, while S3 found 76% of respondents short-staffed, 79% unable to fill openings, and housekeeping the top need for 50%. However, the most exposed workflows span legacy property-management, payment, booking, franchise, and guest-service systems, and physical-work bottlenecks remain. The base therefore assumes just over half of the identified opportunity becomes dependable operating practice within five years.",
+      "change_evidence": "Property-level before-and-after studies from hotel management companies showing paid hours per occupied room by department, implementation dates, exception rates, guest-satisfaction scores, and turnover across at least two years would materially change this value; franchise technology-adoption cohorts would be especially informative.",
+      "source_ids": ["S2", "S3"],
+      "caveats": [
+        "S2 is global, includes large operators, is based on plans and preferences, and predates the current generative-AI cycle.",
+        "Contactless investment is broader than AI labor substitution and can improve experience without reducing labor.",
+        "Staffing shortages create incentive but do not prove that exposed work can be implemented safely or reliably."
+      ]
+    },
+    "e": {
+      "evidence_state": "ESTIMATE",
+      "low": 0.58,
+      "base": 0.76,
+      "high": 0.9,
+      "rationale": "Most LMM hotel and motel operating firms sell recurring lodging service to external customers and are therefore eligible. Franchising does not itself remove operating-company eligibility: S5 reports that 57% of U.S. hotels are franchised. The haircut excludes passive single-asset property entities, ownership structures without operating control, captive units, and firms whose economics chiefly belong to a separate manager or related real-estate vehicle.",
+      "change_evidence": "A firm-level match of SUSB entities to STR or CoStar property ownership, management-company identity, franchise status, and operating financial statements would show what share of the frozen LMM count actually controls hotel operations rather than merely holding real estate.",
+      "source_ids": ["S5"],
+      "caveats": [
+        "The frozen firm count is a margin-bridged estimate and may map imperfectly to hotel operating firms because ownership and management entities can be separated.",
+        "Public hotel counts are property counts, not firms, and one firm may own or operate multiple properties.",
+        "No public source directly measures lens eligibility within the $1-10M normalized EBITDA band."
+      ]
+    },
+    "s5": {
+      "evidence_state": "PROXY",
+      "low": 0.12,
+      "base": 0.19,
+      "high": 0.3,
+      "bridge": "S4 measures five-year intentions for U.S. business owners across industries, finding 22% of employer-business owners plan to sell or transfer ownership; S6 measures aggregate U.S. hotel property transaction dollars, not qualifying operating-company control transfers. I use the employer-business intention as an anchor, then reduce it for gifts, internal transfers, uncompleted plans, and property trades that do not transfer the eligible operating firm. Hotels' active asset market could bias the result upward if property deals are mistaken for operating-company control, while unreported private portfolio and family transfers could bias it downward.",
+      "rationale": "The general employer-business anchor indicates meaningful five-year transfer intent, and hotels have an observable transaction market: S6 reports $21 billion of hotel transaction volume in 2024 despite a 15% annual decline. Not every property sale is a qualifying transfer of the operating firm, and intentions do not always close, so the base is below the 22% cross-industry employer intention figure. The range allows for hotel-specific asset liquidity on the upside and financing, franchise approval, property-condition, and family-retention frictions on the downside.",
+      "change_evidence": "A five-year census from CoStar, MSCI Real Assets, STR, or hotel-specialist brokers linking each LMM property sale to the ultimate operating-company control change, plus owner age and succession interviews among AAHOA members, would materially change the estimate.",
+      "source_ids": ["S4", "S6"],
+      "caveats": [
+        "The Gallup survey is cross-industry and measures stated plans, including some non-qualifying gifts or public offerings.",
+        "Hotel transaction dollars are dominated by larger assets and do not supply a count or LMM denominator.",
+        "A hotel real-estate transfer may leave the manager or franchise operating arrangement unchanged."
+      ]
+    },
+    "q": {
+      "evidence_state": "ESTIMATE",
+      "low": 0.34,
+      "base": 0.56,
+      "high": 0.75,
+      "rationale": "Room rates are market-set rather than contractually cost-plus, so an operator can initially retain a large portion of implemented labor benefit. Retention is reduced over five years by competitive rate pressure, franchise and distribution economics, guest-service reinvestment, wage increases for remaining staff, and the need to maintain brand standards. S8 describes normalized demand, rising operating costs, and the need to combine technology efficiency with guest satisfaction, which supports neither full pass-through nor permanent full retention.",
+      "change_evidence": "Matched property P&Ls before and after automation, separating labor savings, room rates, franchise and OTA fees, guest-service reinvestment, occupancy, and local competitive-set RevPAR over five years, would directly identify retained gross benefit.",
+      "source_ids": ["S8"],
+      "caveats": [
+        "No public study directly measures five-year retention of implemented AI labor savings for LMM hotels.",
+        "Retention varies sharply by local supply, chain scale, franchise agreement, distribution mix, and service level.",
+        "The estimate excludes demand-volume effects, which belong in d5 and o, and implementation difficulty, which belongs in rho."
+      ]
+    },
+    "d5": {
+      "evidence_state": "PROXY",
+      "low": 0.95,
+      "base": 1.07,
+      "high": 1.18,
+      "bridge": "S7 forecasts inflation-adjusted travel spending rather than constant-quality hotel room nights: domestic travel rises from 99% of 2019 spending in 2025 to 110% in 2030, domestic leisure from 104% to 115%, domestic business from 88% to 97%, and international from 80% to 99%. I temper those segment trajectories to a 7% five-year increase in the current hotel service basket because travel spending includes transport, food, premium mix, and non-hotel accommodation, and extend the endpoint approximately one year to the run-date horizon. This spending-to-quantity bridge likely biases high when mix upgrades or lodging quality growth remains after broad inflation adjustment.",
+      "rationale": "The most relevant current forecast points to modest real domestic travel growth and a stronger international recovery, but not a boom. Hotels should benefit from more leisure, business, group, and inbound travel, while short-term rentals, remote work, recession exposure, and new room supply can restrain occupied-room growth. A base of 1.07 represents durable but modest constant-price, constant-quality demand growth over five years.",
+      "change_evidence": "STR or CoStar forecasts and realized series for U.S. occupied room nights by chain scale through 2031, paired with Census lodging output price and quality adjustments, would replace the broad travel-spending bridge.",
+      "source_ids": ["S7", "S8"],
+      "caveats": [
+        "S7 covers all travel spending, not only hotels and motels, and the published forecast ends in 2030 rather than July 2031.",
+        "Inflation-adjusted spending is not a pure room-night quantity measure and may retain mix or quality effects.",
+        "Hotel demand is cyclical and varies substantially by geography, chain scale, business versus leisure mix, and international gateways."
+      ]
+    },
+    "o": {
+      "evidence_state": "PROXY",
+      "low": 0.9,
+      "base": 0.96,
+      "high": 0.99,
+      "bridge": "S2 measures guest preferences for self-service, not whether lodging demand ceases to require an accountable operator. I treat self-service as eliminating some staffed touchpoints but almost none of the need for a firm accountable for the room, access, cleaning, safety, maintenance, payments, and exceptions. Because 38% wanting a fully self-service model still envisioned staff available on request, using that preference to haircut operator-required demand likely biases o downward; alternative lodging substitution creates offsetting downside.",
+      "rationale": "Software can automate booking, pricing, messaging, check-in, and routine requests, but it cannot supply, clean, secure, maintain, and recover a physical room without an accountable operating organization. S2 found strong preference for self-service, including 38% wanting staff only on request, yet that model still presumes hotel staff and operating accountability. Nearly all current hotel-service quantity should therefore remain operator-required, with a modest haircut for substitution toward self-managed alternative accommodation or radically unattended formats.",
+      "change_evidence": "Evidence from scaled unattended-hotel pilots showing occupied room nights, on-site and remote labor, incident handling, regulatory accountability, guest satisfaction, and failure rates, plus long-run hotel-versus-short-term-rental share data, would materially move this estimate.",
+      "source_ids": ["S1", "S2"],
+      "caveats": [
+        "Self-service is not the same as absence of an accountable operator.",
+        "Local lodging, fire, accessibility, safety, and employment rules may preserve operator responsibilities even as staffing changes.",
+        "The estimate could fall if software-enabled alternative accommodations materially displace the current hotel service basket."
+      ]
+    }
+  },
+  "narrative": {
+    "executive_view": "Hotels and motels have a real but bounded AI labor opportunity. Front-desk, reservation, messaging, accounting, scheduling, marketing, and revenue workflows are amenable to automation, but the labor base remains heavily physical. Durable travel demand and the need for a responsible physical operator are strengths; property-heavy economics, fragmented operating structures, cyclical demand, and uncertain control-transfer availability are central limitations.",
+    "ai_impact": "AI should first reshape the digital perimeter of a property: inquiry handling, reservation support, pre-arrival and in-stay messaging, check-in assistance, review responses, staff scheduling, bookkeeping support, and revenue analysis. It can also improve housekeeping dispatch and maintenance triage, but those tools coordinate rather than eliminate much of the physical work. Guest exceptions and service recovery keep humans in the loop.",
+    "value_capture": "Unlike cost-plus service contracts, nightly room pricing does not automatically pass labor savings to customers. Operators can retain early gains, particularly in labor-constrained markets, but competitive rates, franchise and distribution fees, brand standards, wage pressure, and guest-experience reinvestment erode retention over five years. Poorly executed labor removal can also reduce ratings and repeat demand.",
+    "firm_availability": "Many hotels are franchised but locally owned or operated, so brand affiliation does not preclude a control investment. The harder screen is whether the LMM firm actually controls operations rather than being a passive property entity. General employer-business succession intent and a liquid hotel asset market suggest recurring opportunities, but public deal data do not isolate qualifying operating-company transfers.",
+    "demand_durability": "Travel forecasts support modest real growth across domestic and recovering international segments. Physical lodging cannot be delivered entirely by software, and even self-service hotels require accountability for rooms, safety, access, cleaning, maintenance, and exceptions. The demand case is nevertheless cyclical and exposed to travel budgets, local supply additions, geopolitical conditions, and alternative accommodation.",
+    "risks_and_uncertainty": "The largest research gaps are task-level paid-hour exposure in LMM properties, actual post-implementation labor outcomes, the separation between real-estate ownership and operating control, and retention of savings after competitive repricing. Other risks include legacy-system integration, payment and identity security, franchise approvals, guest backlash, service-quality failures, labor rules, property capital needs, and the possibility that technology improves service without reducing labor.",
+    "principal_driver": "Durable physical lodging demand combined with automatable front-desk and administrative workflows under persistent staffing pressure.",
+    "principal_weakness": "Most hotel labor is physical, while the frozen firm count and public transfer data do not cleanly distinguish eligible operating companies from property-owning structures."
+  },
+  "sources": [
+    {
+      "id": "S1",
+      "url": "https://www.bls.gov/oes/2023/may/naics4_721100.htm",
+      "title": "May 2023 National Industry-Specific Occupational Employment and Wage Estimates: NAICS 721100 Traveler Accommodation",
+      "access_date": "2026-07-22",
+      "supports": "All-size traveler-accommodation occupation mix: building and grounds cleaning 26.76% of employment, food preparation and serving 23.74%, office and administrative support 18.70%, hotel desk clerks 13.18%, and maids and housekeeping cleaners 21.49%; page notes that NAICS 721100 includes casino hotels."
+    },
+    {
+      "id": "S2",
+      "url": "https://www.oracle.com/news/announcement/oracle-hospitality-in-2025-consumer-research-study-2022-06-01/",
+      "title": "Travelers Want High-Tech, Low-Touch Hotel Stays Shows New Oracle Survey",
+      "access_date": "2026-07-22",
+      "supports": "Spring 2022 survey of 5,266 consumers and 633 hotel executives across nine countries: 96% of hoteliers investing in contactless technology, 54% prioritizing technology that improves or eliminates the front-desk experience, 38% of travelers wanting a fully self-service model with staff on request, and 77% interested in automated messaging or chatbots."
+    },
+    {
+      "id": "S3",
+      "url": "https://www.ahla.com/news/76-surveyed-hotels-report-staffing-shortages",
+      "title": "76% of surveyed hotels report staffing shortages",
+      "access_date": "2026-07-22",
+      "supports": "AHLA May 2024 survey of 456 hoteliers: 76% reported staffing shortages, 79% could not fill openings, respondents sought an average of seven workers per property, and 50% ranked housekeeping as the most critical staffing need."
+    },
+    {
+      "id": "S4",
+      "url": "https://news.gallup.com/poll/657362/small-business-owners-lack-succession-plan.aspx",
+      "title": "Most Small-Business Owners Lack a Succession Plan",
+      "access_date": "2026-07-22",
+      "supports": "Fall 2024 Gallup Pathways to Wealth Survey of 1,264 U.S. business owners: 14% of all owners and 22% of employer-business owners planned a sale or ownership transfer within five years; older owners reported higher transfer intent than younger owners."
+    },
+    {
+      "id": "S5",
+      "url": "https://www.ahla.com/issue/franchising",
+      "title": "Franchising",
+      "access_date": "2026-07-22",
+      "supports": "AHLA reports that 57% of U.S. hotels are franchised and projected 36,173 franchised hotels in 2024, indicating that franchise affiliation is a common operating structure rather than a rare exception."
+    },
+    {
+      "id": "S6",
+      "url": "https://www.costar.com/article/8541178/2024-hotel-transaction-volume-drops-by-15-from-prior-year",
+      "title": "2024 hotel transaction volume drops by 15% from prior year",
+      "access_date": "2026-07-22",
+      "supports": "CoStar reports $21 billion of U.S. hotel transaction volume in 2024, $3.6 billion below 2023 and down 15%, evidencing an active but cyclical hotel asset-transfer market."
+    },
+    {
+      "id": "S7",
+      "url": "https://www.ustravel.org/sites/default/files/2026-05/US_Travel-Forecast_Spring26.pdf",
+      "title": "U.S. Travel Forecast: Spring 2026",
+      "access_date": "2026-07-22",
+      "supports": "Inflation-adjusted travel-spending forecast through 2030: domestic spending rises from 99% of 2019 in 2025 to 110% in 2030, domestic leisure from 104% to 115%, domestic business from 88% to 97%, and international from 80% to 99%; the report separately publishes the lodging-away-from-home price index."
+    },
+    {
+      "id": "S8",
+      "url": "https://www.ahla.com/resource/2025-state-industry-report",
+      "title": "2025 State of the Industry Report",
+      "access_date": "2026-07-22",
+      "supports": "AHLA describes normalized travel demand, rising operating costs and regulatory pressure, growing interest in experience-driven travel, and generative AI as relevant to guest experience and operating efficiency while emphasizing satisfaction, loyalty, innovation, and new revenue streams."
+    }
+  ]
+}
