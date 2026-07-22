@@ -1,0 +1,181 @@
+{
+  "identity": {
+    "naics": "326112",
+    "title": "Plastics Packaging Film and Sheet (including Laminated) Manufacturing",
+    "run_id": "326112-a1-20260722",
+    "model_id": "claude-sonnet-5",
+    "run_date": "2026-07-22",
+    "methodology_version": "5.1",
+    "attempt": 1
+  },
+  "lens": {
+    "included_activities": "US lower-middle-market manufacturers converting plastics resins into flexible packaging film and packaging sheet for recurring or repeat external customers, including repeat converter-film, food, consumer, stretch, and shrink-film programs.",
+    "excluded_activities": "Captive internal plants, shells, non-control financing vehicles, plastics bags and pouches, nonpackaging film and sheet, rigid packaging, and paper-foil-plastic laminating classified outside NAICS 326112.",
+    "customer_and_revenue_model": "Recurring and repeat B2B sales of specified film or sheet, typically by roll, weight, or production order, to converters, packagers, and consumer-product supply chains; price resets and resin-index or other contractual mechanisms can transmit input-cost changes.",
+    "deviation_from_default": "none",
+    "heterogeneous": false
+  },
+  "primitives": {
+    "a": {
+      "evidence_state": "PROXY",
+      "low": 0.11,
+      "base": 0.2,
+      "high": 0.32,
+      "bridge": "BLS measures the broader NAICS 326100 workforce, where production occupations are 58.94% of employment and extrusion operators alone are 4.83%; NIST identifies AI use in inspection, maintenance, planning, inventory, documentation, and forecasting. I map high exposure to office, planning, quality-analysis, documentation, and selected vision-inspection tasks, moderate exposure to supervision and maintenance diagnostics, and low exposure to hands-on line tending and material movement. Packaging-film plants are likely more continuous-line and production-heavy than all plastics products, so the broader-industry bridge may overstate exposure.",
+      "rationale": "Most wages support physical extrusion, converting, setup, maintenance, handling, and accountable quality work, constraining substitution. The exposed portion is concentrated in production planning, sales administration, purchasing, quality records and analysis, troubleshooting support, predictive maintenance, and machine-vision inspection.",
+      "change_evidence": "A wage-weighted occupational staffing table for NAICS 326112, paired with task-level time studies from packaging-film plants showing current automation and labor hours in planning, quality, maintenance, customer service, and line operation.",
+      "source_ids": ["S1", "S2", "S3"],
+      "caveats": [
+        "BLS occupational shares are for four-digit NAICS 326100 rather than this six-digit industry.",
+        "NIST use cases show technical applicability and adoption, not wage-weighted task exposure in packaging-film plants.",
+        "The injected compensation-to-receipts ratio is low and based on mismatched QCEW 2024 and SUSB 2022 vintages, but it is not used to set this task-share primitive."
+      ]
+    },
+    "rho": {
+      "evidence_state": "PROXY",
+      "low": 0.38,
+      "base": 0.58,
+      "high": 0.74,
+      "bridge": "NIST reports manufacturing-wide AI use and expected growth, plus applicable deployments in quality, maintenance, planning, and document workflows. I translate that cross-manufacturing adoption evidence into the five-year implemented share of the narrower exposed opportunity, discounting for data quality, initial cost, skills, cybersecurity, and legacy-system integration barriers. Because larger and digitally mature manufacturers are likely prominent in the source population, the proxy probably overstates implementation for LMM packaging-film firms.",
+      "rationale": "Well-bounded analytical and administrative workflows can be implemented within five years, and machine vision and predictive analytics fit continuous production. However, plant data fragmentation, validation requirements, equipment integration, workforce change, and the cost of line interruptions prevent full capture of exposed tasks.",
+      "change_evidence": "A cohort study of LMM flexible-packaging or film converters documenting baseline systems, AI projects reaching production, realized labor hours avoided, implementation time, and project abandonment over three to five years.",
+      "source_ids": ["S3"],
+      "caveats": [
+        "Manufacturing-wide survey adoption includes simple chatbots and does not measure the fraction of exposed labor opportunity actually implemented.",
+        "Implementation rates may differ sharply between modern multi-layer extrusion assets and older lines with limited sensor and data infrastructure."
+      ]
+    },
+    "e": {
+      "evidence_state": "ESTIMATE",
+      "low": 0.67,
+      "base": 0.81,
+      "high": 0.91,
+      "rationale": "Most independent film and sheet manufacturers in the EBITDA band should sell repeat production externally and therefore fit the lens. Ineligible firms include captive plants, operations dominated by one-off or nonrecurring activity, misclassified adjacent products, businesses without transferable stand-alone operations, and firms whose economics fall outside the stated band despite the dataset estimate.",
+      "change_evidence": "A plant-by-plant NAICS 326112 business registry enriched with ownership, customer type, recurring-order share, captive status, normalized EBITDA, and stand-alone financials.",
+      "source_ids": ["S1", "S5"],
+      "caveats": [
+        "No source directly measures lens eligibility among estimated LMM firms.",
+        "The industry includes both scaled integrated producers and independent converters, and public-company product mixes do not reveal the LMM eligibility distribution.",
+        "The injected firm count is an estimate derived from broader size-distribution data."
+      ]
+    },
+    "s5": {
+      "evidence_state": "PROXY",
+      "low": 0.14,
+      "base": 0.23,
+      "high": 0.34,
+      "bridge": "Gallup reports that 22% of US employer-business owners plan to sell or transfer ownership within five years and that 52.3% of employer businesses are owned by people age 55 or older. I use 22% as the broad employer-business anchor and allow a modest upward base adjustment for succession pressure and strategic interest in established manufacturing capacity. Capital intensity, environmental liabilities, and customer concentration can prevent an intended transfer, while industry consolidation can increase transfers; the net direction of proxy error is therefore ambiguous.",
+      "rationale": "A qualifying transfer is plausible where an owner has established extrusion assets, specifications, customer approvals, and repeat programs, but intentions do not always close and some plants transfer inside larger corporate reorganizations that do not qualify.",
+      "change_evidence": "Five years of closed US control transactions for independent flexible-packaging film and sheet manufacturers, matched to the eligible-firm denominator and classified by owner age, buyer type, and whether the operating business remained transferable.",
+      "source_ids": ["S4"],
+      "caveats": [
+        "Gallup covers employer businesses across industries and sizes, not NAICS 326112 or the LMM EBITDA band.",
+        "Owner intentions are not completed transactions, and the source does not isolate qualifying control transfers.",
+        "Corporate carve-outs and internal restructurings must be excluded even if plants change reporting ownership."
+      ]
+    },
+    "q": {
+      "evidence_state": "ESTIMATE",
+      "low": 0.34,
+      "base": 0.5,
+      "high": 0.67,
+      "rationale": "An operator can retain part of implemented benefits during contract periods and through faster delivery, lower scrap, better quality, and improved uptime. Retention is constrained because resin changes are commonly passed through, customers can reprice at renewal, many products compete on price, service, quality, and timely supply, and customers may switch suppliers or substrates. Proprietary formulations, demanding specifications, customer qualification, and demonstrable service gains support the upper range.",
+      "change_evidence": "Customer-contract samples and deal diligence showing resin-index clauses, renewal cadence, open-book costing, productivity-sharing terms, bid frequency, customer churn, and realized price/margin behavior after plant productivity projects.",
+      "source_ids": ["S5"],
+      "caveats": [
+        "A large public producer's contracting and competitive disclosures may not match LMM firms' bargaining power.",
+        "Retention varies by differentiated barrier film, commodity converter film, contract duration, and customer concentration.",
+        "The range excludes demand loss, which is represented in d5 and o."
+      ]
+    },
+    "d5": {
+      "evidence_state": "PROXY",
+      "low": 0.84,
+      "base": 1.03,
+      "high": 1.16,
+      "bridge": "BLS projects real output for broader plastics product manufacturing from 190.7 in 2024 to 212.4 billion chained 2017 dollars in 2034, equivalent to roughly 1.1% annual growth; a five-year continuation would imply about 1.056. I lower the base for packaging film and sheet because California's rules target less single-use plastic and substitution toward reuse or refill, while stable food, beverage, healthcare, and personal-care end markets and packaging's protection and shelf-life functions support demand. The broad-plastics proxy is likely upward biased for single-use packaging film where regulation is more acute.",
+      "rationale": "Current flexible packaging protects goods, extends shelf life, and serves stable consumer categories, supporting repeat demand. Lightweighting, material redesign, recycled-content constraints, EPR costs, reuse systems, paper or other substrate substitution, and customer sustainability goals can reduce constant-quality demand for the current plastic film basket.",
+      "change_evidence": "A five-year volume forecast for US plastic packaging film and sheet by application and material, stated in constant-gauge equivalent units and incorporating enacted EPR, reduction, recycled-content, and reuse mandates by state.",
+      "source_ids": ["S5", "S6", "S7"],
+      "caveats": [
+        "BLS output covers all plastics products and a ten-year horizon, not this six-digit industry's five-year physical demand.",
+        "Public-company end-market statements span products outside NAICS 326112.",
+        "California policy is not a national forecast, but it signals a material regulatory and design pathway that may spread."
+      ]
+    },
+    "o": {
+      "evidence_state": "ESTIMATE",
+      "low": 0.9,
+      "base": 0.97,
+      "high": 0.995,
+      "rationale": "Demand that remains for physical packaging film and sheet still requires an accountable manufacturer to convert resin, control thickness and barrier performance, maintain equipment, certify quality, and deliver rolls. Software can improve those workflows but cannot self-serve the physical product; the downside allows for customers vertically integrating or eliminating portions of the current basket through reuse and alternative packaging systems.",
+      "change_evidence": "Customer procurement interviews and capacity announcements quantifying vertical integration, on-site or closed-loop production, reuse-system displacement, and film volumes eliminated rather than shifted among external suppliers.",
+      "source_ids": ["S1", "S5", "S7"],
+      "caveats": [
+        "Elimination of plastic packaging quantity is principally captured in d5; o only captures whether surviving demand still needs this kind of external accountable operator.",
+        "The boundary between material substitution and operator substitution can be ambiguous for integrated refill and reuse systems."
+      ]
+    }
+  },
+  "narrative": {
+    "executive_view": "Packaging-film manufacturing combines repeat customer programs and indispensable physical conversion with a relatively small labor base. The practical AI opportunity is operational improvement in planning, quality, maintenance, inspection, documentation, and commercial administration, while the plant, line operators, and accountable quality system remain essential.",
+    "ai_impact": "AI can improve demand forecasting, scheduling, raw-material planning, predictive maintenance, machine-vision inspection, defect analysis, specification and quality-document handling, quoting, and customer service. Continuous extrusion and converting still require equipment, process control, setup, maintenance, material handling, and human accountability, so substitution is partial.",
+    "value_capture": "Benefits can appear as lower scrap and downtime, improved throughput, fewer quality failures, and avoided administrative hiring. Customers can reclaim savings through renewal bids and price competition, while resin-index mechanisms already normalize a major cost component; differentiated performance, qualification, and service reliability improve retention.",
+    "firm_availability": "The dataset estimates 101 LMM-band firms, but that count is not directly observed and the sector includes scaled integrated producers as well as independent converters. Repeat external supply should make many independent firms eligible, while captive plants, adjacent-product misclassification, customer dependence, environmental diligence, and non-stand-alone operations reduce the actionable population.",
+    "demand_durability": "Food, beverage, healthcare, personal-care, and other consumer supply chains provide recurring demand, and flexible film offers protection, barrier performance, convenience, and shelf-life benefits. Demand for the current plastic basket faces meaningful downside from lightweighting, EPR, recycled-content and recyclability rules, reuse and refill systems, and competing substrates.",
+    "risks_and_uncertainty": "The main uncertainties are the absence of six-digit occupational and AI-implementation data, weak evidence on LMM ownership transfers and eligibility, variable customer contracting, resin volatility, customer concentration, legacy assets, and rapidly evolving packaging regulation. Commodity products may surrender productivity gains quickly, while regulatory or substrate shifts may strand specialized capacity.",
+    "principal_driver": "Repeat, specification-bound physical packaging demand creates a durable operating role and multiple bounded AI-enabled improvement workflows.",
+    "principal_weakness": "Low labor intensity and strong customer repricing, substrate competition, and plastic-reduction pressure limit the amount and durability of captured AI benefit."
+  },
+  "sources": [
+    {
+      "id": "S1",
+      "url": "https://www.census.gov/naics/2017NAICS/2017_Definition_File.pdf",
+      "title": "2017 NAICS Definition File — 326112 Plastics Packaging Film and Sheet (including Laminated) Manufacturing",
+      "access_date": "2026-07-22",
+      "supports": "Defines the industry as converting plastics resins into flexible packaging film and packaging sheet and identifies excluded adjacent activities."
+    },
+    {
+      "id": "S2",
+      "url": "https://www.bls.gov/oes/2023/may/naics4_326100.htm",
+      "title": "May 2023 OEWS Industry-Specific Occupational Employment and Wage Estimates: Plastics Product Manufacturing",
+      "access_date": "2026-07-22",
+      "supports": "Provides the broader-industry occupation mix, including 58.94% production occupations and 4.83% extrusion and drawing machine operators."
+    },
+    {
+      "id": "S3",
+      "url": "https://www.nist.gov/mep/rise-artificial-intelligence-ai-us-manufacturing-text-only",
+      "title": "The Rise of Artificial Intelligence (AI) in U.S. Manufacturing",
+      "access_date": "2026-07-22",
+      "supports": "Reports manufacturing AI adoption and expected growth, applicable use cases, implementation barriers, and examples of production, quality, maintenance, planning, and document workflows."
+    },
+    {
+      "id": "S4",
+      "url": "https://news.gallup.com/poll/657362/small-business-owners-lack-succession-plan.aspx",
+      "title": "Most Small-Business Owners Lack a Succession Plan",
+      "access_date": "2026-07-22",
+      "supports": "Reports employer-business owner age and five-year plans to sell or transfer ownership for a broad US employer-business population."
+    },
+    {
+      "id": "S5",
+      "url": "https://www.sec.gov/Archives/edgar/data/1378992/000114036124047881/form10k.htm",
+      "title": "Berry Global Group, Inc. 2024 Form 10-K",
+      "access_date": "2026-07-22",
+      "supports": "Describes flexible-film product groups, stable consumer end markets, product functions, resin pass-through mechanisms, competition, customer switching, and substrate risk."
+    },
+    {
+      "id": "S6",
+      "url": "https://www.bls.gov/emp/tables/industry-employment-and-output.htm",
+      "title": "BLS Employment and Output by Industry, 2024–2034",
+      "access_date": "2026-07-22",
+      "supports": "Projects broader plastics product manufacturing real output from 190.7 to 212.4 billion chained 2017 dollars over 2024–2034."
+    },
+    {
+      "id": "S7",
+      "url": "https://calrecycle.ca.gov/2026/05/01/press-release-26-05/",
+      "title": "California Approves New Plastic and Packaging Rules That Put Consumers First",
+      "access_date": "2026-07-22",
+      "supports": "Documents enacted targets for plastic reduction, recyclable or compostable packaging, actual recycling, and shifts toward elimination, reuse, and refill by 2032."
+    }
+  ]
+}
