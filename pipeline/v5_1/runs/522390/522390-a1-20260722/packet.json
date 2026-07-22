@@ -1,0 +1,197 @@
+{
+  "identity": {
+    "naics": "522390",
+    "title": "Other Activities Related to Credit Intermediation",
+    "run_id": "522390-a1-20260722",
+    "model_id": "claude-sonnet-5",
+    "run_date": "2026-07-22",
+    "methodology_version": "5.1",
+    "attempt": 1
+  },
+  "lens": {
+    "included_activities": "US lower-middle-market independent third-party mortgage and non-mortgage loan servicers that repeatedly administer loans for unaffiliated lenders, investors, or government programs, including payment and escrow administration, statements, account records, borrower support, delinquency workflows, and servicing transfers.",
+    "excluded_activities": "Consumer-facing check cashing, payday lending, money-order and travelers-check issuance, money transmission, captive servicing units of lenders or securitizers, loan owners whose primary activity is lending, shells, and non-control financing vehicles.",
+    "customer_and_revenue_model": "Recurring servicing-fee, per-loan, or portfolio administration contracts paid by loan owners, lenders, investors, or public programs, sometimes supplemented by permitted activity fees; revenue generally continues while accounts remain under administration.",
+    "deviation_from_default": "Narrowed for coherence to independent third-party loan servicing. The six-digit code also contains consumer money transmission, check cashing, payday lending, and instrument issuance, whose customers, regulation, balance-sheet exposure, unit economics, and automation mechanisms are too different for one screen; the narrowing follows operating-model comparability rather than attractiveness.",
+    "heterogeneous": true
+  },
+  "primitives": {
+    "a": {
+      "evidence_state": "PROXY",
+      "low": 0.3,
+      "base": 0.45,
+      "high": 0.58,
+      "bridge": "BLS reports occupations for the broader credit-intermediation subsector, and O*NET describes loan-clerk and customer-service tasks across industries rather than payroll-weighted tasks at independent servicers. I map document intake, account reconciliation, payment posting, routine correspondence, statement and notice drafting, call summarization, record retrieval, and first-pass exception triage as exposed, while retaining human work for loss mitigation, disputed facts, regulatory decisions, escalations, and borrower negotiation. The broad occupational evidence may overstate exposure if servicing portfolios contain more complex delinquency work, and understate it where routine account administration is concentrated.",
+      "rationale": "Loan servicing is information-intensive: O*NET lists maintaining loan records, monitoring payment status, correcting interest and principal errors, answering borrower questions, keeping interaction records, processing payments, and preparing compliance documentation. Much of the preparation and retrieval work is assistable, but accountable resolution of payment disputes, escrow problems, loss mitigation, complaints, and legal notices remains judgment-heavy.",
+      "change_evidence": "A payroll-weighted time-and-motion study from independent subservicers separating routine payment, escrow, notice, call, document, complaint, default, loss-mitigation, quality-control, and compliance hours would materially change this range.",
+      "source_ids": ["S2", "S3", "S4", "S8", "S9"],
+      "caveats": [
+        "The BLS occupation evidence is for NAICS 522 rather than the six-digit code or narrowed servicing lens.",
+        "O*NET tasks are occupation-wide and do not measure current AI substitution or wage-weighted time.",
+        "Servicing complexity varies sharply between current accounts, delinquent accounts, reverse mortgages, and specialty portfolios."
+      ]
+    },
+    "rho": {
+      "evidence_state": "PROXY",
+      "low": 0.3,
+      "base": 0.5,
+      "high": 0.68,
+      "bridge": "The Census Business Trends and Outlook Survey measures any recent AI use across Finance and Insurance, not implementation of exposed servicing labor. I use the sector's 33.9% current-use rate and roughly 39% six-month expected-use rate as adoption anchors, allow further five-year diffusion, and discount for legacy servicing systems, model validation, consumer-finance law, audit trails, data quality, borrower harm, vendor oversight, and human approval. Sector-wide adoption may overstate readiness at small servicers but understate adoption through servicing-platform vendors.",
+      "rationale": "Servicers can implement retrieval-augmented agent assistance, call and correspondence summaries, document classification, payment and escrow exception triage, draft notices, complaint routing, quality sampling, and compliance monitoring. Full conversion is constrained because incomplete transfer data, incorrect payment calculations, and inaccessible records can directly harm borrowers and create enforcement exposure.",
+      "change_evidence": "A five-year cohort of independent servicers reporting deployed use cases, sustained user adoption, straight-through completion, labor hours saved, exception rates, borrower complaints, fair-lending tests, model incidents, and remediation costs would materially change implementation expectations.",
+      "source_ids": ["S5", "S9"],
+      "caveats": [
+        "Sector-wide AI use is not specific to loan servicing or to lower-middle-market providers.",
+        "Reported use in any business function does not measure realized labor avoidance.",
+        "Legacy integrations and portfolio-specific client controls can delay rollout even when tools are technically available."
+      ]
+    },
+    "e": {
+      "evidence_state": "ESTIMATE",
+      "low": 0.18,
+      "base": 0.34,
+      "high": 0.55,
+      "rationale": "The Census classification material confirms that 522390 combines money transmission, check cashing, payday lending, and mortgage or non-mortgage loan servicing. Only the independent third-party servicing portion fits the narrowed recurring outsourced-service lens, and eligibility is further reduced by captive servicing units, lender-owned platforms, entities outside the earnings band, non-transferable licenses or contracts, and firms whose primary activity is classified elsewhere.",
+      "change_evidence": "A stratified business-database and NMLS review matching 522390 firms to primary activity, loan count, third-party versus captive status, client concentration, servicing contracts, licenses, ownership, revenue, and normalized EBITDA would materially change the eligible share.",
+      "source_ids": ["S1"],
+      "caveats": [
+        "No public source measures the share of LMM-band 522390 firms that are independent third-party servicers.",
+        "One legal entity may combine loan ownership, origination, servicing, collections, and payments activities across NAICS codes.",
+        "The injected firm count uses a broad non-bank financial-services margin bridge and may misclassify servicing firms around the earnings band."
+      ]
+    },
+    "s5": {
+      "evidence_state": "PROXY",
+      "low": 0.05,
+      "base": 0.11,
+      "high": 0.18,
+      "bridge": "Gallup measures intended sale or ownership transfer among employer-business owners across industries, not completed control transfers of regulated loan servicers. I discount the 22% five-year intention rate for failed or internal transfers, portfolio-client consent, licensing and change-of-control requirements, data and compliance diligence, and the possibility that servicing rights transfer without the operating company. The broad survey likely overstates completed company transfers, while active consolidation of servicing portfolios could raise opportunities for qualified buyers.",
+      "rationale": "Independent servicers can transfer through founder succession or strategic consolidation, but a qualifying control deal must preserve client contracts, licenses, systems, data integrity, and borrower operations. Portfolio or servicing-rights trades are not automatically control transfers of the firm and are excluded.",
+      "change_evidence": "A five-year transaction dataset linking control acquisitions of independent loan servicers to the eligible firm stock, including failed deals, ownership changes, portfolio-only transfers, client consents, license approvals, and seller age, would materially change this probability.",
+      "source_ids": ["S6", "S8"],
+      "caveats": [
+        "Gallup measures owner intentions across industries rather than completed regulated-servicer acquisitions.",
+        "Servicing-rights and portfolio transfers can be mistaken for company control transactions.",
+        "Public deal databases undercount small private transactions and do not consistently identify primary NAICS."
+      ]
+    },
+    "q": {
+      "evidence_state": "ESTIMATE",
+      "low": 0.3,
+      "base": 0.52,
+      "high": 0.75,
+      "rationale": "Per-loan and portfolio servicing contracts can allow an operator to retain workflow savings during a contract term, especially when the service level and fee are fixed. Retention is reduced when sophisticated lender or investor clients rebid portfolios, demand fee concessions at renewal, require funded technology changes, impose service-level credits, or treat savings as necessary remediation rather than margin. Borrower-facing compliance obligations limit the ability to reduce controls simply because a task is automated.",
+      "change_evidence": "A contract cohort showing fee basis, term, renewal and repricing clauses, service-level penalties, technology pass-throughs, portfolio transfers, and realized margin before and after documented automation would materially change retention.",
+      "source_ids": ["S8", "S9"],
+      "caveats": [
+        "No cited source measures retention of AI-enabled benefits by independent servicers.",
+        "Contract economics differ between primary mortgage, specialty, reverse-mortgage, consumer, and government servicing.",
+        "Compliance remediation and stronger quality controls may absorb savings that would otherwise reach margin."
+      ]
+    },
+    "d5": {
+      "evidence_state": "PROXY",
+      "low": 0.9,
+      "base": 1.05,
+      "high": 1.16,
+      "bridge": "The New York Fed measures outstanding household credit balances and originations, not constant-price third-party servicing quantity or account counts. Mortgage balances were $13.19 trillion in Q1 2026 and rose $387 billion over the year, while other major loan balances remained large. I translate this durable installed stock into modest five-year servicing-volume growth, with a wide range for payoff rates, originations, lender insourcing, account counts, and portfolio outsourcing. Dollar balances can overstate quantity growth when average loan size rises.",
+      "rationale": "Outstanding mortgages, auto loans, student loans, and other consumer credit require administration throughout their lives, so servicing demand is supported by the installed stock as well as new originations. Volume can still fall for the narrowed provider population if lenders insource, portfolios consolidate onto large platforms, or account counts decline despite higher balances.",
+      "change_evidence": "Five-year forecasts and realized series for serviced account counts, unpaid principal balance, runoff, new originations, outsourcing penetration, insourcing, and portfolio awards by independent servicer segment would materially change this ratio.",
+      "source_ids": ["S7", "S8"],
+      "caveats": [
+        "Household debt balances are not loan counts and exclude important commercial servicing segments.",
+        "The source does not separate captive from third-party servicing.",
+        "Servicing demand can move with delinquency complexity even when account quantity is flat."
+      ]
+    },
+    "o": {
+      "evidence_state": "ESTIMATE",
+      "low": 0.82,
+      "base": 0.92,
+      "high": 0.98,
+      "rationale": "Software can automate borrower self-service, routine communications, calculations, and exception detection, but an accountable servicer must still collect and apply payments, maintain records, administer escrow, issue required statements and notices, handle transfers, resolve errors and information requests, and manage loss mitigation. The operator may become more technology-centered, yet the legal and contractual responsibility does not disappear with a software interface.",
+      "change_evidence": "Regulatory guidance, lender procurement data, and portfolio migrations showing what share of servicing functions can be supplied without a licensed contractual servicer, including software-only and lender self-service models, would materially change this estimate.",
+      "source_ids": ["S8", "S9"],
+      "caveats": [
+        "No source directly measures the future operator-required share of servicing quantity.",
+        "Large lenders can self-service or buy software rather than outsource to the narrowed provider population.",
+        "Automation may eliminate substantial human work while leaving the accountable operator formally in place."
+      ]
+    }
+  },
+  "narrative": {
+    "executive_view": "Independent loan servicing is a recurring, data-heavy outsourced function with meaningful scope for AI-assisted administration, but its economics depend on portfolio contracts and exact regulatory execution. The broader code is highly heterogeneous, so the screen is restricted to third-party servicers rather than consumer money services or payday lending.",
+    "ai_impact": "AI can classify incoming documents, retrieve account history, summarize calls, draft compliant correspondence, triage payment and escrow exceptions, assist complaint investigations, sample quality, and support agents during borrower interactions. Humans remain responsible for disputed facts, loss-mitigation decisions, escalations, adverse outcomes, and control sign-off.",
+    "value_capture": "Fixed per-loan or portfolio fees can preserve some savings during a contract term. Capture weakens when lender and investor clients rebid work, negotiate lower renewal prices, require technology investment, impose service-level credits, or expect savings to fund stronger compliance and borrower support.",
+    "firm_availability": "A plausible independent-servicer population exists, but 522390 also contains several unrelated financial models. Captive operations, lender-owned platforms, portfolio-only asset trades, client consent, licensing, data migration, and compliance history narrow the conventional control-acquisition pool.",
+    "demand_durability": "Large installed loan balances create continuing payment, statement, escrow, record, transfer, and exception workloads. Demand for independent providers is less secure than underlying credit volume because lenders can insource, consolidate portfolios with scaled platforms, or shift work to software-enabled captive teams.",
+    "risks_and_uncertainty": "The main uncertainties are the eligible share of this mixed code, the dataset margin bridge, contract-level retention, and the difference between loan balances and outsourced account quantity. Operational risks include incorrect payment application, escrow failures, incomplete transfer data, faulty notices, consumer complaints, fair-lending issues, cyber incidents, vendor failures, client concentration, regulatory enforcement, and costly portfolio migrations.",
+    "principal_driver": "Recurring account administration and document-intensive compliance create a durable workflow-assistance opportunity across outsourced loan portfolios.",
+    "principal_weakness": "Regulatory error costs, client repricing, platform consolidation, and the code's mixed business models constrain realizable labor savings and the transferable firm pool."
+  },
+  "sources": [
+    {
+      "id": "S1",
+      "url": "https://bhs.econ.census.gov/ombpdfs2022/export/2022_FI-52230_su.pdf",
+      "title": "2022 Economic Census Form FI-52230: Activities Related to Credit Intermediation",
+      "access_date": "2026-07-22",
+      "supports": "Lists money transfer, check cashing, payday loans, and mortgage and non-mortgage loan servicing as distinct activities classified within 522390, supporting the code's heterogeneity."
+    },
+    {
+      "id": "S2",
+      "url": "https://www.bls.gov/iag/tgs/iag522.htm",
+      "title": "Credit Intermediation and Related Activities: NAICS 522",
+      "access_date": "2026-07-22",
+      "supports": "Provides broader-subsector occupational context, including customer service representatives, loan interviewers and clerks, loan officers, financial managers, and tellers."
+    },
+    {
+      "id": "S3",
+      "url": "https://www.onetonline.org/link/summary/43-4131.00",
+      "title": "O*NET OnLine: Loan Interviewers and Clerks",
+      "access_date": "2026-07-22",
+      "supports": "Describes loan-record verification, document assembly, computerized recording, payment monitoring, error correction, customer communication, and account-administration tasks."
+    },
+    {
+      "id": "S4",
+      "url": "https://www.onetonline.org/link/summary/43-4051.00",
+      "title": "O*NET OnLine: Customer Service Representatives",
+      "access_date": "2026-07-22",
+      "supports": "Describes routine inquiries, complaint handling, transaction records, payment processing, billing resolution, and compliance documentation."
+    },
+    {
+      "id": "S5",
+      "url": "https://www.census.gov/library/stories/2026/05/ai-use-businesses.html",
+      "title": "Large Firms With at Least 20 Employees Biggest AI Users",
+      "access_date": "2026-07-22",
+      "supports": "Reports 33.9% current AI use in Finance and Insurance as of May 3, 2026 and roughly 39% expected use within six months, with use measured across business functions."
+    },
+    {
+      "id": "S6",
+      "url": "https://news.gallup.com/poll/657362/small-business-owners-lack-succession-plan.aspx",
+      "title": "Most Small-Business Owners Lack a Succession Plan",
+      "access_date": "2026-07-22",
+      "supports": "Reports that 22% of employer-business owners intended to sell, transfer, or take public their business within five years, used as a broad succession proxy."
+    },
+    {
+      "id": "S7",
+      "url": "https://www.newyorkfed.org/newsevents/news/research/2026/20260512",
+      "title": "Household Debt Balances Rise Slightly as Delinquency Transition Rates Hold Steady",
+      "access_date": "2026-07-22",
+      "supports": "Reports Q1 2026 household debt balances, including $13.19 trillion in mortgages, $1.69 trillion in auto loans, and $1.66 trillion in student loans, plus $530 billion of quarterly mortgage originations."
+    },
+    {
+      "id": "S8",
+      "url": "https://www.consumerfinance.gov/rules-policy/regulations/1024/ms1/",
+      "title": "CFPB Regulation X Appendix MS-1: Mortgage Servicing Disclosure Statement",
+      "access_date": "2026-07-22",
+      "supports": "Defines servicing as collecting principal, interest, and escrow payments, sending statements, tracking balances, handling other loan aspects, and permits servicing-right transfers with notice."
+    },
+    {
+      "id": "S9",
+      "url": "https://www.consumerfinance.gov/enforcement/actions/servis-one-inc-db-bsi-financial-services/",
+      "title": "CFPB Enforcement Action: Servis One, Inc. d/b/a BSI Financial Services",
+      "access_date": "2026-07-22",
+      "supports": "Documents servicing risks involving incomplete transfer data, escrow, adjustable-rate inputs, statements, document management, vendor oversight, and required data-integrity and technology controls."
+    }
+  ]
+}
