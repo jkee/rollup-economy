@@ -205,3 +205,49 @@ implementation measures, sparse transfer denominators, estimated eligible-firm
 populations, and judgmental retention/operator-necessity bridges. No review
 found a correction meeting the frozen base-tier-or-action materiality test, and
 the predeclared pause trigger did not fire.
+
+## S5 — Real estate, rental and leasing, and management of companies
+
+**Closed:** 2026-07-22
+**Coverage:** 27 attempted, 27 deterministically valid, 27 published, 0 excluded
+**Independent review:** 7/27 (4 mandatory, 3 random, 0 canary)
+**Review outcomes:** 7 `publishable_with_caveats`; 0 `publishable`; 0 `reject`; 0 `invalid`
+**Material findings:** 0
+**Remediations:** 0
+
+### Screen distribution
+
+- Base tiers: 4 `PRIORITY`, 8 `CONDITIONAL`, 8 `LOW_PRIORITY`,
+  5 `STRUCTURAL_OUT`, and 2 without a base tier.
+- Readiness: 25 `MODEL_CONDITIONED`; 2 `STRESS_TEST_ONLY`.
+- Actions: 25 `VALIDATE_ASSUMPTIONS`; 2 `EVIDENCE_FIRST`.
+- Robust tiers: 2/27, both `STRUCTURAL_OUT`.
+- Publication labels: 7 `accepted`; 20 `not_reviewed` by the frozen sampling
+  contract.
+
+The random stratum consisted of `531210`, `532412`, and `532490`. All three
+were accepted with caveats and carried no material finding. These are sample
+observations only; no S5 defect rate is estimated.
+
+### Economic read
+
+The screen favored recurring operating services over ownership and asset-heavy
+models. Residential and nonresidential property managers, other real-estate
+support activities, and general rental centers reached `PRIORITY`. None reached
+`HIGHEST_PRIORITY`, and every scored record remained model-conditioned.
+
+Building lessors, vehicle/equipment rental categories, and several specialty
+rental models concentrated in `LOW_PRIORITY`, `CONDITIONAL`, or
+`STRUCTURAL_OUT` as low labor opportunity, asset intensity, or thin
+transferable-firm depth constrained the frozen lens. Offices of bank and other
+holding companies had no base tier and correctly routed to `STRESS_TEST_ONLY /
+EVIDENCE_FIRST`.
+
+The frozen `551114` dataset anomaly mechanically maxed its base H factor at
+10.0, but the record still screened `LOW_PRIORITY` and
+`MODEL_CONDITIONED / VALIDATE_ASSUMPTIONS`; no input was edited or tuned around
+the anomaly. Validators' caveats centered on broad real-estate/rental proxies,
+estimated eligibility and transaction depth, limited LMM implementation
+evidence, and judgmental retention/operator-necessity bridges. No review found
+a correction meeting the frozen materiality test, and the predeclared pause
+trigger did not fire.
