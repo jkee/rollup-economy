@@ -1,0 +1,203 @@
+{
+  "identity": {
+    "naics": "711211",
+    "title": "Sports Teams and Clubs",
+    "run_id": "711211-a1-20260722",
+    "model_id": "claude-sonnet-5",
+    "run_date": "2026-07-22",
+    "methodology_version": "5.1",
+    "attempt": 1
+  },
+  "lens": {
+    "included_activities": "Professional and semiprofessional U.S. sports teams or clubs in the lower-middle-market band that repeatedly provide live and mediated sports entertainment and associated sponsorship inventory to paying fans, sponsors, and media partners.",
+    "excluded_activities": "Major or other teams outside the lower-middle-market EBITDA band, recreational and youth teams, amateur leagues and associations, event promoters that do not participate, racetracks, independent athletes, captive teams, passive minority stakes, and non-control financing vehicles.",
+    "customer_and_revenue_model": "Recurring season and single-game ticket sales, sponsorship and advertising contracts, local or league-distributed media rights, suites and premium seating, concessions, merchandise and licensing, and league distributions; the mix varies materially by sport and league level.",
+    "deviation_from_default": "none",
+    "heterogeneous": false
+  },
+  "primitives": {
+    "a": {
+      "evidence_state": "PROXY",
+      "low": 0.1,
+      "base": 0.16,
+      "high": 0.24,
+      "bridge": "BLS publishes the occupation and wage mix for NAICS 711200 Spectator Sports, which includes sports teams but also racetracks, independent athletes, and support establishments. I separated high-wage athletes, coaches, health, security, food, venue, and live-event execution from more exposed management, marketing, finance, analytics, media, ticket sales, customer service, and office tasks, then approximated wage weights using reported employment and mean wages. Anthropic's task-level usage evidence informs exposure of the digital groups. The broader 711200 data likely understates athlete and coach wage weight for 711211 and therefore may overstate the exposed share, while it may understate the breadth of digital duties at lean minor-league clubs.",
+      "rationale": "In broader spectator sports, athletes and coaches alone were 16.35% of employment and carried unusually high mean annual wages, while management was 9.60%, business and financial operations 5.64%, computer and mathematical work 1.12%, sales 8.13%, and office support 8.17%. AI can assist marketing, sponsorship proposals, fan service, content, ticket targeting, finance, scheduling, scouting analysis, and video preparation, but it does not substitute for athletic performance and only partially substitutes for coaching judgment, medical care, or live-event execution. The wage-weighted opportunity is therefore lower than an employment-share view of exposed back-office work would suggest.",
+      "change_evidence": "Payroll-level occupation and task data from 15 to 20 minor-league or semiprofessional teams, including player payroll and current automation, mapped to O*NET tasks and frontier-model evaluations, would materially change the estimate.",
+      "source_ids": ["S2", "S3"],
+      "caveats": [
+        "The occupation data are for NAICS 711200 rather than 711211 and include racetrack and other spectator-sports employment.",
+        "OEWS excludes self-employed workers and does not measure tasks already automated.",
+        "Observed Claude usage is not equivalent to technical exposure or realized labor substitution.",
+        "A small number of highly paid athletes can dominate wage weighting."
+      ]
+    },
+    "rho": {
+      "evidence_state": "ESTIMATE",
+      "low": 0.38,
+      "base": 0.55,
+      "high": 0.72,
+      "rationale": "Over five years, teams can implement AI in marketing production, sponsorship sales support, fan communications, ticket targeting, scheduling, bookkeeping, scouting summaries, video tagging, and administrative workflows. Realization is limited by fragmented league and ticketing systems, data rights, competitive secrecy, labor agreements, health and player-safety obligations, brand risk, and human approval of roster, coaching, medical, and public-facing decisions. The range applies only to the exposed tasks in a.",
+      "change_evidence": "Before-and-after deployment studies at minor-league teams measuring hours saved, avoided hiring, error rates, conversion rates, fan complaints, and twelve-month persistence by workflow would materially move this estimate.",
+      "source_ids": ["S3"],
+      "caveats": [
+        "No implementation study specific to lower-middle-market sports teams was found.",
+        "Current adoption may already be high in analytics and ticketing, reducing incremental opportunity.",
+        "League rules, collective bargaining, and sensitive player data constrain autonomous use."
+      ]
+    },
+    "e": {
+      "evidence_state": "MISSING",
+      "low": null,
+      "base": null,
+      "high": null,
+      "rationale": "The frozen dataset supplies n equal to zero estimated LMM-band firms. With no firms in the denominator, a share of LMM firms eligible under the lens is undefined rather than zero. The available industry sources do not directly test whether the margin-bridged estimate has missed candidate teams, and the instruction prohibits re-estimating n.",
+      "change_evidence": "A complete Census or league roster linked to audited or broker-normalized EBITDA for every professional and semiprofessional U.S. team would establish whether an LMM denominator exists and, if so, permit direct coding of control, customer, and operating eligibility.",
+      "source_ids": [],
+      "caveats": [
+        "The supplied n is an ESTIMATE derived with a broad Recreation margin and may not reflect player compensation, league distributions, venue economics, or team-specific accounting.",
+        "A zero estimated count does not prove that no individual team has LMM normalized EBITDA.",
+        "No neutral or zero eligibility share is substituted for the missing denominator."
+      ]
+    },
+    "s5": {
+      "evidence_state": "ESTIMATE",
+      "low": 0.12,
+      "base": 0.2,
+      "high": 0.28,
+      "rationale": "For a hypothetical eligible team, recent Minor League Baseball disclosures show both single-club and multi-club control transfers and the presence of repeat consolidators. Transactions remain constrained by league approval, affiliation relationships, local stadium agreements, scarcity, financing, community politics, and long owner tenures. The estimate concerns control transfers only and excludes passive minority interests.",
+      "change_evidence": "A five-year census of completed control transfers and eligible-team-years from league approval records, PitchBook, Sportico, Forbes transaction data, and minor-league ownership registries would directly determine the probability.",
+      "source_ids": ["S5", "S6"],
+      "caveats": [
+        "The cited transactions demonstrate deal feasibility but do not provide a denominator or observed transfer rate.",
+        "Minor-league baseball may be more actively consolidating than other sports or semiprofessional leagues.",
+        "The primitive is counterfactual in this packet because the frozen LMM firm count is zero."
+      ]
+    },
+    "q": {
+      "evidence_state": "ESTIMATE",
+      "low": 0.62,
+      "base": 0.72,
+      "high": 0.82,
+      "rationale": "Team revenues are primarily demand-priced tickets, negotiated sponsorships, concessions, and long-duration or league-distributed media rights rather than cost-plus contracts. Operational savings therefore are not automatically passed through to fans or commercial partners. Retention is reduced by league revenue sharing, collective bargaining or roster-spending pressure, vendor commissions, renewal negotiations, and the tendency to reinvest savings in player or fan experience. The discounted five-year share is still expected to be above one-half.",
+      "change_evidence": "Team-level contracts and financial statements showing ticket-pricing rules, sponsorship renewals, media and league distributions, revenue-sharing assessments, payroll rules, and the disposition of realized operating savings would materially change the estimate.",
+      "source_ids": ["S7", "S8"],
+      "caveats": [
+        "The public-company evidence comes from major-league teams far above the target band.",
+        "Minor-league teams may face more price competition from local entertainment and greater pressure from affiliates or venue partners.",
+        "Savings reinvested in the team are not retained gross benefit for this construct."
+      ]
+    },
+    "d5": {
+      "evidence_state": "PROXY",
+      "low": 0.96,
+      "base": 1.11,
+      "high": 1.25,
+      "bridge": "BLS projects constant-dollar output for the broader NAICS 711200 Spectator Sports industry from $63.9 billion in 2024 to $78.4 billion in 2034, a 2.1% annual increase; applying that rate for five years gives approximately 1.11. MLB and NHL attendance and viewership data corroborate current demand but represent top leagues, not LMM teams. The broader BLS category and major-league indicators may overstate demand for lower-level clubs; conversely, they may understate growth in emerging sports and new local franchises.",
+      "rationale": "The base follows the closest constant-price federal output projection. MLB reported a third consecutive year of attendance growth in 2025 and broad viewership gains, while the NHL reported a third consecutive regular-season attendance record in 2024-25. The range allows for recession sensitivity, local market saturation, media disruption, league contraction or expansion, team performance, and differences between major and lower-tier clubs.",
+      "change_evidence": "A constant-price five-year panel of attendance, paid tickets, sponsorship inventory sold, local media consumption, and home-event counts for all candidate minor-league and semiprofessional teams would materially move the estimate.",
+      "source_ids": ["S4", "S9", "S10"],
+      "caveats": [
+        "BLS output covers all NAICS 711200, not only teams and clubs or the nonexistent frozen LMM subset.",
+        "MLB and NHL evidence reflects major leagues with stronger brands and media economics than most smaller teams.",
+        "Attendance and viewership are quantities related to, but not identical to, constant-quality service demand."
+      ]
+    },
+    "o": {
+      "evidence_state": "ESTIMATE",
+      "low": 0.96,
+      "base": 0.98,
+      "high": 0.995,
+      "rationale": "The current service basket is competitive live sport produced by a team or club. Software can automate content, ticketing, analytics, officiating support, and other components, but a league-recognized organization must still employ or contract players, field a team, comply with rules, coordinate venues and opponents, and remain accountable to fans, sponsors, media partners, and the league. Some marginal viewing or attendance may shift to synthetic entertainment or self-service highlights, but that is limited within demand remaining after d5.",
+      "change_evidence": "Fan and sponsor substitution surveys, league experiments with synthetic competition, and observed cancellations of team-operated events in favor of software-only products would materially change this estimate.",
+      "source_ids": ["S1", "S9", "S10"],
+      "caveats": [
+        "No source directly measures five-year operator displacement for sports teams.",
+        "Media consumption can become more software-mediated without eliminating the accountable team operator.",
+        "Esports and synthetic sports could become stronger substitutes than current evidence indicates."
+      ]
+    }
+  },
+  "narrative": {
+    "executive_view": "Sports teams combine high recurring fan engagement and commercially valuable media and sponsorship inventory with a service core that software cannot independently provide. AI can improve the commercial and administrative perimeter, but the frozen dataset estimates no firms in the target EBITDA band, so there is no evidenced acquisition population under this screen and the eligible-firm share is undefined.",
+    "ai_impact": "AI can automate or accelerate fan communications, campaign and sponsorship content, ticket targeting, customer service, bookkeeping, scheduling, scouting summaries, video indexing, and some analytical preparation. The wage-weighted opportunity remains bounded because athlete and coach compensation is large, competitive performance is physical, and medical, roster, coaching, and live-event decisions require accountable humans.",
+    "value_capture": "Tickets are demand-priced, and sponsorship and media rights are negotiated or distributed through leagues rather than billed on cost-plus terms, so productivity benefits need not flow directly to customers. League revenue sharing, labor economics, vendor commissions, and reinvestment in roster or fan experience reduce what the operator ultimately retains.",
+    "firm_availability": "Recent minor-league baseball sales show that control transfers and multi-team ownership strategies occur, but league approvals and affiliation, venue, and community obligations constrain deals. More fundamentally, the frozen firm estimate is zero; without evidence of a target-band denominator, no eligibility share can be defended and transfer probability is only a counterfactual estimate for a hypothetical eligible club.",
+    "demand_durability": "Federal projections imply moderate real output growth for spectator sports, and recent MLB and NHL attendance and media indicators show strong major-league demand. Local and lower-tier clubs face much more volatility from team performance, discretionary spending, media fragmentation, venue quality, and league structure, but continuing sports demand overwhelmingly requires an accountable team operator.",
+    "risks_and_uncertainty": "The decisive uncertainty is whether any firms actually occupy the target EBITDA band after normalizing player payroll, league distributions, venue arrangements, and related-party costs. Other risks include league approval, affiliation loss, media-rights disruption, collective bargaining, player injury and safety, local public-sector dependence, team-performance volatility, customer concentration, and the mismatch between broad spectator-sports data and sports-team operations.",
+    "principal_driver": "Recurring tickets, sponsorship, and media relationships support durable demand and allow digitally exposed commercial workflows around an operator-required live product.",
+    "principal_weakness": "The frozen dataset estimates zero target-band firms, leaving eligibility undefined and any firm-transfer opportunity unsupported without direct team-level financial data."
+  },
+  "sources": [
+    {
+      "id": "S1",
+      "url": "https://www.census.gov/naics/resources/archives/sect71.html",
+      "title": "NAICS 711211 Sports Teams and Clubs definition",
+      "access_date": "2026-07-22",
+      "supports": "Defines the industry as professional or semiprofessional sports teams or clubs participating in live events before a paying audience and distinguishes recreational teams, leagues, and nonparticipating promoters."
+    },
+    {
+      "id": "S2",
+      "url": "https://www.bls.gov/oes/2023/may/naics4_711200.htm",
+      "title": "May 2023 National Industry-Specific Occupational Employment and Wage Estimates: NAICS 711200 Spectator Sports",
+      "access_date": "2026-07-22",
+      "supports": "Reports 150,300 jobs and detailed employment shares and wages, including management, business, computer, athlete, coach, media, sales, office, health, security, food-service, and event-attendant occupations."
+    },
+    {
+      "id": "S3",
+      "url": "https://www.anthropic.com/research/anthropic-economic-index-january-2026-report",
+      "title": "Anthropic Economic Index report: Economic primitives",
+      "access_date": "2026-07-22",
+      "supports": "Documents observed AI use by O*NET and SOC task groups and enterprise automation of office workflows including email, document processing, customer relationship management, and scheduling."
+    },
+    {
+      "id": "S4",
+      "url": "https://www.bls.gov/emp/tables/industry-employment-and-output.htm",
+      "title": "Employment and output by industry, 2024-2034",
+      "access_date": "2026-07-22",
+      "supports": "Projects NAICS 711200 real output from $63.9 billion in 2024 to $78.4 billion in 2034, a 2.1% compound annual increase, and employment from 171,500 to 179,600."
+    },
+    {
+      "id": "S5",
+      "url": "https://www.milb.com/news/reading-fightin-phils-welcome-diamond-baseball-holdings-as-new-owner",
+      "title": "Reading Fightin Phils Welcome Diamond Baseball Holdings as New Owner",
+      "access_date": "2026-07-22",
+      "supports": "Documents the June 2025 sale of the Double-A Reading Fightin Phils to Diamond Baseball Holdings, with the club retaining its affiliation and front-office staff."
+    },
+    {
+      "id": "S6",
+      "url": "https://www.milb.com/news/astros-announce-sale-of-sug-and-two-affiliates-to-dbh",
+      "title": "Houston Astros Announce Sale of Three Minor League Affiliates to Diamond Baseball Holdings",
+      "access_date": "2026-07-22",
+      "supports": "Documents the December 2025 agreed sale of Triple-A, Double-A, and Single-A clubs to a multi-club owner."
+    },
+    {
+      "id": "S7",
+      "url": "https://www.sec.gov/Archives/edgar/data/1636519/000163651925000027/msgs-20250630.htm",
+      "title": "Madison Square Garden Sports Corp. 2025 Form 10-K",
+      "access_date": "2026-07-22",
+      "supports": "Describes membership, group, and dynamically priced single-game tickets; league and local media rights as significant recurring revenue; sponsorship and suite sales; and long-duration media contracts."
+    },
+    {
+      "id": "S8",
+      "url": "https://www.sec.gov/Archives/edgar/data/1958140/000110465926020650/batra-20251231x10k.htm",
+      "title": "Atlanta Braves Holdings, Inc. 2025 Form 10-K",
+      "access_date": "2026-07-22",
+      "supports": "Reports 2025 baseball revenue by event, broadcasting, retail and licensing, and other sources, and describes contractual ticket, sponsorship, and broadcasting rate changes plus MLB revenue-sharing costs."
+    },
+    {
+      "id": "S9",
+      "url": "https://www.mlb.com/press-release/press-release-mlb-attendance-reaches-71-4-million-three-straight-years-of-growth-for-first-time-since-2007",
+      "title": "MLB attendance reaches 71.4 million; three straight years of growth for first time since 2007",
+      "access_date": "2026-07-22",
+      "supports": "Reports 71,409,421 attendance in 2025, a third consecutive year of growth, plus increases across national, local, and streaming viewership."
+    },
+    {
+      "id": "S10",
+      "url": "https://www.nhl.com/news/nhl-sets-regular-season-attendance-record-in-2024-2025",
+      "title": "NHL sets regular-season attendance record, passes 23 million for first time",
+      "access_date": "2026-07-22",
+      "supports": "Reports 23,014,458 attendance and 96.9% capacity in 2024-25, the league's third consecutive regular-season attendance record."
+    }
+  ]
+}

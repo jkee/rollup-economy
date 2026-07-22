@@ -1,0 +1,199 @@
+{
+  "identity": {
+    "naics": "611710",
+    "title": "Educational Support Services",
+    "run_id": "611710-a1-20260722",
+    "model_id": "claude-sonnet-5",
+    "run_date": "2026-07-22",
+    "methodology_version": "5.1",
+    "attempt": 1
+  },
+  "lens": {
+    "included_activities": "US educational consulting, curriculum and assessment support, testing and evaluation, guidance and counseling, student-support administration, and related non-instructional services sold repeatedly or under recurring contracts to schools, institutions, families, or other external customers by firms in the lower-middle-market EBITDA band.",
+    "excluded_activities": "Captive school-district or university departments, pure software vendors, instructional schools and tutoring businesses classified elsewhere, shells and financing vehicles, one-person practices whose client relationships cannot transfer, and purely one-off project firms without repeat demand.",
+    "customer_and_revenue_model": "Customers include public and private school systems, colleges, education agencies, foundations, employers, and families. Revenue commonly combines school-year service contracts, retained or shared specialist capacity, fixed-scope packages, testing volumes, and hourly or daily consulting fees.",
+    "deviation_from_default": "none",
+    "heterogeneous": true
+  },
+  "primitives": {
+    "a": {
+      "evidence_state": "PROXY",
+      "low": 0.28,
+      "base": 0.38,
+      "high": 0.49,
+      "bridge": "BLS measures the 2024 headcount mix, not wage-weighted task exposure: educational instruction and library occupations are 31.9% of 611700 employment, management 14.9%, business and financial operations 12.7%, office support 11.1%, and community and social service 10.7%. O*NET shows instructional-coordinator work mixes document, research, evaluation and administrative activities with observation, advice, training and relationship work. The range assigns higher exposure to document, analysis, scheduling, service and content-drafting tasks and lower exposure to accountable counseling, observation and live facilitation, then allows for managers' higher wages. Headcount weighting likely understates the influence of higher-paid management and professional roles, while generic GenAI use evidence may overstate substitutability of regulated or high-stakes work.",
+      "rationale": "The occupation mix is unusually knowledge- and document-intensive, with material business, office, curriculum, testing, research and communication work. AI can draft curricula, reports, proposals, communications and test items; summarize records; perform first-pass analysis; and support scheduling and intake. However, much of the wage base remains tied to judgment, client trust, observation, counseling, facilitation, validation and accountability, so exposed work is well below the full digital-work share.",
+      "change_evidence": "A payroll-weighted time-and-motion study from 20 or more 611710 firms that maps hours and wages to task-level AI exposure, distinguishes already automated work, and separately samples testing, counseling, curriculum, exchange-program and institutional-consulting firms.",
+      "source_ids": ["S1", "S2", "S3"],
+      "caveats": [
+        "BLS publishes this industry as 611700, the five-digit presentation for the single six-digit 611710 industry, and the matrix is employment-weighted rather than wage-weighted.",
+        "O*NET describes instructional coordinators, one important occupation, not every occupation or business model in the industry.",
+        "The dataset labor ratio uses 2024 wages over 2022 receipts and is harmonized to the IPS basis, so its vintage and normalization limitations remain material."
+      ]
+    },
+    "rho": {
+      "evidence_state": "PROXY",
+      "low": 0.34,
+      "base": 0.54,
+      "high": 0.7,
+      "bridge": "OECD reports that 37% of lower-secondary teachers used AI for work in 2024 and 57% agreed AI helps write or improve lesson plans; these are international teacher adoption and attitudes, not five-year implementation by US outsourced-support firms. The base treats current use as a floor on some workflows and projects broader supervised implementation over five years, while reducing for integration, review, procurement, privacy and change-management friction. Teacher evidence may understate adoption by digitally capable consulting and testing firms but overstate the safe automation share in high-stakes assessment and student-record workflows.",
+      "rationale": "Five years should permit routine deployment in drafting, knowledge retrieval, record summarization, customer operations and first-pass analytics. Implementation will be held below the exposed-task share's technical ceiling because outputs require human review, fragmented client systems slow integration, and student-data privacy and academic-integrity concerns constrain deployment.",
+      "change_evidence": "A 611710-specific operator survey reporting production deployment by workflow, audited hours removed, exception rates, human-review time, client approval requirements, FERPA controls and the share of savings realized without service-quality deterioration.",
+      "source_ids": ["S3", "S8"],
+      "caveats": [
+        "OECD teacher data are not US outsourced educational-support firms and measure current use rather than durable implementation.",
+        "FERPA applicability and contracting controls vary by customer, record type and whether the provider acts for an educational institution.",
+        "Small firms may adopt commodity tools quickly but lack clean data, integrations, formal quality assurance and change capacity."
+      ]
+    },
+    "e": {
+      "evidence_state": "ESTIMATE",
+      "low": 0.5,
+      "base": 0.66,
+      "high": 0.8,
+      "rationale": "The industry definition spans consulting, testing, counseling, student exchange and other support services, so the provided LMM firm estimate includes a meaningful mix of repeat-service businesses and project-based or principal-dependent firms. A majority should serve external customers repeatedly, but eligibility is reduced for one-off consulting, nontransferable practices, customer-captive structures and firms whose economics depend on an owner's personal credentials or relationships.",
+      "change_evidence": "A stratified review of the 785 dataset-estimated LMM firms using websites, contract histories and customer concentration, coded for recurring revenue, external-customer status, owner dependence, business model and EBITDA-quality normalization.",
+      "source_ids": ["S6", "S7"],
+      "caveats": [
+        "No source directly measures the lens-eligible share of firms in the $1-10M normalized EBITDA band.",
+        "The provided firm count is a margin-bridged ESTIMATE based on size-class receipts and a sector margin rather than observed firm EBITDA.",
+        "NAICS 611710 is heterogeneous, and classification errors between consulting, tutoring, software, staffing and social services can be consequential."
+      ]
+    },
+    "s5": {
+      "evidence_state": "PROXY",
+      "low": 0.08,
+      "base": 0.16,
+      "high": 0.26,
+      "bridge": "BizBuySell documents completed transfers of schools and education businesses during 2021-2025, but its population includes schools, tutoring, vocational training and franchises, skews far below the target EBITDA band, and supplies no eligible-firm denominator. Repeated observed sales establish transferability; the range converts broad small-business turnover and a normal owner succession cycle into a five-year control-transfer probability, discounted for thin deal flow, principal dependence and the much larger target size. The marketplace sample likely overstates sale propensity because listed businesses self-select into a sale venue, while excluding proprietary and strategic transactions pushes the other way.",
+      "rationale": "Control transfers are plausible and observable in adjacent education businesses, but only a minority of eligible LMM firms should transact within five years. Institutional contracts and recurring testing or consulting operations can transfer; owner-branded counseling and specialist practices may close, remain independent, or fail buyer diligence instead.",
+      "change_evidence": "A five-year transaction census from Axial, GF Data, PitchBook and education-focused brokers matched to a verified denominator of US 611710 firms in the EBITDA band, with closures, minority investments, internal reorganizations and nontransferable practices excluded.",
+      "source_ids": ["S4"],
+      "caveats": [
+        "BizBuySell is voluntary broker-reported marketplace data and is neither NAICS-pure nor representative of lower-middle-market EBITDA firms.",
+        "The source confirms sale activity and pricing, not an industry transaction probability.",
+        "Succession intent, owner age and strategic-acquirer activity for 611710 are not directly observed."
+      ]
+    },
+    "q": {
+      "evidence_state": "PROXY",
+      "low": 0.42,
+      "base": 0.61,
+      "high": 0.78,
+      "bridge": "A regional educational-service cooperative publishes school-year contracts, shared-service arrangements, day rates and fixed-hour packages for curriculum and instructional support. These structures show that revenue can be fixed for a term or package, not how much AI benefit operators retain over five years. Fixed terms permit near-term retention, but the estimate discounts renewal repricing, competitive bidding, scope expansion, customer negotiation and pass-through in hourly work. Public-sector cooperative pricing may overstate transparency and repricing pressure relative to private negotiated contracts, but may understate competition in commodity testing or counseling.",
+      "rationale": "Term contracts and fixed-scope packages allow productivity gains to accrue to the operator during the contract period. Retention decays at renewal as sophisticated school systems rebid work or demand more service for the same budget; hourly work can lose billable volume immediately. Differentiated expertise, outcome accountability and reinvestment of savings into responsiveness and quality support moderate full pass-through.",
+      "change_evidence": "Contract-level cohort data from 611710 firms showing fee type, renewal cadence, rebid outcomes, annual price and scope changes, AI-related labor-hour reductions, realized gross-margin change and customer concessions for at least three renewal cycles.",
+      "source_ids": ["S5", "S7"],
+      "caveats": [
+        "One cooperative's pricing menu is not representative of all US commercial, family-pay or higher-education contracts.",
+        "The mix of fixed fee, retainer, per-test, daily and hourly billing is not measured for the industry.",
+        "The estimate excludes demand volume effects and implementation difficulty, which belong in other primitives."
+      ]
+    },
+    "d5": {
+      "evidence_state": "PROXY",
+      "low": 0.97,
+      "base": 1.04,
+      "high": 1.11,
+      "bridge": "BLS projects private educational-support employment from 207,700 in 2024 to 227,100 in 2034, a 9.4% ten-year increase; converting that trajectory to roughly five years implies about 4-5% growth. Employment is not constant-price, constant-quality service demand and may diverge because of productivity, outsourcing and wage substitution. NCES separately projects a 5% decline in elementary and secondary teachers from 2019 to 2030, a downside signal for one customer segment. Employment growth may understate service demand if productivity rises, but may overstate it if labor intensity persists while prices or quality change.",
+      "rationale": "The direct BLS industry employment outlook supports modest expansion in educational support services, while falling K-12 enrollment and teacher counts constrain parts of the addressable base. Compliance, testing, special-needs support, institutional change, workforce transitions and outsourcing can sustain demand even with weaker school-age demographics, producing a near-flat to modest-growth five-year range.",
+      "change_evidence": "BLS real-output projections or BEA quantity indexes at NAICS 611710, supplemented by five-year contracted backlog and constant-scope renewal volumes from a representative panel of testing, consulting, counseling and student-support firms.",
+      "source_ids": ["S1", "S9"],
+      "caveats": [
+        "BLS provides employment rather than output for the detailed 611700 line and the projection starts in 2024, not 2026.",
+        "NCES K-12 teacher projections were prepared in 2022 and cover customers rather than outsourced support-service demand.",
+        "Demand varies sharply across testing, counseling, curriculum, exchange and institutional-consulting subsegments."
+      ]
+    },
+    "o": {
+      "evidence_state": "PROXY",
+      "low": 0.62,
+      "base": 0.77,
+      "high": 0.89,
+      "bridge": "O*NET shows instructional coordinators observing staff, conducting training, interpreting rules, advising educators, evaluating programs and maintaining relationships, while also performing administrative and documentation activities. Those task descriptions establish a mix of accountable human and digitizable work, not the year-five operator-required service share. The estimate treats high-stakes judgment, live facilitation, local implementation, counseling and accountable validation as operator-required, while allowing self-service software and AI to eliminate some drafting, navigation, basic advice and commodity analysis. Focusing on instructional coordinators may overstate human requirements in testing and information products but understate them in counseling and complex change work.",
+      "rationale": "Customers can self-serve more content creation, basic test preparation, research and routine guidance through software. Yet schools and families continue to need a responsible entity to interpret policy, validate assessments, protect student records, manage programs, resolve exceptions, counsel people and stand behind outcomes. AI is therefore more likely to compress delivery labor than eliminate the operator across most of the current basket.",
+      "change_evidence": "A service-line revenue migration study that follows 611710 customer cohorts for five years and attributes lost quantity to self-service, software substitution, in-sourcing and quality-adjusted scope changes, supported by procurement-leader interviews.",
+      "source_ids": ["S2", "S3", "S8"],
+      "caveats": [
+        "No source directly measures software substitution or operator elimination for NAICS 611710.",
+        "Commodity guidance and content services may disappear faster than regulated testing, counseling or institution-specific implementation.",
+        "The estimate separates operator requirement from labor implementation and pricing retention to avoid double counting."
+      ]
+    }
+  },
+  "narrative": {
+    "executive_view": "Educational support services combine a sizable labor base with knowledge-heavy workflows that AI can compress, but the industry is not a uniform software-substitution story. Testing, counseling, curriculum, student support and institutional consulting differ materially in recurrence, regulation and owner dependence. The most durable operator value lies in accountable interpretation, validation, implementation and client trust around AI-assisted production.",
+    "ai_impact": "AI can accelerate research, curriculum and test-item drafting, report and proposal writing, record summarization, customer communications, scheduling, intake and first-pass analytics. It is less able to replace observation, counseling, live training, stakeholder alignment, exception handling, high-stakes validation and responsibility for educational outcomes. Human review, FERPA controls, integration and academic-integrity concerns limit the rate at which technical exposure becomes realized labor savings.",
+    "value_capture": "School-year contracts and fixed-scope packages can preserve savings during a term, while hourly billing passes benefits through faster by reducing billable time. At renewals, public procurement and informed customers can demand lower fees or broader scope. Firms retain more value when they bundle AI-enabled speed with trusted expertise, auditability, responsiveness and measurable outcomes rather than selling undifferentiated labor hours.",
+    "firm_availability": "The NAICS category contains repeat-service firms that can transfer, but also project consultancies and owner-branded practices whose goodwill is fragile. Adjacent education-business marketplace data confirms that transactions occur, yet it does not supply a clean denominator or represent the target EBITDA band. Transfer diligence must center on customer contracts, credential portability, concentration, key-person dependence, data rights and whether normalized earnings survive owner exit.",
+    "demand_durability": "BLS expects private educational-support employment to rise over 2024-2034, supporting modest five-year demand growth, while NCES projects fewer K-12 teachers and weaker enrollment-related fundamentals in part of the customer base. Compliance, testing, special-needs services, institutional change and outsourcing support demand, but simple content, navigation and guidance can migrate to self-service AI. Most remaining volume should still require an accountable operator even when fewer labor hours are needed.",
+    "risks_and_uncertainty": "The main uncertainties are the category's business-model heterogeneity, lack of wage-weighted task data, lack of direct LMM transfer rates, unmeasured billing mix and rapid software substitution in commodity services. Procurement pressure could give savings to customers; privacy failures or unreliable outputs could erase savings; and falling school-age populations may offset outsourcing growth. The provided labor ratio mixes 2024 wages with 2022 receipts, and the 785-firm count is itself an EBITDA-margin bridge rather than an observed count.",
+    "principal_driver": "A large concentration of document, analysis, administrative and content workflows that can be AI-assisted while firms retain accountable client-facing delivery.",
+    "principal_weakness": "Heterogeneous business models and scarce direct evidence on recurring-revenue eligibility, transfer probability and five-year price retention."
+  },
+  "sources": [
+    {
+      "id": "S1",
+      "url": "https://data.bls.gov/projections/nationalMatrix?ioType=i&queryParams=61170P",
+      "title": "National Employment Matrix: Educational support services; private (61170P)",
+      "access_date": "2026-07-22",
+      "supports": "BLS 2024 industry employment of 207,700, projected 2034 employment of 227,100 and 9.4% growth; detailed 2024 occupation mix including educational instruction, management, business operations, office support, community and social service, counselors, tutors and instructional coordinators."
+    },
+    {
+      "id": "S2",
+      "url": "https://www.onetonline.org/link/summary/25-9031.00",
+      "title": "O*NET OnLine: Instructional Coordinators",
+      "access_date": "2026-07-22",
+      "supports": "Task and work-activity evidence spanning staff observation, training, code interpretation, curriculum advice, program evaluation, research, administrative activity, documentation, consultation and interpersonal relationships."
+    },
+    {
+      "id": "S3",
+      "url": "https://www.oecd.org/en/publications/oecd-digital-education-outlook-2026_062a7394-en.html",
+      "title": "OECD Digital Education Outlook 2026: Exploring Effective Uses of Generative AI in Education",
+      "access_date": "2026-07-22",
+      "supports": "Reports 37% of lower-secondary teachers used AI for work in 2024, 57% agreed it helps write or improve lesson plans and 72% believed it can harm academic integrity; explains that pedagogical guidance remains necessary."
+    },
+    {
+      "id": "S4",
+      "url": "https://www.bizbuysell.com/learning-center/valuation-benchmarks/school/",
+      "title": "BizBuySell School Business Valuation Benchmarks",
+      "access_date": "2026-07-22",
+      "supports": "Documents schools and education businesses sold during 2021-2025, describes the mixed included population, and reports observed sale pricing, days on market and transaction-derived multiples."
+    },
+    {
+      "id": "S5",
+      "url": "https://resources.finalsite.net/images/v1769796228/swscorg/uc682x5yiub6aycmuisy/2026-27PricingGuideFINAL.pdf",
+      "title": "Southwest West Central Service Cooperative 2026-27 Contract Pricing Guide",
+      "access_date": "2026-07-22",
+      "supports": "Shows school-year curriculum and instruction contracts, shared-service arrangements, day-rate add-ons and fixed-hour customized educational-support packages, illustrating common contract and pricing structures."
+    },
+    {
+      "id": "S6",
+      "url": "https://naicscodes.org/code/611710-educational-support-services/",
+      "title": "NAICS 611710 Educational Support Services overview",
+      "access_date": "2026-07-22",
+      "supports": "Provides the official-description text and examples including educational consultants, testing, guidance counseling and student exchange programs, evidencing the category's heterogeneous service mix."
+    },
+    {
+      "id": "S7",
+      "url": "https://hiepro.ehawaii.gov/public-display-solicitation.html?rfid=22000676",
+      "title": "Hawaii Department of Education solicitation: Comprehensive Assistance, Training, and Educational Resources",
+      "access_date": "2026-07-22",
+      "supports": "Shows public procurement of a bundled educational-support lot under 611710 covering consultants, curriculum development and educational support, supporting external-customer and procurement characteristics."
+    },
+    {
+      "id": "S8",
+      "url": "https://studentprivacy.ed.gov/resources/responsibilities-third-party-service-providers-under-ferpa",
+      "title": "US Department of Education: Responsibilities of Third-Party Service Providers under FERPA",
+      "access_date": "2026-07-22",
+      "supports": "Confirms FERPA guidance applies to online educational-service providers, vendors and contractors, supporting privacy and compliance implementation constraints."
+    },
+    {
+      "id": "S9",
+      "url": "https://nces.ed.gov/programs/PES/section-2.asp",
+      "title": "NCES Projections of Education Statistics to 2030: Elementary and Secondary Teachers",
+      "access_date": "2026-07-22",
+      "supports": "Projects a 5% decline in elementary and secondary teachers from 2019 to 2030 and lower new-teacher hiring, providing a downside demand proxy for school-facing support services."
+    }
+  ]
+}

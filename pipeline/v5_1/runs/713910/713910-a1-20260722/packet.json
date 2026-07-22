@@ -1,0 +1,198 @@
+{
+  "identity": {
+    "naics": "713910",
+    "title": "Golf Courses and Country Clubs",
+    "run_id": "713910-a1-20260722",
+    "model_id": "claude-sonnet-5",
+    "run_date": "2026-07-22",
+    "methodology_version": "5.1",
+    "attempt": 1
+  },
+  "lens": {
+    "included_activities": "Independently controlled, for-profit golf-course and country-club operators serving repeat golfers or members through green fees, memberships, dues, instruction, events, food and beverage, and related facility services.",
+    "excluded_activities": "Municipally owned facilities, member-owned nonprofit clubs, captive resort or residential-development amenities, shells, internal operating units, and financing vehicles.",
+    "customer_and_revenue_model": "Direct-to-consumer repeat play and recurring membership revenue, supplemented by cart rental, instruction, events, food and beverage, and pro-shop sales; pricing is posted, seasonal, membership-based, or dynamically adjusted by tee-time demand.",
+    "deviation_from_default": "The NAICS population mixes commercial daily-fee operators with municipal, nonprofit member-owned, resort-captive, and residential-amenity facilities whose transferability and objectives are fundamentally different. The lens therefore keeps only independently controlled for-profit operators while retaining both repeat-fee and membership models.",
+    "heterogeneous": true
+  },
+  "primitives": {
+    "a": {
+      "evidence_state": "PROXY",
+      "low": 0.18,
+      "base": 0.28,
+      "high": 0.4,
+      "bridge": "BLS measures the broader NAICS 713900 occupation mix, not golf alone: office/administrative support is 10.37% of employment, while food service is 16.47% and grounds maintenance is 9.91%. I map high exposure to reservations, customer service, bookkeeping, marketing, reporting and scheduling; partial exposure to supervision, sales, recreation attendance and repetitive mowing; and low exposure to cooking, hospitality, skilled turf work and in-person instruction. Wage weighting lifts management and administrative work but the broader-industry mix likely overstates fitness occupations and may misstate golf-specific grounds work, so the range is wide in both directions.",
+      "rationale": "The current unautomated opportunity is meaningful in phones, tee sheets, member communications, marketing, accounting, purchasing, reporting and yield management, plus a limited robotic-turf component. However, most delivered value still depends on physical course care and face-to-face service. A 2026 user survey of AI phone management reported time savings at every respondent facility, with 60% estimating four to six hours weekly and 40% one to three hours, demonstrating a real but narrow workflow rather than broad labor replacement.",
+      "change_evidence": "A golf-only payroll extract by occupation and wage, paired with task-level time studies from 30-50 daily-fee and private-club operators and utilization logs for AI phone, marketing, accounting, tee-sheet and autonomous-mowing systems.",
+      "source_ids": ["S1", "S2", "S3"],
+      "caveats": [
+        "The available federal occupation table is for NAICS 713900, which includes fitness centers and other recreation businesses as well as golf.",
+        "The AI-phone survey covered current product users and did not disclose a sample size, creating selection and vendor-adjacent bias.",
+        "Robotic-mower adoption evidence is from the UK and Ireland and includes conventional autonomy enhanced by AI, not purely generative AI."
+      ]
+    },
+    "rho": {
+      "evidence_state": "PROXY",
+      "low": 0.32,
+      "base": 0.52,
+      "high": 0.7,
+      "bridge": "Observed weekly time savings among facilities already using AI telephone management and reported robotic-mower use demonstrate technical implementation in selected workflows, not the share of all exposed tasks a representative US LMM operator will implement over five years. I discount for installed-system integration, seasonal staffing, capital constraints, fragmented data, service-quality expectations and the need to preserve accountable human oversight; user-selection bias makes the source more likely to overstate representative adoption.",
+      "rationale": "Cloud tee sheets, POS and member databases make administrative deployment plausible, and labor scarcity gives operators a reason to adopt. Implementation should remain partial because golf operations combine legacy systems, weather-driven exceptions, high-touch member service, safety-sensitive equipment and specialized agronomy. The five-year base assumes routine digital work is adopted faster than field automation.",
+      "change_evidence": "Longitudinal NGCOA or GCSAA technology-adoption surveys reporting facility-level deployment, workflow coverage, failure rates and sustained labor hours avoided, segmented by operator size and ownership model.",
+      "source_ids": ["S2", "S3", "S4"],
+      "caveats": [
+        "Current-adopter results are not representative penetration data.",
+        "Capital replacement cycles for turf equipment can push implementation beyond five years.",
+        "Member experience, safety and agronomic judgment constrain unattended operation."
+      ]
+    },
+    "e": {
+      "evidence_state": "PROXY",
+      "low": 0.42,
+      "base": 0.58,
+      "high": 0.72,
+      "bridge": "NGF counts roughly 14,000 US golf facilities, describes about three-quarters as publicly accessible, and separately reports municipal courses as just over 18% of supply. These facility categories are not firm-level LMM eligibility and do not identify nonprofit, resort-captive, residential-captive or multi-course ownership. I remove municipal supply and estimate further exclusions for member-owned nonprofits, captive amenities and non-independent facilities; facility counts likely overstate firm eligibility where one owner controls multiple courses.",
+      "rationale": "A large commercial daily-fee and privately controlled operator base fits repeat-service economics, but municipal courses, nonprofit/member-owned clubs, resort or development amenities and consolidated portfolios are not eligible transferable firms under the lens. The frozen firm-count input is accepted as provided, while this primitive addresses only the eligible share within it.",
+      "change_evidence": "An NGF facility microdata cross-tab linking ownership type, tax status, ultimate owner, operating model and estimated EBITDA, reconciled to SUSB firm identifiers.",
+      "source_ids": ["S5", "S6"],
+      "caveats": [
+        "Course, facility, establishment and firm are different units.",
+        "Public accessibility does not imply private ownership.",
+        "The frozen LMM-band count is an estimate and may be distorted by real-estate-heavy or nonprofit economics."
+      ]
+    },
+    "s5": {
+      "evidence_state": "PROXY",
+      "low": 0.13,
+      "base": 0.24,
+      "high": 0.36,
+      "bridge": "Census reports that over half of US employer-business owners were 55 or older, a cross-industry succession-pressure proxy, while NGF maintains a list of recently transacted golf courses but publishes no denominator or annual transfer rate. I translate older-owner prevalence and observable course transactions into a bounded five-year control-transfer probability, excluding municipal conversions, internal reorganizations and asset sales without a transferable operating company. The age proxy likely overstates near-term exits because many older owners retain businesses or transfer internally.",
+      "rationale": "Golf assets do transact and owner aging creates a credible succession channel, but neither source directly measures qualifying control transfers among eligible LMM golf operators. Illiquid real estate, environmental liabilities, financing needs and family or member governance can delay sales, so the estimate remains broad.",
+      "change_evidence": "Five years of NGF Golf Course Transaction Lead List records matched to eligible facilities and coded for seller type, buyer control, operating-company continuity, municipal conversion and related-party transfer.",
+      "source_ids": ["S7", "S8"],
+      "caveats": [
+        "The owner-age statistic is all-industry and vintage 2018.",
+        "The NGF transaction page confirms transaction tracking but exposes no count or denominator.",
+        "A course real-estate sale is not always a qualifying transfer of an operating firm."
+      ]
+    },
+    "q": {
+      "evidence_state": "ESTIMATE",
+      "low": 0.48,
+      "base": 0.68,
+      "high": 0.84,
+      "rationale": "Operators bill customers directly through posted green fees, dynamic tee-time prices and recurring dues rather than cost-plus contracts, so implemented savings are not mechanically passed through. NGF reports local public golf pricing rose approximately with inflation from 2019-2025 even amid strong demand, implying meaningful but not unlimited price discipline. Retention is reduced by competitive repricing, member resistance at renewal, discounts used to fill perishable tee-time inventory and reinvestment needed to preserve course quality.",
+      "change_evidence": "Operator-level panel data linking realized automation savings to green fees, dues, discounting, member retention, rounds, payroll and EBITDA for at least three renewal cycles.",
+      "source_ids": ["S9"],
+      "caveats": [
+        "No source directly measures retained AI benefit.",
+        "Capture differs sharply between waitlisted private clubs, competitive daily-fee courses and seasonal markets.",
+        "Some labor savings may be reinvested in service or maintenance rather than retained as cash benefit."
+      ]
+    },
+    "d5": {
+      "evidence_state": "PROXY",
+      "low": 0.88,
+      "base": 1.02,
+      "high": 1.13,
+      "bridge": "NGF measures historical US rounds and participation, not five-year constant-price, constant-quality demand for eligible LMM operators. More than 500 million rounds were played in each of 2020-2025 and 2025 rounds were 21% above the 2015-2019 average despite fewer courses. I treat that as a strong starting-demand signal, then substantially mean-revert it for discretionary-spending cyclicality, weather, demographic uncertainty and post-pandemic normalization. Capacity constraints can make rounds understate latent demand, while the recent boom can overstate durable growth.",
+      "rationale": "The service has demonstrated sustained post-pandemic participation, record rounds and a large pool of interested nonparticipants. Over five years, aging affluent golfers and younger/female participation can support demand, but affordability, recession exposure, climate and time requirements cap confidence. The base is near-flat real quantity rather than extrapolating the boom.",
+      "change_evidence": "NGF cohort retention and rounds forecasts through 2031, segmented by age, income, public/private facility and region, combined with same-course rounds normalized for playable weather days and price changes.",
+      "source_ids": ["S5"],
+      "caveats": [
+        "Rounds are utilization, not a constant-price demand curve.",
+        "National growth can conceal local oversupply or weather deterioration.",
+        "The eligible for-profit LMM subset may not track all US facilities."
+      ]
+    },
+    "o": {
+      "evidence_state": "ESTIMATE",
+      "low": 0.9,
+      "base": 0.95,
+      "high": 0.99,
+      "rationale": "The current service basket is access to and upkeep of a physical course, often bundled with hospitality, instruction, events and member accountability. Booking, communications and some mowing can be automated, but software cannot itself supply the land, turf conditions, safety, food service or social setting. Simulators and self-service can displace a modest share of occasions, not the accountable operator for most green-grass rounds.",
+      "change_evidence": "Consumer panel data tracking substitution between on-course rounds, home or commercial simulators and other recreation, plus facility studies of fully self-service operations and complaint/safety outcomes.",
+      "source_ids": ["S3", "S5"],
+      "caveats": [
+        "The estimate separates operator necessity from labor intensity; a highly automated course still has an accountable operator.",
+        "Technology-enabled off-course golf may either substitute for or recruit customers into green-grass golf.",
+        "Climate or land-use constraints could eliminate facilities independently of software substitution."
+      ]
+    }
+  },
+  "narrative": {
+    "executive_view": "Golf operators combine a durable physical venue with repeat direct-to-consumer demand. The practical AI opportunity is concentrated in administrative interruption, customer communications, yield management and selected repetitive grounds tasks, not the core hospitality and agronomy workforce. Transferability is meaningful only after removing municipal, nonprofit and captive facilities, and the available ownership evidence is weak.",
+    "ai_impact": "AI phone agents, member communications, marketing content, reporting, scheduling and tee-sheet analytics can reduce interruptions and avoid incremental hiring. Autonomous mowing can take repetitive work, but skilled staff remain necessary for greens, bunkers, weather response, safety and presentation. The broad recreation occupation mix supports a moderate ceiling because food service, grounds work and in-person recreation dominate many facilities.",
+    "value_capture": "Direct posted pricing and dues allow savings to remain with the operator initially, with no contractual pass-through. Over time, competing courses, member renewal pressure, discounting of perishable tee times and required reinvestment share part of the benefit with customers. Strong local capacity utilization improves capture; weak or seasonal markets reduce it.",
+    "firm_availability": "Commercial courses change hands and an aging owner population creates succession pressure, but public data do not reveal a qualifying transfer rate. Municipal ownership, member nonprofits, captive resorts and multi-site platforms materially shrink the eligible firm set, while property value, deferred maintenance and environmental diligence complicate transactions.",
+    "demand_durability": "US rounds have remained above 500 million for six consecutive years and participation has broadened, supporting a near-flat to modestly growing five-year real demand base. The downside is material because golf is discretionary, weather-sensitive, land-intensive and exposed to affordability constraints. Digital off-course formats are more likely to complement or modestly substitute than eliminate green-grass play.",
+    "risks_and_uncertainty": "The largest evidence gaps are golf-specific occupational wages, technology penetration and a denominator-based transaction history. NAICS 713900 proxies include other recreation businesses, AI adoption evidence is selected and small, and facility counts do not map cleanly to firms. Deferred course capital, water regulation, climate, insurance and local land economics can overwhelm operating savings.",
+    "principal_driver": "A durable physical service with direct pricing and repeat customers supports retention of targeted administrative and scheduling automation benefits.",
+    "principal_weakness": "Most labor is physical or high-touch, while eligible-firm share and qualifying control-transfer probability are poorly observed."
+  },
+  "sources": [
+    {
+      "id": "S1",
+      "url": "https://www.bls.gov/oes/2023/may/naics4_713900.htm",
+      "title": "May 2023 National Industry-Specific Occupational Employment and Wage Estimates: NAICS 713900",
+      "access_date": "2026-07-22",
+      "supports": "Broader recreation occupation mix: office and administrative support 10.37% of employment, food preparation and serving 16.47%, building and grounds maintenance 9.91%, plus management and sales shares and wages used to bound wage-weighted AI task exposure."
+    },
+    {
+      "id": "S2",
+      "url": "https://www.golfcoursetechnologyreviews.org/blog/ai-was-not-the-headline-in-these-conversations-that-might-be-the-point",
+      "title": "AI in Golf Ops: Why Innovators Lead While Operators Lag",
+      "access_date": "2026-07-22",
+      "supports": "2026 survey of facilities using AI telephone management: all respondents reported weekly time savings; 60% reported four to six hours and 40% one to three hours, while the article emphasizes interruption absorption rather than staff replacement."
+    },
+    {
+      "id": "S3",
+      "url": "https://www.golfmonthly.com/features/golf-monthly/how-robot-mowers-are-transforming-golf-courses",
+      "title": "How Robot Mowers Are Transforming Golf Courses",
+      "access_date": "2026-07-22",
+      "supports": "Reports around 150 UK and Ireland clubs using one vendor's robotic mowers and describes repetitive mowing automation, continued skilled greenkeeper tasks, and an AI vision accessory for obstacle avoidance."
+    },
+    {
+      "id": "S4",
+      "url": "https://www.usga.org/content/usga/home-page/course-care/green-section-record/63/issue-02/what-are-the-biggest-challenges-facing-the-golf-course-maintenan.html",
+      "title": "A Survey of Current and Future Challenges Facing the Golf Course Maintenance Industry",
+      "access_date": "2026-07-22",
+      "supports": "USGA survey reports lack of qualified and skilled labor as a leading current and future superintendent concern, supporting adoption incentive while underscoring skill constraints."
+    },
+    {
+      "id": "S5",
+      "url": "https://www.ngf.org/the-clubhouse/golf-industry-research/",
+      "title": "Golf Industry Facts",
+      "access_date": "2026-07-22",
+      "supports": "NGF reports more than 500 million US rounds in each of the past six years, 2025 rounds 21% above the 2015-2019 average, about 14,000 facilities, roughly three-quarters public accessibility, and substantial latent demand and participation breadth."
+    },
+    {
+      "id": "S6",
+      "url": "https://www.ngf.org/short-game/which-way-is-municipal-golf-going/",
+      "title": "Which Way is Municipal Golf Going?",
+      "access_date": "2026-07-22",
+      "supports": "NGF reports 2,939 municipal courses in 2024, just over 18% of US course supply, and explains municipal acquisitions, public-service objectives and nonstandard accounting."
+    },
+    {
+      "id": "S7",
+      "url": "https://www.census.gov/programs-surveys/abs/library/visualizations.html",
+      "title": "Annual Business Survey Visualizations",
+      "access_date": "2026-07-22",
+      "supports": "Census states that over half of US business owners were age 55 and over in the 2019 ABS, a cross-industry succession-pressure proxy."
+    },
+    {
+      "id": "S8",
+      "url": "https://secure.ngf.org/pages/ccnewowner.asp",
+      "title": "National Golf Foundation New Owner Leads",
+      "access_date": "2026-07-22",
+      "supports": "Confirms NGF tracks recently transacted US golf courses under new ownership and records facility details and estimated transaction dates, but publishes no transaction count or denominator."
+    },
+    {
+      "id": "S9",
+      "url": "https://www.ngf.org/short-game/the-truth-about-golfs-rising-green-fees/",
+      "title": "The Truth About Golf's Rising Green Fees",
+      "access_date": "2026-07-22",
+      "supports": "NGF reports peak public playing fees rose about 29% from 2019-2025 versus 27% cumulative inflation, an approximately $41 average municipal/daily-fee 18-hole price, and widespread seasonal and dynamic pricing."
+    }
+  ]
+}
