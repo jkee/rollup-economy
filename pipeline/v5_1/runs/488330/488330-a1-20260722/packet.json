@@ -1,0 +1,233 @@
+{
+  "identity": {
+    "naics": "488330",
+    "title": "Navigational Services to Shipping",
+    "run_id": "488330-a1-20260722",
+    "model_id": "claude-sonnet-5",
+    "run_date": "2026-07-22",
+    "methodology_version": "5.1",
+    "attempt": 1
+  },
+  "lens": {
+    "included_activities": "Recurring outsourced harbor tug and ship-assist work, docking and undocking, compulsory or contracted pilotage, and externally sold vessel-traffic reporting and navigation support performed by lower-middle-market firms.",
+    "excluded_activities": "One-off marine salvage, captive port or carrier navigation units, public vessel-traffic services, shells, non-control vehicles, and firms outside the roughly $1-10M normalized EBITDA band.",
+    "customer_and_revenue_model": "Shipowners, operators, agents, terminals, and ports buy per-movement, tariff-based, hourly, or contracted navigation and harbor-assist services; repeat traffic and regulatory pilotage requirements create recurring relationships, while rates may be regulated or periodically reset.",
+    "deviation_from_default": "The code mixes repeat harbor-assist and pilotage businesses with episodic marine salvage and public or captive traffic services. The lens is narrowed to recurring externally sold navigation services so one operating model remains coherent.",
+    "heterogeneous": true
+  },
+  "primitives": {
+    "a": {
+      "evidence_state": "PROXY",
+      "low": 0.18,
+      "base": 0.29,
+      "high": 0.42,
+      "bridge": "BLS measures employment and wages for four-digit NAICS 488300, not six-digit 488330. I use its office, management, dispatch, customer-service, and recordkeeping mix as the exposed component, then reduce exposure because 488330 is more concentrated in captains, pilots, sailors, vessel operation, and maintenance than the parent industry. O*NET task descriptions identify the clerical and information tasks within marine piloting but also the physical, local-knowledge, monitoring, and safety work that current AI cannot substitute. The parent-industry proxy likely overstates exposure because it includes office-heavy support activities and marine cargo operations outside 488330.",
+      "rationale": "Within NAICS 488300, office and administrative support is 10.76% of employment and management is 6.67%, with additional business, dispatch, planning, compliance, and customer-service work. These functions contain substantial document intake, scheduling, communications, billing, reporting, and decision-support tasks. However, 21.68% of the parent industry's employment is water-transportation workers and 14.06% is installation and maintenance; O*NET describes captains and pilots as directly steering, docking, inspecting, monitoring surroundings, and making safety decisions. A base of 0.29 reflects high task exposure in overhead and partial decision support on the bridge, not autonomous replacement of vessel crews.",
+      "change_evidence": "A six-digit 488330 payroll-by-occupation extract from Lightcast or Revelio Labs, combined with a task-level time study from harbor tug operators and pilot associations distinguishing dispatch, paperwork, bridge watch, maneuvering, and maintenance hours.",
+      "source_ids": ["S2", "S3", "S4"],
+      "caveats": [
+        "OEWS publishes the relevant occupation mix only at four-digit NAICS 488300 and excludes self-employed workers.",
+        "The estimate is wage-weighted judgment from occupational groups, not a measured AI task-exposure share.",
+        "Marine salvage and cargo-handling occupations in the parent industry distort the mix in opposing directions."
+      ]
+    },
+    "rho": {
+      "evidence_state": "ESTIMATE",
+      "low": 0.35,
+      "base": 0.52,
+      "high": 0.68,
+      "rationale": "Administrative copilots, automated voyage and weather briefing, document extraction, billing checks, customer messaging, scheduling assistance, and compliance drafting can be deployed within five years. Implementation is held back by fragmented vessel and port systems, cyber risk, union and credential constraints, safety-critical validation, and the need to retain accountable licensed operators. The 2026 IMO autonomous-shipping code remains non-mandatory, keeps a human master responsible, and does not reach mandatory force until 2032, outside most of the horizon; this supports augmentation sooner than broad crew substitution.",
+      "change_evidence": "Deployment data from at least ten U.S. harbor tug or pilotage organizations showing baseline hours, production usage, exception rates, incident rates, and realized labor-hour avoidance for dispatch, voyage planning, billing, compliance, and maintenance workflows over 12 months.",
+      "source_ids": ["S3", "S4", "S5", "S6"],
+      "caveats": [
+        "No industry-wide survey measures five-year AI implementation in 488330.",
+        "The IMO code concerns autonomous cargo ships rather than harbor-service firms, but it is relevant to safety and accountability constraints.",
+        "Small firms may lack standardized digital data and integration staff."
+      ]
+    },
+    "e": {
+      "evidence_state": "ESTIMATE",
+      "low": 0.5,
+      "base": 0.68,
+      "high": 0.82,
+      "rationale": "The frozen firm count already applies the EBITDA band. Most independent tug, docking, and pilotage providers in that band sell repeat external services and fit the lens. Eligibility is reduced for marine-salvage specialists with episodic revenue, public or quasi-public pilot associations, captive units, businesses whose permits or pilot memberships are not transferable, and mixed operators whose recurring navigational activity is not the controlling business. The official NAICS definition confirms that these distinct models coexist in the code.",
+      "change_evidence": "A firm-level census of the 129 modeled LMM firms using Coast Guard vessel-owner data, state pilot rosters, port vendor lists, ownership, revenue mix, and permit-transferability interviews, coded individually against the lens.",
+      "source_ids": ["S1", "S7"],
+      "caveats": [
+        "The 129-firm denominator is a frozen modeled estimate rather than an observed roster.",
+        "Pilot associations and public-private entities may have ownership or governance structures incompatible with control acquisition.",
+        "NAICS assignment may follow an establishment's primary activity even when a firm has substantial towing or transportation revenue outside the code."
+      ]
+    },
+    "s5": {
+      "evidence_state": "PROXY",
+      "low": 0.13,
+      "base": 0.24,
+      "high": 0.38,
+      "bridge": "The SBA succession statistic applies to family-owned small businesses expecting retirement, while BizBuySell reports voluntarily submitted transactions across many industries and mostly much smaller businesses. I use them only to anchor the existence of succession pressure and an active transfer market, then reduce the implied rate for a five-year qualifying control transfer among eligible 488330 LMM firms because specialized vessels, licenses, association governance, customer concentration, and financing narrow the buyer pool. The family-business proxy likely overstates near-term transfer pressure; the marketplace proxy undercounts private and larger transactions.",
+      "rationale": "SBA reports that 47% of family-business owners expecting to retire within five years lacked a successor, demonstrating succession pressure but not a sale probability. BizBuySell tracks about 50,000 listed or recently sold businesses and reported 2,345 closed transactions in Q1 2026, showing a functioning transfer channel but not an industry denominator. For capital-intensive, regulated navigational businesses, a roughly one-in-four five-year qualifying transfer probability is defensible, with a wide range for ownership age and permit-transfer uncertainty.",
+      "change_evidence": "Five years of PitchBook, GF Data, Coast Guard vessel-documentation ownership changes, state pilot-association membership changes, and port concession transfers matched to a verified 488330 LMM firm roster, plus owner-age and succession interviews for at least 30 firms.",
+      "source_ids": ["S8", "S9"],
+      "caveats": [
+        "Neither source measures 488330 or the $1-10M EBITDA band.",
+        "Transactions may be asset sales without a transferable operating organization, and internal succession does not always constitute a qualifying control transfer.",
+        "Voluntary broker reporting misses private strategic deals and has a smaller-company bias."
+      ]
+    },
+    "q": {
+      "evidence_state": "PROXY",
+      "low": 0.38,
+      "base": 0.55,
+      "high": 0.72,
+      "bridge": "The Coast Guard's Great Lakes pilotage rule directly measures one regulated pilotage segment, not all 488330 revenue models. It shows rates designed to recover necessary expenses and compensation and reset annually; I translate that structure into lower retention of labor savings for regulated pilotage than for negotiated tug and navigation contracts. Applying this segment to the whole code may understate retention where harbor-assist prices are privately negotiated, but may overstate it where customers re-bid concentrated port work quickly.",
+      "rationale": "Implemented savings can initially accrue through lower overhead, better scheduling, fewer billing errors, and avoided hiring. Durable retention is moderated by annual tariff reviews in regulated pilotage, contract renewals, sophisticated shipping customers, and competition among tug providers. The Coast Guard explicitly sets Great Lakes pilotage rates to cover necessary and reasonable expenses and reviews them annually, creating a direct pass-through mechanism in that segment. A base of 0.55 assumes partial sharing rather than full retention.",
+      "change_evidence": "Customer- and service-level contract samples from at least five pilotage and ten tug/navigation firms, including tariff formulas, cost-plus clauses, fuel and labor escalators, renewal cadence, bid history, and gross-margin changes following documented productivity improvements.",
+      "source_ids": ["S10"],
+      "caveats": [
+        "Great Lakes pilotage is a small, unusually regulated subset of national navigational services.",
+        "Private harbor-tug contracts may retain more savings until rebid, while concentrated customers may capture them faster.",
+        "This is the retained share of implemented gross benefit and excludes demand and implementation effects."
+      ]
+    },
+    "d5": {
+      "evidence_state": "PROXY",
+      "low": 0.95,
+      "base": 1.04,
+      "high": 1.12,
+      "bridge": "USDOT forecasts total U.S. waterborne freight tonnage, not demand for NAICS 488330's full basket, and the forecast is 2025-2030 rather than exactly 2026-2031. I use the reported 4% tonnage growth from 819.772 million tons in 2025 to 853.960 million in 2030 as the base quantity-demand bridge. Navigational-service demand can grow faster if port calls and complexity rise, or slower if vessel size rises and calls consolidate; excluding salvage also removes catastrophe-driven demand. The proxy can err in either direction.",
+      "rationale": "The 2026 National Freight Strategic Plan forecasts modest waterborne tonnage growth of 4% from 2025 to 2030, while BLS projects only 1% growth in water-transportation-worker employment over 2024-2034 and notes commodity-cycle dependence. Harbor pilotage and tug-assist demand is linked more closely to vessel movements, port calls, and maneuvering complexity than to tonnage alone. A base of 1.04 adopts the official five-year tonnage forecast, with a downside for commodity or trade contraction and upside for port-call intensity and offshore activity.",
+      "change_evidence": "A matched forecast of U.S. port calls by vessel class and draft from S&P Global Market Intelligence or Lloyd's List Intelligence, combined with five years of pilot assignments, tug jobs, and vessel-traffic transactions at the top 25 U.S. ports.",
+      "source_ids": ["S4", "S11", "S12"],
+      "caveats": [
+        "Waterborne tonnage is not proportional to port calls because vessel size and load factors change.",
+        "The USDOT forecast includes inland and coastal freight that may not require outsourced harbor services.",
+        "Trade policy, commodity cycles, climate-related water levels, and port disruptions create substantial forecast risk."
+      ]
+    },
+    "o": {
+      "evidence_state": "PROXY",
+      "low": 0.78,
+      "base": 0.9,
+      "high": 0.97,
+      "bridge": "Federal pilotage law and the IMO autonomous-shipping framework apply to covered vessels and masters, not every service sold by the 488330 lens. I translate compulsory pilot direction, state pilotage regimes, and continued human master accountability into a high share of year-five navigation quantity still needing an accountable operator. This may overstate operator persistence for traffic reporting and remote decision support, while understating it where local pilotage is compulsory and physical tug assets remain necessary.",
+      "rationale": "Federal law requires covered coastwise seagoing vessels to be under the direction and control of a licensed pilot, and state pilotage continues for many harbor movements. Physical tug assistance, local pilot knowledge, emergency response, and accountable safety decisions are difficult to self-serve. IMO's 2026 autonomous-shipping code still requires human oversight and a responsible master, with mandatory rules not expected to enter force until 2032. Some reporting, monitoring, and advice can shift to carrier software or remote centers, so the estimate remains below one.",
+      "change_evidence": "Port-by-port data on compulsory-pilot exemptions, remote pilotage approvals, autonomous-vessel port calls, tug-assist rules, and five-year shipowner insourcing plans, supplemented by regulator interviews in the ten largest pilotage markets.",
+      "source_ids": ["S5", "S6", "S13", "S14"],
+      "caveats": [
+        "Legal requirements could change after trials or waivers, though broad mandatory autonomous rules fall outside most of the horizon.",
+        "A responsible master aboard or ashore does not necessarily imply use of a separate outsourced navigation firm.",
+        "Marine vessel traffic reporting is more susceptible to software substitution than physical pilotage or tug assist."
+      ]
+    }
+  },
+  "narrative": {
+    "executive_view": "Recurring harbor tug, docking, and pilotage firms combine durable, safety-critical demand with a real but bounded automation opportunity. AI is more credible as an operating copilot for dispatch, documents, billing, maintenance planning, and voyage information than as a substitute for licensed pilots or tug crews within five years. The code is heterogeneous, and episodic salvage or public and captive traffic services should not be treated as the same acquisition population.",
+    "ai_impact": "Near-term value comes from automating port-call intake, schedule coordination, customer communications, billing reconciliation, compliance records, weather and chart briefings, incident-document drafting, and maintenance triage. Bridge teams can receive better decision support, but direct docking, tug handling, situational monitoring, inspections, and emergency decisions remain physical and accountable work. Fragmented port systems and sparse error-tolerant training data make deployment discipline important.",
+    "value_capture": "Avoided administrative hiring and better asset and crew utilization can be retained under fixed or negotiated contracts until renewal. Regulated pilotage is less attractive for retention because rate setting can explicitly true up expenses and compensation, while large shipowners and terminals can demand savings through rebids. Durable capture therefore depends on proprietary workflow integration, service quality, response time, and asset utilization rather than a generic AI tool alone.",
+    "firm_availability": "The modeled LMM population likely contains independent tug and docking operators as well as pilotage and navigation specialists, but transferability is uneven. Vessel fleets and recurring customer ties support control sales, while licenses, association governance, concessions, and owner-specific local knowledge can impede them. Succession pressure exists in small business generally, yet a verified 488330 owner and transaction census is missing.",
+    "demand_durability": "Official federal planning expects modest waterborne freight growth through 2030. Port calls, vessel size, drafts, trade lanes, commodity cycles, and local pilotage rules matter more to service jobs than tonnage alone. Physical ship-assist and compulsory pilotage should remain operator-required through the horizon; traffic reporting and routine advice face more software and carrier self-service risk.",
+    "risks_and_uncertainty": "The largest evidence weakness is the absence of six-digit occupation, contract, owner-age, and transaction data. The four-digit employment proxy contains cargo handling and port operations that differ materially from this lens. Other risks include customer concentration, regulated pricing, vessel and fuel capital intensity, labor and licensing scarcity, cybersecurity, port-specific concessions, trade volatility, and the possibility that productivity gains are passed through faster than expected.",
+    "principal_driver": "Durable compulsory and physical harbor work paired with automatable dispatch, documentation, and coordination overhead.",
+    "principal_weakness": "Six-digit evidence is sparse, and regulated or frequently rebid pricing may transfer a material share of productivity savings to shippers."
+  },
+  "sources": [
+    {
+      "id": "S1",
+      "url": "https://www.census.gov/naics/?details=4883&input=4883&year=2022",
+      "title": "2022 NAICS Definition: 488330 Navigational Services to Shipping",
+      "access_date": "2026-07-22",
+      "supports": "Official industry scope: navigational services, marine salvage, docking and undocking, pilotage, vessel-traffic reporting, and harbor tug services."
+    },
+    {
+      "id": "S2",
+      "url": "https://www.bls.gov/oes/2023/may/naics4_488300.htm",
+      "title": "May 2023 OEWS: NAICS 488300 Support Activities for Water Transportation",
+      "access_date": "2026-07-22",
+      "supports": "Parent-industry occupation employment and wage mix, including management, office support, dispatchers, water-transportation workers, maintenance, and material-moving occupations."
+    },
+    {
+      "id": "S3",
+      "url": "https://www.onetonline.org/link/summary/53-5021.00?redir=53-5021.02",
+      "title": "O*NET: Captains, Mates, and Pilots of Water Vessels",
+      "access_date": "2026-07-22",
+      "supports": "Task mix includes steering, docking, monitoring, inspection, safety decisions, radio communication, records, charts, crew coordination, and equipment operation."
+    },
+    {
+      "id": "S4",
+      "url": "https://www.bls.gov/ooh/transportation-and-material-moving/water-transportation-occupations.htm",
+      "title": "BLS Occupational Outlook Handbook: Water Transportation Workers",
+      "access_date": "2026-07-22",
+      "supports": "Work duties, Coast Guard training and credential requirements, physical skill requirements, occupation mix, commodity sensitivity, and 1% employment growth forecast for 2024-2034."
+    },
+    {
+      "id": "S5",
+      "url": "https://www.imo.org/en/mediacentre/pressbriefings/pages/imo-adopts-mass-code.aspx",
+      "title": "IMO adopts first global Code for autonomous ships",
+      "access_date": "2026-07-22",
+      "supports": "The 2026 MASS Code is non-mandatory, emphasizes risk, cybersecurity and human oversight, retains master responsibility, and anticipates mandatory entry into force in 2032."
+    },
+    {
+      "id": "S6",
+      "url": "https://www.imo.org/en/mediacentre/hottopics/pages/autonomous-shipping.aspx",
+      "title": "IMO FAQ: Autonomous shipping",
+      "access_date": "2026-07-22",
+      "supports": "Scope and non-mandatory status of the MASS Code, continued human oversight and master responsibility, and experience-building before mandatory rules."
+    },
+    {
+      "id": "S7",
+      "url": "https://data.census.gov/profile/488330_-_Navigational_Services_to_Shipping?codeset=naics~488330&g=010XX00US",
+      "title": "Census Bureau Profile: 488330 Navigational Services to Shipping",
+      "access_date": "2026-07-22",
+      "supports": "Six-digit industry scope and 1,065 employer establishments in 2023, contextualizing the modeled LMM subset."
+    },
+    {
+      "id": "S8",
+      "url": "https://www.sba.gov/blog/5-challenges-family-owned-businesses",
+      "title": "SBA: 5 Challenges for Family-Owned Businesses",
+      "access_date": "2026-07-22",
+      "supports": "Succession proxy: 47% of owners expecting to retire within five years reportedly lacked a successor; family-business survival statistics."
+    },
+    {
+      "id": "S9",
+      "url": "https://www.bizbuysell.com/insight-report/",
+      "title": "BizBuySell Insight Report: Q1 2026",
+      "access_date": "2026-07-22",
+      "supports": "Small-business transfer-market proxy: approximately 50,000 listed or recently sold businesses in the dataset and 2,345 reported Q1 2026 closed transactions; voluntary broker-reporting limitation."
+    },
+    {
+      "id": "S10",
+      "url": "https://public-inspection.federalregister.gov/2026-03054.pdf",
+      "title": "Coast Guard Great Lakes Pilotage Rates—2026 Annual Review Final Rule",
+      "access_date": "2026-07-22",
+      "supports": "Regulated pilotage pricing: rates are set to recover necessary and reasonable expenses, reviewed annually, and projected 2026 revenue requirement was $40.451 million."
+    },
+    {
+      "id": "S11",
+      "url": "https://www.transportation.gov/media/4496",
+      "title": "2026 National Freight Strategic Plan",
+      "access_date": "2026-07-22",
+      "supports": "Forecast waterborne freight tonnage rises from 819.772 million tons in 2025 to 853.960 million in 2030, a 4% increase, and describes growth as modest."
+    },
+    {
+      "id": "S12",
+      "url": "https://www.iwr.usace.army.mil/About/Technical-Centers/WCSC-Waterborne-Commerce-Statistics-Center/WCSC-Waterborne-Commerce/",
+      "title": "USACE Waterborne Commerce Statistics Center",
+      "access_date": "2026-07-22",
+      "supports": "Official vessel-trip and cargo data coverage, including tugboat moves, cargo, and port and waterway statistics, and the appropriate diligence dataset for service demand."
+    },
+    {
+      "id": "S13",
+      "url": "https://uscode.house.gov/view.xhtml?edition=prelim&path=%2Fprelim%40title46%2Fsubtitle2%2FpartF%2Fchapter85",
+      "title": "46 U.S.C. Chapter 85—Pilots",
+      "access_date": "2026-07-22",
+      "supports": "Federal statutory framework preserving state regulation of pilots in U.S. bays, rivers, harbors, and ports and federal pilotage requirements."
+    },
+    {
+      "id": "S14",
+      "url": "https://www.law.cornell.edu/uscode/text/46/8502",
+      "title": "46 U.S. Code § 8502—Federal pilots required",
+      "access_date": "2026-07-22",
+      "supports": "Covered coastwise seagoing vessels underway in specified waters must be under the direction and control of a licensed pilot; fees are bounded by customary or established state rates."
+    }
+  ]
+}
