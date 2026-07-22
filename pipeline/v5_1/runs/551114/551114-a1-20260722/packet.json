@@ -1,0 +1,191 @@
+{
+  "identity": {
+    "naics": "551114",
+    "title": "Corporate, Subsidiary, and Regional Managing Offices",
+    "run_id": "551114-a1-20260722",
+    "model_id": "claude-sonnet-5",
+    "run_date": "2026-07-22",
+    "methodology_version": "5.1",
+    "attempt": 1
+  },
+  "lens": {
+    "included_activities": "Only the rare edge case in which an establishment recorded in 551114 provides recurring, paid management or administrative services to unaffiliated external customers with meaningful operational accountability. Because the official definition requires management of affiliated establishments within the same enterprise, this included population is expected to consist mainly of classification leakage or short-lived transition arrangements rather than the normal industry population.",
+    "excluded_activities": "Corporate, subsidiary, and regional offices that manage affiliated establishments; parent and holding-company offices; captive shared-services centers; nonoperating central administrative offices; shells and non-control financing vehicles; and consulting, accounting, payroll, legal, advertising, or other specialist providers that belong in their respective service industries.",
+    "customer_and_revenue_model": "The standard 551114 establishment is funded by its parent or affiliates through budgets and intercompany cost allocations, not by arm's-length external customers. A qualifying edge case would need recurring third-party management agreements and externally paid fees, with the provider accountable for delivery rather than merely owning or financing the client.",
+    "deviation_from_default": "none",
+    "heterogeneous": false
+  },
+  "primitives": {
+    "a": {
+      "evidence_state": "PROXY",
+      "low": 0.44,
+      "base": 0.59,
+      "high": 0.72,
+      "bridge": "BLS occupational data cover the broader 551100 industry rather than 551114 and show that management, business and financial operations, computer and mathematical, and office and administrative support occupations together represent about 77% of employment. The Census definition identifies accounting, billing, legal, marketing, financial management, personnel management, and planning as core activities. I translate those activity and occupation mixes into the share of work hours that AI could technically perform, discounting for executive judgment, negotiation, organizational context, and accountable decisions. The broader-industry mix may overstate technical exposure if 551114 is more executive-heavy, or understate it if its administrative functions are more document-intensive.",
+      "rationale": "Research, drafting, reporting, reconciliation, document analysis, planning support, and routine administrative workflows are materially AI-addressable. Final strategy, budget authority, personnel decisions, negotiations, and direction of affiliated establishments remain substantially human-accountable.",
+      "change_evidence": "A six-digit occupational staffing matrix, time-and-task study for 551114 offices, or measured task-level AI completion rates in corporate headquarters would materially narrow the range.",
+      "source_ids": ["S1", "S3", "S4"],
+      "caveats": [
+        "The occupation mix is for NAICS 551100, not 551114.",
+        "Technical task capability does not establish deployment, acceptance, or retained economic value.",
+        "The frozen compensation-to-receipts input is economically difficult to interpret for internal or nonoperating establishments whose receipts are not arm's-length service revenue."
+      ]
+    },
+    "rho": {
+      "evidence_state": "PROXY",
+      "low": 0.42,
+      "base": 0.64,
+      "high": 0.8,
+      "bridge": "Census reports economy-wide firm AI adoption and much higher adoption among very large firms in information, professional services, and finance, not realized deployment against technically addressable 551114 hours. I use the prevalence of document analysis, writing, and information-search use cases plus the corporate-function mix to infer above-average implementation, then discount for system integration, confidentiality, governance, change management, and the concentration of adoption in only a few functions. This likely overstates smaller-office implementation and may understate large-enterprise rollout over five years.",
+      "rationale": "Corporate administrative functions have digitized inputs and centralized processes that favor deployment, but a substantial share of technically addressable work will remain outside production workflows or under human review.",
+      "change_evidence": "Longitudinal deployment data measuring the share of addressable hours actually automated in headquarters functions, segmented by enterprise size and function, would materially change this value.",
+      "source_ids": ["S1", "S6"],
+      "caveats": [
+        "The Census adoption evidence is not specific to NAICS 551114 and measures reported use, not the fraction of addressable labor realized.",
+        "Large-enterprise adoption rates are not representative of every office in the industry."
+      ]
+    },
+    "e": {
+      "evidence_state": "PROXY",
+      "low": 0.0,
+      "base": 0.002,
+      "high": 0.01,
+      "bridge": "This is a definitional bridge rather than a sampled eligibility estimate. Census states that 551114 establishments must be part of multi-establishment enterprises and manage other establishments of the same company or enterprise, while Census enterprise statistics treat central administrative offices in this code as nonoperating establishments. Those features directly conflict with the fixed requirement for recurring outsourced service to external customers. The small nonzero upper range allows for classification error, legacy coding, or temporary post-separation service arrangements; it could still overstate the correctly classified eligible population.",
+      "rationale": "The normal 551114 population is captive and internal by definition. A defensible external-service target would ordinarily be classified in a specialist service industry, leaving almost no coherent eligible population inside this code.",
+      "change_evidence": "Establishment-level customer concentration and related-party revenue data, paired with six-digit NAICS validation, could establish whether any material population earns recurring arm's-length fees from unaffiliated customers.",
+      "source_ids": ["S1", "S2"],
+      "caveats": [
+        "The frozen firm count is margin-bridged rather than a count of named targets and uses a 15% placeholder margin.",
+        "Central administrative offices may not be independent firms, and internal allocations can make the frozen revenue and EBITDA-band bridge misleading.",
+        "The nonzero range represents possible anomalies and transition structures, not a demonstrated external-service segment."
+      ]
+    },
+    "s5": {
+      "evidence_state": "PROXY",
+      "low": 0.03,
+      "base": 0.1,
+      "high": 0.2,
+      "bridge": "Gallup finds that 22% of owners of employer businesses plan to sell or transfer ownership within five years, but this is a broad small-business intention measure rather than completed transfers of eligible 551114 providers. I discount it because the qualifying external-service population is exceptionally rare, many 551114 establishments are organizational units rather than independently transferable firms, and a parent-company sale or internal reorganization does not necessarily transfer a standalone service business. The proxy may overstate both willingness and completed transaction availability.",
+      "rationale": "Some corporate separations can create transitional service entities or divestible shared-service operations, but most establishments in this code move only as part of a larger enterprise and are not standalone acquisition candidates.",
+      "change_evidence": "Completed five-year transaction data for independently owned, correctly classified 551114 firms, including carve-outs with external customer contracts, would materially change this value.",
+      "source_ids": ["S1", "S2", "S7"],
+      "caveats": [
+        "Gallup measures owner plans, not completed transactions.",
+        "The Gallup population is broader than the industry and the fixed EBITDA band.",
+        "Availability applies only after the near-zero eligibility filter."
+      ]
+    },
+    "q": {
+      "evidence_state": "PROXY",
+      "low": 0.15,
+      "base": 0.32,
+      "high": 0.52,
+      "bridge": "A public post-separation shared-services agreement shows HR, administrative, and finance services billed monthly using historic cost allocations, with third-party costs and licenses passed through without markup. I use this single agreement only to anchor the risk that captive or transitional service pricing is cost-based rather than value-based. Relative to a recurring third-party provider, that structure points to low retained gains, although a genuinely external fixed-fee contract could capture more. The example may understate capture for commercial providers and is not representative industry evidence.",
+      "rationale": "Automation benefits in captive or transitional corporate services can be returned through lower allocations, rebudgeting, pass-through treatment, or parent-level savings. The rare arm's-length fixed-fee provider could retain some benefit, but weak category fit and cost-based norms limit confidence.",
+      "change_evidence": "A representative set of external management-service contracts showing pricing basis, renewal behavior, pass-through clauses, and post-automation margins would materially change this value.",
+      "source_ids": ["S1", "S8"],
+      "caveats": [
+        "The agreement is one issuer's post-separation transition contract, not a 551114 industry sample.",
+        "It evidences pricing mechanics, not observed AI-driven margin retention.",
+        "The normal industry population does not sell services to external customers."
+      ]
+    },
+    "d5": {
+      "evidence_state": "PROXY",
+      "low": 0.91,
+      "base": 1.02,
+      "high": 1.13,
+      "bridge": "BLS projects employment in the broader Management of Companies and Enterprises industry to rise 4.4% from 2024 to 2034, while top-executive employment is projected to rise 4% over the same period. I translate those ten-year employment projections into approximately flat-to-modestly-growing five-year demand for management and administrative work, with a wider range for restructuring and centralization. Employment is not service output, the series is broader than 551114, and it may overstate external demand because most activity is internal.",
+      "rationale": "Organizations continue to require accountable governance, budgeting, personnel management, planning, and coordination. AI can change the labor intensity of those functions without eliminating the underlying need, although reorganizations can consolidate offices.",
+      "change_evidence": "Five-year revenue or workload forecasts for external management-service contracts, separated from internal headquarters employment and related-party allocations, would materially change this multiplier.",
+      "source_ids": ["S1", "S4", "S5"],
+      "caveats": [
+        "The BLS projection covers NAICS 551000 and national employment rather than 551114 external-service demand.",
+        "Internal administrative demand does not establish an arm's-length customer market.",
+        "Corporate reorganizations can cause establishment counts to move independently of workload."
+      ]
+    },
+    "o": {
+      "evidence_state": "PROXY",
+      "low": 0.76,
+      "base": 0.9,
+      "high": 0.97,
+      "bridge": "Census defines the industry around administering, overseeing, and managing affiliated establishments, and BLS describes top executives as setting policy, directing operations, overseeing budgets, negotiating contracts, and making high-level decisions. I map those accountable duties to continued operator control even when analytic and administrative subtasks are automated. This occupation-based bridge may overstate owner involvement in professionally managed large enterprises and does not prove owner control in the rare external-service edge cases.",
+      "rationale": "AI can prepare analysis, reports, and options, but legal authority, fiduciary accountability, policy setting, resource allocation, negotiation, and personnel decisions remain with human executives and governing bodies.",
+      "change_evidence": "Governance and workflow studies measuring which headquarters decisions can be delegated without executive approval, segmented by enterprise size and ownership model, would materially change this value.",
+      "source_ids": ["S1", "S4"],
+      "caveats": [
+        "Operator control is inferred from duties, not observed after AI deployment.",
+        "The industry consists largely of captive establishments rather than owner-operated external providers."
+      ]
+    }
+  },
+  "narrative": {
+    "executive_view": "NAICS 551114 is a poor structural match to the fixed acquisition lens. Its defining activity is managing affiliated establishments within the same enterprise, and Census separately treats central administrative offices as nonoperating establishments. The normal population therefore lacks both unaffiliated customers and standalone service revenue; any qualifying target is more likely a coding anomaly or temporary transition structure than a repeatable market segment.",
+    "ai_impact": "The underlying work is highly exposed to AI in research, document analysis, reporting, reconciliation, planning support, HR administration, and routine communications. Deployment should be feasible in centralized digital workflows, but confidentiality, governance, integration, and required executive review keep realized adoption below technical capability.",
+    "value_capture": "Most normal establishments generate parent-level savings rather than third-party provider margin. Cost allocation and pass-through pricing can transmit gains to affiliates, while an arm's-length fixed-fee edge case could retain more; direct evidence on commercial capture inside this code is absent.",
+    "firm_availability": "Availability is constrained first by near-zero eligibility and then by ownership structure. A corporate office ordinarily transfers with its parent or through a reorganization, not as an independent provider with portable external contracts. The frozen count of 6,988 is a margin-based estimate, not a verified target list, and can be materially distorted by internal receipts and the placeholder margin.",
+    "demand_durability": "The need for governance, budgeting, personnel management, planning, and organizational coordination is durable, with broad BLS projections indicating modest employment growth. That supports persistence of the work itself, not the existence of an external customer market under this NAICS code.",
+    "risks_and_uncertainty": "The principal research risk is category error: treating internal headquarters activity and intercompany allocations as outsourced services and customer revenue. Additional uncertainty comes from broader-industry labor proxies, economy-wide AI adoption data, one-off contract evidence, and the inability of the frozen compensation-to-receipts ratio to distinguish internal funding from market revenue.",
+    "principal_driver": "Centralized corporate functions contain a large volume of digitized, repeatable analysis and administration that AI can assist while executives retain final authority.",
+    "principal_weakness": "The official industry definition is fundamentally captive and intra-enterprise, so the fixed external-customer lens leaves almost no demonstrated eligible or independently transferable firms."
+  },
+  "sources": [
+    {
+      "id": "S1",
+      "url": "https://www.census.gov/naics/history/docs/cm_3.pdf",
+      "title": "Clarification Memorandum No. 3: Classification of Corporate, Regional, and Subsidiary Managing Offices",
+      "access_date": "2026-07-22",
+      "supports": "Official 551114 definition, same-enterprise requirement, core activities, and distinction from specialized service establishments."
+    },
+    {
+      "id": "S2",
+      "url": "https://www.census.gov/programs-surveys/esp/guidance/employer.html",
+      "title": "Employer Categories and Corresponding Establishment NAICS Industries",
+      "access_date": "2026-07-22",
+      "supports": "Census treatment of central administrative offices in NAICS 551114 as nonoperating establishments."
+    },
+    {
+      "id": "S3",
+      "url": "https://www.bls.gov/oes/2023/may/naics4_551100.htm",
+      "title": "May 2023 Occupational Employment and Wage Estimates: NAICS 551100 Management of Companies and Enterprises",
+      "access_date": "2026-07-22",
+      "supports": "Broader-industry employment and occupational mix used to proxy the composition of work."
+    },
+    {
+      "id": "S4",
+      "url": "https://www.bls.gov/ooh/management/top-executives.htm",
+      "title": "Occupational Outlook Handbook: Top Executives",
+      "access_date": "2026-07-22",
+      "supports": "Executive duties, accountable decision functions, and 2024-2034 employment outlook."
+    },
+    {
+      "id": "S5",
+      "url": "https://data.bls.gov/projections/nationalMatrix?ioType=i&queryParams=551000",
+      "title": "National Employment Matrix: Management of Companies and Enterprises",
+      "access_date": "2026-07-22",
+      "supports": "2024-2034 employment projection for the broader Management of Companies and Enterprises industry."
+    },
+    {
+      "id": "S6",
+      "url": "https://www.census.gov/library/working-papers/2026/adrm/CES-WP-26-25.html",
+      "title": "The Microstructure of AI Diffusion: Evidence from Firms, Business Functions, and Worker Tasks",
+      "access_date": "2026-07-22",
+      "supports": "Recent firm AI adoption, large-firm adoption differences, functional concentration, and common AI tasks."
+    },
+    {
+      "id": "S7",
+      "url": "https://news.gallup.com/poll/657362/small-business-owners-lack-succession-plan.aspx",
+      "title": "Most Small-Business Owners Lack a Succession Plan",
+      "access_date": "2026-07-22",
+      "supports": "Five-year sale or transfer intentions among employer-business owners, used only as a broad availability proxy."
+    },
+    {
+      "id": "S8",
+      "url": "https://www.sec.gov/Archives/edgar/data/1930510/000121390025001631/ea022707001ex10-1_vciglobal.htm",
+      "title": "Shared Services Agreement Exhibit",
+      "access_date": "2026-07-22",
+      "supports": "Example of monthly HR, administrative, and finance service charges based on historic cost allocations with third-party costs passed through without markup."
+    }
+  ]
+}

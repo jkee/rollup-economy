@@ -1,0 +1,257 @@
+{
+ "A": null,
+ "L": null,
+ "action": "EVIDENCE_FIRST",
+ "caveats": [
+  "a: The occupation evidence is for sector 55 rather than this six-digit code.",
+  "a: The sector includes managing offices that the Census classification distinguishes from non-managing holding offices.",
+  "a: The range is task exposure, not job displacement, and excludes work already automated.",
+  "rho: BTOS asks about any AI use and does not measure task coverage or labor substitution.",
+  "rho: The cited sector comparison is Finance and Insurance, not NAICS 551111.",
+  "rho: The five-year conversion from adoption to implemented exposed work is judgmental.",
+  "e: No observed count of external-service sellers within this code was found.",
+  "e: Mixed-activity legal entities may be classified by establishment-level primary activity in ways that public company descriptions do not reveal.",
+  "e: The supplied firm-count input may be materially misleading for this lens because it counts holding-company establishments rather than verified outsourced-service firms.",
+  "s5: Holding-company formations, bank acquisitions, and internal reorganizations are not interchangeable with transfers of eligible service firms.",
+  "s5: A transaction rate for all bank holding companies would answer a different question.",
+  "q: Ownership returns and intercompany allocations are not external service revenue.",
+  "q: No fixed-fee, hourly, or cost-plus mix was observable for the frozen lens.",
+  "d5: Growth in bank assets, subsidiaries, or regulatory filings would not directly measure demand for the lens's external service basket.",
+  "d5: Sector-level employment or establishment growth mixes holding and managing offices.",
+  "o: Regulatory accountability inside a holding company does not by itself establish external customer demand for a holding-company operator.",
+  "o: Any estimate would depend on first defining a qualifying service."
+ ],
+ "contract_sha256": "aab2c9e92e78bce09e2d306b237ffda9ce828ae72772be3c11cbfbf6d8786763",
+ "envelope": {
+  "attainable_tiers": [
+   "STRUCTURAL_OUT",
+   "LOW_PRIORITY",
+   "CONDITIONAL"
+  ],
+  "base": null,
+  "high": {
+   "A": 8.381664,
+   "L": 3.526656,
+   "factors": {
+    "C": 10.0,
+    "D": 10.0,
+    "F": 10.0,
+    "H": 3.526656
+   },
+   "state_id": "H:high|F:semantic_high|C:semantic_high|D:semantic_high",
+   "tier": "CONDITIONAL"
+  },
+  "interval_scope": "research-input sensitivity with dataset anchors (l, n) held fixed",
+  "low": {
+   "A": 0.1616384,
+   "L": 0.0,
+   "factors": {
+    "C": 0.0,
+    "D": 0.0,
+    "F": 0.0,
+    "H": 0.6465536
+   },
+   "state_id": "H:low|F:semantic_low|C:semantic_low|D:semantic_low",
+   "tier": "STRUCTURAL_OUT"
+  },
+  "missing_factors": [
+   "F",
+   "C",
+   "D"
+  ],
+  "robust_tier": null,
+  "state_count": 24,
+  "tier_interval": [
+   "STRUCTURAL_OUT",
+   "CONDITIONAL"
+  ]
+ },
+ "factors": {
+  "C": {
+   "base": null,
+   "evidence_state": "MISSING",
+   "high": null,
+   "low": null,
+   "primitives": [
+    "q"
+   ]
+  },
+  "D": {
+   "base": null,
+   "evidence_state": "MISSING",
+   "high": null,
+   "low": null,
+   "primitives": [
+    "d5",
+    "o"
+   ]
+  },
+  "F": {
+   "base": null,
+   "evidence_state": "MISSING",
+   "high": null,
+   "low": null,
+   "primitives": [
+    "e",
+    "s5"
+   ]
+  },
+  "H": {
+   "base": 1.8955776,
+   "evidence_state": "PROXY",
+   "high": 3.526656,
+   "low": 0.6465536,
+   "primitives": [
+    "a",
+    "rho"
+   ]
+  }
+ },
+ "identity": {
+  "attempt": 1,
+  "methodology_version": "5.1",
+  "model_id": "claude-sonnet-5",
+  "naics": "551111",
+  "run_date": "2026-07-22",
+  "run_id": "551111-a1-20260722",
+  "title": "Offices of Bank Holding Companies"
+ },
+ "lens": {
+  "customer_and_revenue_model": "The default lens requires revenue from repeat services sold to external customers. No defensible recurring external-customer billing model was identified for correctly classified bank holding-company offices; ordinary economics arise from ownership and control of affiliates rather than outsourced-service fees.",
+  "deviation_from_default": "none",
+  "excluded_activities": "Entities whose primary activity is holding bank equity or exercising ownership control; banks and other operating financial institutions; offices that administer or manage affiliated establishments; captive shared-service units; shells; non-control financing vehicles; and internal reorganizations.",
+  "heterogeneous": false,
+  "included_activities": "A correctly classified bank holding-company office only if it independently supplies a recurring or repeat outsourced service to unaffiliated external customers while remaining primarily a non-managing holding office. The available classification evidence suggests that this is an exceptional edge case rather than the ordinary establishment model."
+ },
+ "methodology_commit": "0bc02261fd19dea533df6e45c1ec432bc4742249",
+ "methodology_version": "5.1",
+ "primitives": {
+  "a": {
+   "base": 0.43,
+   "bridge": "BLS measures the occupation mix for the broader Management of Companies and Enterprises sector, which combines holding offices with active managing offices, and O*NET describes accounting and managerial tasks. I translate the prevalence of document, reporting, analysis, and monitoring work into a bounded share of current tasks exposed to AI. The proxy likely overstates exposure for a pure holding office because the broader sector includes labor-intensive managing offices, while it may understate exposure where a small holding-office staff is concentrated in financial review and reporting.",
+   "caveats": [
+    "The occupation evidence is for sector 55 rather than this six-digit code.",
+    "The sector includes managing offices that the Census classification distinguishes from non-managing holding offices.",
+    "The range is task exposure, not job displacement, and excludes work already automated."
+   ],
+   "change_evidence": "A six-digit staffing census or payroll extract for bank holding-company offices, paired with task-level time studies separating affiliate governance, regulatory reporting, and routine document work, would materially change the range.",
+   "evidence_state": "PROXY",
+   "high": 0.56,
+   "low": 0.28,
+   "rationale": "The broader sector contains large accounting, bookkeeping, financial-management, office-supervision, and general-management occupations. O*NET identifies record examination, report preparation, control analysis, performance review, and written communication within those jobs. Those activities contain material language and analytical task exposure, but consequential approvals, fiduciary judgment, governance, and regulated accountability remain human work.",
+   "source_ids": [
+    "S2",
+    "S3",
+    "S4"
+   ]
+  },
+  "d5": {
+   "base": null,
+   "caveats": [
+    "Growth in bank assets, subsidiaries, or regulatory filings would not directly measure demand for the lens's external service basket.",
+    "Sector-level employment or establishment growth mixes holding and managing offices."
+   ],
+   "change_evidence": "Verified service-line revenue and unit-volume histories from eligible establishments, paired with external-customer budgets and forecast volumes, would establish current quantity and a five-year demand path.",
+   "evidence_state": "MISSING",
+   "high": null,
+   "low": null,
+   "rationale": "The current external-service basket and its constant-price quantity are not observable because the classification describes a holding function rather than an outsourced-service market. A five-year demand ratio therefore has no defensible denominator.",
+   "source_ids": []
+  },
+  "e": {
+   "base": 0.005,
+   "caveats": [
+    "No observed count of external-service sellers within this code was found.",
+    "Mixed-activity legal entities may be classified by establishment-level primary activity in ways that public company descriptions do not reveal.",
+    "The supplied firm-count input may be materially misleading for this lens because it counts holding-company establishments rather than verified outsourced-service firms."
+   ],
+   "change_evidence": "A record-level business register with primary NAICS, independent external-customer service revenue, normalized EBITDA, and affiliate status for every bank holding-company office would directly identify the eligible share.",
+   "evidence_state": "ESTIMATE",
+   "high": 0.02,
+   "low": 0.001,
+   "rationale": "Eligibility is estimated near zero because the Census classification identifies a bank holding company as a holding office and separately classifies offices that directly manage affiliated companies. Neither ownership control nor captive affiliate administration is a recurring outsourced service to external customers. A small positive range allows for unusual mixed-revenue or classification-edge establishments without treating them as the normal model.",
+   "source_ids": [
+    "S1",
+    "S6"
+   ]
+  },
+  "l": {
+   "detail": "QCEW 2024 private total annual wages at 551111 ($1,379,366,729) x benefits multiplier 1.4294 [ECEC private-industry total comp $46.60/hr / wages $32.60/hr = 1.4294 (March 2026 reference period)] / SUSB 2022 receipts at 551111 ($5,605,566,000). Vintage mismatch: 2024 wages over 2022 receipts, stated. Level: 6-digit. Harmonized to IPS basis ÷1.3407 (median of 65 dual-method codes).",
+   "evidence_state": "OBSERVED",
+   "quality": "MED",
+   "value": 0.2624
+  },
+  "n": {
+   "detail": "margin 0.1500 (margins.json[55]: ESTIMATE: management of companies / holding offices has no market analog; 15% placeholder chosen before deriving results); revenue/employee $732,275 (SUSB 2022 receipts/employment at 551111); class <5: 52 firms, avg revenue/firm $14,847,038 (class receipts/firms), implied EBITDA $2,227,056 -> IN $1-10M band; class 5-9: 9 firms, avg revenue/firm $1,111,000 (class receipts/firms), implied EBITDA $166,650 -> out of $1-10M band; class 10-19: 26 firms, avg revenue/firm $2,564,192 (class receipts/firms), implied EBITDA $384,629 -> out of $1-10M band; class 20-99: 235 firms, avg revenue/firm $3,708,379 (class receipts/firms), implied EBITDA $556,257 -> out of $1-10M band; class 100-499: 198 firms, avg revenue/firm $4,660,662 (class receipts/firms), implied EBITDA $699,099 -> out of $1-10M band; class 500+: 61 firms, avg revenue/firm $48,566,754 (class receipts/firms), implied EBITDA $7,285,013 -> IN $1-10M band; n_band = 113",
+   "evidence_state": "ESTIMATE",
+   "quality": "ESTIMATE",
+   "value": 113
+  },
+  "o": {
+   "base": null,
+   "caveats": [
+    "Regulatory accountability inside a holding company does not by itself establish external customer demand for a holding-company operator.",
+    "Any estimate would depend on first defining a qualifying service."
+   ],
+   "change_evidence": "Workflow-level customer research for verified eligible services, including willingness to self-serve, software substitution, liability allocation, and requirements for a regulated accountable provider, would support this quantity.",
+   "evidence_state": "MISSING",
+   "high": null,
+   "low": null,
+   "rationale": "Without an identified external service basket or eligible operator population, there is no defensible basis for estimating what share of year-five quantity still requires an accountable operator of this kind rather than software, self-service, or another supplier.",
+   "source_ids": []
+  },
+  "q": {
+   "base": null,
+   "caveats": [
+    "Ownership returns and intercompany allocations are not external service revenue.",
+    "No fixed-fee, hourly, or cost-plus mix was observable for the frozen lens."
+   ],
+   "change_evidence": "Contract samples and cohort-level gross-margin bridges from verified eligible establishments, including renewal repricing and customer concessions after automation, would support this quantity.",
+   "evidence_state": "MISSING",
+   "high": null,
+   "low": null,
+   "rationale": "No recurring external-customer contracts, fee schedules, renewal behavior, or competitive repricing evidence was identified for an eligible bank holding-company service population, so retained gross benefit cannot be estimated without inventing a billing model.",
+   "source_ids": []
+  },
+  "rho": {
+   "base": 0.42,
+   "bridge": "Census BTOS measures current and near-term AI use by U.S. businesses, including a Finance and Insurance sector rate, rather than the five-year implemented share of exposed tasks in bank holding-company offices. I use those adoption observations as an anchor, then bound implementation below full task exposure because governance, model risk, data controls, validation, and accountable approval constrain deployment. The Finance and Insurance comparison may overstate applicability because NAICS 551111 is classified in sector 55, while the all-business rate may understate adoption by sophisticated financial groups.",
+   "caveats": [
+    "BTOS asks about any AI use and does not measure task coverage or labor substitution.",
+    "The cited sector comparison is Finance and Insurance, not NAICS 551111.",
+    "The five-year conversion from adoption to implemented exposed work is judgmental."
+   ],
+   "change_evidence": "A survey of bank holding-company controllers, compliance leaders, and technology executives reporting production AI coverage by workflow, together with model-risk audit findings and measured labor-hour changes, would materially change the range.",
+   "evidence_state": "PROXY",
+   "high": 0.6,
+   "low": 0.22,
+   "rationale": "Current business AI use establishes that implementation is underway, but using AI in any business function is much less demanding than operationally implementing exposed work. Five years permits meaningful workflow integration; bank holding-company governance and regulatory obligations prevent assuming that all technically exposed tasks become implemented substitutions.",
+   "source_ids": [
+    "S5",
+    "S6"
+   ]
+  },
+  "s5": {
+   "base": null,
+   "caveats": [
+    "Holding-company formations, bank acquisitions, and internal reorganizations are not interchangeable with transfers of eligible service firms.",
+    "A transaction rate for all bank holding companies would answer a different question."
+   ],
+   "change_evidence": "After an eligible cohort is identified, PitchBook, S&P Capital IQ, or Federal Reserve applications matched to establishment-level service revenue and transaction structure could provide a five-year qualifying-transfer numerator and surviving-firm denominator.",
+   "evidence_state": "MISSING",
+   "high": null,
+   "low": null,
+   "rationale": "No defensible eligible-firm cohort exists on which to measure qualifying control transfers. Federal Reserve holding-company approvals concern ownership and regulatory control of banking organizations, not necessarily transfers of recurring external-service operations under the frozen lens.",
+   "source_ids": []
+  }
+ },
+ "principal_driver": "Document-heavy financial oversight and reporting work creates plausible AI task exposure wherever a staffed holding office exists.",
+ "principal_weakness": "The industry definition supplies no observable recurring external-customer service model, leaving the eligible firm base and all commercial-demand primitives unsupported.",
+ "readiness": "STRESS_TEST_ONLY",
+ "robust_tier": null,
+ "tier": null,
+ "tier_interval": [
+  "STRUCTURAL_OUT",
+  "CONDITIONAL"
+ ]
+}

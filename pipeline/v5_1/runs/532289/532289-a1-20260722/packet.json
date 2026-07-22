@@ -1,0 +1,161 @@
+{
+  "identity": {
+    "naics": "532289",
+    "title": "All Other Consumer Goods Rental",
+    "run_id": "532289-a1-20260722",
+    "model_id": "claude-sonnet-5",
+    "run_date": "2026-07-22",
+    "methodology_version": "5.1",
+    "attempt": 1
+  },
+  "lens": {
+    "included_activities": "U.S. lower-middle-market operators that own and repeatedly rent miscellaneous consumer goods not assigned to more specific rental codes, principally party and event supplies and short-duration residential furniture or specialty household goods, together with quoting, reservation, warehouse, preparation, delivery, setup, pickup, inspection, cleaning, and maintenance work.",
+    "excluded_activities": "Lease-to-own or installment-sale portfolios designed primarily to transfer ownership; consumer electronics and appliances, formal wear and costumes, prerecorded video, home-health equipment, and recreational goods classified in separate codes; peer-to-peer marketplaces without operated inventory; captive internal fleets; shells, non-control vehicles, and subscale hobby operators.",
+    "customer_and_revenue_model": "Households, event hosts, venues, and planners pay time-based fees for access to operator-owned goods, with additional delivery, setup, damage-waiver, cleaning, or service revenue. Revenue depends on inventory turns, route and warehouse execution, return condition, and local event or household demand.",
+    "deviation_from_default": "Narrowed for coherence to operating rental businesses earning predominantly temporary-use and related service revenue. Sales-heavy lease-to-own arrangements are excluded because their consumer-credit, collections, and ownership-transfer economics differ materially from repeat rent-to-rent operations; the narrowing is not based on attractiveness.",
+    "heterogeneous": true
+  },
+  "primitives": {
+    "a": {
+      "evidence_state": "PROXY",
+      "low": 0.20,
+      "base": 0.32,
+      "high": 0.45,
+      "bridge": "BLS occupational employment for broad NAICS 532 shows substantial counter/rental-clerk, sales, office, repair, and material-moving work. I map quoting, reservation intake, scheduling, customer communication, billing, marketing, inventory allocation, and route planning to AI-exposed tasks, while treating warehouse handling, cleaning, repair, delivery, setup, pickup, and condition verification as not yet automated. Broad NAICS 532 includes vehicles and commercial machinery, likely overstating heavy repair but potentially understating this lens's event setup and warehouse labor; the interval accommodates both directions.",
+      "rationale": "Commercial coordination is highly digitizable, but the narrowed service still requires substantial physical preparation and logistics for reusable goods.",
+      "change_evidence": "Exact-industry time studies by party rental, rent-to-rent furniture, and other specialty-goods operators would materially change the exposed-task share.",
+      "source_ids": ["S1", "S2", "S4"],
+      "caveats": [
+        "Occupation shares are a broad proxy for time spent on tasks.",
+        "The residual NAICS category contains goods with materially different handling and service intensity."
+      ]
+    },
+    "rho": {
+      "evidence_state": "ESTIMATE",
+      "low": 0.34,
+      "base": 0.54,
+      "high": 0.70,
+      "rationale": "Cloud tools can support quoting, reservations, customer messaging, billing, catalog content, inventory availability, and route sequencing within five years. Adoption is constrained by fragmented local operators, inconsistent inventory data, custom event requirements, legacy software, thin management teams, and the need to connect digital recommendations to warehouse and delivery execution.",
+      "change_evidence": "Segment-specific software penetration, AI-feature usage, implementation cohorts, and measured workflow compliance would materially change the estimate.",
+      "source_ids": ["S1", "S2", "S4"],
+      "caveats": [
+        "The residual category has no single representative technology stack.",
+        "Digitized customer intake may shift exceptions into operations rather than eliminate them."
+      ]
+    },
+    "e": {
+      "evidence_state": "ESTIMATE",
+      "low": 0.48,
+      "base": 0.68,
+      "high": 0.84,
+      "rationale": "The official category combines furniture rental centers, party rental supply centers, and miscellaneous other goods, so only part of the dataset population fits one coherent temporary-use operating model. Eligibility is further reduced for sales-heavy lease-to-own firms, captive or marketplace models, very small owner-dependent operators, and businesses outside the target EBITDA range. The supplied establishment-derived count is a coarse anchor because it uses a round margin assumption rather than an exact-industry observation.",
+      "change_evidence": "Firm-level revenue mix, contract form, ownership-transfer share, stand-alone status, EBITDA, and establishment-to-enterprise links would materially change eligibility.",
+      "source_ids": ["S1", "S4"],
+      "caveats": [
+        "The NAICS residual is heterogeneous by product, rental duration, and customer mission.",
+        "Establishment counts do not identify firms or qualifying control opportunities."
+      ]
+    },
+    "s5": {
+      "evidence_state": "PROXY",
+      "low": 0.06,
+      "base": 0.12,
+      "high": 0.20,
+      "bridge": "Gallup reports that 22% of U.S. employer-business owners intended to sell, transfer, or go public within five years. I reduce that rate for noncompletion, family or employee transfers, and businesses outside the coherent operating lens. The broad survey may overstate external-control availability because intention and transfer type are not transaction outcomes, while an aging, fragmented local operator base could make this industry's actual rate higher than the haircut implies.",
+      "rationale": "Qualifying external control transfers should be a minority of otherwise eligible firms over five years, with broad succession intentions serving only as an upper starting point.",
+      "change_evidence": "Closed-deal records, broker listings, owner-age data, and internal-versus-external transfer shares for party and rent-to-rent furniture operators would materially change the estimate.",
+      "source_ids": ["S5"],
+      "caveats": [
+        "The survey measures stated plans rather than completions.",
+        "Its industry and size mix is broader than the target lens."
+      ]
+    },
+    "q": {
+      "evidence_state": "ESTIMATE",
+      "low": 0.38,
+      "base": 0.58,
+      "high": 0.74,
+      "rationale": "Operators can retain benefits through faster quote conversion, denser delivery routes, fewer inventory conflicts, improved utilization, lower administrative effort, and reduced loss or damage. Competitive event bids, customer price transparency, planner bargaining, software costs, wage reassignment, and physical capacity constraints pass through or consume part of the benefit.",
+      "change_evidence": "Before-and-after operator data on quote conversion, route miles, labor hours, utilization, damage, realized pricing, and technology cost would materially change retained benefit.",
+      "source_ids": ["S1", "S3", "S4"],
+      "caveats": [
+        "No primary study isolates AI-specific benefit in the narrowed industry.",
+        "Utilization improvements can add cleaning, repair, handling, and replacement cost."
+      ]
+    },
+    "d5": {
+      "evidence_state": "PROXY",
+      "low": 0.94,
+      "base": 1.05,
+      "high": 1.16,
+      "bridge": "Census reports broad NAICS 5322 consumer-goods-rental revenue of $13.349 billion in the first half of 2025 versus $12.610 billion a year earlier, a 5.9% nominal increase, with strong quarter-to-quarter seasonality and stated sampling variability. I remove an uncertain inflation contribution and moderate the recent rate to infer five-year real quantity for this narrower miscellaneous-goods lens. The broad series includes excluded rental categories and lease-to-own activity, so it can overstate demand if those components are stronger; event normalization or rental substitution for ownership could make the narrowed segment stronger.",
+      "rationale": "Broad category growth supports modest expansion, but event cycles, household budgets, venue activity, goods ownership, and the mix between genuine rental and ownership-transfer contracts justify a wide range around near-flat to moderate real growth.",
+      "change_evidence": "Exact 532289 rent-to-rent revenue deflators, rental orders, inventory turns, event counts, and same-location volume split by party supplies and furniture would materially change the ratio.",
+      "source_ids": ["S3"],
+      "caveats": [
+        "The source is nominal, not seasonally adjusted, and broader than the coherent lens.",
+        "A residual industry can change composition even when total revenue grows."
+      ]
+    },
+    "o": {
+      "evidence_state": "ESTIMATE",
+      "low": 0.88,
+      "base": 0.95,
+      "high": 0.99,
+      "rationale": "Nearly all year-five quantity still needs an accountable operator to own or source goods, assure availability and condition, prepare orders, manage deposits and loss, and arrange delivery, setup, pickup, cleaning, repair, or redeployment. Customer pickup, self-service access, venue-owned inventory, marketplaces, disposable alternatives, and outright purchases can displace some incumbent-operated quantity.",
+      "change_evidence": "Data on customer-pickup, self-service, peer-to-peer supply, venue ownership, disposable substitution, and outsourced fulfillment by product segment would materially change operator need.",
+      "source_ids": ["S1", "S2", "S4"],
+      "caveats": [
+        "Accountable operation may remain even when third parties perform delivery or setup.",
+        "Furniture and party supplies differ in contract duration, logistics, and substitution risk."
+      ]
+    }
+  },
+  "narrative": {
+    "executive_view": "The official residual category is too mixed to model as one undifferentiated business, so the lens is narrowed to repeat rent-to-rent operators in party supplies, furniture, and similar goods. Within that lens, AI can materially improve commercial coordination and asset utilization, while warehouse, preparation, delivery, setup, recovery, and condition work remain operator-intensive.",
+    "ai_impact": "AI is most useful in inquiry capture, complex quote drafting, product matching, availability checks, schedule and route suggestions, customer messaging, billing support, catalog maintenance, and demand forecasting. Physical order picking, cleaning, loading, driving, setup, pickup, inspection, repair, and exception handling remain human or conventional-automation work.",
+    "value_capture": "Better conversion, route density, utilization, and inventory accuracy can create meaningful benefit. Local bid competition, planner bargaining, visible prices, software expense, added throughput costs, and finite warehouse and delivery capacity prevent full retention.",
+    "firm_availability": "The supplied population is substantial but cannot be read directly as eligible firms because the code includes multiple models and the underlying count is establishment-based. Excluding lease-to-own and sales-heavy businesses is necessary for coherence and materially reduces the eligible share before applying the transfer-rate haircut.",
+    "demand_durability": "Broad consumer-rental revenue is growing, but it is nominal, seasonal, and not specific to this lens. Event formation, household mobility, temporary-use preferences, and avoidance of ownership support demand; discretionary pressure, purchases, disposable goods, venue inventories, and economic cycles work against it.",
+    "risks_and_uncertainty": "The main risks are residual-category heterogeneity, lack of exact task and real-volume data, misclassification between rent-to-rent and lease-to-own models, establishment-versus-firm distortion, and uncertainty about whether succession intentions become external control transactions.",
+    "principal_driver": "AI-assisted quoting, scheduling, inventory allocation, and route planning can raise conversion and utilization in a repeated-rental network.",
+    "principal_weakness": "The official category combines materially different contract and product models, and the physical logistics base limits the share of work that AI can directly remove."
+  },
+  "sources": [
+    {
+      "id": "S1",
+      "url": "https://www.census.gov/naics/?details=532&input=532&year=2022",
+      "title": "2022 NAICS Definition: 532289 All Other Consumer Goods Rental",
+      "access_date": "2026-07-22",
+      "supports": "Official inclusion and exclusion boundaries, including furniture rental centers and party rental supply centers, used for the coherence lens."
+    },
+    {
+      "id": "S2",
+      "url": "https://www.bls.gov/oes/2023/may/naics3_532000.htm",
+      "title": "May 2023 National Industry-Specific Occupational Employment and Wage Estimates: NAICS 532000",
+      "access_date": "2026-07-22",
+      "supports": "Broad occupational structure used to bridge from rental-industry jobs to exposed and physical task shares."
+    },
+    {
+      "id": "S3",
+      "url": "https://www2.census.gov/services/qss/2025/qssq2-25pr.pdf",
+      "title": "Quarterly Services Survey, Second Quarter 2025",
+      "access_date": "2026-07-22",
+      "supports": "Broad NAICS 5322 revenue, recent nominal growth, seasonality, and sampling limitations used for the demand proxy."
+    },
+    {
+      "id": "S4",
+      "url": "https://www.sec.gov/Archives/edgar/data/933036/000093303625000042/upbd-20241231.htm",
+      "title": "Upbound Group, Inc. 2024 Annual Report on Form 10-K",
+      "access_date": "2026-07-22",
+      "supports": "Primary-company evidence that furniture-oriented lease-to-own operations combine digital decisioning with delivery, installation, maintenance, inventory control, and ownership-transfer economics, supporting both physical-task reasoning and the lens exclusion."
+    },
+    {
+      "id": "S5",
+      "url": "https://news.gallup.com/poll/657362/small-business-owners-lack-succession-plan.aspx",
+      "title": "Most Small-Business Owners Lack a Succession Plan",
+      "access_date": "2026-07-22",
+      "supports": "Five-year employer-owner sale and transfer intentions used as the starting point for the qualifying-control-transfer proxy."
+    }
+  ]
+}
