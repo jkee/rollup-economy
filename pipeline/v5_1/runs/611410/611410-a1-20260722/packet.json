@@ -1,0 +1,170 @@
+{
+  "identity": {
+    "naics": "611410",
+    "title": "Business and Secretarial Schools",
+    "run_id": "611410-a1-20260722",
+    "model_id": "claude-sonnet-5",
+    "run_date": "2026-07-22",
+    "methodology_version": "5.1",
+    "attempt": 1
+  },
+  "lens": {
+    "included_activities": "Privately owned providers of repeat or recurring employer-contracted instruction in office procedures, administrative support, reception, communications, word processing, and related secretarial skills.",
+    "excluded_activities": "Consumer-only tuition programs, degree-granting business education, computer training classified in 611420, captive employer training units, public institutions, shells, and non-control financing vehicles.",
+    "customer_and_revenue_model": "Employer-paid cohort, seat, subscription, or fixed-fee training sold repeatedly to external organizations; learner-paid tuition without a repeat organizational customer is excluded.",
+    "deviation_from_default": "The NAICS definition spans consumer career schools and employer training, which have materially different buyers and recurrence. The lens is narrowed to employer-contracted repeat instruction so the recurring outsourced-service screen is coherent.",
+    "heterogeneous": true
+  },
+  "primitives": {
+    "a": {
+      "evidence_state": "PROXY",
+      "low": 0.3,
+      "base": 0.46,
+      "high": 0.62,
+      "bridge": "BLS measures the occupation mix of broader NAICS 611400, not 611410, and Anthropic measures observed Claude task use rather than technically substitutable work. I map the large business-operations, instructional, management, sales, and administrative wage pools to content drafting, assessment, learner support, scheduling, sales administration, and back-office tasks; inclusion of computer and management training likely biases exposure upward for secretarial schools, while unmeasured instructor preparation and feedback may bias it downward.",
+      "rationale": "The broader industry is concentrated in business and financial operations (28.88% of employment), management (17.39%), office support (14.31%), and instruction (14.25%). Much of course-content production, assessment generation, routine feedback, scheduling, marketing copy, and customer support is language- and software-mediated, but live facilitation, sales relationships, student motivation, and accountable quality review remain human work.",
+      "change_evidence": "A 611410-only payroll extract mapped to O*NET tasks, paired with time studies from at least 10 employer-training operators that separate already-automated LMS work from current manual work.",
+      "source_ids": ["S1", "S2"],
+      "caveats": [
+        "The occupation distribution is for NAICS 611400 and includes computer and management training.",
+        "Anthropic usage is product-specific observed use, not a capability ceiling or a wage-weighted industry measure.",
+        "The estimate excludes tasks already automated by learning-management and office software."
+      ]
+    },
+    "rho": {
+      "evidence_state": "ESTIMATE",
+      "low": 0.35,
+      "base": 0.55,
+      "high": 0.72,
+      "rationale": "Small training providers can deploy commodity AI for drafting, personalization, scheduling, and support without heavy physical integration, but quality assurance, curriculum governance, privacy, instructor adoption, and the need to preserve credible live instruction limit five-year implementation.",
+      "change_evidence": "Operator-level before-and-after labor hours, error rates, learner outcomes, and adoption records from multi-site secretarial or office-skills schools implementing AI-enabled LMS, CRM, and content workflows.",
+      "source_ids": ["S2", "S5"],
+      "caveats": [
+        "No 611410 adoption study was found.",
+        "Implementation capacity may be unusually weak because the frozen dataset estimates no firms in the target EBITDA band."
+      ]
+    },
+    "e": {
+      "evidence_state": "ESTIMATE",
+      "low": 0.02,
+      "base": 0.08,
+      "high": 0.2,
+      "rationale": "Only the employer-contracted recurring-training slice is eligible; much of the NAICS definition is individual career instruction. The frozen dataset's estimate of zero firms in the target EBITDA band means this share has no practical firm-count base and should be read as a conditional judgment, not evidence that a target exists.",
+      "change_evidence": "A complete 611410 establishment census with revenue, normalized EBITDA, ownership, customer mix, and recurring employer-contract share, reconciled to multi-establishment firms.",
+      "source_ids": ["S3"],
+      "caveats": [
+        "The supplied n equals zero and is itself an ESTIMATE, so even a positive eligibility share implies zero expected targets at its base.",
+        "NAICS descriptions do not reveal customer mix or firm-level consolidation."
+      ]
+    },
+    "s5": {
+      "evidence_state": "ESTIMATE",
+      "low": 0.08,
+      "base": 0.18,
+      "high": 0.32,
+      "rationale": "A small private training operator could transfer through retirement, strategic sale, or distress, but no industry-specific owner-age or control-transfer series was found. The range allows ordinary private-company turnover while excluding closures without transferable operations and internal reorganizations.",
+      "change_evidence": "Five years of closed 611410 transactions from DealStats, PitchBook, BizBuySell, and state school-licensing ownership-change records, matched to an owner-age census of eligible firms.",
+      "source_ids": [],
+      "caveats": [
+        "No observed 611410 control-transfer denominator was available.",
+        "Because the dataset estimates zero band firms, a conditional transfer probability may not correspond to any actual target."
+      ]
+    },
+    "q": {
+      "evidence_state": "ESTIMATE",
+      "low": 0.3,
+      "base": 0.5,
+      "high": 0.7,
+      "rationale": "Fixed per-course, cohort, seat, or subscription prices initially permit retention of delivery savings, but office-skills content is readily compared and increasingly software-deliverable. Renewals and competitive bids should share a substantial portion of visible savings with customers over five years.",
+      "change_evidence": "Customer-level contracts and five-year renewal cohorts showing pricing units, discounting, gross margins, churn, and price changes before and after AI-enabled delivery.",
+      "source_ids": ["S3", "S4"],
+      "caveats": [
+        "The NAICS definition permits many delivery modes but does not measure contract structures.",
+        "The lens excludes learner-paid tuition, whose pricing dynamics may differ."
+      ]
+    },
+    "d5": {
+      "evidence_state": "PROXY",
+      "low": 0.65,
+      "base": 0.82,
+      "high": 0.98,
+      "bridge": "BLS projects employment in the occupations for which these schools prepare learners, not demand for 611410 training. I translate flat 2024-34 secretary employment and a 7% decline for general office clerks into a five-year directional anchor, then apply a further downward adjustment because BLS says entry skills are commonly learned in weeks on the job and AI/digital tools let staff perform tasks directly. This may understate demand if rapid tool change creates reskilling demand, and overstate it if stand-alone secretarial credentials lose relevance faster than employment.",
+      "rationale": "The addressable occupation base is not disappearing immediately, but traditional clerical work is flat to declining and requires little formal pre-entry education. Demand can persist for specialized legal, medical, software, and reskilling modules, while generic office-procedure programs face substitution from on-the-job learning and self-service tools.",
+      "change_evidence": "IPEDS completions and enrollment trends isolated to 611410 institutions, state licensing enrollment reports, and employer L&D purchasing surveys for office-support training through 2031.",
+      "source_ids": ["S4", "S5"],
+      "caveats": [
+        "Occupational employment is not training spend or constant-quality service quantity.",
+        "The five-year conversion is judgmental and does not isolate employer-funded programs.",
+        "Medical-secretary demand is stronger than generic and legal-secretary demand, creating mix uncertainty."
+      ]
+    },
+    "o": {
+      "evidence_state": "PROXY",
+      "low": 0.3,
+      "base": 0.48,
+      "high": 0.7,
+      "bridge": "NCES measures distance participation across degree-granting postsecondary education, not 611410 or fully self-served software. I use the high demonstrated acceptance of remote education, together with the NAICS definition's explicit internet and home delivery modes, as evidence that delivery can migrate away from a local school operator. This likely overstates substitution where employers require customization, facilitation, assessment integrity, or accountable outcomes, and understates it where AI tutors replace static online courses.",
+      "rationale": "A meaningful share of year-five demand will still need an accountable provider to diagnose needs, customize content, facilitate cohorts, validate learning, and contract with employers. Generic word-processing, document, and office-procedure learning can increasingly be self-served through software, vendor tutorials, and AI assistance.",
+      "change_evidence": "Employer procurement data separating instructor-led, vendor-led online, AI-tutor, and fully self-service office-skills learning, with renewal and completion outcomes by delivery model.",
+      "source_ids": ["S3", "S6"],
+      "caveats": [
+        "Degree-granting distance-learning participation is a broad population proxy.",
+        "Remote delivery can still retain an accountable operator; it is not identical to operator elimination."
+      ]
+    }
+  },
+  "narrative": {
+    "executive_view": "The coherent recurring-service opportunity is employer-contracted office-skills training, a narrow subset of a small and heterogeneous NAICS. AI can reduce content, support, and administrative labor, but the supplied dataset estimates no firms in the target EBITDA band and the underlying secretarial-training demand is pressured by on-the-job learning and self-service technology.",
+    "ai_impact": "AI can draft and refresh course materials, generate exercises and assessments, personalize practice, answer routine learner questions, summarize interactions, and automate enrollment, scheduling, marketing, and billing. Humans remain important for needs diagnosis, live facilitation, motivation, exceptions, quality assurance, and employer accountability.",
+    "value_capture": "Fixed-fee and per-seat arrangements can preserve savings at first. Over renewals, transparent digital delivery and abundant substitutes should push a meaningful share of the benefit to customers through lower prices, broader scope, or higher service levels.",
+    "firm_availability": "Availability is the central constraint. The frozen firm-count input is zero in the target EBITDA band, while only a minority of any firms would have recurring employer contracts rather than consumer tuition revenue. Any apparent target would require direct verification of NAICS classification, size, recurrence, and ownership.",
+    "demand_durability": "Employers will continue to need some administrative reskilling, especially for specialized workflows and changing software. Traditional general clerical and secretarial preparation is vulnerable because entry often requires only a high-school credential and short on-the-job training, while AI and digital tools increasingly perform or simplify the tasks being taught.",
+    "risks_and_uncertainty": "The strongest evidence is only available at broader industry or occupation level. Material risks include an empty target universe, falling relevance of stand-alone secretarial credentials, migration to vendor tutorials and AI tutors, aggressive renewal repricing, and weak implementation capacity in very small schools.",
+    "principal_driver": "Digitizable instructional content and administrative workflows create implementable labor-saving potential.",
+    "principal_weakness": "The supplied data estimate zero target-band firms, and durable demand for operator-led generic secretarial training is uncertain."
+  },
+  "sources": [
+    {
+      "id": "S1",
+      "url": "https://www.bls.gov/oes/2023/may/naics4_611400.htm",
+      "title": "May 2023 National Industry-Specific Occupational Employment and Wage Estimates: NAICS 611400",
+      "access_date": "2026-07-22",
+      "supports": "Broader-industry occupation mix: 83,320 jobs, including 28.88% business and financial operations, 17.39% management, 14.31% office support, and 14.25% educational instruction."
+    },
+    {
+      "id": "S2",
+      "url": "https://www.anthropic.com/research/economic-index-geography",
+      "title": "Anthropic Economic Index: Tracking AI's role in the US and global economy",
+      "access_date": "2026-07-22",
+      "supports": "Observed Claude use mapped to O*NET tasks; educational instruction and office/administrative tasks are represented, and automation reached 49.1% of classified interactions in the reported sample."
+    },
+    {
+      "id": "S3",
+      "url": "https://www.census.gov/naics/resources/archives/sect61.html",
+      "title": "North American Industry Classification System: Sector 61 Educational Services",
+      "access_date": "2026-07-22",
+      "supports": "Defines 611410 around office procedures and secretarial skills and distinguishes it from computer training, degree business education, and other technical training."
+    },
+    {
+      "id": "S4",
+      "url": "https://www.bls.gov/ooh/office-and-administrative-support/secretaries-and-administrative-assistants.htm",
+      "title": "Occupational Outlook Handbook: Secretaries and Administrative Assistants",
+      "access_date": "2026-07-22",
+      "supports": "Documents duties, short on-the-job training, 0% projected 2024-34 employment change overall, divergent specialty projections, and AI/digital tools enabling staff to prepare their own documents."
+    },
+    {
+      "id": "S5",
+      "url": "https://www.bls.gov/ooh/office-and-administrative-support/general-office-clerks.htm",
+      "title": "Occupational Outlook Handbook: General Office Clerks",
+      "access_date": "2026-07-22",
+      "supports": "Reports short on-the-job training, a 7% projected 2024-34 decline, and continued automation of document preparation, filing, and clerical work."
+    },
+    {
+      "id": "S6",
+      "url": "https://nces.ed.gov/fastfacts/display.asp?id=80",
+      "title": "NCES Fast Facts: Distance learning",
+      "access_date": "2026-07-22",
+      "supports": "Shows broad acceptance of remote postsecondary delivery: 61% of undergraduates took at least one distance course in fall 2021 and 28% studied exclusively at a distance."
+    }
+  ]
+}

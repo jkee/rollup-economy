@@ -1,0 +1,189 @@
+{
+  "identity": {
+    "naics": "711120",
+    "title": "Dance Companies",
+    "run_id": "711120-a1-20260722",
+    "model_id": "claude-sonnet-5",
+    "run_date": "2026-07-22",
+    "methodology_version": "5.1",
+    "attempt": 1
+  },
+  "lens": {
+    "included_activities": "US dance companies producing recurring or repeat live dance performances and related contracted programs for ticket buyers, presenters, schools, sponsors, and community or institutional customers, within the roughly $1-10M normalized EBITDA band.",
+    "excluded_activities": "Independent dancers and choreographers, dance schools without a producing company, captive university or municipal ensembles, shells, non-control financing vehicles, and organizations whose charitable governance cannot support a qualifying control transaction.",
+    "customer_and_revenue_model": "A mixed model of fixed-price tickets and subscriptions, presenter or institutional performance fees, education and outreach contracts, sponsorship, and contributed or grant revenue; the recurring-service screen is met through repeated seasons, tours, residencies, and programs rather than continuous service contracts.",
+    "deviation_from_default": "none",
+    "heterogeneous": false
+  },
+  "primitives": {
+    "a": {
+      "evidence_state": "PROXY",
+      "low": 0.14,
+      "base": 0.23,
+      "high": 0.34,
+      "bridge": "BLS measures the 4-digit Performing Arts Companies occupation mix rather than 6-digit Dance Companies, and headcount rather than wage-weighted task exposure. I map office, finance, marketing, writing, scheduling, customer-service, and portions of management/design work to high or moderate AI exposure, while treating embodied performance, rehearsal, instruction, stagecraft, and venue work as low exposure. Because 711100 includes theater and music companies and excludes self-employed workers, it may overstate technical and hospitality labor and understate dancers; that likely biases the estimate upward for a pure dance company.",
+      "rationale": "The nearest industry staffing table shows office and administrative support at 7.48% of employment, management at 8.62%, and arts/design/entertainment/media at 41.79%, but dancers and choreographers are only 3.39% because the table covers all performing arts companies. Within those groups, AI can draft marketing and donor communications, reconcile records, schedule, create first-pass grant material, and assist design ideation, while it cannot substitute the core physical performance and rehearsal labor. Anthropic separately observes enterprise API growth in office-administrative workflows and creative-writing use, supporting exposure of the digital task slice rather than the artistic core.",
+      "change_evidence": "A 711120-specific payroll extract mapped to O*NET tasks and hours, followed by time-and-motion interviews with artistic, development, ticketing, finance, and production staff at at least 20 LMM dance companies, would materially tighten the wage-weighted share.",
+      "source_ids": ["S1", "S2"],
+      "caveats": [
+        "The occupation source is NAICS 711100, not 711120, and excludes self-employed workers.",
+        "Observed AI usage is not the same as feasible substitution and is concentrated among users of one model provider.",
+        "Seasonal artists and contractors may not be represented consistently in employer payroll data."
+      ]
+    },
+    "rho": {
+      "evidence_state": "PROXY",
+      "low": 0.38,
+      "base": 0.58,
+      "high": 0.74,
+      "bridge": "Anthropic reports actual cross-industry Claude use and NBER measures realized productivity in a large customer-support deployment, not implementation by dance companies. I apply those adoption and realized-productivity signals only to the exposed administrative, marketing, customer-service, and documentation tasks, then discount for small-company data fragmentation, seasonal staffing, limited IT capacity, donor privacy, artistic approval, and human quality control. The enterprise-heavy and large-firm evidence probably biases implementation upward relative to LMM dance companies.",
+      "rationale": "Enterprise API use is automation-dominant and office-administrative tasks reached 13% of API transcripts in November 2025, while a field study of 5,179 customer-support agents found 14% average productivity improvement from generative-AI assistance. Those results make implementation of routine digital workflows plausible within five years, but most exposed work in a dance company remains relationship-sensitive and must pass artistic or executive review.",
+      "change_evidence": "Audited before-and-after deployments across 10-20 dance companies measuring labor hours, exception rates, donor and patron complaints, rework, and sustained use for ticketing, fundraising, finance, scheduling, and marketing would materially move this range.",
+      "source_ids": ["S2", "S3"],
+      "caveats": [
+        "Neither source measures dance-company implementation.",
+        "The customer-support study concerns conversational service work in a Fortune 500 software setting.",
+        "Implementation depends on integration with ticketing, donor CRM, payroll, and rights-management systems."
+      ]
+    },
+    "e": {
+      "evidence_state": "ESTIMATE",
+      "low": 0.1,
+      "base": 0.24,
+      "high": 0.42,
+      "rationale": "Eligibility is constrained less by whether companies serve recurring audiences than by governance and transferability. The NEA describes 4,762 actively registered nonprofit dance-related organizations and a 708-company nonprofit panel; IRS rules prohibit 501(c)(3) earnings from benefiting private shareholders or individuals. Some LMM companies may be for-profit, and a nonprofit can undergo a merger or board-control change, but much of the population does not offer conventional salable equity or owner economics. The range therefore admits a minority of commercial firms and genuinely controllable nonprofit combinations while excluding mission-locked or board-dependent entities.",
+      "change_evidence": "A firm-level census of the 26 modeled LMM-band firms classifying legal form, tax status, revenue recurrence, board rights, founder dependence, change-of-control restrictions, and normalized EBITDA would directly replace this estimate.",
+      "source_ids": ["S4", "S5"],
+      "caveats": [
+        "The 4,762 count covers dance-related nonprofits, not only NAICS 711120 or the LMM band.",
+        "Dataset n is margin-bridged from firm counts and average receipts and may not identify nonprofit economics cleanly.",
+        "Eligibility of nonprofit combinations is jurisdiction- and charter-specific."
+      ]
+    },
+    "s5": {
+      "evidence_state": "ESTIMATE",
+      "low": 0.08,
+      "base": 0.18,
+      "high": 0.32,
+      "rationale": "No source found measures five-year qualifying control transfers for eligible LMM dance companies. Founder succession, artistic-director retirement, board-led combinations, and financially motivated mergers create events, but ordinary artistic leadership turnover, dissolution, and internal board rotation do not necessarily produce a transferable controlled operation. The estimate is therefore below a broad small-business ownership-turnover heuristic and explicitly counts only qualifying control changes.",
+      "change_evidence": "A five- to ten-year transaction census using state charity filings, Form 990 Schedule N, PitchBook or Grata deal records, and interviews with Dance/USA members, arts-focused attorneys, and nonprofit merger advisers would materially change the probability.",
+      "source_ids": ["S4", "S5"],
+      "caveats": [
+        "There is no observed denominator of eligible dance companies and no industry-specific transfer series.",
+        "Nonprofit leadership succession is not automatically a qualifying control transfer.",
+        "Distress may produce closures or asset transfers that fail the transferable-operation test."
+      ]
+    },
+    "q": {
+      "evidence_state": "ESTIMATE",
+      "low": 0.38,
+      "base": 0.58,
+      "high": 0.76,
+      "rationale": "Tickets, subscriptions, performance contracts, grants, and sponsorships generally do not mechanically reimburse company labor costs, so a company can initially retain AI-enabled savings. Retention is diluted over renewals by price competition, presenter bargaining, grant-budget scrutiny, wage pressure, and the practical need to reinvest savings into artistic quality and audience development. The NEA's nonprofit panel shifted from 54/46 earned/contributed revenue in FY2018 to 40/60 in FY2022, showing that many companies are not governed by a simple market-price pass-through mechanism but are exposed to funder expectations and budget constraints.",
+      "change_evidence": "Contract and renewal analysis across ticketing, presenter fees, school residencies, grants, and sponsorships, paired with five-year contribution-margin bridges after documented automation projects, would materially tighten retained-benefit estimates.",
+      "source_ids": ["S4"],
+      "caveats": [
+        "Revenue mix is from nonprofit dance companies during a pandemic-distorted period.",
+        "Retained gross benefit is not the same as distributable profit in a charitable organization.",
+        "Grant restrictions and collective-bargaining or artist-contract terms vary widely."
+      ]
+    },
+    "d5": {
+      "evidence_state": "PROXY",
+      "low": 0.91,
+      "base": 1.06,
+      "high": 1.17,
+      "bridge": "BLS projects real output for NAICS 711100 Performing Arts Companies, not 711120 Dance Companies, at a 2.1% compound annual rate from 2024 to 2034; mechanical five-year compounding would be about 1.11. BLS also projects dancer and choreographer employment up 5% over the decade. I center below the broad-industry output extrapolation because dance attendance was still depressed in the pandemic-affected 2022 SPPA and because funding constraints may offset demand. The broad performing-arts output proxy may overstate dance demand if theater or music grows faster, while the 2022 attendance comparison may bias the range downward if recovery continues.",
+      "rationale": "BLS's chained-dollar output projection for performing arts companies rises from $29.8 billion in 2024 to $36.9 billion in 2034, a 2.1% annual rate, and dancer/choreographer employment is projected to rise 5% from 2024 to 2034. Against that, NEA survey data show ballet attendance fell from 3.1% of US adults in 2017 to 2.0% in 2022 and other dance from 6.3% to 3.3%. A modest real-demand increase with a meaningful downside case is therefore more defensible than straight-line use of the broader output forecast.",
+      "change_evidence": "Current Dance/USA panel data on inflation-adjusted ticket volume, presenter bookings, paid attendance, contracted residencies, and contributed revenue for 2024-2026, split by company budget and dance genre, would materially move the five-year ratio.",
+      "source_ids": ["S6", "S7", "S8"],
+      "caveats": [
+        "BLS output is for NAICS 711100 and includes theater, music, and other performing arts companies.",
+        "The NEA's 2017-2022 comparison captures pandemic disruption and is not a normalized trend.",
+        "Employment growth is only an indirect indicator of constant-quality service demand."
+      ]
+    },
+    "o": {
+      "evidence_state": "ESTIMATE",
+      "low": 0.78,
+      "base": 0.9,
+      "high": 0.97,
+      "rationale": "The current basket is centered on live embodied performance, rehearsal, choreography, touring, and accountable delivery to audiences and presenters. BLS describes dancers learning complex movements, rehearsing for hours, and working closely with choreographers and peers, all of which remain operator-intensive. Digital and AI-generated entertainment can substitute for some promotional content, streamed viewing, instructional media, or marginal attendance, but it does not eliminate the operator needed to deliver a live season, residency, or contracted performance.",
+      "change_evidence": "Audience substitution studies comparing willingness to pay and repeat attendance for live human dance versus synthetic or screen-delivered alternatives, plus presenter procurement data and company-level digital cannibalization metrics, would materially change this share.",
+      "source_ids": ["S7", "S8"],
+      "caveats": [
+        "The estimate concerns the current service basket, not all future entertainment spending.",
+        "High-quality generated video and self-service instruction could displace peripheral products faster than live performances.",
+        "Operator requirement does not guarantee profitable demand."
+      ]
+    }
+  },
+  "narrative": {
+    "executive_view": "Dance companies contain a real but bounded AI labor opportunity in fundraising, marketing, ticketing, scheduling, finance, and documentation. The artistic and physical delivery core remains human, while the more consequential constraint is that a large portion of the sector is nonprofit, mission-governed, and not conventionally transferable.",
+    "ai_impact": "AI can draft campaigns and grant materials, segment patrons, answer routine customer questions, reconcile and classify records, prepare schedules and production documents, and generate first-pass creative collateral. It is more likely to reduce administrative hiring and increase staff throughput than to replace dancers, choreographers, rehearsal directors, technicians, or accountable artistic leadership.",
+    "value_capture": "Fixed ticket and program pricing provides some initial insulation from direct labor-cost pass-through. Over time, however, presenters, funders, workers, and competing arts organizations can claim part of the benefit, and nonprofits may reinvest savings into mission delivery rather than convert them into owner cash flow.",
+    "firm_availability": "A modeled LMM population exists, but legal form and governance sharply narrow the truly acquirable set. Conventional equity control is most plausible among for-profit operators; nonprofit mergers or board-control changes can qualify only when governance, mission, assets, and operating continuity support a genuine control transaction.",
+    "demand_durability": "Live dance remains differentiated by embodied performance and communal attendance, and BLS expects modest growth in the broader performing-arts industry and dancer occupations. The downside is that measured ballet and other-dance attendance was materially lower in 2022 than 2017, while funding constraints and local concentration make recovery uneven.",
+    "risks_and_uncertainty": "The nearest staffing and output data combine dance with theater and music; nonprofit counts do not map neatly to NAICS or EBITDA; pandemic-era revenue and attendance distort trend inference; contractors are poorly captured; and no reliable industry transfer series exists. A roll-up could fail through insufficient transferable targets, founder or artistic-director dependence, donor flight, mission conflict, weak attendance, or quality damage from over-automation.",
+    "principal_driver": "Digitally exposed administrative and commercial workflows sit beside a live service that still requires an accountable human operator.",
+    "principal_weakness": "Nonprofit governance and scarce observed control transfers may leave very few genuinely acquirable LMM firms."
+  },
+  "sources": [
+    {
+      "id": "S1",
+      "url": "https://www.bls.gov/oes/2023/May/naics4_711100.htm",
+      "title": "May 2023 National Industry-Specific Occupational Employment and Wage Estimates: NAICS 711100 Performing Arts Companies",
+      "access_date": "2026-07-22",
+      "supports": "Occupation mix and wages for the nearest published industry: 135,030 total employment; management 8.62%; arts/design/entertainment/sports/media 41.79%; office and administrative support 7.48%; dancers and choreographers 3.39%; and source limitations including exclusion of self-employed workers."
+    },
+    {
+      "id": "S2",
+      "url": "https://www.anthropic.com/research/anthropic-economic-index-january-2026-report",
+      "title": "Anthropic Economic Index report: Economic primitives",
+      "access_date": "2026-07-22",
+      "supports": "Observed November 2025 AI-use patterns: office and administrative support reached 13% of enterprise API transcripts after a 3 percentage-point rise; the report identifies email, document processing, CRM, and scheduling, and reports creative writing and editing use in arts-related tasks."
+    },
+    {
+      "id": "S3",
+      "url": "https://www.nber.org/digest/20236/measuring-productivity-impact-generative-ai",
+      "title": "Measuring the Productivity Impact of Generative AI",
+      "access_date": "2026-07-22",
+      "supports": "Field evidence from 5,179 customer-support agents: AI assistance increased issues resolved per hour by nearly 14% on average, with larger gains among less-experienced workers."
+    },
+    {
+      "id": "S4",
+      "url": "https://www.arts.gov/stories/blog/2024/conjuring-arts-data-from-tax-forms-and-taxonomies-how-dance-researcher-does-it",
+      "title": "Conjuring Arts Data from Tax Forms and Taxonomies—How a Dance Researcher Does It",
+      "access_date": "2026-07-22",
+      "supports": "Dance/USA's 708-company nonprofit panel, estimate of 4,762 actively registered nonprofit dance-related organizations, 2018-2022 revenue and employment changes, project-based contracting, and the shift from 54/46 earned/contributed revenue to 40/60."
+    },
+    {
+      "id": "S5",
+      "url": "https://www.irs.gov/charities-non-profits/charitable-organizations/inurement-private-benefit-charitable-organizations",
+      "title": "Inurement/private benefit: Charitable organizations",
+      "access_date": "2026-07-22",
+      "supports": "IRS rule that a 501(c)(3) may not be organized or operated for private interests and that no part of net earnings may inure to a private shareholder or individual, constraining conventional owner economics and transferability."
+    },
+    {
+      "id": "S6",
+      "url": "https://www.bls.gov/emp/tables/industry-employment-and-output.htm",
+      "title": "Employment and output by industry",
+      "access_date": "2026-07-22",
+      "supports": "BLS 2024-2034 chained-2017-dollar projection for NAICS 711100: output rises from $29.8 billion to $36.9 billion, a 2.1% compound annual rate, while employment rises 3.6%."
+    },
+    {
+      "id": "S7",
+      "url": "https://www.arts.gov/sites/default/files/2022-SPPA-final.pdf",
+      "title": "Arts Participation Patterns in 2022: Highlights from the Survey of Public Participation in the Arts",
+      "access_date": "2026-07-22",
+      "supports": "US adult attendance evidence: ballet fell from 3.1% in 2017 to 2.0% in 2022, and other dance from 6.3% to 3.3%, with the period materially affected by the pandemic."
+    },
+    {
+      "id": "S8",
+      "url": "https://www.bls.gov/ooh/entertainment-and-sports/dancers-and-choreographers.htm",
+      "title": "Dancers and Choreographers: Occupational Outlook Handbook",
+      "access_date": "2026-07-22",
+      "supports": "Core duties requiring embodied human work and coordination, plus a 5% employment-growth projection from 17,000 jobs in 2024 to 17,800 in 2034 and BLS's note that funding constraints may offset demand."
+    }
+  ]
+}

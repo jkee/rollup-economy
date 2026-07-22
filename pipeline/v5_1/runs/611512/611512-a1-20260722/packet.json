@@ -1,0 +1,226 @@
+{
+  "identity": {
+    "naics": "611512",
+    "title": "Flight Training",
+    "run_id": "611512-a1-20260722",
+    "model_id": "claude-sonnet-5",
+    "run_date": "2026-07-22",
+    "methodology_version": "5.1",
+    "attempt": 1
+  },
+  "lens": {
+    "included_activities": "US lower-middle-market flight-training firms primarily delivering career-oriented initial pilot certificates, instrument and commercial ratings, instructor training, advanced ratings, and related recurrent ground, simulator, and aircraft instruction to external students or airline and institutional customers under Part 61 or Part 141.",
+    "excluded_activities": "Primarily recreational discovery-flight and hobby-club operations, military or captive airline training units, college programs that are not transferable operating firms, pure aircraft rental or charter, standalone training software, and non-control financing vehicles.",
+    "customer_and_revenue_model": "Students, employers, airlines, and institutional partners pay by flight or instructor hour, course block, fixed career-program tuition, or training contract. Revenue recurs through new cohorts, sequential certificates and ratings, proficiency work, and recurrent training, while aircraft rental, fuel, maintenance, simulators, and instructor time are major delivery inputs.",
+    "deviation_from_default": "NAICS 611512 explicitly combines vocational and recreational training, whose demand, price sensitivity, customer intent, and operator requirements are materially different. The lens keeps career-oriented and credential or rating-linked training and excludes primarily hobby or discovery-flight operations to maintain one coherent screen; the narrowing is based on business-model coherence, not attractiveness.",
+    "heterogeneous": true
+  },
+  "primitives": {
+    "a": {
+      "evidence_state": "PROXY",
+      "low": 0.1,
+      "base": 0.18,
+      "high": 0.29,
+      "bridge": "BLS occupation data cover broader NAICS 611500 technical and trade schools rather than 611512, while FAA rules describe required flight-school functions but do not measure time or AI exposure. I use the broader wage mix as a frame and reduce generic education exposure because flight-school labor is concentrated in certificated instructors performing live or simulator supervision, safety judgment, demonstrations, and proficiency assessment. This may understate exposure at scaled schools with large admissions, dispatch, records, and ground-school teams, or overstate it at instructor-led schools with minimal back office.",
+      "rationale": "AI can draft ground lessons and quizzes, personalize theory review, summarize weather and manuals for instructor checking, handle routine student inquiries, qualify leads, optimize schedules, reconcile training records, and prepare compliance documents. It cannot substitute for the accountable instructor in most flight and credited simulation training, aircraft dispatch and safety decisions, or practical skill assessment. FAA Part 141 requires instructor oversight, structured curricula, facilities, equipment, and records; even permitted simulator credits must be instructor-provided. The wage-weighted exposed share is therefore materially below that of a classroom- or office-heavy school.",
+      "change_evidence": "Role-level payroll and time studies from at least 15 Part 61 and Part 141 career schools, separating dual flight, simulator, ground instruction, prebrief and debrief, dispatch, maintenance coordination, scheduling, admissions, finance, and compliance tasks, followed by controlled AI cycle-time trials.",
+      "source_ids": ["S1", "S4", "S5", "S6"],
+      "caveats": [
+        "There is no public 611512-specific wage-by-task matrix.",
+        "Flight instructors may be classified differently across employers, complicating wage weighting.",
+        "The estimate is task substitution or avoided hiring, not replacement of certificated instructor jobs."
+      ]
+    },
+    "rho": {
+      "evidence_state": "PROXY",
+      "low": 0.2,
+      "base": 0.4,
+      "high": 0.58,
+      "bridge": "Census BTOS measures AI adoption and labor effects across all US businesses rather than flight schools or the fraction of exposed work implemented. I translate its observed adoption, limited functional breadth, augmentation bias, and rare employment decreases into a five-year implementation fraction, then lower the range for aviation safety, instructor accountability, legacy scheduling and record systems, cybersecurity, and FAA-approved process constraints. Packaged scheduling, CRM, and ground-content tools could make small-school deployment easier than the cross-industry evidence implies.",
+      "rationale": "US business AI use reached roughly 17%-20% in late 2025 through spring 2026, but the 2026 BTOS supplement found 57% of adopting firms used three or fewer functions, 66% used AI only to augment work, and only 2% reported AI-related employment decreases. Five years is sufficient for standardized schools to implement administrative copilots, lead handling, schedule optimization, record checks, and instructor-preparation tools. Realized labor avoidance will trail tool adoption because instructors and responsible managers must review safety- and certification-relevant output.",
+      "change_evidence": "A multi-school before-and-after panel tracking staff hours per student flight hour, dispatch and schedule utilization, record error rates, instructor preparation time, customer-response time, and headcount avoided after named AI and workflow deployments.",
+      "source_ids": ["S2", "S3", "S5"],
+      "caveats": [
+        "BTOS is cross-industry and measures any AI use, not implemented labor opportunity.",
+        "FAA approval may be needed when tools alter an approved curriculum or controlled process.",
+        "Poor integration can shift time into review and exception handling rather than remove it."
+      ]
+    },
+    "e": {
+      "evidence_state": "ESTIMATE",
+      "low": 0.65,
+      "base": 0.78,
+      "high": 0.9,
+      "rationale": "The narrowed lens excludes recreational-first operators and captive or nontransferable programs from an industry that officially includes both vocational and recreational training. Most firms large enough to fall in the dataset's LMM EBITDA band are likely to have career, advanced-rating, or contract-training operations, external customers, repeat cohorts, and a transferable aircraft, instructor, curriculum, and airport-base platform. Deductions remain for firms dominated by hobby demand, owner-only instruction, captive relationships, or facilities and approvals that cannot survive control transfer.",
+      "change_evidence": "A census of the 21 dataset-estimated LMM firms classifying revenue by career, recreational, recurrent, airline-contract, aircraft-rental, and other activities, with Part 61/141 status, owner teaching load, fleet control, airport leases, and change-of-control requirements.",
+      "source_ids": ["S4", "S9", "S13"],
+      "caveats": [
+        "The frozen firm count is margin-bridged rather than directly observed in the EBITDA band.",
+        "Revenue mix by vocational versus recreational training is not publicly measured at firm level.",
+        "Airport leases, aircraft availability, and key-person instructor relationships can defeat transferability."
+      ]
+    },
+    "s5": {
+      "evidence_state": "PROXY",
+      "low": 0.1,
+      "base": 0.2,
+      "high": 0.32,
+      "bridge": "Three disclosed 2024 transactions demonstrate control-transfer channels but do not provide a complete deal count or eligible-firm denominator: an LMM private-equity recapitalization of Thrust Flight, an individual purchase of a helicopter school, and an asset acquisition of FLYT Aviation. I use that observed diversity to anchor a bounded five-year probability rather than infer a transaction rate mechanically. Public announcements undercount private deals, biasing down; one active year and selection for publicity can bias up.",
+      "rationale": "Flight schools can transfer to strategic operators, individual buyers, and financial sponsors, and the Thrust deal confirms LMM sponsor interest. However, the fleet, airport base, certificated personnel, curriculum approvals, examining authority, and student pipeline must remain intact. Part 141 ownership changes require a timely certificate amendment and continuity of facilities, personnel, and courses, lowering conversion from owner exit to a qualifying control transfer.",
+      "change_evidence": "Five years of FAA Part 141 ownership-amendment records, Secretary of State control changes, education and aviation broker closings, SBA 7(a) loans, and sponsor or strategic acquisitions matched to the full LMM firm denominator.",
+      "source_ids": ["S9", "S10", "S11", "S12"],
+      "caveats": [
+        "Publicly announced deals are selected and incomplete.",
+        "The helicopter transaction may be below the target EBITDA band and the FLYT transaction was an asset deal.",
+        "A sale that disrupts approved personnel, facilities, or courses may not preserve the transferable operation."
+      ]
+    },
+    "q": {
+      "evidence_state": "ESTIMATE",
+      "low": 0.38,
+      "base": 0.56,
+      "high": 0.72,
+      "rationale": "Fixed-price career programs and institutional contracts can retain administrative and instructor-productivity savings until repricing, while hourly students may benefit more quickly through fewer billed ground hours or competitive rates. Aircraft, fuel, maintenance, insurance, and airport costs remain visible and large, so an AI-driven labor saving is only one component of customer price. Over renewals and new cohorts, competition, airline procurement, student ROI comparisons, and reinvestment in safety and reliability share the gross benefit, producing moderate discounted retention.",
+      "change_evidence": "Contract and invoice analysis across fixed-tuition, hourly, and airline-sponsored programs, linked to contribution margins before and after measurable workflow savings and competitor price changes over at least three enrollment cycles.",
+      "source_ids": ["S4", "S8"],
+      "caveats": [
+        "No source directly measures pass-through of AI savings in flight-training prices.",
+        "Weather, fuel, maintenance, insurance, and fleet utilization can overwhelm labor savings.",
+        "If AI reduces billable ground-instructor hours rather than overhead, customers may capture more of the benefit."
+      ]
+    },
+    "d5": {
+      "evidence_state": "PROXY",
+      "low": 0.92,
+      "base": 1.02,
+      "high": 1.1,
+      "bridge": "BLS projects pilot employment and openings, and GAO reports pilot-supply constraints and flight-school infrastructure, rather than constant-price demand for the selected training service basket. I translate the 4% ten-year pilot-employment growth to about 2% over five years and use replacement openings and the credential pipeline as support. Training demand can diverge downward if airline hiring slows, training costs deter entrants, or airlines internalize schools, and upward if retirements, international students, recurrent requirements, or constrained capacity increase starts and hours.",
+      "rationale": "BLS projects airline and commercial pilot employment to grow 4% from 2024 to 2034 and about 18,200 annual openings, many from replacement. GAO found pilot shortages affected small-community service and cited the 1,500-hour first-officer threshold, training cost, and flight-school infrastructure as supply constraints; it also noted airline-owned school formation. Those facts support durable credential demand but not rapid growth, particularly after the recent hiring cycle and with high student costs.",
+      "change_evidence": "Quarterly FAA knowledge-test and certificate issuances by rating, active student starts and completions from career schools, airline hiring and retirement data, international student visa volumes, training-price indexes, and aircraft or instructor capacity through 2031.",
+      "source_ids": ["S7", "S8"],
+      "caveats": [
+        "Pilot job openings do not map one-for-one to private-school starts or training hours.",
+        "Airline hiring is cyclical and can change faster than long-run BLS projections.",
+        "Airline-owned academies can raise total training while taking demand from independent operators."
+      ]
+    },
+    "o": {
+      "evidence_state": "PROXY",
+      "low": 0.8,
+      "base": 0.91,
+      "high": 0.98,
+      "bridge": "FAA rules and guidance establish instructor, facility, curriculum, equipment, records, and flight-experience requirements but do not measure the future quantity share requiring an independent flight-school operator. I map practical flight, credited simulation, supervised proficiency, dispatch, and certification records to operator-required quantity, while subtracting ground theory that can be self-served or supplied by software and training that can shift to individual instructors or captive airline and college programs. Focusing on career-oriented schools makes operator need stronger than in recreational training, potentially biasing the result upward for the full NAICS.",
+      "rationale": "Career pilots must accumulate and document flight experience and demonstrate practical proficiency. FAA-approved schools require structured curricula, flight-instructor oversight, facilities, aircraft or devices, and inspection. Even simulation credit is capped by course and must be provided by an authorized instructor; for a Part 141 private-pilot course, ATD credit is 15% and FTD or full-flight-simulator credit 20%. AI can absorb theory explanation and preparation, but most current service quantity still requires an accountable training operator coordinating instructors, equipment, safety, and records.",
+      "change_evidence": "FAA rule changes and approvals for AI instructors, competency-based credit, remote supervision, autonomous aircraft training, and expanded simulator substitution, paired with actual training-hour shares by live aircraft, simulator, instructor-led ground, and self-paced ground modalities.",
+      "source_ids": ["S4", "S5", "S6"],
+      "caveats": [
+        "Part 61 permits training outside a certificated school, so an instructor is required more broadly than a school firm.",
+        "Simulator substitution varies sharply by certificate and rating.",
+        "Future FAA modernization could permit more technology-mediated or competency-based training."
+      ]
+    }
+  },
+  "narrative": {
+    "executive_view": "Career flight training has a strong operator-required core: students need aircraft or approved devices, certificated instructors, supervised practice, safety management, records, and a credential path. AI can improve the workflow around that core but is unlikely to remove much live-flight instruction within five years. The best operating thesis is higher enrollment, aircraft, and staff utilization with leaner ground and administrative support, not autonomous pilot education.",
+    "ai_impact": "Near-term applications include admissions follow-up, course and scheduling support, weather and manual summarization for instructor review, adaptive ground-school practice, lesson drafting, debrief documentation, record reconciliation, maintenance and dispatch exception triage, and compliance-document preparation. Live-flight safety judgment, instructor endorsements, practical skill diagnosis, and most credited training remain human-accountable. Benefits depend on integrating tools into scheduling, student information, maintenance, and training-record systems.",
+    "value_capture": "Career-program tuition and training contracts can preserve savings through the current cohort or contract, while hourly billing exposes reduced ground time more directly to customers. Because aircraft and operating inputs remain costly, modest labor savings need not force equivalent price cuts. Retention will still erode through competing schools, airline procurement, student ROI pressure, and reinvestment in fleet reliability and safety.",
+    "firm_availability": "Public 2024 deals show individual, strategic, and LMM sponsor acquisition routes, but they do not establish a deep or high-frequency market. A transferable school requires fleet access, airport leases, instructors and chief instructors, approved curricula, records, and a continuing enrollment funnel. Part 141 ownership amendments are manageable when operations stay continuous but become a real closing and integration constraint when personnel, facilities, or courses change.",
+    "demand_durability": "Pilot employment growth is modest, but replacement demand and qualification thresholds sustain a recurring training pipeline. High training cost, airline hiring cycles, and aircraft or instructor capacity constrain starts; airline-owned academies can displace independents. The selected service basket is therefore durable but cyclical, with roughly flat to modest five-year real demand more defensible than a shortage-driven boom assumption.",
+    "risks_and_uncertainty": "The central data gaps are the absence of a 611512 task and wage matrix, no denominator-based transfer rate, and no direct evidence on AI savings pass-through. Safety or record errors can damage certificates and reputation; accidents, insurance, fuel, weather, maintenance, examiner bottlenecks, airport access, and instructor turnover can swamp administrative gains. A school dependent on one owner-instructor, a fragile lease, poorly maintained aircraft, aggressive student financing, or a transient airline-hiring surge would be a bad acquisition.",
+    "principal_driver": "FAA-linked practical training, flight-experience, and instructor-accountability requirements keep most career-training quantity attached to a real operator.",
+    "principal_weakness": "AI-addressable labor is mostly peripheral to expensive live-flight delivery, while demand and transfer evidence remain cyclical and denominator-poor."
+  },
+  "sources": [
+    {
+      "id": "S1",
+      "url": "https://www.bls.gov/oes/2023/may/naics4_611500.htm",
+      "title": "May 2023 National Industry-Specific Occupational Employment and Wage Estimates: NAICS 611500 Technical and Trade Schools",
+      "access_date": "2026-07-22",
+      "supports": "Broader technical-and-trade-school wage and occupation frame, including 46.18% educational instruction, 13.73% office and administrative support, 10.08% management, and commercial-pilot employment within the industry."
+    },
+    {
+      "id": "S2",
+      "url": "https://www.census.gov/library/stories/2026/05/ai-use-businesses.html",
+      "title": "Large Firms With at Least 20 Employees Biggest AI Users",
+      "access_date": "2026-07-22",
+      "supports": "BTOS evidence that overall US business AI use was 17%-20% from December 2025 to May 2026, expected six-month use was 20%-23%, and use was lower among the smallest firms."
+    },
+    {
+      "id": "S3",
+      "url": "https://www.census.gov/library/working-papers/2026/adrm/CES-WP-26-25.html",
+      "title": "The Microstructure of AI Diffusion: Evidence from Firms, Business Functions, and Worker Tasks",
+      "access_date": "2026-07-22",
+      "supports": "National BTOS supplement: 18% of firms used AI, 57% of users deployed it in three or fewer functions, 66% used it only to augment tasks, and AI-related employment decreases occurred in 2% of firms."
+    },
+    {
+      "id": "S4",
+      "url": "https://www.faa.gov/training_testing/training/pilot_schools",
+      "title": "FAA Pilot Schools Information",
+      "access_date": "2026-07-22",
+      "supports": "Part 141 certification, prescribed equipment/facility/personnel/curriculum standards, the existence of Part 61 providers, 35-hour versus normally 40-hour private-pilot minimums, and typical actual training of 60-75 hours."
+    },
+    {
+      "id": "S5",
+      "url": "https://www.faa.gov/licenses_certificates/airline_certification/pilotschools",
+      "title": "FAA Part 141 Pilot Schools",
+      "access_date": "2026-07-22",
+      "supports": "Structured syllabus, dedicated facilities, flight-instructor oversight, FAA-approved curricula, equipment/personnel inspection, certification, and controlled electronic records."
+    },
+    {
+      "id": "S6",
+      "url": "https://www.faa.gov/documentLibrary/media/Advisory_Circular/AC_141-1B.pdf",
+      "title": "AC 141-1B: Part 141 Pilot Schools, Application, Certification, and Compliance",
+      "access_date": "2026-07-22",
+      "supports": "Simulation credit limits and instructor requirement: for a 35-hour private-pilot course, 15% ATD and 20% FTD or FFS credit; higher but still bounded credits for other ratings."
+    },
+    {
+      "id": "S7",
+      "url": "https://www.bls.gov/ooh/transportation-and-material-moving/airline-and-commercial-pilots.htm",
+      "title": "Occupational Outlook Handbook: Airline and Commercial Pilots",
+      "access_date": "2026-07-22",
+      "supports": "Projected 4% employment growth from 2024 to 2034 and about 18,200 annual openings, plus certificate, rating, flight-training, written-test, practical-test, and logged-experience requirements."
+    },
+    {
+      "id": "S8",
+      "url": "https://files.gao.gov/reports/GAO-24-106681/index.html",
+      "title": "GAO-24-106681: Commercial Aviation—Trends in Air Service to Small Communities",
+      "access_date": "2026-07-22",
+      "supports": "Pilot shortages affecting service, pilot-education cost, 1,500-hour first-officer threshold, flight-school infrastructure constraints, airline-owned schools, and expected persistence of regional shortages through 2025."
+    },
+    {
+      "id": "S9",
+      "url": "https://www.govinfo.gov/content/pkg/CFR-2021-title14-vol3/pdf/CFR-2021-title14-vol3-part141.pdf",
+      "title": "14 CFR Part 141—Pilot Schools",
+      "access_date": "2026-07-22",
+      "supports": "Ownership-change treatment: a certificate continues if an amendment is sought within 30 days and facilities, personnel, and approved courses do not change; also supports personnel, aircraft, facility, inspection, and record requirements."
+    },
+    {
+      "id": "S10",
+      "url": "https://www.mcguirewoods.com/news/press-releases/2024/10/mcguirewoods-advises-summit-park-in-acquisition-of-thrust-flight/",
+      "title": "McGuireWoods Advises Summit Park in Acquisition of Thrust Flight",
+      "access_date": "2026-07-22",
+      "supports": "A 2024 LMM private-equity recapitalization of a professional flight-training school with aircraft and simulator instruction."
+    },
+    {
+      "id": "S11",
+      "url": "https://www.generational.com/transactions/helicopter-flight-training-school-acquired-by-an-individual-buyer/",
+      "title": "Helicopter Flight Training School Acquired by an Individual Buyer",
+      "access_date": "2026-07-22",
+      "supports": "A helicopter flight-training school sale to an individual buyer that closed in August 2024."
+    },
+    {
+      "id": "S12",
+      "url": "https://www.prweb.com/releases/us-aviation-academy-acquires-assets-of-flyt-aviation-in-atlanta-302295398.html",
+      "title": "US Aviation Academy Acquires Assets of FLYT Aviation in Atlanta",
+      "access_date": "2026-07-22",
+      "supports": "A strategic 2024 asset acquisition of an established flight school, with initial Part 61 operation and Part 141 approval pending after integration."
+    },
+    {
+      "id": "S13",
+      "url": "https://www.census.gov/naics/?details=611512&input=611512&year=2017",
+      "title": "NAICS 611512 Flight Training Definition",
+      "access_date": "2026-07-22",
+      "supports": "Official industry definition establishing that 611512 includes both vocational and recreational aviation and flight training, supporting the heterogeneity finding."
+    }
+  ]
+}

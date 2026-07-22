@@ -1,0 +1,191 @@
+{
+  "identity": {
+    "naics": "611511",
+    "title": "Cosmetology and Barber Schools",
+    "run_id": "611511-a1-20260722",
+    "model_id": "claude-sonnet-5",
+    "run_date": "2026-07-22",
+    "methodology_version": "5.1",
+    "attempt": 1
+  },
+  "lens": {
+    "included_activities": "US for-profit cosmetology, barbering, esthetics, nail-care, and closely related personal-appearance schools in the lower-middle-market EBITDA band that repeatedly enroll external student cohorts and deliver state-recognized occupational training.",
+    "excluded_activities": "Public or nonprofit programs, captive employer academies, salons whose training is incidental, pure exam-prep or software products, non-control financing vehicles, and firms without transferable operations.",
+    "customer_and_revenue_model": "Primarily cohort-based tuition and fees paid by students or funded through Title IV and other aid, with repeat intake cycles; some schools also earn clinic-service or product revenue. Tuition is generally set for a program or cohort rather than billed as labor cost-plus.",
+    "deviation_from_default": "none",
+    "heterogeneous": false
+  },
+  "primitives": {
+    "a": {
+      "evidence_state": "PROXY",
+      "low": 0.18,
+      "base": 0.28,
+      "high": 0.4,
+      "bridge": "BLS measures employment and pay for the broader NAICS 611500 technical-and-trade-school population, not 611511 or task exposure. I use its occupational mix as a wage-weighting frame, then apply bounded task judgments: high exposure in office support, admissions/marketing, financial-aid documentation, and instructional content preparation; low exposure in supervised practical instruction, student coaching, and compliance accountability. The broader industry includes aviation and other technical schools with different instructor and administrative intensity, so the estimate may err in either direction; hands-on cosmetology likely pushes exposure below a generic education estimate.",
+      "rationale": "In the 2023 broader-industry mix, educational instruction occupations were 46.18% of employment, office and administrative support 13.73%, and management 10.08%. AI can draft communications, learning materials, quizzes, advising responses, marketing copy, schedules, and compliance-document first passes, but most instructor time tied to observation, correction, sanitation, and hands-on demonstrations remains outside substitution. Wage weighting gives management and professional administrative work more influence than headcount alone, supporting a base near 28% of current labor opportunity.",
+      "change_evidence": "Payroll and time-study data from 10-20 cosmetology schools that map instructor, admissions, financial-aid, registrar, marketing, and back-office hours to specific tasks, paired with audited AI-assisted cycle-time tests for those tasks.",
+      "source_ids": ["S1", "S2", "S8"],
+      "caveats": [
+        "The occupation source is four-digit NAICS 611500 and includes unlike technical schools.",
+        "The estimate concerns task hours and wage weights, not whole-job replacement.",
+        "Student records, Title IV compliance, and instructional quality require human review even when drafting is automated."
+      ]
+    },
+    "rho": {
+      "evidence_state": "PROXY",
+      "low": 0.25,
+      "base": 0.45,
+      "high": 0.65,
+      "bridge": "Census BTOS measures AI use across all US nonfarm firms, not implementation of the exposed task opportunity in cosmetology schools. I translate current diffusion, functional breadth, and reported labor outcomes into a five-year implementation fraction, lowering it for small-school change capacity, student-data controls, accreditation, and the need for accountable staff. The all-business proxy likely overstates implementation capacity relative to small independent schools but may understate the simplicity of deploying packaged administrative tools.",
+      "rationale": "Census reported 17%-20% of businesses using AI from December 2025 through May 2026 and 20%-23% expecting use within six months. Its 2026 supplement found adoption broadening but shallow: 57% of adopters used three or fewer functions, 66% used AI only to augment tasks, and employment decreases occurred at just 2% of firms. Over five years, mature packaged tools should implement a meaningful portion of exposed drafting, communications, scheduling, lead handling, and document-review work, but reliable headcount avoidance will lag tool use.",
+      "change_evidence": "A longitudinal benchmark of cosmetology-school staffing per active student before and after named student-information, admissions, financial-aid, and generative-AI deployments, including error rates and regulator/accreditor findings.",
+      "source_ids": ["S3", "S4", "S8"],
+      "caveats": [
+        "BTOS is cross-industry and measures any use, not the share of exposed labor actually removed or avoided.",
+        "Small schools may lack clean systems, implementation staff, and process standardization.",
+        "Current evidence shows augmentation is much more common than employment reduction."
+      ]
+    },
+    "e": {
+      "evidence_state": "ESTIMATE",
+      "low": 0.78,
+      "base": 0.88,
+      "high": 0.96,
+      "rationale": "Most LMM-band private firms in this NAICS repeatedly sell regulated training to external students and therefore fit the operating lens. The deductions cover owner-dependent schools lacking transferable faculty or compliance systems, firms whose apparent earnings depend on nonrecurring aid or clinic practices, and operations unable to obtain required approvals after a control change. California's explicit ownership-change application illustrates transfer friction but not categorical ineligibility.",
+      "change_evidence": "A firm-level review of the 27 dataset-estimated LMM candidates covering ownership structure, accreditation and Title IV status, state approval portability, owner teaching load, student outcomes, and normalized EBITDA quality.",
+      "source_ids": ["S5", "S6"],
+      "caveats": [
+        "The dataset firm count is margin-bridged and may misclassify the EBITDA band.",
+        "Eligibility is estimated without a census of the 27 candidate firms.",
+        "State school approvals and federal-aid participation can make an otherwise operating business difficult to transfer."
+      ]
+    },
+    "s5": {
+      "evidence_state": "PROXY",
+      "low": 0.12,
+      "base": 0.22,
+      "high": 0.32,
+      "bridge": "BizBuySell reports completed transactions and valuation benchmarks for a broad national school category that explicitly includes cosmetology and beauty schools, but it does not provide the eligible-firm denominator, isolate LMM EBITDA, or distinguish every qualifying control transfer. I use the demonstrated liquidity and five years of reported sales to anchor a bounded annual transfer hazard, then compound conceptually over five years. Marketplace undercoverage biases the estimate down, while inclusion of smaller schools, tutoring, preschools, franchises, and non-cosmetology categories can bias it up.",
+      "rationale": "The marketplace shows recurring school transactions in every year from 2021 through 2025, a 204-day median time on market, and a five-year average sold-business earnings multiple of 2.58. This establishes a functioning transfer market but not a high turnover rate. A 22% five-year base reflects moderate owner-exit and strategic-sale activity, tempered by transfer approvals, accreditation, aid compliance, and dependence on local instructors and enrollment reputation.",
+      "change_evidence": "Closed-deal data from education-focused brokers, SBA 7(a) loan records, state cosmetology-board ownership-change filings, and accreditor change-of-control notices matched to a denominator of LMM cosmetology-school firms.",
+      "source_ids": ["S7", "S5"],
+      "caveats": [
+        "The transaction source mixes many school types and mostly much smaller businesses than the specified EBITDA band.",
+        "Listings and reported sales are not a complete market census.",
+        "Internal family succession and recapitalizations may or may not meet the qualifying-control definition."
+      ]
+    },
+    "q": {
+      "evidence_state": "ESTIMATE",
+      "low": 0.4,
+      "base": 0.58,
+      "high": 0.75,
+      "rationale": "Program tuition is commonly fixed for a cohort, so labor savings are not mechanically passed through during delivery and can initially accrue to the operator. Across later enrollment cycles, however, local price competition, student ROI scrutiny, negotiated aid constraints, and reinvestment in instruction and compliance share the gain. Discounting that erosion over five years yields a moderate retained share rather than full capture.",
+      "change_evidence": "Cohort-level tuition, scholarship, lead-conversion, enrollment, instructor-cost, and contribution-margin histories from acquired schools, plus competitor price scrapes and renewal/repricing behavior following measurable automation savings.",
+      "source_ids": ["S6", "S7"],
+      "caveats": [
+        "No source directly observes pass-through of AI savings in cosmetology-school tuition.",
+        "Title IV gainful-employment and transparency requirements can intensify price and outcome pressure.",
+        "Clinic-service revenue and franchisor fees can alter capture economics by school."
+      ]
+    },
+    "d5": {
+      "evidence_state": "PROXY",
+      "low": 0.92,
+      "base": 1.025,
+      "high": 1.08,
+      "bridge": "BLS projects employment of barbers, hairstylists, and cosmetologists, not constant-price student demand for private schools. I convert the published 5% 2024-2034 employment growth to an approximately 2.5% five-year change and use annual replacement openings plus mandatory training as support. Employment demand can overstate school demand if apprenticeships, shorter required programs, public alternatives, or fewer students per eventual worker gain share; it can understate demand from advanced and repeat training.",
+      "rationale": "BLS projects the practitioner occupation group to grow 5% from 2024 to 2034 and reports about 84,200 openings per year, many for replacement. All states license these workers and candidates typically complete a state-approved program, creating a continuing training funnel. California's reduction of cosmetology and barbering minimums to 1,000 hours demonstrates that required seat-hours can fall even while practitioner demand grows, so the five-year service-basket range includes contraction.",
+      "change_evidence": "IPEDS completions and enrollment by CIP for cosmetology/barber programs through 2026, state-board first-time license applications and school hours, school closure/opening data, and apprenticeship registrations by state.",
+      "source_ids": ["S2", "S5"],
+      "caveats": [
+        "Occupational openings are not one-for-one with private-school enrollments.",
+        "The constant-quality service basket is sensitive to state reductions in mandated clock hours.",
+        "Public programs and apprenticeships may take share from private schools."
+      ]
+    },
+    "o": {
+      "evidence_state": "PROXY",
+      "low": 0.68,
+      "base": 0.82,
+      "high": 0.94,
+      "bridge": "BLS and the California board document licensing and approved-school requirements, not the national year-five share of training quantity requiring a school operator. I treat regulated curriculum, supervised practice, examinations, facilities, and student accountability as operator-required, while subtracting theory that can be self-served or delivered by software and quantity that can migrate to apprenticeships or public providers. California is a large-state example, but its 2022 hour reduction may make it more reform-oriented than the national average and therefore bias the base downward.",
+      "rationale": "The physical craft requires supervised practice, sanitation controls, feedback, equipment, hour tracking, and a recognized route to licensure. BLS states all states require licensing and that programs combine classroom study with hands-on training. California requires approved curricula and rejects hours from nonapproved schools, yet it also cut cosmetology and barbering minimums to 1,000 hours. AI can deliver theory, practice questions, scheduling, and individualized explanations, but an accountable school or comparable regulated operator remains necessary for most quantity.",
+      "change_evidence": "A 50-state legal and enrollment map of school versus apprenticeship pathways, allowable distance-education shares, required practical hours, and actual candidate volumes, updated annually through 2031.",
+      "source_ids": ["S2", "S5"],
+      "caveats": [
+        "Licensing pathways vary materially by state and specialty.",
+        "The operator may shift from a standalone private school to a salon apprenticeship or public program.",
+        "Further deregulation or competency-based licensing could reduce required seat-hours faster than expected."
+      ]
+    }
+  },
+  "narrative": {
+    "executive_view": "Cosmetology and barber schools combine recurring cohort intake with a durable licensing gate, but much of the work is hands-on and locally regulated. AI's practical contribution is concentrated in admissions, student service, compliance preparation, marketing, scheduling, and instructor preparation rather than replacing supervised craft training. The opportunity depends on turning those workflow gains into avoided staffing while preserving outcomes and approvals.",
+    "ai_impact": "AI can qualify and follow up leads, answer routine program and financial-aid questions, draft communications, generate theory materials and quizzes, support lesson planning, summarize records, and flag documentation gaps. Human instructors still must demonstrate techniques, observe practice, correct safety problems, assess readiness, and maintain accountability. Back-office integration and review controls therefore matter more than a standalone chatbot.",
+    "value_capture": "Fixed program pricing lets a school retain savings during a current cohort, and faster admissions response may improve conversion. Capture erodes as competitors adopt similar tools, students compare price and outcomes, and savings are reinvested in instructors, compliance, or marketing. Gainful-employment and transparency rules make weak student economics a direct commercial and regulatory risk.",
+    "firm_availability": "A broad school-business marketplace demonstrates recurring sales and financeable earnings multiples, but it is not evidence of a deep market in LMM cosmetology schools specifically. Transfers must preserve faculty, local enrollment reputation, state approval, accreditation, and aid eligibility. Owner-dependent teaching or compliance is a material diligence issue.",
+    "demand_durability": "Practitioner employment and replacement openings support continuing demand, and licensure still generally requires approved education with hands-on components. Demand for private-school seat-hours is less secure than demand for beauty services because states can reduce mandated hours and students can choose apprenticeships or public programs. The most defensible outlook is roughly flat to modestly growing real service quantity.",
+    "risks_and_uncertainty": "The largest uncertainties are the absence of a 611511-specific occupation/task study, no direct measure of five-year control-transfer probability, and no observed pass-through of automation savings. Regulatory changes can cut program length or aid eligibility; poor graduate earnings can impair enrollment; and AI errors in financial-aid or student records can create costly compliance failures. A school with fragile outcomes, declining starts, or approval tied tightly to the owner would be a bad acquisition regardless of workflow potential.",
+    "principal_driver": "A durable state-licensed, hands-on training requirement preserves an accountable operator while repeat cohort intake makes administrative workflows reusable.",
+    "principal_weakness": "AI exposure is concentrated outside the core practical instruction, and the LMM transfer market is evidenced only by broad school-category proxies."
+  },
+  "sources": [
+    {
+      "id": "S1",
+      "url": "https://www.bls.gov/oes/2023/may/naics4_611500.htm",
+      "title": "May 2023 National Industry-Specific Occupational Employment and Wage Estimates: NAICS 611500 Technical and Trade Schools",
+      "access_date": "2026-07-22",
+      "supports": "Broader-industry occupation mix and wages: 144,200 total jobs; educational instruction 46.18%, office/administrative support 13.73%, and management 10.08%, used as the wage-weighting proxy for AI-exposed tasks."
+    },
+    {
+      "id": "S2",
+      "url": "https://www.bls.gov/ooh/personal-care-and-service/barbers-hairstylists-and-cosmetologists.htm",
+      "title": "Occupational Outlook Handbook: Barbers, Hairstylists, and Cosmetologists",
+      "access_date": "2026-07-22",
+      "supports": "All-state licensure, typical completion of a state-approved program with classroom and hands-on training, 651,200 jobs in 2024, projected 5% growth through 2034, and about 84,200 annual openings."
+    },
+    {
+      "id": "S3",
+      "url": "https://www.census.gov/library/stories/2026/05/ai-use-businesses.html",
+      "title": "Large Firms With at Least 20 Employees Biggest AI Users",
+      "access_date": "2026-07-22",
+      "supports": "BTOS evidence that overall US business AI use was 17%-20% from December 2025 to May 2026, expected six-month use was 20%-23%, and adoption was lower among the smallest firms."
+    },
+    {
+      "id": "S4",
+      "url": "https://www.census.gov/library/working-papers/2026/adrm/CES-WP-26-25.html",
+      "title": "The Microstructure of AI Diffusion: Evidence from Firms, Business Functions, and Worker Tasks",
+      "access_date": "2026-07-22",
+      "supports": "National BTOS supplement findings: 18% of firms used AI, 57% of users deployed it in three or fewer functions, 66% used it only for augmentation, and AI-related employment decreases occurred at 2% of firms."
+    },
+    {
+      "id": "S5",
+      "url": "https://www.barbercosmo.ca.gov/schools/",
+      "title": "California Board of Barbering and Cosmetology: Schools",
+      "access_date": "2026-07-22",
+      "supports": "Approved-school and curriculum requirements; cosmetology and barbering minimums were reduced to 1,000 hours in 2022; nonapproved coursework is not recognized; ownership changes require an approval application."
+    },
+    {
+      "id": "S6",
+      "url": "https://fsapartners.ed.gov/knowledge-center/library/federal-registers/2023-10-10/final-regulations-financial-value-transparency-and-gainful-employment",
+      "title": "Final Regulations: Financial Value Transparency and Gainful Employment",
+      "access_date": "2026-07-22",
+      "supports": "Federal rules effective July 1, 2024 address program debt, graduate earnings, and transparency about costs and benefits for Title IV-eligible programs."
+    },
+    {
+      "id": "S7",
+      "url": "https://www.bizbuysell.com/learning-center/valuation-benchmarks/school/",
+      "title": "School Business Valuation Benchmarks",
+      "access_date": "2026-07-22",
+      "supports": "Broad school-category sales explicitly include cosmetology and beauty schools; reports a 204-day median time on market, yearly 2021-2025 transactions, and a five-year 2.58 average sold-business earnings multiple."
+    },
+    {
+      "id": "S8",
+      "url": "https://www.ed.gov/about/news/press-release/us-department-of-education-issues-guidance-artificial-intelligence-use-schools-proposes-additional-supplemental-priority",
+      "title": "U.S. Department of Education Issues Guidance on Artificial Intelligence Use in Schools",
+      "access_date": "2026-07-22",
+      "supports": "Examples and constraints for responsible AI in education, including personalized learning, pathway advising, classroom efficiency, reduced administrative burden, privacy, and stakeholder engagement."
+    }
+  ]
+}
