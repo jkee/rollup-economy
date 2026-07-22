@@ -18,15 +18,15 @@ at the gates listed here.
 - [x] 0.3 v4.2 audit evidence and v4.3 adapter run committed as preserved history
 - [x] 0.4 Branch `codex/v5` pushed to origin
 
-## Phase 1 — Interface canary (one code) · ~1 session
+## Phase 1 — Interface canary (one code) · done
 
 The first real packet is the test of the brief→packet contract against real
 model output (Playbook lesson 5: hand-made fixtures lie).
 
-- [ ] 1.1 Research **238220** fresh under `research_brief.md`: single author, web research, cost-optimized model class, dataset `l`/`n` injected into the prompt
-- [ ] 1.2 `build.py validate` + `finalize` + `check` on the real packet
-- [ ] 1.3 If the contract fights real output, adjust brief/schema once, re-run tests, commit the adjustment **before** any further research
-- [ ] 1.4 Read the memo critically: is the output economically useful, or schema-compliant garbage?
+- [x] 1.1 Research **238220** fresh under `research_brief.md`: single author, web research, cost-optimized model class, dataset `l`/`n` injected into the prompt (run `238220-a1-20260722`, claude-sonnet-5, 18 sources)
+- [x] 1.2 `build.py validate` + `finalize` + `check` on the real packet — all pass, no manual repair
+- [x] 1.3 One adjustment: memo header printed raw 12-decimal A/L; display-only rounding in `render_memo` (`bcecacb`), 37/37 tests. Brief/schema needed no change; the author's friction notes (PROXY-vs-ESTIMATE boundary on blended constructs, lens-narrowing tension, single evidence_state on two-layer `a`) are judgment tensions the validator brief already covers — flagged for Victor at the Phase 2 gate, not patched with rules
+- [x] 1.4 Memo read: economically useful, not schema-compliant garbage. The weakest-link design bites as intended — F 9.11 (intense PE bid for aging owner base) but H 0.79 base (~70% of wage bill is low-AI-exposure field trade labor), so base tier STRUCTURAL_OUT, interval → LOW_PRIORITY, MODEL_CONDITIONED / VALIDATE_ASSUMPTIONS
 
 **Done when:** one real packet passes `check` without manual repair and the memo reads as a defensible screen.
 
