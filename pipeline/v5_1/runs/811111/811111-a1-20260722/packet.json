@@ -1,0 +1,181 @@
+{
+  "identity": {
+    "naics": "811111",
+    "title": "General Automotive Repair",
+    "run_id": "811111-a1-20260722",
+    "model_id": "claude-sonnet-5",
+    "run_date": "2026-07-22",
+    "methodology_version": "5.1",
+    "attempt": 1
+  },
+  "lens": {
+    "included_activities": "US lower-middle-market general automotive repair firms providing repeat mechanical and electrical diagnosis, maintenance, engine repair, and replacement services to external vehicle owners and fleet customers.",
+    "excluded_activities": "Dealership service departments, parts retailers whose primary activity is retail, oil-change-only shops, specialized repair shops classified elsewhere, captive fleet garages, shells, and non-control financing vehicles.",
+    "customer_and_revenue_model": "Repeat repair orders paid by consumers, commercial fleets, warranty administrators, or insurers, with revenue from labor, parts markup, diagnostic fees, and related shop charges.",
+    "deviation_from_default": "none",
+    "heterogeneous": false
+  },
+  "primitives": {
+    "a": {
+      "evidence_state": "PROXY",
+      "low": 0.18,
+      "base": 0.28,
+      "high": 0.4,
+      "bridge": "BLS reports occupation employment and wages for the broader automotive repair and maintenance group, not task-level wages for general repair. I map portions of management, sales, customer service, bookkeeping, office support, diagnostics documentation, parts identification, and service-writing work to AI exposure while excluding most hands-on repair, cleaning, and vehicle movement. General repair likely has more technicians and fewer cleaners than the broad group, so the broad-group mapping may overstate exposure; omission of AI-assisted diagnostic reasoning may bias it downward.",
+      "rationale": "BLS shows that repair occupations form the largest skilled block, while office support, sales, management, and customer service provide a meaningful but minority administrative surface. AI can support intake, symptom summarization, estimating, parts lookup, documentation, scheduling, and customer communication but cannot directly perform most mechanical work.",
+      "change_evidence": "A wage-weighted task diary from a representative sample of general repair shops, separating technician wrench time, diagnostic reasoning, service writing, parts work, administration, and customer contact, would materially change the range.",
+      "source_ids": ["S1"],
+      "caveats": [
+        "The BLS source covers NAICS 8111 rather than NAICS 811111 and excludes self-employed workers.",
+        "Employment shares are transformed into a wage-weighted task estimate rather than directly measuring it.",
+        "Current software automation varies widely across independent shops."
+      ]
+    },
+    "rho": {
+      "evidence_state": "ESTIMATE",
+      "low": 0.42,
+      "base": 0.62,
+      "high": 0.78,
+      "rationale": "Customer messaging, appointment handling, estimate drafting, parts lookup, inspection-note conversion, bookkeeping, and marketing can be embedded into common shop systems. Adoption is constrained by fragmented software, vehicle-specific data rights, technician trust, liability, quality review, and the need to integrate recommendations with physical inspection.",
+      "change_evidence": "Production pilots across multiple shop-management systems reporting adoption, technician override rates, estimate accuracy, cycle time, labor hours, comebacks, and customer complaints by workflow would materially change implementation expectations.",
+      "source_ids": ["S5"],
+      "caveats": [
+        "No source directly measures five-year implementation of the defined exposed opportunity.",
+        "Written estimates and customer authorization create a review requirement even when drafting is automated.",
+        "Implementation capacity may be lower in owner-operated single-site firms than in the screened band."
+      ]
+    },
+    "e": {
+      "evidence_state": "ESTIMATE",
+      "low": 0.68,
+      "base": 0.82,
+      "high": 0.92,
+      "rationale": "General repair is ordinarily an external repeat service, so most firms in the specified EBITDA band should fit the lens. Exclusions arise from dealer-affiliated or captive operations, mixed parts-retail models, project-heavy engine work, and records whose normalized earnings do not support an operating service business.",
+      "change_evidence": "A reviewed roster of the 461 injected candidates with revenue mix, customer type, affiliation, recurring repair-order history, and normalized EBITDA would establish the eligible share.",
+      "source_ids": ["S3"],
+      "caveats": [
+        "Census reports 84,859 employer establishments in 2023 but does not identify the screened firms or recurring-revenue mix.",
+        "The injected firm count uses a 15.65 percent margin bridge that may misclassify parts-intensive shops.",
+        "Establishments and firms are not interchangeable."
+      ]
+    },
+    "s5": {
+      "evidence_state": "PROXY",
+      "low": 0.12,
+      "base": 0.22,
+      "high": 0.34,
+      "bridge": "SBA summarizes Census evidence for all employer businesses: 22 percent of owners acquired a purchased business and 64.5 percent of current owners planned to sell. I use those broad ownership indicators only to bound actual qualifying control transfers within five years for eligible general repair firms, sharply discounting intent, unlimited timing, gifts, inheritances, closures, and non-control changes. The all-industry population and stated intentions likely bias the raw figures upward relative to completed five-year transfers, while an aging independent-shop owner base could bias the adjusted estimate downward.",
+      "rationale": "Independent repair shops are transferable operating businesses with customer relationships, technicians, equipment, and locations, but seller intent does not guarantee a completed control transaction and no industry-specific transaction denominator was found.",
+      "change_evidence": "A five-year panel matching eligible shops to state ownership filings, lender records, business-broker closings, private transaction databases, and direct owner interviews would materially change the probability.",
+      "source_ids": ["S6"],
+      "caveats": [
+        "The source covers employer businesses across industries and does not give a five-year realized transfer rate.",
+        "Internal family succession, asset liquidation, and dealer affiliation changes are not automatically qualifying transfers.",
+        "Owner age was not observed for the screened population."
+      ]
+    },
+    "q": {
+      "evidence_state": "ESTIMATE",
+      "low": 0.45,
+      "base": 0.65,
+      "high": 0.82,
+      "rationale": "Many repair orders use posted labor rates, flat-rate times, diagnostic charges, and parts markups rather than contractual cost reimbursement, allowing initial retention of workflow savings. Local competition, transparent estimates, fleet contracts, warranty terms, and customer sharing through price or service can erode retention over five years.",
+      "change_evidence": "Repair-order cohorts linking measured process savings to labor-rate changes, quoted hours, parts margins, discounting, contract renewals, customer retention, and competitor response would materially change this share.",
+      "source_ids": ["S5"],
+      "caveats": [
+        "FTC guidance describes consumer billing practices but does not measure savings pass-through.",
+        "Retention differs between retail, fleet, warranty, and insurer-funded work.",
+        "Benefits that merely offset technician shortages should be measured consistently as avoided hiring."
+      ]
+    },
+    "d5": {
+      "evidence_state": "PROXY",
+      "low": 1.02,
+      "base": 1.09,
+      "high": 1.18,
+      "bridge": "BLS projects constant-dollar output for the whole automotive repair and maintenance group from 153.3 billion dollars in 2024 to 183.5 billion dollars in 2034, while FHWA projects light-duty travel growth and Energy Department guidance states that battery-electric vehicles require less maintenance. I convert the decade output path to an approximate five-year ratio and temper it for general repair's exposure to lower-maintenance electric drivetrains. Broader output includes body, wash, lubrication, and specialized services, so it may overstate general-repair demand if electrification reduces mechanical work faster, while continued fleet aging and repair complexity may make it understate revenue-equivalent service quantity.",
+      "rationale": "Mileage is forecast to grow, the installed fleet turns over gradually, and vehicle complexity supports paid diagnosis and repair. Electric vehicles reduce fluids, brake wear, and moving-part maintenance, limiting upside for the current mechanical basket.",
+      "change_evidence": "Constant-price repair-order counts and labor hours by powertrain, vehicle age, job category, and channel from shop-management data, combined with the in-service fleet forecast, would materially change the ratio.",
+      "source_ids": ["S2", "S4", "S7"],
+      "caveats": [
+        "BLS output is for NAICS 8111, not NAICS 811111, and measures aggregate output rather than a fixed service basket.",
+        "FHWA vehicle miles are a demand driver rather than repair quantity.",
+        "The speed and service mix of electric-vehicle adoption are uncertain."
+      ]
+    },
+    "o": {
+      "evidence_state": "ESTIMATE",
+      "low": 0.92,
+      "base": 0.97,
+      "high": 0.995,
+      "rationale": "Most year-five mechanical repair quantity still requires an accountable shop to inspect, lift, disassemble, calibrate, replace parts, test, and warranty the vehicle. Remote diagnostics, over-the-air updates, and owner self-service can remove a small portion but software alone cannot supply most of the current basket.",
+      "change_evidence": "Job-code analysis of repairs eliminated by over-the-air updates, direct manufacturer service, mobile self-diagnostics, do-it-yourself work, or modular component replacement would materially change the operator-required share.",
+      "source_ids": ["S3", "S7"],
+      "caveats": [
+        "Electrification-driven elimination of maintenance belongs primarily in demand and is not counted again here.",
+        "The operator may shift from an independent shop to a dealer or manufacturer-controlled network even when physical work remains."
+      ]
+    }
+  },
+  "narrative": {
+    "executive_view": "General automotive repair has a durable physical-service core and a meaningful administrative and diagnostic surface for AI. The opportunity is bounded by hands-on technician work, fragmented shop systems, liability, and gradual electric-vehicle substitution for parts of the mechanical service basket.",
+    "ai_impact": "AI can improve intake, symptom summarization, inspection-note conversion, estimate drafting, parts lookup, scheduling, follow-up, bookkeeping, marketing, and knowledge retrieval. Technicians remain responsible for physical diagnosis, disassembly, repair, calibration, testing, and safety-critical judgment.",
+    "value_capture": "Posted labor rates, flat-rate times, diagnostic fees, and parts markups support initial retention. Competitive quotes, fleet or warranty terms, and customer expectations can return part of the benefit through pricing or added service.",
+    "firm_availability": "The injected estimate identifies 461 firms in the screened band, but its margin bridge may misclassify parts-intensive operators. General repair is usually lens-eligible; realized control-transfer evidence remains weaker than broad owner-sale intentions.",
+    "demand_durability": "BLS projects real automotive-repair output growth and FHWA projects continued mileage growth. Electric vehicles need less routine mechanical maintenance, but fleet turnover is gradual and physical repair remains necessary.",
+    "risks_and_uncertainty": "Key risks are electric-vehicle mix, access to vehicle and repair data, technician shortages, safety or comeback liability, cybersecurity, parts availability, customer concentration, software integration, and overestimating firm eligibility through a uniform margin assumption.",
+    "principal_driver": "A large installed vehicle fleet continues to require accountable physical repair while customer and administrative workflows can be augmented.",
+    "principal_weakness": "Most labor remains hands-on, and electric drivetrains reduce portions of the current mechanical maintenance basket."
+  },
+  "sources": [
+    {
+      "id": "S1",
+      "url": "https://www.bls.gov/oes/2023/may/naics4_811100.htm",
+      "title": "Automotive Repair and Maintenance - May 2023 OEWS Industry-Specific Occupational Employment and Wage Estimates",
+      "access_date": "2026-07-22",
+      "supports": "Occupation employment and wage mix for NAICS 8111, including repair, office support, sales, management, customer service, bookkeeping, vehicle service, and cleaning roles."
+    },
+    {
+      "id": "S2",
+      "url": "https://www.bls.gov/emp/tables/industry-employment-and-output.htm",
+      "title": "Employment and Output by Industry",
+      "access_date": "2026-07-22",
+      "supports": "BLS projects automotive repair and maintenance employment from 1.036 million in 2024 to 1.052 million in 2034 and constant-dollar output from 153.3 billion dollars to 183.5 billion dollars."
+    },
+    {
+      "id": "S3",
+      "url": "https://data.census.gov/profile/811111_-_General_Automotive_Repair?codeset=naics~811111",
+      "title": "811111: General Automotive Repair - Census Bureau Profile",
+      "access_date": "2026-07-22",
+      "supports": "Official industry scope and 84,859 employer establishments reported in 2023 County Business Patterns."
+    },
+    {
+      "id": "S4",
+      "url": "https://www.fhwa.dot.gov/policyinformation/tables/vmt/vmt_forecast_sum.cfm",
+      "title": "2025 FHWA Forecasts of Vehicle Miles Traveled",
+      "access_date": "2026-07-22",
+      "supports": "FHWA baseline projects light-duty vehicle miles traveled growing at an average annual rate of 0.6 percent through 2043."
+    },
+    {
+      "id": "S5",
+      "url": "https://consumer.ftc.gov/articles/0211-auto-repair-basics",
+      "title": "Auto Repair Basics",
+      "access_date": "2026-07-22",
+      "supports": "Consumer repair billing practices, including flat-rate labor, diagnostic charges, written estimates, parts disclosure, and authorization for additional work."
+    },
+    {
+      "id": "S6",
+      "url": "https://advocacy.sba.gov/wp-content/uploads/2021/03/Paths-to-Business-Ownership-fact-sheet.pdf",
+      "title": "Paths to Business Ownership",
+      "access_date": "2026-07-22",
+      "supports": "SBA summary of Census evidence that 22 percent of employer-business owners purchased their businesses and 64.5 percent of owners planned to sell."
+    },
+    {
+      "id": "S7",
+      "url": "https://afdc.energy.gov/vehicles/electric-maintenance",
+      "title": "Maintenance and Safety of Electric Vehicles",
+      "access_date": "2026-07-22",
+      "supports": "Energy Department comparison showing that all-electric vehicles require less maintenance because they have fewer moving parts, fewer fluids, and reduced brake wear."
+    }
+  ]
+}

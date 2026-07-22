@@ -1,0 +1,284 @@
+{
+ "A": 6.898590125579,
+ "L": 1.8840024,
+ "action": "VALIDATE_ASSUMPTIONS",
+ "caveats": [
+  "a: The BLS occupation source covers NAICS 8111 rather than NAICS 811121 and excludes self-employed workers.",
+  "a: Restoration, upholstery, fleet, and insurance collision shops have different task mixes.",
+  "a: Employment shares are transformed into wage-weighted task exposure rather than directly measuring it.",
+  "rho: No source directly measures five-year implementation of the defined AI-exposed opportunity.",
+  "rho: Customer authorization and repair safety require controlled human review.",
+  "rho: Insurer-mandated platforms can accelerate standardization but restrict shop-level tool choice.",
+  "e: Census reports 35,029 employer establishments in 2023 but does not identify screened-band firms or revenue recurrence.",
+  "e: The injected firm count uses a 15.65 percent margin bridge that may misclassify parts- and materials-intensive body shops.",
+  "e: Establishments and firms are not interchangeable.",
+  "s5: The source is all-industry and does not measure five-year realized transfers.",
+  "s5: Internal succession, franchise changes, and asset-only liquidations are not automatically qualifying transfers.",
+  "s5: Owner age and succession plans were not observed for the screened population.",
+  "q: FTC guidance describes consumer estimates and authorization, not insurer bargaining or benefit pass-through.",
+  "q: Retention differs sharply between insurer-funded collision work, fleet contracts, restoration, and customer-paid customization.",
+  "q: Faster cycle time may create volume capacity even when per-job price does not rise.",
+  "d5: BLS combines body, paint, interior, and glass at the five-digit level rather than isolating NAICS 811121.",
+  "d5: Employment is not a direct measure of constant-price, constant-quality service quantity.",
+  "d5: IIHS rear-end crash reductions do not represent all collision types or all vehicles.",
+  "d5: Total-loss thresholds can reduce repair quantity even when crash severity and vehicle values rise.",
+  "o: Some repairable vehicles may instead be declared total losses, which belongs primarily in demand.",
+  "o: Physical operator need can persist while work migrates from independent firms to insurer- or manufacturer-controlled networks.",
+  "o: Remote photo estimating changes administration, not the underlying physical repair requirement."
+ ],
+ "contract_sha256": "aab2c9e92e78bce09e2d306b237ffda9ce828ae72772be3c11cbfbf6d8786763",
+ "envelope": {
+  "attainable_tiers": [
+   "STRUCTURAL_OUT",
+   "LOW_PRIORITY",
+   "CONDITIONAL"
+  ],
+  "base": {
+   "A": 6.898590125579,
+   "L": 1.8840024,
+   "factors": {
+    "C": 10.0,
+    "D": 10.0,
+    "F": 5.710358102315,
+    "H": 1.8840024
+   },
+   "state_id": "H:base|F:base|C:base|D:base",
+   "tier": "LOW_PRIORITY"
+  },
+  "high": {
+   "A": 7.523598543623,
+   "L": 3.5638272,
+   "factors": {
+    "C": 10.0,
+    "D": 10.0,
+    "F": 6.530566974493,
+    "H": 3.5638272
+   },
+   "state_id": "H:high|F:high|C:high|D:high",
+   "tier": "CONDITIONAL"
+  },
+  "interval_scope": "research-input sensitivity with dataset anchors (l, n) held fixed",
+  "low": {
+   "A": 5.072997048268,
+   "L": 0.742464,
+   "factors": {
+    "C": 6.0,
+    "D": 9.12,
+    "F": 4.42952419307,
+    "H": 0.742464
+   },
+   "state_id": "H:low|F:low|C:low|D:low",
+   "tier": "STRUCTURAL_OUT"
+  },
+  "missing_factors": [],
+  "robust_tier": null,
+  "state_count": 81,
+  "tier_interval": [
+   "STRUCTURAL_OUT",
+   "CONDITIONAL"
+  ]
+ },
+ "factors": {
+  "C": {
+   "base": 10.0,
+   "evidence_state": "ESTIMATE",
+   "high": 10.0,
+   "low": 6.0,
+   "primitives": [
+    "q"
+   ]
+  },
+  "D": {
+   "base": 10.0,
+   "evidence_state": "ESTIMATE",
+   "high": 10.0,
+   "low": 9.12,
+   "primitives": [
+    "d5",
+    "o"
+   ]
+  },
+  "F": {
+   "base": 5.710358102315,
+   "evidence_state": "ESTIMATE",
+   "high": 6.530566974493,
+   "low": 4.42952419307,
+   "primitives": [
+    "e",
+    "s5"
+   ]
+  },
+  "H": {
+   "base": 1.8840024,
+   "evidence_state": "ESTIMATE",
+   "high": 3.5638272,
+   "low": 0.742464,
+   "primitives": [
+    "a",
+    "rho"
+   ]
+  }
+ },
+ "identity": {
+  "attempt": 1,
+  "methodology_version": "5.1",
+  "model_id": "claude-sonnet-5",
+  "naics": "811121",
+  "run_date": "2026-07-22",
+  "run_id": "811121-a1-20260722",
+  "title": "Automotive Body, Paint, and Interior Repair and Maintenance"
+ },
+ "lens": {
+  "customer_and_revenue_model": "Repair orders funded by vehicle owners, insurers, fleets, or warranty administrators, with revenue from labor, paint and materials, parts markup, supplements, storage, and related shop charges.",
+  "deviation_from_default": "none",
+  "excluded_activities": "Automotive glass-only shops, assembly-line vehicle conversion, dealerships whose primary activity is vehicle retail, captive fleet body shops, motorcycle repair, shells, and non-control financing vehicles.",
+  "heterogeneous": false,
+  "included_activities": "US lower-middle-market firms providing repeat outsourced collision, body, paint, trailer-body, interior repair, restoration, and vehicle customization services to external consumers, fleets, and insurers."
+ },
+ "methodology_commit": "eb7c7dc1ea9ec559148be5137f36b8a1e952a2ff",
+ "methodology_version": "5.1",
+ "primitives": {
+  "a": {
+   "base": 0.21,
+   "bridge": "BLS measures occupations and wages for the whole automotive repair and maintenance group, not body and paint task-level wages. I map portions of estimating, photo and document intake, supplement drafting, parts identification, scheduling, insurer communication, customer service, bookkeeping, office support, and management to AI exposure while excluding most disassembly, structural repair, preparation, painting, reassembly, calibration, cleaning, and vehicle movement. Body shops likely have more hands-on production labor than the broad group, so the broad mapping may overstate exposure, while estimate and supplement complexity could make it understate administrative exposure.",
+   "caveats": [
+    "The BLS occupation source covers NAICS 8111 rather than NAICS 811121 and excludes self-employed workers.",
+    "Restoration, upholstery, fleet, and insurance collision shops have different task mixes.",
+    "Employment shares are transformed into wage-weighted task exposure rather than directly measuring it."
+   ],
+   "change_evidence": "A wage-weighted body-shop task diary that separates estimating, insurer administration, parts, customer contact, disassembly, structural work, preparation, paint, reassembly, calibration, and quality control would materially change the range.",
+   "evidence_state": "PROXY",
+   "high": 0.32,
+   "low": 0.12,
+   "rationale": "AI can assist damage documentation, estimate preparation, parts matching, insurer supplements, customer updates, scheduling, and administration. The principal value-producing work remains physical and requires skilled technicians, booths, tools, materials, and quality control.",
+   "source_ids": [
+    "S1",
+    "S3"
+   ]
+  },
+  "d5": {
+   "base": 1.05,
+   "bridge": "BLS projects employment in automotive body, paint, interior, and glass repair from 297,500 in 2024 to 305,100 in 2034 and notes that collision-prevention systems may limit accidents while cameras and sensors add repair work. FHWA projects continued light-duty mileage growth, while IIHS finds automatic emergency braking materially reduces rear-end crashes. I translate these offsetting drivers into modest five-year growth in constant-quality body-repair demand. Employment may understate quantity if productivity rises and overstate it if skill intensity increases; safety-system evidence focuses on rear-end crashes and therefore overstates total collision reduction if generalized to all damage.",
+   "caveats": [
+    "BLS combines body, paint, interior, and glass at the five-digit level rather than isolating NAICS 811121.",
+    "Employment is not a direct measure of constant-price, constant-quality service quantity.",
+    "IIHS rear-end crash reductions do not represent all collision types or all vehicles.",
+    "Total-loss thresholds can reduce repair quantity even when crash severity and vehicle values rise."
+   ],
+   "change_evidence": "A constant-price panel of claim counts, repairable severity, labor hours, parts and calibration content, total-loss rates, and non-insurance restoration or customization work by vehicle technology would materially change the ratio.",
+   "evidence_state": "PROXY",
+   "high": 1.15,
+   "low": 0.96,
+   "rationale": "More vehicle travel supports exposure, but collision avoidance reduces some accident frequency. Higher vehicle complexity, sensors, cameras, paint systems, and repair procedures can increase labor-equivalent demand per remaining repair even under a constant-quality framing.",
+   "source_ids": [
+    "S2",
+    "S4",
+    "S7",
+    "S8"
+   ]
+  },
+  "e": {
+   "base": 0.84,
+   "caveats": [
+    "Census reports 35,029 employer establishments in 2023 but does not identify screened-band firms or revenue recurrence.",
+    "The injected firm count uses a 15.65 percent margin bridge that may misclassify parts- and materials-intensive body shops.",
+    "Establishments and firms are not interchangeable."
+   ],
+   "change_evidence": "A reviewed roster of the 175 injected candidates with revenue mix, insurer and fleet relationships, customer recurrence, affiliation, project duration, and normalized EBITDA would establish the eligible share.",
+   "evidence_state": "ESTIMATE",
+   "high": 0.93,
+   "low": 0.7,
+   "rationale": "Most screened firms should provide external repeat repair services, including recurring insurer and fleet relationships. Restoration, one-off customization, upholstery-heavy operations, captive shops, and mixed retail models can fall outside the recurring-service lens.",
+   "source_ids": [
+    "S3"
+   ]
+  },
+  "l": {
+   "detail": "QCEW 2024 private total annual wages at 811121 ($17,394,371,188) x benefits multiplier 1.4294 [ECEC private-industry total comp $46.60/hr / wages $32.60/hr = 1.4294 (March 2026 reference period)] / SUSB 2022 receipts at 811121 ($47,952,349,000). Vintage mismatch: 2024 wages over 2022 receipts, stated. Level: 6-digit. Harmonized to IPS basis ÷1.3407 (median of 65 dual-method codes).",
+   "evidence_state": "OBSERVED",
+   "quality": "MED",
+   "value": 0.3867
+  },
+  "n": {
+   "detail": "margin 0.1565 (margins.json[81]: Damodaran Jan 2026: Business & Consumer Services EBITDA/Sales 15.65%); revenue/employee $200,427 (SUSB 2022 receipts/employment at 811121); class <5: 18,290 firms, avg revenue/firm $374,302 (class receipts/firms), implied EBITDA $58,578 -> out of $1-10M band; class 5-9: 7,195 firms, avg revenue/firm $1,186,668 (class receipts/firms), implied EBITDA $185,714 -> out of $1-10M band; class 10-19: 4,097 firms, avg revenue/firm $2,495,073 (class receipts/firms), implied EBITDA $390,479 -> out of $1-10M band; class 20-99: 1,517 firms, avg revenue/firm $6,296,750 (class receipts/firms), implied EBITDA $985,441 -> out of $1-10M band; class 100-499: 175 firms, avg revenue/firm $13,259,297 (class receipts/firms), implied EBITDA $2,075,080 -> IN $1-10M band; class 500+: 77 firms, avg revenue/firm $136,018,532 (class receipts/firms), implied EBITDA $21,286,900 -> out of $1-10M band; n_band = 175",
+   "evidence_state": "ESTIMATE",
+   "quality": "ESTIMATE",
+   "value": 175
+  },
+  "o": {
+   "base": 0.985,
+   "caveats": [
+    "Some repairable vehicles may instead be declared total losses, which belongs primarily in demand.",
+    "Physical operator need can persist while work migrates from independent firms to insurer- or manufacturer-controlled networks.",
+    "Remote photo estimating changes administration, not the underlying physical repair requirement."
+   ],
+   "change_evidence": "Job-level analysis of work shifted to factory replacement, modular pre-painted assemblies, mobile self-service, direct manufacturer networks, or eliminated through total-loss decisions would materially change the operator-required share.",
+   "evidence_state": "ESTIMATE",
+   "high": 0.998,
+   "low": 0.95,
+   "rationale": "Nearly all surviving body, paint, interior, restoration, and customization quantity requires an accountable physical operator to inspect, disassemble, repair, prepare, paint, reassemble, calibrate, test, and warranty the vehicle. Software can automate estimating and coordination but cannot supply the physical service basket.",
+   "source_ids": [
+    "S3",
+    "S7"
+   ]
+  },
+  "q": {
+   "base": 0.5,
+   "caveats": [
+    "FTC guidance describes consumer estimates and authorization, not insurer bargaining or benefit pass-through.",
+    "Retention differs sharply between insurer-funded collision work, fleet contracts, restoration, and customer-paid customization.",
+    "Faster cycle time may create volume capacity even when per-job price does not rise."
+   ],
+   "change_evidence": "Repair-order and contract cohorts linking measured savings to insurer labor-rate changes, supplement outcomes, direct-repair terms, cycle-time commitments, customer discounts, gross margin, and volume retention would materially change the share.",
+   "evidence_state": "ESTIMATE",
+   "high": 0.68,
+   "low": 0.3,
+   "rationale": "Retail and restoration jobs permit some pricing discretion, but collision work is often negotiated through insurer estimates, labor-rate benchmarks, direct-repair relationships, supplements, and competitive networks. Process savings can be retained initially yet are likely to be shared through rate pressure, service commitments, and contract renewal over five years.",
+   "source_ids": [
+    "S5"
+   ]
+  },
+  "rho": {
+   "base": 0.58,
+   "caveats": [
+    "No source directly measures five-year implementation of the defined AI-exposed opportunity.",
+    "Customer authorization and repair safety require controlled human review.",
+    "Insurer-mandated platforms can accelerate standardization but restrict shop-level tool choice."
+   ],
+   "change_evidence": "Production pilots reporting estimate accuracy after teardown, supplement frequency, insurer acceptance, cycle time, labor hours, parts errors, rework, calibration exceptions, and customer complaints would materially change the range.",
+   "evidence_state": "ESTIMATE",
+   "high": 0.72,
+   "low": 0.4,
+   "rationale": "Estimating, document intake, customer messaging, supplement preparation, scheduling, parts coordination, and administrative work can be integrated with human review. Implementation is constrained by insurer platforms, image and damage ambiguity, repair-procedure compliance, parts databases, sensor calibration, safety liability, and the need to reconcile software output with teardown findings.",
+   "source_ids": [
+    "S5"
+   ]
+  },
+  "s5": {
+   "base": 0.23,
+   "bridge": "SBA summarizes Census evidence across all employer businesses that 22 percent of owners acquired a purchased business and 64.5 percent planned to sell. I use these broad ownership indicators to bound completed qualifying control transfers within five years for eligible body shops, discounting unbounded intentions, closures, gifts, inheritances, and internal changes. The raw figures likely overstate realized five-year transfers; consolidation interest in insurer-connected multi-shop operations could make the adjusted estimate conservative for scalable operators.",
+   "caveats": [
+    "The source is all-industry and does not measure five-year realized transfers.",
+    "Internal succession, franchise changes, and asset-only liquidations are not automatically qualifying transfers.",
+    "Owner age and succession plans were not observed for the screened population."
+   ],
+   "change_evidence": "A five-year matched panel using eligible-shop rosters, state ownership filings, lender records, business-broker closings, private transaction databases, insurer network changes, and owner interviews would materially change the probability.",
+   "evidence_state": "PROXY",
+   "high": 0.35,
+   "low": 0.12,
+   "rationale": "Body shops can transfer insurer relationships, trained technicians, certifications, equipment, paint systems, and local reputation, but no eligible-population transaction denominator was found and sale intent is not a completed control transfer.",
+   "source_ids": [
+    "S6"
+   ]
+  }
+ },
+ "principal_driver": "Remaining collision and customization work requires accountable physical operators, while estimating and claims administration offer AI leverage.",
+ "principal_weakness": "The dominant production labor is hands-on, and insurers can recapture savings through rates, networks, and service requirements.",
+ "readiness": "MODEL_CONDITIONED",
+ "robust_tier": null,
+ "tier": "LOW_PRIORITY",
+ "tier_interval": [
+  "STRUCTURAL_OUT",
+  "CONDITIONAL"
+ ]
+}

@@ -1,0 +1,203 @@
+{
+  "identity": {
+    "naics": "812111",
+    "title": "Barber Shops",
+    "run_id": "812111-a1-20260722",
+    "model_id": "claude-sonnet-5",
+    "run_date": "2026-07-22",
+    "methodology_version": "5.1",
+    "attempt": 1
+  },
+  "lens": {
+    "included_activities": "Lower-middle-market barber-shop firms providing repeat haircutting, trimming, styling, shaving, beard care, and closely related grooming services directly to external customers, including multi-location and franchised operators when the screened firm operates the service locations.",
+    "excluded_activities": "Independent booth renters that are not part of the screened firm's operations, booth-rental-only landlords, cosmetology and barber schools, product-only retailers, passive franchise or trademark owners, shell entities, and captive internal grooming operations.",
+    "customer_and_revenue_model": "Customers usually purchase appointments or walk-in grooming services at posted per-service prices and return periodically; operators may also receive product sales and booth or chair rent. Revenue is transactional but highly repeat-oriented rather than contractually recurring.",
+    "deviation_from_default": "none",
+    "heterogeneous": false
+  },
+  "primitives": {
+    "a": {
+      "evidence_state": "PROXY",
+      "low": 0.09,
+      "base": 0.15,
+      "high": 0.22,
+      "bridge": "BLS reports employment and wages for the broader Personal Care Services industry, where office and administrative support accounts for a material employment share, while O*NET lists both manual barbering and clerical, recordkeeping, payment, ordering, sales, and supervisory tasks for barbers. I translate the broader occupation mix and direct task list into a wage-weighted exposed-task range for barber shops. The broader industry likely overstates dedicated reception and administration for traditional barber shops, while establishment payroll data understate owner and contractor administrative time.",
+      "rationale": "Cutting, shaving, sanitation, client consultation, and close-contact service dominate current labor and are not substitutable by language or analytical AI. Exposure is concentrated in booking, reminders, customer records, payments, marketing content, supply ordering, basic bookkeeping, and portions of management and customer communication.",
+      "change_evidence": "A time-and-payroll study of multi-location barber shops that separates paid hours for chair service, reception, marketing, scheduling, records, finance, and management—and records which tasks are already automated—would materially change the range.",
+      "source_ids": [
+        "S2",
+        "S3"
+      ],
+      "caveats": [
+        "The BLS occupation mix is for NAICS 812100 and includes beauty salons, nail salons, spas, massage businesses, and other personal care services.",
+        "OEWS employer data omit much self-employment; BLS reports that self-employed workers hold most barber jobs.",
+        "Task exposure is not whole-job displacement and excludes work already automated by ordinary booking and point-of-sale software."
+      ]
+    },
+    "rho": {
+      "evidence_state": "PROXY",
+      "low": 0.4,
+      "base": 0.58,
+      "high": 0.72,
+      "bridge": "Census BTOS measures whether U.S. businesses use AI in any business function and whether they expect near-term use, not the five-year implemented share of exposed barber-shop tasks. I use recent national adoption as a floor-setting anchor and raise the central five-year conversion because the exposed workflows are largely standard scheduling, messaging, records, marketing, and office tasks available through packaged software. This may overstate implementation by small fragmented shops with limited systems and understate it for scaled multi-location operators.",
+      "rationale": "Most exposed work is digitally mediated and can be implemented without automating the haircut itself. Five years allows packaged appointment, messaging, marketing, and back-office tools to diffuse, but fragmented ownership, contractor workflows, data quality, customer preference, and limited change capacity prevent assuming full conversion.",
+      "change_evidence": "A survey of multi-location barber operators measuring production AI use by workflow, employee adoption, override rates, software integration, and realized hours saved would materially change the range.",
+      "source_ids": [
+        "S4",
+        "S3"
+      ],
+      "caveats": [
+        "BTOS covers all nonfarm businesses and measures any AI use, not labor-task implementation.",
+        "No published five-year adoption cohort specific to barber shops was identified.",
+        "Some apparent AI benefit may be conventional workflow automation and is excluded where already deployed."
+      ]
+    },
+    "e": {
+      "evidence_state": "ESTIMATE",
+      "low": 0.75,
+      "base": 0.88,
+      "high": 0.96,
+      "rationale": "Most scaled barber-shop firms directly sell repeat grooming services to external customers and fit the operating-service lens. The discount allows for booth-rental-only economics, passive franchising, unusually product-heavy firms, entities that lack operational independence, and classification or margin-bridge errors.",
+      "change_evidence": "A record-level census of firms in the EBITDA band showing operating locations, service revenue, booth-rent share, franchise role, owner labor, and normalized earnings would directly measure eligibility.",
+      "source_ids": [
+        "S1",
+        "S7"
+      ],
+      "caveats": [
+        "The Economic Census form instructs barber and beauty shops to include booth rent, so industry receipts can mix service operation and landlord economics.",
+        "The supplied firm-count estimate is very small and margin-bridged, making the eligible count highly sensitive to classification and normalized owner compensation.",
+        "A firm may operate several establishments or combine barbering with beauty services."
+      ]
+    },
+    "s5": {
+      "evidence_state": "PROXY",
+      "low": 0.12,
+      "base": 0.16,
+      "high": 0.22,
+      "bridge": "Gallup measures five-year plans to sell or transfer among U.S. employer-business owners, while BizBuySell reports completed transactions for a combined hair-salon and barber-shop marketplace. I discount the employer-owner plan rate for noncompletion, closures, gifts without transferable operations, and internal reorganizations, while retaining a material probability because completed category transactions are observed. The combined marketplace overrepresents businesses offered for sale and is mostly below the target earnings band, while scaled firms may be more transferable than the typical listing.",
+      "rationale": "Employer owners report meaningful five-year sale or transfer intent, and an active marketplace for hair salons and barber shops demonstrates that operations can transfer. Barber businesses can nevertheless be owner-dependent, and only a control change in a continuing eligible operation qualifies.",
+      "change_evidence": "A five-year PitchBook, BizBuySell, Axial, and broker-deal census matched to the identified LMM barber-shop cohort, with control terms, seller role, closure status, and post-close continuity, would produce a direct rate.",
+      "source_ids": [
+        "S5",
+        "S6"
+      ],
+      "caveats": [
+        "Gallup covers employer businesses across industries rather than barber shops.",
+        "BizBuySell combines hair salons and barber shops and does not provide the eligible-firm denominator.",
+        "Marketplace transactions skew much smaller than the frozen EBITDA band and may have greater owner dependence."
+      ]
+    },
+    "q": {
+      "evidence_state": "ESTIMATE",
+      "low": 0.5,
+      "base": 0.62,
+      "high": 0.74,
+      "rationale": "Posted per-service pricing has no automatic cost-plus pass-through, so savings in reception, scheduling, marketing, and administration can initially remain with the operator. Over five years, local price competition, stylist or barber compensation, software fees, customer promotions, and reinvestment in service quality share part of the benefit. Improved booking utilization may be retained more readily than direct headcount savings in owner-operated locations.",
+      "change_evidence": "Location-level contribution-margin bridges before and after workflow implementation, including prices, labor schedules, commissions, software cost, cancellations, promotions, customer retention, and competitor response, would materially change the range.",
+      "source_ids": [
+        "S1",
+        "S3"
+      ],
+      "caveats": [
+        "No longitudinal study of AI-driven barber-shop gross benefit retention was identified.",
+        "Booth-rental and employee or commission models allocate benefits differently.",
+        "The range applies only after implementation and does not include demand volume or implementation difficulty."
+      ]
+    },
+    "d5": {
+      "evidence_state": "PROXY",
+      "low": 0.97,
+      "base": 1.02,
+      "high": 1.06,
+      "bridge": "BLS projects barber employment growth over the 2024–2034 decade, not constant-price, constant-quality service quantity over five years. I convert roughly half of the decade growth into a five-year demand anchor and widen around it for labor productivity, self-employment, visit frequency, population, real-income, and fashion effects. Employment growth could understate demand if productivity rises or overstate it if labor intensity increases.",
+      "rationale": "Hair and beard growth create repeat need, and BLS expects modest occupational growth rather than structural contraction. Demand remains discretionary at the margin and can shift with household budgets, home grooming, style cycles, and service frequency, so the lower bound allows mild real volume decline.",
+      "change_evidence": "Five years of constant-price transaction counts from major barber booking and payment platforms, stratified by same-store locations and service type, plus a comparable forward customer-frequency survey, would materially change the range.",
+      "source_ids": [
+        "S7"
+      ],
+      "caveats": [
+        "Employment is an input measure rather than service quantity.",
+        "BLS projections combine employer and self-employed work and are national.",
+        "The horizon conversion assumes the projected decade path is approximately smooth."
+      ]
+    },
+    "o": {
+      "evidence_state": "ESTIMATE",
+      "low": 0.97,
+      "base": 0.985,
+      "high": 0.997,
+      "rationale": "The current basket centers on cutting, trimming, shaving, sanitation, and style execution on a customer at close physical proximity. Software can support choice, booking, records, and communication but cannot plausibly replace the accountable licensed operator for most service quantity within five years. A small residual allows home grooming, self-service, and limited equipment-assisted substitution.",
+      "change_evidence": "Customer trials and commercial deployment data for autonomous or self-service haircutting and beard-grooming systems, including safety, licensing, insurance, completion quality, repeat use, and unit economics, would materially change the range.",
+      "source_ids": [
+        "S3",
+        "S7"
+      ],
+      "caveats": [
+        "This is bounded judgment rather than an observed substitution rate.",
+        "Operator requirement may vary for ancillary retail, consultation, and simple grooming services.",
+        "State licensing and safety rules can change over the horizon."
+      ]
+    }
+  },
+  "narrative": {
+    "executive_view": "Barber shops are repeat, local, externally paid services with a highly physical core. AI can reduce scheduling, reception, records, marketing, and administrative work, but the exposed share is modest because the customer is buying skilled manual execution and interpersonal judgment. The transfer market is observable, though evidence for scaled LMM firms is thin and owner dependence remains important.",
+    "ai_impact": "Packaged tools can handle appointment requests, reminders, routine customer messages, marketing drafts, record summaries, basic analytics, supply prompts, and portions of bookkeeping. The haircut, shave, sanitation, live consultation, exception handling, and customer relationship remain human-delivered.",
+    "value_capture": "Menu pricing permits some administrative savings and utilization improvement to remain with the operator because there is no contractual pass-through. Local competition, barber compensation, software expense, and promotions will share the benefit over time, with economics varying sharply between employee, commission, and booth-rental models.",
+    "firm_availability": "Most scaled operating barber shops fit the service lens, but the supplied LMM count is sparse and estimated. BizBuySell confirms category transactions, yet its typical sold business is much smaller and the combined salon-barber data do not establish a direct transfer rate for the target cohort.",
+    "demand_durability": "Repeat hair and beard care remains physically delivered and BLS projects modest barber employment growth. Real service quantity can still fluctuate with household budgets, visit frequency, home grooming, and fashion, but software substitution is much more likely in the surrounding workflow than in the core service.",
+    "risks_and_uncertainty": "The largest uncertainties are the extremely small estimated firm population, contractor and booth-rental economics, self-employment omitted from employer occupation data, owner-dependent customer relationships, and the use of broader personal-care evidence. AI savings may also be confused with ordinary booking automation already in place.",
+    "principal_driver": "Repeat local demand and a physically operator-required service preserve the customer relationship while AI improves surrounding administrative workflows.",
+    "principal_weakness": "Only a modest share of wage-weighted work is AI-exposed, and the estimated LMM firm population is exceptionally sparse."
+  },
+  "sources": [
+    {
+      "id": "S1",
+      "url": "https://bhs.econ.census.gov/ombpdfs2022/export/2022_OS-81210_mu.pdf",
+      "title": "2022 Economic Census Form OS-81210: Personal Care Services",
+      "access_date": "2026-07-22",
+      "supports": "Identifies barber shops and beauty salons as separate primary activities, lists hair-care service and booth-rental receipt categories, and instructs shops to include booth or chair rents in operating receipts."
+    },
+    {
+      "id": "S2",
+      "url": "https://www.bls.gov/oes/2023/may/naics4_812100.htm",
+      "title": "May 2023 National Industry-Specific Occupational Employment and Wage Estimates: NAICS 812100",
+      "access_date": "2026-07-22",
+      "supports": "Provides the broader personal-care occupation and wage mix, including personal appearance, management, reception, and administrative employment used for the exposure proxy."
+    },
+    {
+      "id": "S3",
+      "url": "https://www.onetonline.org/link/summary/39-5011.00",
+      "title": "O*NET OnLine: Barbers",
+      "access_date": "2026-07-22",
+      "supports": "Lists hands-on cutting, shaving, sanitation, consultation, sales, records, payment, ordering, and clerical tasks and documents the close physical and manual nature of barber work."
+    },
+    {
+      "id": "S4",
+      "url": "https://www.census.gov/library/stories/2026/05/ai-use-businesses.html",
+      "title": "Large Firms With at Least 20 Employees Biggest AI Users",
+      "access_date": "2026-07-22",
+      "supports": "Reports recent U.S. business use and near-term expected use of AI by firm size, used as a broad implementation anchor."
+    },
+    {
+      "id": "S5",
+      "url": "https://news.gallup.com/poll/657362/small-business-owners-lack-succession-plan.aspx",
+      "title": "Most Small-Business Owners Lack a Succession Plan",
+      "access_date": "2026-07-22",
+      "supports": "Reports five-year sell-or-transfer plans among U.S. business owners, including a higher rate for employer-business owners, used as a broad transfer-intent proxy."
+    },
+    {
+      "id": "S6",
+      "url": "https://www.bizbuysell.com/insight-report-data-tables/",
+      "title": "BizBuySell Insight Report Data Tables: Full-Year 2025",
+      "access_date": "2026-07-22",
+      "supports": "Reports completed hair-salon and barber-shop marketplace transactions and transaction characteristics, confirming an active but combined and mostly small-business transfer market."
+    },
+    {
+      "id": "S7",
+      "url": "https://www.bls.gov/ooh/personal-care-and-service/barbers-hairstylists-and-cosmetologists.htm",
+      "title": "Occupational Outlook Handbook: Barbers, Hairstylists, and Cosmetologists",
+      "access_date": "2026-07-22",
+      "supports": "Describes service duties, licensing, self-employment, and the 2024–2034 employment outlook, including the barber-specific projection used for the demand proxy."
+    }
+  ]
+}
