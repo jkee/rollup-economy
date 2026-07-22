@@ -1,0 +1,175 @@
+{
+  "identity": {
+    "naics": "311811",
+    "title": "Retail Bakeries",
+    "run_id": "311811-a1-20260722",
+    "model_id": "claude-sonnet-5",
+    "run_date": "2026-07-22",
+    "methodology_version": "5.1",
+    "attempt": 1
+  },
+  "lens": {
+    "included_activities": "Lower-middle-market retail bakeries that make bread and other bakery products on premises and have a meaningful repeat external-customer component, including recurring wholesale, hospitality, institutional, office, event-planner, or standing custom-order accounts.",
+    "excluded_activities": "Pure walk-in consumer retail with no recurring account relationships, captive in-store bakery departments, immediate-consumption snack bars, resellers of products made elsewhere, commercial bakeries classified in 311812, and non-control financing vehicles.",
+    "customer_and_revenue_model": "Product revenue from baked goods made on premises, with eligible firms deriving a meaningful share from repeat standing orders or recurring account customers; pricing is generally per item, batch, or order rather than cost-plus labor billing.",
+    "deviation_from_default": "The code is heterogeneous relative to the service lens because its core NAICS definition is retail product sales. The lens is narrowed to bakeries with repeat external-account relationships so that transferability and commercial retention describe a coherent recurring revenue model.",
+    "heterogeneous": true
+  },
+  "primitives": {
+    "a": {
+      "evidence_state": "PROXY",
+      "low": 0.1,
+      "base": 0.17,
+      "high": 0.26,
+      "bridge": "BLS OEWS measures employment and wages for the broader four-digit NAICS 311800 population, not retail bakeries alone. I grouped office, management, sales, customer-service, ordering, scheduling, and planning work as substantially AI-exposed; counter work as partly exposed; and hands-on baking, cleaning, maintenance, packing, and material movement as minimally exposed, then judgmentally wage-weighted those groups. The broader industry contains more factory production than retail bakeries, likely understating retail administrative and customer-interaction exposure, while grouping whole occupations can overstate the automatable task share within them.",
+      "rationale": "The broader industry is dominated by physical production: production occupations are 49.70% of employment and bakers alone are 21.90%. Yet sales are 10.79%, office support 5.24%, management 3.75%, and food preparation/serving 8.53%, leaving a bounded opportunity in ordering, customer communication, scheduling, bookkeeping, marketing, procurement, and demand planning rather than core baking craft.",
+      "change_evidence": "A six-digit 311811 payroll extract by detailed occupation combined with task-level time studies for order intake, scheduling, recipe costing, purchasing, bookkeeping, marketing, and customer service would materially move the range.",
+      "source_ids": ["S1"],
+      "caveats": [
+        "OEWS is a four-digit 311800 proxy and mixes retail, commercial, cookie, cracker, and tortilla manufacturing.",
+        "OEWS excludes self-employed workers and reports occupation employment rather than task time or current automation status.",
+        "The range is a judgmental wage-weighted task mapping, not an observed AI-exposure statistic."
+      ]
+    },
+    "rho": {
+      "evidence_state": "ESTIMATE",
+      "low": 0.35,
+      "base": 0.52,
+      "high": 0.68,
+      "rationale": "Common exposed workflows are accessible to packaged software, but fragmented point-of-sale, ecommerce, accounting, production, and inventory systems constrain implementation. Food-safety and allergen responsibilities also require accountable staff and documented controls, limiting autonomous execution in higher-risk decisions.",
+      "change_evidence": "A 20-30-firm implementation cohort measuring baseline hours, adoption, exception rates, customer-service quality, food-safety incidents, and sustained labor-hour reduction twelve months after deployment would materially refine implementation probability.",
+      "source_ids": ["S4", "S5"],
+      "caveats": [
+        "Retail bakeries are generally state- and locally regulated, while some facilities and interstate activities may also face FDA requirements; the compliance burden varies by business model.",
+        "No industry-specific five-year AI implementation cohort was located."
+      ]
+    },
+    "e": {
+      "evidence_state": "ESTIMATE",
+      "low": 0.08,
+      "base": 0.18,
+      "high": 0.32,
+      "rationale": "The NAICS definition centers on retailing bakery products made on premises, so most firms are product retailers rather than outsourced recurring-service providers. A minority with standing wholesale, hospitality, institutional, office, event, or recurring custom accounts can satisfy the lens, but the share is unlikely to be large.",
+      "change_evidence": "Merchant-processor or accounting-platform revenue splits for a representative sample of 311811 firms, identifying repeat B2B/account customers and contract cadence, would directly test eligibility.",
+      "source_ids": ["S2"],
+      "caveats": [
+        "The provided n is a margin-bridged estimate and may be sensitive to retail bakery margins and owner compensation.",
+        "Public industry data do not separate recurring account revenue from walk-in retail sales."
+      ]
+    },
+    "s5": {
+      "evidence_state": "ESTIMATE",
+      "low": 0.1,
+      "base": 0.2,
+      "high": 0.32,
+      "rationale": "Small owner-operated food businesses face retirement, burnout, and succession pressure, but many closures do not produce transferable control transactions and some transfers are family or internal reorganizations. The range represents qualifying control transfers only among eligible, operating firms.",
+      "change_evidence": "Five years of BizBuySell, Axial, GF Data, SBA 7(a), and broker closed-transaction records tagged to 311811, matched to firm counts and screened for control transfers of continuing operations, would materially change the estimate.",
+      "source_ids": ["S3"],
+      "caveats": [
+        "Census ABS provides owner-characteristic tables but not a directly observed five-year control-transfer probability for eligible retail bakeries.",
+        "Listings and SBA-backed deals would omit private, seller-financed, family, and unannounced transactions."
+      ]
+    },
+    "q": {
+      "evidence_state": "ESTIMATE",
+      "low": 0.38,
+      "base": 0.58,
+      "high": 0.76,
+      "rationale": "Per-item and per-order pricing means labor savings are not mechanically passed through, supporting initial retention. Over five years, however, customer price sensitivity, frequent repricing, transparent substitutes, and competition from grocery, foodservice, and other bakeries should share much of the benefit through price, quality, convenience, or service improvements.",
+      "change_evidence": "Customer-level gross-margin and price histories around labor-saving technology deployments, segmented by standing accounts versus walk-in retail and controlling for ingredient inflation, would reveal realized pass-through.",
+      "source_ids": ["S2"],
+      "caveats": [
+        "No observed contract pass-through dataset was located.",
+        "Retention will differ sharply between differentiated custom products and price-comparable staple bread."
+      ]
+    },
+    "d5": {
+      "evidence_state": "PROXY",
+      "low": 0.98,
+      "base": 1.08,
+      "high": 1.17,
+      "bridge": "BLS projects real output for the broader NAICS 311800 bakeries and tortilla manufacturing industry from 62.1 billion chained 2017 dollars in 2024 to 74.4 billion in 2034. Converting that ten-year ratio to a five-year compound ratio gives about 1.094; I center slightly lower at 1.08 because retail bakeries exclude much of commercial baking and tortillas. The broader-industry projection may overstate retail-bakery demand if scale manufacturers gain share, or understate it if specialty local products outgrow packaged products.",
+      "rationale": "The official broader-industry projection implies moderate real output growth, and BLS separately projects baker employment growth of 6% from 2024 to 2034 while citing population and income growth and demand for specialty baked goods. These signals support stable to moderately growing five-year constant-price demand rather than rapid expansion.",
+      "change_evidence": "Five years of six-digit 311811 real receipts or quantity indexes, plus retailer scanner and merchant-panel data separating retail bakeries from commercial packaged products, would materially narrow the range.",
+      "source_ids": ["S6", "S7"],
+      "caveats": [
+        "The BLS output series is four-digit NAICS 311800 and includes commercial bakeries, cookies, crackers, and tortillas.",
+        "Employment growth is not the same as constant-quality service quantity and may reflect labor intensity or mix shifts."
+      ]
+    },
+    "o": {
+      "evidence_state": "ESTIMATE",
+      "low": 0.92,
+      "base": 0.97,
+      "high": 0.995,
+      "rationale": "Baked goods require physical preparation, process control, sanitation, allergen management, merchandising, and accountable delivery or retail service. Digital ordering and AI assistance can alter how demand is fulfilled but cannot replace the operator responsible for producing safe physical food; only a modest share may migrate to self-service, home production, centralized manufacturing, or direct software-mediated alternatives.",
+      "change_evidence": "Channel-shift data tracking household bakery purchases by retail bakery, grocery in-store bakery, packaged commercial products, meal delivery, and home preparation, combined with closure and substitution surveys, would test operator displacement.",
+      "source_ids": ["S4", "S5"],
+      "caveats": [
+        "Operator requirement does not guarantee that the surviving operator remains an independent retail bakery; centralized or grocery channels could take share.",
+        "FDA's Food Code is a model adopted variably by state and local jurisdictions."
+      ]
+    }
+  },
+  "narrative": {
+    "executive_view": "Retail bakeries offer practical AI-assisted improvements in order handling, scheduling, purchasing, bookkeeping, customer communication, and marketing, but the largest labor pool remains hands-on production. The principal structural issue is lens fit: most establishments sell products to walk-in consumers rather than providing a recurring outsourced service, so diligence must identify account-heavy operators rather than assume the full code is eligible.",
+    "ai_impact": "AI can reduce time spent translating custom requests into quotes and production tickets, forecasting demand, scheduling shifts and batches, reconciling invoices, drafting promotions, and answering routine questions. It is less able to substitute for mixing, shaping, decorating, baking, cleaning, equipment maintenance, and food-safety accountability, which dominate the occupation mix.",
+    "value_capture": "Item and order pricing provides no automatic contractual pass-through, allowing an operator to retain early savings. Retention erodes through frequent menu repricing, customer comparison, local competition, and reinvestment in quality or convenience, especially for staple products; differentiated custom and standing-account work should retain more.",
+    "firm_availability": "The provided LMM count is already an estimate, and only a minority of those firms likely have enough recurring external-account business to fit the lens. Owner succession may create transactions, but closures, family transfers, and small asset sales must not be counted as qualifying control transfers of continuing operations.",
+    "demand_durability": "Bread, cakes, pastries, and specialty baked goods remain physical consumption categories, with official projections for the broader bakery industry indicating moderate real growth. Demand can shift among independent retail bakeries, grocery in-store bakeries, foodservice, and commercial packaged products, so industry demand durability is stronger than independent-channel durability.",
+    "risks_and_uncertainty": "The strongest uncertainties are the share of firms with recurring account revenue, the broader-industry occupation and demand proxies, and the lack of observed AI implementation and benefit-retention cohorts. Ingredient inflation, food-safety failures, allergen controls, short shelf life, skilled labor dependence, and channel competition could overwhelm administrative savings. The provided compensation ratio also mixes 2024 wages with 2022 receipts and is harmonized rather than directly observed on the final basis.",
+    "principal_driver": "Repeat-account bakeries can pair durable physical-food demand with AI-assisted front-office and planning workflows.",
+    "principal_weakness": "Most of NAICS 311811 is walk-in product retail, not a recurring outsourced service, and core baking labor is physical."
+  },
+  "sources": [
+    {
+      "id": "S1",
+      "url": "https://www.bls.gov/oes/2023/may/naics4_311800.htm",
+      "title": "May 2023 National Industry-Specific Occupational Employment and Wage Estimates: NAICS 311800",
+      "access_date": "2026-07-22",
+      "supports": "Broader-industry occupation mix: production 49.70%, bakers 21.90%, sales 10.79%, office support 5.24%, management 3.75%, and food preparation/serving 8.53%."
+    },
+    {
+      "id": "S2",
+      "url": "https://www.census.gov/naics/?details=311811&input=311811&year=2022",
+      "title": "2022 NAICS Definition: 311811 Retail Bakeries",
+      "access_date": "2026-07-22",
+      "supports": "Defines the industry as establishments retailing bread and other bakery products not for immediate consumption made on premises from flour, and distinguishes resellers, snack bars, and commercial bakeries."
+    },
+    {
+      "id": "S3",
+      "url": "https://www.census.gov/data/tables/2023/econ/abs/2023-abs-characteristics-of-owners.html",
+      "title": "2023 Annual Business Survey: Characteristics of Business Owners",
+      "access_date": "2026-07-22",
+      "supports": "Establishes that the 2023 ABS covers reference year 2022 and includes an Age of Owner table, useful as a potential succession proxy but not a direct control-transfer measure."
+    },
+    {
+      "id": "S4",
+      "url": "https://www.fda.gov/food/retail-food-protection/fda-food-code",
+      "title": "FDA Food Code",
+      "access_date": "2026-07-22",
+      "supports": "Describes the Food Code as a model for safe handling in retail food settings and a basis used by state, local, tribal, and federal regulators."
+    },
+    {
+      "id": "S5",
+      "url": "https://www.fda.gov/food/food-safety-modernization-act-fsma/fsma-final-rule-preventive-controls-human-food",
+      "title": "FSMA Final Rule for Preventive Controls for Human Food",
+      "access_date": "2026-07-22",
+      "supports": "Documents food-safety plans, hazard analysis, process and allergen controls, monitoring, corrective action, verification, records, and employee training requirements for covered facilities, subject to exemptions."
+    },
+    {
+      "id": "S6",
+      "url": "https://www.bls.gov/emp/tables/industry-employment-and-output.htm",
+      "title": "BLS Employment and Output by Industry, 2024-2034",
+      "access_date": "2026-07-22",
+      "supports": "Projects NAICS 311800 employment from 350.4 thousand in 2024 to 369.2 thousand in 2034 and real output from 62.1 to 74.4 billion chained 2017 dollars."
+    },
+    {
+      "id": "S7",
+      "url": "https://www.bls.gov/ooh/production/bakers.htm",
+      "title": "Occupational Outlook Handbook: Bakers",
+      "access_date": "2026-07-22",
+      "supports": "Projects baker employment growth of 6% from 2024 to 2034 and attributes demand partly to population and income growth and demand for commercial and retail specialty baked goods."
+    }
+  ]
+}
