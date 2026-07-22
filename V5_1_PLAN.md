@@ -137,7 +137,7 @@ government — terrain the frozen lens (a recurring outsourced service
 delivered by LMM firms) has never been tested on, and where it may be
 incoherent. ~20 sessions to find out before the remaining ~1,200:
 
-- [ ] Research + finalize + check the ten canary codes, fresh single-author
+- [x] Research + finalize + check the ten canary codes, fresh single-author
       sessions, one per structural territory. **The list is frozen at
       launch approval; substitutions require re-approval:** `238910` (site
       prep), `311612` (meat processing), `332710` (machine shops), `423840`
@@ -145,13 +145,13 @@ incoherent. ~20 sessions to find out before the remaining ~1,200:
       freight trucking), `522310` (loan brokers), `621111` (physicians),
       `111998` (misc. crop farming — gap path end-to-end), `921190`
       (general government support — public-sector lens coherence)
-- [ ] One isolated review per record (best class, never the author) — the
+- [x] One isolated review per record (best class, never the author) — the
       canary is reviewed at **100%**; it is purposive, reported separately,
       and never counted toward any random stratum
-- [ ] One remediation per `reject`/`invalid` canary record (standard
+- [x] One remediation per `reject`/`invalid` canary record (standard
       single-remediation rule, fresh isolated review); remaining failures
       are excluded and reported at the gate
-- [ ] Canary report (`V5_1_CANARY_REPORT.md`) with four specific reads:
+- [x] Canary report (`V5_1_CANARY_REPORT.md`) with four specific reads:
       (a) does H stay informative where `l` is structurally small —
       capital-intensive codes screening out *for stated economic reasons*,
       not noise; (b) do `q`/`s5` find real evidence outside services;
