@@ -1,0 +1,182 @@
+{
+  "identity": {
+    "naics": "486990",
+    "title": "All Other Pipeline Transportation",
+    "run_id": "486990-a1-20260722",
+    "model_id": "claude-sonnet-5",
+    "run_date": "2026-07-22",
+    "methodology_version": "5.1",
+    "attempt": 1
+  },
+  "lens": {
+    "included_activities": "US lower-middle-market operators providing recurring third-party pipeline transportation of products other than crude oil, refined petroleum products, or natural gas, including carbon dioxide, hydrogen and other industrial gases, anhydrous ammonia, chemicals, coal, and slurry where classified in 486990.",
+    "excluded_activities": "Captive plant-transfer lines without external customers, natural-gas, crude-oil, and refined-products pipelines, construction or maintenance contractors, water and sewer utilities, shells, non-control financing vehicles, and businesses outside the approximately $1-10M normalized EBITDA band.",
+    "customer_and_revenue_model": "Recurring throughput, capacity, take-or-pay, or dedicated-network contracts with industrial producers and users, refineries, chemical and fertilizer facilities, carbon-capture projects, storage or enhanced-recovery sites, and other commodity shippers; terms and regulatory treatment vary substantially by commodity and corridor.",
+    "deviation_from_default": "none",
+    "heterogeneous": true
+  },
+  "primitives": {
+    "a": {
+      "evidence_state": "PROXY",
+      "low": 0.12,
+      "base": 0.22,
+      "high": 0.34,
+      "bridge": "BLS measures occupations in the broader NAICS 486 pipeline subsector rather than 486990 and reports job counts rather than a wage-weighted task-exposure measure. I use the prominent physical operator, mechanic, pumping, and valve roles to constrain exposure, then add document, scheduling, customer, finance, engineering-support, and compliance work. The 486990 commodity mix and unusually high frozen labor ratio could mean more bespoke operating and technical labor, making the direction of error uncertain.",
+      "rationale": "Core work includes control, pumping or compression, inspection, maintenance, leak and overpressure protection, product handling, and emergency response. Those tasks are not readily substituted by AI. Exposure is concentrated in contract administration, scheduling, record search, regulatory reporting, integrity documentation, engineering knowledge retrieval, customer communications, billing, and finance, where cross-industry deployments demonstrate partial-role automation.",
+      "change_evidence": "Obtain a 486990-specific occupation and wage matrix plus time studies segmented by CO2, hydrogen, ammonia, chemical, and slurry operators for control-room support, scheduling, compliance, engineering documents, customer service, finance, and field work.",
+      "source_ids": ["S1", "S2", "S3"],
+      "caveats": [
+        "The BLS page covers all pipeline transportation and highlights common occupations rather than a complete 486990 staffing distribution.",
+        "Corporate-function AI evidence comes mostly from much larger cross-industry organizations.",
+        "The code's commodity heterogeneity and the frozen 2024-wage/2022-receipts vintage mismatch make wage-weighted task inference especially uncertain."
+      ]
+    },
+    "rho": {
+      "evidence_state": "PROXY",
+      "low": 0.28,
+      "base": 0.45,
+      "high": 0.62,
+      "bridge": "Cross-industry surveys measure scaled adoption and time-to-value in corporate and service operations rather than five-year implementation among LMM 486990 operators. I translate low current operations scaling, three-to-five-year value horizons, and governance constraints to the exposed task set. Large-company resources likely bias implementation upward, while narrow vendor-embedded tools could make implementation easier for small operators.",
+      "rationale": "Document search, drafting, billing, and maintenance-workflow tools should become implementable within five years, but safety, cybersecurity, auditability, scarce integration staff, and fragmented legacy data prevent full implementation. In 2024, only 3% of respondents in a large-company survey had scaled an operations-related generative-AI use case, while leaders commonly expected three to five years to capture significant value.",
+      "change_evidence": "Collect system inventories, AI and automation roadmaps, pilot-to-production conversion, cybersecurity approvals, and verified labor-hour savings from a commodity-stratified sample of eligible operators and their control, integrity, and compliance software vendors.",
+      "source_ids": ["S2", "S3", "S5", "S6"],
+      "caveats": [
+        "Adoption evidence is not pipeline-specific and overrepresents large enterprises.",
+        "Safety and technical constraints differ materially among CO2, hydrogen, ammonia, and slurry.",
+        "Implementation refers only to the exposed opportunity and excludes demand, pricing, and valuation effects."
+      ]
+    },
+    "e": {
+      "evidence_state": "ESTIMATE",
+      "low": 0.25,
+      "base": 0.45,
+      "high": 0.7,
+      "rationale": "The dataset estimates nine firms in the EBITDA band, but many other-product pipelines are captive links serving a refinery, chemical complex, mine, fertilizer producer, or common corporate owner. Eligibility requires a standalone recurring external-customer operation with transferable contracts and rights. Merchant hydrogen and multi-shipper CO2, ammonia, or chemical networks can fit, but the eligible share is unlikely to encompass the entire code.",
+      "change_evidence": "Resolve the nine inferred firms using Census business descriptions, PHMSA operator and commodity records, state permits, beneficial ownership, related-party throughput, customer contracts, and audited standalone EBITDA.",
+      "source_ids": ["S1", "S5", "S6"],
+      "caveats": [
+        "No public source directly enumerates the nine dataset-inferred firms or their external-customer status.",
+        "Hydrogen and some chemical lines may be captured differently across regulatory and industry datasets.",
+        "The frozen firm count is margin-bridged from size classes and explicitly ESTIMATE."
+      ]
+    },
+    "s5": {
+      "evidence_state": "ESTIMATE",
+      "low": 0.08,
+      "base": 0.18,
+      "high": 0.32,
+      "rationale": "Eligible assets may transfer through owner succession, industrial divestitures, infrastructure-fund exits, or consolidation, but specialized assets are often strategically tied to anchor customers and may be transferred only with a larger plant or project. Environmental liabilities, permits, rights-of-way, technical integrity, and customer consents make qualifying standalone control transfers infrequent.",
+      "change_evidence": "Compile ten years of operator and control changes from PHMSA, state pipeline and utility regulators, Capital IQ, PitchBook, project filings, and industry press; then interview beneficial owners and anchor customers of every eligible LMM operator about succession and consent rights.",
+      "source_ids": ["S5", "S6"],
+      "caveats": [
+        "There is no observed transfer-rate series for eligible 486990 LMM firms.",
+        "Project cancellations, asset conversions, internal restructurings, and parent-company sales are not automatically qualifying transfers.",
+        "A base eligible pool near four firms makes realized transfer frequency highly lumpy."
+      ]
+    },
+    "q": {
+      "evidence_state": "ESTIMATE",
+      "low": 0.32,
+      "base": 0.52,
+      "high": 0.72,
+      "rationale": "Dedicated industrial pipelines often use long-term capacity, take-or-pay, cost-recovery, or bilaterally negotiated contracts. Fixed or indexed terms and contract duration can preserve efficiency savings, while cost-plus provisions, open-book renewals, anchor-customer leverage, and route alternatives can pass them through. The wide range reflects the absence of a common rate regime across commodities.",
+      "change_evidence": "For each eligible firm, review transportation agreements, tariff or permit conditions, cost-escalation and benchmarking clauses, minimum-volume commitments, renewal dates, related-party pricing, customer concentration, and alternative transport options.",
+      "source_ids": [],
+      "caveats": [
+        "No source measures benefit retention or even the contract mix across this heterogeneous code.",
+        "A single anchor customer's bargaining power may dominate value capture for a small dedicated line.",
+        "The estimate concerns retention after implementation and does not include throughput loss or implementation difficulty."
+      ]
+    },
+    "d5": {
+      "evidence_state": "PROXY",
+      "low": 0.86,
+      "base": 1.06,
+      "high": 1.35,
+      "bridge": "PHMSA reports CO2-or-other hazardous-liquid mileage, DOE reports the installed hydrogen network, and CRS describes proposed CO2 networks and permitting outcomes; none measures constant-price, constant-quality demand for the full current 486990 service basket. I combine a stable installed base with potential CCS and hydrogen growth, tempered by project cancellations and mature or declining coal/slurry and dedicated industrial corridors. Missing commodity weights make both error direction and magnitude uncertain.",
+      "rationale": "PHMSA reports 5,321 miles in the CO2-or-other system category in 2025 versus 5,345 in 2024, while DOE reports about 1,600 miles of operating hydrogen pipelines concentrated around refineries and chemical plants. CRS reports about 5,300 miles of CO2 pipelines and says a much larger network would be needed for CCS, but also documents public opposition, permit denials, and two Midwest project cancellations. The base case is modest growth with unusually wide tails.",
+      "change_evidence": "Build a revenue- and throughput-weighted commodity map of the nine inferred firms, then obtain contract volumes, anchor-facility operating plans, CCS final investment decisions, 45Q eligibility, hydrogen offtake, ammonia and chemical capacity forecasts, coal/slurry trends, and state siting status for each corridor.",
+      "source_ids": ["S1", "S5", "S6", "S7"],
+      "caveats": [
+        "CO2-or-other mileage is not equivalent to 486990 revenue or throughput and may omit some hydrogen infrastructure.",
+        "New CCS or hydrogen pipeline construction can expand industry demand but may not benefit the current LMM service basket or existing operators.",
+        "Commodity mix is unknown, so growth in one segment may mask contraction in another."
+      ]
+    },
+    "o": {
+      "evidence_state": "ESTIMATE",
+      "low": 0.92,
+      "base": 0.98,
+      "high": 1.0,
+      "rationale": "Nearly all surviving pipeline quantity still requires an accountable operator to control pressure and flow, maintain integrity, protect product quality, manage rights-of-way, comply with federal or state rules, and respond to releases. AI can reduce supporting labor but not eliminate ownership and operational accountability. A small share could be internalized by an anchor customer, shifted to truck or rail, or consolidated into another operator.",
+      "change_evidence": "Interview operators, anchor customers, PHMSA and state regulators, and insurers about operator-of-record requirements, customer self-operation, remote or autonomous control, outsourcing boundaries, and modal substitution for each commodity.",
+      "source_ids": ["S5", "S6", "S7"],
+      "caveats": [
+        "No dataset directly measures the share of quantity that remains operator-required.",
+        "Oversight differs by commodity, location, and interstate status; DOE notes that hydrogen jurisdiction varies accordingly.",
+        "Loss of commodity demand belongs in d5, while o addresses whether surviving quantity still needs this kind of operator."
+      ]
+    }
+  },
+  "narrative": {
+    "executive_view": "All Other Pipeline Transportation combines a high frozen labor ratio with recurring physical infrastructure, creating meaningful administrative AI potential, but the code is small and commodity-heterogeneous. The central case depends on finding independent external-customer operators rather than captive plant links and understanding whether each line serves mature ammonia, chemical, or slurry demand or a potentially growing CO2 or hydrogen corridor.",
+    "ai_impact": "AI can assist scheduling, contract and invoice administration, engineering-document search, integrity-record review, regulatory drafting, work-order triage, customer communication, and finance. Field inspection, pumping or compression, control-room judgment, cybersecurity, materials compatibility, emergency response, and accountable safety management remain operator- and human-dependent.",
+    "value_capture": "Long-term fixed, indexed, take-or-pay, or minimum-volume contracts can preserve savings, but anchor-customer leverage and cost-recovery clauses can pass them through. There is no single pricing regime for the code, so contract-level diligence is indispensable.",
+    "firm_availability": "Only nine firms are estimated in band before removing captive and integrated systems. Specialized assets may be bound to an anchor facility, and transfers often occur as part of a larger industrial transaction rather than as a standalone eligible business.",
+    "demand_durability": "Existing CO2 and hydrogen networks demonstrate durable industrial use, and CCS could expand CO2 transport materially. Permitting opposition and cancellations make that upside uncertain, while ammonia, chemical, coal, and slurry corridors follow different end markets; the resulting five-year range is wider than for single-commodity pipeline codes.",
+    "risks_and_uncertainty": "The largest uncertainties are the unknown commodity and contract mix, captive ownership, tiny denominator, anchor-customer concentration, project and siting risk, technical differences among gases and liquids, environmental liability, and lack of 486990-specific occupation data. New-project growth should not be assumed to accrue to existing LMM operators.",
+    "principal_driver": "A high labor-to-receipts input and document-heavy technical compliance create a meaningful support-work automation opportunity around durable physical operations.",
+    "principal_weakness": "Unknown commodity weights and captive ownership make both the eligible firm pool and five-year demand path unusually uncertain."
+  },
+  "sources": [
+    {
+      "id": "S1",
+      "url": "https://bhs.econ.census.gov/ombpdfs2022/export/2022_TW-48600_su.pdf",
+      "title": "2022 Economic Census Transportation and Warehousing Survey Content for NAICS 486",
+      "access_date": "2026-07-22",
+      "supports": "Defines 486990 as other pipeline transportation including coal, slurry, and anhydrous ammonia, excluding petroleum-product and natural-gas pipelines; supports lens scope and heterogeneity."
+    },
+    {
+      "id": "S2",
+      "url": "https://www.bls.gov/iag/tgs/iag486.htm",
+      "title": "Pipeline Transportation: NAICS 486",
+      "access_date": "2026-07-22",
+      "supports": "Reports employment in prominent pipeline operator, mechanic, pumping, and valve occupations for the broader subsector; supports a as an occupation-mix proxy."
+    },
+    {
+      "id": "S3",
+      "url": "https://www.mckinsey.com/capabilities/operations/our-insights/gen-ai-in-corporate-functions-looking-beyond-efficiency-gains",
+      "title": "Gen AI in corporate functions: Looking beyond efficiency gains",
+      "access_date": "2026-07-22",
+      "supports": "Reports a 2024 survey of 276 corporate-function leaders, partial-role automation, use cases, barriers, and a three-to-five-year value horizon; supports a and rho by proxy."
+    },
+    {
+      "id": "S4",
+      "url": "https://www.mckinsey.com/capabilities/operations/our-insights/from-promising-to-productive-real-results-from-gen-ai-in-services",
+      "title": "From promising to productive: Real results from gen AI in services",
+      "access_date": "2026-07-22",
+      "supports": "Reports that only 3% of surveyed large-company respondents had scaled an operations-related gen-AI use case in early 2024 and describes governance and change-management constraints; supports rho by proxy."
+    },
+    {
+      "id": "S5",
+      "url": "https://www.phmsa.dot.gov/data-and-statistics/pipeline/annual-report-mileage-hazardous-liquid-or-carbon-dioxide-systems",
+      "title": "Annual Report Mileage for Hazardous Liquid or Carbon Dioxide Systems",
+      "access_date": "2026-07-22",
+      "supports": "Reports 5,321 miles in the CO2-or-other category in 2025 versus 5,345 in 2024 and provides hazardous-liquid system records; supports installed-base durability and operator diligence."
+    },
+    {
+      "id": "S6",
+      "url": "https://www.energy.gov/cmei/fuels/hydrogen-pipelines",
+      "title": "Hydrogen Pipelines",
+      "access_date": "2026-07-22",
+      "supports": "Reports about 1,600 miles of operating US hydrogen pipeline, concentrated around refineries and chemical plants, and describes technical barriers and conversion possibilities; supports d5 and operator requirements."
+    },
+    {
+      "id": "S7",
+      "url": "https://www.congress.gov/crs_external_products/IN/PDF/IN12575/IN12575.2.pdf",
+      "title": "Carbon Dioxide (CO2) Pipelines: Safety, Siting, and Eminent Domain",
+      "access_date": "2026-07-22",
+      "supports": "Reports approximately 5,300 miles of operating US CO2 pipelines, the need for a much larger network for significant CCS deployment, and recent project opposition, permit challenges, and cancellations; supports the wide d5 range."
+    }
+  ]
+}

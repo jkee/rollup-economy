@@ -1,0 +1,202 @@
+{
+  "identity": {
+    "naics": "481111",
+    "title": "Scheduled Passenger Air Transportation",
+    "run_id": "481111-a1-20260722",
+    "model_id": "claude-sonnet-5",
+    "run_date": "2026-07-22",
+    "methodology_version": "5.1",
+    "attempt": 1
+  },
+  "lens": {
+    "included_activities": "US certificated scheduled passenger airlines in the lower-middle-market EBITDA band that repeatedly transport external passengers or operate scheduled regional capacity for airline customers.",
+    "excluded_activities": "Cargo-only airlines, nonscheduled charter and air-taxi operators, captive internal flight departments, dormant certificate shells, financing vehicles, and firms outside the lower-middle-market band.",
+    "customer_and_revenue_model": "Passenger carriers earn primarily ticket and ancillary-fee revenue; regional carriers may instead receive recurring capacity-purchase payments from major airlines under long-term agreements.",
+    "deviation_from_default": "none",
+    "heterogeneous": false
+  },
+  "primitives": {
+    "a": {
+      "evidence_state": "PROXY",
+      "low": 0.12,
+      "base": 0.19,
+      "high": 0.28,
+      "bridge": "BLS measures employment counts, not task-level AI exposure, for scheduled air transportation. I grouped reservations, customer service, office supervision, cargo coordination, planning and portions of maintenance diagnostics as partly exposed, while treating cockpit, cabin-safety, ramp and hands-on maintenance work as mostly non-substitutable. Because the published chart lists only the ten largest occupations and not wage-weighted task shares, the range is wider and may overstate exposure if smaller carriers have more operational labor.",
+      "rationale": "The May 2024 BLS chart shows 125,680 flight attendants, 86,450 pilots, 77,850 reservation/ticket agents, 28,520 aircraft mechanics and substantial ramp labor among the largest occupations. AI can materially reduce handling and coordination work, but the largest high-wage roles retain physical and safety-accountable duties.",
+      "change_evidence": "A carrier-level payroll extract mapped to O*NET tasks, with wages and current automation status for pilots, cabin crew, maintenance, operations control, revenue management, reservations and corporate functions, would materially tighten the wage-weighted share.",
+      "source_ids": ["S1", "S2"],
+      "caveats": [
+        "The occupation chart is NAICS 4811 scheduled air transportation rather than the six-digit passenger-only code.",
+        "Employment counts are not wage weights and do not reveal which tasks are already automated.",
+        "Exposure excludes replacing required crew or accountable safety decisions within five years."
+      ]
+    },
+    "rho": {
+      "evidence_state": "ESTIMATE",
+      "low": 0.3,
+      "base": 0.5,
+      "high": 0.68,
+      "rationale": "Customer-service, document, scheduling and analytical copilots can be deployed within five years, but fragmented operational systems, unions, reliability requirements and certification slow implementation. FAA states that aviation ML performance must be measured within a certification framework, and Part 121 certification requires documented, auditable safety-critical processes.",
+      "change_evidence": "Five-year implementation roadmaps and realized labor-hour savings from at least five small or regional Part 121 carriers, separated into safety-critical and non-safety workflows, would materially move this estimate.",
+      "source_ids": ["S3", "S4"],
+      "caveats": [
+        "FAA evidence addresses safety assurance, not adoption rates for airline back-office tools.",
+        "Smaller airlines may lack the data and integration capacity of major carriers.",
+        "The estimate excludes demand, pricing and valuation effects."
+      ]
+    },
+    "e": {
+      "evidence_state": "ESTIMATE",
+      "low": 0.28,
+      "base": 0.45,
+      "high": 0.62,
+      "rationale": "A genuine scheduled passenger operator serving external customers fits the recurring-service lens, but the injected 99-firm band estimate can include captive regional subsidiaries, inactive or thinly operating certificate entities, mixed passenger/cargo businesses and firms whose fleet liabilities or customer concentration make them unsuitable transferable operating companies.",
+      "change_evidence": "An FAA/DOT certificate-by-certificate census joined to ownership, operating status, passenger revenue, capacity-purchase agreements and normalized EBITDA would identify the eligible denominator directly.",
+      "source_ids": ["S4", "S5"],
+      "caveats": [
+        "The injected firm count is an ESTIMATE derived from size classes and an industry margin, not a verified list of 99 operators.",
+        "Part 121 includes cargo operators and large airlines, so certification evidence does not itself establish lens eligibility.",
+        "Capacity-purchase dependence may leave an otherwise eligible regional carrier commercially captive to one major airline."
+      ]
+    },
+    "s5": {
+      "evidence_state": "ESTIMATE",
+      "low": 0.1,
+      "base": 0.2,
+      "high": 0.32,
+      "rationale": "Control transfers occur but are episodic and structurally difficult because certificates, fleets, labor obligations and customer agreements must survive the transaction. The Republic-Mesa combination is direct evidence that a regional airline can transfer control, while the broader small-business market recorded 9,586 transactions in 2025; neither source measures a five-year rate for LMM passenger airlines.",
+      "change_evidence": "A five- to ten-year transaction census of US scheduled passenger certificate holders, including private sales, bankruptcies, mergers, internal reorganizations and failed processes, divided by the eligible carrier population would materially change the estimate.",
+      "source_ids": ["S6", "S7"],
+      "caveats": [
+        "One large regional-airline merger is not representative of lower-middle-market firms.",
+        "BizBuySell transactions are a broad small-business benchmark with no airline denominator.",
+        "The range excludes internal reorganizations and asset liquidations that do not transfer a viable operator."
+      ]
+    },
+    "q": {
+      "evidence_state": "ESTIMATE",
+      "low": 0.25,
+      "base": 0.43,
+      "high": 0.62,
+      "rationale": "Airlines can retain some productivity through capacity discipline, better service and ancillary revenue, but ticket transparency, route competition, customer contract renewals and buyer bargaining pass benefits through. BTS reported a 4.5% system operating margin for 2025 and domestic fares at 70.8% of domestic operating revenue, evidence of a thin-margin, fare-sensitive model rather than durable full capture.",
+      "change_evidence": "Carrier-level cohorts comparing implemented automation savings with subsequent route-level fares, capacity-purchase repricing, service levels and margins over multiple renewal cycles would reveal actual pass-through.",
+      "source_ids": ["S8", "S9"],
+      "caveats": [
+        "Public carrier economics skew larger than the lens firms.",
+        "Capacity-purchase contracts can retain savings differently from direct ticket sales.",
+        "This estimate addresses commercial retention only, not implementation success or traffic volume."
+      ]
+    },
+    "d5": {
+      "evidence_state": "PROXY",
+      "low": 0.94,
+      "base": 1.1,
+      "high": 1.17,
+      "bridge": "FAA forecasts passenger-carrier miles flown, enplanements and departures for the overall US commercial-carrier system, not constant-quality demand for LMM scheduled passenger operators. I use roughly five years of the FAA baseline passenger-carrier-miles growth near 2% annually for the base, with downside and upside spanning macro, capacity and regional-route sensitivity. This may overstate lens demand if growth concentrates at major network carriers.",
+      "rationale": "The FAA FY2026-2046 baseline projects passenger-carrier miles flown growing about 2.0% annually in the first forecast decade, consistent with a year-five quantity ratio near 1.10. Air travel is cyclical, and small regional routes can diverge sharply, so the range includes contraction.",
+      "change_evidence": "A route-level five-year forecast for the exact eligible carriers, separating real passenger miles, departures, Essential Air Service support and capacity purchased by major airlines, would materially move the range.",
+      "source_ids": ["S10"],
+      "caveats": [
+        "FAA forecast scope is broader than NAICS 481111 LMM operators.",
+        "Passenger miles are an imperfect proxy for a constant-quality service basket.",
+        "Pandemics, fuel shocks, aircraft availability and recessions create substantial tail risk."
+      ]
+    },
+    "o": {
+      "evidence_state": "ESTIMATE",
+      "low": 0.94,
+      "base": 0.985,
+      "high": 1.0,
+      "rationale": "Nearly all forecast scheduled passenger transport still requires a certificated accountable air carrier within five years. Digital self-service can remove booking and support contacts, but it does not replace the operator that controls aircraft, crew, maintenance and safety processes; FAA certification explicitly tests compliant, auditable safety-critical operations.",
+      "change_evidence": "FAA approvals and real passenger service for remotely piloted or autonomous transport-category aircraft, plus evidence of software platforms assuming legal operational control, would materially reduce this value.",
+      "source_ids": ["S3", "S4"],
+      "caveats": [
+        "The quantity is the transportation service, not each customer-service interaction.",
+        "Advanced air mobility could change the supplier form beyond five years.",
+        "Digital channels may eliminate parts of the current service basket even while the carrier remains accountable."
+      ]
+    }
+  },
+  "narrative": {
+    "executive_view": "Scheduled passenger airlines offer a real but bounded AI labor opportunity concentrated away from cockpit and cabin safety work. The accountable operator and physical transport service remain durable, but eligibility, transferability, integration burden and weak commercial retention make this a difficult operating-company acquisition category.",
+    "ai_impact": "The clearest near-term applications are reservations, disruption communications, document review, workforce and maintenance planning, revenue analytics and administrative support. Required crew, hands-on ramp and maintenance work, and final safety judgments remain largely operator- and human-dependent.",
+    "value_capture": "Direct-ticket carriers face transparent fare competition, while regional carriers often bargain with a few major-airline customers at contract renewal. Productivity may protect margins and service quality, but a substantial share is likely competed or negotiated away.",
+    "firm_availability": "The apparent LMM firm pool requires substantial cleaning for active certificates, passenger activity, independence and transferable customer agreements. Airline transfers do occur, but fleet financing, regulatory approvals, labor obligations and concentrated counterparties make clean control transfers less routine than ordinary small-business sales.",
+    "demand_durability": "FAA forecasts imply moderate passenger growth, and software cannot substitute for physical air transport. Demand remains exposed to recessions, pandemics, aircraft shortages, fuel costs and route-level economics, especially for small regional operators.",
+    "risks_and_uncertainty": "The largest uncertainties are whether the injected firm-count estimate corresponds to active independent airlines, how much payroll is truly addressable after existing automation, and whether savings survive fare or capacity-contract repricing. Safety failures, operational disruptions and customer concentration can overwhelm incremental AI gains.",
+    "principal_driver": "Durable need for a certificated operator combined with meaningful automation potential in reservations, operations coordination and administration.",
+    "principal_weakness": "A small, hard-to-verify pool of transferable independent operators with thin margins, safety-critical complexity and strong pass-through pressure."
+  },
+  "sources": [
+    {
+      "id": "S1",
+      "url": "https://www.bls.gov/oes/2024/may/ind_emp_chart/ind_emp_chart_data.htm",
+      "title": "Data tables for OEWS industry charts, May 2024",
+      "access_date": "2026-07-22",
+      "supports": "Lists the largest scheduled-air-transportation occupations and employment counts, including 125,680 flight attendants, 86,450 pilots, 77,850 reservation/ticket agents, 28,520 mechanics and operational labor categories."
+    },
+    {
+      "id": "S2",
+      "url": "https://www.bls.gov/ooh/Transportation-and-Material-Moving/Airline-and-commercial-pilots.htm",
+      "title": "Airline and Commercial Pilots",
+      "access_date": "2026-07-22",
+      "supports": "Reports that 87% of airline pilot jobs were in scheduled air transportation and describes coordination, training and safety-accountable pilot duties."
+    },
+    {
+      "id": "S3",
+      "url": "https://www.faa.gov/aircraft/air_cert/step/disciplines/artificial_intelligence",
+      "title": "Technical Discipline: Artificial Intelligence – Machine Learning",
+      "access_date": "2026-07-22",
+      "supports": "FAA states that aviation AI/ML functionality and performance are evaluated within the certification framework to assure safety."
+    },
+    {
+      "id": "S4",
+      "url": "https://www.faa.gov/licenses_certificates/airline_certification/air_carrier/intro_to_certification",
+      "title": "Introduction to Part 121 Air Carrier Certification",
+      "access_date": "2026-07-22",
+      "supports": "Explains that applicants must design, document, implement and audit safety-critical processes and comply with regulations before receiving an air-carrier certificate."
+    },
+    {
+      "id": "S5",
+      "url": "https://www.faa.gov/hazmat/air_carriers/operations/part_121",
+      "title": "Regularly Scheduled Air Carriers (Part 121)",
+      "access_date": "2026-07-22",
+      "supports": "States that Part 121 certificate holders include large airlines, regional carriers and cargo operators and must maintain approved hazardous-materials programs."
+    },
+    {
+      "id": "S6",
+      "url": "https://apnews.com/article/republic-airways-mesa-american-delta-united-e93c911c6253f57e040cf8ae6e8af7d8",
+      "title": "Regional airlines Republic Airways, Mesa Air Group are combining in an all-stock deal",
+      "access_date": "2026-07-22",
+      "supports": "Documents a 2025 regional-airline control combination and Republic's long-term capacity-purchase agreements with three major airlines."
+    },
+    {
+      "id": "S7",
+      "url": "https://www.bizbuysell.com/blog/2025-year-in-review/",
+      "title": "2025 Year in Review: BizBuySell Market Recap",
+      "access_date": "2026-07-22",
+      "supports": "Reports 9,586 small-business transactions in 2025 and describes the broad transaction market; used only as contextual evidence, not an airline transfer rate."
+    },
+    {
+      "id": "S8",
+      "url": "https://www.bts.gov/newsroom/us-airlines-profited-60-billion-2025-decrease-over-2024",
+      "title": "US Airlines profited $6.0 billion in 2025, a decrease over 2024",
+      "access_date": "2026-07-22",
+      "supports": "Reports 2025 system operating margin of 4.5%; domestic revenue of $187.8 billion, with fares representing 70.8%; and labor as 37.5% of domestic operating expense."
+    },
+    {
+      "id": "S9",
+      "url": "https://www.transportation.gov/regulations/federal-register-documents/2024-07177",
+      "title": "Refunds and Other Consumer Protections",
+      "access_date": "2026-07-22",
+      "supports": "DOT final rule requires automatic, prompt refunds after qualifying cancellations or significant changes, evidencing regulated limits on retaining revenue for unprovided service."
+    },
+    {
+      "id": "S10",
+      "url": "https://www.faa.gov/data_research/aviation/aerospace_forecasts/FY_2026-2046_Full_Forecast_Document_Tables.pdf",
+      "title": "FAA Aerospace Forecast Fiscal Years 2026–2046",
+      "access_date": "2026-07-22",
+      "supports": "Baseline forecast shows passenger-carrier miles flown growing about 2.0% annually in the first forecast decade and passenger-carrier departures about 1.6% annually."
+    }
+  ]
+}

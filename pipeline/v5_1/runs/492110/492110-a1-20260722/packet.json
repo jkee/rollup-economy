@@ -1,0 +1,183 @@
+{
+  "identity": {
+    "naics": "492110",
+    "title": "Couriers and Express Delivery Services",
+    "run_id": "492110-a1-20260722",
+    "model_id": "claude-sonnet-5",
+    "run_date": "2026-07-22",
+    "methodology_version": "5.1",
+    "attempt": 1
+  },
+  "lens": {
+    "included_activities": "US lower-middle-market firms providing recurring or repeat intercity and express pickup, linehaul, sorting, tracking, and parcel or document delivery services to external business and consumer customers.",
+    "excluded_activities": "Captive shipper fleets, internal logistics units, non-control financing vehicles, shells, and firms without transferable operating capabilities; local-only messenger and delivery firms classified in 492210 are outside this code.",
+    "customer_and_revenue_model": "Per-package, zone-and-weight, time-definite, route, or negotiated account pricing, often with accessorial and indexed fuel surcharges; revenue is repeat but volumes and customer concentration can vary materially.",
+    "deviation_from_default": "none",
+    "heterogeneous": false
+  },
+  "primitives": {
+    "a": {
+      "evidence_state": "ESTIMATE",
+      "low": 0.18,
+      "base": 0.28,
+      "high": 0.4,
+      "rationale": "The occupation mix is overwhelmingly physical: in BLS's 2022 four-digit industry table, motor-vehicle operators were 41.96% of employment and material-moving workers 37.56%, versus 8.90% in office and administrative support. AI can materially assist route planning, dispatch, customer service, exception handling, document processing, forecasting, and some machine-supported sorting, but only portions of driving, loading, unloading, and hand movement are substitutable within the current service basket. The range reflects task shares within occupations and the wage weighting of smaller managerial and administrative groups.",
+      "change_evidence": "A current six-digit OEWS staffing-and-wage extract combined with task-level time studies from 492110 operators, specifically driver stop time, dispatcher workload, customer-service contacts, claims processing, and sort labor by facility automation level.",
+      "source_ids": [
+        "S1",
+        "S3"
+      ],
+      "caveats": [
+        "The available BLS occupation mix is four-digit NAICS 492100, not six-digit 492110, and is from 2022.",
+        "The estimate concerns not-yet-automated work; incumbent automation levels differ sharply by carrier and hub size.",
+        "The frozen compensation ratio uses 2024 wages over 2022 receipts and an IPS harmonization, so its vintage and basis uncertainty is separate from this task-share estimate."
+      ]
+    },
+    "rho": {
+      "evidence_state": "ESTIMATE",
+      "low": 0.35,
+      "base": 0.55,
+      "high": 0.72,
+      "rationale": "Routing, forecasting, customer communications, documentation, and assisted sorting are implementable with current software and equipment, and FedEx reports live use of automated sorting plus machine-learning volume forecasts. Implementation is slower in LMM firms because data quality, telematics integration, customer-specific exceptions, safety, labor adoption, and capital needs constrain deployment. Physical last-mile and hand-material tasks remain harder to automate fully within five years.",
+      "change_evidence": "Five-year implementation cohorts from regional parcel carriers showing deployment dates, realized labor hours per stop/package, exception rates, service failures, capital spending, and adoption across dispatch, service, claims, route optimization, and sort workflows.",
+      "source_ids": [
+        "S3"
+      ],
+      "caveats": [
+        "FedEx is much larger and more capitalized than the screened LMM firms, so its implementation demonstrates feasibility but likely overstates small-firm execution capacity.",
+        "The range excludes autonomous-driving displacement that is not operationally mature for dense first-and-last-mile work."
+      ]
+    },
+    "e": {
+      "evidence_state": "ESTIMATE",
+      "low": 0.62,
+      "base": 0.78,
+      "high": 0.9,
+      "rationale": "Most firms classified in 492110 sell delivery to external customers and therefore fit the recurring outsourced-service lens. Deductions cover firms whose apparent EBITDA band depends on a single non-transferable contractor relationship, owner-provided driving, extreme customer concentration, weak operating authority or insurance, or assets and systems insufficient for a standalone control transfer.",
+      "change_evidence": "A stratified census of six-digit LMM firms from Experian, Dun & Bradstreet, or Grata, verified through customer contracts, carrier-authority records, owner dependence, route concentration, insurance history, and standalone financial statements.",
+      "source_ids": [
+        "S3"
+      ],
+      "caveats": [
+        "No source directly measures lens eligibility among the frozen 275-firm LMM estimate.",
+        "The frozen firm count is itself a margin-bridged estimate using SUSB size classes and a broad transportation margin, so band membership may be noisy.",
+        "Contractor networks can be economically recurring while still being legally or commercially difficult to transfer."
+      ]
+    },
+    "s5": {
+      "evidence_state": "PROXY",
+      "low": 0.12,
+      "base": 0.2,
+      "high": 0.3,
+      "bridge": "Gallup surveyed 1,264 US business owners across industries in fall 2024, not 492110 owners: 22% of employer-business owners planned to sell or transfer within five years, while the all-owner figure was 14%. I use 20% as the center for eligible LMM employer firms, slightly below the employer proxy because planned gifts, public offerings, and internal transfers do not all become qualifying control transfers; retirement and industry consolidation could push the realized rate upward, while closures and failed sales push it downward.",
+      "rationale": "The best directly timed evidence found is the broad US employer-business owner survey. Courier operations can transfer when routes, contracts, licenses, systems, and supervisors survive the owner, but customer concentration and owner-operated accounts reduce completion rates.",
+      "change_evidence": "BizBuySell, Axial, PitchBook, GF Data, and SBA 7(a) closed-transaction records tagged to 492110, plus interviews with parcel-route brokers and owners covering listed, withdrawn, gifted, management, strategic, and sponsor transfers over a full five-year cohort.",
+      "source_ids": [
+        "S4"
+      ],
+      "caveats": [
+        "The survey is cross-industry and reports owner intentions, not completed qualifying control transfers.",
+        "Its sell-or-transfer category includes gifts and rare public offerings, while this primitive excludes some internal reorganizations.",
+        "Multiple-owner firms and contractor-route businesses may not map cleanly to one respondent's plan."
+      ]
+    },
+    "q": {
+      "evidence_state": "ESTIMATE",
+      "low": 0.28,
+      "base": 0.46,
+      "high": 0.65,
+      "rationale": "Parcel services are usually priced per shipment rather than on open-book labor cost, so an operator can initially retain efficiency gains. Retention decays because large shippers negotiate, contracts reprice, customers compare carriers, and service is highly price-sensitive. Indexed fuel surcharges show that some volatile inputs pass through explicitly, but FedEx also warns customers may resist higher rates for technology investments and that lower-price rivals constrain pricing.",
+      "change_evidence": "A sample of LMM customer contracts and invoice cohorts showing rate cards, fuel/accessorial formulas, renewal cadence, rebate tiers, bid frequency, churn, gross-margin movement, and realized price after operational savings over at least three renewals.",
+      "source_ids": [
+        "S3"
+      ],
+      "caveats": [
+        "FedEx's competitive disclosures may not represent regional LMM carrier bargaining power.",
+        "Contract structures vary from spot and per-stop work to multi-year negotiated accounts.",
+        "This estimate excludes demand loss and implementation failure, which belong in d5/o and rho."
+      ]
+    },
+    "d5": {
+      "evidence_state": "PROXY",
+      "low": 1.0,
+      "base": 1.05,
+      "high": 1.12,
+      "bridge": "BLS projected employment in four-digit NAICS 492100 to rise from 894,000 in 2023 to 989,500 in 2033, or 10.7% over ten years. A roughly half-horizon translation implies about 5% in five years. Employment is not constant-price, constant-quality demand and includes 492120 as well as 492110; productivity improvements may make employment growth understate quantity growth, while mix shifts and service-quality changes may make it overstate demand for the current basket.",
+      "rationale": "E-commerce and expectations for faster delivery support parcel volumes, and BLS separately projects 8% growth for delivery truck drivers and driver/sales workers from 2024 to 2034. The range allows a flat real current-service basket if shipper insourcing or macro weakness offsets parcel growth, and stronger growth if delivery intensity continues rising.",
+      "change_evidence": "Five-year constant-price parcel volumes and revenue per piece by service level from Pitney Bowes, ShipMatrix, carrier filings, and regional-carrier customer cohorts, separated into outsourced 492110 services versus shipper-owned delivery networks.",
+      "source_ids": [
+        "S2",
+        "S5"
+      ],
+      "caveats": [
+        "The projection is for four-digit NAICS 492100 and a ten-year horizon, not this six-digit industry and five years.",
+        "Employment embeds productivity and occupational-mix assumptions and is only a proxy for service quantity.",
+        "Amazon and other high-volume shippers are expanding in-house delivery capability, which can divert outsourced volume."
+      ]
+    },
+    "o": {
+      "evidence_state": "ESTIMATE",
+      "low": 0.72,
+      "base": 0.84,
+      "high": 0.93,
+      "rationale": "Most of the current basket still entails accountable possession, sorting, transport, chain of custody, exception resolution, and delivery, so software alone cannot supply it. Automated facilities and routing reduce labor rather than eliminate the carrier. The main leakage is high-volume shipper insourcing, lockers or consolidated drop points, platform-managed contractor networks, and eventual autonomous segments; FedEx explicitly identifies shipper-owned networks as both customers and competitors.",
+      "change_evidence": "ShipMatrix or carrier parcel-flow data separating outsourced carrier volume, merchant-owned fleets, platform contractor networks, lockers/pickup points, and autonomous deliveries, supplemented by shipper procurement interviews on planned insourcing through 2031.",
+      "source_ids": [
+        "S3",
+        "S5"
+      ],
+      "caveats": [
+        "The boundary between an outsourced operator and a platform-directed delivery service provider can be ambiguous.",
+        "Technology adoption could accelerate unevenly by geography, stop density, package type, and regulatory environment.",
+        "The estimate addresses the current service basket, not adjacent digital supply-chain products."
+      ]
+    }
+  },
+  "narrative": {
+    "executive_view": "This is a large, repeat-use physical service with clear software and automation opportunities, but most payroll is tied to driving and handling that AI will assist more readily than replace over five years. The opportunity rests on better dispatch, routing, forecasting, service, claims, and selective sort automation while preserving delivery reliability.",
+    "ai_impact": "AI can automate shipment intake, status inquiries, exception triage, claims documentation, forecasting, route design, driver coaching, and back-office reconciliation. Computer vision and robotics can improve induction and sorting. Dense last-mile driving, loading, safe handoff, and irregular customer exceptions remain operator-heavy, so the implementable share is much smaller than a generic knowledge-work exposure measure would suggest.",
+    "value_capture": "Per-piece and negotiated account pricing permits initial retention of labor and density gains. Over time, competitive bids, rate shopping, renewal negotiations, and shipper scale share those gains with customers. Fuel is often handled separately through indexed surcharges, illustrating that contracts can explicitly pass specific costs rather than preserve all operating upside.",
+    "firm_availability": "The broad employer-business proxy points to meaningful five-year transfer intent, but completed transferable courier companies are a narrower set. Route/customer concentration, owner-driven relationships, contractor dependencies, insurance, operating authority, and systems quality determine whether a nominal firm can survive a control change.",
+    "demand_durability": "Physical parcel movement should remain necessary and BLS projects continued industry and delivery-driver employment growth. Demand for outsourced 492110 operators is less secure than parcel demand itself because large shippers can insource, platforms can direct contractor networks, and lockers or consolidation can reduce stops.",
+    "risks_and_uncertainty": "The principal evidence gaps are six-digit task-level labor data, realized automation economics at LMM scale, actual industry transfer completion rates, and contract-level retention after renewals. A concentrated account loss, failed service integration, safety event, labor disruption, or price response from integrated carriers can erase expected savings. The frozen labor ratio mixes 2024 wages with 2022 receipts, and the frozen firm count relies on broad-margin bridging.",
+    "principal_driver": "A recurring parcel network offers concrete AI-assisted routing, dispatch, service, forecasting, and exception-management savings without requiring demand creation.",
+    "principal_weakness": "Roughly four-fifths of industry employment is driving or material movement, limiting near-term AI substitution while powerful customers and carriers pressure retention."
+  },
+  "sources": [
+    {
+      "id": "S1",
+      "url": "https://www.bls.gov/oes/2022/may/naics4_492100.htm",
+      "title": "NAICS 492100 - Couriers and Express Delivery Services: May 2022 OEWS Industry-Specific Occupational Employment and Wage Estimates",
+      "access_date": "2026-07-22",
+      "supports": "Four-digit industry occupation mix: 957,850 total employment; office and administrative support 8.90%; motor-vehicle operators 41.96%; material-moving workers 37.56%, including light-truck drivers and hand laborers."
+    },
+    {
+      "id": "S2",
+      "url": "https://www.bls.gov/opub/mlr/2024/article/industry-and-occupational-employment-projections-overview-and-highlights-2023-33.htm",
+      "title": "Industry and occupational employment projections overview and highlights, 2023-33",
+      "access_date": "2026-07-22",
+      "supports": "BLS projection for NAICS 492100 from 894,000 jobs in 2023 to 989,500 in 2033, a 10.7% increase."
+    },
+    {
+      "id": "S3",
+      "url": "https://www.sec.gov/Archives/edgar/data/1048911/000104891125000011/fdx-20250531.htm",
+      "title": "FedEx Corporation Annual Report for fiscal year ended May 31, 2025",
+      "access_date": "2026-07-22",
+      "supports": "Documents automated unloading and sorting, machine-learning volume forecasts, network optimization, indexed fuel surcharges, price-sensitive competition, customer resistance to technology-cost rate increases, and high-volume shipper insourcing."
+    },
+    {
+      "id": "S4",
+      "url": "https://news.gallup.com/poll/657362/small-business-owners-lack-succession-plan.aspx",
+      "title": "Most Small-Business Owners Lack a Succession Plan",
+      "access_date": "2026-07-22",
+      "supports": "Fall 2024 survey of 1,264 US owners: 22% of employer-business owners reported plans to sell or transfer ownership within five years; 14% across all owners primarily working in their business."
+    },
+    {
+      "id": "S5",
+      "url": "https://www.bls.gov/ooh/transportation-and-material-moving/delivery-truck-drivers-and-driver-sales-workers.htm",
+      "title": "Delivery Truck Drivers and Driver/Sales Workers: Occupational Outlook Handbook",
+      "access_date": "2026-07-22",
+      "supports": "Projects 8% employment growth from 2024 to 2034, cites e-commerce and faster delivery demand, and describes physical loading, unloading, driving, customer communication, incident reporting, payment, and paperwork duties."
+    }
+  ]
+}

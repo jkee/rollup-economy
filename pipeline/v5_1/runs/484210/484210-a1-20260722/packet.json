@@ -1,0 +1,175 @@
+{
+  "identity": {
+    "naics": "484210",
+    "title": "Used Household and Office Goods Moving",
+    "run_id": "484210-a1-20260722",
+    "model_id": "claude-sonnet-5",
+    "run_date": "2026-07-22",
+    "methodology_version": "5.1",
+    "attempt": 1
+  },
+  "lens": {
+    "included_activities": "Independent operating companies that use their own crews and vehicles to provide local or long-distance household, institutional, and office moves, including packing, loading, transport, unloading, and directly related storage or accessorial services.",
+    "excluded_activities": "Pure brokers and lead generators that do not transport goods, captive corporate fleets, self-storage-only businesses, freight forwarders, and financing or shell entities.",
+    "customer_and_revenue_model": "Consumers, employers, institutions, and offices buy project-based moves under written binding or non-binding estimates, with revenue from transportation, labor, packing, storage, and accessorial services; repeat demand is episodic rather than subscription-based.",
+    "deviation_from_default": "none",
+    "heterogeneous": false
+  },
+  "primitives": {
+    "a": {
+      "evidence_state": "PROXY",
+      "low": 0.1,
+      "base": 0.18,
+      "high": 0.28,
+      "bridge": "BLS occupational evidence for the broader specialized-freight industry and the ILO task-exposure framework are mapped to movers: physical driving, packing, lifting, and supervision receive little substitution exposure, while quoting, scheduling, dispatch, customer communications, documentation, and back-office work receive materially higher exposure. The broader BLS population includes specialized freight activities with different task mixes, while the ILO measure is technological exposure rather than wage-weighted substitution; the resulting direction of error is uncertain but likely upward if office tasks are overrepresented.",
+      "rationale": "The service is dominated by physical handling and driving, but a meaningful minority of wages supports sales intake, visual-survey interpretation, estimating, routing, dispatch, claims documentation, customer service, and administration. AI can substitute portions of those digital workflows and reduce avoidable hiring, not the core physical move.",
+      "change_evidence": "A current OEWS staffing-and-wage extract specific to NAICS 484210, paired with time-and-motion studies from multi-branch movers separating crew hours from estimating, dispatch, sales, claims, and administration, would materially change the range.",
+      "source_ids": ["S1", "S2", "S3", "S4"],
+      "caveats": ["The available occupation page is for broader NAICS 484200 and is older than the run date.", "GenAI exposure evidence is occupational and global, not a direct wage-weighted measurement of US moving firms.", "Owner-managers in small firms often combine physical, sales, and administrative duties, making occupational titles an imperfect task map."]
+    },
+    "rho": {
+      "evidence_state": "ESTIMATE",
+      "low": 0.35,
+      "base": 0.55,
+      "high": 0.72,
+      "rationale": "Within the exposed digital work, quoting assistance, call and email handling, schedule optimization, document generation, and claims triage are implementable with human approval. Fragmented software stacks, variable inventory descriptions, seasonal labor, liability for damaged property, and the need to coordinate real-world exceptions constrain rollout.",
+      "change_evidence": "Five-year cohort evidence from moving-software vendors showing labor hours per booked job before and after AI features, plus implementation interviews with operations leaders at at least twenty LMM movers, would materially move this estimate.",
+      "source_ids": ["S2", "S4", "S5"],
+      "caveats": ["No source measures five-year AI implementation in NAICS 484210.", "Interstate documentation and estimate requirements are not identical to intrastate rules.", "Implementation may improve throughput rather than reduce headcount during peak season."]
+    },
+    "e": {
+      "evidence_state": "ESTIMATE",
+      "low": 0.7,
+      "base": 0.84,
+      "high": 0.93,
+      "rationale": "The NAICS definition itself is an outsourced operating service, so most LMM firms should fit. Ineligibility comes mainly from misclassified brokers or lead-generation businesses, captive operations, owner-dependent firms lacking transferable management, and businesses whose economics are principally storage or another adjacent service.",
+      "change_evidence": "A random audit of the 127 frozen LMM-band firms using FMCSA authority, vehicle, insurance, ownership, and revenue records would directly identify operating movers and transferable stand-alone firms.",
+      "source_ids": ["S1", "S6", "S7"],
+      "caveats": ["The frozen firm count is a margin-bridged estimate, not a verified roster.", "FMCSA registration covers interstate activity and will miss local-only movers regulated by states.", "Eligibility depends on firm-level customer concentration and owner dependence not visible in industry data."]
+    },
+    "s5": {
+      "evidence_state": "PROXY",
+      "low": 0.12,
+      "base": 0.19,
+      "high": 0.28,
+      "bridge": "Census reports that 51% of responding owners of employer businesses across all US industries were age 55 or older. This is converted into a bounded five-year control-transfer probability by allowing for sales, family transfers, and closures while excluding non-transfer events. Moving-company owners may be similarly aged, but age does not imply a sale and the all-industry employer population is broader; using age alone would bias the estimate upward, so the base is well below 51%.",
+      "rationale": "A broad aging-owner pool creates succession pressure, but many small operators close, transfer within families without an external control transaction, or remain owner-operated beyond normal retirement age. The estimate therefore treats age as a transfer catalyst rather than a transaction rate.",
+      "change_evidence": "Deal databases and business-broker listings coded to NAICS 484210, matched to FMCSA authority transfers and Secretary of State ownership changes over a five-year cohort, would materially revise the probability.",
+      "source_ids": ["S8"],
+      "caveats": ["The Census statistic covers responding employer-business owners across industries and reference year 2018.", "Owner age, firm age, and transferability are distinct.", "Small private transactions and family transfers are poorly observed."]
+    },
+    "q": {
+      "evidence_state": "ESTIMATE",
+      "low": 0.45,
+      "base": 0.62,
+      "high": 0.78,
+      "rationale": "Binding estimates can let an operator retain workflow savings on an already-priced job, and reduced administrative cost is not mechanically passed through. Retention decays as consumers solicit competing quotes and commercial customers rebid moves; transparent project pricing and low switching costs should share savings through lower prices or better service over time.",
+      "change_evidence": "Job-level gross-margin panels linking estimate type, customer segment, realized price, renewal or repeat timing, and post-automation labor savings across several moving seasons would establish actual pass-through.",
+      "source_ids": ["S2", "S9"],
+      "caveats": ["Federal estimate rules apply to interstate household moves and are only a proxy for office and local-move contracting.", "Repeat customers may be infrequent, so competitive repricing can occur through new-customer quotes rather than renewals.", "The estimate excludes volume effects and implementation cost."]
+    },
+    "d5": {
+      "evidence_state": "PROXY",
+      "low": 0.92,
+      "base": 0.99,
+      "high": 1.08,
+      "bridge": "Census ACS measures the annual share of people changing residence, not paid moving-service quantity, and reports 11.8% in 2024 versus 12.1% in 2023. The observed moving incidence anchors a roughly stable residential event pool; paid-mover intensity, shipment size, office relocations, demographics, housing turnover, and constant-quality adjustment are judgmental. Excluding office moves may bias the proxy either way, while DIY substitution makes population moves an upper-bound demand signal.",
+      "rationale": "Physical relocation remains tied to household formation, housing turnover, migration, and business moves. Recent residential mobility was slightly softer, supporting a near-flat base rather than strong growth, with a range allowing housing-cycle recovery or continued affordability and remote-work headwinds.",
+      "change_evidence": "American Community Survey mobility releases combined with five years of constant-price booked-job and shipment-volume data from van lines and commercial office movers would materially improve the estimate.",
+      "source_ids": ["S10"],
+      "caveats": ["One-year ACS movement is not expenditure on professional movers.", "The 2023-to-2024 change is too short a history for a structural forecast.", "Office moves and storage-linked moves are not directly measured."]
+    },
+    "o": {
+      "evidence_state": "ESTIMATE",
+      "low": 0.88,
+      "base": 0.95,
+      "high": 0.99,
+      "rationale": "Packing, custody, driving, loading, unloading, damage prevention, and exception handling require a responsible physical operator. Software can replace coordination and facilitate DIY or containerized alternatives, but it cannot eliminate most professionally served moves within five years.",
+      "change_evidence": "Customer-choice panels quantifying shifts from full-service movers to DIY truck rental, portable containers, labor-only marketplaces, and software-coordinated self-service by move type would change the operator-required share.",
+      "source_ids": ["S1", "S5", "S6"],
+      "caveats": ["The estimate concerns quantity requiring an accountable operator, not employment within the operator.", "Commercial office moves may require more accountable coordination than residential moves.", "Robotics adoption inside residences and offices is not directly evidenced."]
+    }
+  },
+  "narrative": {
+    "executive_view": "Moving is a physically anchored, locally executed service with a modest but practical digital-work opportunity. The most credible gains are in estimating, lead handling, scheduling, dispatch, documentation, and claims support; the core crew work remains human and asset intensive.",
+    "ai_impact": "AI can turn photos or video surveys into inventory drafts, prepare estimates and customer messages, optimize schedules, summarize calls, check documents, and triage claims. Human approval remains important because access conditions, inventory errors, regulations, damage, and day-of-move exceptions can change cost and liability.",
+    "value_capture": "Project pricing creates some initial retention because a binding quote does not automatically fall when back-office effort falls. Competitive quote shopping, commercial rebids, and simple switching will transfer part of the benefit to customers over five years.",
+    "firm_availability": "The industry definition largely matches outsourced operating firms, but the frozen LMM count still needs roster-level verification. Pure brokers, local shells, owner-dependent operators, and firms centered on adjacent storage activity reduce the transferable pool; aging owners suggest succession opportunities without proving transactions.",
+    "demand_durability": "Households and organizations will continue to relocate physical goods, and most professionally served volume still needs accountable crews and carriers. Demand is cyclical and sensitive to housing turnover, migration, office footprints, and DIY alternatives, so near-flat real service quantity is more defensible than structural growth.",
+    "risks_and_uncertainty": "The weakest evidence is industry-specific staffing, AI implementation, private control transfers, and job-level pass-through. Worker classification, safety, cargo claims, insurance, seasonal capacity, broker fraud, and interstate or state compliance can consume gains. A prolonged housing slowdown or a shift toward remote work and smaller offices would weaken volume.",
+    "principal_driver": "AI-addressable quoting, scheduling, dispatch, customer-service, and documentation work sits alongside a service whose physical execution cannot be digitized away.",
+    "principal_weakness": "The wage base is dominated by physical crews and drivers, while transfer rates and paid-move demand lack direct industry-specific longitudinal evidence."
+  },
+  "sources": [
+    {
+      "id": "S1",
+      "url": "https://www.census.gov/naics/?details=48421&input=48421&year=2017",
+      "title": "North American Industry Classification System: 484210 Used Household and Office Goods Moving",
+      "access_date": "2026-07-22",
+      "supports": "Defines the industry as local or long-distance trucking of used household, institutional, or commercial furniture and equipment."
+    },
+    {
+      "id": "S2",
+      "url": "https://www.fmcsa.dot.gov/protect-your-move/how-to/subpartD",
+      "title": "Estimating Charges (Subpart D)",
+      "access_date": "2026-07-22",
+      "supports": "Documents required written estimates, binding and non-binding pricing, physical or waived surveys, tariffs, additional services, and payment constraints for interstate household moves."
+    },
+    {
+      "id": "S3",
+      "url": "https://www.bls.gov/oes/2016/may/naics4_484200.htm",
+      "title": "May 2016 National Industry-Specific Occupational Employment and Wage Estimates: Specialized Freight Trucking",
+      "access_date": "2026-07-22",
+      "supports": "Provides employer-survey occupational employment and wage estimates for the broader NAICS 484200 industry, used only as an occupation-mix proxy."
+    },
+    {
+      "id": "S4",
+      "url": "https://www.ilo.org/publications/generative-ai-and-jobs-refined-global-index-occupational-exposure",
+      "title": "Generative AI and Jobs: A Refined Global Index of Occupational Exposure",
+      "access_date": "2026-07-22",
+      "supports": "Reports task-level GenAI exposure methodology, highest exposure in clerical occupations, and that job transformation is more likely than full replacement."
+    },
+    {
+      "id": "S5",
+      "url": "https://www.anthropic.com/research/economic-index-june-2026-report",
+      "title": "Anthropic Economic Index report: Cadences",
+      "access_date": "2026-07-22",
+      "supports": "Reports that transportation and material-moving occupations are underrepresented in Claude usage and survey evidence, supporting caution about implementation in physical work."
+    },
+    {
+      "id": "S6",
+      "url": "https://www.fmcsa.dot.gov/consumer-protection/what-difference-between-household-goods-hhg-mover-and-hhg-broker",
+      "title": "What is the difference between a household goods mover and a household goods broker?",
+      "access_date": "2026-07-22",
+      "supports": "Distinguishes operating movers with trucks and crews from brokers that arrange service but do not transport or assume responsibility for goods."
+    },
+    {
+      "id": "S7",
+      "url": "https://ai.fmcsa.dot.gov/registrationstatistics/customreports.aspx",
+      "title": "Motor Carrier Analysis and Information Resources Online: Custom Reports",
+      "access_date": "2026-07-22",
+      "supports": "Provides current registration and operating-authority reporting tools for household-goods carriers, relevant to a future firm-level eligibility audit."
+    },
+    {
+      "id": "S8",
+      "url": "https://www.census.gov/content/dam/Census/library/visualizations/2020/comm/business-owners-ages.pdf",
+      "title": "Business Owners' Ages",
+      "access_date": "2026-07-22",
+      "supports": "Reports that 51% of responding owners of employer businesses were age 55 or older, based on the 2019 Annual Business Survey for data year 2018."
+    },
+    {
+      "id": "S9",
+      "url": "https://www.fmcsa.dot.gov/consumer-protection/protect-your-move/what-binding-move-estimate",
+      "title": "What is a binding move estimate?",
+      "access_date": "2026-07-22",
+      "supports": "Explains that binding estimates guarantee the stated amount for described services and non-binding estimates depend on actual weight, services, and tariff."
+    },
+    {
+      "id": "S10",
+      "url": "https://www.census.gov/topics/population/migration/guidance/acs-1yr.html",
+      "title": "United States Migration/Geographic Mobility At A Glance: ACS 1-Year Estimates",
+      "access_date": "2026-07-22",
+      "supports": "Reports that 11.8% of the population moved to a different residence in 2024, down from 12.1% in 2023."
+    }
+  ]
+}

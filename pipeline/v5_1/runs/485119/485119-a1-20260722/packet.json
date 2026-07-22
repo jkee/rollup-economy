@@ -1,0 +1,173 @@
+{
+  "identity": {
+    "naics": "485119",
+    "title": "Other Urban Transit Systems",
+    "run_id": "485119-a1-20260722",
+    "model_id": "claude-sonnet-5",
+    "run_date": "2026-07-22",
+    "methodology_version": "5.1",
+    "attempt": 1
+  },
+  "lens": {
+    "included_activities": "Privately owned operators of other urban transit modes that provide recurring, accountable operations, dispatch, maintenance, or integrated transit service to public agencies, institutions, or passengers and fall in the roughly $1-10M normalized EBITDA band.",
+    "excluded_activities": "Public authorities, captive municipal operations, financing vehicles, pure software vendors, construction-only contractors, and firms without transferable operating responsibility.",
+    "customer_and_revenue_model": "Recurring agency or institutional operating contracts, commonly paid per revenue hour or mile with possible fixed administrative fees or cost pass-throughs; some operators also receive passenger fares or subsidies.",
+    "deviation_from_default": "none",
+    "heterogeneous": false
+  },
+  "primitives": {
+    "a": {
+      "evidence_state": "PROXY",
+      "low": 0.15,
+      "base": 0.24,
+      "high": 0.36,
+      "bridge": "BLS measures the 4-digit Urban Transit Systems workforce rather than NAICS 485119 and reports occupation employment rather than task exposure. I mapped wage-bearing occupation groups to task-level AI exposure: high for dispatch, reservations, customer service, finance and administration; moderate for supervisors and managers; low for maintenance and the dominant vehicle-operator group. The broader 485100 mix may overstate rail-heavy 485119 exposure if the latter has more safety-critical operating labor, while omission of occupation detail within jobs may understate assistive opportunities.",
+      "rationale": "In BLS's 485100 workforce, transportation and material-moving occupations are 72.63% of employment and passenger vehicle drivers alone are 60.73%, while office and administrative support is 8.72%, dispatchers are 2.97%, and business/financial roles are 2.22%. AI-based scheduling, exception triage, customer communications, compliance drafting, and back-office work expose a meaningful minority of wage-weighted tasks, but most driving and hands-on maintenance work is not currently substitutable in ordinary urban service.",
+      "change_evidence": "A payroll-weighted task inventory from several NAICS 485119 operators, including dispatcher handle time, call volumes, reporting hours, maintenance diagnostics, and non-driving operator duties, paired with observed AI pilot time savings.",
+      "source_ids": ["S1", "S2"],
+      "caveats": [
+        "The occupational source is 2023 and covers NAICS 485100, not the six-digit code.",
+        "Employment shares are not wage shares; higher-paid administrative and managerial jobs receive an approximate wage adjustment in the judgment.",
+        "Autonomous driving is treated conservatively because technical exposure is not the same as deployable labor substitution."
+      ]
+    },
+    "rho": {
+      "evidence_state": "PROXY",
+      "low": 0.28,
+      "base": 0.43,
+      "high": 0.58,
+      "bridge": "FTA documents one rural paratransit AI-dispatch deployment, while the lens is other urban transit operators. I use the demonstrated ability to manage more rides with the same number of dispatchers as evidence that exposed scheduling and communication tasks can be implemented, then discount for urban complexity, integrations, labor rules, procurement, cybersecurity, accessibility, and safety review. The rural setting likely overstates ease of implementation, but a small operator may have simpler legacy systems than a large agency.",
+      "rationale": "AI dispatch has been deployed in transit and can absorb scheduling, no-show prediction, passenger notification, and exception-monitoring work. Five-year implementation should be material for digital workflows, but unionized operations, public procurement, fragmented data, service-quality obligations, and the human accountability required for vehicle operations keep implementation well below the full exposed opportunity.",
+      "change_evidence": "Five-year before-and-after labor-hour and service-quality data from urban transit AI deployments, plus operator interviews on procurement cycles, collective-bargaining constraints, integration costs, and percentage of dispatch exceptions resolved without human intervention.",
+      "source_ids": ["S2", "S3"],
+      "caveats": [
+        "The strongest implementation example is rural paratransit rather than urban rail or specialty transit.",
+        "The estimate excludes pricing and demand effects and does not assume unattended autonomous vehicles."
+      ]
+    },
+    "e": {
+      "evidence_state": "ESTIMATE",
+      "low": 0.25,
+      "base": 0.42,
+      "high": 0.62,
+      "rationale": "The frozen firm count includes private businesses in the EBITDA band, but eligibility further requires recurring external-customer service, transferable operating responsibility, and control ownership. Contract operation is prevalent in transit, yet other urban transit also contains entities tied to specific assets, public-authority structures, or narrow concessions that may not be transferable as a standalone control acquisition.",
+      "change_evidence": "A firm-by-firm census of the ten frozen-band firms using NTD contractor records, SAM.gov awards, state corporate registries, ownership data, customer concentration, contract assignability, and normalized EBITDA verification.",
+      "source_ids": ["S3"],
+      "caveats": [
+        "No source directly identifies which frozen-band NAICS 485119 firms meet the lens.",
+        "GAO's contracting survey covers transit agencies and all modes rather than the private firms counted in this six-digit code.",
+        "The frozen n is an estimate derived from older receipts and size-class data."
+      ]
+    },
+    "s5": {
+      "evidence_state": "ESTIMATE",
+      "low": 0.12,
+      "base": 0.24,
+      "high": 0.38,
+      "rationale": "A five-year control-transfer probability near one quarter is a bounded judgment for small private operators: long-lived public contracts can support a sale, but customer concentration, change-of-control consent, bonding and safety qualifications reduce the set of executable buyers. Contract rebids are not counted as ownership transfers.",
+      "change_evidence": "PitchBook, Capital IQ, Axial, BizBuySell, and state-registry transaction histories for NAICS 485119 and adjacent contracted-transit operators, supplemented by owner-age and succession interviews for every eligible firm.",
+      "source_ids": ["S3", "S4"],
+      "caveats": [
+        "No industry-specific ownership-transfer series was found.",
+        "The long contract terms documented for fixed-route bus contracts may not carry over to specialty urban transit modes.",
+        "A transfer of an operating contract without equity control is not a qualifying event."
+      ]
+    },
+    "q": {
+      "evidence_state": "PROXY",
+      "low": 0.35,
+      "base": 0.55,
+      "high": 0.72,
+      "bridge": "The National Academies survey measures third-party fixed-route bus contracts, not NAICS 485119 contracts. I translate its observed payment and renewal structures into retained-benefit economics: fee-per-hour or mile contracts allow savings to persist during a term, while cost pass-through clauses and competitive renewals share savings with the agency. Specialty-mode contracts may be less standardized, widening both directions of error.",
+      "rationale": "Among surveyed fixed-route bus contracts, 69% used a fee per revenue hour or mile, 31% included cost pass-through, and 39% an administrative or overhead fee; 81% had maximum terms of five to ten years. These structures allow some implemented savings to remain with the operator during a contract, but cost disclosure, performance requirements, agency bargaining, rebids, and renewal pricing progressively transfer part of the benefit to customers.",
+      "change_evidence": "A clause-level review of current 485119 customer contracts covering escalation, gainsharing, cost audit, change-in-law, staffing minimums, service-level penalties, renewal, rebid, and change-of-control provisions, followed by customer procurement interviews.",
+      "source_ids": ["S4"],
+      "caveats": [
+        "Contract evidence is from fixed-route bus service and may not represent rail, ferry, automated guideway, or mixed specialty services.",
+        "The range is a discounted five-year retention judgment, not an observed margin outcome."
+      ]
+    },
+    "d5": {
+      "evidence_state": "PROXY",
+      "low": 0.94,
+      "base": 1.06,
+      "high": 1.18,
+      "bridge": "FTA and APTA measure national public-transit trips and vehicle service across all modes rather than constant-quality demand for private NAICS 485119 operators. I use the 2022-2025 ridership recovery and broadly stable 2014-2024 supplied service as directional evidence, normalize away fare and quality changes, and temper the trend because recovery from the pandemic is not steady-state growth. The all-mode series may overstate or understate specialty urban modes depending on their local commuter exposure.",
+      "rationale": "National ridership rose to 7.7 billion trips in 2024, up 7% year over year, and reached 85% of pre-pandemic levels in early 2025. FTA reports total capacity-equivalent vehicle revenue miles of 5.977 billion in 2024 versus 5.929 billion in 2014. Recovery, population growth, accessibility needs, and congestion support modest five-year real demand growth, offset by remote work, local funding stress, ride-hailing, and uneven mode recovery.",
+      "change_evidence": "Mode-specific NTD monthly ridership, vehicle-revenue-mile, service-frequency, and contract-award data mapped specifically to private NAICS 485119 operations, with MPO five-year service plans and inflation-adjusted agency budgets.",
+      "source_ids": ["S5", "S6"],
+      "caveats": [
+        "Observed ridership recovery partly reflects rebound from an abnormal pandemic trough.",
+        "National aggregate demand is geographically concentrated and does not map cleanly to small private operators.",
+        "Vehicle miles are an imperfect measure of constant-quality customer demand."
+      ]
+    },
+    "o": {
+      "evidence_state": "ESTIMATE",
+      "low": 0.86,
+      "base": 0.94,
+      "high": 0.98,
+      "rationale": "Most year-five transit quantity should still require an accountable operator to employ and supervise staff, maintain vehicles, manage emergencies, meet accessibility and safety obligations, interface with agencies, and stand behind service levels. Software may eliminate portions of reservation, dispatch, reporting, and customer-service work, but does not remove the operating entity; full driverless substitution across ordinary public transit is unlikely within five years.",
+      "change_evidence": "Signed driverless-service authorizations, safety-case approvals, union agreements, insurance terms, and fully unattended revenue-service statistics for the specific modes operated by lens firms, plus agency procurement plans that replace operators with software-only supply.",
+      "source_ids": ["S2", "S3"],
+      "caveats": [
+        "Automated guideway and closed-route applications could reduce operator labor faster than the base case.",
+        "The estimate separates continued need for an accountable firm from the number of employees required inside it."
+      ]
+    }
+  },
+  "narrative": {
+    "executive_view": "Other urban transit offers a real but bounded AI labor opportunity. Digital dispatch, reservations, customer communications, reporting, and administrative workflows can improve meaningfully, while the dominant driving, maintenance, safety, and on-site service functions remain operator-intensive. Public-contract economics permit retention during a term but expose savings to audits, rebids, and renewal repricing.",
+    "ai_impact": "The most credible five-year changes are AI-assisted scheduling and dispatch, automated passenger updates, no-show prediction, contact-center deflection, document and compliance drafting, workforce scheduling, and maintenance diagnostics. The FTA's deployed paratransit example demonstrates that the same dispatcher base can manage more rides, but ordinary urban operations still require humans for exceptions, safety, accessibility, and vehicle control.",
+    "value_capture": "Per-hour and per-mile service fees can let an operator retain productivity gains between pricing events. Retention erodes when costs are passed through, staffing is contractually specified, service metrics require reinvestment, or procurement competition resets pricing. Contract duration provides a temporary shelter, not permanent ownership of the whole benefit.",
+    "firm_availability": "The frozen dataset suggests only ten LMM-band firms before applying eligibility. The investable set is smaller because a qualifying target needs private control, recurring external customers, separable operations, assignable contracts, and credible regulatory and safety capabilities. Ownership transfers are plausible but customer consent and concentrated contracts create execution risk.",
+    "demand_durability": "Transit ridership and supplied service have recovered, and accessibility, congestion, population, and essential-worker mobility create a durable service need. Remote work, local fiscal pressure, ride-hailing, and uneven geography cap confidence in rapid growth. Even where software automates coordination tasks, an accountable operating organization remains necessary for almost all service quantity over five years.",
+    "risks_and_uncertainty": "The six-digit category is small and poorly represented by public datasets; most evidence is broader urban transit or fixed-route bus. Key downside risks are a firm universe dominated by nontransferable concessions, adverse change-of-control clauses, union restrictions, cyber or safety failures, customer capture of savings, and local funding cuts. The 2024 wage/2022 receipts vintage mismatch and estimated firm count add baseline uncertainty.",
+    "principal_driver": "AI-enabled dispatch, scheduling, customer communication, and back-office throughput inside recurring operating contracts.",
+    "principal_weakness": "A tiny, contract-concentrated target universe whose core vehicle-operation labor is difficult to substitute safely within five years."
+  },
+  "sources": [
+    {
+      "id": "S1",
+      "url": "https://www.bls.gov/oes/2023/may/naics4_485100.htm",
+      "title": "May 2023 National Industry-Specific Occupational Employment and Wage Estimates: NAICS 485100 Urban Transit Systems",
+      "access_date": "2026-07-22",
+      "supports": "Occupation mix: 72.63% transportation/material moving, 60.73% passenger vehicle drivers, 8.72% office/administrative support, 2.97% dispatchers, and 2.22% business/financial operations."
+    },
+    {
+      "id": "S2",
+      "url": "https://www.transit.dot.gov/research-innovation/providing-dynamic-data-driven-micro-transit-service-smart-dispatch-using",
+      "title": "Providing a Dynamic, Data-Driven Micro-Transit Service with Smart Dispatch Using Artificial Intelligence (FTA Report 0269)",
+      "access_date": "2026-07-22",
+      "supports": "Documents deployment of an AI-based paratransit dispatch system enabling management of more rides with the same number of dispatchers."
+    },
+    {
+      "id": "S3",
+      "url": "https://www.gao.gov/products/gao-13-782",
+      "title": "Public Transit: Transit Agencies' Use of Contracting to Provide Service",
+      "access_date": "2026-07-22",
+      "supports": "GAO survey found 61% of 463 responding agencies contracted some or all operations/services; operations were most frequently contracted and oversight commonly used reports, inspections, performance metrics, and real-time monitoring."
+    },
+    {
+      "id": "S4",
+      "url": "https://www.nationalacademies.org/read/27074/chapter/5",
+      "title": "Third-Party Contracts for Fixed-Route Bus Operations and Maintenance: Performance Metrics, Chapter 3",
+      "access_date": "2026-07-22",
+      "supports": "Survey evidence on contract duration and payment: 81% designed for maximum terms of 5-10 years; 69% fee per revenue hour/mile, 31% cost pass-through, and 39% administrative/overhead fee."
+    },
+    {
+      "id": "S5",
+      "url": "https://www.transit.dot.gov/sites/fta.dot.gov/files/2026-04/2024%20National%20Transit%20Summaries%20and%20Trends_1.2.pdf",
+      "title": "2024 National Transit Summaries and Trends",
+      "access_date": "2026-07-22",
+      "supports": "FTA reports 7.7 billion trips in 2024, about 78% of 2019 ridership, and total capacity-equivalent vehicle revenue miles of 5.977 billion in 2024 versus 5.929 billion in 2014."
+    },
+    {
+      "id": "S6",
+      "url": "https://www.apta.com/wp-content/uploads/2026/03/APTA-POLICY-BRIEF-Transit-Ridership-05-17-2025.pdf",
+      "title": "APTA Public Transportation Ridership Update, May 2025",
+      "access_date": "2026-07-22",
+      "supports": "Reports 7.7 billion trips in 2024, 7% growth over 2023, 25% growth since 2022, and recovery to 85% of pre-pandemic levels in the first four months of 2025."
+    }
+  ]
+}

@@ -1,0 +1,183 @@
+{
+  "identity": {
+    "naics": "486210",
+    "title": "Pipeline Transportation of Natural Gas",
+    "run_id": "486210-a1-20260722",
+    "model_id": "claude-sonnet-5",
+    "run_date": "2026-07-22",
+    "methodology_version": "5.1",
+    "attempt": 1
+  },
+  "lens": {
+    "included_activities": "US lower-middle-market operators transporting natural gas by pipeline, including transmission-network operation and storage performed as part of the pipeline network, for external shippers or customers.",
+    "excluded_activities": "Captive internal pipelines, shells, non-control financing vehicles, pure construction contractors, local gas distribution utilities, and operators outside the approximately $1-10M normalized EBITDA band.",
+    "customer_and_revenue_model": "Recurring capacity-reservation and commodity-transport services sold to producers, utilities, marketers, industrial users, and export-linked shippers under regulated tariffs or negotiated contracts; revenue is tied to reserved capacity, throughput, storage, and ancillary services.",
+    "deviation_from_default": "none",
+    "heterogeneous": false
+  },
+  "primitives": {
+    "a": {
+      "evidence_state": "PROXY",
+      "low": 0.12,
+      "base": 0.2,
+      "high": 0.3,
+      "bridge": "BLS measures the broader NAICS 486 pipeline subsector rather than 486210 alone and reports employment counts for prominent field occupations. I treat the large visible field-operations component as evidence that only a minority of wage-weighted work is exposed, then add exposure for scheduling, reporting, customer, finance, and compliance-document workflows. The broader subsector includes liquid pipelines and may overstate mechanical field work relative to natural gas, biasing a downward.",
+      "rationale": "BLS reports 2025 employment in the pipeline subsector of 5,710 gas plant operators, 1,580 gas compressor and pumping-station operators, 4,230 industrial machinery mechanics, 820 control and valve installers/repairers, and 6,300 petroleum pump/refinery/gauger roles. Those safety-critical physical roles are not readily substituted by language models. Exposure instead sits in document review, nominations and scheduling support, regulatory reporting, maintenance planning, customer inquiries, accounting, and knowledge retrieval; corporate-function evidence shows these are active AI use cases but usually parts of roles rather than whole jobs.",
+      "change_evidence": "A 486210-specific OEWS staffing matrix combined with worker-level time studies for nominations, control-room support, integrity-management documentation, customer service, accounting, and regulatory reporting would materially change the estimate.",
+      "source_ids": ["S1", "S2"],
+      "caveats": [
+        "The BLS occupational table is for NAICS 486, not 486210, and highlights common occupations rather than providing a complete wage-weighted task inventory.",
+        "AI use-case evidence is cross-industry and skewed toward large organizations, while the lens is lower-middle-market firms.",
+        "The frozen compensation-to-receipts input uses 2024 wages over 2022 receipts and is harmonized to the IPS basis, which may not reflect the current labor intensity of this asset-heavy industry."
+      ]
+    },
+    "rho": {
+      "evidence_state": "PROXY",
+      "low": 0.3,
+      "base": 0.45,
+      "high": 0.6,
+      "bridge": "Cross-industry corporate-function and service-operations surveys measure AI rollout and time-to-value at mostly large firms, not five-year implementation in 486210. I map their reported three-to-five-year value horizon, low current scaled deployment, and governance barriers to the exposed administrative opportunity. Large-company readiness likely exceeds that of LMM operators, biasing rho upward, while focused vendor products could offset some of that bias.",
+      "rationale": "Implementation should be meaningful but incomplete. Corporate-function leaders most often expect three to five years to capture significant value, while only 3% of surveyed large-company respondents had scaled an operations-related generative-AI use case in early 2024. Accuracy, security, governance, legacy operational technology, cybersecurity, auditability, and human sign-off constrain deployment in safety-regulated workflows.",
+      "change_evidence": "Obtain five-year automation roadmaps, system inventories, pilot-to-production conversion data, and measured labor-hour savings from a sample of independent natural-gas pipeline operators and their compliance-software vendors.",
+      "source_ids": ["S2", "S3", "S4"],
+      "caveats": [
+        "The cited adoption surveys are not pipeline-specific and mostly represent much larger companies.",
+        "PHMSA reporting and safety obligations demonstrate governance burden but do not directly measure AI implementation.",
+        "Implementation may accelerate if pipeline-management vendors embed auditable copilots into existing systems."
+      ]
+    },
+    "e": {
+      "evidence_state": "ESTIMATE",
+      "low": 0.35,
+      "base": 0.55,
+      "high": 0.75,
+      "rationale": "The frozen dataset estimates only 12 firms in the target EBITDA band. A meaningful share should operate transferable third-party transportation or storage businesses, but eligibility is reduced by captive producer or utility assets, subsidiaries embedded in larger systems, joint ventures, special-purpose entities, and businesses whose economics depend on a non-transferable parent relationship.",
+      "change_evidence": "Classify all 12 inferred firms using PHMSA operator IDs, FERC/state tariff records, beneficial ownership, customer concentration, and audited standalone EBITDA to identify independent recurring-service operations.",
+      "source_ids": ["S3", "S5"],
+      "caveats": [
+        "No source directly enumerates the 12 dataset-inferred LMM firms or their independence.",
+        "One legal enterprise may appear through multiple operator records or establishments.",
+        "The dataset firm's count is margin-bridged from size classes and is explicitly ESTIMATE."
+      ]
+    },
+    "s5": {
+      "evidence_state": "ESTIMATE",
+      "low": 0.1,
+      "base": 0.18,
+      "high": 0.3,
+      "rationale": "Over five years, some eligible independents should sell because of succession, portfolio rationalization, infrastructure-fund exits, or strategic consolidation, but the tiny population and long-lived contracted assets make outcomes lumpy. Regulated approvals, environmental liabilities, rights-of-way, and customer consents can deter or slow qualifying control transfers.",
+      "change_evidence": "Compile ten years of US natural-gas pipeline asset and corporate control transactions from S&P Capital IQ, Enverus, PitchBook, FERC Section 7 dockets, state utility approvals, and operator-change records, then interview owners of the eligible LMM firms about succession timelines.",
+      "source_ids": ["S3", "S5"],
+      "caveats": [
+        "There is no observed transfer-rate series for the eligible 486210 LMM population.",
+        "Asset sales, internal reorganizations, and parent-level deals must be separated from qualifying transfers of standalone operations.",
+        "With a base eligible count near seven, one transaction materially changes the realized rate."
+      ]
+    },
+    "q": {
+      "evidence_state": "PROXY",
+      "low": 0.25,
+      "base": 0.4,
+      "high": 0.6,
+      "bridge": "FERC describes cost-of-service ratemaking for interstate and certain intrastate services, not the exact contract mix or benefit pass-through of LMM firms. I translate cost review and just-and-reasonable-rate constraints into lower long-run retention than an unregulated fixed-price service. Negotiated contracts, regulatory lag, and non-rate services can increase retention, so a pure cost-of-service bridge may bias q downward.",
+      "rationale": "Near-term savings can accrue during contract periods or regulatory lag, but cost-of-service regulation is designed around the cost of service plus a reasonable return and permits review of rates. Renewal negotiations and shipper bargaining can also share efficiency gains. Retention is therefore partial rather than permanent, with better prospects where revenues are fixed-capacity or negotiated rather than directly cost-plus.",
+      "change_evidence": "Review each eligible firm's tariff, negotiated-rate agreements, rate-case settlement history, contract renewal calendar, fuel-retention provisions, and customer-concentration clauses; model pass-through under its actual revenue mix.",
+      "source_ids": ["S5"],
+      "caveats": [
+        "FERC jurisdiction does not cover every intrastate operator or every revenue stream.",
+        "The split among recourse, negotiated, market-based, and state-regulated rates is unknown for the target firms.",
+        "The estimate concerns retention of implemented gross benefit, not the feasibility of achieving the benefit."
+      ]
+    },
+    "d5": {
+      "evidence_state": "PROXY",
+      "low": 0.98,
+      "base": 1.08,
+      "high": 1.18,
+      "bridge": "EIA forecasts national natural-gas production, end use, LNG exports, and cross-border pipeline exports rather than constant-price, constant-quality demand for the exact current service basket of LMM 486210 operators. I map rising gas production and export-linked flows to modest five-year transport demand growth. Regional bottlenecks and route-specific contract roll-offs can make an individual operator diverge in either direction.",
+      "rationale": "EIA's 2026 outlook projects rising US gas production, growing power and industrial gas use, LNG export capacity reaching 27.7 Bcf/d by 2030, and pipeline exports to Canada and Mexico increasing toward 12.6 Bcf/d in most cases. PHMSA reports roughly 300,000 miles of transmission pipeline in both 2024 and 2025, indicating a durable installed network rather than rapid physical expansion. The central case is moderate throughput/service growth, not growth equal to LNG exports alone.",
+      "change_evidence": "Obtain route-level five-year shipper commitments, contracted-capacity renewal schedules, basin production forecasts, local power-generation retirements/additions, LNG feeder exposure, and FERC certificate filings for each eligible system.",
+      "source_ids": ["S3", "S6", "S7"],
+      "caveats": [
+        "National production and export growth does not ensure demand on every local pipeline corridor.",
+        "The AEO scenario depends on laws, policies, commodity prices, geology, and LNG utilization assumptions that can change.",
+        "Mileage is a stock measure and does not directly measure constant-quality service quantity or utilization."
+      ]
+    },
+    "o": {
+      "evidence_state": "ESTIMATE",
+      "low": 0.94,
+      "base": 0.98,
+      "high": 1.0,
+      "rationale": "Nearly all surviving demand still requires a legally accountable operator to own or control rights-of-way and physical assets, manage nominations and dispatch, maintain integrity, respond to incidents, and file required reports. Software and remote automation can reduce labor per unit but do not eliminate the accountable pipeline operator; only a small share may be displaced by customer self-provision, route bypass, or service-basket redesign.",
+      "change_evidence": "Interview PHMSA-regulated operators, shippers, insurers, and regulators about remote/autonomous operations, outsourcing boundaries, and any planned conversion to shipper-owned or software-only service models; review operator-of-record changes.",
+      "source_ids": ["S3", "S4"],
+      "caveats": [
+        "The estimate is conceptual because no source measures operator-required share directly.",
+        "A pipeline may be acquired or consolidated into a larger operator even though operator accountability remains.",
+        "Demand elimination from electrification or route bypass belongs primarily in d5, not o."
+      ]
+    }
+  },
+  "narrative": {
+    "executive_view": "Natural-gas pipelines are durable, recurring infrastructure services with modest administrative AI opportunity, but they are asset-heavy, safety-regulated, and represented by only 12 estimated LMM-band firms. The opportunity depends more on finding a truly independent transferable operator and preserving contract economics than on replacing core operating labor.",
+    "ai_impact": "AI can assist nomination and scheduling support, search integrity records, draft regulatory reports, triage alarms and work orders, answer routine shipper questions, and automate portions of finance and compliance. Human operators, engineers, technicians, and accountable management remain necessary for physical maintenance, control-room decisions, cybersecurity, safety assurance, and incident response.",
+    "value_capture": "Efficiency gains can be retained during regulatory lag, fixed-capacity contract periods, or negotiated-rate terms, but cost-of-service review and shipper renewal bargaining share savings over time. Actual retention depends sharply on tariff jurisdiction and contract mix.",
+    "firm_availability": "The dataset indicates only 12 firms in the EBITDA band before eligibility. Captive systems, subsidiaries, joint ventures, and special-purpose asset entities further reduce the pool, and qualifying transfers are likely sporadic rather than a steady pipeline of deals.",
+    "demand_durability": "The installed transmission network is stable and EIA projects rising production, power and industrial use, LNG exports, and cross-border pipeline exports. Route-level outcomes can diverge substantially, but the service itself remains physically and legally operator-required.",
+    "risks_and_uncertainty": "Principal risks are an extremely small eligible universe, route and shipper concentration, regulated pass-through, aging-asset integrity costs, methane and environmental obligations, cybersecurity, commodity-policy shifts, and confusing asset or parent transactions with transferable standalone firms. The AI estimate is based on broader pipeline occupations and cross-industry adoption evidence rather than direct time-and-motion data.",
+    "principal_driver": "Durable physical transport demand and recurring contracted capacity support continued need for accountable operators.",
+    "principal_weakness": "Only a handful of the 12 estimated LMM firms may be independent, transferable, and able to retain labor savings under their rate structures."
+  },
+  "sources": [
+    {
+      "id": "S1",
+      "url": "https://www.bls.gov/iag/tgs/iag486.htm",
+      "title": "Pipeline Transportation: NAICS 486",
+      "access_date": "2026-07-22",
+      "supports": "Defines the subsector and reports 2025 employment for common field occupations, 56,400 total subsector employment in June 2026, establishment counts, and productivity indicators; used as an occupation-mix proxy for a."
+    },
+    {
+      "id": "S2",
+      "url": "https://www.mckinsey.com/capabilities/operations/our-insights/gen-ai-in-corporate-functions-looking-beyond-efficiency-gains",
+      "title": "Gen AI in corporate functions: Looking beyond efficiency gains",
+      "access_date": "2026-07-22",
+      "supports": "Reports a 2024 survey of 276 corporate-function leaders, adoption/use cases, barriers, partial-role automation, and a three-to-five-year expected value horizon; supports a and rho by proxy."
+    },
+    {
+      "id": "S3",
+      "url": "https://www.phmsa.dot.gov/data-and-statistics/pipeline/source-data",
+      "title": "Pipeline Safety Source Data",
+      "access_date": "2026-07-22",
+      "supports": "States that operators submit annual reports covering mileage, facilities, commodities, materials, and installation dates and that PHMSA provides incident data; supports operator accountability, due diligence, and regulatory implementation constraints."
+    },
+    {
+      "id": "S4",
+      "url": "https://www.mckinsey.com/capabilities/operations/our-insights/from-promising-to-productive-real-results-from-gen-ai-in-services",
+      "title": "From promising to productive: Real results from gen AI in services",
+      "access_date": "2026-07-22",
+      "supports": "Reports low scaled operations adoption in 2024, three-to-five-year timelines, governance and change-management needs, and measured service-workflow examples; used as a cross-industry implementation proxy for rho."
+    },
+    {
+      "id": "S5",
+      "url": "https://www.ferc.gov/natural-gas/general-information/cost-service-rate-filings",
+      "title": "Cost-of-Service Rate Filings",
+      "access_date": "2026-07-22",
+      "supports": "Explains just-and-reasonable cost-of-service ratemaking, Section 4 and 5 rate review, and treatment of Section 311 services; supports the value-capture proxy and transfer diligence context."
+    },
+    {
+      "id": "S6",
+      "url": "https://www.phmsa.dot.gov/data-and-statistics/pipeline/annual-report-mileage-natural-gas-transmission-gathering-systems",
+      "title": "Annual Report Mileage for Natural Gas Transmission & Gathering Systems",
+      "access_date": "2026-07-22",
+      "supports": "Reports 300,867 transmission miles in 2024 and 300,161 in 2025, demonstrating a stable, extensive installed network; supports d5 by proxy."
+    },
+    {
+      "id": "S7",
+      "url": "https://www.eia.gov/outlooks/aeo/narrative/index.php",
+      "title": "Annual Energy Outlook 2026 Narrative",
+      "access_date": "2026-07-22",
+      "supports": "Projects rising US natural-gas production and end use, 27.7 Bcf/d LNG export capacity by 2030, and cross-border pipeline exports rising toward 12.6 Bcf/d in most cases; supports d5 by proxy."
+    }
+  ]
+}
