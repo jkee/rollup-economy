@@ -1,0 +1,168 @@
+{
+  "identity": {
+    "naics": "325212",
+    "title": "Synthetic Rubber Manufacturing",
+    "run_id": "325212-a1-20260722",
+    "model_id": "claude-sonnet-5",
+    "run_date": "2026-07-22",
+    "methodology_version": "5.1",
+    "attempt": 1
+  },
+  "lens": {
+    "included_activities": "US lower-middle-market synthetic-rubber manufacturers that repeatedly produce customer-specified elastomers or latex under contract or toll-manufacturing relationships for external customers.",
+    "excluded_activities": "Captive plants, commodity producers selling only their own standard product, internal production units, pure distributors, natural-rubber processors, rubber-product fabricators, and non-control financing vehicles.",
+    "customer_and_revenue_model": "Recurring batch or continuous production for industrial customers, generally priced per pound or shipment under specifications and purchase agreements, with feedstock and energy clauses negotiated contractually.",
+    "deviation_from_default": "The NAICS definition covers product manufacturing generally, while the fixed screen requires an outsourced-service model; the lens is narrowed to contract and toll producers to avoid mixing commodity product sellers with transferable recurring-service businesses.",
+    "heterogeneous": true
+  },
+  "primitives": {
+    "a": {
+      "evidence_state": "PROXY",
+      "low": 0.14,
+      "base": 0.23,
+      "high": 0.34,
+      "bridge": "BLS reports that production occupations are about half of manufacturing employment and separately describes planning, scheduling, reporting, customer/supplier communication, data analysis, and quality-control work done by production managers. I treat documentation, scheduling, procurement support, laboratory-data interpretation, and exception triage as AI-exposed while leaving physical operation, maintenance, sampling, and safety-critical control largely unexposed. The broad-manufacturing population likely overstates exposed share for capital-intensive synthetic-rubber plants, so the range is biased downward from generic office-task exposure.",
+      "rationale": "Most plant labor is embodied in physical process operation and maintenance, but a meaningful minority of wage-weighted work consists of production records, quality documentation, planning, forecasting, procurement, regulatory reporting, and technical troubleshooting that AI can assist or partially substitute.",
+      "change_evidence": "A payroll-weighted task inventory from three independent toll or contract synthetic-rubber plants, mapped to O*NET task statements and current automation status, would materially change the estimate.",
+      "source_ids": ["S2", "S3"],
+      "caveats": ["BLS evidence is for manufacturing or occupations nationally, not NAICS 325212 contract producers.", "The primitive concerns current not-yet-automated tasks; plant-level installed-control-system data were unavailable."]
+    },
+    "rho": {
+      "evidence_state": "ESTIMATE",
+      "low": 0.25,
+      "base": 0.42,
+      "high": 0.6,
+      "rationale": "Within five years, copilots for documentation, planning, quality review, maintenance knowledge, and customer-service work can be deployed, but validated recipes, process safety, cybersecurity, union/workforce practices, and human accountability constrain implementation in live chemical operations.",
+      "change_evidence": "Plant-level before/after studies of deployed AI in batch-record review, laboratory QA, maintenance work orders, and production scheduling, including accepted labor hours and override rates, would materially change this range.",
+      "source_ids": ["S4", "S5"],
+      "caveats": ["This is bounded judgment rather than observed adoption.", "EPA-described monitoring, recordkeeping, leak-control, and operating requirements make fully autonomous implementation less plausible than back-office assistance."]
+    },
+    "e": {
+      "evidence_state": "ESTIMATE",
+      "low": 0.02,
+      "base": 0.08,
+      "high": 0.18,
+      "rationale": "The Census definition is manufacturing synthetic rubber, not providing contract services. Most firms therefore appear to be product manufacturers; only the minority with repeat tolling or customer-specific production qualifies under the lens.",
+      "change_evidence": "A complete establishment roster coded from company websites, customer contracts, and interviews for third-party toll or contract production would directly identify the eligible share among the injected LMM-band firms.",
+      "source_ids": ["S1", "S6"],
+      "caveats": ["No public source measures contract-manufacturing incidence at six digits.", "The injected firm count may include integrated or commodity producers that do not fit the recurring outsourced-service lens."]
+    },
+    "s5": {
+      "evidence_state": "PROXY",
+      "low": 0.1,
+      "base": 0.2,
+      "high": 0.32,
+      "bridge": "Census reports that 51% of responding owners of US employer businesses were age 55 or older in 2018. I translate that broad owner-age pressure into a five-year qualifying-control-transfer probability, reducing it because age does not imply a sale and synthetic-rubber plants may be corporate, family-transferred, shut, or absorbed internally. The all-industry owner population likely overstates succession-driven sale incidence for capital-intensive chemical manufacturing.",
+      "rationale": "Owner age supports meaningful succession pressure, but qualifying transactions are less frequent than retirement events and specialized plants face environmental, technical, and financing diligence that can prevent a transfer.",
+      "change_evidence": "PitchBook, Capital IQ, or GF Data transactions for US specialty polymer and synthetic-rubber manufacturers under $10M EBITDA, paired with ownership and succession interviews, would materially change the estimate.",
+      "source_ids": ["S7"],
+      "caveats": ["The owner-age statistic covers all employer businesses and responding owners, not NAICS 325212 or LMM firms.", "It does not observe control transfers or distinguish sales from family succession and closure."]
+    },
+    "q": {
+      "evidence_state": "ESTIMATE",
+      "low": 0.3,
+      "base": 0.48,
+      "high": 0.68,
+      "rationale": "Specification-qualified supply relationships and switching costs permit some retention of implemented savings, but per-pound pricing, feedstock escalators, rebids, renewal negotiation, and globally traded substitutes share gains with customers over five years.",
+      "change_evidence": "A sample of tolling agreements and customer purchase contracts showing open-book clauses, indexation, renewal cadence, cost-down commitments, and bid outcomes would materially change the retained-benefit estimate.",
+      "source_ids": ["S8"],
+      "caveats": ["No contract sample was publicly available, so the range is judgmental.", "Product mix and customer concentration can create much stronger or weaker pricing power than the base case."]
+    },
+    "d5": {
+      "evidence_state": "PROXY",
+      "low": 0.8,
+      "base": 0.97,
+      "high": 1.12,
+      "bridge": "The Federal Reserve industrial-production index directly measures aggregate US NAICS 325212 output, not constant-quality demand for outsourced contract production. Monthly index values fell from the mid-to-high 80s in 2021-22 to roughly 70 in 2024, then recovered to roughly 80-86 during 2025-26. I use this volatile, weak trend as the demand anchor and allow broad cyclical outcomes. Domestic production can understate demand when imports gain share, so the proxy may bias demand downward.",
+      "rationale": "Synthetic rubber remains a necessary industrial input for tires and other elastomer applications, but domestic output has been volatile and below its 2017 base. A near-flat five-year constant-price quantity path is more defensible than extrapolating either the 2023-24 decline or 2025 recovery.",
+      "change_evidence": "Customer-level five-year volume forecasts by elastomer family, US apparent-consumption data including trade, and contracted toll-production backlog would materially change this range.",
+      "source_ids": ["S8", "S9"],
+      "caveats": ["Industrial production is supply-side output, not lens-specific demand.", "The index mixes commodity and customer-specific production and does not hold product quality constant."]
+    },
+    "o": {
+      "evidence_state": "ESTIMATE",
+      "low": 0.94,
+      "base": 0.98,
+      "high": 1.0,
+      "rationale": "Year-five elastomer quantity still requires a legally and operationally accountable manufacturer to run polymerization, storage, wastewater, emissions, and quality systems. Software can reduce labor and improve control but cannot self-serve the physical material or remove plant accountability.",
+      "change_evidence": "Evidence of customers insourcing qualified elastomer production, material substitution eliminating synthetic rubber, or fully autonomous certified chemical plants would materially change this estimate.",
+      "source_ids": ["S4", "S5"],
+      "caveats": ["Operator requirement does not guarantee that an independent LMM operator retains the work; large integrated suppliers can consolidate it.", "The estimate separates physical operator necessity from labor automation, which is captured in a and rho."]
+    }
+  },
+  "narrative": {
+    "executive_view": "The qualifying opportunity is a narrow contract-manufacturing subset of a capital-intensive product industry. AI can improve planning, quality records, maintenance knowledge, and compliance workflows, but it does not displace the physical or accountable plant operator, and commodity-style pricing limits how much benefit remains with the supplier.",
+    "ai_impact": "Useful applications are production scheduling, batch and laboratory record review, root-cause assistance, maintenance work-order drafting, procurement analysis, customer documentation, and regulatory reporting. Human review and deterministic process controls remain necessary around recipes, emissions, quality release, and process safety.",
+    "value_capture": "Customer qualification and plant-specific know-how create switching friction, supporting partial capture. Against that, per-unit bids, renewal negotiation, index-linked inputs, and cost-down expectations can transfer much of an efficiency gain to customers over five years.",
+    "firm_availability": "Only toll or contract producers meet the recurring outsourced-service lens; most establishments in the NAICS definition simply manufacture synthetic rubber as a product. Broad owner-age evidence suggests succession pressure, but specialized-asset and environmental diligence can lead to internal transfers, strategic sales, or closures rather than clean LMM control transactions.",
+    "demand_durability": "Synthetic rubber remains physically required in tires and a range of industrial products, so software does not eliminate the service basket. Federal Reserve output data nevertheless show a long volatile decline followed by partial recovery, making flat rather than robust demand the prudent base case.",
+    "risks_and_uncertainty": "The largest uncertainties are the very small eligible contract-production share, absent plant-level task data, unknown contract pass-through terms, environmental liabilities, customer concentration, feedstock volatility, import competition, and whether the injected LMM firm estimate captures truly independent transferable plants.",
+    "principal_driver": "Persistent physical demand plus AI-assisted quality, planning, maintenance, and compliance workflows in repeat qualified production.",
+    "principal_weakness": "Most of NAICS 325212 is product manufacturing rather than an outsourced service, leaving a poorly measured eligible-firm subset."
+  },
+  "sources": [
+    {
+      "id": "S1",
+      "url": "https://www.census.gov/naics/?details=325&input=325&year=2022",
+      "title": "2022 NAICS definition: 325212 Synthetic Rubber Manufacturing",
+      "access_date": "2026-07-22",
+      "supports": "Defines the industry as establishments primarily engaged in manufacturing synthetic rubber and distinguishes it from rubber-product manufacturing."
+    },
+    {
+      "id": "S2",
+      "url": "https://www.bls.gov/careeroutlook/2026/article/manufacturing.htm",
+      "title": "Producing the goods of the future: Job opportunities in manufacturing",
+      "access_date": "2026-07-22",
+      "supports": "Reports that production occupations represented about half of manufacturing employment in 2024 and describes projected manufacturing openings."
+    },
+    {
+      "id": "S3",
+      "url": "https://www.bls.gov/ooh/management/industrial-production-managers.htm",
+      "title": "Industrial Production Managers",
+      "access_date": "2026-07-22",
+      "supports": "Lists production-manager duties including scheduling, customer and supplier communication, hiring, production-data analysis, reports, safety monitoring, process streamlining, and quality-control oversight."
+    },
+    {
+      "id": "S4",
+      "url": "https://www.epa.gov/system/files/documents/2023-04/Proposed_HON_RIA_final_2023-03.pdf",
+      "title": "Regulatory Impact Analysis for Synthetic Organic Chemical Manufacturing and Polymers and Resins Rules",
+      "access_date": "2026-07-22",
+      "supports": "Describes synthetic-rubber production as monomer synthesis followed by polymerization and identifies equipment leaks, process vents, wastewater, and storage tanks as emission sources."
+    },
+    {
+      "id": "S5",
+      "url": "https://www.epa.gov/stationary-sources-air-pollution/synthetic-organic-chemical-manufacturing-industry-national",
+      "title": "Synthetic Organic Chemical Manufacturing Industry NESHAP",
+      "access_date": "2026-07-22",
+      "supports": "States that applicable owners and operators face control, monitoring, reporting, and recordkeeping requirements for process vents, storage vessels, transfer racks, wastewater streams, and equipment leaks."
+    },
+    {
+      "id": "S6",
+      "url": "https://data.census.gov/table/ECNBASIC2022.EC2200BASIC?codeset=naics~325212&g=010XX00US",
+      "title": "2022 Economic Census basic statistics: NAICS 325212",
+      "access_date": "2026-07-22",
+      "supports": "Shows a national six-digit industry table for Synthetic Rubber Manufacturing and identifies its universe as operating establishments with paid employees."
+    },
+    {
+      "id": "S7",
+      "url": "https://www.census.gov/library/visualizations/2020/comm/business-owners-ages.html",
+      "title": "Business Owners' Ages: Over Half of U.S. Business Owners Were Age 55 and Over",
+      "access_date": "2026-07-22",
+      "supports": "Reports that 51% of responding owners of employer businesses were age 55 or older in the 2019 ABS, data year 2018."
+    },
+    {
+      "id": "S8",
+      "url": "https://fred.stlouisfed.org/data/IPG325212S",
+      "title": "Industrial Production: Synthetic Rubber (NAICS 325212), table data",
+      "access_date": "2026-07-22",
+      "supports": "Provides monthly Federal Reserve industrial-production index observations for NAICS 325212, including the decline through 2024 and partial recovery in 2025-26."
+    },
+    {
+      "id": "S9",
+      "url": "https://www.epa.gov/archive/epapages/newsroom_archive/newsreleases/0704044acbf9c5cf8525646b007ce57c.html",
+      "title": "EPA air toxic rule for elastomer production",
+      "access_date": "2026-07-22",
+      "supports": "Identifies synthetic-rubber end uses including tires, hoses, belts, footwear, adhesives, caulks, wire insulation, and floor tiles."
+    }
+  ]
+}

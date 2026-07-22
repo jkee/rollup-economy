@@ -1,0 +1,161 @@
+{
+  "identity": {
+    "naics": "321113",
+    "title": "Sawmills",
+    "run_id": "321113-a1-20260722",
+    "model_id": "claude-sonnet-5",
+    "run_date": "2026-07-22",
+    "methodology_version": "5.1",
+    "attempt": 1
+  },
+  "lens": {
+    "included_activities": "Independent U.S. sawmills producing dimension lumber, boards, beams, timbers, ties, shingles, shakes, siding, chips, and related planed output for repeat external buyers.",
+    "excluded_activities": "Captive mills, non-operating timber ownership, logging contractors, purchased-lumber millwork, veneer and engineered-panel production, and mills without a transferable operating business.",
+    "customer_and_revenue_model": "Repeat product sales to builders, distributors, dealers, industrial users, and secondary wood manufacturers, generally at market-linked prices rather than recurring service fees.",
+    "deviation_from_default": "none",
+    "heterogeneous": false
+  },
+  "primitives": {
+    "a": {
+      "evidence_state": "PROXY",
+      "low": 0.12,
+      "base": 0.2,
+      "high": 0.3,
+      "bridge": "BLS measures the broader 321100 industry, where the largest occupations are physical production, material-moving, maintenance, and driving roles; industry automation evidence shows machine vision already addresses inspection, grading, sawing, edging, trimming, and sorting. I translate that task evidence into a wage-weighted not-yet-automated AI opportunity for 321113. The broader industry and omission of installed-base data could bias either way, while long-standing automation likely makes generic AI exposure overstate remaining opportunity.",
+      "rationale": "The occupation mix is dominated by physical plant roles, limiting software-only substitution. Remaining opportunity is concentrated in visual inspection and grading, process optimization, predictive maintenance, scheduling, documentation, quoting, and back-office work; mature scanner adoption means much of the obvious production opportunity is not new.",
+      "change_evidence": "A representative mill-level time-and-wage study separating manual from already automated grading, optimization, maintenance, scheduling, sales, and administration would materially change the estimate.",
+      "source_ids": ["S2", "S3", "S4"],
+      "caveats": ["BLS occupation data combine sawmills with wood preservation and cover employers rather than self-employed workers.", "No national survey reports the installed base of AI-capable scanners by mill size."]
+    },
+    "rho": {
+      "evidence_state": "ESTIMATE",
+      "low": 0.35,
+      "base": 0.52,
+      "high": 0.7,
+      "rationale": "Commercial machine-vision and optimization systems are established in sawmill workflows, so technically tractable use cases can diffuse within five years. Brownfield integration, capital constraints, safety requirements, variable wood defects, sparse data at small mills, and operator acceptance prevent full implementation.",
+      "change_evidence": "Vendor installation cohorts reporting five-year adoption, commissioning time, false-reject rates, uptime, and realized labor-hour savings at independent U.S. mills below the large-enterprise tier would move this range.",
+      "source_ids": ["S3", "S4"],
+      "caveats": ["Vendor evidence demonstrates availability, not representative adoption or realized substitution.", "The frozen LMM band may include mills with sharply different automation economics."]
+    },
+    "e": {
+      "evidence_state": "ESTIMATE",
+      "low": 0.72,
+      "base": 0.84,
+      "high": 0.93,
+      "rationale": "Most sawmills sell output repeatedly to external customers and therefore fit the operating-business lens. Exclusions arise from captive facilities, very customer-concentrated or distressed mills, non-transferable owner-dependent operations, and records whose EBITDA bridge misclassifies commodity-cycle earnings.",
+      "change_evidence": "A firm-level census of the 496 frozen band candidates identifying captive ownership, external-customer revenue share, normalized EBITDA through a lumber cycle, and going-concern status would directly measure eligibility.",
+      "source_ids": ["S1"],
+      "caveats": ["Census reports 2,691 employer establishments, not firms or the frozen EBITDA-band population.", "The injected n estimate is margin-bridged and may be especially unstable in a cyclical commodity industry."]
+    },
+    "s5": {
+      "evidence_state": "PROXY",
+      "low": 0.18,
+      "base": 0.3,
+      "high": 0.44,
+      "bridge": "An SBA sawmill-related transition case cites New York survey evidence that 57% of business owners wanted to retire within five years and fewer than one in five had a credible succession plan. I haircut retirement intent heavily because the source is regional and cross-industry and retirement does not necessarily produce a qualifying control sale; poor planning can cause closure or internal transfer. This likely overstates sale probability if retirement intent is treated as transaction flow.",
+      "rationale": "Rural, often closely held mills face genuine succession pressure, but capital intensity, cyclicality, environmental liabilities, customer concentration, and family or employee transitions reduce the share becoming qualifying external control transfers.",
+      "change_evidence": "PitchBook, GF Data, or Axial transaction records matched to NAICS 321113, plus owner-age and succession-plan responses from an Hardwood Manufacturers Association or regional forestry survey, would materially narrow the range.",
+      "source_ids": ["S5"],
+      "caveats": ["The retirement statistics are not national or sawmill-specific.", "Intent to retire is not an observed control-transfer rate and may end in closure."]
+    },
+    "q": {
+      "evidence_state": "ESTIMATE",
+      "low": 0.32,
+      "base": 0.5,
+      "high": 0.68,
+      "rationale": "Lumber is market-priced and volatile, so buyers can capture part of cost improvement through benchmark-linked pricing and competition. A mill can retain benefits from better recovery, grade yield, uptime, and throughput that are less visible than direct labor removal, but five-year repricing erodes a substantial share.",
+      "change_evidence": "Customer contracts and invoice panels from independent mills showing benchmark resets, price-review frequency, bid win/loss behavior, and realized gross-margin persistence after documented automation projects would change the estimate.",
+      "source_ids": ["S6"],
+      "caveats": ["Public-company commentary concerns larger North American producers, not the LMM population.", "Retention differs between commodity softwood, specialty hardwood, custom grades, and by-products."]
+    },
+    "d5": {
+      "evidence_state": "PROXY",
+      "low": 0.9,
+      "base": 1.03,
+      "high": 1.18,
+      "bridge": "NAHB forecasts single-family starts up 1% in 2026 and 5% in 2027, while multifamily starts decline in both years. I use housing starts as a major but incomplete volume proxy for constant-quality sawmill output demand, then extend cautiously across five years and allow repair/remodel, industrial, export, and substitution effects. Housing weakness may understate demand for specialty and industrial lumber and overstate demand where material substitution accelerates.",
+      "rationale": "Baseline demand should remain near current levels with modest upside from eventual housing normalization, but affordability, rates, tariffs, construction cyclicality, engineered substitutes, and capacity rationalization create a wide range.",
+      "change_evidence": "A five-year end-use forecast from Forest Economic Advisors or WWPA decomposing lumber consumption by new housing, repair/remodel, industrial, exports, and species/grade would materially improve the estimate.",
+      "source_ids": ["S7", "S8"],
+      "caveats": ["Housing starts are not lumber consumption and the cited forecast covers only 2026-2027.", "The current demand base may be cyclically depressed, making ratios sensitive to the starting month."]
+    },
+    "o": {
+      "evidence_state": "ESTIMATE",
+      "low": 0.96,
+      "base": 0.985,
+      "high": 1.0,
+      "rationale": "Physical conversion of irregular logs into graded lumber still requires an accountable mill operator owning and maintaining industrial assets, managing safety and fiber procurement, certifying quality, and delivering output. AI can automate tasks inside the mill but is unlikely to replace the operating entity within five years.",
+      "change_evidence": "Evidence of autonomous lights-out mills operating across variable species and grades, or downstream customers vertically integrating conversion at scale, would lower this value.",
+      "source_ids": ["S3", "S4"],
+      "caveats": ["Some demand can move to engineered wood, steel, concrete, imports, or vertically integrated producers.", "This primitive concerns operator requirement, not labor intensity inside the operator."]
+    }
+  },
+  "narrative": {
+    "executive_view": "Sawmills are repeat-sale industrial operators rather than outsourced service firms in the everyday sense, but they fit the fixed lens because they repeatedly supply external customers. AI can improve inspection, grade recovery, maintenance, planning, and administrative work; the central constraint is that mature mechanical and vision automation has already captured much of the obvious production opportunity.",
+    "ai_impact": "The best remaining applications pair computer vision and optimization with mill controls, while predictive maintenance, scheduling, procurement, quoting, and documentation offer smaller software-led gains. Physical handling, maintenance, safety, and exception management remain human- and asset-intensive.",
+    "value_capture": "Recovery and grade-yield improvements can be retained better than transparent headcount savings, but commodity pricing, benchmark resets, and competition should share gains with customers over five years.",
+    "firm_availability": "A sizable employer-establishment base exists and succession pressure is plausible, yet the frozen 496-firm count is margin-bridged through a volatile cycle. Closures, family transfers, captive mills, and poor transferability make retirement intent an upper bound rather than deal flow.",
+    "demand_durability": "Housing and repair activity keep physical lumber demand durable, with modest baseline growth but material cyclical downside. Regardless of AI, converting logs into certified, delivered products continues to require an accountable industrial operator.",
+    "risks_and_uncertainty": "The largest uncertainties are automation already installed by mill size, normalization of EBITDA across commodity cycles, owner succession outcomes, housing sensitivity, fiber availability, tariffs, environmental liabilities, and how much yield improvement survives competitive repricing.",
+    "principal_driver": "Physical lumber demand and established machine-vision use cases support durable, implementable operating improvements.",
+    "principal_weakness": "Mature automation and commodity price competition limit incremental AI labor exposure and retained benefit."
+  },
+  "sources": [
+    {
+      "id": "S1",
+      "url": "https://data.census.gov/profile/321113_-_Sawmills?codeset=naics~321113",
+      "title": "321113: Sawmills - Census Bureau Profile",
+      "access_date": "2026-07-23",
+      "supports": "Defines sawmill activities and reports 2,691 employer establishments in 2023 County Business Patterns."
+    },
+    {
+      "id": "S2",
+      "url": "https://www.bls.gov/oes/2024/may/ind_emp_chart/ind_emp_chart_data.htm",
+      "title": "Data tables for OEWS industry charts, May 2024",
+      "access_date": "2026-07-23",
+      "supports": "Lists the largest occupations in Sawmills and Wood Preservation, led by sawing-machine operators, laborers/material movers, industrial-truck operators, woodworking-machine operators, supervisors, and maintenance roles."
+    },
+    {
+      "id": "S3",
+      "url": "https://www.automate.org/vision/industry-insights/machine-vision-activities-in-the-wood-industry",
+      "title": "Machine Vision Activities in the Wood Industry",
+      "access_date": "2026-07-23",
+      "supports": "Documents long-standing 3D optimization and automated inspection/grading applications throughout sawmills, including breakdown, curve sawing, edging, trimming, and sorting."
+    },
+    {
+      "id": "S4",
+      "url": "https://www.lisker.fi/en/",
+      "title": "Lisker sawmill measurement and optimization systems",
+      "access_date": "2026-07-23",
+      "supports": "Describes AI-assisted timber defect detection and over 350 measurement and optimization system deliveries across sawlines, grading, and feeding."
+    },
+    {
+      "id": "S5",
+      "url": "https://www.sba.gov/success-stories/ward-lumber-transitions-ownership-employees-thanks-sba-resource-partner",
+      "title": "Ward Lumber Transitions Ownership to Employees",
+      "access_date": "2026-07-23",
+      "supports": "Sawmill-related SBA case cites regional surveys in which 57% of owners wanted to retire within five years and fewer than one in five had a credible succession plan."
+    },
+    {
+      "id": "S6",
+      "url": "https://www.sec.gov/Archives/edgar/data/1402388/000140238826000009/exhibit993-2025annualmda.htm",
+      "title": "West Fraser 2025 Annual Management Discussion and Analysis",
+      "access_date": "2026-07-23",
+      "supports": "Reports modest expected lumber demand, mill closures, operational gains, and stumpage rates linked to lumber prices, evidencing commodity-cycle and market-price exposure."
+    },
+    {
+      "id": "S7",
+      "url": "https://www.nahb.org/news-and-economics/press-releases/2026/02/2026-housing-outlook-ongoing-challenges-cautious-optimism-and-incremental-gains",
+      "title": "2026 Housing Outlook: Ongoing Challenges, Cautious Optimism and Incremental Gains",
+      "access_date": "2026-07-23",
+      "supports": "Forecasts single-family starts rising 1% in 2026 and 5% in 2027, while multifamily starts decline in both years."
+    },
+    {
+      "id": "S8",
+      "url": "https://www.nahb.org/news-and-economics/press-releases/2026/06/may-housing-starts-fall-as-multifamily-construction-slows-sharply",
+      "title": "May Housing Starts Fall as Multifamily Construction Slows Sharply",
+      "access_date": "2026-07-23",
+      "supports": "Reports May 2026 single-family starts at an 882,000 annual rate, down 6.7% year over year, and identifies affordability and elevated rates as headwinds."
+    }
+  ]
+}
