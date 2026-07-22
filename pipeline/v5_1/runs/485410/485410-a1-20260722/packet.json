@@ -1,0 +1,170 @@
+{
+  "identity": {
+    "naics": "485410",
+    "title": "School and Employee Bus Transportation",
+    "run_id": "485410-a1-20260722",
+    "model_id": "claude-sonnet-5",
+    "run_date": "2026-07-22",
+    "methodology_version": "5.1",
+    "attempt": 1
+  },
+  "lens": {
+    "included_activities": "U.S. lower-middle-market private operators providing recurring outsourced school-pupil or employee bus transportation to school districts, schools, employers, and institutions under route, bus-day, unit-rate, or fixed-price service arrangements.",
+    "excluded_activities": "District- or employer-owned captive fleets, public transit, charter-only trips, shells, nontransferable one-person operations, and non-control financing vehicles.",
+    "customer_and_revenue_model": "Multi-route recurring service paid primarily by public school districts, private schools, employers, or institutions, commonly under competitively awarded fixed-price or per-bus, per-pupil, per-mile, route, or bus-day contracts with defined renewal and escalation terms.",
+    "deviation_from_default": "none",
+    "heterogeneous": false
+  },
+  "primitives": {
+    "a": {
+      "evidence_state": "PROXY",
+      "low": 0.05,
+      "base": 0.09,
+      "high": 0.15,
+      "bridge": "BLS measures the 2023 employment and wage mix for NAICS 485400, not task-level AI exposure. I assign substantial exposure to dispatch, scheduling, routine office, finance, HR, compliance documentation, and parts of management, but little exposure to driving, student supervision, and maintenance; wage-weighting the occupation groups yields a low overall share. This may overstate remaining exposure where routing and payroll are already digitized, or understate it where manual exception handling and reporting consume substantial manager time.",
+      "rationale": "The industry is dominated by physical, safety-accountable work: school bus drivers were 65.47% of employment, school bus monitors 15.10%, and maintenance occupations 3.56%. Office and administrative support was only 3.44%, including dispatchers at 1.43%, although the higher wages of managers and specialists modestly increase their wage-weighted contribution.",
+      "change_evidence": "Current six-digit payroll by occupation and wage, plus task logs from 15 school-bus contractors covering routing, substitute-driver calls, dispatch exceptions, parent communications, payroll, compliance, incident reporting, and bid preparation, would materially change this value.",
+      "source_ids": ["S1", "S2"],
+      "caveats": [
+        "OEWS covers employers of all sizes and does not isolate the LMM or outsourced-contract lens.",
+        "Occupation shares do not reveal which tasks are already automated, and the table aggregates school and employee bus transportation."
+      ]
+    },
+    "rho": {
+      "evidence_state": "ESTIMATE",
+      "low": 0.4,
+      "base": 0.55,
+      "high": 0.7,
+      "rationale": "AI-assisted schedule and route exception handling, document intake, parent and school messaging, payroll checks, bid drafting, maintenance triage, and compliance review are feasible with human approval. Implementation is constrained by fragmented district data, student privacy, union or work-rule interfaces, high consequences of dispatch errors, legacy routing systems, and the need for live human escalation.",
+      "change_evidence": "Twelve-month controlled deployments at multiple contractors showing labor hours, missed-route incidents, call deflection, payroll corrections, compliance findings, human overrides, and school-customer satisfaction would materially revise expected implementation.",
+      "source_ids": ["S1", "S2"],
+      "caveats": [
+        "No public study directly measures five-year AI implementation in private school-bus operators.",
+        "The estimate applies only to the exposed task pool and does not assume removal of drivers or monitors."
+      ]
+    },
+    "e": {
+      "evidence_state": "ESTIMATE",
+      "low": 0.8,
+      "base": 0.9,
+      "high": 0.96,
+      "rationale": "Private firms in this code generally exist to deliver recurring transportation to external schools or employers, so the default lens is intrinsic to most LMM firms. Contracted routes, qualified workforces, fleet assets, maintenance capability, compliance records, and customer relationships can transfer, though some firms are too owner-dependent, concentrated in one vulnerable contract, or economically captive to a related entity.",
+      "change_evidence": "A representative firm census showing third-party revenue, contract duration, customer concentration, owner driving and dispatch hours, fleet title and lease status, and assignability or change-of-control clauses would directly establish eligibility.",
+      "source_ids": ["S4"],
+      "caveats": [
+        "The frozen firm count is estimated and does not disclose captive relationships or transfer restrictions.",
+        "Employee shuttle and school transportation differ in customer concentration and contract duration, but both fit the recurring external-service lens."
+      ]
+    },
+    "s5": {
+      "evidence_state": "PROXY",
+      "low": 0.14,
+      "base": 0.23,
+      "high": 0.33,
+      "bridge": "Census reports that 51% of responding U.S. employer-business owners were age 55 or older in 2018, not the age or transaction rate of school- and employee-bus company owners. I convert the older-owner stock into a five-year control-transfer probability by assuming only a minority sell during the window, adding a smaller younger-owner sale baseline, and excluding closures, internal restructurings, and nontransferable asset liquidations. The economy-wide proxy may understate succession if local bus contractors are older family firms, but may overstate qualifying sales where customer consent and fleet liabilities cause closure instead.",
+      "rationale": "Long-lived local contractors and economy-wide owner aging create credible succession flow, but public-contract consent, bonding, driver continuity, fleet condition, and customer concentration can prevent a clean control transfer. The asset and contract base makes qualifying firms more transferable than owner-only services.",
+      "change_evidence": "Five-year cohorts from school-transportation brokers, SBA 7(a) acquisition records, public school-board change-of-control approvals, and owner-age interviews with 25 LMM contractors would materially change the probability.",
+      "source_ids": ["S5"],
+      "caveats": [
+        "The age evidence is economy-wide, from data year 2018, and counts responding owners rather than firms.",
+        "A sale of buses without operating contracts or qualified drivers is not a qualifying transfer."
+      ]
+    },
+    "q": {
+      "evidence_state": "PROXY",
+      "low": 0.4,
+      "base": 0.55,
+      "high": 0.69,
+      "bridge": "New York regulations document competitively bid fixed-price and unit-rate school transportation contracts and constrain annual extension increases by regional CPI; this is one state's procurement regime, not a national measurement of AI-benefit retention. I infer that savings are initially retained inside a fixed contract but are partly competed or negotiated away at rebid and renewal. The proxy may understate retention in concentrated rural markets or overstate it where contracts are open-book, cost-justified, or frequently rebid.",
+      "rationale": "Fixed and unit-rate contracts let an operator keep labor productivity during the current term, while competitive bidding, district bargaining, CPI-linked extensions, and documented operating-cost review return part of the benefit to customers over five years. Labor savings are less likely to pass through immediately than fuel changes, but public buyers face strong budget pressure.",
+      "change_evidence": "A national sample of executed contracts and bids showing term, renewal, CPI and cost-review language, open-book provisions, rebid frequency, bidder counts, and margin movement after technology deployment would materially change retention.",
+      "source_ids": ["S4"],
+      "caveats": [
+        "The source is New York-specific and contract rules vary by state and district.",
+        "The estimate excludes implementation and demand effects and assumes unchanged safety and service quality."
+      ]
+    },
+    "d5": {
+      "evidence_state": "PROXY",
+      "low": 0.9,
+      "base": 0.98,
+      "high": 1.04,
+      "bridge": "BLS projects school-bus-driver employment to be essentially flat from 2024 to 2034 and NCES projected public enrollment to fall 4% from 2020 to 2030 and private enrollment 12% from 2019 to 2030. I translate these ten-year occupation and enrollment paths to five-year constant-quality outsourced transportation quantity, with a base modestly below one and a wider range for outsourcing share, route density, special-needs requirements, and employee transportation. Employment may understate quantity if routing productivity rises, while enrollment may overstate decline if more students require transported miles or outsourcing gains share.",
+      "rationale": "Schools will continue to require transport, but lower enrollment constrains route growth. Stable projected driver employment suggests route complexity, geographic dispersion, special-needs service, and replacement demand offset much of the enrollment decline; employee-bus demand adds uncertainty rather than a clear directional driver.",
+      "change_evidence": "Current district-level transported-student counts, bus routes, vehicle-miles, outsourcing share, special-needs route counts, and employee-shuttle contract volumes through 2031 would materially change the ratio.",
+      "source_ids": ["S2", "S3"],
+      "caveats": [
+        "NCES projections were prepared in 2022 and end in 2030, before most of the target five-year window.",
+        "Neither employment nor enrollment directly measures constant-price, constant-quality outsourced bus service quantity."
+      ]
+    },
+    "o": {
+      "evidence_state": "PROXY",
+      "low": 0.91,
+      "base": 0.96,
+      "high": 0.99,
+      "bridge": "BLS documents that school-bus drivers must ensure boarding safety, attend to children with disabilities, maintain order, enforce conduct rules, and report discipline, while NHTSA states that high-automation consumer vehicles are unavailable and current vehicles require driver attention. These sources measure duties and technology status, not five-year operator-required quantity. I infer that nearly all remaining routes still need an accountable transportation operator; this could overstate the share if districts insource or a narrow set of routes becomes driverless, but may understate the continuing human-supervision requirement even after driving automation.",
+      "rationale": "Transporting children combines vehicle operation with supervision, accessibility, incident response, safeguarding, maintenance, insurance, and school accountability. Software can optimize and monitor service but cannot independently supply the full current basket within the horizon; even automated buses would need a fleet operator and likely onboard or remote human responsibility.",
+      "change_evidence": "Commercial autonomous school-bus approvals, insurer and state pupil-transport rules, district insourcing decisions, remote-supervision ratios, and actual driverless route deployments across major states would materially alter this share.",
+      "source_ids": ["S2", "S6"],
+      "caveats": [
+        "NHTSA's consumer-vehicle discussion is not specific to heavy school buses or commercial pilots.",
+        "Operator-required does not require every current role to remain, and district insourcing would remove quantity from the outsourced lens even if service continues."
+      ]
+    }
+  },
+  "narrative": {
+    "executive_view": "School and employee bus transportation has exceptionally recurring customer demand and a transferable fleet-and-contract operating base, but its labor is concentrated in drivers and school-bus monitors whose core work is physical and safety-accountable. AI is therefore a focused coordination and back-office tool rather than a broad labor substitute.",
+    "ai_impact": "The strongest use cases are route and schedule exception support, substitute-driver coordination, parent and customer communications, document and incident intake, payroll checks, maintenance triage, compliance review, and bid preparation. Human dispatchers, supervisors, drivers, and monitors remain responsible for unusual events and student safety.",
+    "value_capture": "Fixed-price and unit-rate contracts can preserve savings during a term, but public procurement, competitive rebids, CPI-linked renewals, and cost scrutiny should share a meaningful portion with districts over five years. Savings that improve reliability may be retained better than visible reductions in required staffing.",
+    "firm_availability": "Most private LMM operators fit the recurring outsourced-service lens, and fleet, workforce, maintenance systems, compliance records, and contracts can form a transferable platform. Owner aging supports succession, but change-of-control consent, customer concentration, vehicle liabilities, and driver continuity can frustrate transactions.",
+    "demand_durability": "Enrollment projections are a mild headwind, yet schools continue to rely on bus transport and BLS expects school-driver employment to remain essentially flat over a decade. Remaining demand should overwhelmingly require an accountable operator because the service includes supervision, accessibility, safety, and incident response as well as driving.",
+    "risks_and_uncertainty": "The principal risks are low task exposure in the largest occupations, already-deployed routing software, student-data constraints, public-sector price pressure, contract concentration, driver shortages, wage inflation, fleet replacement and electrification costs, and state-specific regulation. The employee-bus subset also makes the aggregate less uniform than school transport alone.",
+    "principal_driver": "Recurring contracted routes and a transferable compliance-heavy fleet operation support durable operator demand and acquisition eligibility.",
+    "principal_weakness": "Drivers and monitors dominate labor, sharply limiting the share of wages addressable by near-term AI."
+  },
+  "sources": [
+    {
+      "id": "S1",
+      "url": "https://www.bls.gov/oes/2023/may/naics4_485400.htm",
+      "title": "May 2023 National Industry-Specific Occupational Employment and Wage Estimates: NAICS 485400",
+      "access_date": "2026-07-22",
+      "supports": "Reports 197,550 employees: school-bus drivers were 65.47%, school-bus monitors 15.10%, maintenance and repair occupations 3.56%, office and administrative support 3.44%, and dispatchers 1.43%, with occupation-specific mean wages."
+    },
+    {
+      "id": "S2",
+      "url": "https://www.bls.gov/ooh/transportation-and-material-moving/bus-drivers.htm",
+      "title": "Occupational Outlook Handbook: Bus Drivers",
+      "access_date": "2026-07-22",
+      "supports": "Projects school-bus-driver employment at 387,300 in 2024 and 388,200 in 2034, states schools will continue relying on drivers while enrollment decline constrains demand, and describes school-driver safety, accessibility, supervision, and discipline duties."
+    },
+    {
+      "id": "S3",
+      "url": "https://nces.ed.gov/programs/PES/section-1.asp",
+      "title": "NCES Projections of Education Statistics: Elementary and Secondary Enrollment",
+      "access_date": "2026-07-22",
+      "supports": "Projects public elementary and secondary enrollment to decrease 4% from 2020 to 2030 to 47.3 million and private enrollment to decrease 12% from 2019 to 2030 to 4.8 million."
+    },
+    {
+      "id": "S4",
+      "url": "https://www.p12.nysed.gov/schoolbus/regulations/html/section156.5_annual_extensions_of_transportation_contracts.html",
+      "title": "New York State Education Department: Annual Extensions of Transportation Contracts",
+      "access_date": "2026-07-22",
+      "supports": "Documents competitive-bid eligibility for extensions and fixed-price, per-bus, per-pupil, per-mile, and combination unit-rate contracts, with extension increases generally capped by regional CPI and supported by operating-cost evidence."
+    },
+    {
+      "id": "S5",
+      "url": "https://www.census.gov/content/dam/Census/library/visualizations/2020/comm/business-owners-ages.pdf",
+      "title": "Business Owners' Ages: Over Half of U.S. Business Owners Were Age 55 and Over",
+      "access_date": "2026-07-22",
+      "supports": "Reports that 51% of responding owners of employer businesses were age 55 or older in the 2019 Annual Business Survey, data year 2018."
+    },
+    {
+      "id": "S6",
+      "url": "https://www.nhtsa.gov/vehicle-safety/automated-vehicles-safety",
+      "title": "Automated Vehicle Safety",
+      "access_date": "2026-07-22",
+      "supports": "States that current consumer vehicles require driver attention, Level 4 and Level 5 consumer vehicles are unavailable, and higher-automation testing remains limited to restricted locations and conditions."
+    }
+  ]
+}

@@ -1,0 +1,196 @@
+{
+  "identity": {
+    "naics": "487210",
+    "title": "Scenic and Sightseeing Transportation, Water",
+    "run_id": "487210-a1-20260722",
+    "model_id": "claude-sonnet-5",
+    "run_date": "2026-07-22",
+    "methodology_version": "5.1",
+    "attempt": 1
+  },
+  "lens": {
+    "included_activities": "Privately controlled U.S. operators of repeat, ticketed local water experiences in the lower-middle-market EBITDA band, including excursion and harbor sightseeing boats, dinner cruises, airboat tours, whale and nature watches, and charter fishing boats with operators.",
+    "excluded_activities": "Water taxis and point-to-point passenger transport, bareboat rentals, guide-only recreation without vessel transport, floating casinos, public or captive attraction vessels, nonprofit operations, overnight cruises, firms without transferable operating assets or rights, and businesses outside the lower-middle-market band.",
+    "customer_and_revenue_model": "Primarily direct-to-consumer prepaid per-passenger tickets for scheduled or reservable trips, with meaningful private-charter, group-event, food-and-beverage, and fishing-party revenue; repeat service is delivered across departures and seasons rather than mainly through long-term customer contracts.",
+    "deviation_from_default": "none",
+    "heterogeneous": true
+  },
+  "primitives": {
+    "a": {
+      "evidence_state": "PROXY",
+      "low": 0.12,
+      "base": 0.19,
+      "high": 0.28,
+      "bridge": "BLS measures the 2023 employment and wage mix for NAICS 487200, while Anthropic measures observed Claude use by tasks and broad occupations rather than substitution in water-sightseeing firms. I assigned higher task exposure to reservations, customer service, bookkeeping, event coordination, marketing, scheduling, and parts of management and narration preparation, and low exposure to licensed navigation, deck work, passenger safety, maintenance, food preparation, and live hospitality, then wage-weighted those judgments using BLS shares. This may overstate substitution where office work is bundled into owner or captain roles and understate multilingual content and digital sales automation.",
+      "rationale": "The occupation mix has a large physical and regulated core: transportation and material moving is 48.52% of employment, including 25.31% captains, mates, and pilots and 10.74% sailors and marine oilers; food service is another 10.80%. The clearest digital pool is 12.24% office and administrative support, including 3.85% reservation and ticket agents, plus portions of sales, accounting, marketing, events, management, and tour-content work. Anthropic's business-use evidence is consistent with automation of routine email, document, CRM, scheduling, and customer-service workflows, but not vessel operation.",
+      "change_evidence": "Conduct a payroll-weighted task study across 15-25 LMM operators spanning harbor tours, dinner boats, nature cruises, airboats, and charter fishing, using time logs for reservations, events, customer care, sales, narration, navigation, deck, galley, maintenance, and compliance work.",
+      "source_ids": ["S2", "S4"],
+      "caveats": [
+        "OEWS covers employers of all sizes and excludes self-employed workers, including some owner-captains.",
+        "The occupation table predates the run date by three years and does not identify already-automated tasks.",
+        "Observed Claude usage is not the same as technically substitutable labor and underrepresents physical work."
+      ]
+    },
+    "rho": {
+      "evidence_state": "ESTIMATE",
+      "low": 0.28,
+      "base": 0.46,
+      "high": 0.64,
+      "rationale": "Reservation, support, marketing, event-proposal, scheduling, document, and reporting workflows should support meaningful five-year implementation. Conversion will be slowed by seasonal staffing, fragmented booking and point-of-sale systems, weather-driven exceptions, small IT teams, bespoke group events, and the need for licensed personnel and minimum safe manning aboard many vessels. The value applies only to the exposed task pool, not the physical majority of wages.",
+      "change_evidence": "Obtain before-and-after staffing, response-time, booking-conversion, error, refund, and compliance-work data from operators using FareHarbor, Peek Pro, or similar systems with AI support for at least two peak seasons; include Coast Guard inspection and incident records.",
+      "source_ids": ["S4", "S5"],
+      "caveats": [
+        "No industry-specific longitudinal AI implementation cohort was found.",
+        "Coast Guard credential and safe-manning requirements constrain labor removal even if adjacent tasks are automated.",
+        "Dinner and private-event operators have more complex service workflows than simple narrated harbor tours."
+      ]
+    },
+    "e": {
+      "evidence_state": "ESTIMATE",
+      "low": 0.50,
+      "base": 0.70,
+      "high": 0.84,
+      "rationale": "The NAICS definition is inherently an external-customer sightseeing or recreation service, and the broader subsector is overwhelmingly private by establishment count. Eligibility is reduced for public and nonprofit operations, owner-dependent six-passenger boats, vessels or dock rights that cannot economically transfer, businesses dominated by one captain's reputation, captive resort or attraction vessels, and firms whose reported earnings depend on nonrepeat events or adjacent food and real-estate economics.",
+      "change_evidence": "Classify the frozen 28-firm LMM universe using Coast Guard vessel documentation and Certificates of Inspection, state entities, marina and concession agreements, nonprofit filings, ownership records, and revenue mix; confirm whether vessels, dockage, routes, licenses, and customer channels transfer with control.",
+      "source_ids": ["S1", "S3", "S5"],
+      "caveats": [
+        "Private-establishment counts are for NAICS 487 overall, not the water industry or LMM band.",
+        "A vessel credential belongs to the mariner, while inspection and ownership documents may require action after a sale.",
+        "The code mixes dinner cruises, narrated excursions, nature tours, airboats, and charter fishing with different transfer profiles."
+      ]
+    },
+    "s5": {
+      "evidence_state": "PROXY",
+      "low": 0.10,
+      "base": 0.22,
+      "high": 0.37,
+      "bridge": "The Exit Planning Institute surveys owners across more than 25 industries and measures exit intent, not completed qualifying control transfers among LMM water-sightseeing operators. I begin with the reported 49% intending to exit within five years and discount for respondent selection, internal family or management transitions, delayed or failed sales, vessel-only asset sales, closures, and operations whose value is inseparable from the owner-captain. The proxy likely overstates completed qualifying transfers because intent exceeds execution, but omits unplanned and opportunistic sales.",
+      "rationale": "Census reports that 51% of responding employer-business owners were at least 55 in 2018, and EPI reports 49% of its 2023 respondents wanted to exit within five years. Those signals support turnover, but EPI also documents strong internal-exit preferences among family firms, and marine businesses can transfer as assets or wind down without a qualifying going-concern control transaction.",
+      "change_evidence": "Compile five years of closed 487210 control transactions from Coast Guard vessel ownership records, PitchBook, Capital IQ, BizBuySell, Axial, marine-business brokers, and concession or dock-assignment records, then divide by the eligible LMM firm population and separately record internal successions and asset-only sales.",
+      "source_ids": ["S6", "S7"],
+      "caveats": [
+        "The Census owner-age figure is all-industry and based on 2018 responding owners.",
+        "The EPI sample is voluntary and likely more exit-aware than typical operators.",
+        "A vessel sale, captain retirement, or change in minority ownership is not necessarily a qualifying control transfer."
+      ]
+    },
+    "q": {
+      "evidence_state": "ESTIMATE",
+      "low": 0.46,
+      "base": 0.69,
+      "high": 0.83,
+      "rationale": "Direct, posted per-passenger fares and private-event package pricing do not mechanically pass labor savings back to customers. A current operator example lists fixed adult, senior, child, and toddler fares for scheduled narrated cruises. Retention is reduced over five years by OTA and hotel commissions, group negotiation, discounting, local fare comparison, rival adoption, and customer expectations for service or entertainment; charter fishing and private events may face more bespoke negotiation than public departures.",
+      "change_evidence": "Analyze transaction-level fares, group and charter contracts, food-and-beverage bundles, channel commissions, promotions, capacity utilization, and contribution margin for several years around workflow changes, paired with competitor fare histories by harbor or destination.",
+      "source_ids": ["S8"],
+      "caveats": [
+        "One seasonal nature-cruise operator illustrates the billing structure but not every subsegment.",
+        "Scarce dockage or concession rights can support higher retention, while commoditized harbor loops can support less.",
+        "Savings may be reinvested in service, safety, or additional departures rather than realized as cash margin."
+      ]
+    },
+    "d5": {
+      "evidence_state": "PROXY",
+      "low": 0.87,
+      "base": 1.11,
+      "high": 1.27,
+      "bridge": "U.S. Travel forecasts inflation-adjusted national leisure-travel spending rather than constant-quality passenger quantities for water sightseeing. Its linked table rises from $1.043 trillion in 2025 to $1.178 trillion in 2030, a 1.13 ratio; I use a slightly lower 1.11 base because marine excursions are weather-, fuel-, and destination-sensitive and the publication does not cover the full five years from July 2026. Real spending can overstate quantity when experience mix or quality rises, while shorter regional trips and nature demand could make the broad forecast understate some local operators.",
+      "rationale": "Local water excursions depend mainly on discretionary leisure visitation. The Spring 2026 forecast shows continued real leisure-spending growth and a shift toward shorter regional and drive trips, but water operators also face weather cancellations, storm and wildfire disruption, fuel and insurance pressure, changing fish stocks and wildlife patterns, dock access, and large destination-level variance.",
+      "change_evidence": "Collect passenger counts, capacity, cancellations, charter days, and constant-quality fares for 2019-2026 by subsegment and destination, then combine them with destination visitation forecasts, hotel room nights, fishing-license data, NOAA weather and stock indicators, and forward booking curves.",
+      "source_ids": ["S1", "S8", "S9"],
+      "caveats": [
+        "Real travel spending is not a direct quantity measure.",
+        "The national forecast masks harbor-specific tourism, ecology, and severe-weather risk.",
+        "Charter fishing, dinner cruises, and narrated sightseeing may follow different demand paths."
+      ]
+    },
+    "o": {
+      "evidence_state": "ESTIMATE",
+      "low": 0.88,
+      "base": 0.95,
+      "high": 0.99,
+      "rationale": "The current service basket requires a vessel, local access, passenger handling, and accountable navigation. Coast Guard guidance says vessels carrying more than six passengers under the relevant small-vessel credentials require an appropriate licensed master, while inspected vessels have prescribed crew complements; BLS shows captains, sailors, engineers, attendants, and other transportation workers as the workforce core. Software can replace planning, ticketing, and portions of narration, but not safely provide the on-water experience within five years.",
+      "change_evidence": "Review Certificates of Inspection and crew complements across a representative vessel sample, measure adoption of prerecorded or guide-free experiences, and survey customers on substitution toward self-guided boating, shore-based apps, or virtual experiences.",
+      "source_ids": ["S2", "S5", "S8"],
+      "caveats": [
+        "Some uninspected six-passenger operations face different manning rules than larger excursion vessels.",
+        "Self-guided rentals and shore-based experiences can substitute for a portion of sightseeing demand without reproducing the same service.",
+        "Automation of navigation may advance, but commercial passenger certification and adoption within five years remain uncertain."
+      ]
+    }
+  },
+  "narrative": {
+    "executive_view": "Water sightseeing has a clear digital administrative perimeter but an unusually physical, licensed, and safety-accountable core. Reservations, support, events, marketing, scheduling, and reporting can improve, while captains, deck crew, passenger attendants, mechanics, galley staff, and much live guiding remain attached to each departure. Direct ticket pricing supports retention, but vessel condition, dock rights, regulation, weather, and destination demand can dominate firm economics.",
+    "ai_impact": "AI can handle routine inquiries, multilingual content, event proposals, campaign production, schedule assistance, booking follow-up, document extraction, and financial administration. Humans still resolve weather and refund exceptions, coordinate bespoke groups, perform safety and hospitality work, maintain vessels, and navigate under credential and manning requirements.",
+    "value_capture": "Posted fares and private-event packages do not automatically rebate lower overhead to customers, allowing early savings to remain with operators. Over time, commissions, promotions, group negotiations, competing departures, and higher service expectations share some of the benefit.",
+    "firm_availability": "Aging-owner and exit-intent evidence suggests turnover, but completed external transfers should be substantially lower than stated intent. Owner-captain dependence, vessel-only sales, family succession, dock and concession rights, inspection status, and maintenance liabilities can prevent a nominal business from becoming a transferable going concern.",
+    "demand_durability": "Broad real leisure demand is forecast to grow, supporting local cruises, nature tours, dinner boats, and fishing parties. Outcomes remain highly local and exposed to discretionary spending, severe weather, ecology, fuel, insurance, tourism flows, and the continuing appeal and access of each waterfront destination.",
+    "risks_and_uncertainty": "The main uncertainties are task-level labor evidence, the conversion of exit intention into closed control sales, and use of broad travel spending as a passenger proxy. Hidden vessel capex, inspection findings, casualty history, insurance availability, environmental rules, permits, dockage, seasonality, and customer concentration can outweigh administrative savings.",
+    "principal_driver": "Direct ticket and event-package revenue surrounds a recurring physical experience whose administrative workflows are automatable but whose safe delivery remains locally operator controlled.",
+    "principal_weakness": "Nearly half of employment is transportation work, and transfer value can be impaired by owner-captain dependence, vessel liabilities, dock access, and regulatory requirements."
+  },
+  "sources": [
+    {
+      "id": "S1",
+      "url": "https://www.census.gov/naics/resources/archives/sect48-49.html",
+      "title": "North American Industry Classification System: Sector 48-49, NAICS 487210",
+      "access_date": "2026-07-22",
+      "supports": "Defines 487210 as local, usually same-day scenic and sightseeing transportation on water, including airboats, charter fishing, dinner cruises, excursion boats, and harbor tours."
+    },
+    {
+      "id": "S2",
+      "url": "https://www.bls.gov/oes/2023/may/naics4_487200.htm",
+      "title": "May 2023 National Industry-Specific Occupational Employment and Wage Estimates: NAICS 487200",
+      "access_date": "2026-07-22",
+      "supports": "Reports 16,790 jobs and detailed shares and wages, including 48.52% transportation/material moving, 12.24% office/administrative support, 10.80% food service, and 7.01% management."
+    },
+    {
+      "id": "S3",
+      "url": "https://www.bls.gov/iag/tgs/iag487.htm",
+      "title": "Scenic and Sightseeing Transportation: NAICS 487",
+      "access_date": "2026-07-22",
+      "supports": "Describes equipment-based local recreation and reports 3,557 private establishments versus 46 government establishments in the broader subsector in fourth-quarter 2025."
+    },
+    {
+      "id": "S4",
+      "url": "https://www.anthropic.com/research/anthropic-economic-index-january-2026-report",
+      "title": "Anthropic Economic Index report: Economic primitives",
+      "access_date": "2026-07-22",
+      "supports": "Reports automation-oriented business API use concentrated in routine back-office workflows including email, document processing, CRM, and scheduling, and discusses AI-covered travel-planning tasks."
+    },
+    {
+      "id": "S5",
+      "url": "https://www.dco.uscg.mil/nmc/charter_boat_captain/",
+      "title": "U.S. Coast Guard National Maritime Center: Charter Boat Captain",
+      "access_date": "2026-07-22",
+      "supports": "Explains passenger-vessel credential categories, including OUPV vessels limited to six or fewer passengers for hire and Master credentials for inspected small passenger vessels carrying more than six."
+    },
+    {
+      "id": "S6",
+      "url": "https://www.census.gov/content/dam/Census/library/visualizations/2020/comm/business-owners-ages.pdf",
+      "title": "Business Owners' Ages",
+      "access_date": "2026-07-22",
+      "supports": "Reports that 51% of responding U.S. employer-business owners were age 55 or older in the 2019 Annual Business Survey, data year 2018."
+    },
+    {
+      "id": "S7",
+      "url": "https://exit-planning-institute.org/hubfs/Member%20Center%20Resources/2023%20National%20State%20of%20Owner%20Readiness%20Report.pdf",
+      "title": "2023 National State of Owner Readiness Report",
+      "access_date": "2026-07-22",
+      "supports": "Surveyed 1,162 owners across more than 25 industries; reports 49% wanted to exit within five years and documents strong internal-exit preferences among family-business respondents."
+    },
+    {
+      "id": "S8",
+      "url": "https://barharborcruises.com/cruises/acadia-national-park-morning-cruise/",
+      "title": "Seals, Fjord & More Cruise with Island Visit",
+      "access_date": "2026-07-22",
+      "supports": "Shows a 2026 seasonal, fully narrated scheduled cruise with posted fares of $41 adult, $38 senior, $30 child, and $19 toddler/infant, illustrating direct ticket economics."
+    },
+    {
+      "id": "S9",
+      "url": "https://www.ustravel.org/research/travel-forecasts",
+      "title": "U.S. Travel Forecast, Spring 2026",
+      "access_date": "2026-07-22",
+      "supports": "Forecasts positive real leisure-travel spending, including $1.043 trillion in 2025 and $1.178 trillion in 2030 in the linked table, and notes shorter regional and drive trips."
+    }
+  ]
+}

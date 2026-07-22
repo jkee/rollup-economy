@@ -1,0 +1,162 @@
+{
+  "identity": {
+    "naics": "485320",
+    "title": "Limousine Service",
+    "run_id": "485320-a1-20260722",
+    "model_id": "claude-sonnet-5",
+    "run_date": "2026-07-22",
+    "methodology_version": "5.1",
+    "attempt": 1
+  },
+  "lens": {
+    "included_activities": "U.S. lower-middle-market operators of reserved limousine and luxury-sedan transportation for repeat external customers, including corporate accounts, hospitality and airport work, and recurring relationships with event planners and institutions.",
+    "excluded_activities": "Taxi and ridesharing platforms, scheduled airport shuttles, special-needs transportation classified elsewhere, captive fleets, one-person nontransferable driving practices, shells, and non-control financing vehicles.",
+    "customer_and_revenue_model": "Reserved trips, hourly or itinerary-based bookings, and account work paid by corporate, hospitality, institutional, event, and affluent individual customers; repeat usage may be contractual, account-based, or relationship-driven rather than scheduled-route revenue.",
+    "deviation_from_default": "none",
+    "heterogeneous": false
+  },
+  "primitives": {
+    "a": {
+      "evidence_state": "PROXY",
+      "low": 0.13,
+      "base": 0.21,
+      "high": 0.31,
+      "bridge": "BLS measures the 2021 employment and wage mix for the broader NAICS 485300 Taxi and Limousine Service, not AI exposure or the six-digit limousine segment. I treat dispatch, reservations, customer service, bookkeeping, general office work, and parts of management as substantially exposed while treating chauffeuring, cleaning, and maintenance as mostly unexposed; this likely overstates exposure if limousine operators already use automated booking and dispatch, and understates it if quote, itinerary, sales, and compliance work is unusually labor intensive.",
+      "rationale": "The occupation proxy shows office and administrative support at 23.65% of employment, including dispatchers at 11.92%, while passenger vehicle drivers alone were 61.23%. Weighting the more exposed clerical and coordination work more heavily than driving produces a moderate opportunity, but the core in-vehicle service remains physical and safety-critical.",
+      "change_evidence": "A current six-digit payroll export by occupation and wage, paired with time-and-motion samples from 10-15 limousine operators covering quoting, reservation intake, dispatch, itinerary changes, billing, and customer support, would materially change the estimate.",
+      "source_ids": ["S2", "S3"],
+      "caveats": [
+        "The occupation mix is 2021, covers combined taxi and limousine service, excludes self-employed workers, and is employment-weighted rather than wage-weighted by firm.",
+        "The estimate concerns generative-AI and workflow substitution within five years, not removal of the driver through autonomous vehicles."
+      ]
+    },
+    "rho": {
+      "evidence_state": "ESTIMATE",
+      "low": 0.42,
+      "base": 0.58,
+      "high": 0.74,
+      "rationale": "Reservation intake, routine quoting, dispatch suggestions, customer messaging, itinerary extraction, billing reconciliation, and document work are implementable with human review. Fragmented software stacks, around-the-clock exceptions, service-quality expectations, privacy, and local operating rules prevent full realization. Driver substitution is not assumed: NHTSA says consumer vehicles still require driver attention and higher automation is not available for purchase.",
+      "change_evidence": "Before-and-after labor hours, exception rates, customer complaints, and override logs from multi-location operators deploying AI-enabled reservation and dispatch systems for at least 12 months would materially move implementation confidence.",
+      "source_ids": ["S3", "S5"],
+      "caveats": [
+        "No source measures five-year implementation for limousine operators; the range is bounded operating judgment.",
+        "Small fleets may lack clean integrations and sufficient transaction volume to justify bespoke automation."
+      ]
+    },
+    "e": {
+      "evidence_state": "ESTIMATE",
+      "low": 0.5,
+      "base": 0.68,
+      "high": 0.82,
+      "rationale": "The NAICS definition requires reserved specialty or luxury passenger service, so external paid service is intrinsic. BLS also describes chauffeurs as serving single trips or regular customers and cites continued business, luxury, and special-event demand. Eligibility is reduced for firms dominated by sporadic consumer events, owner-personal goodwill, or a single vehicle or driver that would not transfer as an operating platform.",
+      "change_evidence": "Firm-level revenue concentration and repeat-booking data from a representative broker, payments processor, or fleet-software vendor, plus buyer diligence on owner driving hours and transferable corporate accounts, would identify the eligible share directly.",
+      "source_ids": ["S1", "S3"],
+      "caveats": [
+        "The frozen firm count is already an estimate and does not reveal repeat-revenue mix or owner dependence.",
+        "Repeat event-planner relationships can be durable even when each end-customer trip is episodic."
+      ]
+    },
+    "s5": {
+      "evidence_state": "PROXY",
+      "low": 0.15,
+      "base": 0.24,
+      "high": 0.34,
+      "bridge": "Census reports that 51% of responding owners of U.S. employer businesses were age 55 or older in 2018; it does not measure limousine owners or control transfers. I translate that stock of older owners into a five-year transfer probability by assuming only a minority sell a transferable operation during the window, adding a smaller baseline for younger-owner sales, and excluding closures and family/internal reorganizations. Economy-wide data may overstate limousine transfers if small fleets close rather than sell, but may understate them if chauffeur-company ownership is older than average.",
+      "rationale": "Owner aging supports meaningful succession pressure, but age is not a transaction. Asset-heavy fleets can be saleable, while personal goodwill, vehicle finance, insurance history, permits, and customer concentration can turn an apparent firm into an asset sale or closure rather than a qualifying control transfer.",
+      "change_evidence": "A five-year closed-deal and closure cohort from transportation business brokers, Axial/BizBuySell listings, SBA 7(a) loan-purpose records, and interviews with 20 fleet owners segmented by owner age would materially change the probability.",
+      "source_ids": ["S4"],
+      "caveats": [
+        "The owner-age source is economy-wide, dated 2018, and represents responding owners rather than firms in this NAICS and EBITDA band.",
+        "Multiple owners per firm and sales of vehicles without operating control complicate the bridge."
+      ]
+    },
+    "q": {
+      "evidence_state": "ESTIMATE",
+      "low": 0.52,
+      "base": 0.66,
+      "high": 0.79,
+      "rationale": "Reserved limousine work is generally priced per itinerary, trip, hour, or account rather than as transparent cost-plus labor reimbursement, so an operator can retain near-term workflow savings. Retention erodes as corporate accounts rebid, competitors improve, and customers compare quoted prices; premium reliability and service quality give more insulation than commodity taxi work.",
+      "change_evidence": "Contract samples showing escalation, open-book, benchmarking, and rebid clauses, together with quote-level gross-margin histories before and after automation across corporate, hotel, airport, and event channels, would materially change the retained-benefit range.",
+      "source_ids": ["S1", "S3"],
+      "caveats": [
+        "No public source measures pass-through of technology savings in limousine contracts.",
+        "The estimate excludes demand and implementation effects and assumes service quality is held constant."
+      ]
+    },
+    "d5": {
+      "evidence_state": "PROXY",
+      "low": 0.92,
+      "base": 1.03,
+      "high": 1.1,
+      "bridge": "BLS projects shuttle-driver and chauffeur employment to rise 7% from 2024 to 2034 and attributes demand to older adults, disability transport, special events, tours, and business and luxury travel. Converting the decade employment path to roughly five years gives about 1.03, then widening for the narrower limousine segment and for employment not equaling constant-price service quantity. The proxy may overstate limousine demand because it includes shuttle and paratransit work, but could understate premium trip growth if travel and events outpace labor productivity.",
+      "rationale": "The best accessible forward indicator implies broadly stable to modestly growing chauffeur activity. Luxury and business travel are cyclical, and ride-hailing substitutes for some airport work, while events and relationship-based premium transportation preserve a current service basket.",
+      "change_evidence": "Five years of inflation-adjusted trip counts and booked vehicle-hours from major limousine reservation platforms, split by corporate, airport, hospitality, funeral, and event purpose, plus forward corporate travel budgets, would materially move the demand ratio.",
+      "source_ids": ["S3"],
+      "caveats": [
+        "Occupation projections are national, ten-year, and include shuttle drivers outside limousine service.",
+        "Employment embeds productivity and labor-supply effects, whereas d5 is constant-price, constant-quality service quantity."
+      ]
+    },
+    "o": {
+      "evidence_state": "PROXY",
+      "low": 0.84,
+      "base": 0.92,
+      "high": 0.97,
+      "bridge": "NHTSA reports that no fully automated vehicle is currently for sale, Level 4 and 5 consumer vehicles are unavailable, and testing is limited to restricted locations and conditions. I translate that technology-and-regulation status into a high five-year share of limousine quantity still needing an accountable fleet operator, allowing limited displacement of standardized airport or urban trips by autonomous services. This may overstate operator need if geofenced robotaxi deployment accelerates, but understates it where premium service, luggage, itinerary management, and duty of care remain valued.",
+      "rationale": "Even where the driving task becomes more automated, customers still require vehicle provisioning, cleaning, maintenance, insurance, dispatch, exception handling, and service accountability. Premium chauffeured trips also involve human assistance and discretion that software-only supply does not replicate.",
+      "change_evidence": "State-by-state commercial autonomous ride authorizations, insurer underwriting for driverless livery, airport access agreements, and actual autonomous premium-fleet trip shares in the top 20 limousine markets would materially change this value.",
+      "source_ids": ["S3", "S5"],
+      "caveats": [
+        "NHTSA describes national consumer availability, not the faster-moving commercial robotaxi market.",
+        "Operator-required does not necessarily mean a human chauffeur remains in every vehicle."
+      ]
+    }
+  },
+  "narrative": {
+    "executive_view": "Limousine service combines a large physical driving core with a meaningful clerical and coordination layer. The practical AI case is to improve reservations, quoting, dispatch, customer communication, billing, and back-office control while preserving a high-touch accountable service, not to underwrite near-term driverless fleets.",
+    "ai_impact": "AI can turn emails and calls into structured bookings, draft quotes and itineraries, predict conflicts, optimize dispatch suggestions, answer routine status questions, reconcile charges, and flag compliance or maintenance exceptions. Human review remains important for VIP changes, disruptions, safety decisions, and service recovery.",
+    "value_capture": "Trip, hourly, itinerary, and account pricing should let operators retain a meaningful portion of workflow savings initially. Renewal rebids, transparent comparison shopping, ride-hailing alternatives, and imitation by competitors gradually return part of the benefit to customers.",
+    "firm_availability": "The frozen LMM count suggests a modest target universe, but only fleets with transferable licenses, vehicles or leases, systems, drivers, and repeat accounts fit the lens. Economy-wide owner aging indicates succession potential, though many owner-led fleets may close or sell assets rather than transfer as going concerns.",
+    "demand_durability": "Chauffeur employment projections and stated drivers of special-event, business, luxury, and accessibility travel support roughly stable to modestly growing five-year demand. Cyclicality and substitution in simple airport trips are the main offsets; most service quantity should still require an accountable operator.",
+    "risks_and_uncertainty": "The strongest evidence is for a broader taxi-and-limousine occupation mix, not six-digit fleet workflows. Key risks are already-digitized dispatch, owner dependence, insurance and vehicle costs, chauffeur scarcity, local regulation, corporate travel cycles, price competition, and faster-than-expected autonomous deployment in dense markets.",
+    "principal_driver": "A sizable dispatch and administrative layer around reserved trips creates implementable AI savings without assuming autonomous driving.",
+    "principal_weakness": "Evidence specific to transferable LMM limousine fleets is sparse, and much of the operating value can be tied to owners, drivers, and local customer relationships."
+  },
+  "sources": [
+    {
+      "id": "S1",
+      "url": "https://www.census.gov/naics/?details=48&input=48&year=2022",
+      "title": "2022 NAICS definition: 485320 Limousine Service",
+      "access_date": "2026-07-22",
+      "supports": "Defines the industry as reserved specialty and luxury passenger transportation via limousine or luxury sedan and distinguishes it from regular-route and scheduled service."
+    },
+    {
+      "id": "S2",
+      "url": "https://www.bls.gov/oes/2021/may/naics4_485300.htm",
+      "title": "May 2021 National Industry-Specific Occupational Employment and Wage Estimates: NAICS 485300",
+      "access_date": "2026-07-22",
+      "supports": "Reports 42,530 employees, with office and administrative support at 23.65%, dispatchers at 11.92%, transportation and material moving at 65.14%, and passenger vehicle drivers at 61.23%; excludes self-employed workers."
+    },
+    {
+      "id": "S3",
+      "url": "https://www.bls.gov/ooh/transportation-and-material-moving/taxi-drivers-and-chauffeurs.htm",
+      "title": "Occupational Outlook Handbook: Taxi Drivers, Shuttle Drivers, and Chauffeurs",
+      "access_date": "2026-07-22",
+      "supports": "Describes chauffeur duties, single-trip and regular customer work, licensing and safety requirements, and projects shuttle-driver and chauffeur employment to grow 7% from 2024 to 2034, citing continued special-event, tour, business, luxury, older-adult, and disability-related demand."
+    },
+    {
+      "id": "S4",
+      "url": "https://www.census.gov/content/dam/Census/library/visualizations/2020/comm/business-owners-ages.pdf",
+      "title": "Business Owners' Ages: Over Half of U.S. Business Owners Were Age 55 and Over",
+      "access_date": "2026-07-22",
+      "supports": "Reports that 51% of responding owners of employer businesses were age 55 or older in the 2019 Annual Business Survey, data year 2018."
+    },
+    {
+      "id": "S5",
+      "url": "https://www.nhtsa.gov/vehicle-safety/automated-vehicles-safety",
+      "title": "Automated Vehicle Safety",
+      "access_date": "2026-07-22",
+      "supports": "States that currently sold vehicles require driver attention, Level 4 and Level 5 consumer vehicles are unavailable, and higher-automation testing occurs in limited, restricted locations and conditions."
+    }
+  ]
+}
