@@ -45,13 +45,16 @@ estimates remain or ranges cross tiers.
 
 ## Phase 3 — Fleet (63 codes) · the bulk of the work
 
-- [~] 3.1 Run the remaining 58 codes in waves (~10 per wave), one independent research session per code
-- [~] 3.2 After each wave: `check` every run, commit the validated wave (v3 lesson: an outage may only cost one wave)
-- [~] 3.3 One isolated review per attempt, wave by wave
-- [ ] 3.4 Single remediation wave at the end for all `reject`/`invalid`; remaining failures are excluded, not retried
-- [ ] 3.5 `build.py site` → `6digit/six_data_v5.json` (fail-closed gate); record counts by tier, readiness, action, outcome, and every exclusion with its findings
+- [x] 3.1 Run the remaining 58 codes in waves (~10 per wave), one independent research session per code
+- [x] 3.2 After each wave: `check` every run, commit the validated wave (v3 lesson: an outage may only cost one wave)
+- [x] 3.3 One isolated review per attempt, wave by wave
+- [x] 3.4 Single remediation wave at the end for all `reject`/`invalid`; remaining failures are excluded, not retried
+- [x] 3.5 `build.py site` → `6digit/six_data_v5.json` (fail-closed gate); record counts by tier, readiness, action, outcome, and every exclusion with its findings
 
 **Done when:** all 63 attempted and reviewed, remediation wave closed, site builds clean with zero integrity errors.
+
+**Result:** done. The fail-closed build published 63/63 with zero exclusions.
+Counts and remediation details are recorded in `V5_PHASE3_REPORT.md`.
 
 ## Phase 4 — Dashboard, docs, and repo hygiene · ~1–2 days
 
