@@ -861,3 +861,43 @@ implementation and eligible-firm shares, indirect demand and retention
 bridges, and sector-level evidence applied to narrow industries. These
 limitations were disclosed; no review found a tier- or action-changing defect,
 and the predeclared pause trigger did not fire.
+
+## Z1 — Agriculture, forestry, fishing, and hunting
+
+**Closed:** 2026-07-22
+**Coverage:** 64 attempted, 64 deterministically valid, 64 published, 0 excluded
+**Independent review:** 9/64 (1 mandatory, 7 random, 1 canary)
+**Review outcomes:** 9 `publishable_with_caveats`; 0 `publishable`; 0 `reject`; 0 `invalid`
+**Material findings:** 0
+**Remediations:** 0
+
+### Screen distribution
+
+- Base tiers: 0 `HIGHEST_PRIORITY`, 1 `PRIORITY`, 6 `CONDITIONAL`,
+  2 `LOW_PRIORITY`, 5 `STRUCTURAL_OUT`, and 50 without a base tier.
+- Readiness: 14 `MODEL_CONDITIONED`; 50 `STRESS_TEST_ONLY`.
+- Actions: 14 `VALIDATE_ASSUMPTIONS`; 50 `EVIDENCE_FIRST`.
+- Robust tiers: 2/64, both `STRUCTURAL_OUT`.
+- Publication labels: 9 `accepted`; 55 `not_reviewed`.
+
+The mandatory stratum was `115116`; the random stratum was `111320`,
+`111419`, `112340`, `112410`, `112920`, `113210`, and `114112`; canary
+`111998` was also included. All were accepted with caveats and no material
+finding. These are sample observations only; no Z1 defect rate is estimated.
+
+### Economic read
+
+Z1 behaved as the declared gap-heavy block. Forty-nine records lacked the
+frozen dataset anchor, and one additional record (`114119`) lacked sufficient
+research evidence, leaving 50 records at `STRESS_TEST_ONLY / EVIDENCE_FIRST`.
+Among the fourteen model-conditioned records, farm management services
+(`115116`) reached `PRIORITY`; six support-activity industries reached
+`CONDITIONAL`, two were `LOW_PRIORITY`, and five were `STRUCTURAL_OUT`.
+
+Validators emphasized broad workforce and adoption proxies, estimated
+implementation and eligible-firm shares, indirect retention and demand
+bridges, and sector evidence applied to narrow farm-support industries. The
+one-record difference from the predeclared 49 dataset gaps was transparently
+caused by an additional evidence gap, not outcome tuning. No review found a
+tier- or action-changing defect, and the predeclared pause trigger did not
+fire.
