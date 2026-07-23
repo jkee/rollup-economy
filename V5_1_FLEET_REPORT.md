@@ -901,3 +901,38 @@ one-record difference from the predeclared 49 dataset gaps was transparently
 caused by an additional evidence gap, not outcome tuning. No review found a
 tier- or action-changing defect, and the predeclared pause trigger did not
 fire.
+
+## Z2 — Public administration
+
+**Closed:** 2026-07-22
+**Coverage:** 29 attempted, 29 deterministically valid, 29 published, 0 excluded
+**Independent review:** 4/29 (0 mandatory, 3 random, 1 canary)
+**Review outcomes:** 4 `publishable_with_caveats`; 0 `publishable`; 0 `reject`; 0 `invalid`
+**Material findings:** 0
+**Remediations:** 0
+
+### Screen distribution
+
+- Base tiers: 29 without a base tier; no scored tier assignments.
+- Readiness: 29 `STRESS_TEST_ONLY`.
+- Actions: 29 `EVIDENCE_FIRST`.
+- Robust tiers: 0/29.
+- Publication labels: 4 `accepted`; 25 `not_reviewed`.
+
+The random stratum was `922150`, `923110`, and `926130`; canary `921190`
+was also included. All were accepted with caveats and no material finding.
+These are sample observations only; no Z2 defect rate is estimated.
+
+### Economic read
+
+As predeclared, Z2 was economically uninformative as a scored roll-up screen:
+all 29 public-administration records lacked the frozen private-firm dataset
+anchor and therefore routed to `STRESS_TEST_ONLY / EVIDENCE_FIRST`. The
+records still preserve sourced workflow and market observations for a future
+dataset upgrade, but none receives a base tier.
+
+Validators emphasized the public/private boundary, broad government-wide
+proxies, missing transfer or retention evidence, and the inapplicability of
+private-firm economics to many records. These limitations were disclosed; no
+review found a tier- or action-changing defect, and the predeclared pause
+trigger did not fire.
