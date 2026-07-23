@@ -1,6 +1,6 @@
 'use strict';
 
-const DATA_URL = 'six_data_v5.json';
+const DATA_URL = 'six_data_v5_1.json';
 const FACTORS = {
   H: ['Implementable labor opportunity', 'Current compensation exposed to implementable AI task substitution'],
   F: ['Transferable-firm opportunity', 'Expected lens-eligible LMM control transfers over five years'],
@@ -29,7 +29,7 @@ const tierLabel = value => value === 'UNKNOWN' ? 'No Base Tier' : label(value);
 const score = value => value == null ? '—' : Number(value).toFixed(2);
 const number = value => value == null ? '—' : Number(value).toLocaleString(undefined, {maximumFractionDigits: 4});
 const tierOf = record => record.tier || 'UNKNOWN';
-const runBase = record => '../pipeline/v5/runs/' + record.naics + '/' + record.run_id;
+const runBase = record => '../pipeline/v5_1/runs/' + record.naics + '/' + record.run_id;
 
 async function init() {
   try {
@@ -61,9 +61,9 @@ function renderMetrics() {
   $('#campaign-total').textContent = summary.published + ' / ' + (summary.published + summary.excluded);
   const metrics = [
     [summary.published, 'Published', summary.excluded + ' exclusions'],
+    [summary.independent_review.accepted, 'Independently reviewed', summary.independent_review.not_reviewed + ' labeled not reviewed'],
     [summary.tiers.HIGHEST_PRIORITY || 0, 'Highest priority', 'research priority, not buy signal'],
     [summary.tiers.PRIORITY || 0, 'Priority', (summary.tiers.CONDITIONAL || 0) + ' conditional'],
-    [summary.robust_tiers, 'Stable tier', (summary.published - summary.robust_tiers) + ' crossing intervals'],
     [summary.readiness.MODEL_CONDITIONED || 0, 'Model-conditioned', (summary.readiness.STRESS_TEST_ONLY || 0) + ' evidence-first']
   ];
   $('#campaign-metrics').innerHTML = metrics.map(item =>
@@ -108,7 +108,7 @@ function filteredRecords() {
 function renderFleet() {
   const records = filteredRecords();
   $('#fleet-result-count').textContent = records.length + (records.length === 1 ? ' industry' : ' industries');
-  $('#fleet-context').textContent = records.length === state.records.length ? 'v5 Stage 1 · reviewed 63-code fleet' : 'Filtered from ' + state.records.length + ' records';
+  $('#fleet-context').textContent = records.length === state.records.length ? 'v5.1 Stage 1 · provisional sampled validation · 178 / 1,012 independently reviewed' : 'Filtered from ' + state.records.length + ' records';
   $('#fleet-empty').hidden = records.length > 0;
   $('#fleet-list').innerHTML = records.map(fleetRow).join('');
   $$('.fleet-row').forEach(button => button.addEventListener('click', () => {
@@ -119,9 +119,11 @@ function renderFleet() {
 function fleetRow(record) {
   const tier = tierOf(record);
   const crossing = !record.robust_tier;
+  const reviewed = record.independent_review === 'accepted';
   const badges = [
     '<span class="badge conf-low">' + esc(label(record.readiness)) + '</span>',
     '<span class="badge caveat">' + esc(label(record.action)) + '</span>',
+    '<span class="badge review">' + (reviewed ? 'Independently reviewed' : 'Not independently reviewed') + '</span>',
     crossing ? '<span class="badge borderline">Crossing interval</span>' : '<span class="badge">Stable tier</span>',
     record.lens && record.lens.heterogeneous ? '<span class="badge">Heterogeneous</span>' : ''
   ].join('');
@@ -129,9 +131,9 @@ function fleetRow(record) {
     const value = record.factors[factor].base;
     return '<span class="spark-row"><b>' + factor + '</b><i class="spark-track"><i class="spark-fill" style="width:' + (value == null ? 0 : value * 10) + '%"></i></i><em>' + (value == null ? '—' : Number(value).toFixed(1)) + '</em></span>';
   }).join('');
-  return '<button class="fleet-row" data-naics="' + record.naics + '" aria-label="Open ' + esc(record.title) + ' v5 evidence">' +
+  return '<button class="fleet-row" data-naics="' + record.naics + '" aria-label="Open ' + esc(record.title) + ' v5.1 evidence">' +
     '<span class="rank">' + String(record.order).padStart(2, '0') + '</span>' +
-    '<span class="industry"><span class="naics">' + record.naics + '<span class="sector-label"> · v5 reviewed</span></span><strong>' + esc(record.title) + '</strong><span class="badges">' + badges + '</span></span>' +
+    '<span class="industry"><span class="naics">' + record.naics + '<span class="sector-label"> · v5.1 ' + (reviewed ? 'reviewed' : 'not reviewed') + '</span></span><strong>' + esc(record.title) + '</strong><span class="badges">' + badges + '</span></span>' +
     '<span class="factor-spark">' + sparks + '</span>' +
     '<span class="result-score"><strong>' + score(record.A) + '</strong><span class="verdict-' + tier.toLowerCase() + '">' + esc(tierLabel(tier)) + '</span><small>Interval ' + esc(label(record.tier_interval[0])) + ' → ' + esc(label(record.tier_interval[1])) + '</small></span>' +
     '<span class="row-arrow">→</span></button>';
@@ -210,14 +212,16 @@ function closeDrawer() {
 
 function drawerContent(record) {
   const tier = tierOf(record);
+  const reviewed = record.independent_review === 'accepted' && record.review;
   const factors = Object.entries(FACTORS).map(item => factorCard(record, item[0], item[1][0], item[1][1])).join('');
   const primitives = Object.keys(PRIMITIVES).filter(key => record.primitives[key]).map(key => primitiveCard(key, record.primitives[key])).join('');
-  const reviewCaveats = list(record.review.caveats, 'No validator caveats recorded.');
-  const findings = list(record.review.material_findings, 'No material findings.');
+  const reviewCaveats = reviewed ? list(record.review.caveats, 'No validator caveats recorded.') : '<p class="empty-inline">Not selected for independent review under the frozen sampling contract.</p>';
+  const findings = reviewed ? list(record.review.material_findings, 'No material findings.') : '<p class="empty-inline">No independent-review finding exists for this unsampled record.</p>';
+  const reviewLabel = reviewed ? label(record.review.outcome) : 'Not Independently Reviewed';
   const run = runBase(record);
   return '<header class="drawer-hero"><button class="drawer-close" aria-label="Close record">×</button>' +
-    '<div class="drawer-kicker">NAICS ' + record.naics + ' · v5 reviewed research</div><h2 id="drawer-title">' + esc(record.title) + '</h2>' +
-    '<div class="drawer-badges"><span class="badge">' + esc(label(record.readiness)) + '</span><span class="badge review">' + esc(label(record.action)) + '</span><span class="badge">' + esc(label(record.review.outcome)) + '</span>' + (record.robust_tier ? '<span class="badge">Stable tier</span>' : '<span class="badge borderline">Crossing interval</span>') + '</div>' +
+    '<div class="drawer-kicker">NAICS ' + record.naics + ' · v5.1 provisional sampled-validation research</div><h2 id="drawer-title">' + esc(record.title) + '</h2>' +
+    '<div class="drawer-badges"><span class="badge">' + esc(label(record.readiness)) + '</span><span class="badge review">' + esc(label(record.action)) + '</span><span class="badge">' + esc(reviewLabel) + '</span>' + (record.robust_tier ? '<span class="badge">Stable tier</span>' : '<span class="badge borderline">Crossing interval</span>') + '</div>' +
     '<div class="score-ledger"><div class="big-score"><span>Breadth score A</span><strong>' + score(record.A) + '</strong><small>' + esc(tierLabel(tier)) + '</small></div>' +
     '<div class="aggregate-equation">A = mean(H,F,C,D) · L = weakest factor<strong>L ' + score(record.L) + ' · ' + esc(label(record.tier_interval[0])) + ' → ' + esc(label(record.tier_interval[1])) + '</strong></div></div></header>' +
     '<div class="drawer-panel">' +
@@ -226,14 +230,14 @@ function drawerContent(record) {
       lensCard(record.lens) +
       '<h3>Factor chain</h3><div class="factor-chain">' + factors + '</div>' +
       '<h3>Primitive evidence</h3><div class="primitive-grid">' + primitives + '</div>' +
-      '<h3>Validator review</h3><div class="review-summary"><strong>' + esc(label(record.review.outcome)) + '</strong><span>' + record.review.material_findings.length + ' material findings · ' + record.review.caveats.length + ' caveats</span></div>' +
+      '<h3>Validator review</h3><div class="review-summary"><strong>' + esc(reviewLabel) + '</strong><span>' + (reviewed ? record.review.material_findings.length + ' material findings · ' + record.review.caveats.length + ' caveats' : 'Published as not_reviewed by the frozen sampling contract') + '</span></div>' +
       '<h4>Material findings</h4>' + findings + '<h4>Review caveats</h4>' + reviewCaveats +
-      '<h3>Cited sources</h3><div class="source-registry">' + record.sources.map(source => sourceCard(source, record.review.sources_audited)).join('') + '</div>' +
+      '<h3>Cited sources</h3><div class="source-registry">' + record.sources.map(source => sourceCard(source, reviewed ? record.review.sources_audited : [], reviewed)).join('') + '</div>' +
       '<h3>Artifacts</h3><div class="artifact-list">' +
         artifact(run + '/packet.json', 'PACKET', 'Research packet', record.run_id) +
-        artifact(run + '/score.json', 'SCORE', 'Deterministic score', 'Reproducible v5 mechanics') +
-        artifact(run + '/review.json', 'REVIEW', 'Isolated validator review', record.review.artifacts_sha256) +
-        artifact('../pipeline/v5/methodology.md', 'METHOD', 'Frozen v5 methodology', record.run_meta.methodology_commit) +
+        artifact(run + '/score.json', 'SCORE', 'Deterministic score', 'Reproducible v5.1 mechanics') +
+        (reviewed ? artifact(run + '/review.json', 'REVIEW', 'Isolated validator review', record.review.artifacts_sha256) : '') +
+        artifact('../pipeline/v5_1/methodology.md', 'METHOD', 'Frozen v5.1 methodology', record.run_meta.methodology_commit) +
       '</div><table class="metadata-table"><tr><th>Run</th><td>' + esc(record.run_id) + '</td></tr><tr><th>Research model</th><td>' + esc(record.run_meta.model_id) + '</td></tr><tr><th>Attempt</th><td>' + esc(record.run_meta.attempt) + '</td></tr><tr><th>Methodology</th><td>' + esc(record.run_meta.methodology_version) + '</td></tr></table></div>';
 }
 
@@ -275,12 +279,12 @@ function list(items, empty) {
   }).join('') + '</ul>';
 }
 
-function sourceCard(source, audits) {
+function sourceCard(source, audits, reviewed) {
   const audit = audits.find(item => item.source_id === source.id);
-  const auditLabel = audit ? label(audit.support) : 'Audit Missing';
+  const auditLabel = audit ? label(audit.support) : (reviewed ? 'Audit Missing' : 'Not Independently Reviewed');
   return '<article class="source-card" id="source-' + esc(source.id) + '"><div class="source-top"><span>' + esc(source.id) + '</span><time>' + esc(source.access_date) + '</time></div><a href="' + esc(source.url) + '" target="_blank" rel="noopener">' + esc(source.title) + ' ↗</a>' +
     '<div class="author-support"><strong>Packet claim</strong><p>' + esc(source.supports) + '</p></div>' +
-    '<div class="source-audit audit-' + esc(audit ? audit.support : 'missing') + '"><strong>Validator audit · ' + esc(auditLabel) + (audit ? (audit.reachable ? ' · reachable' : ' · unreachable') : '') + '</strong><p>' + esc(audit ? audit.note : 'No source audit was published.') + '</p></div></article>';
+    '<div class="source-audit audit-' + esc(audit ? audit.support : 'missing') + '"><strong>Validator audit · ' + esc(auditLabel) + (audit ? (audit.reachable ? ' · reachable' : ' · unreachable') : '') + '</strong><p>' + esc(audit ? audit.note : (reviewed ? 'No source audit was published.' : 'This unsampled record has no independent source audit.')) + '</p></div></article>';
 }
 
 function artifact(href, icon, title, detail) {

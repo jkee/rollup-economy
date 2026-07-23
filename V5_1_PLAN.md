@@ -1,6 +1,6 @@
 # v5.1 Plan — scope expansion to the full 1,012-code universe
 
-**Status: FLEET COMPLETE — closure reconciliation.** Victor directly instructed the operator
+**Status: CLOSED — 1,012/1,012 published.** Victor directly instructed the operator
 on 2026-07-22 to ignore the single-purpose-session rule. That narrow governance
 exception applies retrospectively to S1 and prospectively to the remaining
 v5.1 campaign; it does not waive single-author work, author/reviewer separation,
@@ -276,7 +276,7 @@ the published output; this column is the block-level rollup.
 
 ## Close
 
-- [ ] Dashboard may read `6digit/six_data_v5_1.json` once the first block
+- [x] Dashboard may read `6digit/six_data_v5_1.json` once the first block
       closes, but until the campaign closes it must **visibly state
       coverage**: closed / pending / descoped blocks, codes published of
       1,012, the independently-reviewed share, and the provisional
@@ -284,9 +284,9 @@ the published output; this column is the block-level rollup.
       the complete product, and a `not_reviewed` record must never present
       as a reviewed one. `six_data_v5.json` stays as the immutable v5.0
       output
-- [ ] Regenerate README stats and extend the "which document governs what"
+- [x] Regenerate README stats and extend the "which document governs what"
       index as blocks land
-- [ ] `V5_1_CLOSURE_REPORT.md`: attempted/reviewed/remediated/published/
+- [x] `V5_1_CLOSURE_REPORT.md`: attempted/reviewed/remediated/published/
       excluded/descoped counts overall and per block, **campaign-wide
       review statistics** (reviewed share by stratum, outcomes, and the
       pooled random-stratum defect-rate estimate with confidence bounds —
@@ -295,7 +295,7 @@ the published output; this column is the block-level rollup.
       calibration observations, maintenance handoff (12-month evidence
       staleness per block research date; annual dataset-layer check per
       `pipeline/datasets/README.md`)
-- [ ] Final push; v5.1 campaign closed
+- [x] Final push; v5.1 campaign closed
 
 ## Risks, stated upfront
 
