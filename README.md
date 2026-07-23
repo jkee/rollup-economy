@@ -1,6 +1,6 @@
 # Roll-Up Economy
 
-The current product is the closed v5.1 provisional sampled-validation screen at [`/6digit/`](6digit/). It covers all 1,012 six-digit NAICS 2022 industries and links every result to its memo, factor chain, primitive evidence, sources, caveats, explicit independent-review status, and change-evidence requests. The fully reviewed 63-code v5.0 campaign remains immutable history.
+The current product is the closed v5.1 provisional sampled-validation screen served at the site root ([index.html](index.html)). It covers all 1,012 six-digit NAICS 2022 industries and links every result to its memo, factor chain, primitive evidence, sources, caveats, explicit independent-review status, and change-evidence requests. The fully reviewed 63-code v5.0 campaign remains immutable history.
 
 ## Which document governs what
 
@@ -64,7 +64,7 @@ From the repository root:
 python3 -m http.server 4173 --bind 127.0.0.1
 ```
 
-Open <http://127.0.0.1:4173/6digit/>.
+Open <http://127.0.0.1:4173/>.
 
 ## Validate
 
@@ -72,20 +72,19 @@ Open <http://127.0.0.1:4173/6digit/>.
 python3 pipeline/v5_1/test_v5_1.py
 python3 pipeline/v5_1/build.py audit-state
 python3 pipeline/v5_1/build.py site
-node --check 6digit/dashboard.js
+node --check dashboard.js
 git diff --check
 ```
 
 ## Canonical outputs
 
-- [`6digit/six_data_v5_1.json`](6digit/six_data_v5_1.json) — fail-closed provisional sampled-validation dashboard data
+- [`6digit/six_data_v5_1.json`](6digit/six_data_v5_1.json) — fail-closed provisional sampled-validation dashboard data (path frozen by the v5.1 contract)
 - [`pipeline/v5_1/runs/`](pipeline/v5_1/runs/) — packets, scores, memos, and sampled isolated reviews
 - [`pipeline/v5_1/`](pipeline/v5_1/) — frozen briefs, schemas, scorer, build, state, and tests
 - [`V5_1_CANARY_REPORT.md`](V5_1_CANARY_REPORT.md), [`V5_1_FLEET_REPORT.md`](V5_1_FLEET_REPORT.md), and [`V5_1_CLOSURE_REPORT.md`](V5_1_CLOSURE_REPORT.md) — campaign gate, fleet, and closure records
 
-[`6digit/six_data_v5.json`](6digit/six_data_v5.json) and `pipeline/v5/`
-remain immutable v5.0 history. `six_data_v3.json`, `six_data_v4.json`, and the
-v3/v4 root documents remain archived comparisons and development history. The
-root 4-digit prototype and its duplicate `naics_CA_data.json`,
-`naics_M_data.json`, and `pnl_data.json` inputs are likewise archived; the
-current product is `/6digit/`.
+`pipeline/v5/` remains immutable v5.0 history. Retired artifacts — the v5.0
+dataset `six_data_v5.json`, the earlier `six_data*.json` versions, the root
+4-digit prototype and its `naics_CA_data.json`, `naics_M_data.json`, and
+`pnl_data.json` inputs, and the `deep-dives/` pages — were removed from the
+working tree and live in git history (last present at commit `6635e79`).

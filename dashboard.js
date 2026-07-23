@@ -1,6 +1,6 @@
 'use strict';
 
-const DATA_URL = 'six_data_v5_1.json';
+const DATA_URL = '6digit/six_data_v5_1.json';
 const FACTORS = {
   H: ['Implementable labor opportunity', 'Current compensation exposed to implementable AI task substitution'],
   F: ['Transferable-firm opportunity', 'Expected lens-eligible LMM control transfers over five years'],
@@ -29,7 +29,7 @@ const tierLabel = value => value === 'UNKNOWN' ? 'No Base Tier' : label(value);
 const score = value => value == null ? '—' : Number(value).toFixed(2);
 const number = value => value == null ? '—' : Number(value).toLocaleString(undefined, {maximumFractionDigits: 4});
 const tierOf = record => record.tier || 'UNKNOWN';
-const runBase = record => '../pipeline/v5_1/runs/' + record.naics + '/' + record.run_id;
+const runBase = record => 'pipeline/v5_1/runs/' + record.naics + '/' + record.run_id;
 
 async function init() {
   try {
@@ -225,7 +225,7 @@ function drawerContent(record) {
     '<div class="score-ledger"><div class="big-score"><span>Breadth score A</span><strong>' + score(record.A) + '</strong><small>' + esc(tierLabel(tier)) + '</small></div>' +
     '<div class="aggregate-equation">A = mean(H,F,C,D) · L = weakest factor<strong>L ' + score(record.L) + ' · ' + esc(label(record.tier_interval[0])) + ' → ' + esc(label(record.tier_interval[1])) + '</strong></div></div></header>' +
     '<div class="drawer-panel">' +
-      '<a class="memo-primary" href="../' + esc(record.memo) + '"><span>Read the research memo</span><strong>Primary explanation ↗</strong></a>' +
+      '<a class="memo-primary" href="' + esc(record.memo) + '"><span>Read the research memo</span><strong>Primary explanation ↗</strong></a>' +
       '<h3>Decision summary</h3><div class="decision-grid"><article><span>Principal driver</span><p>' + esc(record.principal_driver) + '</p></article><article><span>Principal weakness</span><p>' + esc(record.principal_weakness) + '</p></article></div>' +
       lensCard(record.lens) +
       '<h3>Factor chain</h3><div class="factor-chain">' + factors + '</div>' +
@@ -237,7 +237,7 @@ function drawerContent(record) {
         artifact(run + '/packet.json', 'PACKET', 'Research packet', record.run_id) +
         artifact(run + '/score.json', 'SCORE', 'Deterministic score', 'Reproducible v5.1 mechanics') +
         (reviewed ? artifact(run + '/review.json', 'REVIEW', 'Isolated validator review', record.review.artifacts_sha256) : '') +
-        artifact('../pipeline/v5_1/methodology.md', 'METHOD', 'Frozen v5.1 methodology', record.run_meta.methodology_commit) +
+        artifact('pipeline/v5_1/methodology.md', 'METHOD', 'Frozen v5.1 methodology', record.run_meta.methodology_commit) +
       '</div><table class="metadata-table"><tr><th>Run</th><td>' + esc(record.run_id) + '</td></tr><tr><th>Research model</th><td>' + esc(record.run_meta.model_id) + '</td></tr><tr><th>Attempt</th><td>' + esc(record.run_meta.attempt) + '</td></tr><tr><th>Methodology</th><td>' + esc(record.run_meta.methodology_version) + '</td></tr></table></div>';
 }
 
