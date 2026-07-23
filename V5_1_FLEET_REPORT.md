@@ -783,3 +783,44 @@ implementation and eligible-firm shares, sparse transfer denominators, and
 indirect benefit-retention and demand bridges. These limitations were
 disclosed; no review found a tier- or action-changing defect, and the pause
 trigger did not fire.
+
+## G8 — Manufacturing: electronics through miscellaneous
+
+**Closed:** 2026-07-22
+**Coverage:** 92 attempted, 92 deterministically valid, 92 published, 0 excluded
+**Independent review:** 12/92 (3 mandatory, 9 random, 0 canary)
+**Review outcomes:** 12 `publishable_with_caveats`; 0 `publishable`; 0 `reject`; 0 `invalid`
+**Material findings:** 0
+**Remediations:** 0
+
+### Screen distribution
+
+- Base tiers: 0 `HIGHEST_PRIORITY`, 3 `PRIORITY`, 20 `CONDITIONAL`,
+  34 `LOW_PRIORITY`, 28 `STRUCTURAL_OUT`, and 7 without a base tier.
+- Readiness: 85 `MODEL_CONDITIONED`; 7 `STRESS_TEST_ONLY`.
+- Actions: 85 `VALIDATE_ASSUMPTIONS`; 7 `EVIDENCE_FIRST`.
+- Robust tiers: 7/92, all `STRUCTURAL_OUT`.
+- Publication labels: 12 `accepted`; 80 `not_reviewed`.
+
+The mandatory stratum was `334118`, `334412`, and `334413`; the random
+stratum was `334111`, `334419`, `334513`, `334514`, `335929`, `336213`,
+`336390`, `336412`, and `336991`. All were accepted with caveats and no
+material finding. These are sample observations only; no G8 defect rate is
+estimated.
+
+### Economic read
+
+G8 produced the campaign's first three `PRIORITY` manufacturing screens:
+computer peripherals (`334118`), bare printed circuit boards (`334412`), and
+semiconductors (`334413`). Twenty additional records reached `CONDITIONAL`,
+concentrated in electronics, controls, instruments, medical devices, and
+selected miscellaneous manufacturing where digitized design, testing,
+inspection, quoting, and production data support multiple AI workflows.
+Thirty-four records were `LOW_PRIORITY`, 28 were `STRUCTURAL_OUT`, and seven
+missing-anchor records routed to `STRESS_TEST_ONLY / EVIDENCE_FIRST`.
+
+Validators emphasized broad occupation and adoption proxies, estimated
+implementation and eligible-firm shares, sparse transfer denominators, and
+indirect retention and demand bridges. The three mandatory anomaly reviews
+also passed without a tier- or action-changing defect. All limitations were
+disclosed, and the predeclared pause trigger did not fire.
