@@ -1,0 +1,147 @@
+{
+  "identity": {
+    "naics": "111332",
+    "title": "Grape Vineyards",
+    "run_id": "111332-a1-20260722",
+    "model_id": "claude-sonnet-5",
+    "run_date": "2026-07-22",
+    "methodology_version": "5.1",
+    "attempt": 1
+  },
+  "lens": {
+    "included_activities": "US lower-middle-market commercial vineyard operators that grow grapes and repeatedly sell crops to external wineries, packers, processors, distributors, or retailers while retaining control of vineyard operations.",
+    "excluded_activities": "Hobby and lifestyle vineyards; land-only lessors; passive investment vehicles; vineyards captive to an integrated winery with no material external grape sales; wineries, contract vineyard-management firms, and farm-labor contractors classified elsewhere.",
+    "customer_and_revenue_model": "Recurring seasonal grape sales under annual or multi-year grower, winery, packing, processing, or wholesale relationships, with price determined by contract, variety and quality terms, or spot conditions.",
+    "deviation_from_default": "none",
+    "heterogeneous": false
+  },
+  "primitives": {
+    "a": {
+      "evidence_state": "PROXY",
+      "low": 0.12,
+      "base": 0.25,
+      "high": 0.4,
+      "bridge": "USDA vineyard projects demonstrate AI-enabled disease scouting, water-stress mapping, and automated irrigation decisions but do not measure wage-weighted task exposure or current automation across commercial vineyards. I map those tools plus forecasting, documentation, scheduling, and sales administration to exposed tasks, then haircut for pruning, canopy work, equipment operation, hand harvest, repair, and field judgment; research demonstrations may overstate near-term exposure at smaller farms.",
+      "rationale": "Vineyards generate image, weather, irrigation, crop-development, and disease data suitable for AI, and autonomous scouting can replace repeated manual inspection. Yet a large share of work is physical and seasonal, while differentiated grape quality requires local agronomic judgment. The frozen labor-share input is missing, so this primitive cannot translate into an industry labor opportunity without further dataset work.",
+      "change_evidence": "A wage-weighted vineyard task census covering pruning, tying, canopy management, scouting, spraying, irrigation, harvest, equipment, compliance, sales, and already-deployed automation by vineyard size and grape type would materially change the estimate.",
+      "source_ids": ["S1", "S2", "S3"],
+      "caveats": ["USDA projects establish technical capability rather than commercial labor displacement.", "Exposure differs sharply between hand-harvested premium wine grapes, mechanically harvested bulk grapes, raisins, and table grapes.", "The supplied compensation-to-receipts ratio is missing and was not replaced."]
+    },
+    "rho": {
+      "evidence_state": "ESTIMATE",
+      "low": 0.25,
+      "base": 0.45,
+      "high": 0.65,
+      "rationale": "Remote sensing, irrigation recommendations, disease detection, office automation, and decision support can be implemented within five years using existing drones, sensors, software, and contractors. Realization is limited by fragmented farm data, connectivity, up-front equipment costs, seasonal training data, integration with field workflows, uncertain model portability across varieties and trellises, and limited capital during a grape downturn.",
+      "change_evidence": "Commercial-vineyard deployments reporting acreage covered, adoption cost, model error, avoided scouting and irrigation hours, yield or quality effects, and renewal rates across regions and vineyard sizes would materially move the range.",
+      "source_ids": ["S1", "S2", "S3"],
+      "caveats": ["Research systems may require technical support unavailable to an independent LMM operator.", "Weak grape economics may accelerate labor-saving interest while simultaneously reducing investment capacity."]
+    },
+    "e": {
+      "evidence_state": "ESTIMATE",
+      "low": 0.18,
+      "base": 0.4,
+      "high": 0.65,
+      "rationale": "Eligibility requires commercial scale, target EBITDA, external recurring grape sales, operational control, and a transferable business rather than land alone or an integrated winery. Many US grape farms are small, family-operated, lifestyle, captive, or economically below the band; nonetheless, established multi-buyer vineyards and grower enterprises can meet the lens. The frozen firm-count input is missing, so no population total is inferred.",
+      "change_evidence": "Confidential USDA Census or ARMS microdata joined to ownership, external grape revenue, winery integration, normalized EBITDA, acreage, and entity-control records would directly measure the eligible share.",
+      "source_ids": ["S4"],
+      "caveats": ["USDA reports that 95% of all US farms are family owned, but does not provide the needed grape-vineyard EBITDA and external-customer cross-tabulation.", "The supplied LMM firm count is missing and was not estimated.", "Land value can dominate enterprise value and complicate control acquisition."]
+    },
+    "s5": {
+      "evidence_state": "PROXY",
+      "low": 0.07,
+      "base": 0.17,
+      "high": 0.3,
+      "bridge": "The 2022 Census of Agriculture measures all US farms, not eligible LMM grape vineyards: 95% were family owned and the average producer age was 58.1. I treat advanced age and family ownership as succession pressure, then discount for intrafamily transfer, land leases, partial parcel sales, continued operation, and vineyard abandonment; the proxy may overstate qualifying external control transfers because many transitions remain within families.",
+      "rationale": "Farm demographics support meaningful five-year succession activity, but a qualifying transfer must preserve operations and convey control rather than merely lease acreage or rearrange family ownership. The current wine-grape correction may force sales, while weak economics can instead produce vineyard removal or distressed land conversion with no transferable operating firm.",
+      "change_evidence": "Five to ten years of vineyard-company and vineyard-property transactions from AgriData, CoStar and county deeds, linked to USDA entity records and coded for external control, operating continuity, EBITDA, and family succession, would materially change the probability.",
+      "source_ids": ["S4"],
+      "caveats": ["All-farm age and ownership patterns may not match commercial vineyards.", "A real-estate sale is not necessarily a transfer of the operating company.", "No exact-industry deal-flow or owner-age series was found."]
+    },
+    "q": {
+      "evidence_state": "ESTIMATE",
+      "low": 0.32,
+      "base": 0.52,
+      "high": 0.72,
+      "rationale": "Growers can retain savings during a fixed-price crop contract or where improved quality raises realized price, but winery and wholesale buyers have bargaining power and contracts reset seasonally or periodically. Oversupply, spot exposure, quality deductions, alternative growers, and competitive bidding transmit a substantial share of efficiency gains to customers, while water, crop-protection, insurance, and replanting needs absorb additional savings.",
+      "change_evidence": "A representative set of grape purchase contracts showing duration, tonnage commitments, quality formulas, cost escalators, renegotiation rights, and buyer concentration, paired with realized price histories, would materially change retention.",
+      "source_ids": ["S5", "S6"],
+      "caveats": ["Contract structures vary by wine, table, raisin, juice, variety, appellation, and buyer.", "Recent California price and volume weakness may not persist for a full five years."]
+    },
+    "d5": {
+      "evidence_state": "PROXY",
+      "low": 0.68,
+      "base": 0.84,
+      "high": 1.02,
+      "bridge": "USDA measures grape acreage, production, crush value, and downstream wine availability rather than constant-price, constant-quality demand for the screened external-sale vineyard service. California's 2024 crush value fell 26%, wine-type bearing acreage was 7% below its 2018-19 peak, and US wine availability per person was 30% below its 2013 peak. I translate those signals into expected five-year vineyard demand with a wide range for cyclical inventory clearing, table-grape demand, regional mix, vine removal, and price recovery; California-heavy evidence may overstate weakness for other regions and non-wine grapes.",
+      "rationale": "Wine grapes face clear structural and cyclical pressure, including lower per-capita wine availability and declining acreage, while the most recent harvest also had a severe volume shock. Table grapes and premium appellations provide diversification, and a smaller future acreage base could rebalance supply, so a modest recovery remains plausible but continued contraction is the base case.",
+      "change_evidence": "USDA five-year grape acreage, utilization, inventories, prices, removals and plantings by use and region, plus winery contract-renewal and consumer wine-volume forecasts, would materially change the ratio.",
+      "source_ids": ["S5", "S6"],
+      "caveats": ["One-year crush changes combine weather, inventory management, price, and demand.", "Wine-grape conditions dominate US value but do not represent table, raisin, and juice grapes uniformly.", "Climate, smoke, drought, pests, and water availability can move supply independently of customer demand."]
+    },
+    "o": {
+      "evidence_state": "ESTIMATE",
+      "low": 0.94,
+      "base": 0.98,
+      "high": 1.0,
+      "rationale": "Nearly all grapes demanded in year five must still be produced by an accountable vineyard operator managing land, vines, irrigation, crop protection, labor, food safety, harvest timing, and buyer specifications. AI and robotics change how the farm operates but do not supply grapes as software; the main displacement risk is vertical integration by wineries or operation by large management platforms rather than elimination of operators.",
+      "change_evidence": "Evidence on winery insourcing, autonomous-vineyard operating models, acreage managed by third-party platforms, and changes in independent-grower share would materially change this estimate.",
+      "source_ids": ["S1", "S2"],
+      "caveats": ["Operator requirement does not imply the same firm remains independent after consolidation.", "Some vineyard work can be outsourced to farm-management and labor contractors classified outside NAICS 111332."]
+    }
+  },
+  "narrative": {
+    "executive_view": "Grape vineyards offer focused AI applications in scouting, irrigation, yield and disease forecasting, scheduling, and documentation, but much of the labor remains physical and seasonal. Farm demographics create succession potential, though control transfers are easily confused with land sales and intrafamily transitions. Demand is the main adverse signal: USDA reports lower wine-grape acreage, a sharp 2024 California crush decline, and US wine availability far below its prior peak. Missing frozen labor-share and LMM-firm-count inputs materially limit interpretation.",
+    "ai_impact": "Drone and ground imagery can detect disease and water stress, while AI can combine weather, sensors, crop history, and buyer specifications to guide irrigation, spraying, harvest, and sales planning. These tools reduce repeated scouting and analytical work but do not replace pruning, canopy management, equipment, selective harvest, repair, and on-site agronomic accountability.",
+    "value_capture": "Benefit retention is strongest under committed-price contracts and where better consistency or quality earns a premium. Seasonal resets, winery concentration, oversupply, spot pricing, quality formulas, and alternative growers allow buyers to capture part of the gain, while scarce capital and replanting or water costs can consume savings internally.",
+    "firm_availability": "Commercial vineyards can be durable operating businesses, and aging family ownership suggests transition needs. Eligibility remains unmeasured because many holdings are too small, vertically integrated, lifestyle-oriented, or primarily land assets, and the supplied LMM firm count is intentionally missing.",
+    "demand_durability": "Physical grape demand always requires cultivation, but the quantity outlook is weak for wine grapes. Falling wine availability and acreage removal point to contraction, while table grapes, regional differentiation, premium contracts, and eventual inventory normalization keep the downside from being uniform across vineyards.",
+    "risks_and_uncertainty": "Key risks are buyer concentration, oversupply, water access, drought, heat, wildfire smoke, disease, labor availability, harvest volatility, crop insurance, replanting cycles, and land-value exposure. Technology studies do not yet provide wage-weighted commercial savings, and exact LMM population data are absent.",
+    "principal_driver": "Repeat crop relationships and data-rich irrigation, disease, and harvest decisions create credible targeted AI efficiencies.",
+    "principal_weakness": "Wine-grape demand contraction and missing frozen labor and firm-count inputs make both durability and scalable acquisition availability uncertain."
+  },
+  "sources": [
+    {
+      "id": "S1",
+      "url": "https://www.ars.usda.gov/research/publications/publication/?seqNo115=417430",
+      "title": "PhytoPatholoBot autonomous ground robot for near-real-time disease scouting in the vineyard",
+      "access_date": "2026-07-23",
+      "supports": "USDA ARS identifies a peer-reviewed autonomous vineyard ground robot designed for near-real-time disease scouting and precision treatment mapping."
+    },
+    {
+      "id": "S2",
+      "url": "https://www.ars.usda.gov/research/project?accnNo=447935",
+      "title": "Using drone and AI to map water stress management in commercial vineyards",
+      "access_date": "2026-07-23",
+      "supports": "USDA ARS describes a 2025-26 project extending drone and AI mapping of grape leaf and stem water potential from California commercial vineyards to varied vineyard systems."
+    },
+    {
+      "id": "S3",
+      "url": "https://www.ars.usda.gov/oc/utm/vine-talk-grape-growing-sustainability/",
+      "title": "Vine Talk: Grape Growing Sustainability",
+      "access_date": "2026-07-23",
+      "supports": "USDA ARS reports vineyard use of sensors and highly technical automated precision-agriculture approaches to measure soil and vine water status and fine-tune drip irrigation."
+    },
+    {
+      "id": "S4",
+      "url": "https://www.nass.usda.gov/Newsroom/2024/02-13-2024.php",
+      "title": "USDA releases 2022 Census of Agriculture data",
+      "access_date": "2026-07-23",
+      "supports": "Across US agriculture, 95% of farms were family owned and operated, the average producer age was 58.1, farms declined 7% from 2017, and only 43% had positive net cash farm income in 2022."
+    },
+    {
+      "id": "S5",
+      "url": "https://www.ers.usda.gov/data-products/charts-of-note/111472",
+      "title": "Chardonnay and Cabernet Sauvignon were the leading California wine grape varietals crushed in 2024",
+      "access_date": "2026-07-23",
+      "supports": "USDA ERS reports 2.884 million tons of California wine grapes crushed in 2024 and a total California grape crush value of $2.99 billion, down 26% from 2023 as total volume fell 24% and average price fell 3%."
+    },
+    {
+      "id": "S6",
+      "url": "https://ers.usda.gov/sites/default/files/_laserfiche/outlooks/113466/FTS-383.pdf?v=28863",
+      "title": "Fruit and Tree Nuts Outlook: September 2025",
+      "access_date": "2026-07-23",
+      "supports": "USDA reports California wine-type bearing acreage 7% below its 2018-19 peak, 2025 production forecast below its prior three-year average, and 2024 US wine availability per person down 11% year over year and 30% from its 2013 peak."
+    }
+  ]
+}

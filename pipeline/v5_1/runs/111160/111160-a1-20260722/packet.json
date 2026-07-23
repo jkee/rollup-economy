@@ -1,0 +1,161 @@
+{
+  "identity": {
+    "naics": "111160",
+    "title": "Rice Farming",
+    "run_id": "111160-a1-20260722",
+    "model_id": "claude-sonnet-5",
+    "run_date": "2026-07-22",
+    "methodology_version": "5.1",
+    "attempt": 1
+  },
+  "lens": {
+    "included_activities": "Lower-middle-market owner-operated, tenant-operated, and sharecropped farms primarily growing rice other than wild rice or producing rice seed, with recurring third-party crop sales and any genuinely contracted cultivation or water-management services identified at the firm level.",
+    "excluded_activities": "Wild-rice farming, mixed grain or oilseed farms not classified to rice, rice milling and distribution, hobby or subsistence operations, passive farmland ownership, and captive production without meaningful third-party revenue.",
+    "customer_and_revenue_model": "Revenue is predominantly seasonal sales of an agricultural commodity or seed to mills, merchandisers, cooperatives, and other buyers; contracted farming or management revenue may occur but is not the typical model.",
+    "deviation_from_default": "none",
+    "heterogeneous": false
+  },
+  "primitives": {
+    "a": {
+      "evidence_state": "PROXY",
+      "low": 0.12,
+      "base": 0.23,
+      "high": 0.36,
+      "bridge": "USDA documents automated guidance on well over half of U.S. rice acreage and lower adoption of yield maps, soil maps, and variable-rate technologies, while rice-specific research demonstrates remote sensing and automated irrigation monitoring. I translate this demonstrated digital surface into addressable labor in crop planning, irrigation decisions, scouting interpretation, input prescription, recordkeeping, marketing, and administration; the proxy likely overstates substitution where connectivity, field variability, and hands-on intervention remain binding.",
+      "rationale": "Information-intensive planning and monitoring are meaningfully addressable, but land preparation, planting, irrigation repair, chemical and nutrient application, harvesting, equipment service, and weather response remain physical and site-dependent.",
+      "change_evidence": "A rice-specific task-hour study by farm size, irrigation system, and technology stack would materially change a.",
+      "source_ids": ["S2", "S3", "S4"],
+      "caveats": ["Technology adoption is measured by acreage or farms, not share of labor time.", "Rice systems differ materially between the Mid-South and California."]
+    },
+    "rho": {
+      "evidence_state": "ESTIMATE",
+      "low": 0.4,
+      "base": 0.6,
+      "high": 0.75,
+      "rationale": "Within addressable work, routine monitoring, guidance, documentation, forecasting, and decision support can be highly automated, while agronomic exceptions, water-control failures, buyer negotiations, risk decisions, and safety-critical equipment actions retain human review.",
+      "change_evidence": "Observed rice-farm deployment results reporting autonomous completion, exception, override, and error rates by workflow would materially change rho.",
+      "source_ids": [],
+      "caveats": ["No representative autonomous-task completion dataset was located.", "Prototype irrigation systems still report installation, maintenance, and reliability challenges."]
+    },
+    "e": {
+      "evidence_state": "ESTIMATE",
+      "low": 0.01,
+      "base": 0.03,
+      "high": 0.08,
+      "rationale": "Census defines the industry as growing rice or producing rice seed, so the economic output is overwhelmingly a product rather than a recurring outsourced service. A small tail of contract cultivation or farm-management arrangements may qualify.",
+      "change_evidence": "Farm-level revenue splits between crop sales, seed sales, custom farming, and ongoing management contracts would materially change e.",
+      "source_ids": ["S1"],
+      "caveats": ["Repeat sales to a mill or cooperative are not, by themselves, outsourced services.", "Custom-work revenue may be reported outside the core establishment classification."]
+    },
+    "s5": {
+      "evidence_state": "PROXY",
+      "low": 0.04,
+      "base": 0.09,
+      "high": 0.18,
+      "bridge": "USDA's farmland-transfer study estimated that only 2.3% of farmland would be sold to nonrelatives over five years, while other land could transfer through relatives, trusts, wills, or gifts. I use the thin open-market land supply as a lower anchor and expand the range because an operating farm can transact through leases, equipment, entities, or family succession without an arm's-length land sale; the acreage-based proxy may understate firm availability but may overstate it where land changes hands without a saleable operating platform.",
+      "rationale": "Farmland is illiquid and family transfer is common, limiting conventional control acquisitions even though operator aging and lease structures can create entry points.",
+      "change_evidence": "Five-year rice-farm control transactions, including entity sales, long-term leases, equipment transfers, and family successions, divided by the eligible LMM operator population would materially change s5.",
+      "source_ids": ["S5", "S6"],
+      "caveats": ["The source measures farmland acres rather than rice-farm firms.", "The transfer evidence is older and national across all agricultural land."]
+    },
+    "q": {
+      "evidence_state": "ESTIMATE",
+      "low": 0.25,
+      "base": 0.45,
+      "high": 0.65,
+      "rationale": "Suitable leveled land, reliable water, local infrastructure, scale, agronomic know-how, and buyer relationships create barriers, but rice is a traded commodity exposed to benchmark pricing, policy, weather, input costs, and domestic and international competition.",
+      "change_evidence": "Farm-level yield and cost persistence, water-right security, acreage concentration, buyer concentration, and margin dispersion across cycles would materially change q.",
+      "source_ids": ["S3", "S7"],
+      "caveats": ["Water access and land scarcity differ sharply by region.", "Government programs can alter downside protection without creating firm-specific advantage."]
+    },
+    "d5": {
+      "evidence_state": "PROXY",
+      "low": 0.88,
+      "base": 1.0,
+      "high": 1.12,
+      "bridge": "USDA reports that global markets account for 40–45% of annual sales volume of U.S.-produced rice and its July 2026 outlook projects a 39-year-low 2026/27 crop from reduced area alongside continued domestic consumption and exports. I translate this combination of enduring food demand, export exposure, and volatile domestic acreage into a flat central five-year real demand multiplier with a wide range; the current supply contraction could make the base too conservative if acreage normalizes or too optimistic if U.S. export competitiveness erodes.",
+      "rationale": "Rice is a staple with durable underlying use, but U.S. growers face acreage swings, drought, water limits, global competition, trade conditions, and commodity-price cycles.",
+      "change_evidence": "USDA long-term projections decomposed into U.S. rice volume, real farm price, domestic use, exports, and regional acreage would materially change d5.",
+      "source_ids": ["S7", "S8"],
+      "caveats": ["The latest outlook is a one-year forecast rather than a five-year projection.", "Sales-volume exposure to exports increases sensitivity to trade and foreign crop conditions."]
+    },
+    "o": {
+      "evidence_state": "ESTIMATE",
+      "low": 0.96,
+      "base": 0.99,
+      "high": 0.999,
+      "rationale": "Even with autonomous guidance and irrigation decision support, a farm operator must control land access, water, equipment, biological production risk, compliance, financing, crop insurance, and physical execution through the season.",
+      "change_evidence": "Evidence of scaled, fully managed autonomous rice-production platforms that remove nearly all operating responsibility from the owner would materially change o.",
+      "source_ids": ["S1", "S4"],
+      "caveats": ["Custom operators can perform field tasks, but the accountable farming enterprise remains necessary."]
+    }
+  },
+  "narrative": {
+    "executive_view": "Rice farming has a credible precision-agriculture and irrigation-automation surface, but it is an exceptionally weak fit for a recurring outsourced-service rollup because the core revenue is commodity crop sales. Missing frozen labor-share and firm-count inputs further limit confidence in scaled acquisition conclusions.",
+    "ai_impact": "AI can improve planting and input plans, water scheduling, field monitoring, yield forecasting, maintenance triage, records, and marketing decisions. It cannot eliminate the land, water, machinery, biological risk, and physical field execution that dominate the operating model.",
+    "value_capture": "Potential value comes from lower water and input use, fewer application overlaps, better yield consistency, faster anomaly response, and reduced administrative effort. Commodity pricing, landlord economics, and technology costs can distribute those gains away from the operator.",
+    "firm_availability": "Agricultural land markets are thin and family, trust, lease, and asset-level transfers complicate control acquisition. The number of rice farms that meet LMM economics and the outsourced-service lens is unknown and likely small.",
+    "demand_durability": "Rice is a globally important staple and U.S. production serves both domestic and export markets. Five-year operator economics nevertheless remain exposed to acreage, drought, water availability, foreign competition, trade policy, input inflation, and support programs.",
+    "risks_and_uncertainty": "The principal uncertainties are missing frozen l and n, lack of task-level labor data, prototype-to-commercial automation gaps, thin transaction evidence, water security, regional heterogeneity, and export-market volatility.",
+    "principal_driver": "Established rice operations combine scarce suitable land and water with a proven precision-agriculture base that can support incremental AI productivity.",
+    "principal_weakness": "Rice farming sells a volatile physical commodity rather than a recurring outsourced service, leaving very little lens-eligible revenue."
+  },
+  "sources": [
+    {
+      "id": "S1",
+      "url": "https://www.census.gov/naics/resources/archives/sect11.html",
+      "title": "North American Industry Classification System: 111160 Rice Farming",
+      "access_date": "2026-07-22",
+      "supports": "Defines the industry as establishments growing rice other than wild rice and/or producing rice seed."
+    },
+    {
+      "id": "S2",
+      "url": "https://ers.usda.gov/publications/105893",
+      "title": "Precision Agriculture in the Digital Era: Recent Adoption on U.S. Farms",
+      "access_date": "2026-07-22",
+      "supports": "Rice acreage adoption of automated guidance and the lower adoption range for yield maps, soil maps, and variable-rate technologies."
+    },
+    {
+      "id": "S3",
+      "url": "https://ers.usda.gov/data-products/charts-of-note/78088",
+      "title": "Rice Farms Are Adopting Precision Agriculture Technologies",
+      "access_date": "2026-07-22",
+      "supports": "Rice-farm use of yield monitoring and auto-steer or guidance, plus the mechanisms for reducing input overlap and operator error."
+    },
+    {
+      "id": "S4",
+      "url": "https://www.nal.usda.gov/research-tools/food-safety-research-projects/life-after-flood-disrupting-rice-farming-integrating-automated-iot-irrigation-technologies-low-water",
+      "title": "Life After the Flood: Automated IoT Irrigation Technologies in Rice Production",
+      "access_date": "2026-07-22",
+      "supports": "Rice-specific automated irrigation research targeting lower water use while maintaining or improving yield, seed quality, and returns."
+    },
+    {
+      "id": "S5",
+      "url": "https://www.ers.usda.gov/amber-waves/2016/august/land-acquisition-and-transfer-in-u-s-agriculture",
+      "title": "Land Acquisition and Transfer in U.S. Agriculture",
+      "access_date": "2026-07-22",
+      "supports": "Five-year farmland transfer mechanisms and the estimate that 2.3% of farmland would be sold to nonrelatives in the open market."
+    },
+    {
+      "id": "S6",
+      "url": "https://www.ers.usda.gov/topics/farm-economy/land-use-land-value-tenure/farmland-ownership-and-tenure",
+      "title": "Farmland Ownership and Tenure",
+      "access_date": "2026-07-22",
+      "supports": "Current national tenure context, operator ownership, succession relevance, and the advanced age of many farmers."
+    },
+    {
+      "id": "S7",
+      "url": "https://www.ers.usda.gov/topics/crops/rice",
+      "title": "USDA ERS Rice Overview",
+      "access_date": "2026-07-22",
+      "supports": "Geographic concentration of U.S. rice production and the 40–45% export share of annual U.S.-produced rice sales volume."
+    },
+    {
+      "id": "S8",
+      "url": "https://www.ers.usda.gov/topics/crops/rice/market-outlook",
+      "title": "Rice Market Outlook, July 2026",
+      "access_date": "2026-07-22",
+      "supports": "2026/27 production, acreage-driven supply reduction, domestic consumption, exports, stocks, and farm-price outlook."
+    }
+  ]
+}

@@ -1,0 +1,148 @@
+{
+  "identity": {
+    "naics": "111339",
+    "title": "Other Noncitrus Fruit Farming",
+    "run_id": "111339-a1-20260722",
+    "model_id": "claude-sonnet-5",
+    "run_date": "2026-07-22",
+    "methodology_version": "5.1",
+    "attempt": 1
+  },
+  "lens": {
+    "included_activities": "US lower-middle-market growers of peaches, cherries, pears, avocados, bananas, coffee, dates, figs, pineapples, prunes, and other noncitrus fruits that repeatedly provide external customers with contract-growing, customer-specific crop programs, or another substantive outsourced production service.",
+    "excluded_activities": "Farms making only ordinary spot or recurring product sales, apple orchards, vineyards, berry farms, fruit and tree-nut combination farms, protected-culture fruit operations classified elsewhere, processors, distributors, captive farms, shells, and non-control financing vehicles.",
+    "customer_and_revenue_model": "Eligible farms earn repeat B2B revenue through contracted production or customer-specific growing programs for packers, processors, brands, retailers, foodservice buyers, or institutions; fruit delivery remains the output, but the relationship must include substantive outsourced production responsibility rather than simple repeat sales.",
+    "deviation_from_default": "none",
+    "heterogeneous": false
+  },
+  "primitives": {
+    "a": {
+      "evidence_state": "PROXY",
+      "low": 0.16,
+      "base": 0.31,
+      "high": 0.47,
+      "bridge": "USDA research measures AI yield estimation and robotic harvesting in apple orchards and describes applicability to peaches and other tree fruits, rather than the wage-weighted task mix of NAICS 111339. I map harvest, thinning, scouting, spraying, crop counting, labor planning, and logistics tasks to this industry's farms; apple systems may overstate transferability to fragile or irregular crops, while omitting office and sales tasks understates total exposure.",
+      "rationale": "Hand harvest and orchard care carry substantial labor, and computer vision can expose counting, planning, inspection, and selected picking tasks. Pruning, crop handling, equipment work, and irregular-field decisions remain difficult to substitute.",
+      "change_evidence": "Crop-specific occupational time studies for 111339 farms, paired with inventories of current mechanization and field trials for peaches, cherries, pears, avocados, dates, and coffee, would materially tighten the range.",
+      "source_ids": ["S2", "S3"],
+      "caveats": ["The direct robotic field evidence is from apples, which are outside this six-digit code.", "The frozen labor-share input is missing, so this task-exposure estimate cannot repair the dataset gap."]
+    },
+    "rho": {
+      "evidence_state": "PROXY",
+      "low": 0.24,
+      "base": 0.43,
+      "high": 0.62,
+      "bridge": "USDA orchard research demonstrates technically feasible yield estimation and partial robotic picking but also materially different performance across orchard architectures. I discount five-year implementation for crop fragility, irregular canopies, terrain, capital cost, maintenance, connectivity, seasonal utilization, and the need to redesign orchards; the research setting may overstate deployment speed for LMM growers.",
+      "rationale": "Forecasting, imaging, irrigation support, and labor planning can scale sooner than autonomous harvesting. Selective robotic picking is likelier in standardized orchards, while heterogeneous farms retain human crews and supervision.",
+      "change_evidence": "Commercial deployment data by crop, including acres covered, utilization, total ownership cost, picking success, damage rates, and labor hours avoided, would materially change this estimate.",
+      "source_ids": ["S2", "S3"],
+      "caveats": ["Pilot accuracy and field success do not establish economic implementation at scale.", "Perennial orchard redesign can extend beyond the five-year horizon."]
+    },
+    "e": {
+      "evidence_state": "ESTIMATE",
+      "low": 0.02,
+      "base": 0.08,
+      "high": 0.17,
+      "rationale": "NAICS 111339 is defined by growing fruit, and repeated product sales do not by themselves satisfy the outsourced-service lens. Only contract growers or customer-specific production programs with continuing external accountability plausibly qualify.",
+      "change_evidence": "A representative list of LMM 111339 farms coded from grower agreements, revenue contracts, customer concentration, service obligations, and normalized EBITDA would directly test the eligible share.",
+      "source_ids": ["S1", "S4"],
+      "caveats": ["No source measures the prevalence of substantive contract-growing relationships in the exact code.", "The frozen LMM firm count is missing and must not be inferred from the broader agriculture census."]
+    },
+    "s5": {
+      "evidence_state": "PROXY",
+      "low": 0.12,
+      "base": 0.27,
+      "high": 0.44,
+      "bridge": "The 2022 Census of Agriculture measures producer age and family ownership across all specialized fruit, tree-nut, and berry farms, not qualifying control transfers among LMM 111339 contract growers. I use the older producer profile and high family-farm share as succession pressure, then discount because land transfers, inheritance without a transferable operation, and non-control arrangements do not qualify; the broader small-farm population may bias succession pressure upward.",
+      "rationale": "Aging owners create transfer potential, but orchard ownership, water rights, family succession, leased acreage, and buyer-specific contracts can separate asset sales from qualifying operating-company control transfers.",
+      "change_evidence": "USDA succession-plan microdata and agricultural transaction records matched to eligible 111339 operating companies, including land-only sales and internal family transfers, would materially refine this probability.",
+      "source_ids": ["S4"],
+      "caveats": ["The proxy covers fruit, tree nuts, and berries rather than this code alone.", "Older producer age does not measure a completed or likely control transfer."]
+    },
+    "q": {
+      "evidence_state": "ESTIMATE",
+      "low": 0.24,
+      "base": 0.43,
+      "high": 0.63,
+      "rationale": "Growers can retain initial labor, input, and planning savings when contract prices are fixed, but processors, packers, retailers, and commodity markets can recapture benefits through annual negotiations, grade specifications, and competitive sourcing. Differentiated varieties, reliable quality, and scarce regional supply support better retention.",
+      "change_evidence": "Contract-level price, cost-sharing, renewal, grade-rejection, and gross-margin data before and after automation would materially change this estimate.",
+      "source_ids": ["S2", "S5"],
+      "caveats": ["No public source directly measures pass-through of automation savings in contract fruit growing.", "Weather-driven price volatility can obscure benefit retention."]
+    },
+    "d5": {
+      "evidence_state": "PROXY",
+      "low": 0.9,
+      "base": 1.01,
+      "high": 1.13,
+      "bridge": "USDA's broad fruit and tree-nut data show persistent consumer markets, production, trade, and commodity-specific variation, while current outlook evidence documents supply shocks and significant import competition for fruits relevant to 111339. I translate those market indicators to five-year constant-price demand for eligible US contract-growing services; the broad commodity mix may understate climate downside for particular crops and overstate domestic grower demand when imports expand.",
+      "rationale": "Food demand is durable, but domestic service quantity depends on crop yields, water, heat, pests, labor, imports, processor capacity, and customer sourcing. Growth is likely modest and uneven rather than uniformly positive.",
+      "change_evidence": "USDA ERS constant-price utilization, bearing acreage, domestic shipments, imports, and contract volumes by each 111339 crop would materially change the ratio.",
+      "source_ids": ["S1", "S5", "S6"],
+      "caveats": ["The industry combines crops with very different geographies and biological risks.", "Import growth can satisfy US consumption without supporting US grower-service demand."]
+    },
+    "o": {
+      "evidence_state": "ESTIMATE",
+      "low": 0.93,
+      "base": 0.98,
+      "high": 1.0,
+      "rationale": "Remaining demand for physical fruit still requires an accountable grower, even when AI changes how the crop is monitored or harvested. Leakage comes from customers internalizing production, shifting to imports, sourcing protected-culture output classified elsewhere, or replacing the specific fruit basket.",
+      "change_evidence": "Buyer interviews and sourcing records that quantify contract-growing insourcing, import substitution, protected-culture shifts, and supplier-of-record requirements would materially change this share.",
+      "source_ids": ["S1", "S5", "S6"],
+      "caveats": ["Imports preserve fruit consumption while displacing the US lens operator.", "Software cannot grow fruit, but it can enable a buyer to coordinate farms directly and disintermediate a service-qualified operator."]
+    }
+  },
+  "narrative": {
+    "executive_view": "AI and robotics can address labor-intensive orchard tasks, but the code is fundamentally agricultural production rather than outsourced service. The investable lens is limited to substantive contract-growing or customer-specific crop programs, not farms that merely sell fruit repeatedly.",
+    "ai_impact": "The strongest applications are yield estimation, crop counting, disease and vigor imaging, thinning decisions, spray targeting, irrigation support, labor and harvest planning, quality grading, and selective robotic picking. Field variability, fruit damage, weather, and orchard architecture keep humans central.",
+    "value_capture": "Fixed contracts can preserve early labor and input savings, while powerful packers, processors, and retailers can demand lower prices or tighter grades at renewal. Scarce varieties, consistent quality, traceability, and reliable delivery improve retention.",
+    "firm_availability": "Most farms fail the service test because ordinary crop sales are product revenue. Eligible targets require documented outsourced production duties, and the missing dataset firm count prevents any defensible statement about target abundance.",
+    "demand_durability": "Food consumption is durable, but domestic grower demand is exposed to weather, water, pests, labor shortages, bearing cycles, trade, imports, and customer sourcing changes. Physical production remains operator-required even as the supplying geography changes.",
+    "risks_and_uncertainty": "The principal uncertainties are lens eligibility, missing labor and firm-count inputs, crop heterogeneity, climate and water risk, seasonal labor, immigration policy, perishability, customer concentration, grade rejection, and whether orchard robotics becomes commercially reliable within five years.",
+    "principal_driver": "Labor scarcity and high harvest intensity create real demand for AI-enabled counting, planning, and selective automation.",
+    "principal_weakness": "Very few growers appear to provide a qualifying outsourced service, and both frozen dataset inputs are missing."
+  },
+  "sources": [
+    {
+      "id": "S1",
+      "url": "https://www.census.gov/naics/resources/archives/sect11.html",
+      "title": "NAICS 111339 Other Noncitrus Fruit Farming",
+      "access_date": "2026-07-22",
+      "supports": "Official industry boundary and crop examples, including peaches, cherries, pears, bananas, coffee, dates, figs, pineapples, and prunes."
+    },
+    {
+      "id": "S2",
+      "url": "https://www.nal.usda.gov/research-tools/food-safety-research-projects/artificial-intelligence-yield-estimations-fruit",
+      "title": "Artificial Intelligence for Yield Estimations at Fruit Orchards",
+      "access_date": "2026-07-22",
+      "supports": "AI-enabled crop counting, fruit measurement, vigor analysis, thinning, labor planning, logistics, and reported pilots with applicability beyond apples."
+    },
+    {
+      "id": "S3",
+      "url": "https://www.ars.usda.gov/research/publications/publication/?seqNo115=403763",
+      "title": "Automated Apple Harvesting Robot Field Evaluation",
+      "access_date": "2026-07-22",
+      "supports": "Peer-reviewed USDA summary of labor pressure, computer-vision harvesting, field performance, orchard-architecture sensitivity, and remaining commercialization work."
+    },
+    {
+      "id": "S4",
+      "url": "https://data.nass.usda.gov/Publications/Highlights/2024/Census22_HL_FruitNutBerry.pdf",
+      "title": "2022 Census of Agriculture Fruit, Tree Nut, and Berry Production Snapshot",
+      "access_date": "2026-07-22",
+      "supports": "Producer age, family ownership, hired-labor intensity, farm economics, internet access, and the broader specialized-fruit farm population."
+    },
+    {
+      "id": "S5",
+      "url": "https://www.ers.usda.gov/media/20866/fts-384.pdf?v=55721",
+      "title": "Fruit and Tree Nuts Outlook: March 2026",
+      "access_date": "2026-07-22",
+      "supports": "Current USDA evidence on supply, production, consumption proxies, prices, imports, weather effects, and trade across fruit markets."
+    },
+    {
+      "id": "S6",
+      "url": "https://www.ers.usda.gov/topics/crops/fruit-and-tree-nuts",
+      "title": "USDA ERS Fruit and Tree Nuts Overview",
+      "access_date": "2026-07-22",
+      "supports": "Sector-level context on US fruit and tree-nut cash receipts and USDA data coverage for production, prices, trade, and demand."
+    }
+  ]
+}

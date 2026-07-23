@@ -1,0 +1,114 @@
+{
+  "identity": {
+    "naics": "111910",
+    "title": "Tobacco Farming",
+    "run_id": "111910-a1-20260722",
+    "model_id": "claude-sonnet-5",
+    "run_date": "2026-07-22",
+    "methodology_version": "5.1",
+    "attempt": 1
+  },
+  "lens": {
+    "included_activities": "US lower-middle-market tobacco-growing operations that repeatedly provide customer-directed production services under contracts where the buyer meaningfully controls specifications, inputs, practices, or crop ownership.",
+    "excluded_activities": "Farms using ordinary cash sales or marketing contracts that only set price, quantity, quality, and delivery while the grower retains crop ownership; hobby farms; captive units; passive landowners; shells; financing vehicles; firms outside the EBITDA band; and tobacco processing or manufacturing.",
+    "customer_and_revenue_model": "Eligible firms are paid repeat growing or production fees by tobacco companies or other external contractors with meaningful production involvement; common marketing-contract sales of grower-owned leaf are not treated as outsourced services merely because they are contracted before harvest.",
+    "deviation_from_default": "none",
+    "heterogeneous": false
+  },
+  "primitives": {
+    "a": {
+      "evidence_state": "PROXY",
+      "low": 0.12,
+      "base": 0.23,
+      "high": 0.36,
+      "bridge": "BLS measures staffing in support activities for crop production, not wage-weighted AI task exposure on tobacco farms. Its workforce is 67.20% farming occupations, with crop laborers alone 56.10%, indicating a physical task base. I map AI exposure to crop scouting, disease grading, curing controls, scheduling, records, contract compliance, forecasting, and equipment diagnostics, while treating transplanting, topping, harvesting, handling, curing maintenance, and field judgment as less substitutable. Tobacco's manual and quality-sensitive workflow may make the support-activity proxy understate physical intensity and overstate exposure.",
+      "rationale": "AI can assist visual scouting and grading, curing monitoring, documentation, buyer compliance, planning, and maintenance. Leaf handling, field work, harvest, curing-facility operation, and quality judgment remain labor- and weather-intensive.",
+      "change_evidence": "A tobacco-specific wage and owner-labor task study across transplanting, topping, harvesting, curing, grading, records, contract compliance, and equipment work, by tobacco type and farm size, would materially change exposure.",
+      "source_ids": ["S2", "S3"],
+      "caveats": ["No labor-share input is available, so the labor opportunity cannot be completed.", "OEWS omits much self-employed and family labor.", "Tobacco types and harvesting systems have different labor intensity."]
+    },
+    "rho": {
+      "evidence_state": "ESTIMATE",
+      "low": 0.28,
+      "base": 0.47,
+      "high": 0.64,
+      "rationale": "Image-based scouting, automated records, curing alerts, scheduling, and buyer-document workflows can deploy in five years. Small scale, seasonal use, limited technology vendors, broadband, field variability, contract-specific requirements, legacy curing barns, and thin margins constrain implementation.",
+      "change_evidence": "Multi-season trials at US tobacco farms showing labor hours, leaf quality, curing energy, false-positive rates, buyer acceptance, implementation cost, and continued AI-tool use would materially move the range.",
+      "source_ids": ["S2", "S3"],
+      "caveats": ["The sources do not measure AI implementation in tobacco farming.", "Mechanization and workflow differ between flue-cured, burley, fire-cured, and dark air-cured tobacco."]
+    },
+    "e": {
+      "evidence_state": "MISSING",
+      "low": null,
+      "base": null,
+      "high": null,
+      "rationale": "The assignment provides no defensible LMM firm-count denominator. Although USDA documents extensive tobacco contracting, most is marketing contracting in which the farmer retains ownership and the buyer's production involvement is minimal, which does not clearly meet the outsourced-service lens. Firm-level contract and EBITDA evidence is required.",
+      "change_evidence": "A verified roster of tobacco farms with normalized EBITDA, production versus marketing contract type, crop ownership, buyer-provided inputs and direction, repeat fee revenue, operating status, and captive relationships would permit an eligibility estimate.",
+      "source_ids": [],
+      "caveats": ["The assignment declares no defensible LMM firm count and prohibits replacing it.", "Contracted commodity sales are not automatically outsourced services.", "Farm entities, land ownership, and operating businesses may not align."]
+    },
+    "s5": {
+      "evidence_state": "PROXY",
+      "low": 0.13,
+      "base": 0.25,
+      "high": 0.40,
+      "bridge": "USDA reports that 38% of all US farm producers were at least age 65 and the average producer was 58.1 in 2022; this is not a tobacco-farm qualifying-transfer rate. I discount for multiple producers, family succession, leases, land-only sales, closures, quota or contract loss, continued operation, and transfers outside the recurring-service lens. Tobacco's geographic and buyer concentration may increase exit pressure, while family and asset transfers make the proxy overstate qualifying firm sales.",
+      "rationale": "Farm-operator aging supports succession activity, but many transitions occur through family, land, leases, or cessation rather than an external control transfer of a durable service operation.",
+      "change_evidence": "USDA ARMS and TOTAL succession data for commercial tobacco farms, linked to buyer-contract continuity and transaction records separating operating-company, land, lease, and family transfers, would materially change the estimate.",
+      "source_ids": ["S7"],
+      "caveats": ["The data cover all farm producers and allow multiple producers per farm.", "The eligible population is unknown.", "Loss or nonrenewal of a buyer contract can make a farm operation nontransferable."]
+    },
+    "q": {
+      "evidence_state": "ESTIMATE",
+      "low": 0.22,
+      "base": 0.42,
+      "high": 0.62,
+      "rationale": "A true production-fee contract may let a grower retain process savings until renewal. Buyer concentration, detailed quality specifications, formula pricing, contract repricing, land rent, supplier costs, rejected leaf, and strong contractor bargaining are likely to pass through or absorb a substantial share over five years.",
+      "change_evidence": "Production and marketing contracts showing crop ownership, fee formulas, input sharing, quality discounts, productivity clauses, renewal cadence, and historical margin changes after labor or curing improvements would materially change retention.",
+      "source_ids": ["S4", "S5"],
+      "caveats": ["No source directly measures AI-benefit retention.", "The dominant marketing-contract model differs from the narrower eligible production-service model.", "Yield, grade, weather, and buyer renewal can dominate margins."]
+    },
+    "d5": {
+      "evidence_state": "PROXY",
+      "low": 0.62,
+      "base": 0.80,
+      "high": 1.02,
+      "bridge": "CDC reports adult cigarette smoking at its lowest level in 60 years and a decline in exclusive cigarette users during 2017–2023, while USDA reports 2025 tobacco production rose 11% year over year to 359 million pounds. I treat the secular smoking trend as the stronger five-year demand signal and the production rebound as evidence of volatility and export or inventory effects. Neither directly measures constant-quality demand for eligible contracted growing services, and non-cigarette tobacco and exports can offset domestic cigarette decline.",
+      "rationale": "Falling US cigarette prevalence and long-run public-health pressure reduce domestic leaf demand. Exports, product mix, inventory cycles, contract sourcing changes, and short-term yield or acreage rebounds create upside around a declining base case.",
+      "change_evidence": "USDA five-year projections for tobacco acreage, yield, production, exports, domestic disappearance, inventories, and contract volumes by leaf type would materially change the ratio.",
+      "source_ids": ["S6", "S8", "S9"],
+      "caveats": ["Smoking prevalence is an end-use proxy rather than farm-service demand.", "One-year production growth is not a durable forecast.", "Export demand and inventory movements can decouple US production from US consumption."]
+    },
+    "o": {
+      "evidence_state": "ESTIMATE",
+      "low": 0.94,
+      "base": 0.98,
+      "high": 1.0,
+      "rationale": "Any remaining leaf demand requires accountable operators to control land access, varieties, transplanting, crop protection, harvest, curing, grading, storage, labor, and contract compliance. AI and mechanization can reduce labor but cannot replace biological production or grower accountability.",
+      "change_evidence": "Evidence from fully automated tobacco systems and buyer-owned vertical production showing who controls land, crop risk, curing, quality, labor, and liability would materially move the estimate.",
+      "source_ids": ["S1", "S4"],
+      "caveats": ["The operator may consolidate into a larger grower or buyer-controlled unit.", "Demand destruction is captured in d5 rather than operator need."]
+    }
+  },
+  "narrative": {
+    "executive_view": "Tobacco farming has extensive buyer contracting but only a narrower subset resembles outsourced production service; most contracts are marketing arrangements for grower-owned leaf. Missing labor and LMM firm-count inputs and declining cigarette use limit the case.",
+    "ai_impact": "AI can improve scouting, visual grading, curing controls, records, contract compliance, scheduling, and equipment diagnostics. Field labor, harvest, leaf handling, curing operations, and quality accountability remain physical.",
+    "value_capture": "True production-fee contracts may preserve initial savings, but concentrated buyers, quality specifications, formula pricing, and renewals pass gains through. Yield, grade, and buyer renewal risk dominate farm economics.",
+    "firm_availability": "Eligibility cannot be measured without contract-level and EBITDA data. Producer aging suggests succession, but farms often transition through family, land, or lease transactions rather than sale of a recurring-service firm.",
+    "demand_durability": "US cigarette use is at a multidecade low, creating a secular headwind despite recent production volatility and possible export support. The remaining crop still needs growers, curing, and quality control.",
+    "risks_and_uncertainty": "Missing dataset inputs, contract-type ambiguity, buyer concentration, public-health regulation, declining cigarette use, labor, weather, crop disease, leaf grade, and export volatility create substantial uncertainty.",
+    "principal_driver": "Highly specified repeat buyer contracts create some service-like production relationships.",
+    "principal_weakness": "Secular cigarette decline and the dominance of marketing contracts weaken durable outsourced-service eligibility."
+  },
+  "sources": [
+    {"id":"S1","url":"https://www.census.gov/naics/resources/archives/sect11.html","title":"NAICS definition: Tobacco Farming","access_date":"2026-07-23","supports":"Defines 111910 as establishments primarily engaged in growing tobacco."},
+    {"id":"S2","url":"https://www.bls.gov/oes/2023/May/naics4_115100.htm","title":"May 2023 OEWS: Support Activities for Crop Production","access_date":"2026-07-23","supports":"Reports a workforce dominated by farming occupations and crop laborers, providing a physical-work proxy for crop operations."},
+    {"id":"S3","url":"https://ers.usda.gov/publications/105893","title":"Precision Agriculture in the Digital Era","access_date":"2026-07-23","supports":"Describes digitalization and automation in US farming and the operational, cost, labor, and connectivity factors affecting adoption."},
+    {"id":"S4","url":"https://www-tx.ers.usda.gov/topics/farm-economy/farm-structure-and-organization/farm-structure-and-contracting","title":"Farm Structure and Contracting","access_date":"2026-07-23","supports":"Defines marketing and production contracts and reports that over 40% of tobacco production value was under marketing contracts in 2024."},
+    {"id":"S5","url":"https://ers.usda.gov/data-products/charts-of-note/91032","title":"One-third of U.S. farm output is produced under contract, but the share differs by commodity","access_date":"2026-07-23","supports":"Reports tobacco's contracted production share rose to 90% in 2017 as cigarette manufacturers shifted from auctions to contracts."},
+    {"id":"S6","url":"https://www.cdc.gov/mmwr/volumes/74/wr/mm7407a3.htm","title":"Tobacco Product Use Among Adults — United States, 2017–2023","access_date":"2026-07-23","supports":"Reports adult cigarette smoking at its lowest level in 60 years and a decline in exclusive cigarette users during 2017–2023."},
+    {"id":"S7","url":"https://www.nass.usda.gov/Publications/Highlights/2024/Census22_HL_FarmProducers_FINAL.pdf","title":"2022 Census of Agriculture: Farm Producers","access_date":"2026-07-23","supports":"Reports 38% of US producers age 65 or older and an average age of 58.1 in 2022."},
+    {"id":"S8","url":"https://www.nass.usda.gov/Publications/Todays_Reports/reports/cropan26.pdf","title":"Crop Production 2025 Annual Summary","access_date":"2026-07-23","supports":"Reports 2025 US tobacco production of 359 million pounds, up 11% from 2024, with 171,300 harvested acres."},
+    {"id":"S9","url":"https://www.cdc.gov/nchs/data/hestat/hestat115.htm","title":"Cigarette and Electronic Cigarette Use Among Adults by Urbanization Level: United States, 2024","access_date":"2026-07-23","supports":"Reports 9.9% of US adults used cigarettes in 2024 and documents current cigarette-use patterns."}
+  ]
+}

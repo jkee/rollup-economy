@@ -1,0 +1,203 @@
+{
+  "identity": {
+    "naics": "115114",
+    "title": "Postharvest Crop Activities (except Cotton Ginning)",
+    "run_id": "115114-a1-20260722",
+    "model_id": "claude-sonnet-5",
+    "run_date": "2026-07-22",
+    "methodology_version": "5.1",
+    "attempt": 1
+  },
+  "lens": {
+    "included_activities": "U.S. lower-middle-market independent firms repeatedly providing crop cleaning, drying, shelling, fumigating, curing, sorting, grading, packing, waxing, cooling, and associated lot-handling services after harvest for external growers, marketers, wholesalers, and processors.",
+    "excluded_activities": "Cotton ginning; firms that buy crops for resale; captive packing or cooling units serving only an affiliated grower, wholesaler, or processor; fruit and vegetable dehydration that creates a distinct processed product; custom feed grinding; farm management; passive property ownership; and non-control financing vehicles.",
+    "customer_and_revenue_model": "Operators typically earn repeat seasonal or year-round service revenue based on units handled, weight, bins, cartons, storage time, processing steps, or contracted capacity, with customers paying to prepare crops for market or further processing while preserving quality, traceability, and food safety.",
+    "deviation_from_default": "none",
+    "heterogeneous": false
+  },
+  "primitives": {
+    "a": {
+      "evidence_state": "PROXY",
+      "low": 0.18,
+      "base": 0.29,
+      "high": 0.41,
+      "bridge": "BLS measures occupations for NAICS 115100 Support Activities for Crop Production, not 115114 alone. That broader group is 67.20% farming occupations, 13.78% transportation and material moving, 4.50% office support, and 4.15% production occupations; postharvest firms should shift weight from field labor toward packing, inspection, machine tending, material movement, scheduling, and traceability. AI vision and records tools expose sorting, inspection, planning, documentation, and exception handling, while lifting, sanitation, equipment operation, repair, and already-automated conveyor or packing work remain less exposed. The broad proxy likely understates postharvest production and material-handling work but may overstate field labor, making the net direction uncertain.",
+      "rationale": "Meaningful opportunity exists in machine-vision quality decisions, lot and inventory records, production scheduling, customer communication, labor planning, predictive maintenance, and exception triage. The ceiling is limited by physical crop handling and by conventional sorting, conveying, cooling, and packaging automation already installed in many facilities.",
+      "change_evidence": "A six-digit occupation and payroll mix for NAICS 115114, facility time studies by crop and process, and before-and-after results from AI grading, traceability, scheduling, and maintenance deployments would materially change the range.",
+      "source_ids": ["S1", "S2", "S3", "S4", "S5"],
+      "caveats": [
+        "The occupational source covers all crop-support services and is dominated by field-worker occupations not representative of packinghouses.",
+        "Research prototypes establish technical exposure but not commercial adoption or net labor removal.",
+        "The injected labor share uses 2024 wages over 2022 receipts and a harmonization adjustment, so its vintage and basis uncertainty should be retained when interpreting labor economics."
+      ]
+    },
+    "rho": {
+      "evidence_state": "ESTIMATE",
+      "low": 0.38,
+      "base": 0.57,
+      "high": 0.74,
+      "rationale": "Within the exposed task slice, vision-assisted grading, document extraction, lot tracking, scheduling, forecasting, and maintenance alerts are implementable over five years. Adoption is constrained by crop and variety differences, variable lighting and defects, legacy equipment integration, seasonal throughput, false rejects, food-safety validation, data quality, capital cost, and workforce change. Human review remains important for ambiguous quality and compliance decisions.",
+      "change_evidence": "Commercial packinghouse case studies with deployment cost, uptime, false-positive and false-reject rates, throughput, labor hours, rework, claims, waste, and compliance performance across multiple seasons would materially revise implementation expectations.",
+      "source_ids": ["S3", "S4", "S5", "S6"],
+      "caveats": [
+        "USDA-supported systems cited include prototypes and crop-specific research, not an industry adoption census.",
+        "A model trained on one crop, grade standard, or defect may not transfer to another.",
+        "Traceability requirements create a strong digitization use case but also raise validation and integration burdens."
+      ]
+    },
+    "e": {
+      "evidence_state": "ESTIMATE",
+      "low": 0.62,
+      "base": 0.76,
+      "high": 0.88,
+      "rationale": "The NAICS definition is explicitly an external postharvest service activity, so recurring independent operators generally fit the revenue model. Eligibility is reduced for captive units, customer- or crop-concentrated firms, highly seasonal owner-dependent operations, weak food-safety systems, nontransferable facility arrangements, and firms whose normalized earnings fall outside the lens despite being included in a size-derived count.",
+      "change_evidence": "Establishment-level diligence on external revenue share, normalized EBITDA, customer and crop concentration, ownership, facility tenure, recurring contracts, owner hours, and audit history across the dataset-injected candidate population would determine eligibility.",
+      "source_ids": ["S1", "S7"],
+      "caveats": [
+        "The supplied firm estimate is margin-bridged from size-class receipts using a broad Farming/Agriculture margin and may misclassify firms with different postharvest margins.",
+        "NAICS classification alone does not distinguish an independent service provider from a captive establishment in a larger enterprise.",
+        "Seasonality and crop concentration can make normalized earnings materially different from reported annual results."
+      ]
+    },
+    "s5": {
+      "evidence_state": "PROXY",
+      "low": 0.07,
+      "base": 0.13,
+      "high": 0.21,
+      "bridge": "USDA farm-succession evidence is used for the adjacent agricultural owner population: 17% of principal operators planned to retire within five years, but one-third expected a family transfer and USDA estimated 8% or less of farmland would become available for purchase from retiring operators. SBA evidence that 64.5% of business owners plan eventually to sell provides a broad nonfarm cross-check without a time horizon. Translating these populations to postharvest service firms supports a low-teens five-year qualifying-control probability. Farm evidence may understate saleability because service firms can transfer without farmland, while eventual-sale intentions may overstate near-term completed deals.",
+      "rationale": "Aging agricultural owners and broad owner sale intentions create a plausible transition pipeline, but retirement, family succession, closure, real-estate separation, and failed transactions do not count as qualifying control transfers. Transferability improves when facilities, permits, food-safety systems, managers, and customer contracts can continue without the owner.",
+      "change_evidence": "NAICS 115114 owner-age and exit-intention data, broker listing histories, Quality of Earnings reports, closed transaction counts, sale-versus-liquidation outcomes, and customer-contract assignability over five years would materially change the probability.",
+      "source_ids": ["S8", "S9"],
+      "caveats": [
+        "Farm operators and all small-business owners are not the same population as postharvest service-firm owners.",
+        "Intent to retire or sell does not measure a completed third-party control transaction.",
+        "Specialized facilities, seasonal working capital, and customer concentration can narrow the buyer pool."
+      ]
+    },
+    "q": {
+      "evidence_state": "ESTIMATE",
+      "low": 0.31,
+      "base": 0.47,
+      "high": 0.63,
+      "rationale": "Per-unit, weight, carton, storage-time, and capacity pricing allows an operator to retain internal labor, waste, energy, and throughput gains during a contract period. Retention erodes through competitive bids, customer demands for lower handling rates, shared yield or quality benefits, and renewal repricing. Food-safety performance, traceability, scarce local capacity, speed, and lower damage can support differentiation and reduce immediate pass-through.",
+      "change_evidence": "Customer contracts and invoices showing pricing basis, escalation and productivity clauses, bid cadence, rebates, claims, quality premiums, capacity commitments, customer churn, and gross-margin changes after automation would materially revise retention.",
+      "source_ids": ["S1", "S6", "S7"],
+      "caveats": [
+        "No representative industry dataset on contract terms or customer retention was located.",
+        "Pricing and buyer power differ across grain, nuts, fresh produce, seed, and specialty crops.",
+        "Benefits delivered as higher grade recovery may be shared differently from pure labor savings."
+      ]
+    },
+    "d5": {
+      "evidence_state": "PROXY",
+      "low": 0.97,
+      "base": 1.08,
+      "high": 1.19,
+      "bridge": "BLS projects real output for the broader Support Activities for Agriculture and Forestry industry from 23.6 in 2024 to 27.6 in 2034, about 17% over ten years; converting that broad decade path to a five-year ratio gives roughly 1.08. Postharvest demand should track crop throughput, outsourcing, food-safety and traceability needs, but may grow slower if farms or processors integrate these functions or faster if packing and compliance complexity increases. The broad proxy mixes crop, animal, and forestry support activities, so direction of error is uncertain.",
+      "rationale": "Core demand is tied to crops that must be cleaned, graded, packed, cooled, or otherwise prepared before sale, creating durable physical throughput. Modest growth is plausible, while weather, acreage, yields, crop mix, imports, processor consolidation, and vertical integration create volatility around the trend.",
+      "change_evidence": "Five- to ten-year constant-price NAICS 115114 revenue and physical throughput by service and crop, paired with USDA crop production, packout, cooling, and outsourcing shares, would materially change the multiplier.",
+      "source_ids": ["S1", "S10"],
+      "caveats": [
+        "The BLS projection is for NAICS 115000 rather than 115114 and spans ten years rather than five.",
+        "Real output does not directly measure constant-quality postharvest service quantity.",
+        "Crop failures or customer vertical integration can create severe local declines despite national stability."
+      ]
+    },
+    "o": {
+      "evidence_state": "ESTIMATE",
+      "low": 0.84,
+      "base": 0.92,
+      "high": 0.98,
+      "rationale": "The service basket requires physical possession and accountable execution of cleaning, sorting, packing, cooling, fumigation, and related handling. AI can automate decisions and machinery but cannot supply these services as software alone. The main loss of outsourced quantity would come from growers, wholesalers, or processors buying automated equipment and self-performing the work, or from consolidation into captive regional packing facilities.",
+      "change_evidence": "Customer make-versus-buy studies, adoption rates for on-farm autonomous sorting and packing, closures and openings of independent packinghouses, and the share of throughput moving to captive facilities would materially revise the factor.",
+      "source_ids": ["S1", "S3", "S5", "S6"],
+      "caveats": [
+        "This is a structural estimate rather than an observed displacement rate.",
+        "Portable or in-field sorting can shift work away from independent postharvest facilities.",
+        "An accountable operator remains necessary even when the operator is a vertically integrated customer rather than a lens firm."
+      ]
+    }
+  },
+  "narrative": {
+    "executive_view": "Postharvest crop activities are a genuine recurring outsourced service with durable physical necessity and meaningful labor intensity. AI is most useful where perception and information meet machinery: grading, defect detection, lot tracking, scheduling, maintenance, and exception handling. The opportunity is moderated by already-automated lines, physical material handling, crop-specific integration, seasonal utilization, customer concentration, and the risk that customers internalize automated capacity.",
+    "ai_impact": "AI-enabled vision can improve size, color, grade, and defect decisions, while software can automate traceability records, production plans, inventory reconciliation, customer communication, staffing, and predictive maintenance. Manual packing, sanitation, loading, repair, product changeovers, and food-safety intervention persist, and many conveyors, coolers, sizers, and packaging machines are already conventional automation rather than new AI opportunity.",
+    "value_capture": "Operators can keep savings that lower their own labor, damage, waste, energy, rework, and downtime, especially under committed capacity or fixed unit pricing. Over five years, competitive bids and renewals can share those benefits with growers and marketers. Accurate grading, rapid recalls, documented food safety, lower claims, and scarce local throughput capacity provide the best defenses against pass-through.",
+    "firm_availability": "The industry definition aligns well with the service lens, and the dataset supplies an estimated lower-middle-market population, but margin bridging may be imprecise. Aging agricultural ownership suggests transitions, yet family succession, liquidation, facility real estate, customer contracts, seasonality, and food-safety history determine whether a firm is actually transferable.",
+    "demand_durability": "Crops still require physical preparation for market, and broader agricultural-support output projections imply modest growth. Demand varies with weather, harvest volumes, crop mix, imports, and local processor capacity. Food-safety and traceability requirements add continuing workflow complexity, while customer vertical integration and portable in-field automation are the clearest substitution risks.",
+    "risks_and_uncertainty": "Key uncertainties are the absence of six-digit occupation data, representative contract terms, owner-transition evidence, and realized AI returns across crops. Operational risks include food contamination and recall, grade errors, cold-chain failure, seasonal labor shortages, crop failure, equipment downtime, customer and crop concentration, energy cost, water and fumigant regulation, and legacy-system integration. The injected compensation ratio also carries a stated wage-receipts vintage mismatch.",
+    "principal_driver": "Recurring physical crop throughput plus high-value grading, traceability, and scheduling decisions creates an implementable AI layer around an operator-required service.",
+    "principal_weakness": "Crop-specific machinery, already-automated processes, seasonal utilization, and customer vertical integration can limit incremental labor savings and erode retention."
+  },
+  "sources": [
+    {
+      "id": "S1",
+      "url": "https://www.census.gov/naics/resources/archives/sect11.html",
+      "title": "U.S. Census Bureau NAICS 115114 Postharvest Crop Activities (except Cotton Ginning)",
+      "access_date": "2026-07-23",
+      "supports": "Defines the industry as services performed after harvest to prepare crops for market or processing, including cleaning, drying, shelling, fumigating, curing, sorting, grading, packing, and cooling."
+    },
+    {
+      "id": "S2",
+      "url": "https://www.bls.gov/oes/2023/may/naics4_115100.htm",
+      "title": "BLS OEWS: Support Activities for Crop Production, May 2023",
+      "access_date": "2026-07-23",
+      "supports": "Provides the nearest published occupation mix, including farming, office, production, maintenance, transportation, packing, grading, inspection, and material-moving occupations."
+    },
+    {
+      "id": "S3",
+      "url": "https://www.nal.usda.gov/research-tools/food-safety-research-projects/ai-enhanced-multispectral-vision-based-field-apple-sorting-system",
+      "title": "USDA NAL: AI-Enhanced Multispectral Vision-Based In-Field Apple Sorting System",
+      "access_date": "2026-07-23",
+      "supports": "Documents development of AI vision and conveyor integration to sort apples by size, color, surface defects, and market grade."
+    },
+    {
+      "id": "S4",
+      "url": "https://www.ars.usda.gov/research/publications/publication/?seqNo115=417478",
+      "title": "USDA ARS: Development of Sensing Platform for Fruit Sorting",
+      "access_date": "2026-07-23",
+      "supports": "Describes RGB and hyperspectral sensing and software for automated detection of external and bruise-like internal fruit defects."
+    },
+    {
+      "id": "S5",
+      "url": "https://www.ars.usda.gov/oc/dof/how-dya-like-them-apples/",
+      "title": "USDA ARS: How D'Ya Like Them Apples?",
+      "access_date": "2026-07-23",
+      "supports": "Reports a machine-vision apple sorter capable of grading 10 to 12 apples per second and illustrates the movement of sorting activity into the field."
+    },
+    {
+      "id": "S6",
+      "url": "https://www.fda.gov/food/food-safety-modernization-act-fsma/fsma-final-rule-requirements-additional-traceability-records-certain-foods",
+      "title": "FDA: FSMA Final Rule on Requirements for Additional Traceability Records for Certain Foods",
+      "access_date": "2026-07-23",
+      "supports": "Establishes lot-level records and key data elements for cooling, initial packing, shipping, receiving, and other critical tracking events relevant to postharvest operators."
+    },
+    {
+      "id": "S7",
+      "url": "https://www.bls.gov/iag/tgs/iag115.htm",
+      "title": "BLS Industries at a Glance: Support Activities for Agriculture and Forestry",
+      "access_date": "2026-07-23",
+      "supports": "Explains that independently conducted agricultural support activities are alternatives to producer self-performance and provides contextual workforce and operating-risk information."
+    },
+    {
+      "id": "S8",
+      "url": "https://ers.usda.gov/sites/default/files/_laserfiche/publications/100012/EIB-220.pdf?v=66964",
+      "title": "USDA ERS: America's Diverse Family Farms, 2020 Edition",
+      "access_date": "2026-07-23",
+      "supports": "Reports five-year farm-retirement intentions, family succession expectations, and the limited share of farmland expected to become purchasable from retiring operators."
+    },
+    {
+      "id": "S9",
+      "url": "https://advocacy.sba.gov/wp-content/uploads/2021/03/Paths-to-Business-Ownership-fact-sheet.pdf",
+      "title": "SBA Office of Advocacy: Paths to Business Ownership",
+      "access_date": "2026-07-23",
+      "supports": "Reports broad business-owner acquisition patterns and that 64.5% of owners planned eventually to sell, used only as a non-industry transition proxy."
+    },
+    {
+      "id": "S10",
+      "url": "https://www.bls.gov/emp/tables/industry-employment-and-output.htm",
+      "title": "BLS Employment Projections: Industry Employment and Output",
+      "access_date": "2026-07-23",
+      "supports": "Projects broader support-activities-for-agriculture-and-forestry real output from 23.6 in 2024 to 27.6 in 2034, supporting a demand-growth proxy."
+    }
+  ]
+}

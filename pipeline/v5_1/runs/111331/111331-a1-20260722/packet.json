@@ -1,0 +1,197 @@
+{
+  "identity": {
+    "naics": "111331",
+    "title": "Apple Orchards",
+    "run_id": "111331-a1-20260722",
+    "model_id": "claude-sonnet-5",
+    "run_date": "2026-07-22",
+    "methodology_version": "5.1",
+    "attempt": 1
+  },
+  "lens": {
+    "included_activities": "U.S. lower-middle-market operating companies whose primary establishment activity is growing apples and selling the harvested crop to external packers, processors, wholesalers, retailers, or direct customers, including orchard-level harvest and farm-gate preparation performed by the grower.",
+    "excluded_activities": "Mixed farms for which apples are not the primary output; independent packers, processors, distributors, and farm-service contractors; hobby or noncommercial orchards; passive landowners; captive internal units; shells; and non-control financing vehicles.",
+    "customer_and_revenue_model": "Seasonal crop revenue from fresh-market and processing apples sold through contracts, spot channels, cooperatives, wholesalers, retailers, and direct-to-consumer channels. Buyer relationships may repeat annually, but the economic output is a physical crop rather than a billed outsourced service.",
+    "deviation_from_default": "none",
+    "heterogeneous": false
+  },
+  "primitives": {
+    "a": {
+      "evidence_state": "PROXY",
+      "low": 0.18,
+      "base": 0.32,
+      "high": 0.48,
+      "bridge": "USDA measures labor intensity for the broader fruit-and-tree-nut population, BLS describes crop-worker tasks, and ARS documents apple-specific robotic-harvest research rather than a wage-weighted task share. I map administrative, sensing, crop-estimation, scheduling, and selected harvesting tasks into the numerator while keeping pruning, maintenance, field judgment, and difficult picking substantially human; broad task descriptions may overstate exposure in older or irregular orchards.",
+      "rationale": "Apple growing combines digitally tractable planning and sensing with costly but physically difficult orchard work. USDA reports labor costs equal 40 percent of fruit and tree nut production expenses, while ARS reports continued reliance on manual harvesting and active AI-enabled robotics development. The midpoint therefore reflects meaningful exposure without treating research prototypes as current full substitution.",
+      "change_evidence": "A wage-weighted time-and-motion study across commercial apple orchards that separates pruning, thinning, spraying, scouting, picking, packing, supervision, and office work, paired with vendor deployment data for machine vision and robotic harvesters.",
+      "source_ids": ["S2", "S3", "S4", "S5"],
+      "caveats": [
+        "The provided compensation-to-receipts input l is missing, so this task-share judgment cannot be checked against industry labor intensity in the frozen dataset.",
+        "The USDA labor-cost statistic covers fruit and tree nut farms, not apple orchards alone.",
+        "Research capability does not establish commercial reliability, utilization, or net labor displacement."
+      ]
+    },
+    "rho": {
+      "evidence_state": "PROXY",
+      "low": 0.25,
+      "base": 0.45,
+      "high": 0.65,
+      "bridge": "ARS project objectives and apple-harvest research show technical pathways and trials, not the five-year implemented share across lower-middle-market orchard companies. I discount the documented opportunity for capital intensity, orchard architecture, short seasonal utilization, safety, maintenance, and workflow integration; prototype evidence may overstate broad implementation, especially in mature nonuniform orchards.",
+      "rationale": "Yield sensing, recordkeeping, scheduling, and decision support can diffuse faster than autonomous picking. The active multistate ARS program and apple-specific detection work support progress, but manual harvest prevalence and the need for reliable manipulation in variable canopies justify a midpoint below one-half of exposed opportunity.",
+      "change_evidence": "Five-year cohort data from apple growers and equipment vendors reporting installed systems, orchard acreage covered, uptime, fruit damage, throughput, labor hours avoided, and payback by orchard architecture.",
+      "source_ids": ["S4", "S5"],
+      "caveats": [
+        "Public research projects do not report adoption rates for the screened firm population.",
+        "Implementation will differ sharply between high-density trellised blocks and older tree forms.",
+        "Annual harvest windows reduce equipment utilization and increase the importance of service support."
+      ]
+    },
+    "e": {
+      "evidence_state": "ESTIMATE",
+      "low": 0.3,
+      "base": 0.5,
+      "high": 0.7,
+      "rationale": "The NAICS definition identifies apple-growing establishments, but the frozen dataset supplies no LMM firm count and available public data do not isolate operating companies that also meet the external-customer, transferability, and normalized-earnings lens. Many commercial orchards plausibly qualify, while mixed farms, owner-dependent operations, passive land structures, and vertically integrated packing entities reduce eligibility.",
+      "change_evidence": "A business-level census or commercial database crosswalk for NAICS 111331 with revenue, payroll, ownership, EBITDA normalization, crop mix, and related-party sales, verified against interviews with apple-industry lenders and brokers.",
+      "source_ids": ["S1", "S8"],
+      "caveats": [
+        "The dataset input n is missing and was not re-estimated.",
+        "Establishment classification does not reveal enterprise boundaries, normalized EBITDA, or whether sales are external.",
+        "Farm proprietorship and family labor can make accounting earnings a poor measure of transferable operating economics."
+      ]
+    },
+    "s5": {
+      "evidence_state": "PROXY",
+      "low": 0.06,
+      "base": 0.13,
+      "high": 0.24,
+      "bridge": "NASS reports age for all U.S. producers and intended ownership transfer for all agricultural land, not qualifying control transfers of eligible apple-orchard operating companies. I raise the five-year transfer likelihood above the reported 5 percent land-acre plan because aging owners create succession pressure, then discount family gifts, passive land transfers, wills, partial interests, and nontransferable owner-operator businesses; this bridge remains directionally uncertain.",
+      "rationale": "The average U.S. producer age is 58.1 and 38 percent are at least 65, indicating succession pressure. NASS separately reports that about 5 percent of agricultural land acreage is planned for ownership transfer over five years excluding wills and trusts, but land movement is not the same as a sale of operating control. A modest midpoint with a wide band reflects that distinction.",
+      "change_evidence": "Apple-specific closed-transaction data from farm brokers, lenders, grower associations, and county deed records linked to operating-company ownership, including seller age, family succession, asset versus equity form, and continued commercial operation.",
+      "source_ids": ["S8", "S9"],
+      "caveats": [
+        "Producer age is a national all-farm proxy and does not identify the controlling owner of an eligible apple business.",
+        "The NASS transfer statistic concerns acres and expressly excludes some inheritance routes.",
+        "A farm or land transfer may not constitute a qualifying control transfer of a transferable operating company."
+      ]
+    },
+    "q": {
+      "evidence_state": "ESTIMATE",
+      "low": 0.22,
+      "base": 0.4,
+      "high": 0.6,
+      "rationale": "Fresh and processing apples are sold into agricultural channels where annual crop supply, grade, variety, storage, buyer contracts, and market prices constrain producer pricing. Efficiency gains can improve margins initially, but competitive planting, buyer renegotiation, and commodity price adjustment should pass through part of the benefit. Differentiated varieties, direct sales, storage timing, and grower-specific quality can preserve more value.",
+      "change_evidence": "Matched orchard gross-margin and realized-price histories before and after automation, segmented by fresh, processing, contract, cooperative, and direct channels, plus contract clauses governing quality premiums and price resets.",
+      "source_ids": ["S6", "S7"],
+      "caveats": [
+        "No source directly measures five-year retention of automation benefits by apple growers.",
+        "Channel and variety mix can dominate bargaining power and price realization.",
+        "The estimate excludes implementation risk and quantity changes, which belong in rho and demand primitives."
+      ]
+    },
+    "d5": {
+      "evidence_state": "PROXY",
+      "low": 0.88,
+      "base": 0.99,
+      "high": 1.12,
+      "bridge": "ERS measures per-capita apple availability and aggregate crop production, not constant-price demand for the screened firms' exact service basket. I treat long-run availability stability as a demand anchor and allow modest population and channel effects, while recognizing that production also reflects weather, inventories, trade, and prices; production volatility can overstate underlying demand movement in either direction.",
+      "rationale": "ERS reports 2024/25 apple availability of 41.3 pounds per person within a long-running stable band, with fresh and juice channels each representing large shares. The 2025 crop forecast was 6 percent above 2024 but similar to 2023. These facts support nearly flat real quantity demand with a wide band for weather, trade, processing substitution, and consumer preference.",
+      "change_evidence": "USDA disappearance and expenditure series decomposed into constant-price quantities for fresh apples, juice, and other processed uses, combined with five-year buyer forecasts and import-export scenarios.",
+      "source_ids": ["S6", "S7"],
+      "caveats": [
+        "Availability is not a direct demand curve and includes inventory and trade effects.",
+        "Aggregate U.S. demand does not determine volume for a particular region, variety, or orchard.",
+        "Weather and biological cycles can move production independently of final demand."
+      ]
+    },
+    "o": {
+      "evidence_state": "ESTIMATE",
+      "low": 0.985,
+      "base": 0.997,
+      "high": 1.0,
+      "rationale": "Growing and selling apples still requires an accountable operator to control land access, biological production, food-safety practices, capital equipment, labor or contractors, and buyer delivery. Software and robots can change the labor mix but do not plausibly eliminate the orchard operator within five years. Only limited displacement through vertical integration, land-use change, or fully managed contracting is assigned here.",
+      "change_evidence": "Evidence of fully autonomous orchards operated as a vendor-managed service, or buyer-led vertical integration that removes independent orchard operating companies while preserving apple quantity.",
+      "source_ids": ["S1", "S4"],
+      "caveats": [
+        "This is a structural judgment rather than an observed displacement rate.",
+        "Consolidation changes who operates orchards but does not necessarily eliminate the operator role.",
+        "Demand loss and orchard conversion are reflected primarily in d5, not duplicated here."
+      ]
+    }
+  },
+  "narrative": {
+    "executive_view": "Apple orchards offer a real labor-productivity problem, especially around seasonal harvest, sensing, planning, and records, but they are an awkward fit for a repeat outsourced-service screen because revenue comes from crop sales and the frozen firm-count and labor inputs are both missing. Automation economics will be strongest in modern, uniform orchards with enough scale and technical support.",
+    "ai_impact": "Near-term AI is more credible in crop-load estimation, maturity and quality sensing, spray and irrigation decisions, labor scheduling, compliance records, and sales planning than in universal autonomous picking. Robotic harvest is technically active, but canopy variation, occlusion, fruit damage, speed, uptime, and the short harvest season constrain broad deployment.",
+    "value_capture": "Implemented savings can accrue to the grower through lower hired-labor needs, reduced crop loss, improved quality, and better timing. Annual commodity pricing and buyer bargaining should share some gains, while branded varieties, direct sales, storage flexibility, and quality premiums can improve retention.",
+    "firm_availability": "Public data establish an aging farm-owner population but do not identify eligible apple operating companies in the specified earnings band or observe qualifying control deals. Land, orchard improvements, packing assets, water rights, and the operating entity may transfer separately, making apparent farm turnover a weak acquisition proxy.",
+    "demand_durability": "Apple availability has been broadly stable over decades, and fresh fruit and juice provide diversified end uses. Weather, climate, imports, processing economics, consumer sugar preferences, and variety shifts can still make any one orchard's realized demand and price materially less stable than aggregate consumption.",
+    "risks_and_uncertainty": "The largest uncertainties are missing frozen l and n, absent apple-specific task-time data, prototype-to-commercial robotics risk, orchard-architecture heterogeneity, seasonal utilization, volatile yields and prices, and the difference between land succession and operating-company control transfer. A credible diligence case requires orchard-level labor, technology, channel, and transaction data.",
+    "principal_driver": "High fruit-sector labor intensity creates material value if sensing, workflow tools, and selective mechanization can be implemented reliably.",
+    "principal_weakness": "The industry sells a seasonal commodity crop rather than a recurring outsourced service, and public evidence does not establish a pool of transferable eligible firms."
+  },
+  "sources": [
+    {
+      "id": "S1",
+      "url": "https://www.census.gov/naics/?details=111&input=111&year=2022",
+      "title": "2022 NAICS definition: Apple Orchards",
+      "access_date": "2026-07-23",
+      "supports": "Industry boundary: apple-growing establishments and the farm-gate endpoint of crop production."
+    },
+    {
+      "id": "S2",
+      "url": "https://www.ers.usda.gov/topics/farm-economy/farm-labor?os=qtfT_1",
+      "title": "Farm Labor",
+      "access_date": "2026-07-23",
+      "supports": "Fruit and tree nut labor-cost intensity, farm occupation mix, wage trends, labor scarcity, and mechanical aids in tree-fruit harvest."
+    },
+    {
+      "id": "S3",
+      "url": "https://www.bls.gov/ooh/farming-fishing-and-forestry/agricultural-workers.htm",
+      "title": "Agricultural Workers: Occupational Outlook Handbook",
+      "access_date": "2026-07-23",
+      "supports": "Crop-worker tasks including planting, pruning, irrigation, harvesting, packing, loading, equipment, and chemical application."
+    },
+    {
+      "id": "S4",
+      "url": "https://www.ars.usda.gov/research/project/?accnNo=445530",
+      "title": "USDA ARS project: Integrated Design and Control of a New Multi-Arm Robotic Apple Harvesting System",
+      "access_date": "2026-07-23",
+      "supports": "Current apple-specific AI, perception, planning, control, and robotic-harvest research objectives and field testing."
+    },
+    {
+      "id": "S5",
+      "url": "https://www.ars.usda.gov/research/publications/publication/?seqNo115=423936",
+      "title": "USDA ARS publication: AppleHarvestSAM2 Dataset",
+      "access_date": "2026-07-23",
+      "supports": "Continued manual-harvest prevalence, harvest-cost significance, and apple-specific AI fruit-detection development."
+    },
+    {
+      "id": "S6",
+      "url": "https://ers.usda.gov/sites/default/files/_laserfiche/outlooks/113982/FTS-384.pdf?v=11271",
+      "title": "Fruit and Tree Nuts Outlook: March 2026",
+      "access_date": "2026-07-23",
+      "supports": "Apple availability, channel mix, historical consumption band, and domestic share of fresh-market supply."
+    },
+    {
+      "id": "S7",
+      "url": "https://www.ers.usda.gov/sites/default/files/_laserfiche/outlooks/113466/FTS-383.pdf",
+      "title": "Fruit and Tree Nuts Outlook: September 2025",
+      "access_date": "2026-07-23",
+      "supports": "U.S. apple production forecast and recent production comparison."
+    },
+    {
+      "id": "S8",
+      "url": "https://www.nass.usda.gov/Publications/Highlights/2024/Census22_HL_FarmProducers_FINAL.pdf",
+      "title": "2022 Census of Agriculture Highlights: Farm Producers",
+      "access_date": "2026-07-23",
+      "supports": "National farm-producer age and experience distribution."
+    },
+    {
+      "id": "S9",
+      "url": "https://www.nass.usda.gov/Newsroom/2026/03-12-2026.php",
+      "title": "Most of the U.S. Rented Farmland is Owned by Non-Farmers",
+      "access_date": "2026-07-23",
+      "supports": "Planned five-year agricultural land ownership transfers and owner age from the 2024 TOTAL survey."
+    }
+  ]
+}

@@ -1,0 +1,171 @@
+{
+  "identity": {
+    "naics": "114112",
+    "title": "Shellfish Fishing",
+    "run_id": "114112-a1-20260722",
+    "model_id": "claude-sonnet-5",
+    "run_date": "2026-07-22",
+    "methodology_version": "5.1",
+    "attempt": 1
+  },
+  "lens": {
+    "included_activities": "U.S. lower-middle-market operating firms that control commercial vessels, fishing permits, crews, and recurring wild-capture shellfish harvesting for sales to external dealers, processors, auctions, or other wholesale buyers.",
+    "excluded_activities": "Shellfish aquaculture, seafood processing and distribution, recreational or charter fishing, passive permit or vessel lessors, captive fleets, shells, and non-control financing vehicles.",
+    "customer_and_revenue_model": "Operators earn predominantly variable ex-vessel revenue from repeated landings of crab, lobster, shrimp, scallops, and other wild shellfish; dealers or auctions typically pay by landed weight, species, grade, and prevailing dockside price rather than under a recurring service fee.",
+    "deviation_from_default": "none",
+    "heterogeneous": false
+  },
+  "primitives": {
+    "a": {
+      "evidence_state": "PROXY",
+      "low": 0.08,
+      "base": 0.18,
+      "high": 0.32,
+      "bridge": "BLS describes the broader fishing-worker task mix, while NOAA describes electronic monitoring and machine-vision capabilities across commercial fisheries. I mapped reporting, catch identification and measurement, video review, routing, planning, and administrative work to the exposed share, leaving vessel handling, gear deployment and retrieval, sorting, icing, repair, and safety-critical deck work unexposed. The proxy likely overstates exposure for small shellfish boats with little administrative staff and understates it where monitoring and reporting burdens are high.",
+      "rationale": "AI can reduce manual monitoring review, assist species and size identification, improve trip planning, and automate logs and compliance paperwork. Most wage effort remains physical, variable, and safety-critical work at sea, and fish-finding, GPS, radar, sonar, and mechanized hauling are already part of the current baseline rather than new AI substitution.",
+      "change_evidence": "A time-and-motion study by vessel class and shellfish fishery that separates current crew hours into navigation, gear handling, catch processing, maintenance, reporting, sales, and monitoring, paired with paid-hour results from deployed electronic-monitoring AI systems.",
+      "source_ids": ["S1", "S2", "S3"],
+      "caveats": [
+        "The occupational source covers fishing and hunting workers, not only shellfish vessels.",
+        "NOAA describes technical capabilities and pilots, not a measured wage-weighted automation share.",
+        "Exposure varies sharply between one- or two-person trap boats and larger dredge or trawl vessels."
+      ]
+    },
+    "rho": {
+      "evidence_state": "ESTIMATE",
+      "low": 0.2,
+      "base": 0.4,
+      "high": 0.6,
+      "rationale": "Five-year implementation should be meaningful in shore-side reporting, video review, and trip planning but slower onboard. Small crews, saltwater hardware reliability, weak offshore connectivity, fragmented software, regulatory acceptance, safety requirements, and limited capital constrain deployment and workflow redesign.",
+      "change_evidence": "Fleet-level adoption and realized-hour data from NOAA electronic-monitoring programs, stratified by shellfish gear type, vessel size, connectivity, and whether AI outputs are accepted for compliance reporting.",
+      "source_ids": ["S2", "S3"],
+      "caveats": [
+        "The estimate excludes savings already embedded in GPS, sonar, radar, mechanized hauling, and existing electronic reporting.",
+        "Regulator approval may lag technical feasibility where AI affects compliance evidence or protected-species monitoring."
+      ]
+    },
+    "e": {
+      "evidence_state": "ESTIMATE",
+      "low": 0.01,
+      "base": 0.05,
+      "high": 0.15,
+      "rationale": "The default lens is a poor fit because shellfish operators principally sell a commodity catch rather than an outsourced service. The frozen dataset also reports no estimated firms in the LMM band. A small residual allows for multi-vessel operators with repeat buyer arrangements that function economically like a contracted supply service, but most self-employed small boats and all non-operating permit holders fail the lens or size test.",
+      "change_evidence": "Business-level Census microdata or a commercial-vessel ownership database linking common control, vessel count, receipts, normalized EBITDA, operating status, customer contracts, and dealer concentration for NAICS 114112.",
+      "source_ids": ["S1", "S4"],
+      "caveats": [
+        "The injected LMM firm-count input is zero, so even a nonzero eligibility share does not imply an available target count.",
+        "BLS reports that 57 percent of the broader fishing-and-hunting occupation is self-employed, but that is a worker statistic rather than a firm-size distribution.",
+        "Repeated commodity sales are not necessarily a recurring outsourced service under the fixed lens."
+      ]
+    },
+    "s5": {
+      "evidence_state": "ESTIMATE",
+      "low": 0.08,
+      "base": 0.18,
+      "high": 0.3,
+      "rationale": "Owner-operated vessels, replacement openings associated with retirement, and transferable combinations of boats and permits create succession-driven transfer potential. However, no national control-transfer series was found, and marginal operations may retire permits, sell assets piecemeal, or exit without a transferable going concern.",
+      "change_evidence": "Five years of state and federal permit-transfer records matched to vessel documentation, beneficial owners, broker listings, and closed transactions, with internal transfers and asset liquidations removed.",
+      "source_ids": ["S1"],
+      "caveats": [
+        "The BLS retirement evidence is for occupational openings, not qualifying control transfers.",
+        "Permit transferability and fleet consolidation rules differ by fishery and jurisdiction.",
+        "With the frozen LMM firm count at zero, this probability has no practical target-count effect unless the size data are materially incomplete."
+      ]
+    },
+    "q": {
+      "evidence_state": "ESTIMATE",
+      "low": 0.28,
+      "base": 0.48,
+      "high": 0.68,
+      "rationale": "AI savings initially accrue to the vessel operator because crews and fuel are operating costs, but dockside revenue is exposed to dealer prices, auctions, imports, aquaculture substitutes, and competitive effort. Quotas and seasons can preserve some unit economics while limiting volume, and benefits may be competed into permit or vessel values rather than retained as operating cash flow.",
+      "change_evidence": "Dealer invoices, crew-share agreements, fuel and labor cost records, renewal or supply contracts, and vessel-level margins before and after comparable technology deployments across major shellfish fisheries.",
+      "source_ids": ["S4", "S6"],
+      "caveats": [
+        "Price formation differs across auctions, dealer relationships, cooperatives, and vertically integrated fleets.",
+        "Crew-share arrangements may cause labor savings and catch-productivity gains to be divided differently from salaried-workforce savings.",
+        "This estimate excludes catch-volume effects, which belong in demand durability."
+      ]
+    },
+    "d5": {
+      "evidence_state": "ESTIMATE",
+      "low": 0.84,
+      "base": 0.99,
+      "high": 1.14,
+      "rationale": "Wild shellfish remain high-value seafood: crabs, lobsters, and sea scallops were among the leading U.S. species by 2023 landed value. Five-year quantity demand should be broadly durable, but realized demand for the current basket is bounded by stock health, quotas, climate-driven distribution shifts, disease, imports, aquaculture substitution, and species-specific cycles. These forces support a near-flat base with a wide range rather than a single growth trend.",
+      "change_evidence": "A constant-price panel of domestic wild shellfish consumption and ex-vessel quantities by species, combined with current stock assessments, quota trajectories, import substitution, and food-service and retail buyer forecasts through 2031.",
+      "source_ids": ["S4", "S5", "S6"],
+      "caveats": [
+        "National seafood totals combine finfish, shellfish, wild capture, aquaculture, and imports.",
+        "Crab, lobster, shrimp, scallop, clam, and oyster fisheries can move in opposite directions.",
+        "The range is demand for the current service basket at constant price and quality, not nominal dockside revenue."
+      ]
+    },
+    "o": {
+      "evidence_state": "ESTIMATE",
+      "low": 0.97,
+      "base": 0.99,
+      "high": 1.0,
+      "rationale": "Nearly all surviving wild-capture quantity still requires an accountable licensed vessel operator to navigate, deploy and recover gear, handle catch, maintain equipment, and comply with permits and quotas. AI and autonomy can assist those tasks but are unlikely to eliminate the operating firm within five years.",
+      "change_evidence": "Regulatory approvals and commercial deployment records for uncrewed shellfish-harvesting vessels, autonomous gear retrieval, or buyer self-harvest models, including the share of landed quantity handled without a conventional licensed operator.",
+      "source_ids": ["S1", "S2"],
+      "caveats": [
+        "Remote monitoring and autonomous navigation may reduce crew requirements without removing the accountable operator.",
+        "Aquaculture substitution reduces demand in d5 rather than this operator-required share."
+      ]
+    }
+  },
+  "narrative": {
+    "executive_view": "Shellfish fishing has narrow but real AI opportunities in monitoring, documentation, species measurement, and trip planning. The operating core remains physical and safety-critical, while the fixed roll-up lens fits poorly because operators sell commodity catch rather than a recurring outsourced service and the injected dataset finds no LMM-band firms.",
+    "ai_impact": "Computer vision can reduce video-review effort and help identify, count, and measure catch; language and forecasting tools can assist logbooks, compliance, maintenance, weather synthesis, and trip planning. They do not remove the need to operate vessels, set and haul gear, sort and ice catch, repair equipment, or make safety judgments at sea.",
+    "value_capture": "Operators can keep some savings through lower shore-side review and administrative labor, fewer reporting errors, and better vessel utilization. Retention is limited by commodity dockside pricing, dealer bargaining, competitive fishing effort, imports, aquaculture alternatives, crew-share economics, and quota constraints.",
+    "firm_availability": "Availability is the central problem. The frozen LMM count is zero, most workers are self-employed or in small crews, and the few scaled fleets may not meet the recurring-service lens. Retiring owners can transfer vessels and permits, but many exits may be asset sales rather than transfers of a qualifying operating company.",
+    "demand_durability": "Consumer demand for shellfish is durable and several shellfish groups are among the highest-value U.S. catches. Quantity is nevertheless governed as much by biological supply, quotas, climate, and species geography as by end-market appetite, producing a flat central outlook with wide downside and upside cases.",
+    "risks_and_uncertainty": "The NAICS category spans fisheries with very different gear, vessel scale, stocks, regions, rules, prices, and climate exposure. Evidence on AI task hours, adoption economics, firm EBITDA, common ownership, and control transfers is sparse. A roll-up thesis fails if scaled operators are absent, repeat buyer relationships do not satisfy the service lens, or stock and quota pressure overwhelms modest productivity gains.",
+    "principal_driver": "High operator necessity and durable high-value shellfish demand preserve the operating role even as AI improves monitoring and administration.",
+    "principal_weakness": "The frozen dataset identifies no LMM firms, and commodity-catching businesses rarely satisfy the recurring outsourced-service lens."
+  },
+  "sources": [
+    {
+      "id": "S1",
+      "url": "https://www.bls.gov/ooh/farming-fishing-and-forestry/fishers-and-related-fishing-workers.htm",
+      "title": "Fishing and Hunting Workers",
+      "access_date": "2026-07-22",
+      "supports": "Typical fishing duties, small-crew shellfish methods, physical and hazardous work, self-employment share, owner-captain structure, permit requirements, retirement-related openings, and employment outlook."
+    },
+    {
+      "id": "S2",
+      "url": "https://www.fisheries.noaa.gov/national/fisheries-observers/electronic-monitoring",
+      "title": "Electronic Monitoring",
+      "access_date": "2026-07-22",
+      "supports": "NOAA use and development of computer vision and machine learning for species identification, catch measurement, gear enumeration, fishing-activity detection, and lower-cost or faster monitoring review."
+    },
+    {
+      "id": "S3",
+      "url": "https://www.fisheries.noaa.gov/feature-story/developing-machine-vision-collect-more-timely-fisheries-data",
+      "title": "Developing Machine Vision to Collect More Timely Fisheries Data",
+      "access_date": "2026-07-22",
+      "supports": "Potential for machine vision to automate at-sea image analysis, reduce manual onshore video processing, and accelerate fisheries data."
+    },
+    {
+      "id": "S4",
+      "url": "https://www.fisheries.noaa.gov/national/sustainable-fisheries/fisheries-united-states",
+      "title": "Fisheries of the United States",
+      "access_date": "2026-07-22",
+      "supports": "2023 commercial landings context, leading shellfish species by catch value, the importance of sea scallops to the top-value port, and competing aquaculture production."
+    },
+    {
+      "id": "S5",
+      "url": "https://www.fisheries.noaa.gov/national/sustainable-fisheries/status-stocks-2024",
+      "title": "Status of Stocks 2024",
+      "access_date": "2026-07-22",
+      "supports": "Stock and harvest-rate regulation context, including biological, climate, habitat, pollution, and disease risks and a shellfish example added to the overfishing list."
+    },
+    {
+      "id": "S6",
+      "url": "https://www.fisheries.noaa.gov/national/sustainable-fisheries/commercial-fisheries-landings",
+      "title": "Commercial Fisheries Landings",
+      "access_date": "2026-07-22",
+      "supports": "How U.S. wild fish and shellfish landings and ex-vessel values are measured through dealer reports, trip tickets, logbooks, interviews, and species-level databases."
+    }
+  ]
+}

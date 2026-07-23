@@ -1,0 +1,198 @@
+{
+  "identity": {
+    "naics": "111992",
+    "title": "Peanut Farming",
+    "run_id": "111992-a1-20260722",
+    "model_id": "claude-sonnet-5",
+    "run_date": "2026-07-22",
+    "methodology_version": "5.1",
+    "attempt": 1
+  },
+  "lens": {
+    "included_activities": "U.S. peanut-growing establishments in the lower-middle-market band that repeatedly provide accountable crop-production services to an external contractor, especially arrangements in which the contractor owns the commodity during production.",
+    "excluded_activities": "Ordinary cash-market and marketing-contract peanut farms that own and sell their crop, hobby and subscale farms, captive operations, passive landholding, shells, and non-control financing vehicles.",
+    "customer_and_revenue_model": "Recurring seasonal production fees or economically equivalent grower compensation paid by an external contractor for field execution, quality compliance, and delivery; this is distinct from a farm simply selling its own commodity.",
+    "deviation_from_default": "The code is narrowed to the small production-service subset because Census defines the industry as establishments growing peanuts, while USDA distinguishes production contracts, where the contractor owns the commodity, from the marketing contracts that predominate in crop farming. Combining commodity sellers with true contracted production services would make the screen incoherent.",
+    "heterogeneous": true
+  },
+  "primitives": {
+    "a": {
+      "evidence_state": "PROXY",
+      "low": 0.09,
+      "base": 0.17,
+      "high": 0.28,
+      "bridge": "BLS describes the general farmer-manager task mix rather than wage-weighted tasks on eligible peanut contract operations, and USDA reports technology adoption by peanut farms rather than AI task exposure. I map recordkeeping, market and production analysis, planning, compliance documentation, and some machine-guidance work to AI exposure while leaving planting, harvesting, maintenance, and field accountability largely unexposed. The proxy could overstate exposure because unpaid owner work and already-automated guidance are not avoidable hired labor, or understate it because it omits office staff on larger farms.",
+      "rationale": "Farm management contains document, forecasting, scheduling, purchasing, and record tasks suitable for AI assistance, but the core crop-production basket remains physical, seasonal, equipment-intensive, and safety constrained. Peanut farms had already adopted substantial guidance technology by 2013, so this primitive excludes benefits from automation already in place.",
+      "change_evidence": "A wage-weighted time-and-task study of LMM peanut production-contract farms, split among operators, field labor, mechanics, bookkeepers, and agronomists, with current software and automation use identified task by task.",
+      "source_ids": ["S1", "S2", "S3"],
+      "caveats": [
+        "No peanut-specific occupational wage mix was found.",
+        "The peanut technology evidence is from 2013 and measures precision equipment, not generative AI.",
+        "Owner and family labor may not translate into cash wage savings."
+      ]
+    },
+    "rho": {
+      "evidence_state": "ESTIMATE",
+      "low": 0.27,
+      "base": 0.47,
+      "high": 0.67,
+      "rationale": "Commodity farms have demonstrated willingness to adopt labor- and input-saving technology, but implementation of exposed office and decision workflows will be slowed by seasonal deployment windows, fragmented farm data, connectivity, vendor integration, field-safety requirements, and limited management bandwidth. The base assumes useful adoption in administration and decision support without autonomous replacement of accountable field operations.",
+      "change_evidence": "A five-year implementation cohort or vendor telemetry for AI-enabled farm-management systems among U.S. peanut growers, including deployment completion, active use, error rates, and realized labor hours avoided.",
+      "source_ids": ["S2", "S3"],
+      "caveats": [
+        "The estimate extrapolates from precision-agriculture adoption to newer AI workflows.",
+        "Capital availability and rural connectivity differ greatly by farm size and region.",
+        "Implementation is measured only against the exposed opportunity in a, not against total farm labor."
+      ]
+    },
+    "e": {
+      "evidence_state": "PROXY",
+      "low": 0.01,
+      "base": 0.05,
+      "high": 0.12,
+      "bridge": "USDA measures contract types by commodity value and reports that more than half of peanut production value was under marketing contracts in 2020, while crop farmers generally favor marketing rather than production contracts. I treat the uncommon production-contract form, in which the contractor owns the commodity and the farmer provides production, as the closest eligible recurring service population. This likely overstates eligibility because the source does not show that the residual peanut volume is under production contracts; much of it may be ordinary cash sales, and EBITDA-band eligibility is also unobserved.",
+      "rationale": "Census defines this NAICS as growing peanuts, which ordinarily produces a commodity rather than an outsourced service. Only the small subset that repeatedly performs production for an outside owner or principal fits the frozen lens; marketing-contract growers retain ownership and remain commodity sellers.",
+      "change_evidence": "Peanut-specific ARMS microdata or processor contract files that separate production from marketing contracts, identify legal ownership during production, and show normalized EBITDA or sufficient financials to map farms into the LMM band.",
+      "source_ids": ["S0", "S4"],
+      "caveats": [
+        "No count of peanut production-contract farms was found.",
+        "Contract value shares do not equal firm shares.",
+        "The frozen dataset provides no defensible LMM firm count for this activity."
+      ]
+    },
+    "s5": {
+      "evidence_state": "PROXY",
+      "low": 0.07,
+      "base": 0.16,
+      "high": 0.27,
+      "bridge": "The 2022 Census reports all U.S. farm producers rather than eligible LMM peanut production-service firms: 38 percent were age 65 or older and average age was 58.1. I translate that age profile into a five-year probability of a qualifying control transfer, discounting for multigenerational continuity, partial asset or land transfers, closures, and transfers that do not convey a standalone service operation. The national proxy may understate transfer pressure because peanut production is concentrated in older Southern producer populations, but may overstate qualifying deals because older producer status is not the same as a sale of control.",
+      "rationale": "An aging producer base creates succession events, yet farm transitions frequently occur within families, through land leases or asset sales, or without a transferable contracted operating company. The eligible population is especially uncertain and likely relationship-dependent.",
+      "change_evidence": "A peanut-region owner survey linked to farm legal entities, principal-owner ages, succession plans, contract assignability, and completed control transfers over the last five years, supplemented by agricultural M&A broker transaction data.",
+      "source_ids": ["S5"],
+      "caveats": [
+        "The demographic source is national and covers all farm producers, not principal owners of peanut firms.",
+        "Producer counts include multiple decision makers per farm.",
+        "No observed qualifying-control-transfer rate for the lens population was found."
+      ]
+    },
+    "q": {
+      "evidence_state": "PROXY",
+      "low": 0.22,
+      "base": 0.38,
+      "high": 0.56,
+      "bridge": "USDA documents the broader peanut marketing market, where two processors accounted for about 70 percent of shelling and a contracted producer has one processor buyer after signing. I use that buyer concentration and bilateral contracting as a proxy for renewal repricing and benefit sharing in the much smaller eligible production-service subset. It may understate retention if a production contract fixes a fee for multiple seasons, or overstate it if the contractor has transparent farm-cost data and can reset fees quickly.",
+      "rationale": "Operational savings can initially accrue to the farm, but concentrated processors, recurring contract renewal, cost visibility, and standardized crop economics give customers leverage to reclaim part of the benefit. Quality improvements and reliable delivery may support some retention, while commodity price changes themselves are excluded.",
+      "change_evidence": "A sample of current peanut production-service contracts and renewals showing fee formulas, cost-plus provisions, open-book requirements, productivity sharing, term length, termination rights, and realized pricing after documented cost reductions.",
+      "source_ids": ["S4", "S6"],
+      "caveats": [
+        "The concentration evidence concerns marketing contracts and shelling, not directly observed production-service fees.",
+        "The key contract form in the eligible population may be extremely rare.",
+        "Crop insurance and farm-program payments affect farm economics but are not treated as retention of implemented gross benefit."
+      ]
+    },
+    "d5": {
+      "evidence_state": "PROXY",
+      "low": 0.93,
+      "base": 1.02,
+      "high": 1.12,
+      "bridge": "USDA measures physical peanut production and food, crush, and export use rather than constant-price demand for the eligible contracted production-service basket. I use the long-run expansion in production and peanut-butter use, tempered by the 2025/26 forecast of nearly unchanged total use and lower food use, as a quantity-demand proxy. It may overstate service demand if processors shift toward owned production or imports, and understate it if more production is outsourced under production contracts.",
+      "rationale": "Peanut end demand appears broadly durable but mature and volatile: peanut butter exceeds 60 percent of food use and was above its prior-ten-year average, while the latest outlook showed flat total use, lower food use, weaker exports, and higher stocks. The base therefore assumes roughly flat to modestly higher real service quantity over five years.",
+      "change_evidence": "USDA baseline projections and processor procurement plans that separately forecast domestic peanut quantity, import substitution, acres, and the share sourced under production-service contracts through 2031.",
+      "source_ids": ["S7", "S8"],
+      "caveats": [
+        "Commodity quantity is not the same as demand for outsourced accountable production.",
+        "Weather, crop rotation, yields, exports, and competing-crop economics can move acreage sharply.",
+        "The low and high cases reflect quantity uncertainty, not commodity price changes."
+      ]
+    },
+    "o": {
+      "evidence_state": "ESTIMATE",
+      "low": 0.97,
+      "base": 0.995,
+      "high": 1.0,
+      "rationale": "Peanut growing still requires an accountable operator to control land access, agronomic execution, machinery, chemical handling, harvest timing, quality, and delivery. Software and equipment can automate tasks but do not plausibly eliminate the operating counterparty within five years; a small downside allows for consolidation into vertically integrated or self-operated processor supply.",
+      "change_evidence": "Processor make-versus-buy studies, contract sourcing plans, and field evidence of autonomous crop systems operating without a local accountable production company, including responsibility for safety, agronomy, and delivery failures.",
+      "source_ids": ["S0", "S1", "S3", "S4"],
+      "caveats": [
+        "This is a bounded structural judgment rather than a measured industry share.",
+        "Operator requirement does not imply that the current independent firm or ownership structure survives.",
+        "Vertical integration could remove outsourced operators even if physical farming remains."
+      ]
+    }
+  },
+  "narrative": {
+    "executive_view": "Peanut Farming is primarily commodity production, not an outsourced service. The coherent lens is therefore a narrow and poorly measured subset of repeat production arrangements in which an external contractor owns or commissions the production activity. Within that subset, AI can improve planning, records, compliance, and decision support, but most field execution remains physical and buyer leverage is material.",
+    "ai_impact": "The practical AI surface is concentrated in office and management work: production records, scheduling, purchasing support, agronomic information synthesis, contract and compliance documentation, and exception detection. Core planting, chemical application, maintenance, harvest, and delivery are equipment- and field-dependent; precision guidance is already established, so already-automated work is not counted again.",
+    "value_capture": "Savings may persist where they improve reliability or quality, but concentrated shellers and recurring bilateral contract negotiation make pass-through plausible. Open-book or formula-based production arrangements would compress retention further. Commodity price movements, government support, and crop insurance are separate from retention of an implemented operating benefit.",
+    "firm_availability": "Eligibility is the central constraint. Most peanut farms sell a crop they own, including through marketing contracts, rather than deliver an outsourced service. Aging U.S. producers create succession activity, but family transfers, land leases, asset-only sales, and nonassignable buyer relationships reduce the share that becomes a transferable control transaction.",
+    "demand_durability": "Peanut consumption has a stable anchor in peanut butter, and longer-run production expanded, but the latest outlook shows flat total use alongside weaker food and export use and rising stocks. Physical cultivation should still require an accountable operator, although processors can alter the mix between independent contracted farms, ordinary procurement, and vertical integration.",
+    "risks_and_uncertainty": "The eligible production-service population is not directly counted, the frozen LMM firm count and labor share are missing, and the best contract and owner-age evidence comes from broader populations. A bad outcome is that virtually all apparent candidates are commodity sellers, family farms, or asset-heavy land operations rather than recurring service businesses, while concentrated buyers reclaim most efficiency gains.",
+    "principal_driver": "A durable physical crop-production need with an identifiable administrative and decision-support AI surface.",
+    "principal_weakness": "The NAICS code overwhelmingly describes commodity growers, leaving the eligible recurring outsourced-service subset both tiny and unmeasured."
+  },
+  "sources": [
+    {
+      "id": "S0",
+      "url": "https://www.census.gov/naics/resources/archives/sect11.html",
+      "title": "North American Industry Classification System: 111992 Peanut Farming",
+      "access_date": "2026-07-22",
+      "supports": "Defines 111992 as establishments primarily engaged in growing peanuts, establishing that the code is production-oriented rather than inherently a service industry."
+    },
+    {
+      "id": "S1",
+      "url": "https://www.bls.gov/ooh/management/farmers-ranchers-and-other-agricultural-managers.htm",
+      "title": "Farmers, Ranchers, and Other Agricultural Managers",
+      "access_date": "2026-07-22",
+      "supports": "Lists crop-production supervision, market and disease decisions, purchasing, equipment and facility maintenance, sales, and recordkeeping duties; also describes the physical and seasonal nature of farm work."
+    },
+    {
+      "id": "S2",
+      "url": "https://ers.usda.gov/data-products/charts-of-note/78202",
+      "title": "Peanut farms are adopting precision agriculture technologies",
+      "access_date": "2026-07-22",
+      "supports": "Reports that in 2013, 42 percent of peanut farms used auto-steer or guidance systems, 8 percent used yield monitors, 6 percent yield maps, and 22 percent variable-rate application."
+    },
+    {
+      "id": "S3",
+      "url": "https://ers.usda.gov/data-products/charts-of-note/110550",
+      "title": "Precision agriculture use increases with farm size and varies widely by technology",
+      "access_date": "2026-07-22",
+      "supports": "Reports 2023 guidance/autosteering use of 52 percent among midsize and 70 percent among large-scale crop farms and identifies labor time savings among common adoption reasons."
+    },
+    {
+      "id": "S4",
+      "url": "https://www.ers.usda.gov/data-products/charts-of-note/103803",
+      "title": "Contracts are common in animal and crop production",
+      "access_date": "2026-07-22",
+      "supports": "Distinguishes marketing contracts, where farmers retain commodity ownership, from production contracts, where the contractor owns the commodity, and reports that more than half of peanut production value was under marketing contracts in 2020."
+    },
+    {
+      "id": "S5",
+      "url": "https://www.nass.usda.gov/Publications/Highlights/2024/Census22_HL_FarmProducers_FINAL.pdf",
+      "title": "2022 Census of Agriculture: Farm Producers",
+      "access_date": "2026-07-22",
+      "supports": "Reports an average U.S. farm-producer age of 58.1 in 2022 and that 38 percent of producers were age 65 or older."
+    },
+    {
+      "id": "S6",
+      "url": "https://ers.usda.gov/sites/default/files/_laserfiche/publications/44034/56926_eib148.pdf?v=51919",
+      "title": "Thinning Markets in U.S. Agriculture",
+      "access_date": "2026-07-22",
+      "supports": "Reports that two processors accounted for about 70 percent of U.S. peanut shelling, that shellers offer fixed-price grower contracts, and that after signing a producer has one processor buyer."
+    },
+    {
+      "id": "S7",
+      "url": "https://ers.usda.gov/data-products/charts-of-note/114009",
+      "title": "Peanut butter consumption up 6 percent from the 10-year average",
+      "access_date": "2026-07-22",
+      "supports": "Reports peanut butter at more than 60 percent of U.S. peanut food use, consumption 6 percent above the preceding ten-year average, and 2024/25 production 25 percent above 2014/15."
+    },
+    {
+      "id": "S8",
+      "url": "https://ers.usda.gov/sites/default/files/_laserfiche/outlooks/113803/OCS-26b.pdf?v=35461",
+      "title": "Oil Crops Outlook: February 2026",
+      "access_date": "2026-07-22",
+      "supports": "Forecasts 2025/26 U.S. peanut production at 7.2 billion pounds, total use nearly unchanged, food use down 1.6 percent, exports at 1.3 billion pounds, and ending stocks at 2.3 billion pounds."
+    }
+  ]
+}

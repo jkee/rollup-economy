@@ -1,0 +1,264 @@
+{
+ "A": null,
+ "L": null,
+ "action": "EVIDENCE_FIRST",
+ "caveats": [
+  "a: The frozen labor-share input is missing, so exposure cannot be translated into a measured industry labor opportunity.",
+  "a: The occupation proxy is from crop-support contractors, not farms.",
+  "a: Self-employed owner labor is omitted from OEWS.",
+  "rho: No potato-specific five-year implementation study was found.",
+  "rho: Yield or input improvements are not counted unless they substitute labor or avoid hiring.",
+  "e: The frozen n input is missing and must not be reconstructed, so no eligible-firm count can be inferred from this share.",
+  "e: USDA reports farms and acres, not normalized EBITDA-band firms.",
+  "s5: Producer age is not owner age and multiple producers can be attached to one farm.",
+  "s5: Farm transfer structures frequently do not constitute qualifying control transactions.",
+  "q: Fresh-potato retail share is not a pass-through rate.",
+  "q: Seed, fresh, chip, dehydrated, and frozen-processing channels have different bargaining structures.",
+  "d5: Production is supply as well as demand and is weather-sensitive.",
+  "d5: Per-capita availability includes trade and stocks and is not direct consumption.",
+  "d5: No official five-year potato forecast was found.",
+  "o: Consolidation can reduce the number of independent operators without eliminating farm operation."
+ ],
+ "contract_sha256": "aab2c9e92e78bce09e2d306b237ffda9ce828ae72772be3c11cbfbf6d8786763",
+ "envelope": {
+  "attainable_tiers": [
+   "STRUCTURAL_OUT",
+   "PRIORITY",
+   "HIGHEST_PRIORITY"
+  ],
+  "base": null,
+  "high": {
+   "A": 10.0,
+   "L": 10.0,
+   "factors": {
+    "C": 10.0,
+    "D": 10.0,
+    "F": 10.0,
+    "H": 10.0
+   },
+   "state_id": "H:semantic_high|F:semantic_high|C:high|D:high",
+   "tier": "HIGHEST_PRIORITY"
+  },
+  "interval_scope": "research-input sensitivity with dataset anchors (l, n) held fixed",
+  "low": {
+   "A": 3.30975,
+   "L": 0.0,
+   "factors": {
+    "C": 4.8,
+    "D": 8.439,
+    "F": 0.0,
+    "H": 0.0
+   },
+   "state_id": "H:semantic_low|F:semantic_low|C:low|D:low",
+   "tier": "STRUCTURAL_OUT"
+  },
+  "missing_factors": [
+   "H",
+   "F"
+  ],
+  "robust_tier": null,
+  "state_count": 36,
+  "tier_interval": [
+   "STRUCTURAL_OUT",
+   "HIGHEST_PRIORITY"
+  ]
+ },
+ "factors": {
+  "C": {
+   "base": 8.0,
+   "evidence_state": "PROXY",
+   "high": 10.0,
+   "low": 4.8,
+   "primitives": [
+    "q"
+   ]
+  },
+  "D": {
+   "base": 9.751,
+   "evidence_state": "ESTIMATE",
+   "high": 10.0,
+   "low": 8.439,
+   "primitives": [
+    "d5",
+    "o"
+   ]
+  },
+  "F": {
+   "base": null,
+   "evidence_state": "MISSING",
+   "high": null,
+   "low": null,
+   "primitives": [
+    "e",
+    "s5"
+   ]
+  },
+  "H": {
+   "base": null,
+   "evidence_state": "MISSING",
+   "high": null,
+   "low": null,
+   "primitives": [
+    "a",
+    "rho"
+   ]
+  }
+ },
+ "identity": {
+  "attempt": 1,
+  "methodology_version": "5.1",
+  "model_id": "claude-sonnet-5",
+  "naics": "111211",
+  "run_date": "2026-07-22",
+  "run_id": "111211-a1-20260722",
+  "title": "Potato Farming"
+ },
+ "lens": {
+  "customer_and_revenue_model": "Annual crop sales through processor and buyer contracts, cooperatives, negotiated marketing arrangements, or spot channels, with payment based on quantity, grade, variety, delivery timing, and market or formula pricing; seed-potato growers sell recurring certified inputs to farms.",
+  "deviation_from_default": "none",
+  "excluded_activities": "Hobby and subsistence farms; land-only lessors; captive processor-owned farms without external customers; pure packing, storage, brokerage, and transportation businesses; farms outside the EBITDA band; shells and non-control financing vehicles.",
+  "heterogeneous": false,
+  "included_activities": "US lower-middle-market farms repeatedly growing ware and/or seed potatoes for external processors, packers, wholesalers, retailers, or other growers, including recurring seasonal delivery under marketing or production arrangements."
+ },
+ "methodology_commit": "d289829a354a6af5739761def12abbcf27390789",
+ "methodology_version": "5.1",
+ "primitives": {
+  "a": {
+   "base": 0.19,
+   "bridge": "BLS occupation data cover support activities for crop production rather than potato farms and omit many self-employed farm operators; USDA precision-agriculture evidence covers broad crops rather than potatoes and measures technology adoption, not AI task exposure. I assign partial exposure to crop planning, scouting interpretation, irrigation/fertilizer decisions, procurement, labor scheduling, food-safety records, contracts, and accounting while assigning little exposure to field operation, repair, grading, handling, and storage. Because potatoes already use substantial mechanization, generic crop evidence may overstate not-yet-automated opportunity.",
+   "caveats": [
+    "The frozen labor-share input is missing, so exposure cannot be translated into a measured industry labor opportunity.",
+    "The occupation proxy is from crop-support contractors, not farms.",
+    "Self-employed owner labor is omitted from OEWS."
+   ],
+   "change_evidence": "A wage-weighted 111211 occupation and task census including hired and owner labor, plus time studies for scouting, irrigation, input planning, equipment operation, grading, storage, compliance, contracting, and accounting.",
+   "evidence_state": "PROXY",
+   "high": 0.3,
+   "low": 0.1,
+   "rationale": "The available crop-support mix is 67.20% farming occupations, including 56.10% crop laborers and 4.23% agricultural equipment operators. Existing guidance and variable-rate systems already automate parts of field execution, leaving AI opportunity mainly in decisions and administration.",
+   "source_ids": [
+    "S2",
+    "S3"
+   ]
+  },
+  "d5": {
+   "base": 0.98,
+   "bridge": "USDA production and food-availability series measure historical potato volume and domestic supply, not a five-year constant-quality demand forecast for LMM farms. I extrapolate broadly stable national production, modest population growth, declining per-capita availability, processing mix, and trade; weather and inventory cause annual output to diverge from underlying demand in either direction.",
+   "caveats": [
+    "Production is supply as well as demand and is weather-sensitive.",
+    "Per-capita availability includes trade and stocks and is not direct consumption.",
+    "No official five-year potato forecast was found."
+   ],
+   "change_evidence": "USDA five-year acreage and utilization projections by fresh, frozen, chip, dehydrated, seed, and export channels; processor capacity plans; contract acreage; inventory; and climate-adjusted yield scenarios.",
+   "evidence_state": "PROXY",
+   "high": 1.1,
+   "low": 0.87,
+   "rationale": "US production was 412.688 million cwt in 2016 and 412.860 million cwt in 2025, indicating little net volume growth despite yearly variation. Average per-capita availability was 115 pounds in 2022–2024, about 20 pounds below the early 2000s, while frozen products now account for roughly half. Population and export growth can offset gradual domestic per-capita decline, leaving the base near current volume.",
+   "source_ids": [
+    "S1",
+    "S9"
+   ]
+  },
+  "e": {
+   "base": 0.67,
+   "caveats": [
+    "The frozen n input is missing and must not be reconstructed, so no eligible-firm count can be inferred from this share.",
+    "USDA reports farms and acres, not normalized EBITDA-band firms."
+   ],
+   "change_evidence": "A 111211 farm-business microdata cut showing normalized EBITDA, potato revenue share, contract/customer recurrence, ownership, captive status, land-versus-operating assets, and transferability.",
+   "evidence_state": "ESTIMATE",
+   "high": 0.82,
+   "low": 0.48,
+   "rationale": "Commercial potato farms usually sell repeatedly to external processors, packers, wholesalers, or seed customers, so the recurring external-supply element is common. Eligibility is reduced by farms below or above the EBITDA band, processor-captive operations, diversified farms whose primary NAICS differs, weak through-cycle profitability, and operations that depend inseparably on owner labor or land value.",
+   "source_ids": [
+    "S0",
+    "S5"
+   ]
+  },
+  "l": {
+   "detail": "SUSB scope excludes this activity, no IPS labor-compensation/output series at any level, and no other receipts source downloaded; labor_share left null (recorded gap).",
+   "evidence_state": "MISSING",
+   "rationale": "dataset labor_share has no defensible value",
+   "value": null
+  },
+  "n": {
+   "detail": "margin 0.0804 (margins.json[11]: Damodaran Jan 2026: Farming/Agriculture EBITDA/Sales 8.04%); revenue/employee $299,458 (SUSB 2022 receipts/employment at 11); DATA GAP: no SUSB size-class data for this code; n_band could not be computed — the research run must supply it with a shown chain, quality ESTIMATE",
+   "evidence_state": "MISSING",
+   "rationale": "dataset n_band has no defensible value",
+   "value": null
+  },
+  "o": {
+   "base": 0.995,
+   "caveats": [
+    "Consolidation can reduce the number of independent operators without eliminating farm operation."
+   ],
+   "change_evidence": "Commercial deployment of fully autonomous potato production systems or processor vertical integration that removes independent lens operators across meaningful acreage.",
+   "evidence_state": "ESTIMATE",
+   "high": 1.0,
+   "low": 0.97,
+   "rationale": "Potatoes must still be grown on land by an accountable farm operator who manages seed, soil, irrigation, pest control, machinery, harvest, storage, food safety, and delivery. AI and autonomous equipment may reduce labor, but software cannot replace the operating farm within five years.",
+   "source_ids": [
+    "S0",
+    "S3"
+   ]
+  },
+  "q": {
+   "base": 0.4,
+   "bridge": "USDA sources describe agricultural marketing and production contracts broadly and the farm share of retail fresh-potato value, not five-year retention of AI benefits by LMM potato farms. I infer low-to-moderate retention because processor contracts specify quantity, quality, delivery, and pricing while fresh growers receive only 15–18% of retail price; these comparisons may understate retention for scarce varieties or strong seed franchises and overstate it during oversupply.",
+   "caveats": [
+    "Fresh-potato retail share is not a pass-through rate.",
+    "Seed, fresh, chip, dehydrated, and frozen-processing channels have different bargaining structures."
+   ],
+   "change_evidence": "Processor and seed contracts showing formula pricing, cost escalators, quality premiums, exclusivity, acreage commitments, open-book terms, annual renewal, and actual margin bridges after labor-saving changes.",
+   "evidence_state": "PROXY",
+   "high": 0.57,
+   "low": 0.24,
+   "rationale": "Most crop contracts are marketing contracts under which farmers bear inputs and retain crop ownership, while buyers secure specified supply. Concentrated processing/packing channels, grade standards, annual contracting, and commodity competition transmit productivity gains through lower formula prices or tougher terms, though a farm can retain gains within a crop year and through better grade or storage performance.",
+   "source_ids": [
+    "S4",
+    "S6"
+   ]
+  },
+  "rho": {
+   "base": 0.52,
+   "caveats": [
+    "No potato-specific five-year implementation study was found.",
+    "Yield or input improvements are not counted unless they substitute labor or avoid hiring."
+   ],
+   "change_evidence": "Multi-season deployments at commercial potato farms showing sustained use, labor hours, input use, irrigation, yield, grade, storage loss, false recommendations, and integration cost versus matched controls.",
+   "evidence_state": "ESTIMATE",
+   "high": 0.69,
+   "low": 0.33,
+   "rationale": "Farm-management, agronomic decision support, recordkeeping, and office workflows can be implemented within five years, particularly on scaled farms with precision equipment. Seasonal operations, rural connectivity, fragmented data, equipment compatibility, biological uncertainty, food-safety liability, and limited small-farm IT capacity constrain realization.",
+   "source_ids": [
+    "S3"
+   ]
+  },
+  "s5": {
+   "base": 0.21,
+   "bridge": "The 2022 Census of Agriculture measures ages of all US producers, not potato-farm owners or qualifying control transfers. I use the 38% age-65-plus share as succession pressure, then discount for multi-generation family succession, land lease rather than operating-company sale, partial asset transfers, closures, and continued work by older producers. The broad age proxy likely overstates third-party control transfers.",
+   "caveats": [
+    "Producer age is not owner age and multiple producers can be attached to one farm.",
+    "Farm transfer structures frequently do not constitute qualifying control transactions."
+   ],
+   "change_evidence": "USDA TOTAL/ARMS succession data and five years of broker, Farm Credit, land-record, and processor-approved grower transfers for commercial potato farms, classified as operating-company control, family succession, asset sale, lease, or closure.",
+   "evidence_state": "PROXY",
+   "high": 0.34,
+   "low": 0.1,
+   "rationale": "Farm producers are old on average and farm numbers have declined, creating succession and consolidation pressure. However, transfers often occur within families or through land and equipment transactions rather than a sale of a durable operating company with contracts and management.",
+   "source_ids": [
+    "S7",
+    "S8"
+   ]
+  }
+ },
+ "principal_driver": "Recurring contracted crop supply and data-rich agronomic decisions support bounded workflow automation around a durable food demand base.",
+ "principal_weakness": "Missing labor and firm-count inputs, existing mechanization, and processor bargaining make the measurable opportunity highly uncertain.",
+ "readiness": "STRESS_TEST_ONLY",
+ "robust_tier": null,
+ "tier": null,
+ "tier_interval": [
+  "STRUCTURAL_OUT",
+  "HIGHEST_PRIORITY"
+ ]
+}

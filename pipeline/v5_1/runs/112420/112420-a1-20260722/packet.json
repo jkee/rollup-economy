@@ -1,0 +1,177 @@
+{
+  "identity": {
+    "naics": "112420",
+    "title": "Goat Farming",
+    "run_id": "112420-a1-20260722",
+    "model_id": "claude-sonnet-5",
+    "run_date": "2026-07-22",
+    "methodology_version": "5.1",
+    "attempt": 1
+  },
+  "lens": {
+    "included_activities": "US goat-raising establishments in the lower-middle-market band that earn recurring or repeat external-customer revenue through production-style contracts, recurring commercial offtake, or comparable repeat relationships for milk, meat, breeding stock, or fiber.",
+    "excluded_activities": "Hobby and subsistence farms, one-off livestock sales without a repeat customer relationship, captive processor-owned farms, shells, non-control financing vehicles, and standalone vegetation-management services whose primary activity is not raising goats.",
+    "customer_and_revenue_model": "Eligible operators receive production fees or recurring proceeds from processors, distributors, dairies, breeders, or other commercial buyers; the typical NAICS establishment instead sells livestock or animal products and therefore may not satisfy the outsourced-service lens.",
+    "deviation_from_default": "none",
+    "heterogeneous": true
+  },
+  "primitives": {
+    "a": {
+      "evidence_state": "PROXY",
+      "low": 0.2,
+      "base": 0.34,
+      "high": 0.5,
+      "bridge": "O*NET describes farm-animal workers, explicitly including goats, rather than the wage-weighted occupation mix of NAICS 112420, while USDA measures precision technologies on cow dairies rather than goat farms. I map recordkeeping, monitoring, analysis, scheduling, ordering, and parts of milking to AI-exposed work, while treating feeding, herding, cleaning, repairs, treatment, transport, and birthing as embodied work; the cow-dairy proxy likely overstates current goat-farm automation readiness.",
+      "rationale": "Animal care is dominated by physical, outdoor, safety-sensitive tasks, but monitoring, production records, compliance, scheduling, feed planning, customer communications, and sensor-assisted herd decisions provide a meaningful digital and cognitive task layer. The range is wide because no goat-farm occupation weights or task-time study was found.",
+      "change_evidence": "A goat-farm time-and-motion study or ARMS microdata linking NAICS 112420 labor hours and wages to task categories, combined with vendor telemetry on goat-specific monitoring and milking automation, would materially change the range.",
+      "source_ids": ["S2", "S3"],
+      "caveats": [
+        "O*NET pools multiple farm-animal industries and does not provide wage weights for goat farms.",
+        "USDA precision-dairy evidence concerns cows and may not transfer economically or technically to smaller goat operations.",
+        "The frozen compensation-to-receipts input is missing, limiting interpretation of the labor opportunity."
+      ]
+    },
+    "rho": {
+      "evidence_state": "ESTIMATE",
+      "low": 0.22,
+      "base": 0.38,
+      "high": 0.55,
+      "rationale": "Within five years, basic workflow software, assisted recordkeeping, sensor alerts, scheduling, and customer administration are implementable, but small-herd economics, connectivity, data quality, biological variability, integration with equipment, and the need for human verification constrain realized substitution. Physical animal handling remains outside the exposed opportunity rather than reducing this implementation rate twice.",
+      "change_evidence": "A cohort study of US commercial goat dairies or meat-goat farms reporting five-year adoption, utilization, labor-hour savings, false-alert rates, and payback for herd software, sensors, computer vision, and automated milking would materially move this estimate.",
+      "source_ids": [],
+      "caveats": [
+        "No goat-specific adoption or implementation survey was located.",
+        "Implementation economics may differ sharply between dairy, meat, fiber, and breeding operations.",
+        "The estimate excludes pricing and demand effects."
+      ]
+    },
+    "e": {
+      "evidence_state": "PROXY",
+      "low": 0.02,
+      "base": 0.08,
+      "high": 0.18,
+      "bridge": "USDA reports that 8.1 percent of all US farms used agricultural contracts in 2017 and distinguishes fee-based production contracts from marketing contracts. I use production-style contracting as the closest observable marker for the recurring outsourced-service lens, then widen the range because the evidence is all-agriculture rather than goat-specific and because repeat commercial offtake may qualify in some cases. Goat contracting is likely less prevalent than contracting in hogs and poultry, producing a possible upward bias in the base proxy.",
+      "rationale": "The NAICS activity is raising goats, so most establishments are product sellers rather than outsourced-service providers. A minority may operate under recurring production-style or tightly integrated commercial relationships; eligibility is therefore low despite repeat product sales being common.",
+      "change_evidence": "USDA ARMS contract microdata tabulated specifically for goat farms, plus a census of $1 million-plus goat operators identifying production fees, recurring customer concentration, and EBITDA, would materially change eligibility.",
+      "source_ids": ["S1", "S4"],
+      "caveats": [
+        "The contract statistic is for all farms, and goat-specific contract incidence was not reported.",
+        "Marketing contracts govern product sales and are not automatically outsourced services.",
+        "No defensible LMM firm-count input is available for this record."
+      ]
+    },
+    "s5": {
+      "evidence_state": "PROXY",
+      "low": 0.12,
+      "base": 0.22,
+      "high": 0.32,
+      "bridge": "Gallup finds that 22 percent of US employer-business owners planned to sell or transfer ownership within five years. I apply that stated plan rate to eligible LMM goat operations, widening for plan noncompletion, family transfers that may not be qualifying control deals, and potentially older farm ownership. The general employer-business sample may understate farm-owner aging but overstate the transferability of asset- and owner-dependent goat operations.",
+      "rationale": "General small-business evidence supports a material five-year transfer probability, but goat farms may close, sell land or animals separately, or pass within families rather than transfer an intact eligible operation.",
+      "change_evidence": "USDA Census of Agriculture operator-age microdata for goat farms, matched deed and business-entity transfers, and interviews with agricultural brokers on completed going-concern goat-farm sales would materially change this probability.",
+      "source_ids": ["S5"],
+      "caveats": [
+        "Gallup measures intentions, not completed qualifying control transfers.",
+        "The survey covers employer businesses across industries, not goat farms or the LMM band.",
+        "Family gifts and public offerings in the survey do not all match the screen's transaction definition."
+      ]
+    },
+    "q": {
+      "evidence_state": "PROXY",
+      "low": 0.3,
+      "base": 0.46,
+      "high": 0.62,
+      "bridge": "USDA's all-agriculture contract framework shows production growers receiving a contract fee while contractors provide inputs, guidelines, and advice, and marketing contracts fixing price, quantity, quality, and delivery. I infer that an operator can initially retain some labor benefit inside a fixed fee or agreed product price, but processors and repeat buyers can capture savings at renewal. Goat-specific bargaining power is unmeasured; concentrated buyers would bias retention downward, while differentiated breeding or specialty-dairy relationships could bias it upward.",
+      "rationale": "Eligible recurring relationships can preserve part of an implemented benefit during a contract period, but transparent agricultural economics, buyer bargaining power, renewal repricing, and commodity competition should share a substantial portion with customers. Differentiated quality, genetics, and branded specialty channels support the upper bound.",
+      "change_evidence": "A sample of goat production, milk-offtake, and breeding-supply contracts showing fee formulas, term, reopeners, cost pass-through, concentration, and renewal pricing, paired with realized post-automation margins, would materially change retention.",
+      "source_ids": ["S4"],
+      "caveats": [
+        "No goat-specific contract terms or customer concentration data were found.",
+        "Product-price volatility may dominate realized margins but is not itself part of q.",
+        "The bounds apply only to implemented gross benefits and do not include volume changes."
+      ]
+    },
+    "d5": {
+      "evidence_state": "PROXY",
+      "low": 0.97,
+      "base": 1.1,
+      "high": 1.25,
+      "bridge": "USDA NASS reports one-year inventory changes for goat and kid stocks, not five-year constant-price demand for the eligible recurring service basket. I use the 1 percent increase in total goat inventory and 4 percent increase in milk-goat inventory from 2024 to 2025 as evidence against immediate structural contraction, then temper rather than mechanically compound those rates. Inventory can lead or lag demand, and the milk segment likely biases the proxy upward for meat-goat operators.",
+      "rationale": "The latest observed inventory was stable to modestly growing, supporting a near-flat to moderate-growth five-year quantity outlook. Specialty dairy, meat, breeding, and fiber end markets vary, so the range includes mild contraction and stronger niche growth.",
+      "change_evidence": "Five-year USDA NASS goat inventory and slaughter series, milk-goat production and processor intake data, import-adjusted consumption by goat product, and forward customer-volume commitments from major goat dairies and meat buyers would materially change the ratio.",
+      "source_ids": ["S6"],
+      "caveats": [
+        "The source reports inventory, not constant-price demand or eligible-service revenue.",
+        "Only a one-year change is used to inform a five-year horizon.",
+        "Aggregate US data conceal divergent dairy, meat, breeding, and fiber trends."
+      ]
+    },
+    "o": {
+      "evidence_state": "ESTIMATE",
+      "low": 0.97,
+      "base": 0.995,
+      "high": 1.0,
+      "rationale": "Raising, feeding, treating, breeding, milking, housing, and transporting live goats remains a physical, regulated, welfare-sensitive operation. Software and automation can change staffing and management but are unlikely to eliminate the accountable farm operator or shift the current service basket entirely to customer self-service within five years.",
+      "change_evidence": "Evidence of fully autonomous commercial goat farms, processor vertical integration that replaces independent growers, or major customer self-production among dairies and meat buyers would materially lower this value.",
+      "source_ids": [],
+      "caveats": [
+        "The estimate assumes demand exists; demand quantity is handled separately in d5.",
+        "Vertical integration could remove independent operators even if animal production continues.",
+        "Standalone software may replace portions of management work without eliminating the operator."
+      ]
+    }
+  },
+  "narrative": {
+    "executive_view": "Goat farming is fundamentally a physical animal-production activity, while the screen requires a recurring outsourced-service model. A small contract-style subset may qualify, but missing labor-share and firm-count inputs and the absence of goat-specific contracting data make the transferable opportunity highly uncertain.",
+    "ai_impact": "AI can assist herd monitoring, recordkeeping, production analysis, scheduling, feed and breeding decisions, compliance, and customer administration. It has much less direct reach into feeding, herding, cleaning, repairs, treatment, transport, and births; five-year implementation depends on economical goat-specific hardware and reliable data workflows.",
+    "value_capture": "Fixed production fees or agreed prices can let an operator retain savings during a contract period, but processors and repeat buyers can demand lower pricing or better service at renewal. Differentiated genetics and specialty dairy channels may retain more than commodity meat or concentrated-processor relationships.",
+    "firm_availability": "Most goat establishments likely fail the outsourced-service and LMM tests. General employer-business transfer intentions imply some five-year deal flow among eligible firms, but many farm transitions may be family gifts, closures, or asset sales rather than intact control transfers.",
+    "demand_durability": "US goat inventories rose modestly in the latest annual observation, including faster growth in milk goats, but inventory is an imperfect one-year proxy for five-year demand. Physical goat production should remain operator-required even as monitoring and administrative work become more software-enabled.",
+    "risks_and_uncertainty": "The principal uncertainties are whether any meaningful LMM population truly earns outsourced-service revenue, missing frozen l and n inputs, weak goat-specific technology and contract evidence, heterogeneous end markets, biological and animal-welfare risk, buyer concentration, commodity prices, and the chance that operations transfer only as land and livestock assets.",
+    "principal_driver": "Persistent physical demand plus a digitizable monitoring and administrative layer could improve the economics of the small subset of scalable contract-oriented goat operators.",
+    "principal_weakness": "The NAICS category primarily contains product farms, leaving very few clearly eligible recurring outsourced-service firms and no defensible LMM firm-count estimate."
+  },
+  "sources": [
+    {
+      "id": "S1",
+      "url": "https://www23.statcan.gc.ca/imdb/p3VD.pl?CLV=4&CPV=11242&CST=27012022&CVD=1370274&Function=getVD&MLV=5&TVD=1369825",
+      "title": "NAICS 2022 Version 1.0 - 11242 - Goat farming - Industry",
+      "access_date": "2026-07-23",
+      "supports": "Defines the industry as establishments primarily engaged in raising goats and identifies code 112420; supports the lens and e rationale."
+    },
+    {
+      "id": "S2",
+      "url": "https://www.onetonline.org/link/summary/45-2093.00",
+      "title": "45-2093.00 - Farmworkers, Farm, Ranch, and Aquacultural Animals",
+      "access_date": "2026-07-23",
+      "supports": "Lists goat-inclusive animal-farm duties and work activities, including physical care, monitoring, records, analysis, scheduling, equipment, treatment, cleaning, and breeding; supports a and operator-required work."
+    },
+    {
+      "id": "S3",
+      "url": "https://ers.usda.gov/publications/113704",
+      "title": "Precision Dairy Farming, Robotic Milking, and Profitability in the United States",
+      "access_date": "2026-07-23",
+      "supports": "Documents sensors, data analytics, automation, robotic milking, and growing adoption in US cow dairies; supports the technology-direction proxy for a."
+    },
+    {
+      "id": "S4",
+      "url": "https://www.ers.usda.gov/amber-waves/2019/july/marketing-and-production-contracts-are-widely-used-in-u-s-agriculture",
+      "title": "Marketing and Production Contracts Are Widely Used in U.S. Agriculture",
+      "access_date": "2026-07-23",
+      "supports": "Reports agricultural contract prevalence and distinguishes price-and-delivery marketing contracts from fee-based production contracts; supports e and q."
+    },
+    {
+      "id": "S5",
+      "url": "https://news.gallup.com/poll/657362/small-business-owners-lack-succession-plan.aspx",
+      "title": "Most Small-Business Owners Lack a Succession Plan",
+      "access_date": "2026-07-23",
+      "supports": "Reports owner age and five-year sell-or-transfer intentions for US employer businesses; supports the s5 proxy."
+    },
+    {
+      "id": "S6",
+      "url": "https://data.nass.usda.gov/Statistics_by_State/Regional_Office/Southern/includes/Publications/Livestock_Releases/Goat_Inventory/Goats2025.pdf",
+      "title": "Goat Inventory, January 31, 2025",
+      "access_date": "2026-07-23",
+      "supports": "Reports 2.51 million US goats and kids on January 1, 2025, up 1 percent year over year, and 430,000 milk goats, up 4 percent; supports the d5 proxy."
+    }
+  ]
+}
