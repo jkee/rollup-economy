@@ -19,7 +19,21 @@ const PRIMITIVES = {
   o: 'Operator-required share', l: 'Labor compensation share', n: 'Eligible firm count'
 };
 const TIER_ORDER = ['HIGHEST_PRIORITY', 'PRIORITY', 'CONDITIONAL', 'LOW_PRIORITY', 'STRUCTURAL_OUT', 'UNKNOWN'];
-const state = {records: [], summary: null, query: '', tiers: new Set(), readiness: new Set(), crossing: false, heterogeneous: false, sort: 'score-desc', lastFocus: null};
+const SECTORS = {
+  '11': ['11', 'Agriculture, Forestry, Fishing'], '21': ['21', 'Mining, Oil and Gas'],
+  '22': ['22', 'Utilities'], '23': ['23', 'Construction'],
+  '31': ['31-33', 'Manufacturing'], '32': ['31-33', 'Manufacturing'], '33': ['31-33', 'Manufacturing'],
+  '42': ['42', 'Wholesale Trade'], '44': ['44-45', 'Retail Trade'], '45': ['44-45', 'Retail Trade'],
+  '48': ['48-49', 'Transportation and Warehousing'], '49': ['48-49', 'Transportation and Warehousing'],
+  '51': ['51', 'Information'], '52': ['52', 'Finance and Insurance'],
+  '53': ['53', 'Real Estate and Rental'], '54': ['54', 'Professional and Technical Services'],
+  '55': ['55', 'Management of Companies'], '56': ['56', 'Administrative and Waste Services'],
+  '61': ['61', 'Educational Services'], '62': ['62', 'Health Care and Social Assistance'],
+  '71': ['71', 'Arts, Entertainment, Recreation'], '72': ['72', 'Accommodation and Food'],
+  '81': ['81', 'Other Services'], '92': ['92', 'Public Administration']
+};
+const sectorOf = record => (SECTORS[record.naics.slice(0, 2)] || ['??', 'Unknown'])[0];
+const state = {records: [], summary: null, query: '', tiers: new Set(), readiness: new Set(), sectors: new Set(), crossing: false, heterogeneous: false, sort: 'score-desc', lastFocus: null};
 
 const $ = (selector, root = document) => root.querySelector(selector);
 const $$ = (selector, root = document) => [...root.querySelectorAll(selector)];
@@ -80,6 +94,11 @@ function renderFilters() {
   $('#confidence-filters').innerHTML = readinessValues.map(value =>
     check('readiness', value, label(value), state.records.filter(record => record.readiness === value).length)
   ).join('');
+  const sectorValues = [...new Set(state.records.map(sectorOf))].sort();
+  $('#sector-filters').innerHTML = sectorValues.map(value => {
+    const name = Object.values(SECTORS).find(sector => sector[0] === value);
+    return check('sector', value, value + ' · ' + (name ? name[1] : 'Unknown'), state.records.filter(record => sectorOf(record) === value).length);
+  }).join('');
   $('#borderline-count').textContent = state.records.filter(record => !record.robust_tier).length;
   $('#heterogeneous-count').textContent = state.records.filter(record => record.lens && record.lens.heterogeneous).length;
 }
@@ -95,13 +114,15 @@ function filteredRecords() {
     if (query && !(record.naics + ' ' + record.title + ' ' + lensText).toLowerCase().includes(query)) return false;
     if (state.tiers.size && !state.tiers.has(tierOf(record))) return false;
     if (state.readiness.size && !state.readiness.has(record.readiness)) return false;
+    if (state.sectors.size && !state.sectors.has(sectorOf(record))) return false;
     if (state.crossing && record.robust_tier) return false;
     if (state.heterogeneous && !(record.lens && record.lens.heterogeneous)) return false;
     return true;
   }).sort((left, right) => {
-    if (state.sort === 'score-asc') return (left.A ?? Infinity) - (right.A ?? Infinity);
+    if (state.sort === 'score-asc') return ((left.A ?? Infinity) - (right.A ?? Infinity)) || left.naics.localeCompare(right.naics);
     if (state.sort === 'naics') return left.naics.localeCompare(right.naics);
-    return (left.order ?? Infinity) - (right.order ?? Infinity);
+    if (state.sort === 'order') return (left.order ?? Infinity) - (right.order ?? Infinity);
+    return ((right.A ?? -Infinity) - (left.A ?? -Infinity)) || left.naics.localeCompare(right.naics);
   });
 }
 
@@ -110,13 +131,13 @@ function renderFleet() {
   $('#fleet-result-count').textContent = records.length + (records.length === 1 ? ' industry' : ' industries');
   $('#fleet-context').textContent = records.length === state.records.length ? 'v5.1 Stage 1 · provisional sampled validation · 178 / 1,012 independently reviewed' : 'Filtered from ' + state.records.length + ' records';
   $('#fleet-empty').hidden = records.length > 0;
-  $('#fleet-list').innerHTML = records.map(fleetRow).join('');
+  $('#fleet-list').innerHTML = records.map((record, index) => fleetRow(record, index)).join('');
   $$('.fleet-row').forEach(button => button.addEventListener('click', () => {
     openDrawer(state.records.find(record => record.naics === button.dataset.naics), button);
   }));
 }
 
-function fleetRow(record) {
+function fleetRow(record, index) {
   const tier = tierOf(record);
   const crossing = !record.robust_tier;
   const reviewed = record.independent_review === 'accepted';
@@ -132,7 +153,7 @@ function fleetRow(record) {
     return '<span class="spark-row"><b>' + factor + '</b><i class="spark-track"><i class="spark-fill" style="width:' + (value == null ? 0 : value * 10) + '%"></i></i><em>' + (value == null ? '—' : Number(value).toFixed(1)) + '</em></span>';
   }).join('');
   return '<button class="fleet-row" data-naics="' + record.naics + '" aria-label="Open ' + esc(record.title) + ' v5.1 evidence">' +
-    '<span class="rank">' + String(record.order).padStart(2, '0') + '</span>' +
+    '<span class="rank">' + String(index + 1).padStart(2, '0') + '</span>' +
     '<span class="industry"><span class="naics">' + record.naics + '<span class="sector-label"> · v5.1 ' + (reviewed ? 'reviewed' : 'not reviewed') + '</span></span><strong>' + esc(record.title) + '</strong><span class="badges">' + badges + '</span></span>' +
     '<span class="factor-spark">' + sparks + '</span>' +
     '<span class="result-score"><strong>' + score(record.A) + '</strong><span class="verdict-' + tier.toLowerCase() + '">' + esc(tierLabel(tier)) + '</span><small>Interval ' + esc(label(record.tier_interval[0])) + ' → ' + esc(label(record.tier_interval[1])) + '</small></span>' +
@@ -154,7 +175,7 @@ function bindEvents() {
   $('#filter-borderline').addEventListener('change', event => { state.crossing = event.target.checked; renderFleet(); });
   $('#filter-heterogeneous').addEventListener('change', event => { state.heterogeneous = event.target.checked; renderFleet(); });
   $$('[data-filter-group]').forEach(input => input.addEventListener('change', event => {
-    const target = event.target.dataset.filterGroup === 'tier' ? state.tiers : state.readiness;
+    const target = {tier: state.tiers, readiness: state.readiness, sector: state.sectors}[event.target.dataset.filterGroup];
     event.target.checked ? target.add(event.target.value) : target.delete(event.target.value);
     renderFleet();
   }));
@@ -168,6 +189,7 @@ function resetFilters() {
   state.query = '';
   state.tiers.clear();
   state.readiness.clear();
+  state.sectors.clear();
   state.crossing = false;
   state.heterogeneous = false;
   $('#fleet-search').value = '';
