@@ -53,7 +53,7 @@
       </div>
 
       <div class="workspace">
-        <aside class="filter-rail" aria-label="Fleet filters">
+        <aside id="fleet-filters" class="filter-rail" aria-label="Fleet filters">
           <div class="rail-heading"><span>Filter the fleet</span><button id="reset-filters" class="text-button">Reset</button></div>
           <label class="search-box">
             <span class="visually-hidden">Search by NAICS or industry</span>
@@ -65,8 +65,20 @@
             <div id="verdict-filters" class="filter-list"></div>
           </fieldset>
           <fieldset>
+            <legend>Minimum score</legend>
+            <label class="range-row">
+              <span class="visually-hidden">Minimum breadth score A</span>
+              <input id="filter-min-score" type="range" min="0" max="10" step="0.5" value="0">
+              <output id="min-score-value" for="filter-min-score">Off</output>
+            </label>
+          </fieldset>
+          <fieldset>
             <legend>Readiness</legend>
             <div id="confidence-filters" class="filter-list"></div>
+          </fieldset>
+          <fieldset>
+            <legend>Independent review</legend>
+            <div id="review-filters" class="filter-list"></div>
           </fieldset>
           <fieldset>
             <legend>Sector</legend>
@@ -83,16 +95,23 @@
         <div class="results-column">
           <div class="results-toolbar">
             <div><span id="fleet-result-count">1,012 industries</span><small id="fleet-context">v5.1 Stage 1 · provisional sampled validation · 178 / 1,012 independently reviewed</small></div>
-            <label class="sort-control">Sort
-              <select id="fleet-sort">
-                <option value="score-desc">Score · high to low</option>
-                <option value="score-asc">Score · low to high</option>
-                <option value="order">v5.1 order</option>
-                <option value="naics">NAICS code</option>
-              </select>
-            </label>
+            <div class="toolbar-actions">
+              <button id="filter-toggle" class="filter-toggle" type="button" aria-controls="fleet-filters">Filters</button>
+              <label class="sort-control">Sort
+                <select id="fleet-sort">
+                  <option value="score-desc">Score A · high to low</option>
+                  <option value="score-asc">Score A · low to high</option>
+                  <option value="l-desc">Weakest factor L · high to low</option>
+                  <option value="order">v5.1 order</option>
+                  <option value="naics">NAICS code</option>
+                </select>
+              </label>
+            </div>
           </div>
+          <div id="tier-bar" class="tier-bar" role="group" aria-label="Tier distribution — click a segment to filter"></div>
+          <div id="active-chips" class="chip-row" aria-label="Active filters" hidden></div>
           <div id="fleet-list" class="fleet-list"></div>
+          <button id="show-more" class="show-more" type="button" hidden>Show more</button>
           <div id="fleet-empty" class="empty-state" hidden>No records match these filters.</div>
         </div>
       </div>
@@ -136,7 +155,6 @@
     <div id="drawer-content"></div>
   </aside>
 
-  <div id="toast" class="toast" role="status" aria-live="polite"></div>
   <script src="dashboard.js" defer></script>
 </body>
 </html>

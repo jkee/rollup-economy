@@ -1,6 +1,9 @@
 'use strict';
 
-const DATA_URL = '6digit/six_data_v5_1.json';
+const INDEX_URL = '6digit/fleet_index_v5_1.json';
+const recordUrl = naics => '6digit/records/' + naics + '.json';
+const PAGE_SIZE = 150;
+const PAGE_STEP = 300;
 const FACTORS = {
   H: ['Implementable labor opportunity', 'Current compensation exposed to implementable AI task substitution'],
   F: ['Transferable-firm opportunity', 'Expected lens-eligible LMM control transfers over five years'],
@@ -19,6 +22,7 @@ const PRIMITIVES = {
   o: 'Operator-required share', l: 'Labor compensation share', n: 'Eligible firm count'
 };
 const TIER_ORDER = ['HIGHEST_PRIORITY', 'PRIORITY', 'CONDITIONAL', 'LOW_PRIORITY', 'STRUCTURAL_OUT', 'UNKNOWN'];
+const TIER_SHORT = {HIGHEST_PRIORITY: 'Highest', PRIORITY: 'Priority', CONDITIONAL: 'Conditional', LOW_PRIORITY: 'Low', STRUCTURAL_OUT: 'Out', UNKNOWN: 'No base'};
 const SECTORS = {
   '11': ['11', 'Agriculture, Forestry, Fishing'], '21': ['21', 'Mining, Oil and Gas'],
   '22': ['22', 'Utilities'], '23': ['23', 'Construction'],
@@ -33,7 +37,12 @@ const SECTORS = {
   '81': ['81', 'Other Services'], '92': ['92', 'Public Administration']
 };
 const sectorOf = record => (SECTORS[record.naics.slice(0, 2)] || ['??', 'Unknown'])[0];
-const state = {records: [], summary: null, query: '', tiers: new Set(), readiness: new Set(), sectors: new Set(), crossing: false, heterogeneous: false, sort: 'score-desc', lastFocus: null};
+const state = {
+  records: [], summary: null, query: '', tiers: new Set(), readiness: new Set(),
+  sectors: new Set(), reviews: new Set(), crossing: false, heterogeneous: false,
+  minScore: 0, sort: 'score-desc', visible: PAGE_SIZE, lastFocus: null, openRecord: null
+};
+const detailCache = new Map();
 
 const $ = (selector, root = document) => root.querySelector(selector);
 const $$ = (selector, root = document) => [...root.querySelectorAll(selector)];
@@ -44,18 +53,24 @@ const score = value => value == null ? '—' : Number(value).toFixed(2);
 const number = value => value == null ? '—' : Number(value).toLocaleString(undefined, {maximumFractionDigits: 4});
 const tierOf = record => record.tier || 'UNKNOWN';
 const runBase = record => 'pipeline/v5_1/runs/' + record.naics + '/' + record.run_id;
+const debounce = (fn, wait) => { let t; return (...args) => { clearTimeout(t); t = setTimeout(() => fn(...args), wait); }; };
+const groupSet = group => ({tier: state.tiers, readiness: state.readiness, sector: state.sectors, review: state.reviews}[group]);
 
 async function init() {
   try {
-    const response = await fetch(DATA_URL);
-    if (!response.ok) throw new Error(DATA_URL + ' returned ' + response.status);
+    const response = await fetch(INDEX_URL);
+    if (!response.ok) throw new Error(INDEX_URL + ' returned ' + response.status);
     const data = await response.json();
     state.records = data.records;
     state.summary = data.summary;
-    renderAll();
-    $('#loading').hidden = true;
-    switchView(location.hash.slice(1) || 'fleet', false);
+    renderMetrics();
+    renderFilters();
+    renderMethod();
     bindEvents();
+    applyHash();
+    $('#loading').hidden = true;
+    const deepLink = parseHash().params.get('r');
+    if (deepLink) openDrawerByNaics(deepLink, null);
   } catch (error) {
     $('#loading').hidden = true;
     $('#error').hidden = false;
@@ -63,18 +78,113 @@ async function init() {
   }
 }
 
-function renderAll() {
-  renderMetrics();
-  renderFilters();
-  renderFleet();
-  renderMethod();
+// ---------- URL state ----------
+
+function parseHash() {
+  const [view, qs] = location.hash.slice(1).split('?');
+  return {view: view || 'fleet', params: new URLSearchParams(qs || '')};
 }
+
+function applyHash() {
+  const {view, params} = parseHash();
+  const csv = key => new Set((params.get(key) || '').split(',').filter(Boolean));
+  state.query = params.get('q') || '';
+  state.tiers = csv('tier');
+  state.readiness = csv('rd');
+  state.sectors = csv('sec');
+  state.reviews = csv('rev');
+  state.crossing = params.get('x') === '1';
+  state.heterogeneous = params.get('het') === '1';
+  state.minScore = Number(params.get('min')) || 0;
+  state.sort = ['score-desc', 'score-asc', 'l-desc', 'order', 'naics'].includes(params.get('sort')) ? params.get('sort') : 'score-desc';
+  state.visible = PAGE_SIZE;
+  syncControls();
+  setView(view);
+  renderFleet();
+}
+
+function buildHash() {
+  const params = new URLSearchParams();
+  if (state.query) params.set('q', state.query);
+  if (state.tiers.size) params.set('tier', [...state.tiers].join(','));
+  if (state.readiness.size) params.set('rd', [...state.readiness].join(','));
+  if (state.sectors.size) params.set('sec', [...state.sectors].join(','));
+  if (state.reviews.size) params.set('rev', [...state.reviews].join(','));
+  if (state.crossing) params.set('x', '1');
+  if (state.heterogeneous) params.set('het', '1');
+  if (state.minScore > 0) params.set('min', String(state.minScore));
+  if (state.sort !== 'score-desc') params.set('sort', state.sort);
+  if (state.openRecord) params.set('r', state.openRecord);
+  const qs = params.toString();
+  return '#' + ($('#methodology-view').hidden ? 'fleet' : 'methodology') + (qs ? '?' + qs : '');
+}
+
+function syncUrl(push = false) {
+  const url = buildHash();
+  if (location.hash === url) return;
+  push ? history.pushState(null, '', url) : history.replaceState(null, '', url);
+}
+
+function syncControls() {
+  $('#fleet-search').value = state.query;
+  $('#fleet-sort').value = state.sort;
+  $('#filter-borderline').checked = state.crossing;
+  $('#filter-heterogeneous').checked = state.heterogeneous;
+  $('#filter-min-score').value = state.minScore;
+  $('#min-score-value').textContent = state.minScore > 0 ? 'A ≥ ' + Number(state.minScore).toFixed(1) : 'Off';
+  $$('[data-filter-group]').forEach(input => { input.checked = groupSet(input.dataset.filterGroup).has(input.value); });
+}
+
+// ---------- filtering ----------
+
+function passes(record, skip) {
+  if (state.query && !((record.naics + ' ' + record.title + ' ' + record.search_text).toLowerCase().includes(state.query.toLowerCase()))) return false;
+  if (skip !== 'tier' && state.tiers.size && !state.tiers.has(tierOf(record))) return false;
+  if (skip !== 'readiness' && state.readiness.size && !state.readiness.has(record.readiness)) return false;
+  if (skip !== 'sector' && state.sectors.size && !state.sectors.has(sectorOf(record))) return false;
+  if (skip !== 'review' && state.reviews.size && !state.reviews.has(record.independent_review)) return false;
+  if (skip !== 'crossing' && state.crossing && record.robust_tier) return false;
+  if (skip !== 'heterogeneous' && state.heterogeneous && !record.heterogeneous) return false;
+  if (skip !== 'min' && state.minScore > 0 && !(record.A != null && record.A >= state.minScore)) return false;
+  return true;
+}
+
+function filteredRecords() {
+  return state.records.filter(record => passes(record, null)).sort((left, right) => {
+    if (state.sort === 'score-asc') return ((left.A ?? Infinity) - (right.A ?? Infinity)) || left.naics.localeCompare(right.naics);
+    if (state.sort === 'l-desc') return ((right.L ?? -Infinity) - (left.L ?? -Infinity)) || left.naics.localeCompare(right.naics);
+    if (state.sort === 'naics') return left.naics.localeCompare(right.naics);
+    if (state.sort === 'order') return (left.order ?? Infinity) - (right.order ?? Infinity);
+    return ((right.A ?? -Infinity) - (left.A ?? -Infinity)) || left.naics.localeCompare(right.naics);
+  });
+}
+
+function facetCounts() {
+  const facets = {tier: {}, readiness: {}, sector: {}, review: {}, crossing: 0, heterogeneous: 0};
+  const bump = (group, key) => { facets[group][key] = (facets[group][key] || 0) + 1; };
+  for (const record of state.records) {
+    if (passes(record, 'tier')) bump('tier', tierOf(record));
+    if (passes(record, 'readiness')) bump('readiness', record.readiness);
+    if (passes(record, 'sector')) bump('sector', sectorOf(record));
+    if (passes(record, 'review')) bump('review', record.independent_review);
+    if (passes(record, 'crossing') && !record.robust_tier) facets.crossing++;
+    if (passes(record, 'heterogeneous') && record.heterogeneous) facets.heterogeneous++;
+  }
+  return facets;
+}
+
+function activeFilterCount() {
+  return state.tiers.size + state.readiness.size + state.sectors.size + state.reviews.size +
+    (state.crossing ? 1 : 0) + (state.heterogeneous ? 1 : 0) + (state.minScore > 0 ? 1 : 0) + (state.query ? 1 : 0);
+}
+
+// ---------- rendering ----------
 
 function renderMetrics() {
   const summary = state.summary;
-  $('#campaign-total').textContent = summary.published + ' / ' + (summary.published + summary.excluded);
+  $('#campaign-total').textContent = summary.published.toLocaleString('en-US') + ' / ' + (summary.published + summary.excluded).toLocaleString('en-US');
   const metrics = [
-    [summary.published, 'Published', summary.excluded + ' exclusions'],
+    [summary.published.toLocaleString('en-US'), 'Published', summary.excluded + ' exclusions'],
     [summary.independent_review.accepted, 'Independently reviewed', summary.independent_review.not_reviewed + ' labeled not reviewed'],
     [summary.tiers.HIGHEST_PRIORITY || 0, 'Highest priority', 'research priority, not buy signal'],
     [summary.tiers.PRIORITY || 0, 'Priority', (summary.tiers.CONDITIONAL || 0) + ' conditional'],
@@ -87,54 +197,98 @@ function renderMetrics() {
 
 function renderFilters() {
   const tierValues = TIER_ORDER.filter(tier => state.records.some(record => tierOf(record) === tier));
-  $('#verdict-filters').innerHTML = tierValues.map(value =>
-    check('tier', value, tierLabel(value), state.records.filter(record => tierOf(record) === value).length)
-  ).join('');
+  $('#verdict-filters').innerHTML = tierValues.map(value => check('tier', value, tierLabel(value))).join('');
   const readinessValues = [...new Set(state.records.map(record => record.readiness))].sort();
-  $('#confidence-filters').innerHTML = readinessValues.map(value =>
-    check('readiness', value, label(value), state.records.filter(record => record.readiness === value).length)
-  ).join('');
+  $('#confidence-filters').innerHTML = readinessValues.map(value => check('readiness', value, label(value))).join('');
+  $('#review-filters').innerHTML = [['accepted', 'Independently reviewed'], ['not_reviewed', 'Not reviewed']]
+    .map(item => check('review', item[0], item[1])).join('');
   const sectorValues = [...new Set(state.records.map(sectorOf))].sort();
   $('#sector-filters').innerHTML = sectorValues.map(value => {
     const name = Object.values(SECTORS).find(sector => sector[0] === value);
-    return check('sector', value, value + ' · ' + (name ? name[1] : 'Unknown'), state.records.filter(record => sectorOf(record) === value).length);
+    return check('sector', value, value + ' · ' + (name ? name[1] : 'Unknown'));
   }).join('');
-  $('#borderline-count').textContent = state.records.filter(record => !record.robust_tier).length;
-  $('#heterogeneous-count').textContent = state.records.filter(record => record.lens && record.lens.heterogeneous).length;
 }
 
-function check(group, value, text, count) {
-  return '<label class="check-row"><input type="checkbox" data-filter-group="' + group + '" value="' + esc(value) + '"><span>' + esc(text) + '</span><small>' + count + '</small></label>';
+function check(group, value, text) {
+  return '<label class="check-row"><input type="checkbox" data-filter-group="' + group + '" value="' + esc(value) + '">' +
+    '<span>' + esc(text) + '</span><small data-count-for="' + group + ':' + esc(value) + '">0</small></label>';
 }
 
-function filteredRecords() {
-  const query = state.query.toLowerCase();
-  return state.records.filter(record => {
-    const lensText = ((record.lens && record.lens.included_activities) || '') + ' ' + ((record.lens && record.lens.customer_and_revenue_model) || '');
-    if (query && !(record.naics + ' ' + record.title + ' ' + lensText).toLowerCase().includes(query)) return false;
-    if (state.tiers.size && !state.tiers.has(tierOf(record))) return false;
-    if (state.readiness.size && !state.readiness.has(record.readiness)) return false;
-    if (state.sectors.size && !state.sectors.has(sectorOf(record))) return false;
-    if (state.crossing && record.robust_tier) return false;
-    if (state.heterogeneous && !(record.lens && record.lens.heterogeneous)) return false;
-    return true;
-  }).sort((left, right) => {
-    if (state.sort === 'score-asc') return ((left.A ?? Infinity) - (right.A ?? Infinity)) || left.naics.localeCompare(right.naics);
-    if (state.sort === 'naics') return left.naics.localeCompare(right.naics);
-    if (state.sort === 'order') return (left.order ?? Infinity) - (right.order ?? Infinity);
-    return ((right.A ?? -Infinity) - (left.A ?? -Infinity)) || left.naics.localeCompare(right.naics);
+function updateRailCounts(facets) {
+  $$('[data-count-for]').forEach(element => {
+    const [group, value] = element.dataset.countFor.split(/:(.*)/);
+    element.textContent = facets[group][value] || 0;
   });
+  $('#borderline-count').textContent = facets.crossing;
+  $('#heterogeneous-count').textContent = facets.heterogeneous;
+}
+
+function renderTierBar(counts) {
+  const total = TIER_ORDER.reduce((sum, tier) => sum + (counts[tier] || 0), 0);
+  $('#tier-bar').innerHTML = total === 0 ? '' : TIER_ORDER.map(tier => {
+    const count = counts[tier] || 0;
+    if (!count && !state.tiers.has(tier)) return '';
+    const active = state.tiers.has(tier);
+    return '<button type="button" class="tier-seg tier-' + tier.toLowerCase() + (active ? ' on' : '') + '"' +
+      ' style="flex-grow:' + Math.max(count, total * 0.04) + '" data-tier="' + tier + '" aria-pressed="' + active + '"' +
+      ' title="' + esc(tierLabel(tier)) + ' · ' + count + ' industries — click to filter">' +
+      '<span>' + esc(TIER_SHORT[tier]) + '</span><b>' + count + '</b></button>';
+  }).join('');
+}
+
+function renderChips() {
+  const chips = [];
+  if (state.query) chips.push(['query', '', '“' + state.query + '”']);
+  state.tiers.forEach(value => chips.push(['tier', value, tierLabel(value)]));
+  state.readiness.forEach(value => chips.push(['readiness', value, label(value)]));
+  state.reviews.forEach(value => chips.push(['review', value, value === 'accepted' ? 'Reviewed' : 'Not reviewed']));
+  state.sectors.forEach(value => chips.push(['sector', value, 'Sector ' + value]));
+  if (state.crossing) chips.push(['crossing', '', 'Crossing interval']);
+  if (state.heterogeneous) chips.push(['heterogeneous', '', 'Heterogeneous']);
+  if (state.minScore > 0) chips.push(['min', '', 'A ≥ ' + Number(state.minScore).toFixed(1)]);
+  $('#active-chips').hidden = chips.length === 0;
+  $('#active-chips').innerHTML = chips.map(chip =>
+    '<button type="button" class="chip" data-chip-group="' + chip[0] + '" data-chip-value="' + esc(chip[1]) + '"' +
+    ' aria-label="Remove filter ' + esc(chip[2]) + '"><span>' + esc(chip[2]) + '</span><b>×</b></button>'
+  ).join('') + (chips.length > 1 ? '<button type="button" class="chip chip-clear" data-chip-group="all">Clear all</button>' : '');
+}
+
+function removeFilter(group, value) {
+  if (group === 'all') return resetFilters();
+  if (group === 'query') { state.query = ''; }
+  else if (group === 'crossing') { state.crossing = false; }
+  else if (group === 'heterogeneous') { state.heterogeneous = false; }
+  else if (group === 'min') { state.minScore = 0; }
+  else groupSet(group).delete(value);
+  syncControls();
+  refresh();
+}
+
+function refresh() {
+  state.visible = PAGE_SIZE;
+  renderFleet();
+  syncUrl();
 }
 
 function renderFleet() {
   const records = filteredRecords();
-  $('#fleet-result-count').textContent = records.length + (records.length === 1 ? ' industry' : ' industries');
-  $('#fleet-context').textContent = records.length === state.records.length ? 'v5.1 Stage 1 · provisional sampled validation · 178 / 1,012 independently reviewed' : 'Filtered from ' + state.records.length + ' records';
+  const facets = facetCounts();
+  $('#fleet-result-count').textContent = records.length.toLocaleString('en-US') + (records.length === 1 ? ' industry' : ' industries');
+  $('#fleet-context').textContent = records.length === state.records.length
+    ? 'v5.1 Stage 1 · provisional sampled validation · 178 / 1,012 independently reviewed'
+    : 'Filtered from ' + state.records.length.toLocaleString('en-US') + ' records';
+  renderTierBar(facets.tier);
+  renderChips();
+  updateRailCounts(facets);
+  const shown = records.slice(0, state.visible);
+  $('#fleet-list').innerHTML = shown.map(fleetRow).join('');
   $('#fleet-empty').hidden = records.length > 0;
-  $('#fleet-list').innerHTML = records.map((record, index) => fleetRow(record, index)).join('');
-  $$('.fleet-row').forEach(button => button.addEventListener('click', () => {
-    openDrawer(state.records.find(record => record.naics === button.dataset.naics), button);
-  }));
+  const remaining = records.length - shown.length;
+  const more = $('#show-more');
+  more.hidden = remaining <= 0;
+  if (remaining > 0) more.textContent = 'Show ' + Math.min(PAGE_STEP, remaining) + ' more · ' + remaining + ' below';
+  const active = activeFilterCount();
+  $('#filter-toggle').textContent = active ? 'Filters · ' + active : 'Filters';
 }
 
 function fleetRow(record, index) {
@@ -146,17 +300,17 @@ function fleetRow(record, index) {
     '<span class="badge caveat">' + esc(label(record.action)) + '</span>',
     '<span class="badge review">' + (reviewed ? 'Independently reviewed' : 'Not independently reviewed') + '</span>',
     crossing ? '<span class="badge borderline">Crossing interval</span>' : '<span class="badge">Stable tier</span>',
-    record.lens && record.lens.heterogeneous ? '<span class="badge">Heterogeneous</span>' : ''
+    record.heterogeneous ? '<span class="badge">Heterogeneous</span>' : ''
   ].join('');
   const sparks = Object.keys(FACTORS).map(factor => {
-    const value = record.factors[factor].base;
+    const value = record.factor_bases[factor];
     return '<span class="spark-row"><b>' + factor + '</b><i class="spark-track"><i class="spark-fill" style="width:' + (value == null ? 0 : value * 10) + '%"></i></i><em>' + (value == null ? '—' : Number(value).toFixed(1)) + '</em></span>';
   }).join('');
   return '<button class="fleet-row" data-naics="' + record.naics + '" aria-label="Open ' + esc(record.title) + ' v5.1 evidence">' +
     '<span class="rank">' + String(index + 1).padStart(2, '0') + '</span>' +
     '<span class="industry"><span class="naics">' + record.naics + '<span class="sector-label"> · v5.1 ' + (reviewed ? 'reviewed' : 'not reviewed') + '</span></span><strong>' + esc(record.title) + '</strong><span class="badges">' + badges + '</span></span>' +
     '<span class="factor-spark">' + sparks + '</span>' +
-    '<span class="result-score"><strong>' + score(record.A) + '</strong><span class="verdict-' + tier.toLowerCase() + '">' + esc(tierLabel(tier)) + '</span><small>Interval ' + esc(label(record.tier_interval[0])) + ' → ' + esc(label(record.tier_interval[1])) + '</small></span>' +
+    '<span class="result-score"><strong>' + score(record.A) + '</strong><span class="verdict-' + tier.toLowerCase() + '">' + esc(tierLabel(tier)) + '</span><small>L ' + score(record.L) + ' · ' + esc(TIER_SHORT[record.tier_interval[0]]) + ' → ' + esc(TIER_SHORT[record.tier_interval[1]]) + '</small></span>' +
     '<span class="row-arrow">→</span></button>';
 }
 
@@ -168,21 +322,63 @@ function renderMethod() {
   ).join('');
 }
 
+// ---------- events ----------
+
 function bindEvents() {
-  $$('.nav-button').forEach(button => button.addEventListener('click', () => switchView(button.dataset.view)));
-  $('#fleet-search').addEventListener('input', event => { state.query = event.target.value.trim(); renderFleet(); });
-  $('#fleet-sort').addEventListener('change', event => { state.sort = event.target.value; renderFleet(); });
-  $('#filter-borderline').addEventListener('change', event => { state.crossing = event.target.checked; renderFleet(); });
-  $('#filter-heterogeneous').addEventListener('change', event => { state.heterogeneous = event.target.checked; renderFleet(); });
-  $$('[data-filter-group]').forEach(input => input.addEventListener('change', event => {
-    const target = {tier: state.tiers, readiness: state.readiness, sector: state.sectors}[event.target.dataset.filterGroup];
-    event.target.checked ? target.add(event.target.value) : target.delete(event.target.value);
-    renderFleet();
+  $$('.nav-button').forEach(button => button.addEventListener('click', () => {
+    setView(button.dataset.view);
+    syncUrl(true);
+    scrollTo({top: 0, behavior: 'smooth'});
   }));
+  $('#fleet-search').addEventListener('input', debounce(event => { state.query = event.target.value.trim(); refresh(); }, 120));
+  $('#fleet-sort').addEventListener('change', event => { state.sort = event.target.value; refresh(); });
+  $('#filter-borderline').addEventListener('change', event => { state.crossing = event.target.checked; refresh(); });
+  $('#filter-heterogeneous').addEventListener('change', event => { state.heterogeneous = event.target.checked; refresh(); });
+  $('#filter-min-score').addEventListener('input', event => {
+    state.minScore = Number(event.target.value);
+    $('#min-score-value').textContent = state.minScore > 0 ? 'A ≥ ' + state.minScore.toFixed(1) : 'Off';
+    refresh();
+  });
+  $('.filter-rail').addEventListener('change', event => {
+    const input = event.target.closest('[data-filter-group]');
+    if (!input) return;
+    input.checked ? groupSet(input.dataset.filterGroup).add(input.value) : groupSet(input.dataset.filterGroup).delete(input.value);
+    refresh();
+  });
+  $('#tier-bar').addEventListener('click', event => {
+    const segment = event.target.closest('[data-tier]');
+    if (!segment) return;
+    state.tiers.has(segment.dataset.tier) ? state.tiers.delete(segment.dataset.tier) : state.tiers.add(segment.dataset.tier);
+    syncControls();
+    refresh();
+  });
+  $('#active-chips').addEventListener('click', event => {
+    const chip = event.target.closest('[data-chip-group]');
+    if (chip) removeFilter(chip.dataset.chipGroup, chip.dataset.chipValue);
+  });
+  $('#show-more').addEventListener('click', () => { state.visible += PAGE_STEP; renderFleet(); });
+  $('#filter-toggle').addEventListener('click', () => document.body.classList.toggle('filters-open'));
   $('#reset-filters').addEventListener('click', resetFilters);
-  $('#drawer-backdrop').addEventListener('click', closeDrawer);
+  $('#fleet-list').addEventListener('click', event => {
+    const row = event.target.closest('.fleet-row');
+    if (row) openDrawerByNaics(row.dataset.naics, row);
+  });
+  $('#record-drawer').addEventListener('click', event => {
+    if (event.target.closest('.drawer-close')) return closeDrawer();
+    const link = event.target.closest('[data-source-id]');
+    if (link) {
+      const target = $('#source-' + link.dataset.sourceId, $('#record-drawer'));
+      if (target) target.scrollIntoView({behavior: 'smooth', block: 'start'});
+    }
+  });
+  $('#drawer-backdrop').addEventListener('click', () => closeDrawer());
   addEventListener('keydown', event => { if (event.key === 'Escape' && !$('#record-drawer').hidden) closeDrawer(); });
-  addEventListener('popstate', () => switchView(location.hash.slice(1) || 'fleet', false));
+  addEventListener('popstate', () => {
+    applyHash();
+    const record = parseHash().params.get('r');
+    if (record && state.openRecord !== record) openDrawerByNaics(record, null);
+    else if (!record && state.openRecord) closeDrawer(true);
+  });
 }
 
 function resetFilters() {
@@ -190,16 +386,15 @@ function resetFilters() {
   state.tiers.clear();
   state.readiness.clear();
   state.sectors.clear();
+  state.reviews.clear();
   state.crossing = false;
   state.heterogeneous = false;
-  $('#fleet-search').value = '';
-  $('#filter-borderline').checked = false;
-  $('#filter-heterogeneous').checked = false;
-  $$('[data-filter-group]').forEach(input => { input.checked = false; });
-  renderFleet();
+  state.minScore = 0;
+  syncControls();
+  refresh();
 }
 
-function switchView(view, push = true) {
+function setView(view) {
   if (!['fleet', 'methodology'].includes(view)) view = 'fleet';
   $$('.view').forEach(section => { section.hidden = section.id !== view + '-view'; });
   $$('.nav-button').forEach(button => {
@@ -207,28 +402,51 @@ function switchView(view, push = true) {
     button.classList.toggle('active', active);
     active ? button.setAttribute('aria-current', 'page') : button.removeAttribute('aria-current');
   });
-  if (push && location.hash !== '#' + view) history.pushState(null, '', '#' + view);
-  scrollTo({top: 0, behavior: 'smooth'});
 }
 
-function openDrawer(record, trigger) {
+// ---------- record drawer (lazy detail) ----------
+
+function fetchRecord(naics) {
+  if (!detailCache.has(naics)) {
+    detailCache.set(naics, fetch(recordUrl(naics)).then(response => {
+      if (!response.ok) throw new Error(recordUrl(naics) + ' returned ' + response.status);
+      return response.json();
+    }).catch(error => { detailCache.delete(naics); throw error; }));
+  }
+  return detailCache.get(naics);
+}
+
+async function openDrawerByNaics(naics, trigger) {
+  if (!state.records.some(record => record.naics === naics)) return;
   state.lastFocus = trigger;
-  $('#drawer-content').innerHTML = drawerContent(record);
+  state.openRecord = naics;
+  $('#drawer-content').innerHTML = '<header class="drawer-hero"><button class="drawer-close" aria-label="Close record">×</button>' +
+    '<div class="drawer-kicker">NAICS ' + esc(naics) + '</div><div class="drawer-loading">Loading the evidence record…</div></header>';
   $('#record-drawer').hidden = false;
+  $('#record-drawer').scrollTop = 0;
   $('#drawer-backdrop').hidden = false;
   document.body.classList.add('drawer-open');
-  $('.drawer-close').addEventListener('click', closeDrawer);
-  $$('[data-source-id]', $('#record-drawer')).forEach(button => button.addEventListener('click', () => {
-    const target = $('#source-' + button.dataset.sourceId, $('#record-drawer'));
-    if (target) target.scrollIntoView({behavior: 'smooth', block: 'start'});
-  }));
   $('.drawer-close').focus();
+  syncUrl();
+  try {
+    const record = await fetchRecord(naics);
+    if (state.openRecord !== naics) return;
+    $('#drawer-content').innerHTML = drawerContent(record);
+    $('.drawer-close').focus();
+  } catch (error) {
+    if (state.openRecord !== naics) return;
+    $('#drawer-content').innerHTML = '<header class="drawer-hero"><button class="drawer-close" aria-label="Close record">×</button>' +
+      '<div class="drawer-kicker">NAICS ' + esc(naics) + '</div><h2>Record could not be loaded</h2>' +
+      '<p class="drawer-loading">' + esc(error.message) + '</p></header>';
+  }
 }
 
-function closeDrawer() {
+function closeDrawer(skipUrl = false) {
+  state.openRecord = null;
   $('#record-drawer').hidden = true;
   $('#drawer-backdrop').hidden = true;
   document.body.classList.remove('drawer-open');
+  if (!skipUrl) syncUrl();
   if (state.lastFocus) state.lastFocus.focus();
 }
 
