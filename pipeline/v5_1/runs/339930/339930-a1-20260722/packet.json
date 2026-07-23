@@ -1,0 +1,183 @@
+{
+  "identity": {
+    "naics": "339930",
+    "title": "Doll, Toy, and Game Manufacturing",
+    "run_id": "339930-a1-20260722",
+    "model_id": "claude-sonnet-5",
+    "run_date": "2026-07-22",
+    "methodology_version": "5.1",
+    "attempt": 1
+  },
+  "lens": {
+    "included_activities": "US lower-middle-market manufacturers that repeatedly supply dolls, toys, physical games, electronic game devices, parts, accessories, or private-label products to external retailers, distributors, licensors, institutions, and brand owners, including firms that retain accountable product-development, sourcing, compliance, and customer-delivery responsibility while outsourcing some fabrication.",
+    "excluded_activities": "Shells, captive internal units, non-control financing vehicles, pure wholesalers, software publishers, video-game software reproduction, coin-operated amusement-machine manufacturing, sporting-goods manufacturing, and firms whose normalized EBITDA is outside the screened band are excluded. One-off hobby makers and entities that merely license intellectual property without accountable product supply are also excluded.",
+    "customer_and_revenue_model": "Revenue is principally per-unit wholesale or contract-manufacturing sales, often through seasonal line reviews and repeat purchase orders. Economics may also include tooling or development charges, minimum-order commitments, private-label programs, and royalties on licensed characters or brands.",
+    "deviation_from_default": "none",
+    "heterogeneous": true
+  },
+  "primitives": {
+    "a": {
+      "evidence_state": "PROXY",
+      "low": 0.22,
+      "base": 0.38,
+      "high": 0.53,
+      "bridge": "BLS measures the occupation mix of the broader NAICS 339 miscellaneous-manufacturing population, not wage-weighted tasks in NAICS 339930 or current task automation. I translate its production-heavy mix, together with its office, management, sales, and design shares, into the portion of work plausibly exposed to generative and predictive AI. The proxy likely understates exposure for brand-led toy firms with outsourced fabrication and overstates it for vertically integrated molders and assemblers.",
+      "rationale": "AI can substitute or avoid hiring in concept variation, illustration and packaging drafts, product descriptions, translation, rulebook drafting, demand planning, order and customer-service administration, and parts of design documentation. Physical prototyping, tooling, assembly, inspection, laboratory testing, and accountable safety decisions remain substantially human and equipment dependent.",
+      "change_evidence": "Acquire NAICS 339930 payroll by detailed occupation from a staffing-data vendor and interview product-development, licensing, supply-chain, compliance, sales, and plant leaders at at least twenty screened firms about task hours, software already deployed, and vacant roles avoided.",
+      "source_ids": ["S1", "S3", "S6"],
+      "caveats": [
+        "The BLS occupation table is for NAICS 339, whose product and production mix is much broader than toys and games.",
+        "Employment shares are not wage-weighted task shares, and occupation titles do not reveal current automation.",
+        "Brand owners that contract out fabrication can be classified differently from otherwise similar operating models."
+      ]
+    },
+    "rho": {
+      "evidence_state": "PROXY",
+      "low": 0.27,
+      "base": 0.46,
+      "high": 0.63,
+      "bridge": "Anthropic observes automation patterns in first-party API business traffic across industries rather than implementation in toy and game manufacturers. I discount that demonstrated technical deployment toward the base because small manufacturers must curate fragmented product, artwork, licensing, sales, and compliance context and must preserve human review for child-safety and intellectual-property decisions. The API population is likely more digitally mature than the screened population, biasing the raw signal upward.",
+      "rationale": "Digital creative and administrative workflows can implement relatively quickly, but product records are fragmented across design files, licensors, vendors, testing laboratories, and retailer systems. Mandatory third-party testing, certification, hazard standards, tracking labels, and management accountability constrain autonomous execution and increase review costs.",
+      "change_evidence": "Survey screened operators annually on production AI deployments by workflow, deployment cost, exception rate, human-review time, and realized labor hours; obtain quality and compliance incident logs from firms using AI-assisted design or documentation.",
+      "source_ids": ["S4", "S6"],
+      "caveats": [
+        "Anthropic traffic is vendor-specific and reflects selected users rather than all businesses.",
+        "Toy safety requirements govern final products, not every AI-assisted upstream task.",
+        "Implementation will vary sharply between digital tabletop-game publishers, connected-toy firms, and domestic physical producers."
+      ]
+    },
+    "e": {
+      "evidence_state": "ESTIMATE",
+      "low": 0.60,
+      "base": 0.76,
+      "high": 0.88,
+      "rationale": "Most scaled operators repeatedly sell products or contract-manufacturing output to external customers and can qualify as accountable suppliers. Eligibility is reduced by captive units, shell or inactive entities, firms below the EBITDA band despite revenue, project-based intellectual-property studios without repeat supply, and brand or importer structures whose manufacturing classification does not match operating substance.",
+      "change_evidence": "Build a firm-level universe from Census microdata or a commercial business registry, then verify ownership, external-customer revenue, normalized EBITDA, operating status, manufacturing responsibility, and repeat-order history through filings and management calls.",
+      "source_ids": ["S1", "S2"],
+      "caveats": [
+        "Census reports establishments rather than firms and does not disclose lower-middle-market eligibility.",
+        "Classification can turn on whether a company owns production, contracts it out, imports finished goods, or primarily licenses a brand.",
+        "Seasonal or hit-driven product revenue can make normalized EBITDA unstable."
+      ]
+    },
+    "s5": {
+      "evidence_state": "PROXY",
+      "low": 0.14,
+      "base": 0.25,
+      "high": 0.36,
+      "bridge": "Census measures owner ages across responding US employer businesses in 2018, not succession or control transfers among eligible toy and game manufacturers. I translate the older-owner prevalence into a five-year transfer probability, discounting for owners who do not sell, internal succession, closures, and companies with multiple or institutional owners. The broad owner-age population may overstate transfer pressure for venture-backed brands and understate it for long-held family manufacturers.",
+      "rationale": "Founder-led brands, creative studios, and family manufacturers can face succession, while strategic buyers also acquire product portfolios and licenses. A qualifying control transfer is materially less frequent than owner retirement intent because some firms pass internally, wind down, sell assets without transferable operations, or remain owner-operated.",
+      "change_evidence": "Obtain owner-age, tenure, ownership concentration, succession-plan, and transaction-history data for the verified eligible universe; supplement with closed-deal records from PitchBook, GF Data, Axial, and sector investment bankers.",
+      "source_ids": ["S5"],
+      "caveats": [
+        "The Census owner-age distribution is cross-industry, represents responding employer-business owners, and uses 2018 data.",
+        "Owner age is a weak predictor of timing and transfer type without firm-level succession evidence.",
+        "Portfolio sales, license transfers, and corporate carve-outs may not map cleanly to a qualifying operating-company control transfer."
+      ]
+    },
+    "q": {
+      "evidence_state": "ESTIMATE",
+      "low": 0.33,
+      "base": 0.51,
+      "high": 0.69,
+      "rationale": "Fixed wholesale and private-label prices permit some implemented gross benefit to be retained between line reviews, but concentrated retailers, annual resets, open-book contract manufacturing, licensor royalties, rapid imitation, and low-cost imports encourage sharing through lower price, added service, or promotional support. Proprietary brands, recognized intellectual property, exclusive licenses, and differentiated channels improve retention.",
+      "change_evidence": "Review customer contracts, annual price lists, renewal and line-review records, gross-margin bridges, retailer chargebacks, royalty agreements, bid histories, and competitor price changes at representative firms before and after measurable productivity improvements.",
+      "source_ids": [],
+      "caveats": [
+        "No public source directly measures pass-through of AI-enabled savings in this industry.",
+        "Retention differs materially between branded products, licensed properties, private-label supply, and open-book contract manufacturing.",
+        "Seasonality and product-mix shifts can obscure productivity-related price effects."
+      ]
+    },
+    "d5": {
+      "evidence_state": "PROXY",
+      "low": 0.91,
+      "base": 1.04,
+      "high": 1.18,
+      "bridge": "BLS Consumer Expenditure data measure nominal household spending on toys, hobbies, and playground equipment, including imports and retail margins, rather than constant-price demand for output supplied by screened US manufacturers. I treat the recent spending path as evidence of a durable but volatile play category, then remove nominal-price optimism and widen for mix, trade, and channel effects. The spending series can overstate domestic-manufacturer demand when import penetration or retail margins rise.",
+      "rationale": "Play, gifting, education, social games, licensed characters, adult collecting, and nostalgia support continued demand, while recent household spending has remained substantial rather than disappearing. Pressure comes from digital entertainment substitution, demographic softness in children's categories, hit-driven product cycles, household cyclicality, and imported alternatives.",
+      "change_evidence": "Obtain inflation-adjusted US manufacturer shipments and orders for NAICS 339930, Circana unit data by toy and game category, import volumes, retailer sell-through, age-cohort demand, and screened-firm backlog and reorder cohorts.",
+      "source_ids": ["S1", "S7"],
+      "caveats": [
+        "The expenditure series is nominal, broader than NAICS 339930, household-only, and includes retail margins and imported products.",
+        "Category demand is unusually seasonal and can be concentrated in a small number of hits or licenses.",
+        "Constant-quality adjustment is difficult when electronic features, licensed content, and product mix change."
+      ]
+    },
+    "o": {
+      "evidence_state": "ESTIMATE",
+      "low": 0.77,
+      "base": 0.88,
+      "high": 0.96,
+      "rationale": "Most physical dolls, toys, tabletop games, and electronic game devices still require an accountable operator to define the product, manage vendors and intellectual property, certify safety, and deliver inventory even if fabrication moves offshore. Operator demand can be eliminated where play becomes software-only, customers self-publish or print products, licensors contract directly with factories, or retailers source private-label goods without the incumbent.",
+      "change_evidence": "Track category unit migration to apps and software, direct-factory private-label sourcing, crowdfunding-to-self-publishing conversion, print-on-demand use, licensing disintermediation, importer share, and closures of domestic accountable suppliers.",
+      "source_ids": ["S1", "S6"],
+      "caveats": [
+        "The Census definition includes physical electronic games but excludes video-game software, making digital substitution a boundary issue.",
+        "An accountable brand or importer may remain necessary even when no US manufacturing labor remains.",
+        "Connected toys can shift value toward software while retaining physical-product safety obligations."
+      ]
+    }
+  },
+  "narrative": {
+    "executive_view": "The industry combines a large digital creative and administrative surface with an irreducibly physical, safety-regulated product. The most coherent operating opportunity is in repeat suppliers that own product, customer, vendor, compliance, and inventory workflows; pure licensing shells and one-off creators do not fit. Brand strength and channel position matter at least as much as manufacturing process because retailer leverage and product hits determine whether productivity becomes durable cash flow.",
+    "ai_impact": "AI can accelerate concept exploration, artwork and packaging drafts, rules and instructions, translation, catalog content, demand sensing, vendor communication, order handling, and customer support. It is less able to replace hands-on prototyping, tooling, assembly, laboratory tests, product inspection, or accountable safety judgments. Real implementation depends on connecting design, licensing, compliance, vendor, retailer, and sales data with reliable human review.",
+    "value_capture": "Fixed-price branded products can retain savings until the next product or retailer review, especially where intellectual property, a license, or differentiated distribution limits comparison. Private-label and contract-manufacturing customers can demand lower bids or better service, and royalties, promotions, chargebacks, imports, and imitation can absorb gains. Contract structure and channel concentration therefore require firm-level diligence.",
+    "firm_availability": "Census counted 485 US establishments in the industry in 2023, but establishments are not eligible firms and many operators may be too small, outside the EBITDA band, captive, importer-led, or dependent on unstable hits. Broad owner-age evidence suggests succession supply exists, while actual qualifying transfers will be fewer because internal succession, closures, and asset or license sales do not always produce a transferable operating company.",
+    "demand_durability": "Household spending evidence supports continued demand for play products but is nominal, broader than the industry, and volatile. Physical play, gifting, education, licensed entertainment, tabletop social activity, and adult collecting are durable use cases. Digital substitution, demographics, consumer cyclicality, short product lives, import competition, and retailer inventory discipline make the path uneven.",
+    "risks_and_uncertainty": "The largest uncertainties are firm classification, eligible-company count, occupation mix inside this narrow industry, pass-through behavior, succession timing, and constant-price domestic demand. Child-safety certification and testing, intellectual-property provenance, connected-toy privacy and security, recalls, license concentration, retailer concentration, working-capital seasonality, and forecast errors can overwhelm labor savings. Diligence should reject firms whose economics depend on one license, one retailer, or one transient hit without repeatable development and compliance systems.",
+    "principal_driver": "Digitizable product-development and commercial workflows can be improved while accountable operators remain necessary for physical supply and safety compliance.",
+    "principal_weakness": "Retailer leverage, hit and license concentration, volatile working capital, and import competition can prevent productivity gains from becoming durable owner cash flow."
+  },
+  "sources": [
+    {
+      "id": "S1",
+      "url": "https://bhs.econ.census.gov/ombpdfs2022/export/2022_MC-33993_mu.pdf",
+      "title": "2022 Economic Census Manufacturing Industry Classification Form: Doll, Toy, and Game Manufacturing",
+      "access_date": "2026-07-22",
+      "supports": "Defines the industry's included products and boundaries, including electronic games, and identifies exclusions such as video-game software reproduction, coin-operated amusement machines, sporting goods, wholesalers, and software publishers."
+    },
+    {
+      "id": "S2",
+      "url": "https://www2.census.gov/programs-surveys/sis/resources/toy_makers.pdf",
+      "title": "Toy Makers: 2023 County Business Patterns",
+      "access_date": "2026-07-22",
+      "supports": "Reports 485 US doll, toy, and game manufacturing establishments in 2023 and describes manufacturers as making products and sending them to stores."
+    },
+    {
+      "id": "S3",
+      "url": "https://www.bls.gov/oes/2023/may/naics3_339000.htm",
+      "title": "May 2023 OEWS Industry-Specific Occupational Employment and Wage Estimates: NAICS 339 Miscellaneous Manufacturing",
+      "access_date": "2026-07-22",
+      "supports": "Provides a broader-industry occupation mix: production accounts for 48.81 percent of employment, office and administrative support for 11.06 percent, management for 8.10 percent, and arts, design, entertainment, sports, and media for 2.29 percent."
+    },
+    {
+      "id": "S4",
+      "url": "https://www.anthropic.com/research/anthropic-economic-index-september-2025-report",
+      "title": "Anthropic Economic Index Report: Uneven Geographic and Enterprise AI Adoption",
+      "access_date": "2026-07-22",
+      "supports": "Finds automation patterns in 77 percent of first-party API business uses and identifies context curation, data modernization, and organizational investment as constraints on sophisticated deployment."
+    },
+    {
+      "id": "S5",
+      "url": "https://www.census.gov/content/dam/Census/library/visualizations/2020/comm/business-owners-ages.pdf",
+      "title": "Business Owners' Ages",
+      "access_date": "2026-07-22",
+      "supports": "Reports that 51 percent of responding US employer-business owners were at least age 55, based on the 2019 Annual Business Survey using 2018 data."
+    },
+    {
+      "id": "S6",
+      "url": "https://www.cpsc.gov/FAQ/Toy-Safety",
+      "title": "Toy Safety Business Guidance FAQ",
+      "access_date": "2026-07-22",
+      "supports": "Explains mandatory third-party testing and Children's Product Certificates for toys intended for children, the ASTM F963 toy-safety standard, manufacturer and importer responsibility, and additional lead, phthalate, and tracking-label requirements."
+    },
+    {
+      "id": "S7",
+      "url": "https://fred.stlouisfed.org/series/CXUTOYSLB0101M",
+      "title": "Estimate of Annual Expenditures for Toys, Hobbies, and Playground Equipment per Consumer Unit",
+      "access_date": "2026-07-22",
+      "supports": "BLS Consumer Expenditure data published through FRED show nominal annual spending per consumer unit of 170 dollars in 2020, 199 dollars in 2021, 167 dollars in 2022, 181 dollars in 2023, and 189 dollars in 2024."
+    }
+  ]
+}

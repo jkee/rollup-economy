@@ -1,0 +1,114 @@
+{
+  "identity": {
+    "naics": "336120",
+    "title": "Heavy Duty Truck Manufacturing",
+    "run_id": "336120-a1-20260722",
+    "model_id": "claude-sonnet-5",
+    "run_date": "2026-07-22",
+    "methodology_version": "5.1",
+    "attempt": 1
+  },
+  "lens": {
+    "included_activities": "US lower-middle-market establishments repeatedly manufacturing heavy-duty truck chassis, complete heavy-duty trucks, buses, heavy-duty motor homes, or special-purpose highway vehicles for external fleet, dealer, municipal, and commercial customers.",
+    "excluded_activities": "Large integrated OEMs outside the EBITDA band; captive plants; military armored vehicles; off-highway equipment; bodies assembled on purchased chassis; light trucks; distributors and repair-only businesses.",
+    "customer_and_revenue_model": "Repeat production and configured-order sales of capital equipment, generally through fleet contracts, dealers, or direct commercial and public-sector procurement; revenue is product and option pricing rather than hourly service billing.",
+    "deviation_from_default": "none",
+    "heterogeneous": false
+  },
+  "primitives": {
+    "a": {
+      "evidence_state": "PROXY",
+      "low": 0.14,
+      "base": 0.24,
+      "high": 0.35,
+      "bridge": "BLS measures the broader NAICS 336100 occupation mix rather than 336120 and does not itself measure AI exposure. I map office, engineering-documentation, scheduling, procurement, sales-support, and inspection-record tasks to partial generative-AI exposure while assigning low exposure to physical production work. Broader motor-vehicle manufacturing may overstate software-heavy engineering in small heavy-truck specialists, biasing the base upward.",
+      "rationale": "The broader motor-vehicle workforce includes management, business, computer, engineering, sales, office, production, maintenance, and material-moving occupations. AI can assist specifications, quoting, documentation, planning, purchasing, and quality records, but most welding, assembly, painting, testing, and material handling remain embodied work.",
+      "change_evidence": "A wage-weighted 336120 establishment roster by detailed SOC combined with task-level time studies for quoting, engineering change control, production planning, purchasing, and quality documentation.",
+      "source_ids": ["S2"],
+      "caveats": ["Occupation evidence is four-digit NAICS and 2023 vintage.", "Exposure is task judgment, not observed displacement."]
+    },
+    "rho": {
+      "evidence_state": "ESTIMATE",
+      "low": 0.27,
+      "base": 0.46,
+      "high": 0.64,
+      "rationale": "Five-year implementation should be meaningful in bounded back-office and engineering-support workflows, but product-safety accountability, configuration complexity, plant integration, union/change constraints, and costly errors limit autonomous deployment.",
+      "change_evidence": "Five-year automation roadmaps, realized labor-hour savings, model-error logs, and ERP/MES integration costs from several independent LMM heavy-truck or specialty-chassis manufacturers.",
+      "source_ids": ["S0", "S3"],
+      "caveats": ["No industry survey directly measures implemented AI opportunity.", "Regulatory change may accelerate digital engineering while also increasing validation burden."]
+    },
+    "e": {
+      "evidence_state": "ESTIMATE",
+      "low": 0.05,
+      "base": 0.13,
+      "high": 0.25,
+      "rationale": "Census reports only 109 employer establishments, and complete heavy-truck/chassis production usually requires substantial fixed capital, certification capability, and working capital. A minority of the provided LMM-count estimate is likely to be independent, transferable, recurring external suppliers rather than divisions, plants of large OEMs, or firms with economics outside the band.",
+      "change_evidence": "A firm-level 336120 establishment-to-enterprise crosswalk with ownership, normalized EBITDA, customer mix, certification scope, and captive-versus-external revenue flags.",
+      "source_ids": ["S1"],
+      "caveats": ["The 109 figure is establishments, not firms.", "The injected n is margin-bridged and may be particularly fragile for this concentrated industry."]
+    },
+    "s5": {
+      "evidence_state": "PROXY",
+      "low": 0.10,
+      "base": 0.21,
+      "high": 0.34,
+      "bridge": "Census ABS provides owner-age data for employer businesses broadly, not qualifying 336120 firms or actual five-year control transfers. I use older-owner prevalence only as succession pressure, then reduce for family/internal succession, corporate subsidiaries, failed sales, and firms without transferable standalone operations; this likely overstates transfers in an OEM-concentrated field.",
+      "rationale": "Owner aging creates potential succession events, but the small pool, strategic/corporate ownership, capital requirements, and buyer diligence make qualifying transfers less frequent than raw retirement intent.",
+      "change_evidence": "PitchBook, Capital IQ, GF Data, or Axial transaction counts for independent US heavy-truck and specialty-chassis manufacturers, reconciled to the eligible firm denominator and tagged for true control changes.",
+      "source_ids": ["S7"],
+      "caveats": ["ABS owner age is cross-industry and does not observe transactions.", "Strategic acquisitions may dominate reported deals and are not necessarily representative of LMM availability."]
+    },
+    "q": {
+      "evidence_state": "ESTIMATE",
+      "low": 0.37,
+      "base": 0.55,
+      "high": 0.72,
+      "rationale": "Configured product pricing and negotiated fleet bids allow some internal productivity benefit to remain with the manufacturer, especially between bid cycles. Sophisticated fleet buyers, competitive tenders, dealer channels, annual sourcing, and transparent component inflation will return a substantial share through lower prices or slower price increases.",
+      "change_evidence": "Customer-contract samples showing indexation, open-book costing, productivity clauses, bid cadence, option pricing, warranty sharing, and gross-margin bridges after documented automation initiatives.",
+      "source_ids": [],
+      "caveats": ["No public evidence isolates AI-benefit pass-through.", "Retention varies sharply between proprietary specialty vehicles and competitively bid fleet trucks."]
+    },
+    "d5": {
+      "evidence_state": "PROXY",
+      "low": 0.82,
+      "base": 1.01,
+      "high": 1.20,
+      "bridge": "BEA heavy-weight retail sales, BLS/FRED real sectoral output, and BTS freight forecasts measure adjacent demand/output quantities rather than constant-quality demand for LMM 336120 manufacturers. I normalize a volatile truck replacement cycle around flat-to-modest growth, with freight growth supporting the upside; sales cyclicality makes point-in-time extrapolation potentially wrong in either direction.",
+      "rationale": "Heavy-truck demand is cyclical: real output fell from about 99 in 2019 to 63.8 in 2020 and recovered only to 71.6 in 2021 in the cited series. Current monthly sales remain an observable demand gauge, while FAF forecasts continued long-run growth in truck-carried freight. Replacement, fleet growth, and emissions-driven product refresh support demand, offset by rates, freight cycles, and costly powertrain transitions.",
+      "change_evidence": "Latest OEM order backlogs, ACT Research or FTR Class 8 build forecasts, fleet age and replacement schedules, cancellation rates, and specialty-vehicle segment forecasts through 2031.",
+      "source_ids": ["S4", "S5", "S6", "S8"],
+      "caveats": ["Historical output series ends in 2021.", "Freight tonnage does not translate one-for-one into new-truck purchases.", "Retail sales cover heavy-weight trucks broadly and not only domestic 336120 output."]
+    },
+    "o": {
+      "evidence_state": "ESTIMATE",
+      "low": 0.96,
+      "base": 0.99,
+      "high": 1.0,
+      "rationale": "A physical, safety-regulated vehicle must still be engineered, assembled, tested, warranted, and delivered by an accountable manufacturer. AI and factory automation can change labor content but are unlikely to eliminate the responsible manufacturing operator within five years.",
+      "change_evidence": "Evidence of contract manufacturing platforms, autonomous microfactories, or OEM insourcing that fully displaces independent lens firms rather than merely automating their tasks.",
+      "source_ids": ["S0", "S3"],
+      "caveats": ["Consolidation or insourcing could remove some independent operators even though physical production persists."]
+    }
+  },
+  "narrative": {
+    "executive_view": "Heavy-duty truck manufacturing has real document, engineering-support, planning, and commercial workflow opportunity, but the physical core is difficult to automate with AI and the genuinely eligible LMM firm pool appears narrow. Demand is necessary but highly cyclical and exposed to technology-transition execution.",
+    "ai_impact": "AI should first reduce labor in quote preparation, configuration checks, engineering-document search, supplier communication, production scheduling, warranty triage, and quality paperwork. Safety-critical design approval, skilled trades, assembly, paint, final test, and regulatory sign-off remain human- and equipment-intensive.",
+    "value_capture": "Configured products and temporary information advantages permit retention, but fleet procurement and repeated bids will share gains with customers. Proprietary specialty applications should retain more than standardized fleet configurations.",
+    "firm_availability": "The Census establishment count is small and establishment does not equal independent firm. Large OEM plants, captive units, certification burden, and fixed capital sharply constrain the transferable LMM population despite the injected estimate of 23 band firms.",
+    "demand_durability": "Freight growth and fleet replacement sustain the need for heavy trucks, while historic real output and monthly retail sales show pronounced cyclicality. Emissions rules create design and replacement activity but also add cost, infrastructure dependence, and powertrain uncertainty.",
+    "risks_and_uncertainty": "Key risks are recession and freight-cycle drawdowns, customer concentration, warranty or recall exposure, working-capital demands, union and skilled-labor constraints, battery or hydrogen infrastructure delays, regulation changes, and an overestimated independent-firm denominator.",
+    "principal_driver": "Recurring fleet replacement and freight activity support a durable need for accountable manufacturers while AI improves the information workflows around complex builds.",
+    "principal_weakness": "Very limited LMM eligibility and capital-intensive physical production constrain both availability and implementable labor opportunity."
+  },
+  "sources": [
+    {"id": "S0", "url": "https://www.census.gov/naics/?input=336120&year=2022&details=336120", "title": "2022 NAICS definition: 336120 Heavy Duty Truck Manufacturing", "access_date": "2026-07-23", "supports": "Industry scope and cross-references for heavy-duty chassis, complete trucks, buses, motor homes, and special-purpose highway vehicles."},
+    {"id": "S1", "url": "https://data.census.gov/profile/336120_-_Heavy_duty_truck_manufacturing?codeset=naics~336120", "title": "336120 Heavy duty truck manufacturing — Census Bureau Profile", "access_date": "2026-07-23", "supports": "The fetched profile states the industry definition and reports 109 employer establishments for 2023 CBP."},
+    {"id": "S2", "url": "https://www.bls.gov/oes/2023/may/naics4_336100.htm", "title": "May 2023 OEWS: Motor Vehicle Manufacturing", "access_date": "2026-07-23", "supports": "Broader-industry occupation mix; 286,420 total employment and presence of management, business, computer, engineering, sales, office, production, maintenance, and material-moving work."},
+    {"id": "S3", "url": "https://www.epa.gov/regulations-emissions-vehicles-and-engines/final-rule-greenhouse-gas-emissions-standards-heavy-duty", "title": "Final Rule: Greenhouse Gas Emissions Standards for Heavy-Duty Vehicles — Phase 3", "access_date": "2026-07-23", "supports": "Standards phase in from model year 2027, cover vocational vehicles and tractors, and are technology-neutral and performance-based."},
+    {"id": "S4", "url": "https://fred.stlouisfed.org/series/IPUEN336120T010000000", "title": "Real Sectoral Output for Heavy Duty Truck Manufacturing", "access_date": "2026-07-23", "supports": "BLS/FRED annual real-output index values: 99.016 in 2019, 63.760 in 2020, and 71.647 in 2021."},
+    {"id": "S5", "url": "https://fred.stlouisfed.org/data/HTRUCKSSA", "title": "Motor Vehicle Retail Sales: Heavy Weight Trucks — Table Data", "access_date": "2026-07-23", "supports": "BEA monthly heavy-weight truck retail-sales series, thousands of units, through June 2026."},
+    {"id": "S6", "url": "https://www.bts.gov/newsroom/dot-releases-30-year-freight-projections", "title": "DOT Releases 30-Year Freight Projections", "access_date": "2026-07-23", "supports": "FAF projected truck tonnage rising 44% from 2015 to 2045 and reported trucks carried 64% of freight tonnage in 2015."},
+    {"id": "S7", "url": "https://www.census.gov/data/tables/2024/econ/abs/2024-abs-characteristics-of-owners.html", "title": "ABS Characteristics of Business Owners: 2024 Tables", "access_date": "2026-07-23", "supports": "Official Census owner-characteristics program includes employer-business Age of Owner tables, supporting owner-age as a broad succession proxy."},
+    {"id": "S8", "url": "https://www.bts.gov/newsroom/freight-analysis-framework-81525-updated", "title": "Freight Analysis Framework 5.7.1 Updated", "access_date": "2026-07-23", "supports": "Latest cited FAF release provides freight tonnage, value, and ton-miles estimates plus forecast years 2030–2050."}
+  ]
+}

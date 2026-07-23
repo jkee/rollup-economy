@@ -1,0 +1,190 @@
+{
+  "identity": {
+    "naics": "339116",
+    "title": "Dental Laboratories",
+    "run_id": "339116-a1-20260722",
+    "model_id": "claude-sonnet-5",
+    "run_date": "2026-07-22",
+    "methodology_version": "5.1",
+    "attempt": 1
+  },
+  "lens": {
+    "included_activities": "US lower-middle-market dental laboratories that repeatedly manufacture patient-specific crowns, bridges, dentures, orthodontic appliances, implant restorations, and related custom dental devices for external dental practices.",
+    "excluded_activities": "In-office captive dental labs, dental practices, dental equipment and consumables manufacturers, pure software or scanner vendors, offshore-only suppliers without a US operating laboratory, shells, inactive entities, non-control financing vehicles, and firms outside the normalized EBITDA band.",
+    "customer_and_revenue_model": "Dental practices and specialists send prescriptions, impressions, or digital scans on a case-by-case basis. Laboratories charge per restoration or appliance, often with remake and turnaround commitments; recurring revenue comes from repeated case flow and dentist relationships rather than subscriptions.",
+    "deviation_from_default": "none",
+    "heterogeneous": false
+  },
+  "primitives": {
+    "a": {
+      "evidence_state": "PROXY",
+      "low": 0.18,
+      "base": 0.30,
+      "high": 0.43,
+      "bridge": "BLS describes dental-technician duties and digital tools but does not measure wage-weighted AI task exposure. The 1997 Economic Census shows production workers were 29,702 of 40,081 employees, while BLS says technicians both perform hands-on shaping, finishing, inspection, and repair and use computer programs and 3D printers. I assign exposure to digital design, work-order interpretation, case communication, scheduling, quality documentation, and administration while excluding most manual finishing and device handling. Historic production intensity may overstate today's manual share after CAD/CAM adoption, biasing the base downward; generic claims about digital design could overstate substitution where esthetic judgment remains tacit.",
+      "rationale": "AI can accelerate scan review, initial restoration design, prescription and work-order checks, customer communication, production routing, remake analysis, and administrative work. Physical milling setup, material handling, staining, layering, polishing, fit inspection, repair, and final quality control remain substantial.",
+      "change_evidence": "Obtain a current NAICS 339116 occupation and wage tabulation and run time-and-task studies across CAD designers, ceramists, denture technicians, quality staff, customer service, scheduling, and billing at at least fifteen laboratories with different digital penetration.",
+      "source_ids": ["S1", "S2", "S4"],
+      "caveats": [
+        "The exact-industry Census labor mix is from 1997 and predates widespread digital production.",
+        "BLS duties are occupation-level and do not quantify time or wages by task.",
+        "Exposure varies sharply between fully digital crown workflows and removable or high-esthetic work."
+      ]
+    },
+    "rho": {
+      "evidence_state": "PROXY",
+      "low": 0.34,
+      "base": 0.55,
+      "high": 0.72,
+      "bridge": "ADA evidence concerns dentists' interest in CAD/CAM and 3D printing, and Anthropic evidence concerns enterprise API usage generally, not five-year implementation in dental labs. FDA guidance establishes that CAD/CAM is already a structured scan-software-mill workflow but that dimensional accuracy, validation, biocompatibility, and other controls matter. I translate the industry's existing digital substrate into above-average implementation of exposed tasks, then reduce for fragmented lab systems, patient-specific exceptions, esthetic judgment, dentist approval, and regulated quality. Dentist technology surveys may overrepresent engaged adopters, biasing implementation upward.",
+      "rationale": "Digital scans, CAD files, repeatable work orders, and computer-controlled manufacturing create a strong deployment path for design assistance and workflow automation. Implementation will remain human-supervised because a poor fit, shade, occlusion, or material choice produces clinical harm, remakes, and damaged dentist relationships.",
+      "change_evidence": "Collect live workflow data from leading dental CAD platforms and fifteen LMM labs, including percent of cases receiving AI-generated designs, technician edit time, auto-approval rates, remake rates, marginal labor hours, and FDA quality-system exceptions by product type.",
+      "source_ids": ["S3", "S4", "S5", "S8"],
+      "caveats": [
+        "The ADA survey is dentist-facing rather than a laboratory implementation study.",
+        "Anthropic API users are not representative of small dental manufacturers.",
+        "FDA guidance addresses CAD/CAM system safety, not AI deployment rates in laboratories."
+      ]
+    },
+    "e": {
+      "evidence_state": "ESTIMATE",
+      "low": 0.70,
+      "base": 0.83,
+      "high": 0.92,
+      "rationale": "The frozen count already targets the LMM band, and independent dental laboratories normally provide repeated outsourced case production to external dentists. The principal exclusions are captive practice labs, product or software vendors, offshore intermediaries without a US operating lab, inactive entities, firms with excessive customer concentration or no transferable dentist relationships, and businesses whose normalized EBITDA is outside the band.",
+      "change_evidence": "Audit all 336 candidates using Census business data, D&B/Hoovers, NADL directories, state registrations, websites, facility verification, customer mix, US production presence, ownership, and trailing five-year normalized EBITDA.",
+      "source_ids": ["S1"],
+      "caveats": [
+        "This is a bounded judgment rather than an observed eligibility audit.",
+        "The frozen count is estimated and may include captive, offshore-broker, or adjacent dental businesses.",
+        "Normalized profitability can shift with remake rates, material mix, and dentist concentration."
+      ]
+    },
+    "s5": {
+      "evidence_state": "PROXY",
+      "low": 0.16,
+      "base": 0.28,
+      "high": 0.39,
+      "bridge": "Census measures age among 4.1 million responding owners of US employer businesses in 2018 rather than qualifying dental-lab control transfers. I use the 51% age-55-or-older share as succession pressure and discount for five-year timing, family or employee succession, consolidation already completed, nontransferable owner relationships, and owners who do not sell. Dental labs historically skewed small and owner-operated, which may increase succession pressure relative to all employers, but age alone materially overstates actual external sale probability.",
+      "rationale": "The industry's legacy small-business structure supports a succession pipeline, but a qualifying control transfer requires durable dentist relationships, trained technicians, viable digital capabilities, and seller willingness. Internal succession and closure without sale remain common alternatives.",
+      "change_evidence": "Match the verified eligible population to PitchBook, GF Data, Capital IQ, Axial, NADL announcements, and state control records for ten years, then survey owners on age, succession plans, expected timing, and preferred buyer type.",
+      "source_ids": ["S1", "S6"],
+      "caveats": [
+        "The owner-age source is all-industry, response-based, and has data year 2018.",
+        "Historic fragmentation does not establish current owner age or transaction flow.",
+        "Owner dependence can make a retirement-driven business less transferable."
+      ]
+    },
+    "q": {
+      "evidence_state": "ESTIMATE",
+      "low": 0.37,
+      "base": 0.54,
+      "high": 0.70,
+      "rationale": "Per-case pricing lets a laboratory retain design, routing, and administrative savings until price lists or dentist contracts reset. Retention is constrained by price-sensitive practices, group purchasing, insurer-linked affordability pressure, offshore competition, and rapid diffusion of the same CAD/CAM tools. Faster turnaround, fewer remakes, and consistent quality can preserve more benefit than labor savings alone.",
+      "change_evidence": "Review five years of case-level prices, contracts, discounts, turnaround, remake credits, material costs, labor minutes, and gross margin at twenty laboratories; segment by dentist type, product, digital workflow, and domestic versus offshore production and interview dental-group procurement teams.",
+      "source_ids": ["S4"],
+      "caveats": [
+        "No source directly measures retention of AI-created benefit.",
+        "Pricing power varies by specialty, esthetic complexity, turnaround, and customer concentration.",
+        "Chairside technology and offshore labs can force benefits into lower prices."
+      ]
+    },
+    "d5": {
+      "evidence_state": "PROXY",
+      "low": 0.95,
+      "base": 1.07,
+      "high": 1.20,
+      "bridge": "CDC measures tooth loss by age, not purchases from US LMM dental laboratories, while BLS projects dental-laboratory-technician employment rather than restoration demand. I treat substantial tooth loss among older adults and population aging as support for prosthetic and restorative case volume, then temper it for improving tooth retention, affordability, chairside production, imports, and labor productivity. BLS's 4.7% technician-employment decline through 2034 can reflect automation as well as weak demand, so using it directly would bias demand downward.",
+      "rationale": "Aging, accumulated tooth damage, implants, orthodontics, and ongoing replacement of restorations support modest real case growth. Better prevention, financial barriers, dental-practice consolidation, and in-office or offshore fabrication create a near-flat downside, especially for commodity products.",
+      "change_evidence": "Obtain five years of ADA procedure counts, payer claims by CDT code, NADL case volumes, import data, and lab invoices; forecast patient-level crown, bridge, denture, implant, and orthodontic-appliance quantities by age and deflate for product mix and quality.",
+      "source_ids": ["S3", "S7"],
+      "caveats": [
+        "Tooth-loss prevalence is a clinical-need proxy and does not establish ability to pay or laboratory utilization.",
+        "Employment projections combine demand and productivity effects.",
+        "Imports and chairside fabrication can separate patient demand from demand for US independent labs."
+      ]
+    },
+    "o": {
+      "evidence_state": "ESTIMATE",
+      "low": 0.69,
+      "base": 0.81,
+      "high": 0.90,
+      "rationale": "Patient-specific restorations still require an accountable fabricator to translate scans and prescriptions into validated physical devices, manage materials, inspect fit and finish, and handle remakes. The operator need is reduced because dental practices can bring scanning, design, milling, and 3D printing chairside, while centralized or offshore production can replace the local independent lab for standardized cases.",
+      "change_evidence": "Measure the share of restorative and appliance cases fabricated chairside, by independent US labs, by vertically integrated dental groups, and offshore using scanner-platform routing data, ADA surveys, import records, and invoices from representative dental practices.",
+      "source_ids": ["S2", "S4", "S5"],
+      "caveats": [
+        "No source directly measures the future operator-channel split.",
+        "Chairside substitution is much greater for simple restorations than complex dentures, implants, or high-esthetic cases.",
+        "Software may reduce labor without eliminating the accountable fabricator."
+      ]
+    }
+  },
+  "narrative": {
+    "executive_view": "Dental laboratories combine high labor intensity with an unusually mature digital-production substrate. AI can compress design, case intake, routing, and administrative work, but physical finishing and patient-specific quality remain essential; the same chairside technology that enables lab productivity also lets dentists bypass independent labs.",
+    "ai_impact": "The strongest uses are scan and prescription checks, initial CAD proposals, case matching to prior designs, production scheduling, customer communication, remake analysis, and billing. Technicians remain responsible for materials, esthetics, fit, occlusion, finishing, inspection, and difficult exceptions, so realized automation depends on validated integration and disciplined quality data.",
+    "value_capture": "Per-case pricing can preserve savings in the short run, especially when faster turnaround and lower remake rates improve service. Over five years, dentist purchasing power, common access to CAD/CAM, offshore competition, and chairside production should share a substantial portion of pure labor savings.",
+    "firm_availability": "The industry has a deep legacy of small owner-operated laboratories and the frozen population indicates many potential LMM firms. Eligibility and transferability require careful verification because captive labs, offshore brokers, customer concentration, owner-dependent relationships, and weak digital capabilities can make nominal candidates unsuitable.",
+    "demand_durability": "Aging and substantial tooth loss support prosthetic demand, while restorative replacement, implants, and orthodontics broaden the case base. Better prevention, affordability limits, imports, and in-office manufacturing moderate growth and may shift demand away from independent US labs even when patient procedure volume rises.",
+    "risks_and_uncertainty": "Direct evidence on task-level labor, implementation, transfer rates, and benefit retention is limited. Clinical quality, dimensional accuracy, biocompatibility, data privacy, remake liability, dentist concentration, technician scarcity, and rapid equipment obsolescence can erase expected gains; chairside self-service is the principal structural threat.",
+    "principal_driver": "Digital scans and CAD/CAM create a practical path to automate meaningful high-labor workflows in a repeated case-production business.",
+    "principal_weakness": "Dentists can adopt the same digital tools in-house, weakening independent-lab demand and forcing productivity gains into lower case prices."
+  },
+  "sources": [
+    {
+      "id": "S1",
+      "url": "https://www2.census.gov/library/publications/economic-census/1997/manufacturing-reports/97m3391f.pdf",
+      "title": "Dental Laboratories: 1997 Economic Census",
+      "access_date": "2026-07-22",
+      "supports": "Defines dental laboratories as makers of customized dentures, crowns, bridges, and orthodontic appliances and reports 7,473 companies, 7,566 establishments, 40,081 employees, and 29,702 production workers in 1997."
+    },
+    {
+      "id": "S2",
+      "url": "https://www.bls.gov/ooh/production/dental-and-ophthalmic-laboratory-technicians-and-medical-appliance-technicians.htm",
+      "title": "Dental and Ophthalmic Laboratory Technicians and Medical Appliance Technicians",
+      "access_date": "2026-07-22",
+      "supports": "Describes dental technicians' hands-on shaping, finishing, inspection, and repair duties and their use of computer programs and 3D printers to create appliances and restorations."
+    },
+    {
+      "id": "S3",
+      "url": "https://www.bls.gov/emp/tables/occupational-projections-and-characteristics.htm",
+      "title": "Occupational Projections and Worker Characteristics",
+      "access_date": "2026-07-22",
+      "supports": "Projects dental laboratory technician employment from 35,200 in 2024 to 33,600 in 2034, a 4.7% decline, while showing 3,900 average annual openings."
+    },
+    {
+      "id": "S4",
+      "url": "https://pages.ada.org/ada-news/technology-in-dentistry",
+      "title": "Technology in Dentistry",
+      "access_date": "2026-07-22",
+      "supports": "Reports 36% of surveyed dentists expected CAD/CAM to have a transformative impact and 50% said 3D printing would improve their practice; explains digital files, milling, and faster restoration production."
+    },
+    {
+      "id": "S5",
+      "url": "https://www.fda.gov/medical-devices/guidance-documents-medical-devices-and-radiation-emitting-products/optical-impression-systems-computer-assisted-design-and-manufacturing-cadcam-dental-restorations",
+      "title": "Optical Impression Systems for CAD/CAM of Dental Restorations - Class II Special Controls Guidance",
+      "access_date": "2026-07-22",
+      "supports": "Defines the integrated scan, software, and computer-controlled milling workflow and identifies dimensional accuracy, software validation, biocompatibility, electrical safety, and contamination controls."
+    },
+    {
+      "id": "S6",
+      "url": "https://www.census.gov/content/dam/Census/library/visualizations/2020/comm/business-owners-ages.pdf",
+      "title": "Business Owners' Ages",
+      "access_date": "2026-07-22",
+      "supports": "Census 2019 Annual Business Survey graphic for data year 2018 shows 51% of responding employer-business owners age 55 or older, 43% age 35 to 54, and 6% age 34 or younger."
+    },
+    {
+      "id": "S7",
+      "url": "https://www.cdc.gov/oral-health/php/2024-oral-health-surveillance-report/selected-findings.html",
+      "title": "2024 Oral Health Surveillance Report: Selected Findings",
+      "access_date": "2026-07-22",
+      "supports": "Reports edentulism at 11.4% for adults age 65 to 74 and 19.7% for those age 75 or older, with mean permanent teeth declining with age, supporting clinical need for restorative and prosthetic devices."
+    },
+    {
+      "id": "S8",
+      "url": "https://www.anthropic.com/research/anthropic-economic-index-september-2025-report",
+      "title": "Anthropic Economic Index report: Uneven geographic and enterprise AI adoption",
+      "access_date": "2026-07-22",
+      "supports": "Reports 77% automation patterns in first-party API business usage and identifies organized contextual information and data modernization as constraints on sophisticated enterprise deployment."
+    }
+  ]
+}

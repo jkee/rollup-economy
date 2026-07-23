@@ -1,0 +1,147 @@
+{
+  "identity": {
+    "naics": "335220",
+    "title": "Major Household Appliance Manufacturing",
+    "run_id": "335220-a1-20260722",
+    "model_id": "claude-sonnet-5",
+    "run_date": "2026-07-22",
+    "methodology_version": "5.1",
+    "attempt": 1
+  },
+  "lens": {
+    "included_activities": "US lower-middle-market manufacturers of household cooking, laundry, refrigeration, dishwashing, water-heating, disposal, and other major appliances that repeatedly supply external private-label, OEM, distributor, builder, and retail customers.",
+    "excluded_activities": "Small appliances, commercial equipment, import-only brands without accountable domestic production, distributors and installers, captive plants, firms outside the EBITDA band, shells, and non-control financing vehicles.",
+    "customer_and_revenue_model": "Predominantly per-unit branded or private-label product sales through retailers, distributors, builders, and OEM programs; qualifying outsourced-service revenue is limited to recurring contract manufacturing, configuration, testing, and lifecycle support.",
+    "deviation_from_default": "none",
+    "heterogeneous": true
+  },
+  "primitives": {
+    "a": {
+      "evidence_state": "PROXY",
+      "low": 0.14,
+      "base": 0.24,
+      "high": 0.36,
+      "bridge": "BLS reports occupations across NAICS 335 rather than wage-weighted tasks in LMM major-appliance plants. The range maps exposure to product engineering support, configuration, demand forecasting, procurement, production planning, machine-vision review, test analytics, compliance documentation, warranty triage, and customer service against lower exposure in stamping, molding, insulation, welding, brazing, wiring, assembly, charging, testing, packaging, maintenance, and material handling; broad electrical manufacturing may understate appliance-specific factory labor.",
+      "rationale": "BLS reports 65,350 electrical and electronic assemblers and 57,660 team assemblers across NAICS 335, indicating a physical production core. AI can assist design and information workflows, but large-product assembly, refrigerant and electrical work, testing, packaging, and safety accountability remain difficult to substitute.",
+      "change_evidence": "A wage-weighted task census across all plausible LMM US manufacturers, separating engineering, sourcing, forecasting, sales, planning, stamping and molding, refrigeration, motors and electronics, assembly, testing, quality, packaging, maintenance, compliance, warranty, and service.",
+      "source_ids": ["S1", "S2"],
+      "caveats": ["No six-digit occupation-by-task dataset was located.", "Cooking, laundry, refrigeration, water-heating, and disposal products have different processes and labor mixes."]
+    },
+    "rho": {
+      "evidence_state": "ESTIMATE",
+      "low": 0.34,
+      "base": 0.54,
+      "high": 0.7,
+      "rationale": "CAD, bills of material, orders, machine logs, inspection images, end-of-line test data, service telemetry, and warranty records support AI in engineering, planning, quality, and service. Adoption is constrained by DOE standards and test procedures, product safety, refrigerant rules, long validation cycles, union and workforce change, legacy production systems, cybersecurity, and the scale of recall and warranty consequences.",
+      "change_evidence": "Two-year pre/post deployments for AI engineering support, component substitution, forecasting, scheduling, machine vision, end-of-line test analysis, predictive maintenance, compliance documentation, and warranty service, reporting labor, yield, field failures, recalls, lead time, and overrides.",
+      "source_ids": ["S3", "S4"],
+      "caveats": ["Regulatory and recall evidence establishes constraints, not an observed AI realization rate.", "The small estimated LMM population may have older plants and less usable data than major brands."]
+    },
+    "e": {
+      "evidence_state": "ESTIMATE",
+      "low": 0.01,
+      "base": 0.06,
+      "high": 0.17,
+      "rationale": "Major appliances are scale-intensive product manufacturing, not recurring outsourced service. Only rare private-label or contract manufacturers with repeat external programs clearly qualify. The frozen count of 17 is margin-bridged using machinery economics and may include brand owners, importers, parts-heavy operations, or firms whose true normalized EBITDA and capital needs do not fit the lens.",
+      "change_evidence": "A complete review of the 17 estimated firms covering normalized EBITDA, contract and private-label revenue, recurring external programs, domestic value added, affiliate sales, brand ownership, owner dependence, certifications, recalls, warranties, working capital, and plant condition.",
+      "source_ids": ["S2", "S3"],
+      "caveats": ["Eligibility depends on rare contract-manufacturing arrangements that are not observed in public data.", "Even small manufacturing entities may belong to large global groups and fail the control and size lens."]
+    },
+    "s5": {
+      "evidence_state": "PROXY",
+      "low": 0.05,
+      "base": 0.12,
+      "high": 0.22,
+      "bridge": "Gallup found 22% of US employer-business owners across industries planned a sale or ownership transfer within five years. The range discounts plans for a tiny eligible population, strategic ownership, capital intensity, internal transfers, closures, product-line deals, and failed transactions; mature ownership may raise exit intentions, but warranty, regulatory, retailer, and plant liabilities can prevent a going-concern transfer.",
+      "rationale": "The eligible independent contract-manufacturer set may contain at most a handful of firms. Transfers require buyers able to assume certifications, retailer programs, warranties, recalls, working capital, tooling, environmental obligations, and capital expenditure, making completed qualifying deals infrequent.",
+      "change_evidence": "Ten years of NAICS 335220 closed deals, plant and product-line sales, closures, and owner changes from PitchBook, GF Data, Axial, appliance-industry sources, SBA loans, UCC records, and state registries, matched to eligibility and owner age.",
+      "source_ids": ["S5"],
+      "caveats": ["Gallup is not industry- or size-specific and measures plans, not completed transfers.", "With very few eligible firms, one event changes the realized rate materially."]
+    },
+    "q": {
+      "evidence_state": "ESTIMATE",
+      "low": 0.14,
+      "base": 0.28,
+      "high": 0.47,
+      "rationale": "Brand, design, distribution, service networks, efficiency performance, and reliability can retain some gains. Yet national retailers and builders compare global suppliers, negotiate annual cost-downs and promotions, and can switch private-label manufacturers; price transparency, raw-material clauses, and import competition pass widely available productivity gains through.",
+      "change_evidence": "Model-, retailer-, builder-, and OEM-level margin bridges before and after automation, including material and freight costs, rebates, promotions, chargebacks, private-label resets, warranty and service costs, volume, mix, and competitor pricing over three years.",
+      "source_ids": ["S3", "S4"],
+      "caveats": ["No representative contract or pass-through dataset was located.", "Premium brands retain more than contract manufacturers, but branded product firms may fail the service lens."]
+    },
+    "d5": {
+      "evidence_state": "PROXY",
+      "low": 0.86,
+      "base": 0.99,
+      "high": 1.12,
+      "bridge": "BLS projects output for aggregate household-appliance manufacturing, combining small and major appliances, not constant-quality demand for eligible LMM major-appliance contract manufacturers. Major appliances are more tied to housing and repair-versus-replace decisions, while domestic output can diverge from US demand through imports and plant shifts.",
+      "rationale": "BLS projects household-appliance real output from 21.9 in 2024 to 24.1 in 2034 while employment falls 7.5%, supporting stable to modestly higher industry quantity with productivity gains. Replacement of installed appliances and household formation support demand, while housing cycles, longer lives, repair, imports, interest rates, and retailer inventories create downside.",
+      "change_evidence": "Five-year US unit forecasts and installed-base replacement curves by refrigerator, freezer, washer, dryer, cooking, dishwasher, water heater, and disposal, with housing completions, repair rates, imports, retailer sell-through, inventory, and eligible manufacturers' order books.",
+      "source_ids": ["S6"],
+      "caveats": ["BLS output combines small and major appliances and does not isolate eligible LMM operators.", "Domestic manufacturer demand can decline despite stable US appliance replacement through imports."]
+    },
+    "o": {
+      "evidence_state": "ESTIMATE",
+      "low": 0.9,
+      "base": 0.96,
+      "high": 0.99,
+      "rationale": "Remaining appliance demand requires an accountable operator to design, source, assemble, test energy and safety performance, document compliance, manage refrigerants and firmware where relevant, and handle warranties, repairs, and recalls. Software can optimize and remotely service appliances but cannot supply certified physical goods.",
+      "change_evidence": "Retailer and brand sourcing data on shifts to import-only models, direct overseas supply, modular commodity platforms, software substitution, and lights-out factories, together with DOE certification, CPSC safety, warranty, and product-liability responsibility.",
+      "source_ids": ["S3", "S4"],
+      "caveats": ["The accountable operator may be a global manufacturer outside the lens.", "Connected diagnostics can reduce service labor without eliminating physical manufacturing."]
+    }
+  },
+  "narrative": {
+    "executive_view": "Major-appliance manufacturing has usable AI opportunities in design, sourcing, planning, quality, testing analytics, predictive maintenance, compliance, and warranty service. But it is scale-intensive product manufacturing, the estimated LMM population is only 17, and very few firms likely provide a recurring outsourced service.",
+    "ai_impact": "AI can assist product and component engineering, forecast demand, optimize supply and schedules, flag inspection and end-of-line test anomalies, predict plant maintenance, generate regulatory documentation, and triage service. Physical assembly, refrigeration work, testing, packaging, and safety release remain operator-led.",
+    "value_capture": "Brand, efficiency, reliability, distribution, and service can defend gains, while retailer and builder power, annual cost-downs, promotions, transparent pricing, and imports transfer common savings quickly. Contract manufacturers face the strongest pass-through.",
+    "firm_availability": "Only rare independent private-label or contract manufacturers clearly fit the lens. Firm-level diligence must validate true ownership, domestic production, normalized EBITDA, recurring programs, certifications, warranty and recall history, plant liabilities, and management depth.",
+    "demand_durability": "Replacement and household formation support stable demand, while housing cycles, financing costs, repair, longer product lives, imports, and retailer inventory create volatility. Regulatory efficiency changes require redesign and testing but do not eliminate physical demand.",
+    "risks_and_uncertainty": "Principal risks are lens ineligibility, tiny firm count, global scale competition, retailer power, recalls and product liability, regulatory compliance, capital expenditure, refrigerants, tariffs, working capital, inventory obsolescence, and cybersecurity.",
+    "principal_driver": "Data-rich engineering, test, warranty, and production workflows can support material AI assistance around large assembly operations.",
+    "principal_weakness": "The industry is concentrated, capital-intensive product manufacturing with almost no obvious LMM outsourced-service population."
+  },
+  "sources": [
+    {
+      "id": "S1",
+      "url": "https://www.bls.gov/iag/tgs/iag335.htm",
+      "title": "Electrical Equipment, Appliance, and Component Manufacturing: NAICS 335",
+      "access_date": "2026-07-22",
+      "supports": "Reports 2025 broader-subsector employment including 65,350 electrical and electronic assemblers, 57,660 team assemblers, and 14,050 inspectors."
+    },
+    {
+      "id": "S2",
+      "url": "https://www.census.gov/naics/?details=33&input=33&year=2022",
+      "title": "NAICS 335220 Major Household Appliance Manufacturing",
+      "access_date": "2026-07-22",
+      "supports": "Defines the industry as household cooking, laundry, refrigeration and freezer equipment plus dishwashers, water heaters, garbage disposals, and other major appliances."
+    },
+    {
+      "id": "S3",
+      "url": "https://www.energy.gov/cmei/buildings/refrigeration-products",
+      "title": "Refrigeration Products",
+      "access_date": "2026-07-22",
+      "supports": "States manufacturers have complied with DOE refrigeration-product standards since 1990 and documents amended 2024 standards determined technologically feasible, economically justified, and energy-conserving."
+    },
+    {
+      "id": "S4",
+      "url": "https://www.cpsc.gov/Recalls/2023/Samsung-Recalls-Top-Load-Washing-Machines-Due-to-Fire-Hazard-Software-Repair-Available",
+      "title": "Samsung Recalls Top-Load Washing Machines Due to Fire Hazard",
+      "access_date": "2026-07-22",
+      "supports": "Documents a roughly 663,500-unit washer recall for short-circuit and overheating risk, illustrating safety, software, warranty, and recall constraints."
+    },
+    {
+      "id": "S5",
+      "url": "https://news.gallup.com/poll/657362/small-business-owners-lack-succession-plan.aspx",
+      "title": "Most Small-Business Owners Lack a Succession Plan",
+      "access_date": "2026-07-22",
+      "supports": "Fall 2024 US survey found 22% of employer-business owners planned to sell or transfer ownership within five years, while 5% planned closure and 5% had no plan."
+    },
+    {
+      "id": "S6",
+      "url": "https://www.bls.gov/emp/tables/industry-employment-and-output.htm",
+      "title": "Employment and Output by Industry",
+      "access_date": "2026-07-22",
+      "supports": "Projects household-appliance manufacturing employment from 60,100 in 2024 to 55,600 in 2034, down 7.5%, while its real-output index rises from 21.9 to 24.1."
+    }
+  ]
+}

@@ -1,0 +1,77 @@
+{
+  "identity": {"naics":"336211","title":"Motor Vehicle Body Manufacturing","run_id":"336211-a1-20260722","model_id":"claude-sonnet-5","run_date":"2026-07-22","methodology_version":"5.1","attempt":1},
+  "lens": {
+    "included_activities":"US lower-middle-market firms repeatedly manufacturing truck, bus, and automobile bodies or cabs, including final-stage assembly of vocational and special-purpose vehicles on purchased chassis, for external commercial, fleet, dealer, and public customers.",
+    "excluded_activities":"Captive body operations; one-off personal customization; repair-only shops; trailer and motor-home manufacturers classified elsewhere; complete chassis manufacturing; firms outside the EBITDA band.",
+    "customer_and_revenue_model":"Configured product sales and repeat fleet, dealer, OEM, or municipal orders, with revenue earned per body or completed vehicle and often supplemented by options, parts, and warranty support.",
+    "deviation_from_default":"none",
+    "heterogeneous":false
+  },
+  "primitives": {
+    "a": {
+      "evidence_state":"PROXY","low":0.18,"base":0.30,"high":0.42,
+      "bridge":"BLS reports occupations for NAICS 336200, not 336211, and does not measure AI exposure. I apply partial exposure to quoting, CAD/document retrieval, purchasing, scheduling, compliance records, sales support, and warranty triage while applying low exposure to assembly and metal fabrication. The broader group includes trailer and RV plants, so its physical-production mix may misstate body builders in either direction.",
+      "rationale":"The broader sector has 29.23% miscellaneous assemblers/fabricators and 18.75% metal and plastic workers, demonstrating a large physical core. The exposed share is concentrated in indirect labor and information-heavy portions of engineering and production control rather than hands-on fabrication.",
+      "change_evidence":"A wage-weighted six-digit occupation file plus task-time studies at independent body builders covering estimating, CAD revision, bill-of-material creation, scheduling, procurement, certification, and warranty administration.",
+      "source_ids":["S2"],"caveats":["Occupation data combine all NAICS 336200 industries.","Task exposure is inferred rather than measured."]
+    },
+    "rho": {
+      "evidence_state":"ESTIMATE","low":0.34,"base":0.53,"high":0.70,
+      "rationale":"Repeat configurations and document-heavy workflows make implementation plausible within five years, especially for quoting and engineering reuse. Fragmented legacy systems, small-firm data quality, product variation, shop-floor integration, and final-stage safety certification constrain the realized share.",
+      "change_evidence":"Vendor-neutral implementation cohorts from body builders showing workflow adoption, before-and-after labor hours, error and rework rates, integration costs, and sustained use after 24 months.",
+      "source_ids":["S0","S3"],"caveats":["No directly observed five-year implementation rate exists.","Product-safety accountability keeps human review in the loop."]
+    },
+    "e": {
+      "evidence_state":"ESTIMATE","low":0.43,"base":0.64,"high":0.81,
+      "rationale":"The industry includes many independent specialty body and final-stage manufacturers serving regional fleets and vocational niches, a business structure more compatible with the LMM band than integrated vehicle OEMs. Some establishments are captive, too small, project-like, or subsidiaries and must be excluded.",
+      "change_evidence":"A firm-level 336211 census reconciled to parent ownership, normalized EBITDA, external recurring revenue, customer concentration, certification status, and establishment count.",
+      "source_ids":["S0"],"caveats":["The injected n is an estimate derived from size classes and an industry margin proxy.","NAICS examples span materially different vocational niches."]
+    },
+    "s5": {
+      "evidence_state":"PROXY","low":0.12,"base":0.24,"high":0.38,
+      "bridge":"Census ABS measures owner age across employer businesses rather than actual control transfers among eligible 336211 firms. I interpret older ownership as succession pressure and discount for family succession, internal transfers, closures, and unsold firms; the independent regional profile may make the general-business proxy directionally relevant but still could overstate completed deals.",
+      "rationale":"Owner succession and strategic consolidation should produce transfers, but small pools, certification diligence, customer concentration, and real-estate or founder dependence reduce executable control changes.",
+      "change_evidence":"Five years of GF Data, PitchBook, Axial, and industry-association transactions for truck-body and vocational-vehicle manufacturers, de-duplicated and divided by eligible independent firms.",
+      "source_ids":["S7"],"caveats":["Owner age is not a transaction probability.","Public deal databases undercount small private transfers."]
+    },
+    "q": {
+      "evidence_state":"ESTIMATE","low":0.41,"base":0.60,"high":0.77,
+      "rationale":"Customization, engineering know-how, certifications, lead times, and after-sales obligations give differentiated body builders some pricing discretion. Fleet bids, municipal tenders, dealer scrutiny, customer concentration, and repeat rebids nevertheless pass a material share of productivity gains to buyers.",
+      "change_evidence":"Representative contracts and bid histories showing open-book clauses, indexation, rebid cadence, productivity sharing, option margins, and realized price/cost bridges after automation.",
+      "source_ids":[],"caveats":["Retention differs between proprietary emergency vehicles and standardized dry-freight bodies.","No source isolates AI-derived benefit retention."]
+    },
+    "d5": {
+      "evidence_state":"PROXY","low":0.83,"base":1.02,"high":1.20,
+      "bridge":"BLS/FRED output covers 33621 or an older 336211 series, while EPA replacement awards cover selected Class 6/7 vehicles, not the full constant-quality body-manufacturing basket. I combine recent sector contraction with replacement and vocational-fleet support; public grants and broader output can overstate demand accessible to LMM body builders.",
+      "rationale":"Real output for NAICS 33621 declined from 107.624 in 2022 to 84.461 in 2025, showing cycle risk. Conversely, more than three million Class 6/7 vehicles are in use and EPA awards fund replacement of over 1,900 school buses and vocational vehicles, supporting selected configurations. Five-year demand is centered near flat with wide downside and recovery cases.",
+      "change_evidence":"Segmented order backlogs and five-year fleet replacement plans for school bus, emergency, refuse, utility, box, tanker, and other body types, including cancellation rates and chassis availability.",
+      "source_ids":["S4","S5","S6"],"caveats":["33621 includes truck trailers and other adjacent products.","Grant-supported replacements are not a steady-state national forecast.","Older 336211 real-output history ends in 2021."]
+    },
+    "o": {
+      "evidence_state":"ESTIMATE","low":0.95,"base":0.985,"high":1.0,
+      "rationale":"Bodies and completed vocational vehicles remain physical, customer-specific, safety-certified products. Software can compress engineering and administrative labor, but an accountable manufacturer must fabricate, integrate, certify, warrant, and deliver them during the horizon.",
+      "change_evidence":"Evidence that chassis OEMs systematically insource body integration or that standardized robotic contract factories displace independent final-stage manufacturers across major niches.",
+      "source_ids":["S3","S8"],"caveats":["OEM insourcing and consolidation could reduce independent operators without eliminating manufacturing demand."]
+    }
+  },
+  "narrative": {
+    "executive_view":"Motor vehicle body manufacturing combines a substantial physical shop-floor base with unusually document-intensive configuration, quotation, and compliance work. Independent specialty manufacturers can fit the lens, but demand and value capture vary sharply by vocational niche.",
+    "ai_impact":"Near-term opportunity sits in quote-to-order configuration, CAD and prior-design retrieval, bills of material, supplier communication, production planning, inspection records, certification support, and warranty triage. Fabrication, fitting, painting, wiring, integration, and final inspection remain embodied.",
+    "value_capture":"Differentiated designs, lead times, certification capability, and aftermarket support can preserve gains. Standardized bodies sold through recurring tenders face quicker repricing and stronger pass-through.",
+    "firm_availability":"Regional specialists and final-stage manufacturers create a plausible LMM pool, though captive units, very small custom shops, and subsidiaries reduce eligibility. Transferability depends heavily on customer concentration, certifications, engineering files, and management depth.",
+    "demand_durability":"Fleet replacement and vocational needs are durable, and public programs support selected zero-emission bodies and completed vehicles. Recent broader-industry real output has contracted, so the five-year range must reflect cyclicality, chassis supply, rates, and public budgets.",
+    "risks_and_uncertainty":"Risks include niche concentration, municipal budget timing, chassis shortages, recalls and certification liability, warranty reserves, raw-material volatility, skilled-trade scarcity, technology transition, and dependence on founders or a few fleets.",
+    "principal_driver":"Repeat configured builds create both recurring demand and reusable information workflows suitable for AI assistance.",
+    "principal_weakness":"Physical production dominates labor and the industry's many niches make general evidence a weak predictor of any specific target."
+  },
+  "sources": [
+    {"id":"S0","url":"https://www.census.gov/naics/?details=336211&input=336211&year=2017","title":"NAICS 336211 Motor Vehicle Body Manufacturing definition","access_date":"2026-07-23","supports":"Industry definition and examples including truck bodies, school buses, firefighting vehicles, tanker bodies, tow trucks, and final assembly on purchased chassis."},
+    {"id":"S2","url":"https://www.bls.gov/oes/2023/may/naics4_336200.htm","title":"May 2023 OEWS: Motor Vehicle Body and Trailer Manufacturing","access_date":"2026-07-23","supports":"Broader occupation mix, including 49,330 miscellaneous assemblers/fabricators (29.23%) and 31,640 metal/plastic workers (18.75%)."},
+    {"id":"S3","url":"https://www.nhtsa.gov/interpretations/usedchas","title":"NHTSA interpretation: final-stage manufacturer responsibilities","access_date":"2026-07-23","supports":"Defines final-stage manufacturer and states conformity and certification-label duties under 49 CFR Parts 567 and 568."},
+    {"id":"S4","url":"https://fred.stlouisfed.org/series/IPUEN33621T010000000","title":"Real Sectoral Output: Motor Vehicle Body and Trailer Manufacturing","access_date":"2026-07-23","supports":"BLS/FRED broader-industry real-output index: 107.624 in 2022, 94.212 in 2023, 87.007 in 2024, and 84.461 in 2025."},
+    {"id":"S5","url":"https://fred.stlouisfed.org/data/IPUEN336211T010000000","title":"Table Data: Real Sectoral Output for Motor Vehicle Body Manufacturing","access_date":"2026-07-23","supports":"Six-digit historical real-output index and annual changes through 2021, including a 10.3% decline in 2020 and 4.2% growth in 2021."},
+    {"id":"S6","url":"https://www.epa.gov/clean-heavy-duty-vehicles-program/clean-heavy-duty-vehicles-grant-program-awards","title":"Clean Heavy-Duty Vehicles Grant Program Awards","access_date":"2026-07-23","supports":"EPA reports more than three million Class 6/7 vehicles in use and 51 grants of about $595 million replacing more than 1,900 school buses and vocational vehicles."},
+    {"id":"S7","url":"https://www.census.gov/data/tables/2024/econ/abs/2024-abs-characteristics-of-owners.html","title":"ABS Characteristics of Business Owners: 2024 Tables","access_date":"2026-07-23","supports":"Official employer-business owner-characteristics program includes Age of Owner tables used only as a broad succession proxy."},
+    {"id":"S8","url":"https://www.nhtsa.gov/interpretations/2872o","title":"NHTSA interpretation: certification by final-stage manufacturers","access_date":"2026-07-23","supports":"A final-stage manufacturer completing a vehicle must conform to applicable safety standards and affix the required certification label."}
+  ]
+}
