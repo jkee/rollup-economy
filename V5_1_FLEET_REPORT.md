@@ -824,3 +824,40 @@ implementation and eligible-firm shares, sparse transfer denominators, and
 indirect retention and demand bridges. The three mandatory anomaly reviews
 also passed without a tier- or action-changing defect. All limitations were
 disclosed, and the predeclared pause trigger did not fire.
+
+## G9 — Mining and utilities
+
+**Closed:** 2026-07-22
+**Coverage:** 35 attempted, 35 deterministically valid, 35 published, 0 excluded
+**Independent review:** 4/35 (0 mandatory, 4 random, 0 canary)
+**Review outcomes:** 4 `publishable_with_caveats`; 0 `publishable`; 0 `reject`; 0 `invalid`
+**Material findings:** 0
+**Remediations:** 0
+
+### Screen distribution
+
+- Base tiers: 0 `HIGHEST_PRIORITY`, 0 `PRIORITY`, 3 `CONDITIONAL`,
+  11 `LOW_PRIORITY`, 15 `STRUCTURAL_OUT`, and 6 without a base tier.
+- Readiness: 29 `MODEL_CONDITIONED`; 6 `STRESS_TEST_ONLY`.
+- Actions: 29 `VALIDATE_ASSUMPTIONS`; 6 `EVIDENCE_FIRST`.
+- Robust tiers: 7/35, all `STRUCTURAL_OUT`.
+- Publication labels: 4 `accepted`; 31 `not_reviewed`.
+
+The random stratum was `212290`, `221116`, `221118`, and `221330`; all were
+accepted with caveats and no material finding. These are sample observations
+only; no G9 defect rate is estimated.
+
+### Economic read
+
+G9 did not produce a `PRIORITY` screen. Construction sand and gravel mining
+(`212321`), solar generation (`221114`), and other electric generation
+(`221118`) reached `CONDITIONAL`, while eleven records were `LOW_PRIORITY` and
+fifteen were `STRUCTURAL_OUT`. Six missing-anchor mining records routed to
+`STRESS_TEST_ONLY / EVIDENCE_FIRST`, reflecting the block's sparse and
+heterogeneous operating base rather than a tuned outcome.
+
+Validators emphasized broad workforce and adoption proxies, estimated
+implementation and eligible-firm shares, indirect demand and retention
+bridges, and sector-level evidence applied to narrow industries. These
+limitations were disclosed; no review found a tier- or action-changing defect,
+and the predeclared pause trigger did not fire.
