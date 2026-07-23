@@ -1,6 +1,6 @@
 # v5.1 Plan — scope expansion to the full 1,012-code universe
 
-**Status: FLEET ACTIVE — G8 closed; G9 next.** Victor directly instructed the operator
+**Status: FLEET ACTIVE — G9 research.** Victor directly instructed the operator
 on 2026-07-22 to ignore the single-purpose-session rule. That narrow governance
 exception applies retrospectively to S1 and prospectively to the remaining
 v5.1 campaign; it does not waive single-author work, author/reviewer separation,
@@ -266,7 +266,7 @@ and move on.
 | closed | G6 | Mfg: wood through minerals | 321–327 | 96 | 10/96 | largest block |
 | closed | G7 | Mfg: metals & machinery | 331–333 | 89 | 10/89 | machine-shop roll-up territory |
 | closed | G8 | Mfg: electronics through misc | 334–339 | 92 | 12/92 | `334111`/`334118` anomalies |
-| todo | G9 | Mining + utilities | 21, 22 | 35 | – | |
+| research | G9 | Mining + utilities | 21, 22 | 35 | – | |
 | todo | Z1 | Agriculture, forestry, fishing | 11 | 64 | – | 49/64 gap-routed → unscored, expected |
 | todo | Z2 | Public administration | 92 | 29 | – | 29/29 gap-routed → unscored, expected |
 
