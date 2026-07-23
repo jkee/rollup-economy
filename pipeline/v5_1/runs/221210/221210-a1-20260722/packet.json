@@ -1,0 +1,189 @@
+{
+  "identity": {
+    "naics": "221210",
+    "title": "Natural Gas Distribution",
+    "run_id": "221210-a1-20260722",
+    "model_id": "claude-sonnet-5",
+    "run_date": "2026-07-22",
+    "methodology_version": "5.1",
+    "attempt": 1
+  },
+  "lens": {
+    "included_activities": "Privately controlled lower-middle-market operators of physical local natural-gas distribution systems that repeatedly deliver gas and related distribution service to external residential, commercial, and industrial customers.",
+    "excluded_activities": "Gas marketers, brokers, and agents without the physical distribution system; municipal utilities; captive systems; non-independent subsidiaries; transmission-only pipelines; LNG terminals; fuel dealers; shells; and non-control financing vehicles.",
+    "customer_and_revenue_model": "Recurring regulated or contract-based delivery charges, commonly paired with pass-through recovery of purchased gas, for operating mains, meters, pressure controls, service lines, and customer connections.",
+    "deviation_from_default": "NAICS 221210 combines physical gas-distribution system operators with gas marketers, brokers, and agents. The lens is narrowed to private physical local-distribution operators because asset intensity, safety regulation, labor workflows, revenue mechanics, and transferability differ materially from commodity marketing; the narrowing is for coherence rather than attractiveness.",
+    "heterogeneous": true
+  },
+  "primitives": {
+    "a": {
+      "evidence_state": "PROXY",
+      "low": 0.25,
+      "base": 0.35,
+      "high": 0.45,
+      "bridge": "BLS directly measures the NAICS 221200 occupation mix, which maps to Natural Gas Distribution, but does not measure wage-weighted task exposure or current automation. The mix includes office and administrative support at 15.05% of employment, business and financial operations at 12.91%, management at 7.28%, and computer and mathematical work at 4.10%, alongside installation, maintenance, and repair at 23.73%. The range converts occupations into task-level exposure and gives more weight to higher-paid analytical work; it may overstate substitution where compliance requires human sign-off and understate exposure within field planning and documentation.",
+      "rationale": "Customer service, billing exceptions, meter-data review, project planning, asset-record reconciliation, leak-survey prioritization, regulatory reporting, procurement, scheduling, and knowledge retrieval contain exposed language and analytical tasks. Pipe installation, valve repair, emergency response, excavation, physical leak confirmation, and safety-critical operating decisions remain substantially human.",
+      "change_evidence": "A wage-weighted staffing census for small private local distribution companies mapped to O*NET tasks, with current automation status and time-on-task observations, would materially change this estimate.",
+      "source_ids": ["S2"],
+      "caveats": [
+        "OEWS employment shares are not wage-weighted task shares and do not identify work already automated.",
+        "The national employer mix is dominated by larger utilities and may not represent small independent operators.",
+        "Some reported sales occupations may reflect marketer activity excluded by the narrowed lens."
+      ]
+    },
+    "rho": {
+      "evidence_state": "PROXY",
+      "low": 0.27,
+      "base": 0.44,
+      "high": 0.61,
+      "bridge": "The DOE-sponsored NARUC primer documents gas-utility AI applications and implementation challenges, and PHMSA requires formal distribution integrity risk evaluation, but neither measures the five-year share of exposed labor opportunity converted into operations at small private operators. The range translates demonstrated applicability into workflow penetration after data, integration, safety, cybersecurity, regulator, and change constraints. Published examples can bias adoption upward relative to less digitized small utilities.",
+      "rationale": "Back-office and advisory workflows can be deployed with human review, and gas-utility use cases already include infrastructure replacement prioritization, excavation-damage prevention, and energy-efficiency programs. Implementation is slower where asset records are incomplete, models influence safety decisions, legacy operational systems require integration, or regulators demand validation and explainability.",
+      "change_evidence": "A five-year cohort study of small gas utilities reporting deployed use cases, workflow coverage, data readiness, model overrides, safety validation, regulator acceptance, and staffing before and after deployment would materially move the range.",
+      "source_ids": ["S3", "S4"],
+      "caveats": [
+        "The AI primer was published in 2020 and describes opportunities and examples rather than an implementation share.",
+        "PHMSA's guidance supports risk-model use but does not establish that AI replaces labor.",
+        "Safety-critical deployment can augment decisions without removing accountable personnel."
+      ]
+    },
+    "e": {
+      "evidence_state": "ESTIMATE",
+      "low": 0.05,
+      "base": 0.14,
+      "high": 0.27,
+      "rationale": "The frozen firm count spans a NAICS code that includes marketers and brokers, while the coherent lens requires a private, independent, physical local-distribution operator in the EBITDA band with transferable control. EIA reports that municipal distributors are the most common distributor type, and many remaining physical systems belong to larger utility groups, leaving only a minority of counted firms plausibly eligible.",
+      "change_evidence": "A firm-level match of the SUSB universe to EIA Form 176 respondents, PHMSA operator IDs, ownership type, ultimate parent, system assets, normalized EBITDA, and control-transferability would materially change eligibility.",
+      "source_ids": ["S1", "S5"],
+      "caveats": [
+        "No source directly measures the share of frozen LMM firms meeting every lens condition.",
+        "Government-owned entities may already be absent from SUSB, so municipal prevalence is structural context rather than a direct subtraction from the frozen count.",
+        "The frozen firm count is margin-bridged and can misclassify regulated utilities with atypical depreciation, capital structure, or accounting."
+      ]
+    },
+    "s5": {
+      "evidence_state": "ESTIMATE",
+      "low": 0.08,
+      "base": 0.17,
+      "high": 0.29,
+      "rationale": "Qualifying control transfers can occur among independent investor-owned local distributors, but regulated service territories, approval requirements, capital intensity, long holding periods, and strategic-buyer concentration reduce ordinary owner-succession turnover. The estimate excludes municipal reorganizations, marketer deals, parent-level transactions that do not transfer the operating company, and internal utility-group restructurings.",
+      "change_evidence": "A transaction census matching EIA and PHMSA operator identifiers to state commission change-of-control dockets, S&P Capital IQ, PitchBook, and ultimate-parent histories over a full business cycle would materially change the probability.",
+      "source_ids": ["S5"],
+      "caveats": [
+        "No industry-specific denominator of eligible independent firms and qualifying transfers was found.",
+        "Publicly visible gas-utility transactions can overrepresent large systems and holding-company deals outside the lens.",
+        "Approval and franchise-transfer requirements vary materially by state and locality."
+      ]
+    },
+    "q": {
+      "evidence_state": "ESTIMATE",
+      "low": 0.10,
+      "base": 0.25,
+      "high": 0.42,
+      "rationale": "Local distribution charges are regulated, and EIA states that commissions do not allow an LDC to earn profit on delivered gas in customer-choice programs. AI savings therefore arise mainly in delivery operations rather than commodity margin. Regulatory lag, incentive mechanisms, fixed budgets, and below-threshold changes can preserve some benefit, while rate cases and customer sharing can pass much of it through over five years.",
+      "change_evidence": "State-specific tariffs, purchased-gas adjustment clauses, recent rate-case orders, test-year conventions, earnings-sharing mechanisms, productivity offsets, and management interviews on treatment of operating savings would materially change retention.",
+      "source_ids": ["S6"],
+      "caveats": [
+        "The retained share is jurisdiction-specific and depends on rate-case timing and tariff design.",
+        "EIA's customer-choice description addresses commodity profit, not a measured retention rate for AI-enabled operating savings.",
+        "The narrowed operator lens excludes unregulated marketers, whose pricing and retention mechanics differ."
+      ]
+    },
+    "d5": {
+      "evidence_state": "PROXY",
+      "low": 0.87,
+      "base": 0.96,
+      "high": 1.05,
+      "bridge": "EIA's January 2026 outlook forecasts national residential and commercial gas consumption one year ahead, while AEO2026 describes longer-run total end-use energy rather than five-year constant-price, constant-quality demand for local gas-distribution service. The range extends the near-term decline and longer-run efficiency signal across five years while allowing weather normalization, customer growth, industrial connections, and territory differences. National consumption can bias a local system estimate in either direction, and energy volume can understate fixed network-service demand.",
+      "rationale": "Efficiency, building electrification, customer conversions, and climate policy pressure delivered volumes, while population growth, industrial load, cold-weather reliability, existing appliance stock, and new connections support continued use. A weather-driven near-term decline should not be treated as a permanent annual rate, so the base reflects gradual contraction rather than extrapolating one year mechanically.",
+      "change_evidence": "Weather-normalized service-territory forecasts from rate cases and integrated gas plans, separated into customer count, throughput, peak-day requirement, building electrification, and permanent disconnections, would materially move the ratio.",
+      "source_ids": ["S7", "S8"],
+      "caveats": [
+        "The short-term forecast is national and strongly affected by weather normalization.",
+        "AEO2026's residential and commercial statement covers total end-use energy, not natural gas alone.",
+        "Constant-quality network demand may decline more slowly than gas volume because peak capacity and safety obligations persist."
+      ]
+    },
+    "o": {
+      "evidence_state": "ESTIMATE",
+      "low": 0.96,
+      "base": 0.99,
+      "high": 0.999,
+      "rationale": "Nearly all surviving demand for physical gas-distribution service still requires an accountable operator to maintain mains and service lines, manage pressure, meter delivery, locate assets, respond to leaks, satisfy integrity rules, and coordinate emergencies. Software and marketers can change workflows or commodity sourcing, but they do not replace legal and operational accountability for an energized gas network.",
+      "change_evidence": "Utility records on permanent gas-system exits, neighborhood-scale decommissioning, customer-owned microgrids using non-pipeline fuels, and transfer of network accountability to third parties would materially change this share.",
+      "source_ids": ["S4", "S5", "S6"],
+      "caveats": [
+        "The estimate concerns demand remaining after the separate demand-ratio primitive and therefore does not count electrification twice.",
+        "The narrowed physical-operator lens mechanically has higher operator requirement than the marketer and broker activities excluded for coherence.",
+        "Accelerated system decommissioning could reduce operator-required quantity in selected jurisdictions."
+      ]
+    }
+  },
+  "narrative": {
+    "executive_view": "Natural gas distribution combines durable physical-network accountability with a substantial mix of customer, business, planning, and records work that AI can assist. The limiting issue is target availability: the NAICS code includes marketers and brokers, municipals are common among physical distributors, and many investor-owned systems sit inside large utility groups.",
+    "ai_impact": "The most plausible applications are customer service, billing review, work-order preparation, asset-record reconciliation, risk ranking, leak-survey prioritization, excavation-damage prevention, regulatory documentation, forecasting, scheduling, and knowledge retrieval. Physical pipe work, leak confirmation, emergency response, and safety-critical operating authority remain human-accountable.",
+    "value_capture": "Purchased gas is commonly passed through and is not the main profit source for a regulated LDC. Operating savings can be retained during regulatory lag or through incentive mechanisms, but rate cases, sharing provisions, and affordability scrutiny can transfer much of the benefit to customers.",
+    "firm_availability": "The frozen firm count should not be treated as a target list. A credible population requires matching firms to physical systems, excluding marketers and brokers, identifying ultimate ownership, removing municipal and captive entities, and confirming normalized EBITDA and control-transferability.",
+    "demand_durability": "Local gas volumes face efficiency, electrification, disconnection, and climate-policy pressure, although existing appliance stock, peak-day heating needs, industrial uses, population, and reliability preserve meaningful demand. For whatever physical delivery demand survives, an accountable network operator remains difficult to eliminate.",
+    "risks_and_uncertainty": "The main uncertainties are the very small eligible-firm denominator, sparse qualifying-transfer evidence, regulatory approval, rate treatment of savings, incomplete asset data, model validation, cybersecurity, methane rules, and local policy toward gas-system contraction. The opportunity would be unattractive if the apparent small firms resolve mainly to marketers, municipals, or non-independent utility subsidiaries.",
+    "principal_driver": "A large knowledge-work component and emerging gas-utility AI use cases create implementable opportunities around an essential physical network.",
+    "principal_weakness": "The pool of private, independent, transferable physical local-distribution operators is probably only a small fraction of the frozen firm count."
+  },
+  "sources": [
+    {
+      "id": "S1",
+      "url": "https://www.census.gov/naics/?details=221210&input=221210&year=2022",
+      "title": "2022 NAICS 221210: Natural Gas Distribution",
+      "access_date": "2026-07-22",
+      "supports": "Defines the industry to include gas-distribution system operators, gas marketers, brokers and agents, and establishments transmitting and distributing gas to final consumers, establishing the code's business-model heterogeneity."
+    },
+    {
+      "id": "S2",
+      "url": "https://www.bls.gov/oes/2023/may/naics4_221200.htm",
+      "title": "May 2023 National Industry-Specific Occupational Employment and Wage Estimates: NAICS 221200",
+      "access_date": "2026-07-22",
+      "supports": "Reports 112,540 workers in Natural Gas Distribution, including 15.05% in office and administrative support, 12.91% in business and financial operations, 7.28% in management, 4.10% in computer and mathematical work, 23.73% in installation and repair, and 11.13% in construction and extraction."
+    },
+    {
+      "id": "S3",
+      "url": "https://www.osti.gov/biblio/1996417",
+      "title": "Artificial Intelligence for Natural Gas Utilities: A Primer",
+      "access_date": "2026-07-22",
+      "supports": "DOE-sponsored NARUC report describes current gas-utility AI implementation, implementation challenges, and applications in infrastructure replacement, excavation-damage prevention, energy-efficiency programs, and resource direction."
+    },
+    {
+      "id": "S4",
+      "url": "https://www.phmsa.dot.gov/regulatory-compliance/phmsa-guidance/pipeline-safety-guidance-enhancing-effectiveness-distribution-Integrity-management-programs",
+      "title": "Pipeline Safety: Guidance for Enhancing the Effectiveness of Distribution Integrity Management Programs",
+      "access_date": "2026-07-22",
+      "supports": "PHMSA's July 2026 guidance reiterates operator obligations for distribution integrity management, risk evaluation, interactive threats, leak management, and appropriate risk models, including probabilistic models."
+    },
+    {
+      "id": "S5",
+      "url": "https://www.eia.gov/todayinenergy/detail.php?id=64624",
+      "title": "Pipeline companies deliver most of the U.S. electric power sector's natural gas",
+      "access_date": "2026-07-22",
+      "supports": "EIA reports 1,653 U.S. natural-gas delivery companies in 2023, says LDCs delivered 94% of residential and commercial end-use gas, distinguishes LDC networks from transmission pipelines, and identifies municipals as the most common distributor type."
+    },
+    {
+      "id": "S6",
+      "url": "https://www.eia.gov/energyexplained/natural-gas/customer-choice-programs.php",
+      "title": "Natural gas customer choice programs",
+      "access_date": "2026-07-22",
+      "supports": "Explains that marketers can sell the commodity while the LDC charges for delivery, that commissions do not allow an LDC to earn profit on delivered gas in customer-choice programs, and that traditional LDC service bundles gas with distribution."
+    },
+    {
+      "id": "S7",
+      "url": "https://www.eia.gov/pressroom/releases/press587.php",
+      "title": "EIA releases the Annual Energy Outlook 2026",
+      "access_date": "2026-07-22",
+      "supports": "AEO2026 describes residential and commercial end-use energy as relatively flat in most cases despite economic growth, with efficiency reducing the energy needed for the same output."
+    },
+    {
+      "id": "S8",
+      "url": "https://www.eia.gov/todayinenergy/detail.php?id=67004&stream=top",
+      "title": "We expect Henry Hub natural gas spot prices to fall slightly in 2026 before rising in 2027",
+      "access_date": "2026-07-22",
+      "supports": "EIA's January 2026 outlook forecasts residential and commercial natural-gas consumption decreasing 4% in 2026 to 22.1 Bcf per day, primarily because temperatures normalize from a colder prior year."
+    }
+  ]
+}

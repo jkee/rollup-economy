@@ -1,0 +1,147 @@
+{
+  "identity": {
+    "naics": "221116",
+    "title": "Geothermal Electric Power Generation",
+    "run_id": "221116-a1-20260722",
+    "model_id": "claude-sonnet-5",
+    "run_date": "2026-07-22",
+    "methodology_version": "5.1",
+    "attempt": 1
+  },
+  "lens": {
+    "included_activities": "US firms in the lower-middle-market EBITDA band that own and operate geothermal electric generating assets and repeatedly sell electricity to external utilities, corporate offtakers, or wholesale markets.",
+    "excluded_activities": "Regulated utilities whose geothermal generation is captive to an integrated rate base; passive tax-equity or project-finance vehicles; development-stage firms without operating generation; geothermal heating, cooling, drilling, equipment manufacturing, and consulting businesses classified elsewhere.",
+    "customer_and_revenue_model": "Recurring electricity sales, principally under power purchase agreements or wholesale-market arrangements, with the screened firm remaining accountable for plant and reservoir operations.",
+    "deviation_from_default": "none",
+    "heterogeneous": false
+  },
+  "primitives": {
+    "a": {
+      "evidence_state": "PROXY",
+      "low": 0.14,
+      "base": 0.28,
+      "high": 0.4,
+      "bridge": "BLS measures employment shares, not task-level AI exposure: plant operators are 34.46% of exact-industry employment, while management, administrative support, engineering technicians, maintenance, and construction form most of the balance. I map monitoring, diagnostics, reporting, scheduling, and analytical portions of those jobs to wage-weighted exposed tasks, then haircut for field work, safety decisions, and already-installed controls; this can overstate exposure if small plants already run lean and understate it where manual data reconciliation persists.",
+      "rationale": "The largest occupation is power-plant operator, creating meaningful exposure in alarm triage, performance monitoring, dispatch support, logs, compliance documentation, and predictive diagnostics. DOE specifically identifies advanced analytics for geothermal plant operations and resource management. Physical inspection, repair, reservoir work, switching, emergency response, and accountable supervision remain difficult to substitute.",
+      "change_evidence": "Task-level time studies from geothermal operators covering control-room monitoring, field rounds, maintenance planning, regulatory reporting, and current automation by job and wage would materially change the estimate.",
+      "source_ids": ["S1", "S2"],
+      "caveats": ["OEWS employment shares are headcount rather than wage-weighted task shares.", "The exact-industry workforce is only about 1,250 and some detailed occupation estimates are suppressed or imprecise.", "DOE-funded use cases demonstrate technical opportunity, not realized labor substitution."]
+    },
+    "rho": {
+      "evidence_state": "ESTIMATE",
+      "low": 0.35,
+      "base": 0.55,
+      "high": 0.72,
+      "rationale": "Five years is sufficient to deploy forecasting, anomaly detection, maintenance planning, report drafting, and operator copilots around existing plant data. Implementation is constrained by safety-critical operations, cybersecurity, legacy controls, sparse failure data, vendor integration, workforce acceptance, and the need for human authorization of operational changes.",
+      "change_evidence": "Plant-by-plant deployment records showing implementation dates, audited labor-hour reductions, false-alarm rates, control-system integration costs, and NERC or utility cybersecurity approvals would materially move the range.",
+      "source_ids": ["S2"],
+      "caveats": ["DOE describes funded research and intended efficiency improvements rather than industry-wide five-year adoption.", "Small operators may lack the data engineering and capital available to large geothermal fleets."]
+    },
+    "e": {
+      "evidence_state": "ESTIMATE",
+      "low": 0.08,
+      "base": 0.25,
+      "high": 0.5,
+      "rationale": "Eligibility is unusually thin: operating geothermal plants are geographically concentrated, capital intensive, often held in large portfolios, regulated utilities, or project structures, and the frozen dataset estimates no firms in the target EBITDA band. A minority of independently operated single-asset or small portfolios could still satisfy control, recurring external revenue, and EBITDA requirements, but the denominator itself is fragile.",
+      "change_evidence": "A current EIA-860 ownership map joined to plant-level PPA revenue, EBITDA, debt, tax-equity, and operator-control data would establish how many genuinely controllable LMM operating companies exist.",
+      "source_ids": ["S3", "S4"],
+      "caveats": ["The frozen n estimate is zero, so this share has little practical meaning unless the size-band population is first verified.", "Public sources describe plants and transactions but do not identify normalized EBITDA or control rights for all owners."]
+    },
+    "s5": {
+      "evidence_state": "PROXY",
+      "low": 0.03,
+      "base": 0.08,
+      "high": 0.16,
+      "bridge": "A 2024 portfolio acquisition proves that contracted operating US geothermal assets can transfer control, but the seller, buyer, and $271 million portfolio are far larger than the target LMM firm population. I use this as evidence of transaction feasibility and apply a large downward adjustment for the scarcity of target-sized independent firms; the proxy likely overstates LMM deal frequency if assets trade mainly in institutional portfolios.",
+      "rationale": "Operating plants with contracted cash flows are transferable infrastructure assets, but ownership is concentrated and transactions are lumpy. The observed Ormat acquisition covered three geothermal-bearing operating assets within a broader portfolio, showing a market without establishing a high annual transfer cadence for LMM companies.",
+      "change_evidence": "Five to ten years of geothermal asset and corporate transactions from Power Intelligence, IJGlobal, PitchBook, EIA ownership changes, and county deed or lease assignments, filtered to qualifying control transfers and target EBITDA, would materially change the probability.",
+      "source_ids": ["S4"],
+      "caveats": ["One large portfolio transaction is not representative of small-firm succession.", "Asset sales, project interests, and corporate control transfers are not interchangeable.", "No owner-age evidence was found for the screened population."]
+    },
+    "q": {
+      "evidence_state": "ESTIMATE",
+      "low": 0.58,
+      "base": 0.76,
+      "high": 0.9,
+      "rationale": "Long-term contracted electricity revenue generally does not reset immediately when internal operating costs fall, supporting retention of implemented benefits until repricing, extension, or regulatory review. Merchant exposure, indexed pricing, shared-savings clauses, future PPA competition, and offtaker bargaining reduce retention over five years; reliability and reservoir reinvestment may also absorb savings.",
+      "change_evidence": "A representative sample of plant PPAs and amendments showing price formulas, reopeners, cost pass-through, performance penalties, sharing clauses, and remaining contract term would materially change retention.",
+      "source_ids": ["S4", "S5"],
+      "caveats": ["Public PPA announcements rarely disclose full pricing and repricing terms.", "The mix of fixed-price contracted, regulated, and merchant revenue is not measured for target-sized firms."]
+    },
+    "d5": {
+      "evidence_state": "PROXY",
+      "low": 0.98,
+      "base": 1.16,
+      "high": 1.35,
+      "bridge": "DOE's market report measures installed nameplate capacity, project count, and signed PPA capacity rather than constant-price, constant-quality electricity demand. I treat the 8% capacity increase from 2020 to 2024 and more than 1,000 MWe of new PPA commitments against 3,969 MWe installed as forward demand signals, then discount heavily for development attrition, construction timing, and displacement of existing plants; this may overstate realized five-year output if projects slip and understate it if next-generation projects scale rapidly.",
+      "rationale": "Existing geothermal output is stable baseload-like supply, while capacity rose 8% over four years and 26 new PPAs representing more than 1,000 MWe were signed since the prior report. The pipeline supports growth but development, drilling, permitting, transmission, and reservoir risks justify a wide range including near-flat demand.",
+      "change_evidence": "A project-level 2026 pipeline with financing status, permits, drilling results, interconnection milestones, contracted commercial-operation dates, expected retirements, and plant-level generation forecasts would materially change the ratio.",
+      "source_ids": ["S5", "S6"],
+      "caveats": ["Capacity is not generation and announced PPAs may not reach commercial operation within five years.", "New EGS demand may accrue to developers outside the current LMM operating-firm lens.", "Constant-quality adjustment is judgmental because dispatchability and contract attributes vary."]
+    },
+    "o": {
+      "evidence_state": "ESTIMATE",
+      "low": 0.97,
+      "base": 0.99,
+      "high": 1.0,
+      "rationale": "Nearly all year-five geothermal electricity quantity still requires a legally and operationally accountable generator to manage wells, reservoirs, turbines, maintenance, grid compliance, safety, and delivery obligations. AI can reduce labor and improve decisions but does not eliminate asset ownership or operator accountability; only a small share could be displaced through retirement or absorbed into fully integrated utilities outside the lens.",
+      "change_evidence": "Evidence of remote unmanned geothermal plants, operator-of-record consolidation, utility insourcing of independent assets, or contracts that transfer operating accountability to equipment or software vendors would materially change this estimate.",
+      "source_ids": ["S2", "S6"],
+      "caveats": ["Accountable operator requirements can be met by a larger portfolio owner after acquisition, so demand for operation need not preserve the same firm population.", "The estimate concerns operator-required quantity, not staffing intensity."]
+    }
+  },
+  "narrative": {
+    "executive_view": "Geothermal generation has a real analytics opportunity in a small, technical workforce and benefits from contracted, persistent electricity demand. The investable-company lens is the problem: US assets are concentrated, capital intensive, often embedded in large portfolios, and the frozen dataset finds no firms in the target EBITDA band. The screen therefore depends less on technological feasibility than on proving that a controllable LMM operating-company population exists.",
+    "ai_impact": "AI can improve reservoir and plant forecasting, anomaly detection, alarm triage, predictive maintenance, dispatch support, work-order planning, and regulatory documentation. It can augment the large plant-operator cohort, but field repair, construction, switching, safety judgment, and emergency response remain operator-led and constrain substitution.",
+    "value_capture": "Fixed or long-duration PPAs can shelter operating savings until a renewal or repricing event, allowing relatively strong benefit retention. Savings may nevertheless be reinvested in reliability and reservoir performance, competed away in future PPAs, shared contractually, or exposed through regulated-cost treatment.",
+    "firm_availability": "An observed large portfolio acquisition establishes that contracted geothermal assets transfer, but it is weak evidence for LMM company availability. Institutional ownership, project debt, tax equity, minority interests, and shared operating arrangements can make nominal asset ownership different from a clean control acquisition.",
+    "demand_durability": "The service basket is durable because electricity delivery from physical geothermal assets remains operator-required. Recent installed-capacity growth and a PPA pipeline above 1,000 MWe support expansion, though drilling, permitting, interconnection, financing, and commissioning risk make the five-year outcome much less certain than announced capacity.",
+    "risks_and_uncertainty": "The largest risks are an effectively nonexistent target-sized firm population, concentration among large owners, hidden project-level liabilities, reservoir decline, well remediation, induced-seismicity and permitting exposure, PPA concentration, and costly outages. AI evidence is still primarily programmatic rather than audited industry-wide labor savings.",
+    "principal_driver": "Contracted, operator-required power demand combined with data-rich plant and reservoir operations creates credible AI-assisted efficiency potential.",
+    "principal_weakness": "The frozen zero LMM-firm estimate and concentrated infrastructure ownership call the availability of any qualifying acquisition target into question."
+  },
+  "sources": [
+    {
+      "id": "S1",
+      "url": "https://www.bls.gov/oes/2023/may/naics5_221116.htm",
+      "title": "May 2023 National Industry-Specific Occupational Employment and Wage Estimates: NAICS 221116",
+      "access_date": "2026-07-23",
+      "supports": "Exact-industry employment of 1,250; plant and system operators 34.46%; production occupations 39.36%; maintenance 15.47%; construction 10.73%; management 11.09%; administrative support 5.78%."
+    },
+    {
+      "id": "S2",
+      "url": "https://www.energy.gov/hgeo/geothermal/machine-learning",
+      "title": "Machine Learning",
+      "access_date": "2026-07-23",
+      "supports": "DOE states that machine learning can improve geothermal exploration and plant operations and documents a $3.5 million advanced-analytics phase focused on efficiency, automation, operations, and resource management."
+    },
+    {
+      "id": "S3",
+      "url": "https://www.eia.gov/energyexplained/geothermal/use-of-geothermal-energy.php",
+      "title": "Use of geothermal energy",
+      "access_date": "2026-07-23",
+      "supports": "In 2025 US geothermal plants operated in seven states and produced about 16 billion kWh, 0.4% of utility-scale generation, evidencing the industry's small and geographically concentrated operating footprint."
+    },
+    {
+      "id": "S4",
+      "url": "https://www.globenewswire.com/news-release/2024/01/04/2803882/26372/en/Ormat-Completed-the-Acquisition-of-Contracted-Operating-Geothermal-and-Solar-Assets-From-Enel-Green-Power-North-America.html",
+      "title": "Ormat Completed the Acquisition of Contracted Operating Geothermal and Solar Assets From Enel Green Power North America",
+      "access_date": "2026-07-23",
+      "supports": "Ormat paid $271 million for a portfolio including two contracted operating geothermal plants and one geothermal hybrid plant with about 40 MW geothermal capacity, demonstrating transferability but at institutional scale."
+    },
+    {
+      "id": "S5",
+      "url": "https://www.energy.gov/hgeo/geothermal/market-report",
+      "title": "2025 U.S. Geothermal Market Report",
+      "access_date": "2026-07-23",
+      "supports": "DOE reports 3,969 MWe installed nameplate capacity in 2024, up 8% from 2020; 54 projects under development; and 26 PPAs representing more than 1,000 MWe of new capacity commitments since the 2021 report."
+    },
+    {
+      "id": "S6",
+      "url": "https://www.eia.gov/todayinenergy/detail.php?id=67204",
+      "title": "Enhanced geothermal systems could expand geothermal power generation",
+      "access_date": "2026-07-23",
+      "supports": "EIA describes successful EGS pilots, the first large-scale commercial EGS generator under construction in Utah, and Defense Department partnerships for projects across six states, supporting demand expansion with execution risk."
+    }
+  ]
+}

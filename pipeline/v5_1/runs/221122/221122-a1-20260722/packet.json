@@ -1,0 +1,175 @@
+{
+  "identity": {
+    "naics": "221122",
+    "title": "Electric Power Distribution",
+    "run_id": "221122-a1-20260722",
+    "model_id": "claude-sonnet-5",
+    "run_date": "2026-07-22",
+    "methodology_version": "5.1",
+    "attempt": 1
+  },
+  "lens": {
+    "included_activities": "Privately controlled lower-middle-market operators of physical electric distribution systems that repeatedly deliver electricity and related distribution service to external customers.",
+    "excluded_activities": "Publicly managed utilities, member-owned cooperatives without a transferable controlling owner, captive distribution units, generation-only and transmission-only businesses, electricity brokers and agents, shells, and non-control financing vehicles.",
+    "customer_and_revenue_model": "Recurring regulated or contract-based charges to residential, commercial, and industrial customers for electricity delivery and associated distribution service, commonly recovered through approved tariffs and usage-linked charges.",
+    "deviation_from_default": "NAICS 221122 combines physical distribution-system operators with brokers and agents that arrange electricity sales over others' systems. The lens is narrowed to private physical-system operators because the two models have materially different assets, regulation, labor workflows, and transfer mechanics; the narrowing is for coherence rather than attractiveness.",
+    "heterogeneous": true
+  },
+  "primitives": {
+    "a": {
+      "evidence_state": "PROXY",
+      "low": 0.20,
+      "base": 0.30,
+      "high": 0.41,
+      "bridge": "BLS measures employment by occupation for NAICS 221100, the broader electric power generation, transmission, and distribution group, rather than wage-weighted task exposure for NAICS 221122. Management is 8.79% of employment, production is 11.25%, and construction and extraction is 5.12%; these shares anchor a task-level judgment that administrative, customer, planning, and analytical work is more exposed than field repair and switching. Inclusion of generation and transmission occupations can bias the estimate downward if distribution has more customer-service work, or upward if the narrowed small-operator lens relies more heavily on field crews.",
+      "rationale": "Billing support, customer communications, meter-data review, outage triage, load forecasting, inspection review, work-order preparation, procurement, and regulatory reporting contain language and analytical tasks that AI can partly substitute or use to avoid hiring. Live electrical work, emergency restoration, physical inspection, switching authority, and safety-critical decisions remain substantially human.",
+      "change_evidence": "A wage-weighted staffing census from small private distribution utilities mapped to O*NET tasks, with current automation status for each task, would materially change this estimate.",
+      "source_ids": ["S2"],
+      "caveats": [
+        "The BLS occupation table is for broader NAICS 221100 and May 2023 employment, not the narrowed operator lens.",
+        "Employment shares are not wage-weighted task shares and do not reveal what is already automated.",
+        "The frozen compensation-to-receipts input has a vintage mismatch and may understate or overstate the relevant labor base for small operators."
+      ]
+    },
+    "rho": {
+      "evidence_state": "PROXY",
+      "low": 0.28,
+      "base": 0.46,
+      "high": 0.63,
+      "bridge": "DOE identifies distribution-grid applications for AI, machine learning, predictive diagnostics, and automation, but does not measure the five-year implementation share of the exposed labor opportunity at small private utilities. The range translates technical applicability into operational adoption after integration, validation, cybersecurity, safety, and regulatory constraints. A federal technology roadmap may bias implementation upward relative to resource-constrained small operators.",
+      "rationale": "Customer, back-office, planning-support, and document workflows can be implemented with review controls, while operational-technology integration and safety-critical decisions face longer validation cycles. Legacy systems, data quality, cybersecurity, reliability obligations, and procurement slow conversion of technical possibility into labor substitution.",
+      "change_evidence": "A five-year cohort study of small distribution utilities reporting deployed use cases, workflow penetration, pre-deployment staffing, post-deployment staffing, exception rates, and regulator or insurer acceptance would materially move the range.",
+      "source_ids": ["S3"],
+      "caveats": [
+        "DOE describes opportunities and priorities rather than realized labor implementation.",
+        "Adoption can differ sharply by utility scale, grid condition, data architecture, and state regulatory regime.",
+        "Critical-infrastructure cybersecurity and human-in-the-loop requirements may limit labor removal even when tools are deployed."
+      ]
+    },
+    "e": {
+      "evidence_state": "ESTIMATE",
+      "low": 0.04,
+      "base": 0.12,
+      "high": 0.25,
+      "rationale": "The frozen firm count covers the whole NAICS code, while the coherent lens excludes brokers, public utilities, non-transferable cooperatives, captive units, subsidiaries lacking independent control, and firms outside the specified EBITDA band after normalization. EIA's ownership evidence and the service-territory structure imply that only a minority of counted firms are plausible privately controlled physical-system operators available for a control transaction.",
+      "change_evidence": "A firm-level reconciliation of Census entities to EIA Form 861 respondents, ownership type, ultimate parent, physical distribution assets, normalized EBITDA, and control-transferability would materially change eligibility.",
+      "source_ids": ["S1", "S4"],
+      "caveats": [
+        "No source directly measures the share of frozen LMM firms meeting all lens conditions.",
+        "The frozen count is margin-bridged from establishment and receipts data and can misclassify regulated utilities with atypical capital structures or accounting.",
+        "EIA's ownership counts describe utilities rather than the Census firm universe used for the frozen count."
+      ]
+    },
+    "s5": {
+      "evidence_state": "ESTIMATE",
+      "low": 0.08,
+      "base": 0.16,
+      "high": 0.28,
+      "rationale": "Qualifying transfers are possible for the small subset of independently controlled private utilities, but ownership continuity, regulated service territories, approval requirements, capital intensity, and strategic-buyer participation make control sales less routine than ordinary owner-operated service-company succession. The range excludes public reorganizations, cooperative governance changes, and parent-level transactions that do not transfer the operating firm.",
+      "change_evidence": "A five-year transaction census matching EIA utility identifiers to S&P Capital IQ, PitchBook, state commission change-of-control dockets, and ultimate-parent records would materially change the probability.",
+      "source_ids": ["S4", "S6"],
+      "caveats": [
+        "No industry-specific denominator of eligible independent firms and qualifying transfers was found.",
+        "State approval rules and buyer concentration create substantial geographic variation.",
+        "Observed utility M&A can overrepresent large systems and parent-company deals that do not fit the lens."
+      ]
+    },
+    "q": {
+      "evidence_state": "ESTIMATE",
+      "low": 0.12,
+      "base": 0.28,
+      "high": 0.45,
+      "rationale": "Regulated tariffs and rate cases can eventually share operating efficiencies with customers, while regulatory lag, fixed-price arrangements, incentive mechanisms, and below-threshold cost changes can let an operator retain part of an implemented benefit. The estimate is discounted over five years and excludes demand and implementation effects.",
+      "change_evidence": "State-specific tariff language, recent rate-case orders, earnings-sharing mechanisms, productivity offsets, test-year conventions, and management interviews on the treatment of operating-cost savings would materially change retention.",
+      "source_ids": ["S6"],
+      "caveats": [
+        "Retention is jurisdiction-specific and depends on rate-case timing and tariff design.",
+        "The cited regulatory structure is directional and not a measurement of retained AI savings.",
+        "Competitive retail or contract arrangements can reprice differently from regulated delivery service."
+      ]
+    },
+    "d5": {
+      "evidence_state": "PROXY",
+      "low": 0.99,
+      "base": 1.07,
+      "high": 1.17,
+      "bridge": "EIA projects aggregate U.S. electricity demand and capacity rather than constant-price, constant-quality demand for the narrowed distribution-service basket. The five-year ratio translates national power-demand growth into distribution throughput, with a lower bound allowing efficiency and behind-the-meter supply and an upper bound allowing concentrated electrification and data-center load. National demand can bias a local utility estimate in either direction because service territories have different population, industrial, and distributed-energy trends.",
+      "rationale": "Electrification, data centers, and economic activity support delivered-electricity demand, while efficiency, customer-sited generation, storage, and geographic load shifts temper the result. Physical distribution capacity and reliability service remain needed even where net energy delivered grows slowly.",
+      "change_evidence": "Service-territory load forecasts from integrated resource plans and distribution-system plans, separated into billed energy, peak demand, customer count, distributed generation, and constant-quality delivery requirements, would materially move the ratio.",
+      "source_ids": ["S5"],
+      "caveats": [
+        "EIA projections are national scenarios rather than forecasts for small private distribution systems.",
+        "Electricity consumption is not identical to constant-quality distribution-service demand.",
+        "Weather, large-load interconnections, and distributed resources can dominate five-year outcomes in a small territory."
+      ]
+    },
+    "o": {
+      "evidence_state": "ESTIMATE",
+      "low": 0.96,
+      "base": 0.99,
+      "high": 0.999,
+      "rationale": "Nearly all surviving demand for the current physical distribution basket still requires an accountable operator to maintain conductors and substations, balance local constraints, meter delivery, restore outages, satisfy reliability obligations, and coordinate safety. Software can automate decisions and customer interactions but does not eliminate accountability for the energized network; only customer self-supply, microgrids, or service-basket migration removes a limited share.",
+      "change_evidence": "Distribution-plan data on grid defections, durable islanding, microgrid operation, utility customer exits, and the share of network functions fully transferred to customers or third parties would materially change this estimate.",
+      "source_ids": ["S1", "S3"],
+      "caveats": [
+        "The range is a bounded judgment rather than an observed operator-required share.",
+        "The narrowed physical-operator lens mechanically produces higher operator requirement than the broker segment that was excluded.",
+        "Rapid adoption of durable behind-the-meter self-supply could lower the share in selected territories."
+      ]
+    }
+  },
+  "narrative": {
+    "executive_view": "Electric distribution is an essential, recurring infrastructure service with meaningful AI-addressable administrative and analytical work, but the investable population is much narrower than the NAICS firm count suggests. Public ownership, cooperative structures, large-utility subsidiaries, regulation, and broker inclusion make firm-level eligibility and transferability the central diligence problem.",
+    "ai_impact": "AI is most plausible in customer communications, billing exceptions, meter-data review, outage intake, inspection-image triage, forecasting, work-order preparation, procurement, and regulatory documentation. Field restoration, switching, physical maintenance, and safety-critical control remain human-accountable, and legacy operational technology slows implementation.",
+    "value_capture": "Savings are not automatically retained. Regulatory lag and incentive structures may preserve part of the benefit, but rate cases, earnings-sharing rules, contract repricing, and customer scrutiny can pass a substantial share through over the five-year horizon.",
+    "firm_availability": "The frozen firm count is a weak guide to actionable targets because the code includes brokers and the utility population includes public entities, cooperatives, captive operations, and subsidiaries. A firm-by-firm match to EIA ownership and state regulatory records is necessary before treating the apparent population as controllable acquisition targets.",
+    "demand_durability": "Electricity delivery demand is supported by electrification, data centers, and the persistent need for safe, reliable local networks. Efficiency, distributed generation, storage, and territory-specific demographic changes can constrain delivered volume, but they rarely remove the need for an accountable network operator.",
+    "risks_and_uncertainty": "The largest uncertainties are eligibility, transaction frequency, state approval, tariff treatment of savings, cybersecurity, operational-technology integration, and the gap between broad-industry occupation data and staffing at small physical distributors. The opportunity would be unattractive if the candidate list resolves mainly to non-transferable entities or if rate mechanisms promptly pass operating savings to customers.",
+    "principal_driver": "Essential physical-network accountability and durable electricity demand support recurring operator-required service.",
+    "principal_weakness": "Only a small, poorly measured share of the apparent firm population is likely to be a private, independent, transferable physical distribution operator."
+  },
+  "sources": [
+    {
+      "id": "S1",
+      "url": "https://www.census.gov/naics/?details=221122&input=221122&year=2022",
+      "title": "2022 NAICS 221122: Electric Power Distribution",
+      "access_date": "2026-07-22",
+      "supports": "Defines the industry as establishments operating electric distribution systems or acting as brokers and agents arranging electricity sales over systems operated by others."
+    },
+    {
+      "id": "S2",
+      "url": "https://www.bls.gov/oes/2023/may/naics4_221100.htm",
+      "title": "May 2023 National Industry-Specific Occupational Employment and Wage Estimates: NAICS 221100",
+      "access_date": "2026-07-22",
+      "supports": "Reports 393,880 employees in the broader electric power generation, transmission, and distribution industry, including 34,620 in management, 20,170 in construction and extraction, 44,310 in production, and 32,100 power plant operators, distributors, and dispatchers."
+    },
+    {
+      "id": "S3",
+      "url": "https://www.energy.gov/sites/default/files/2025-06/Last%20Mile%20Digitization%20for%20Resilience_20250605_Final_Amended.pdf",
+      "title": "Last Mile Digitization for Resilience",
+      "access_date": "2026-07-22",
+      "supports": "DOE describes distribution-grid digitization needs and recommends expanded use of artificial intelligence and machine learning for predictive diagnostics and automation; it also identifies the distribution grid as the location of most outages."
+    },
+    {
+      "id": "S4",
+      "url": "https://www.eia.gov/todayinenergy/detail.php?id=40913",
+      "title": "Investor-owned utilities served 72% of U.S. electricity customers in 2017",
+      "access_date": "2026-07-22",
+      "supports": "Reports almost 3,000 U.S. electric distribution companies in 2017 and distinguishes investor-owned, publicly managed, and cooperative ownership; investor-owned utilities served 72% of customers."
+    },
+    {
+      "id": "S5",
+      "url": "https://www.eia.gov/pressroom/releases/press587.php",
+      "title": "EIA projects growing U.S. electricity demand and capacity through 2050",
+      "access_date": "2026-07-22",
+      "supports": "EIA's Annual Energy Outlook 2026 projects average annual U.S. electricity demand growth of 0.9% to 1.6% through 2050 across modeled cases and substantial installed-capacity growth."
+    },
+    {
+      "id": "S6",
+      "url": "https://www.eia.gov/electricity/policies/legislation/california/pdf/chg_str_issu.pdf",
+      "title": "The Changing Structure of the Electric Power Industry: An Update",
+      "access_date": "2026-07-22",
+      "supports": "Describes investor-owned utilities' geographic service monopolies, obligation to serve, state and federal regulation, and approval of rates intended to permit a fair return, supporting the structural discussion of control transfers and benefit pass-through."
+    }
+  ]
+}
